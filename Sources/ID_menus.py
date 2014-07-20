@@ -1,0 +1,13 @@
+menu_start_game_0 = 0
+menu_start_phase_2 = 1
+menu_start_game_3 = 2
+menu_tutorial = 3
+menu_reports = 4
+menu_camp = 5
+menu_test_faction_relations = 6
+menu_siege_battle_select = 7
+menu_town = 8
+menu_town_center = 9
+menu_town_keep = 10
+menu_town_market = 11
+menu_simple_encounter = 12

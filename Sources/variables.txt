@@ -1,0 +1,2 @@
+g_encountered_party
+g_encountered_party_2
