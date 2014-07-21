@@ -12,9 +12,6 @@ from header_music import *
 from ID_animations import *
 
 
-
-
-
 scripts = [	
 	
 	###############
@@ -4676,7 +4673,7 @@ scripts = [
 			
 			(scene_set_slot, "scn_castle_04_outside", slot_scene_num_defend_points, 2),
 			(scene_set_slot, "scn_castle_04_outside", slot_scene_num_attack_spawn, 2),
-			(scene_set_slot, "scn_castle_04_outside", slot_scene_num_archer_points, 10),
+			(scene_set_slot, "scn_castle_04_outside", slot_scene_num_archer_points, 9),
 		]),
 	
 	# script_set_team_defend_points

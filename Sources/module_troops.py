@@ -8,9 +8,6 @@ from ID_items import *
 from ID_scenes import *
 
 
-
-
-
 ###############
 ## Functions ##
 ###############
