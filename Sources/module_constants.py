@@ -204,6 +204,20 @@ slot_party_original_faction = 121
 
 slot_party_besieged_by = 122
 
+slot_party_battle_stage = 123
+
+bs_approach = 1
+bs_approach_2 = 2
+bs_approach_3 = 3
+bs_approach_4 = 4
+bs_charge = 5
+bs_charge_2 = 6
+bs_melee = 7
+
+slot_party_siege_scene = 124
+# 125
+# 126
+
 
 #################
 ## Scene Slots ##
@@ -321,6 +335,16 @@ slot_troop_faction_reserved_1		= 25
 slot_troop_faction_reserved_2		= 26
 slot_troop_faction_not_1			= 27
 slot_troop_faction_not_2			= 28
+
+slot_troop_armor_weight = 29
+slot_troop_horse_weight = 30
+slot_troop_ranged_weapon_weight = 31
+
+weight_very_light = 0
+weight_light = 1
+weight_medium = 2
+weight_heavy = 3
+weight_very_heavy = 4
 
 
 ##################
@@ -564,9 +588,26 @@ lords_end = companions_begin
 castle_scene_begin = "scn_castle_01_outside"
 castle_scene_end = "scn_meeting_scene_steppe"
 
+# plain_castle_scene_begin = castle_scene_begin
+# plain_dark_castle_scene_begin = 
+# plain_wood_castle_scene_begin = 
+# steppe_castle_scene_begin = 
+# snow_castle_scene_begin = 
+# snow_wood_castle_scene_begin = 
+# desert_castle_scene_begin = 
+
+# plain_castle_scene_end = plain_dark_castle_scene_begin
+# plain_dark_castle_scene_end = plain_wood_castle_scene_begin
+# plain_wood_castle_scene_end = steppe_castle_scene_begin
+# steppe_castle_scene_end = snow_castle_scene_begin
+# snow_castle_scene_end = snow_wood_castle_scene_begin
+# snow_wood_castle_scene_end = desert_castle_scene_begin
+# desert_castle_scene_end = castle_scene_end
+
+
 # OTHER
-garrison_size_town = 350
-garrison_size_castle = 200
+garrison_size_town = 400
+garrison_size_castle = 250
 garrison_size_village = 20
 garrison_size_fort = 50
 
@@ -627,12 +668,9 @@ center_castle_buildings_end = "itm_building_university"
 center_town_buildings_begin = "itm_building_slaver"
 center_town_buildings_end = center_buildings_end
 
-weight_very_light = 0
-weight_light = 1
-weight_medium = 2
-weight_heavy = 3
-weight_very_heavy = 4
-
+text_color_impossible = 0xcc0000
+text_color_gold = 0x55eeee
+text_color_valid = 0x00ee55
 
 ##################
 ## Achievements ##

@@ -38,7 +38,7 @@ factions = [
 	("small_kingdom_14", "County of Gisim", 0, 0.9, [("outlaws",-0.5),], [], 0x660044), # Longbowman + Heavy Longbowman
 	("small_kingdom_15", "Grand County of Ivenn", 0, 0.9, [("outlaws",-0.5),], [], 0xDD0055), # Scout
 	("small_kingdom_16", "County of Tilbaut", 0, 0.9, [("outlaws",-0.5),], [], 0xBB5500), # Mounted Skirmisher + Levy Skirmisher
-	("small_kingdom_17", "County of Uxkhal", 0, 0.9, [("outlaws",-0.5),], [], 0x550000), # Squire
+	("small_kingdom_17", "County of Uxkhal", 0, 0.9, [("outlaws",-0.5),], [], 0x550000), # Squire + Foot Knight
 	
 	("small_kingdom_21", "County of Slezhk", 0, 0.9, [("outlaws",-0.5),], [], 0x554400), # Lancer + Heavy Lancer + Levy Axeman
 	("small_kingdom_22", "County of Khudan", 0, 0.9, [("outlaws",-0.5),], [], 0x005500), # Scout + Club Levy + Horseman
@@ -47,17 +47,17 @@ factions = [
 	("small_kingdom_25", "Duchy of the Southern Taiga", 0, 0.9, [("outlaws",-0.5),], [], 0x885500), # Heavy Mounted Bowman
 	
 	("small_kingdom_31", "Eastern Tribes", 0, 0.9, [("outlaws",-0.5),], [], 0xbb88bb), # Champion
-	("small_kingdom_32", "Warriors of Sungetche", 0, 0.9, [("outlaws",-0.5),], [], 0x996699), # Blade-master
+	("small_kingdom_32", "Warriors of Sungetche", 0, 0.9, [("outlaws",-0.5),], [], 0x996699), # Light Skirmisher + Warrior + Light Spearman + Heavy Spearman + Heavy Slirmisher
 	("small_kingdom_33", "Narra Khanate", 0, 0.9, [("outlaws",-0.5),], [], 0x770044), # Scout + Light Steppe Cavalry + Heavy Steppe Cavalry
 	("small_kingdom_34", "Halmar Khanate", 0, 0.9, [("outlaws",-0.5),], [], 0x440077), # Heavy Lancer + Noble Cavalry + Noble Lancer
 	("small_kingdom_35", "Uhnun Tribes", 0, 0.9, [("outlaws",-0.5),], [], 0x9966ff), # Clansman + Noble Rider
-	("small_kingdom_36", "Tribes of Azugan", 0, 0.9, [("outlaws",-0.5),], [], 0x440044), # Heavy Archer
+	("small_kingdom_36", "Tribes of Azugan", 0, 0.9, [("outlaws",-0.5),], [], 0x440044), # Heavy Archer + Blade-master
 	
-	("small_kingdom_41", "Pirash Warriors", 0, 0.9, [("outlaws",-0.5),], [], 0x14FF8D), # Light Lancer
+	("small_kingdom_41", "Pirash Warriors", 0, 0.9, [("outlaws",-0.5),], [], 0x14FF8D), # Light Lancer + Mounted Bowman
 	("small_kingdom_42", "Gundig Warriors", 0, 0.9, [("outlaws",-0.5),], [], 0x00E5FF), # Heavy Longbowman + Light Longbowman
 	("small_kingdom_43", "Wercheg Raiders", 0, 0.9, [("outlaws",-0.5),], [], 0xADE9FF), # Skirmisher + Heavy Skirmisher
 	("small_kingdom_44", "Aldelen Warriors", 0, 0.9, [("outlaws",-0.5),], [], 0x396C72), # Spearman + Heavy Spearman + Hunter
-	("small_kingdom_45", "Rizi Hold", 0, 0.9, [("outlaws",-0.5),], [], 0x00A793), # King's Guard
+	("small_kingdom_45", "Rizi Hold", 0, 0.9, [("outlaws",-0.5),], [], 0x00A793), # King's Guard + Bowman
 	
 	("small_kingdom_51", "Highlanders", 0, 0.9, [("outlaws",-0.5),], [], 0x4F5868), # Hunter + Bowman + Heavy Bowman + Sergeant
 	("small_kingdom_52", "Bezan Community", 0, 0.9, [("outlaws",-0.5),], [], 0x267CFF), # Heroic Rider + Levy Pikeman
@@ -69,7 +69,7 @@ factions = [
 	("small_kingdom_62", "Defenders of Sharwa Keep", 0, 0.9, [("outlaws",-0.5),], [], 0xB38A5F), # Heavy Archer
 	("small_kingdom_63", "Sarrdak Sultanate", 0, 0.9, [("outlaws",-0.5),], [], 0xFFA445), # Heavy Lancer + Heavy Mamluke
 	("small_kingdom_64", "Tribes of Uzgha", 0, 0.9, [("outlaws",-0.5),], [], 0x968F57), # Light Horse Archer + Horse Archer + Heavy Horse Archer
-	("small_kingdom_65", "Great Tribes of Durquba", 0, 0.9, [("outlaws",-0.5),], [], 0x7A6C00), # Mounted Skirmisher + Pikeman + Heavy Pikeman
+	("small_kingdom_65", "Great Tribes of Durquba", 0, 0.9, [("outlaws",-0.5),], [], 0x7A6C00), # Mounted Skirmisher + Pikeman + Heavy Pikeman + Noble Skirmisher
 	
 	("kingdoms_end", "Kingdoms End", 0, 0.9, [], []),
 	
@@ -79,45 +79,6 @@ factions = [
 	("culture_4", "Nordic Culture", 0, 0.9, [("outlaws",-0.5),], []),
 	("culture_5", "Rhodok Culture", 0, 0.9, [("outlaws",-0.5),], []),
 	("culture_6", "Sarranid Culture", 0, 0.9, [("outlaws",-0.5),], []),
-	
-	("culture_11", "Swadian Culture", 0, 0.9, [("outlaws",-0.5),], []),
-	("culture_12", "Swadian Culture", 0, 0.9, [("outlaws",-0.5),], []),
-	("culture_13", "Swadian Culture", 0, 0.9, [("outlaws",-0.5),], []),
-	("culture_14", "Swadian Culture", 0, 0.9, [("outlaws",-0.5),], []),
-	("culture_15", "Swadian Culture", 0, 0.9, [("outlaws",-0.5),], []),
-	("culture_16", "Swadian Culture", 0, 0.9, [("outlaws",-0.5),], []),
-	("culture_17", "Swadian Culture", 0, 0.9, [("outlaws",-0.5),], []),
-	
-	("culture_21", "Vaegir Culture", 0, 0.9, [("outlaws",-0.5),], []),
-	("culture_22", "Vaegir Culture", 0, 0.9, [("outlaws",-0.5),], []),
-	("culture_23", "Vaegir Culture", 0, 0.9, [("outlaws",-0.5),], []),
-	("culture_24", "Vaegir Culture", 0, 0.9, [("outlaws",-0.5),], []),
-	("culture_25", "Vaegir Culture", 0, 0.9, [("outlaws",-0.5),], []),
-	
-	("culture_31", "Khergit Culture", 0, 0.9, [("outlaws",-0.5),], []),
-	("culture_32", "Khergit Culture", 0, 0.9, [("outlaws",-0.5),], []),
-	("culture_33", "Khergit Culture", 0, 0.9, [("outlaws",-0.5),], []),
-	("culture_34", "Khergit Culture", 0, 0.9, [("outlaws",-0.5),], []),
-	("culture_35", "Khergit Culture", 0, 0.9, [("outlaws",-0.5),], []),
-	("culture_36", "Khergit Culture", 0, 0.9, [("outlaws",-0.5),], []),
-	
-	("culture_41", "Nordic Culture", 0, 0.9, [("outlaws",-0.5),], []),
-	("culture_42", "Nordic Culture", 0, 0.9, [("outlaws",-0.5),], []),
-	("culture_43", "Nordic Culture", 0, 0.9, [("outlaws",-0.5),], []),
-	("culture_44", "Nordic Culture", 0, 0.9, [("outlaws",-0.5),], []),
-	("culture_45", "Nordic Culture", 0, 0.9, [("outlaws",-0.5),], []),
-	
-	("culture_51", "Rhodok Culture", 0, 0.9, [("outlaws",-0.5),], []),
-	("culture_52", "Rhodok Culture", 0, 0.9, [("outlaws",-0.5),], []),
-	("culture_53", "Rhodok Culture", 0, 0.9, [("outlaws",-0.5),], []),
-	("culture_54", "Rhodok Culture", 0, 0.9, [("outlaws",-0.5),], []),
-	("culture_55", "Rhodok Culture", 0, 0.9, [("outlaws",-0.5),], []),
-	
-	("culture_61", "Sarranid Culture", 0, 0.9, [("outlaws",-0.5),], []),
-	("culture_62", "Sarranid Culture", 0, 0.9, [("outlaws",-0.5),], []),
-	("culture_63", "Sarranid Culture", 0, 0.9, [("outlaws",-0.5),], []),
-	("culture_64", "Sarranid Culture", 0, 0.9, [("outlaws",-0.5),], []),
-	("culture_65", "Sarranid Culture", 0, 0.9, [("outlaws",-0.5),], []),
 	
 	("cultures_end", "Culture end", 0, 0.9, [("outlaws",-0.5),], []),
 	

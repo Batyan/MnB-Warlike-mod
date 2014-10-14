@@ -600,9 +600,15 @@ strings = [
 	("troop_type_horse_archer", "Horse Archer"),
 	("troop_type_mounted_skirmisher", "Mounted Skirmisher"),
 	
-	("weight_very_light", "Very Light"),
+	("weight_very_light", "Very light"),
 	("weight_light", "Light"),
 	("weight_medium", "Medium"),
 	("weight_heavy", "Heavy"),
 	("weight_very_heavy", "Armoured"),
+	
+	("troop_quality_peasant", "Levy"),
+	("troop_quality_common", "Common"),
+	("troop_quality_veteran", "Veteran"),
+	("troop_quality_elite", "Elite"),
+	("troop_quality_noble", "Noble"),
 ]

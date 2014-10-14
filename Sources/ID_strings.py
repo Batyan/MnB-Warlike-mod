@@ -403,5 +403,10 @@ str_weight_light = 401
 str_weight_medium = 402
 str_weight_heavy = 403
 str_weight_very_heavy = 404
+str_troop_quality_peasant = 405
+str_troop_quality_common = 406
+str_troop_quality_veteran = 407
+str_troop_quality_elite = 408
+str_troop_quality_noble = 409
 
 

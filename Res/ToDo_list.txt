@@ -1,7 +1,11 @@
 ToDo:
-- simulate battles
 - allow player to participate in battles
 - add lords dialog
+	- presentation
+	- main dialog
+	- player defeated
+	- lord defeated
+	- helped a lord
 - add villages/castles/town menu
 	Tavern
 		Mercenaries
@@ -16,6 +20,14 @@ ToDo:
 			Black market
 			Random drunk
 			Spy
+	Village raise levies
+		Number: rand(val/2, val = 2 + persuasion/2 + leadership/4 + renown/100)
+		Time spent : max(5 * num_recruit - (5 * num_recruit / (10 + total_party_trainer)), 1 + num_recruit/5)
+		Specific levies
+			-20% number + 20% time
+		Balanced levies
+		Manage number
+		If building => random chance for common unit
 - complete resources list
 - process production
 - recruitment cost gold
@@ -58,6 +70,14 @@ ToDo:
 	Strategist:	+1 cha, -1 agi, +1 int, +1 leadership
 	Thick:		+2 str, -1 int
 	Swift:		+1 agi, +1 athletics
+	Shy:		Reserved about talking about himself, more stable relations
+	Eccentric:	Does not mind being talked about, will openly talk about himself, less stable relations
+	Generous:	More likely to lend money, can do things that are not in his best interest
+	Selfish:	Less likely to lend money, does not give without anything in return
+	Cruel:		Likes to see his enemies suffer
+	Dull:		Does not appreciate humour, harder to befriend
+	Funny:		Likes a good joke
+	Egocentric:	Thinks himself the center of attention, does not like being wrong
 
 - abilities:
 	War Cry:	decrease morale for surrounding enemies, range and strength determined by str (strength = str/2) (range = str)
@@ -78,5 +98,5 @@ ToDo:
 - add companion manual levelling presentation
 - add bodyguards behavior
 
-# To be tested
-- king rank only obtained if has a city + kingdom has at least another city or 2 castles
+# To test
+- simulate battles

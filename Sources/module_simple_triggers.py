@@ -142,6 +142,7 @@ simple_triggers = [
 	(0.1,
 	[
 		(try_for_parties, ":party_no"),
+			(neq, ":party_no", "p_main_party"),
 			# (party_get_slot, ":party_type", ":party_no", slot_party_type),
 			(party_get_attached_to, ":cur_attached_town", ":party_no"),
 			(lt, ":cur_attached_town", 1),

@@ -49,15 +49,15 @@ presentations = [
 			(position_set_y, pos1, 1000),
 			(overlay_set_size, reg0, pos1),
 			
-			(party_get_free_companions_capacity, reg11, "p_main_party"),
-			(str_store_string, s11, "@{reg11}"),
-			(create_text_overlay, "$g_hire_soldiers_free_capacity", s11, tf_left_align),
-			(position_set_x, pos1, 120),
-			(position_set_y, pos1, 800),
-			(overlay_set_position, "$g_hire_soldiers_free_capacity", pos1),
-			(position_set_x, pos1, 1000),
-			(position_set_y, pos1, 1000),
-			(overlay_set_size, "$g_hire_soldiers_free_capacity", pos1),
+			# (party_get_free_companions_capacity, reg11, "p_main_party"),
+			# (str_store_string, s11, "@{reg11}"),
+			# (create_text_overlay, "$g_hire_soldiers_free_capacity", s11, tf_left_align),
+			# (position_set_x, pos1, 120),
+			# (position_set_y, pos1, 800),
+			# (overlay_set_position, "$g_hire_soldiers_free_capacity", pos1),
+			# (position_set_x, pos1, 1000),
+			# (position_set_y, pos1, 1000),
+			# (overlay_set_size, "$g_hire_soldiers_free_capacity", pos1),
 			
 			(try_begin),
 				
@@ -86,7 +86,7 @@ presentations = [
 					
 					(str_store_troop_name, s1, ":troop_no"),
 					
-					(call_script, "script_get_troop_cost", ":troop_no"),
+					(call_script, "script_troop_get_cost", ":troop_no"),
 					(assign, ":troop_cost", reg0),
 					
 					(call_script, "script_troop_get_cost_modifier", ":troop_no", ":current_city", "trp_player"),
@@ -96,7 +96,7 @@ presentations = [
 					
 					(assign, reg2, ":troop_cost"),
 					
-					(create_text_overlay, reg0, "@({reg1}) {s1}: {reg2} denars", tf_left_align),
+					(create_text_overlay, reg0, "@{s1}: {reg2} denars ({reg1})", tf_left_align),
 					
 					(position_set_x, pos1, ":names_x"),
 					(position_set_y, pos1, ":cur_y"),
@@ -149,7 +149,20 @@ presentations = [
 			(position_set_y, pos1, 1000),
 			(overlay_set_size, reg0, pos1),
 			
-			(store_add, "$g_hide_soldiers_portrait_begin", reg0, 1),
+			# Party size
+			(call_script, "script_party_get_companion_limit", "p_main_party"),
+			(assign, reg10, reg0),
+			(party_get_num_companions, reg11, "p_main_party"),
+			(str_store_string, s0, "@Party size: {reg11}/{reg10}"),
+			(create_text_overlay, "$g_hire_soldiers_free_capacity", s0, tf_left_align),
+			(position_set_x, pos1, 200),
+			(position_set_y, pos1, 60),
+			(overlay_set_position, "$g_hire_soldiers_free_capacity", pos1),
+			(position_set_x, pos1, 1000),
+			(position_set_y, pos1, 1000),
+			(overlay_set_size, "$g_hire_soldiers_free_capacity", pos1),
+			
+			(store_add, "$g_hide_soldiers_portrait_begin", "$g_hire_soldiers_free_capacity", 1),
 			# Troop picture
 			(party_get_num_companion_stacks, ":num_stacks", ":current_city"),
 			(try_for_range, ":stack_no", 0, ":num_stacks"),
@@ -279,11 +292,11 @@ presentations = [
 				(try_begin),
 					(gt, ":total_cost", ":player_gold"),
 					(assign, reg2, ":player_gold"),
-					(display_message, "@You do not have enough gold! You currently possess {reg2} denars.", 0xbb0000),
+					(display_message, "@You do not have enough gold! You currently possess {reg2} denars.", text_color_impossible),
 				(else_try),
 					(gt, ":total_num_troops", ":free_slots"),
 					(assign, reg2, ":free_slots"),
-					(display_message, "@Party size not big enough! You can only hold up to {reg2} more troops", 0xbb0000),
+					(display_message, "@Party size not big enough! You can only hold up to {reg2} more troops", text_color_impossible),
 				(else_try),
 					(party_get_num_companion_stacks, ":num_stacks", ":current_city"),
 					(try_for_range_backwards, ":stack_no", 0, ":num_stacks"),
@@ -302,7 +315,7 @@ presentations = [
 							
 							(str_store_troop_name, s10, ":troop_no"),
 							(display_message, "@Impossible to add all troops of type {s10}, {reg0} have been added.", 0xbb0000),
-							(call_script, "script_get_troop_cost", ":troop_no"),
+							(call_script, "script_troop_get_cost", ":troop_no"),
 							(val_mul, ":num_troops_not_added", reg0),
 							
 							(call_script, "script_troop_get_cost_modifier", ":troop_no", ":current_city", "trp_player"),
@@ -335,13 +348,28 @@ presentations = [
 				
 				(call_script, "script_calculate_hire_troop_cost", ":current_city", "trp_player"),
 				(assign, ":total_cost", reg0),
+				(assign, ":num_troops", reg1),
 				(overlay_set_text, "$g_hire_soldiers_total_cost", "@Total cost: {reg0} denars"),
+				
+				(call_script, "script_party_get_companion_limit", "p_main_party"),
+				(assign, ":limit", reg0),
+				(assign, reg10, ":limit"),
+				(party_get_num_companions, ":total", "p_main_party"),
+				(val_add, ":total", ":num_troops"),
+				(assign, reg11, ":total"),
+				(overlay_set_text, "$g_hire_soldiers_free_capacity", "@Party size: {reg11}/{reg10}"),
 				(try_begin),
 					(store_troop_gold, ":player_gold", "trp_player"),
 					(gt, ":total_cost", ":player_gold"),
-					(overlay_set_color, "$g_hire_soldiers_total_cost", 0xDD0000),
+					(overlay_set_color, "$g_hire_soldiers_total_cost", text_color_impossible),
 				(else_try),
 					(overlay_set_color, "$g_hire_soldiers_total_cost", 0x000000),
+				(try_end),
+				(try_begin),
+					(gt, ":total", ":limit"),
+					(overlay_set_color, "$g_hire_soldiers_free_capacity", text_color_impossible),
+				(else_try),
+					(overlay_set_color, "$g_hire_soldiers_free_capacity", 0x000000),
 				(try_end),
 			# (else_try),
 				# (display_message, "@Event change, not a known object."),

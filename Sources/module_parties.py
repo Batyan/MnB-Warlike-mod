@@ -43,6 +43,9 @@ parties = [
 	
 	("temp_casualties", "temp_casualties", pf_disabled, 0, pt_none, fac_commoners, 0, ai_bhvr_hold, 0, (0, 0), []),
 	
+	("player_casualties", "player_casualties", pf_disabled, 0, pt_none, fac_commoners, 0, ai_bhvr_hold, 0, (0, 0), []),
+	("ally_casualties", "ally_casualties", pf_disabled, 0, pt_none, fac_commoners, 0, ai_bhvr_hold, 0, (0, 0), []),
+	("enemy_casualties", "enemy_casualties", pf_disabled, 0, pt_none, fac_commoners, 0, ai_bhvr_hold, 0, (0, 0), []),
 	
 	("resources_party", "Resources Party", icon_player|pf_disabled, 0, pt_none, fac_commoners, 0, ai_bhvr_hold, 0, (0, 0), []),
 	
@@ -95,7 +98,7 @@ parties = [
 	("castle_17a","Castle17a", icon_castle_a|pf_castle, 0, pt_none, fac_small_kingdom_17,0,ai_bhvr_hold,0,(-63, -8.2),[], 170),
 	
 	("castle_2a","Castle2a", icon_castle_a|pf_castle, 0, pt_none, fac_kingdom_2,0,ai_bhvr_hold,0,(40.3, 68.5),[], 170),
-	("castle_2b","Castle2b", icon_castle_a|pf_castle, 0, pt_none, fac_kingdom_2,0,ai_bhvr_hold,0,(21.6, 97.3),[], 170),
+	("castle_2b","Castle2b", icon_castle_a|pf_castle, 0, pt_none, fac_kingdom_2,0,ai_bhvr_hold,0,(38.6, 85.3),[], 170),
 	("castle_2c","Castle2c", icon_castle_a|pf_castle, 0, pt_none, fac_kingdom_2,0,ai_bhvr_hold,0,(60.4, 16.9),[], 170),
 	("castle_2d","Castle2d", icon_castle_a|pf_castle, 0, pt_none, fac_kingdom_2,0,ai_bhvr_hold,0,(85.2, 77.9),[], 170),
 	("castle_2e","Castle2e", icon_castle_a|pf_castle, 0, pt_none, fac_kingdom_2,0,ai_bhvr_hold,0,(74.7, 104.2),[], 170),
@@ -153,6 +156,8 @@ parties = [
 	("castle_65a","Castle65a", icon_castle_a|pf_castle, 0, pt_none, fac_small_kingdom_65,0,ai_bhvr_hold,0,(98.0, -78.3),[], 170),
 	("castle_65b","Castle65b", icon_castle_a|pf_castle, 0, pt_none, fac_small_kingdom_65,0,ai_bhvr_hold,0,(104.8, -90.2),[], 170),
 	
+	("castle_bandit_4_1","CastleBandit41", icon_castle_a|pf_castle, 0, pt_none, fac_faction_4,0,ai_bhvr_hold,0,(22.5, 97.2),[], 170),
+	
 	("village_111","Village111", icon_village_a|pf_village, 0, pt_none, fac_kingdom_1,0,ai_bhvr_hold,0,(-92, 14),[], 170),
 	("village_112","Village112", icon_village_a|pf_village, 0, pt_none, fac_kingdom_1,0,ai_bhvr_hold,0,(-107, 30),[], 170),
 	("village_113","Village113", icon_village_a|pf_village, 0, pt_none, fac_kingdom_1,0,ai_bhvr_hold,0,(-84, 33),[], 170),
@@ -189,7 +194,7 @@ parties = [
 	("village_223","Village223", icon_village_a|pf_village, 0, pt_none, fac_kingdom_2,0,ai_bhvr_hold,0,(63.6, 97.1),[], 170),
 	
 	("village_2a1","Village2a1", icon_village_a|pf_village, 0, pt_none, fac_kingdom_2,0,ai_bhvr_hold,0,(46.4, 65.2),[], 170),
-	("village_2b1","Village2b1", icon_village_a|pf_village, 0, pt_none, fac_kingdom_2,0,ai_bhvr_hold,0,(23.8, 103.9),[], 170),
+	("village_2b1","Village2b1", icon_village_a|pf_village, 0, pt_none, fac_kingdom_2,0,ai_bhvr_hold,0,(32, 80),[], 170),
 	("village_2c1","Village2c1", icon_village_a|pf_village, 0, pt_none, fac_kingdom_2,0,ai_bhvr_hold,0,(67.7, 20.3),[], 170),
 	("village_2d1","Village2d1", icon_village_a|pf_village, 0, pt_none, fac_kingdom_2,0,ai_bhvr_hold,0,(84.1, 72.7),[], 170),
 	("village_2e1","Village2e1", icon_village_a|pf_village, 0, pt_none, fac_kingdom_2,0,ai_bhvr_hold,0,(78.1, 99.4),[], 170),
@@ -319,6 +324,8 @@ parties = [
 	
 	("village_65a1","Village65a1", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_65,0,ai_bhvr_hold,0,(97.6, -71.7),[], 170),
 	("village_65b1","Village65b1", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_65,0,ai_bhvr_hold,0,(101.5, -91.9),[], 170),
+	
+	("village_bandit_4_1","VillageBandit41", icon_village_a|pf_village, 0, pt_none, fac_faction_4,0,ai_bhvr_hold,0,(23.8, 103.9),[], 170),
 	
 	("centers_end", "END", pf_disabled, 0, pt_none, fac_commoners, 0, ai_bhvr_hold, 0, (0, 0), []),
 	

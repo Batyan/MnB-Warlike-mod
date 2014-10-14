@@ -1,0 +1,55 @@
+0.100:
+	Land battles
+		Attack an enemy
+		Defend against an enemy
+		Help an ally
+		Be helped by an ally
+0.200:
+	Siege battles
+		Attack
+		Defend
+	Take prisoners (troops and heroes)
+0.300:
+	Better party ai
+0.400:
+	Faction ai
+		Elect leader
+		Declare war/peace
+		Elect Marshall
+	Marshall
+	Cooperation (ai)
+		Transfer troops (center to center)
+		Transfer prisoners
+0.500:
+	Economy
+		Taxes
+		Good production
+		Good transformation
+		Party upkeep
+0.600:
+	Trading
+		Buying and selling (player)
+		Caravans
+0.700:
+	City management
+		Buildings, bank
+0.800:
+	Kingdom management
+0.900:
+	Heroes relations
+		Families
+		Friends
+	Heroes randomisation
+		Faces
+		Names
+1.000:
+	Politics
+1.100:
+	Companions
+	Personalities
+1.200:
+	Taverns
+	Mercenaries
+		Mercenary bands
+		Mercenary leaders
+		Tavern mercenaries
