@@ -1,5 +1,5 @@
 ToDo:
-- allow player to participate in battles
+- Add center siegeing
 - add lords dialog
 	- presentation
 	- main dialog
@@ -41,9 +41,10 @@ ToDo:
 - lords fleeing from another should retreat to a friendly center
 - add lord rest in center
 - add vendors in towns - castles - villages
-	one seller in each center
-	two more for cities
-	one more for castles
+	one seller in each center - General goods: goods, low horses (if no horse merchant), low weapons (if no weapon merchant), low armors (if no armor merchant)
+	two more for cities - Weapon merchant, armor merchant
+	one more for castles - Weapon/armor merchant
+	if stables then horse merchant
 - add presentation for buying and selling goods
 	filter options
 		goods, weapons, armors, horses
@@ -54,7 +55,10 @@ ToDo:
 - add patrols
 	one patrol per center, patrols around that center, and joins if it is attacked
 	patrol may come back to center to give out prisoners or refill its troops
+- add scout
 - add caravans
+- add escorts (only if trade post)
+	follows caravans out of the town
 - add peasants
 - add prisoner train
 - add garrison reinforcements
@@ -81,7 +85,7 @@ ToDo:
 
 - abilities:
 	War Cry:	decrease morale for surrounding enemies, range and strength determined by str (strength = str/2) (range = str)
-	Rally:		increase morale for surrounding allies, range and strength determined by int (strength = int/2) (range = int)
+	Rally:		increase morale for surrounding allies, range and strength determined by cha (strength = cha/2) (range = cha)
 		
 - add morale
 	in battle, morale increase/decrease damage of troop by 1% for every 5 point over/under 'neutral' morale
@@ -97,6 +101,10 @@ ToDo:
 - add companion auto-levelling
 - add companion manual levelling presentation
 - add bodyguards behavior
-
+- add technologies
+- add eras
+- recruitment dependent on :
+	+ era
+	- buildings
 # To test
 - simulate battles

@@ -57,22 +57,20 @@ scenes = [
 	("test_battle_plain", sf_generate|sf_randomize, "none", "none", (0,0), (240,240),-0.5,"0x000000022383d06300070dc000003e3800001dc900001e07",
 		[],[], "outer_terrain_plain"),
 	
-	("castle_01_outside", sf_generate, "none", "none", (0,0), (240,240),-0.5,"0x0000000040c391af0005fd1100007c4900007ef600007fea",
-		[],[], "outer_terrain_snow"),
-	
-	("castle_02_outside", sf_generate, "none", "none", (0,0), (240,240),-0.5,"0x0000000332655a630006098400001edc0000246b00007856",
+	("castle_plain_01_outside", sf_generate, "none", "none", (0,0), (240,240),-0.5,"0x0000000334c356a0800615870000575500007f310000359d",
 		[],[], "outer_terrain_plain"),
 	
-	("castle_03_outside", sf_generate, "none", "none", (0,0), (240,240),-0.5,"0x0000000334c356a0800615870000575500007f310000359d",
+	("castle_plain_wood_01_outside", sf_generate, "none", "none", (0,0), (240,240),-0.5,"0x0000000332655a630006098400001edc0000246b00007856",
 		[],[], "outer_terrain_plain"),
 	
-	("castle_04_outside", sf_generate, "none", "none", (0,0), (240,240),-0.5,"0x0000000355e350e30004912200003bf800006d9e00005ab9",
-		[],[], "outer_terrain_desert"),
-	
-	("castle_05_outside", sf_generate, "none", "none", (0,0), (240,240),-0.5,"0x00000003264b18e30004912200007b7e00006d9e00006880",
+	("castle_steppe_01_outside", sf_generate, "none", "none", (0,0), (240,240),-0.5,"0x00000003264b18e30004912200007b7e00006d9e00006880",
 		[],[], "outer_terrain_steppe"),
 	
+	("castle_snow_01_outside", sf_generate, "none", "none", (0,0), (240,240),-0.5,"0x0000000040c391af0005fd1100007c4900007ef600007fea",
+		[],[], "outer_terrain_snow"),
 	
+	("castle_desert_01_outside", sf_generate, "none", "none", (0,0), (240,240),-0.5,"0x0000000355e350e30004912200003bf800006d9e00005ab9",
+		[],[], "outer_terrain_desert"),
 	
 	("meeting_scene_steppe",0,"ch_meet_steppe_a", "bo_encounter_spot", (-40,-40),(40,40),-100,"0",
 		[],[]),

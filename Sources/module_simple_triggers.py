@@ -15,6 +15,27 @@ from module_constants import *
 simple_triggers = [
 
 	# Parties trigger
+	(48,
+	[
+		(try_for_parties, ":party_no"),
+			(party_get_slot, ":party_type", ":party_no", slot_party_type),
+			(try_begin),
+				(is_between, ":party_type", spt_village, spt_fort),
+				(call_script, "script_party_recruit_troops", ":party_no"),
+				(assign, ":num_recruited", reg0),
+				(val_mul, ":num_recruited", -1),
+				(call_script, "script_party_modify_population", ":party_no", ":num_recruited"),
+				
+				# (call_script, "script_party_update_merchants", ":party_no"),
+				
+				(try_begin),
+					(eq, ":party_type", spt_town),
+					(call_script, "script_party_update_merchants", ":party_no"),
+				(try_end),
+			(try_end),
+		(try_end),
+		(display_message, "@Merchants updated..."),
+	]),
     (24,
 	[
 		(try_for_parties, ":party_no"),
@@ -28,22 +49,22 @@ simple_triggers = [
 				(try_begin),
 					(party_get_slot, ":population", ":party_no", slot_party_population),
 					(gt, ":population", 20),
-					(assign, ":num_recruited", 0),
+					# (assign, ":num_recruited", 0),
 					
 					(try_begin),
 						(eq, ":party_type", spt_village),
 						
 						(call_script, "script_party_send_reinforcements", ":party_no"),
-						(call_script, "script_party_recruit_troops", ":party_no"),
-						(assign, ":num_recruited", reg0),
-					(else_try),
+						# (call_script, "script_party_recruit_troops", ":party_no"),
+						# (assign, ":num_recruited", reg0),
+					# (else_try),
 						# (is_between, ":party_type", spt_castle, spt_fort),
 						
-						(call_script, "script_party_recruit_troops", ":party_no"),
-						(assign, ":num_recruited", reg0),
+						# (call_script, "script_party_recruit_troops", ":party_no"),
+						# (assign, ":num_recruited", reg0),
 					(try_end),
-					(val_mul, ":num_recruited", -1),
-					(call_script, "script_party_modify_population", ":party_no", ":num_recruited"),
+					# (val_mul, ":num_recruited", -1),
+					# (call_script, "script_party_modify_population", ":party_no", ":num_recruited"),
 				(try_end),
 			(else_try),
 				(eq, ":party_type", spt_war_party),
@@ -60,8 +81,6 @@ simple_triggers = [
 			# (try_end),
 		(try_end),
 		(store_random_in_range, "$g_daily_random", 0, 10000),
-		(assign, reg0, "$g_daily_random"),
-		(display_message, "@Random daily number: {reg0}"),
 	]),
 	
 	# (12,
@@ -174,8 +193,12 @@ simple_triggers = [
 				# (call_script, "script_troop_get_rank", ":lord_no"),
 				# (assign, ":real_rank", reg0),
 				(troop_get_slot, ":real_rank", ":lord_no", slot_troop_rank),
+				(troop_get_slot, ":equipement_rank", ":lord_no", slot_troop_equipement_level),
+				(call_script, "script_troop_get_equipement_level", ":lord_no"),
+				(assign, ":best_equipement_rank", reg0),
 				(try_begin),
-					(neq, ":lord_level", ":real_rank"),
+					(this_or_next|neq, ":lord_level", ":real_rank"),
+					(lt, ":equipement_rank", ":best_equipement_rank"),
 					(call_script, "script_troop_update_level", ":lord_no", ":lord_level", ":real_rank"),
 				(try_end),
 				

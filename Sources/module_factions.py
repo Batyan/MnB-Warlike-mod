@@ -36,13 +36,13 @@ factions = [
 	("small_kingdom_12", "County of Elberl", 0, 0.9, [("outlaws",-0.5),], [], 0xDD8888), # Swordmaster
 	("small_kingdom_13", "Duchy of Dhirim", 0, 0.9, [("outlaws",-0.5),], [], 0xFF5555), # Heavy Lancer + Levy Spearman
 	("small_kingdom_14", "County of Gisim", 0, 0.9, [("outlaws",-0.5),], [], 0x660044), # Longbowman + Heavy Longbowman
-	("small_kingdom_15", "Grand County of Ivenn", 0, 0.9, [("outlaws",-0.5),], [], 0xDD0055), # Scout
+	("small_kingdom_15", "Grand County of Ivenn", 0, 0.9, [("outlaws",-0.5),], [], 0xDD0055), # Scout + Light Spearman + Spearman
 	("small_kingdom_16", "County of Tilbaut", 0, 0.9, [("outlaws",-0.5),], [], 0xBB5500), # Mounted Skirmisher + Levy Skirmisher
 	("small_kingdom_17", "County of Uxkhal", 0, 0.9, [("outlaws",-0.5),], [], 0x550000), # Squire + Foot Knight
 	
-	("small_kingdom_21", "County of Slezhk", 0, 0.9, [("outlaws",-0.5),], [], 0x554400), # Lancer + Heavy Lancer + Levy Axeman
-	("small_kingdom_22", "County of Khudan", 0, 0.9, [("outlaws",-0.5),], [], 0x005500), # Scout + Club Levy + Horseman
-	("small_kingdom_23", "Duchy of the Northern Taiga", 0, 0.9, [("outlaws",-0.5),], [], 0x558f55), # Champion + Pikeman + Heavy Pikeman + Marksman
+	("small_kingdom_21", "County of Slezhk", 0, 0.9, [("outlaws",-0.5),], [], 0x554400), # Royal Lancer + Heavy Lancer + Levy Axeman
+	("small_kingdom_22", "County of Khudan", 0, 0.9, [("outlaws",-0.5),], [], 0x005500), # Scout + Club Levy + Horseman + Royal Cavalry
+	("small_kingdom_23", "Duchy of the Northern Taiga", 0, 0.9, [("outlaws",-0.5),], [], 0x558f55), # Champion + Pikeman + Heavy Pikeman + Royal Longbowman + Longbowman
 	("small_kingdom_24", "County of Yruma", 0, 0.9, [("outlaws",-0.5),], [], 0x88dd88), # Light Skirmisher + Heavy Skirmisher
 	("small_kingdom_25", "Duchy of the Southern Taiga", 0, 0.9, [("outlaws",-0.5),], [], 0x885500), # Heavy Mounted Bowman
 	
@@ -56,18 +56,18 @@ factions = [
 	("small_kingdom_41", "Pirash Warriors", 0, 0.9, [("outlaws",-0.5),], [], 0x14FF8D), # Light Lancer + Mounted Bowman
 	("small_kingdom_42", "Gundig Warriors", 0, 0.9, [("outlaws",-0.5),], [], 0x00E5FF), # Heavy Longbowman + Light Longbowman
 	("small_kingdom_43", "Wercheg Raiders", 0, 0.9, [("outlaws",-0.5),], [], 0xADE9FF), # Skirmisher + Heavy Skirmisher
-	("small_kingdom_44", "Aldelen Warriors", 0, 0.9, [("outlaws",-0.5),], [], 0x396C72), # Spearman + Heavy Spearman + Hunter
-	("small_kingdom_45", "Rizi Hold", 0, 0.9, [("outlaws",-0.5),], [], 0x00A793), # King's Guard + Bowman
+	("small_kingdom_44", "Aldelen Warriors", 0, 0.9, [("outlaws",-0.5),], [], 0x396C72), # Spearman + Heavy Spearman + Hunter + Crossbowman
+	("small_kingdom_45", "Rizi Hold", 0, 0.9, [("outlaws",-0.5),], [], 0x00A793), # King's Guard + Bowman + Spear Cavalry + Heavy Spear Cavalry
 	
 	("small_kingdom_51", "Highlanders", 0, 0.9, [("outlaws",-0.5),], [], 0x4F5868), # Hunter + Bowman + Heavy Bowman + Sergeant
 	("small_kingdom_52", "Bezan Community", 0, 0.9, [("outlaws",-0.5),], [], 0x267CFF), # Heroic Rider + Levy Pikeman
-	("small_kingdom_53", "City of Veluca", 0, 0.9, [("outlaws",-0.5),], [], 0xA3B8FF), # Heavy Cavalry + Heavy Spearman + Heroic Rider
-	("small_kingdom_54", "City of Jamiche", 0, 0.9, [("outlaws",-0.5),], [], 0xBE9EFF), # Light Spearman + Light Skirmisher
+	("small_kingdom_53", "City of Veluca", 0, 0.9, [("outlaws",-0.5),], [], 0xA3B8FF), # Light Cavalry + Heavy Cavalry + Heroic Cavalry
+	("small_kingdom_54", "City of Jamiche", 0, 0.9, [("outlaws",-0.5),], [], 0xBE9EFF), # Light Spearman + Light Skirmisher + Heavy Spearman
 	("small_kingdom_55", "Saren Community", 0, 0.9, [("outlaws",-0.5),], [], 0x746BFF), # Mounted Crossbowman + Lancer + Heavy Lancer
 	
 	("small_kingdom_61", "Oasis of Barriye", 0, 0.9, [("outlaws",-0.5),], [], 0x804303), # Light Crossbowman + Levy Horseman
 	("small_kingdom_62", "Defenders of Sharwa Keep", 0, 0.9, [("outlaws",-0.5),], [], 0xB38A5F), # Heavy Archer
-	("small_kingdom_63", "Sarrdak Sultanate", 0, 0.9, [("outlaws",-0.5),], [], 0xFFA445), # Heavy Lancer + Heavy Mamluke
+	("small_kingdom_63", "Sarrdak Sultanate", 0, 0.9, [("outlaws",-0.5),], [], 0xFFA445), # Heavy Lancer + Cataphract
 	("small_kingdom_64", "Tribes of Uzgha", 0, 0.9, [("outlaws",-0.5),], [], 0x968F57), # Light Horse Archer + Horse Archer + Heavy Horse Archer
 	("small_kingdom_65", "Great Tribes of Durquba", 0, 0.9, [("outlaws",-0.5),], [], 0x7A6C00), # Mounted Skirmisher + Pikeman + Heavy Pikeman + Noble Skirmisher
 	

@@ -630,7 +630,7 @@ test_battle_siege_move_archer_to_archer_position = (
 		])
 	
 test_battle_siege_refill_ammo = (
-	90, 0, 0,
+	60, 0, 0,
 		[],
 		[
 			(try_for_agents, ":agent_no"),
@@ -975,8 +975,8 @@ mission_templates = [
 		"Lead charge",
 		[
 			# (0, mtef_visitor_source|mtef_team_0, 0, aif_start_alarmed, 0, []),
-			(1, mtef_attackers|mtef_team_0, 0, aif_start_alarmed, 1, []),
-			(2, mtef_defenders|mtef_team_1, 0, aif_start_alarmed, 1, []),
+			(1, mtef_attackers|mtef_team_0, 0, aif_start_alarmed, 0, []),
+			(2, mtef_defenders|mtef_team_1, 0, aif_start_alarmed, 0, []),
 			(1, mtef_visitor_source|mtef_team_2, 0, aif_start_alarmed, 0, []),
 			(2, mtef_visitor_source|mtef_team_3, 0, aif_start_alarmed, 0, []),
 		],

@@ -376,4 +376,11 @@ presentations = [
 			(try_end),
 		]),
 	]),
+	
+	("intro_select_kingdom", 0, mesh_load_window, 
+	[
+		(ti_on_presentation_load,
+		[
+		]),
+	]),
 ]

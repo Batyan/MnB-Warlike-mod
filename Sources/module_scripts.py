@@ -74,6 +74,11 @@ scripts = [
 				(party_set_slot, ":cur_center", slot_party_linked_party, ":best"),
 			(try_end),
 			
+			# ToDo: temporary
+			(try_for_range, ":faction", kingdoms_begin, kingdoms_end),
+				(faction_set_slot, ":faction", slot_faction_era, 10),
+			(try_end),
+			
 			(faction_set_slot, "fac_kingdom_1", slot_faction_leader, "trp_swadian_lord_1"),
 			(faction_set_slot, "fac_kingdom_2", slot_faction_leader, "trp_vaegir_lord_1"),
 			(faction_set_slot, "fac_kingdom_3", slot_faction_leader, "trp_khergit_lord_1"),
@@ -146,6 +151,8 @@ scripts = [
 				(try_end),
 				# (party_set_slot, ":party_no", slot_party_lord, -1),
 			(try_end),
+			
+			(troop_add_gold, "trp_player", 10000),
 			
 			(set_show_messages, 1),
 		]),
@@ -273,7 +280,6 @@ scripts = [
 				(try_end),
 			(try_end),
 			
-			# ToDo: simulate battle
 			(set_trigger_result, ":result"),
 		]),
 	
@@ -354,7 +360,7 @@ scripts = [
 				(str_store_party_name, s11, ":defender"),
 				(assign, reg10, ":attacker_strength"),
 				(assign, reg11, ":defender_strength"),
-				(display_message, "@Stage {reg12}^{s10}'s strength: {reg10}.^{s11}'s strength: {reg11}."),
+				# (display_message, "@Stage {reg12}^{s10}'s strength: {reg10}.^{s11}'s strength: {reg11}."),
 			(try_end),
 			(try_begin),
 				(gt, ":attacker_strength", 0),
@@ -770,7 +776,8 @@ scripts = [
 			
 			(call_script, "script_party_group_take_party_group_prisoner", ":winner_party", ":defeated_party"),
 			(call_script, "script_party_group_defeated", ":defeated_party"),
-			(call_script, "script_clear_party_group", ":defeated_party"),
+			(call_script, "script_clear_party_group", ":defeated_party"), 
+			# /!\ Defeated_party is no longer referenced! /!\
 			
 			(party_set_slot, ":winner_party", slot_party_battle_stage, bs_approach),
 			
@@ -803,7 +810,7 @@ scripts = [
 				(display_message, "@{s10} has been defeated in battle."),
 				###
 			(try_end),
-			
+						
 			(party_get_num_attached_parties, ":num_attached_parties", ":defeated_party"),
 			(try_for_range, ":attached_party_rank", 0, ":num_attached_parties"),
 				(party_get_attached_party_with_rank, ":attached_party", ":defeated_party", ":attached_party_rank"),
@@ -847,6 +854,34 @@ scripts = [
 	# trigger_result and reg0 = price_factor
 	("game_get_item_buy_price_factor",
 		[
+			(store_script_param, ":item", 1),
+			(assign, ":price", 300),
+			
+			(try_begin),
+				(is_between, "$g_encountered_party", centers_begin, centers_end),
+				(is_between, ":item", goods_begin, goods_end),
+				(party_get_slot, ":own_production", "$g_encountered_party", ":item"),
+				(store_sub, ":production_modifier", 20, ":own_production"),
+				(try_begin),
+					# We reduce the effect of own production the more we produce
+					# It is to avoid buying for ridiculous prices in highly productive places
+					(lt, ":production_modifier", 0), 
+					(store_mul, ":inv_prod", ":production_modifier", -1),
+					(val_div, ":inv_prod", 15),
+					(val_add, ":inv_prod", 1),
+					(val_div, ":production_modifier", ":inv_prod"),
+				(try_end),
+				(val_sub, ":price", ":production_modifier"),
+			(try_end),
+			
+			(party_get_skill_level, ":trade_skill", "p_main_party", skl_trade),
+			(val_mul, ":trade_skill", 5),
+			(val_sub, ":price", ":trade_skill"),
+			
+			(val_max, ":price", 105),
+			
+			(assign, reg0, ":price"),
+			(set_trigger_result, ":price"),
 		]),
   
 	#script_game_get_item_sell_price_factor:
@@ -857,6 +892,35 @@ scripts = [
 	# trigger_result and reg0 = price_factor
 	("game_get_item_sell_price_factor",
 		[
+			(store_script_param, ":item", 1),
+			(assign, ":price", 25),
+			
+			(try_begin),
+				(is_between, "$g_encountered_party", centers_begin, centers_end),
+				(is_between, ":item", goods_begin, goods_end),
+				(party_get_slot, ":own_production", "$g_encountered_party", ":item"),
+				(store_add, ":production_modifier", -20, ":own_production"),
+				(try_begin),
+					# We reduce the effect of own production the more we produce
+					# It is to avoid selling for ridiculous prices in highly productive places
+					(gt, ":production_modifier", 0),
+					(store_div, ":prod", ":production_modifier", 30),
+					(val_add, ":prod", 1),
+					(val_div, ":production_modifier", ":prod"),
+				(try_end),
+				(val_sub, ":price", ":production_modifier"),
+			(try_end),
+			
+			(party_get_skill_level, ":trade_skill", "p_main_party", skl_trade),
+			(val_mul, ":trade_skill", 4),
+			(val_add, ":price", ":trade_skill"),
+			
+			# (val_min, ":price", 95),
+			
+			(val_max, ":price", 5),
+			
+			(assign, reg0, ":price"),
+			(set_trigger_result, ":price"),
 		]),
   
 	#script_game_event_buy_item:
@@ -1066,7 +1130,7 @@ scripts = [
 			(store_div, ":num_days", ":num_hours", 24),
 			(store_add, ":cur_day", ":num_days", 23),
 			(assign, ":cur_month", 1),
-			(assign, ":cur_year", 533),
+			(assign, ":cur_year", 733),
 			(assign, ":try_range", 99999),
 			(try_for_range, ":unused", 0, ":try_range"),
 				(try_begin),
@@ -1188,7 +1252,11 @@ scripts = [
 		[
 			# (str_store_troop_name, s10, "trp_player"),
 			# (troop_set_plural_name, "trp_player", s10),
-			# (call_script, "script_troop_update_rank", "trp_player"),
+			
+			# (call_script, "script_troop_get_rank", "trp_player"),
+			
+			# (troop_set_slot, "trp_player", slot_troop_rank, reg0),
+			
 			# (call_script, "script_troop_update_name", "trp_player"),
 		]),
 
@@ -1418,6 +1486,7 @@ scripts = [
 				(party_get_attached_party_with_rank, ":attached_party", ":root_party", ":attached_party_rank"),
 				(call_script, "script_clear_party_group", ":attached_party"),
 			(try_end),
+			(remove_party, ":root_party"),
 		]),
 	
 	#script_add_troop_to_cur_tableau
@@ -2001,32 +2070,6 @@ scripts = [
 				(try_end),
 				
 				(party_set_faction, "p_temp_party", "fac_commoners"),
-			
-				(try_begin),
-					(store_random_in_range, ":rand", 0, 2),
-					(eq, ":rand", 0),
-					(assign, ":num_tries", 10),
-					(try_for_range, ":unused", 0, ":num_tries"),
-						(store_random_in_range, ":lord", lords_begin, lords_end),
-						(troop_slot_eq, ":lord", slot_troop_original_faction, ":faction"),
-						
-						(call_script, "script_troop_get_rank", ":lord"),
-						(assign, ":real_rank", reg0),
-						(call_script, "script_troop_change_level", ":lord", ":real_rank"),
-						
-						# (call_script, "script_troop_set_equip_type", ":lord"),
-						
-						# (store_random_in_range, ":new_rank", 0, 8),
-						# (call_script, "script_troop_change_level", ":lord", ":new_rank"),
-						# (troop_set_slot, ":lord", slot_troop_rank, ":new_rank"),
-						# (call_script, "script_troop_update_name", ":lord"),
-						
-						# (modify_visitors_at_site, ":cur_scene"),
-						(add_visitors_to_current_scene, ":spawn_point", ":lord", 1),
-						(display_message, "@Spawning lord!"),
-						(assign, ":num_tries", 0),
-					(try_end),
-				(try_end),
 			(try_end),
 		]),
 	
@@ -2349,8 +2392,6 @@ scripts = [
 			(store_script_param, ":party_no", 1),
 			(store_script_param, ":terrain_type", 2),
 			# (store_script_param, ":height", 3),
-			
-			# ToDo : raw_date_fruit
 			
 			(try_begin),
 				(eq, ":terrain_type", rt_water),
@@ -3283,7 +3324,7 @@ scripts = [
 	# output: none
 	("cf_faction_need_party_nearby_resources",
 		[
-			# ToDo:
+			
 		]),
 	
 	# script_spawn_new_center_marker_with_party_resources
@@ -3292,7 +3333,7 @@ scripts = [
 	# output: none
 	("spawn_new_center_marker_with_party_resources",
 		[
-			# ToDo:
+			
 		]),
 		
 	# script_init_factions
@@ -3341,239 +3382,239 @@ scripts = [
 			(faction_set_slot, "fac_small_kingdom_64", slot_faction_culture, "fac_culture_6"),
 			(faction_set_slot, "fac_small_kingdom_65", slot_faction_culture, "fac_culture_6"),
 			
-			(faction_set_slot, "fac_kingdom_1", slot_faction_peasant_num_tries, -5),
-			(faction_set_slot, "fac_kingdom_1", slot_faction_common_num_tries, -5),
-			(faction_set_slot, "fac_kingdom_1", slot_faction_veteran_num_tries, 3),
-			(faction_set_slot, "fac_kingdom_1", slot_faction_elite_num_tries, 4),
-			(faction_set_slot, "fac_kingdom_1", slot_faction_noble_num_tries, 3),
+			(faction_set_slot, "fac_kingdom_1", slot_faction_peasant_num_tries, 0),
+			(faction_set_slot, "fac_kingdom_1", slot_faction_common_num_tries, 0),
+			(faction_set_slot, "fac_kingdom_1", slot_faction_veteran_num_tries, 20),
+			(faction_set_slot, "fac_kingdom_1", slot_faction_elite_num_tries, 60),
+			(faction_set_slot, "fac_kingdom_1", slot_faction_noble_num_tries, 60),
 			
-			(faction_set_slot, "fac_kingdom_2", slot_faction_peasant_num_tries, -5),
-			(faction_set_slot, "fac_kingdom_2", slot_faction_common_num_tries, 3),
-			(faction_set_slot, "fac_kingdom_2", slot_faction_veteran_num_tries, 2),
+			(faction_set_slot, "fac_kingdom_2", slot_faction_peasant_num_tries, 0),
+			(faction_set_slot, "fac_kingdom_2", slot_faction_common_num_tries, 75),
+			(faction_set_slot, "fac_kingdom_2", slot_faction_veteran_num_tries, 50),
 			(faction_set_slot, "fac_kingdom_2", slot_faction_elite_num_tries, 0),
 			(faction_set_slot, "fac_kingdom_2", slot_faction_noble_num_tries, 0),
 			
-			(faction_set_slot, "fac_kingdom_3", slot_faction_peasant_num_tries, 0),
-			(faction_set_slot, "fac_kingdom_3", slot_faction_common_num_tries, 10),
-			(faction_set_slot, "fac_kingdom_3", slot_faction_veteran_num_tries, -5),
-			(faction_set_slot, "fac_kingdom_3", slot_faction_elite_num_tries, -5),
-			(faction_set_slot, "fac_kingdom_3", slot_faction_noble_num_tries, 0),
+			(faction_set_slot, "fac_kingdom_3", slot_faction_peasant_num_tries, 25),
+			(faction_set_slot, "fac_kingdom_3", slot_faction_common_num_tries, 50),
+			(faction_set_slot, "fac_kingdom_3", slot_faction_veteran_num_tries, 0),
+			(faction_set_slot, "fac_kingdom_3", slot_faction_elite_num_tries, 0),
+			(faction_set_slot, "fac_kingdom_3", slot_faction_noble_num_tries, 20),
 			
-			(faction_set_slot, "fac_kingdom_4", slot_faction_peasant_num_tries, -10),
-			(faction_set_slot, "fac_kingdom_4", slot_faction_common_num_tries, 5),
-			(faction_set_slot, "fac_kingdom_4", slot_faction_veteran_num_tries, 10),
-			(faction_set_slot, "fac_kingdom_4", slot_faction_elite_num_tries, -5),
-			(faction_set_slot, "fac_kingdom_4", slot_faction_noble_num_tries, 0),
+			(faction_set_slot, "fac_kingdom_4", slot_faction_peasant_num_tries, 0),
+			(faction_set_slot, "fac_kingdom_4", slot_faction_common_num_tries, 20),
+			(faction_set_slot, "fac_kingdom_4", slot_faction_veteran_num_tries, 80),
+			(faction_set_slot, "fac_kingdom_4", slot_faction_elite_num_tries, 0),
+			(faction_set_slot, "fac_kingdom_4", slot_faction_noble_num_tries, 40),
 			
-			(faction_set_slot, "fac_kingdom_5", slot_faction_peasant_num_tries, 0),
-			(faction_set_slot, "fac_kingdom_5", slot_faction_common_num_tries, 5),
-			(faction_set_slot, "fac_kingdom_5", slot_faction_veteran_num_tries, 0),
-			(faction_set_slot, "fac_kingdom_5", slot_faction_elite_num_tries, -2),
-			(faction_set_slot, "fac_kingdom_5", slot_faction_noble_num_tries, -3),
+			(faction_set_slot, "fac_kingdom_5", slot_faction_peasant_num_tries, 40),
+			(faction_set_slot, "fac_kingdom_5", slot_faction_common_num_tries, 50),
+			(faction_set_slot, "fac_kingdom_5", slot_faction_veteran_num_tries, 50),
+			(faction_set_slot, "fac_kingdom_5", slot_faction_elite_num_tries, 0),
+			(faction_set_slot, "fac_kingdom_5", slot_faction_noble_num_tries, 0),
 			
-			(faction_set_slot, "fac_kingdom_6", slot_faction_peasant_num_tries, -5),
-			(faction_set_slot, "fac_kingdom_6", slot_faction_common_num_tries, 10),
-			(faction_set_slot, "fac_kingdom_6", slot_faction_veteran_num_tries, 0),
-			(faction_set_slot, "fac_kingdom_6", slot_faction_elite_num_tries, -5),
-			(faction_set_slot, "fac_kingdom_6", slot_faction_noble_num_tries, 0),
+			(faction_set_slot, "fac_kingdom_6", slot_faction_peasant_num_tries, 0),
+			(faction_set_slot, "fac_kingdom_6", slot_faction_common_num_tries, 50),
+			(faction_set_slot, "fac_kingdom_6", slot_faction_veteran_num_tries, 25),
+			(faction_set_slot, "fac_kingdom_6", slot_faction_elite_num_tries, 0),
+			(faction_set_slot, "fac_kingdom_6", slot_faction_noble_num_tries, 20),
 			
-			(faction_set_slot, "fac_small_kingdom_11", slot_faction_peasant_num_tries, -5),
-			(faction_set_slot, "fac_small_kingdom_11", slot_faction_common_num_tries, -5),
-			(faction_set_slot, "fac_small_kingdom_11", slot_faction_veteran_num_tries, 5),
-			(faction_set_slot, "fac_small_kingdom_11", slot_faction_elite_num_tries, 3),
-			(faction_set_slot, "fac_small_kingdom_11", slot_faction_noble_num_tries, 2),
+			(faction_set_slot, "fac_small_kingdom_11", slot_faction_peasant_num_tries, 0),
+			(faction_set_slot, "fac_small_kingdom_11", slot_faction_common_num_tries, 0),
+			(faction_set_slot, "fac_small_kingdom_11", slot_faction_veteran_num_tries, 40),
+			(faction_set_slot, "fac_small_kingdom_11", slot_faction_elite_num_tries, 100),
+			(faction_set_slot, "fac_small_kingdom_11", slot_faction_noble_num_tries, 20),
 			
-			(faction_set_slot, "fac_small_kingdom_12", slot_faction_peasant_num_tries, -8),
-			(faction_set_slot, "fac_small_kingdom_12", slot_faction_common_num_tries, 5),
-			(faction_set_slot, "fac_small_kingdom_12", slot_faction_veteran_num_tries, 7),
-			(faction_set_slot, "fac_small_kingdom_12", slot_faction_elite_num_tries, -3),
-			(faction_set_slot, "fac_small_kingdom_12", slot_faction_noble_num_tries, -1),
+			(faction_set_slot, "fac_small_kingdom_12", slot_faction_peasant_num_tries, 0),
+			(faction_set_slot, "fac_small_kingdom_12", slot_faction_common_num_tries, 75),
+			(faction_set_slot, "fac_small_kingdom_12", slot_faction_veteran_num_tries, 50),
+			(faction_set_slot, "fac_small_kingdom_12", slot_faction_elite_num_tries, 20),
+			(faction_set_slot, "fac_small_kingdom_12", slot_faction_noble_num_tries, 20),
 			
-			(faction_set_slot, "fac_small_kingdom_13", slot_faction_peasant_num_tries, 2),
-			(faction_set_slot, "fac_small_kingdom_13", slot_faction_common_num_tries, -10),
-			(faction_set_slot, "fac_small_kingdom_13", slot_faction_veteran_num_tries, -2),
-			(faction_set_slot, "fac_small_kingdom_13", slot_faction_elite_num_tries, 10),
-			(faction_set_slot, "fac_small_kingdom_13", slot_faction_noble_num_tries, 0),
+			(faction_set_slot, "fac_small_kingdom_13", slot_faction_peasant_num_tries, 50),
+			(faction_set_slot, "fac_small_kingdom_13", slot_faction_common_num_tries, 0),
+			(faction_set_slot, "fac_small_kingdom_13", slot_faction_veteran_num_tries, 10),
+			(faction_set_slot, "fac_small_kingdom_13", slot_faction_elite_num_tries, 80),
+			(faction_set_slot, "fac_small_kingdom_13", slot_faction_noble_num_tries, 80),
 			
-			(faction_set_slot, "fac_small_kingdom_14", slot_faction_peasant_num_tries, -5),
-			(faction_set_slot, "fac_small_kingdom_14", slot_faction_common_num_tries, 1),
-			(faction_set_slot, "fac_small_kingdom_14", slot_faction_veteran_num_tries, 7),
-			(faction_set_slot, "fac_small_kingdom_14", slot_faction_elite_num_tries, -2),
-			(faction_set_slot, "fac_small_kingdom_14", slot_faction_noble_num_tries, -1),
+			(faction_set_slot, "fac_small_kingdom_14", slot_faction_peasant_num_tries, 0),
+			(faction_set_slot, "fac_small_kingdom_14", slot_faction_common_num_tries, 60),
+			(faction_set_slot, "fac_small_kingdom_14", slot_faction_veteran_num_tries, 60),
+			(faction_set_slot, "fac_small_kingdom_14", slot_faction_elite_num_tries, 0),
+			(faction_set_slot, "fac_small_kingdom_14", slot_faction_noble_num_tries, 20),
 			
-			(faction_set_slot, "fac_small_kingdom_15", slot_faction_peasant_num_tries, -6),
-			(faction_set_slot, "fac_small_kingdom_15", slot_faction_common_num_tries, 10),
-			(faction_set_slot, "fac_small_kingdom_15", slot_faction_veteran_num_tries, -1),
-			(faction_set_slot, "fac_small_kingdom_15", slot_faction_elite_num_tries, -2),
-			(faction_set_slot, "fac_small_kingdom_15", slot_faction_noble_num_tries, -1),
+			(faction_set_slot, "fac_small_kingdom_15", slot_faction_peasant_num_tries, 0),
+			(faction_set_slot, "fac_small_kingdom_15", slot_faction_common_num_tries, 80),
+			(faction_set_slot, "fac_small_kingdom_15", slot_faction_veteran_num_tries, 40),
+			(faction_set_slot, "fac_small_kingdom_15", slot_faction_elite_num_tries, 0),
+			(faction_set_slot, "fac_small_kingdom_15", slot_faction_noble_num_tries, 0),
 			
-			(faction_set_slot, "fac_small_kingdom_16", slot_faction_peasant_num_tries, -10),
-			(faction_set_slot, "fac_small_kingdom_16", slot_faction_common_num_tries, 8),
-			(faction_set_slot, "fac_small_kingdom_16", slot_faction_veteran_num_tries, -1),
-			(faction_set_slot, "fac_small_kingdom_16", slot_faction_elite_num_tries, -1),
-			(faction_set_slot, "fac_small_kingdom_16", slot_faction_noble_num_tries, 2),
+			(faction_set_slot, "fac_small_kingdom_16", slot_faction_peasant_num_tries, 0),
+			(faction_set_slot, "fac_small_kingdom_16", slot_faction_common_num_tries, 60),
+			(faction_set_slot, "fac_small_kingdom_16", slot_faction_veteran_num_tries, 20),
+			(faction_set_slot, "fac_small_kingdom_16", slot_faction_elite_num_tries, 20),
+			(faction_set_slot, "fac_small_kingdom_16", slot_faction_noble_num_tries, 20),
 			
-			(faction_set_slot, "fac_small_kingdom_17", slot_faction_peasant_num_tries, -6),
-			(faction_set_slot, "fac_small_kingdom_17", slot_faction_common_num_tries, -2),
-			(faction_set_slot, "fac_small_kingdom_17", slot_faction_veteran_num_tries, 3),
+			(faction_set_slot, "fac_small_kingdom_17", slot_faction_peasant_num_tries, 0),
+			(faction_set_slot, "fac_small_kingdom_17", slot_faction_common_num_tries, 0),
+			(faction_set_slot, "fac_small_kingdom_17", slot_faction_veteran_num_tries, 80),
 			(faction_set_slot, "fac_small_kingdom_17", slot_faction_elite_num_tries, 0),
-			(faction_set_slot, "fac_small_kingdom_17", slot_faction_noble_num_tries, 5),
+			(faction_set_slot, "fac_small_kingdom_17", slot_faction_noble_num_tries, 80),
 			
-			(faction_set_slot, "fac_small_kingdom_21", slot_faction_peasant_num_tries, 0),
-			(faction_set_slot, "fac_small_kingdom_21", slot_faction_common_num_tries, -10),
-			(faction_set_slot, "fac_small_kingdom_21", slot_faction_veteran_num_tries, 0),
-			(faction_set_slot, "fac_small_kingdom_21", slot_faction_elite_num_tries, 10),
-			(faction_set_slot, "fac_small_kingdom_21", slot_faction_noble_num_tries, 0),
+			(faction_set_slot, "fac_small_kingdom_21", slot_faction_peasant_num_tries, 50),
+			(faction_set_slot, "fac_small_kingdom_21", slot_faction_common_num_tries, 0),
+			(faction_set_slot, "fac_small_kingdom_21", slot_faction_veteran_num_tries, 50),
+			(faction_set_slot, "fac_small_kingdom_21", slot_faction_elite_num_tries, 150),
+			(faction_set_slot, "fac_small_kingdom_21", slot_faction_noble_num_tries, 50),
 			
-			(faction_set_slot, "fac_small_kingdom_22", slot_faction_peasant_num_tries, -5),
-			(faction_set_slot, "fac_small_kingdom_22", slot_faction_common_num_tries, 15),
-			(faction_set_slot, "fac_small_kingdom_22", slot_faction_veteran_num_tries, -5),
-			(faction_set_slot, "fac_small_kingdom_22", slot_faction_elite_num_tries, -5),
+			(faction_set_slot, "fac_small_kingdom_22", slot_faction_peasant_num_tries, 40),
+			(faction_set_slot, "fac_small_kingdom_22", slot_faction_common_num_tries, 80),
+			(faction_set_slot, "fac_small_kingdom_22", slot_faction_veteran_num_tries, 80),
+			(faction_set_slot, "fac_small_kingdom_22", slot_faction_elite_num_tries, 0),
 			(faction_set_slot, "fac_small_kingdom_22", slot_faction_noble_num_tries, 0),
 			
-			(faction_set_slot, "fac_small_kingdom_23", slot_faction_peasant_num_tries, 5),
-			(faction_set_slot, "fac_small_kingdom_23", slot_faction_common_num_tries, -5),
-			(faction_set_slot, "fac_small_kingdom_23", slot_faction_veteran_num_tries, 0),
-			(faction_set_slot, "fac_small_kingdom_23", slot_faction_elite_num_tries, -5),
-			(faction_set_slot, "fac_small_kingdom_23", slot_faction_noble_num_tries, 5),
+			(faction_set_slot, "fac_small_kingdom_23", slot_faction_peasant_num_tries, 0),
+			(faction_set_slot, "fac_small_kingdom_23", slot_faction_common_num_tries, 0),
+			(faction_set_slot, "fac_small_kingdom_23", slot_faction_veteran_num_tries, 20),
+			(faction_set_slot, "fac_small_kingdom_23", slot_faction_elite_num_tries, 40),
+			(faction_set_slot, "fac_small_kingdom_23", slot_faction_noble_num_tries, 60),
 			
-			(faction_set_slot, "fac_small_kingdom_24", slot_faction_peasant_num_tries, -10),
-			(faction_set_slot, "fac_small_kingdom_24", slot_faction_common_num_tries, 10),
-			(faction_set_slot, "fac_small_kingdom_24", slot_faction_veteran_num_tries, 5),
-			(faction_set_slot, "fac_small_kingdom_24", slot_faction_elite_num_tries, -3),
-			(faction_set_slot, "fac_small_kingdom_24", slot_faction_noble_num_tries, -2),
+			(faction_set_slot, "fac_small_kingdom_24", slot_faction_peasant_num_tries, 0),
+			(faction_set_slot, "fac_small_kingdom_24", slot_faction_common_num_tries, 80),
+			(faction_set_slot, "fac_small_kingdom_24", slot_faction_veteran_num_tries, 20),
+			(faction_set_slot, "fac_small_kingdom_24", slot_faction_elite_num_tries, 40),
+			(faction_set_slot, "fac_small_kingdom_24", slot_faction_noble_num_tries, 0),
 			
-			(faction_set_slot, "fac_small_kingdom_25", slot_faction_peasant_num_tries, -5),
-			(faction_set_slot, "fac_small_kingdom_25", slot_faction_common_num_tries, -2),
-			(faction_set_slot, "fac_small_kingdom_25", slot_faction_veteran_num_tries, 0),
-			(faction_set_slot, "fac_small_kingdom_25", slot_faction_elite_num_tries, 5),
-			(faction_set_slot, "fac_small_kingdom_25", slot_faction_noble_num_tries, 2),
+			(faction_set_slot, "fac_small_kingdom_25", slot_faction_peasant_num_tries, 0),
+			(faction_set_slot, "fac_small_kingdom_25", slot_faction_common_num_tries, 0),
+			(faction_set_slot, "fac_small_kingdom_25", slot_faction_veteran_num_tries, 20),
+			(faction_set_slot, "fac_small_kingdom_25", slot_faction_elite_num_tries, 80),
+			(faction_set_slot, "fac_small_kingdom_25", slot_faction_noble_num_tries, 40),
 			
-			(faction_set_slot, "fac_small_kingdom_31", slot_faction_peasant_num_tries, -5),
-			(faction_set_slot, "fac_small_kingdom_31", slot_faction_common_num_tries, 5),
-			(faction_set_slot, "fac_small_kingdom_31", slot_faction_veteran_num_tries, -5),
-			(faction_set_slot, "fac_small_kingdom_31", slot_faction_elite_num_tries, 5),
-			(faction_set_slot, "fac_small_kingdom_31", slot_faction_noble_num_tries, 0),
+			(faction_set_slot, "fac_small_kingdom_31", slot_faction_peasant_num_tries, 0),
+			(faction_set_slot, "fac_small_kingdom_31", slot_faction_common_num_tries, 60),
+			(faction_set_slot, "fac_small_kingdom_31", slot_faction_veteran_num_tries, 0),
+			(faction_set_slot, "fac_small_kingdom_31", slot_faction_elite_num_tries, 60),
+			(faction_set_slot, "fac_small_kingdom_31", slot_faction_noble_num_tries, 20),
 			
-			(faction_set_slot, "fac_small_kingdom_32", slot_faction_peasant_num_tries, -10),
-			(faction_set_slot, "fac_small_kingdom_32", slot_faction_common_num_tries, 10),
-			(faction_set_slot, "fac_small_kingdom_32", slot_faction_veteran_num_tries, 5),
-			(faction_set_slot, "fac_small_kingdom_32", slot_faction_elite_num_tries, -5),
+			(faction_set_slot, "fac_small_kingdom_32", slot_faction_peasant_num_tries, 0),
+			(faction_set_slot, "fac_small_kingdom_32", slot_faction_common_num_tries, 60),
+			(faction_set_slot, "fac_small_kingdom_32", slot_faction_veteran_num_tries, 80),
+			(faction_set_slot, "fac_small_kingdom_32", slot_faction_elite_num_tries, 20),
 			(faction_set_slot, "fac_small_kingdom_32", slot_faction_noble_num_tries, 0),
 			
 			(faction_set_slot, "fac_small_kingdom_33", slot_faction_peasant_num_tries, 0),
-			(faction_set_slot, "fac_small_kingdom_33", slot_faction_common_num_tries, 10),
-			(faction_set_slot, "fac_small_kingdom_33", slot_faction_veteran_num_tries, -5),
-			(faction_set_slot, "fac_small_kingdom_33", slot_faction_elite_num_tries, -5),
+			(faction_set_slot, "fac_small_kingdom_33", slot_faction_common_num_tries, 80),
+			(faction_set_slot, "fac_small_kingdom_33", slot_faction_veteran_num_tries, 80),
+			(faction_set_slot, "fac_small_kingdom_33", slot_faction_elite_num_tries, 0),
 			(faction_set_slot, "fac_small_kingdom_33", slot_faction_noble_num_tries, 0),
 			
-			(faction_set_slot, "fac_small_kingdom_34", slot_faction_peasant_num_tries, -5),
-			(faction_set_slot, "fac_small_kingdom_34", slot_faction_common_num_tries, -5),
-			(faction_set_slot, "fac_small_kingdom_34", slot_faction_veteran_num_tries, 0),
-			(faction_set_slot, "fac_small_kingdom_34", slot_faction_elite_num_tries, 5),
-			(faction_set_slot, "fac_small_kingdom_34", slot_faction_noble_num_tries, 5),
+			(faction_set_slot, "fac_small_kingdom_34", slot_faction_peasant_num_tries, 0),
+			(faction_set_slot, "fac_small_kingdom_34", slot_faction_common_num_tries, 0),
+			(faction_set_slot, "fac_small_kingdom_34", slot_faction_veteran_num_tries, 20),
+			(faction_set_slot, "fac_small_kingdom_34", slot_faction_elite_num_tries, 100),
+			(faction_set_slot, "fac_small_kingdom_34", slot_faction_noble_num_tries, 40),
 			
-			(faction_set_slot, "fac_small_kingdom_35", slot_faction_peasant_num_tries, 10),
-			(faction_set_slot, "fac_small_kingdom_35", slot_faction_common_num_tries, -3),
-			(faction_set_slot, "fac_small_kingdom_35", slot_faction_veteran_num_tries, -7),
-			(faction_set_slot, "fac_small_kingdom_35", slot_faction_elite_num_tries, -5),
-			(faction_set_slot, "fac_small_kingdom_35", slot_faction_noble_num_tries, 5),
+			(faction_set_slot, "fac_small_kingdom_35", slot_faction_peasant_num_tries, 30),
+			(faction_set_slot, "fac_small_kingdom_35", slot_faction_common_num_tries, 10),
+			(faction_set_slot, "fac_small_kingdom_35", slot_faction_veteran_num_tries, 0),
+			(faction_set_slot, "fac_small_kingdom_35", slot_faction_elite_num_tries, 0),
+			(faction_set_slot, "fac_small_kingdom_35", slot_faction_noble_num_tries, 40),
 			
-			(faction_set_slot, "fac_small_kingdom_36", slot_faction_peasant_num_tries, -5),
-			(faction_set_slot, "fac_small_kingdom_36", slot_faction_common_num_tries, -5),
+			(faction_set_slot, "fac_small_kingdom_36", slot_faction_peasant_num_tries, 0),
+			(faction_set_slot, "fac_small_kingdom_36", slot_faction_common_num_tries, 0),
 			(faction_set_slot, "fac_small_kingdom_36", slot_faction_veteran_num_tries, 0),
-			(faction_set_slot, "fac_small_kingdom_36", slot_faction_elite_num_tries, 10),
+			(faction_set_slot, "fac_small_kingdom_36", slot_faction_elite_num_tries, 80),
 			(faction_set_slot, "fac_small_kingdom_36", slot_faction_noble_num_tries, 0),
 			
-			(faction_set_slot, "fac_small_kingdom_41", slot_faction_peasant_num_tries, -10),
-			(faction_set_slot, "fac_small_kingdom_41", slot_faction_common_num_tries, 5),
-			(faction_set_slot, "fac_small_kingdom_41", slot_faction_veteran_num_tries, 10),
-			(faction_set_slot, "fac_small_kingdom_41", slot_faction_elite_num_tries, -5),
+			(faction_set_slot, "fac_small_kingdom_41", slot_faction_peasant_num_tries, 0),
+			(faction_set_slot, "fac_small_kingdom_41", slot_faction_common_num_tries, 50),
+			(faction_set_slot, "fac_small_kingdom_41", slot_faction_veteran_num_tries, 70),
+			(faction_set_slot, "fac_small_kingdom_41", slot_faction_elite_num_tries, 0),
 			(faction_set_slot, "fac_small_kingdom_41", slot_faction_noble_num_tries, 0),
 			
-			(faction_set_slot, "fac_small_kingdom_42", slot_faction_peasant_num_tries, -5),
-			(faction_set_slot, "fac_small_kingdom_42", slot_faction_common_num_tries, -4),
-			(faction_set_slot, "fac_small_kingdom_42", slot_faction_veteran_num_tries, 5),
-			(faction_set_slot, "fac_small_kingdom_42", slot_faction_elite_num_tries, 5),
-			(faction_set_slot, "fac_small_kingdom_42", slot_faction_noble_num_tries, -1),
+			(faction_set_slot, "fac_small_kingdom_42", slot_faction_peasant_num_tries, 0),
+			(faction_set_slot, "fac_small_kingdom_42", slot_faction_common_num_tries, 10),
+			(faction_set_slot, "fac_small_kingdom_42", slot_faction_veteran_num_tries, 50),
+			(faction_set_slot, "fac_small_kingdom_42", slot_faction_elite_num_tries, 40),
+			(faction_set_slot, "fac_small_kingdom_42", slot_faction_noble_num_tries, 0),
 			
-			(faction_set_slot, "fac_small_kingdom_43", slot_faction_peasant_num_tries, -10),
-			(faction_set_slot, "fac_small_kingdom_43", slot_faction_common_num_tries, 10),
-			(faction_set_slot, "fac_small_kingdom_43", slot_faction_veteran_num_tries, 5),
-			(faction_set_slot, "fac_small_kingdom_43", slot_faction_elite_num_tries, -5),
-			(faction_set_slot, "fac_small_kingdom_43", slot_faction_noble_num_tries, 0),
+			(faction_set_slot, "fac_small_kingdom_43", slot_faction_peasant_num_tries, 0),
+			(faction_set_slot, "fac_small_kingdom_43", slot_faction_common_num_tries, 60),
+			(faction_set_slot, "fac_small_kingdom_43", slot_faction_veteran_num_tries, 40),
+			(faction_set_slot, "fac_small_kingdom_43", slot_faction_elite_num_tries, 0),
+			(faction_set_slot, "fac_small_kingdom_43", slot_faction_noble_num_tries, 20),
 			
-			(faction_set_slot, "fac_small_kingdom_44", slot_faction_peasant_num_tries, -5),
-			(faction_set_slot, "fac_small_kingdom_44", slot_faction_common_num_tries, 5),
-			(faction_set_slot, "fac_small_kingdom_44", slot_faction_veteran_num_tries, 0),
+			(faction_set_slot, "fac_small_kingdom_44", slot_faction_peasant_num_tries, 10),
+			(faction_set_slot, "fac_small_kingdom_44", slot_faction_common_num_tries, 30),
+			(faction_set_slot, "fac_small_kingdom_44", slot_faction_veteran_num_tries, 30),
 			(faction_set_slot, "fac_small_kingdom_44", slot_faction_elite_num_tries, 0),
-			(faction_set_slot, "fac_small_kingdom_44", slot_faction_noble_num_tries, 0),
+			(faction_set_slot, "fac_small_kingdom_44", slot_faction_noble_num_tries, 20),
 			
-			(faction_set_slot, "fac_small_kingdom_45", slot_faction_peasant_num_tries, -10),
+			(faction_set_slot, "fac_small_kingdom_45", slot_faction_peasant_num_tries, 0),
 			(faction_set_slot, "fac_small_kingdom_45", slot_faction_common_num_tries, 0),
 			(faction_set_slot, "fac_small_kingdom_45", slot_faction_veteran_num_tries, 0),
-			(faction_set_slot, "fac_small_kingdom_45", slot_faction_elite_num_tries, 5),
-			(faction_set_slot, "fac_small_kingdom_45", slot_faction_noble_num_tries, 5),
+			(faction_set_slot, "fac_small_kingdom_45", slot_faction_elite_num_tries, 60),
+			(faction_set_slot, "fac_small_kingdom_45", slot_faction_noble_num_tries, 80),
 			
-			(faction_set_slot, "fac_small_kingdom_51", slot_faction_peasant_num_tries, 0),
-			(faction_set_slot, "fac_small_kingdom_51", slot_faction_common_num_tries, 10),
-			(faction_set_slot, "fac_small_kingdom_51", slot_faction_veteran_num_tries, -2),
-			(faction_set_slot, "fac_small_kingdom_51", slot_faction_elite_num_tries, -3),
-			(faction_set_slot, "fac_small_kingdom_51", slot_faction_noble_num_tries, -5),
+			(faction_set_slot, "fac_small_kingdom_51", slot_faction_peasant_num_tries, 20),
+			(faction_set_slot, "fac_small_kingdom_51", slot_faction_common_num_tries, 0),
+			(faction_set_slot, "fac_small_kingdom_51", slot_faction_veteran_num_tries, 60),
+			(faction_set_slot, "fac_small_kingdom_51", slot_faction_elite_num_tries, 60),
+			(faction_set_slot, "fac_small_kingdom_51", slot_faction_noble_num_tries, 60),
 			
-			(faction_set_slot, "fac_small_kingdom_52", slot_faction_peasant_num_tries, -5),
-			(faction_set_slot, "fac_small_kingdom_52", slot_faction_common_num_tries, -5),
-			(faction_set_slot, "fac_small_kingdom_52", slot_faction_veteran_num_tries, 5),
-			(faction_set_slot, "fac_small_kingdom_52", slot_faction_elite_num_tries, 3),
-			(faction_set_slot, "fac_small_kingdom_52", slot_faction_noble_num_tries, 2),
+			(faction_set_slot, "fac_small_kingdom_52", slot_faction_peasant_num_tries, 10),
+			(faction_set_slot, "fac_small_kingdom_52", slot_faction_common_num_tries, 60),
+			(faction_set_slot, "fac_small_kingdom_52", slot_faction_veteran_num_tries, 20),
+			(faction_set_slot, "fac_small_kingdom_52", slot_faction_elite_num_tries, 0),
+			(faction_set_slot, "fac_small_kingdom_52", slot_faction_noble_num_tries, 40),
 			
-			(faction_set_slot, "fac_small_kingdom_53", slot_faction_peasant_num_tries, -10),
-			(faction_set_slot, "fac_small_kingdom_53", slot_faction_common_num_tries, 5),
-			(faction_set_slot, "fac_small_kingdom_53", slot_faction_veteran_num_tries, -5),
-			(faction_set_slot, "fac_small_kingdom_53", slot_faction_elite_num_tries, 5),
-			(faction_set_slot, "fac_small_kingdom_53", slot_faction_noble_num_tries, 5),
+			(faction_set_slot, "fac_small_kingdom_53", slot_faction_peasant_num_tries, 0),
+			(faction_set_slot, "fac_small_kingdom_53", slot_faction_common_num_tries, 50),
+			(faction_set_slot, "fac_small_kingdom_53", slot_faction_veteran_num_tries, 0),
+			(faction_set_slot, "fac_small_kingdom_53", slot_faction_elite_num_tries, 50),
+			(faction_set_slot, "fac_small_kingdom_53", slot_faction_noble_num_tries, 80),
 			
 			(faction_set_slot, "fac_small_kingdom_54", slot_faction_peasant_num_tries, 0),
-			(faction_set_slot, "fac_small_kingdom_54", slot_faction_common_num_tries, 10),
-			(faction_set_slot, "fac_small_kingdom_54", slot_faction_veteran_num_tries, -5),
-			(faction_set_slot, "fac_small_kingdom_54", slot_faction_elite_num_tries, -3),
-			(faction_set_slot, "fac_small_kingdom_54", slot_faction_noble_num_tries, -2),
+			(faction_set_slot, "fac_small_kingdom_54", slot_faction_common_num_tries, 80),
+			(faction_set_slot, "fac_small_kingdom_54", slot_faction_veteran_num_tries, 40),
+			(faction_set_slot, "fac_small_kingdom_54", slot_faction_elite_num_tries, 40),
+			(faction_set_slot, "fac_small_kingdom_54", slot_faction_noble_num_tries, 20),
 			
-			(faction_set_slot, "fac_small_kingdom_55", slot_faction_peasant_num_tries, -5),
-			(faction_set_slot, "fac_small_kingdom_55", slot_faction_common_num_tries, 5),
-			(faction_set_slot, "fac_small_kingdom_55", slot_faction_veteran_num_tries, 0),
-			(faction_set_slot, "fac_small_kingdom_55", slot_faction_elite_num_tries, 0),
-			(faction_set_slot, "fac_small_kingdom_55", slot_faction_noble_num_tries, 0),
+			(faction_set_slot, "fac_small_kingdom_55", slot_faction_peasant_num_tries, 0),
+			(faction_set_slot, "fac_small_kingdom_55", slot_faction_common_num_tries, 0),
+			(faction_set_slot, "fac_small_kingdom_55", slot_faction_veteran_num_tries, 40),
+			(faction_set_slot, "fac_small_kingdom_55", slot_faction_elite_num_tries, 40),
+			(faction_set_slot, "fac_small_kingdom_55", slot_faction_noble_num_tries, 20),
 			
-			(faction_set_slot, "fac_small_kingdom_61", slot_faction_peasant_num_tries, -5),
-			(faction_set_slot, "fac_small_kingdom_61", slot_faction_common_num_tries, 10),
-			(faction_set_slot, "fac_small_kingdom_61", slot_faction_veteran_num_tries, 0),
-			(faction_set_slot, "fac_small_kingdom_61", slot_faction_elite_num_tries, -5),
-			(faction_set_slot, "fac_small_kingdom_61", slot_faction_noble_num_tries, 0),
+			(faction_set_slot, "fac_small_kingdom_61", slot_faction_peasant_num_tries, 0),
+			(faction_set_slot, "fac_small_kingdom_61", slot_faction_common_num_tries, 75),
+			(faction_set_slot, "fac_small_kingdom_61", slot_faction_veteran_num_tries, 25),
+			(faction_set_slot, "fac_small_kingdom_61", slot_faction_elite_num_tries, 0),
+			(faction_set_slot, "fac_small_kingdom_61", slot_faction_noble_num_tries, 25),
 			
-			(faction_set_slot, "fac_small_kingdom_62", slot_faction_peasant_num_tries, -10),
-			(faction_set_slot, "fac_small_kingdom_62", slot_faction_common_num_tries, 5),
-			(faction_set_slot, "fac_small_kingdom_62", slot_faction_veteran_num_tries, -5),
-			(faction_set_slot, "fac_small_kingdom_62", slot_faction_elite_num_tries, 10),
+			(faction_set_slot, "fac_small_kingdom_62", slot_faction_peasant_num_tries, 0),
+			(faction_set_slot, "fac_small_kingdom_62", slot_faction_common_num_tries, 30),
+			(faction_set_slot, "fac_small_kingdom_62", slot_faction_veteran_num_tries, 30),
+			(faction_set_slot, "fac_small_kingdom_62", slot_faction_elite_num_tries, 60),
 			(faction_set_slot, "fac_small_kingdom_62", slot_faction_noble_num_tries, 0),
 			
-			(faction_set_slot, "fac_small_kingdom_63", slot_faction_peasant_num_tries, -5),
-			(faction_set_slot, "fac_small_kingdom_63", slot_faction_common_num_tries, -5),
-			(faction_set_slot, "fac_small_kingdom_63", slot_faction_veteran_num_tries, -5),
-			(faction_set_slot, "fac_small_kingdom_63", slot_faction_elite_num_tries, 10),
-			(faction_set_slot, "fac_small_kingdom_63", slot_faction_noble_num_tries, 5),
+			(faction_set_slot, "fac_small_kingdom_63", slot_faction_peasant_num_tries, 0),
+			(faction_set_slot, "fac_small_kingdom_63", slot_faction_common_num_tries, 0),
+			(faction_set_slot, "fac_small_kingdom_63", slot_faction_veteran_num_tries, 0),
+			(faction_set_slot, "fac_small_kingdom_63", slot_faction_elite_num_tries, 60),
+			(faction_set_slot, "fac_small_kingdom_63", slot_faction_noble_num_tries, 80),
 			
 			(faction_set_slot, "fac_small_kingdom_64", slot_faction_peasant_num_tries, 0),
-			(faction_set_slot, "fac_small_kingdom_64", slot_faction_common_num_tries, 0),
-			(faction_set_slot, "fac_small_kingdom_64", slot_faction_veteran_num_tries, 0),
-			(faction_set_slot, "fac_small_kingdom_64", slot_faction_elite_num_tries, 0),
-			(faction_set_slot, "fac_small_kingdom_64", slot_faction_noble_num_tries, 0),
+			(faction_set_slot, "fac_small_kingdom_64", slot_faction_common_num_tries, 40),
+			(faction_set_slot, "fac_small_kingdom_64", slot_faction_veteran_num_tries, 60),
+			(faction_set_slot, "fac_small_kingdom_64", slot_faction_elite_num_tries, 40),
+			(faction_set_slot, "fac_small_kingdom_64", slot_faction_noble_num_tries, 20),
 			
-			(faction_set_slot, "fac_small_kingdom_65", slot_faction_peasant_num_tries, -5),
-			(faction_set_slot, "fac_small_kingdom_65", slot_faction_common_num_tries, 0),
-			(faction_set_slot, "fac_small_kingdom_65", slot_faction_veteran_num_tries, 5),
+			(faction_set_slot, "fac_small_kingdom_65", slot_faction_peasant_num_tries, 0),
+			(faction_set_slot, "fac_small_kingdom_65", slot_faction_common_num_tries, 20),
+			(faction_set_slot, "fac_small_kingdom_65", slot_faction_veteran_num_tries, 60),
 			(faction_set_slot, "fac_small_kingdom_65", slot_faction_elite_num_tries, 0),
-			(faction_set_slot, "fac_small_kingdom_65", slot_faction_noble_num_tries, 0),
+			(faction_set_slot, "fac_small_kingdom_65", slot_faction_noble_num_tries, 20),
 			
 			(call_script, "script_init_factions_troop_ratio"),
 			
@@ -3593,8 +3634,8 @@ scripts = [
 			(faction_set_slot, "fac_kingdom_1", slot_faction_troop_ratio_pikeman, 5),
 			(faction_set_slot, "fac_kingdom_1", slot_faction_troop_ratio_skirmisher, 20),
 			(faction_set_slot, "fac_kingdom_1", slot_faction_troop_ratio_shock_infantry, 10),
-			(faction_set_slot, "fac_kingdom_1", slot_faction_troop_ratio_archer, 40),
-			(faction_set_slot, "fac_kingdom_1", slot_faction_troop_ratio_crossbow, 40),
+			(faction_set_slot, "fac_kingdom_1", slot_faction_troop_ratio_archer, 35),
+			(faction_set_slot, "fac_kingdom_1", slot_faction_troop_ratio_crossbow, 35),
 			(faction_set_slot, "fac_kingdom_1", slot_faction_troop_ratio_cavalry, 70),
 			(faction_set_slot, "fac_kingdom_1", slot_faction_troop_ratio_lancer, 15),
 			(faction_set_slot, "fac_kingdom_1", slot_faction_troop_ratio_horse_archer, 15),
@@ -3636,25 +3677,25 @@ scripts = [
 			(faction_set_slot, "fac_kingdom_4", slot_faction_troop_ratio_horse_archer, 5),
 			(faction_set_slot, "fac_kingdom_4", slot_faction_troop_ratio_mounted_skirmisher, 15),
 			
-			(faction_set_slot, "fac_kingdom_5", slot_faction_troop_ratio_infantry, 75),
+			(faction_set_slot, "fac_kingdom_5", slot_faction_troop_ratio_infantry, 80),
 			(faction_set_slot, "fac_kingdom_5", slot_faction_troop_ratio_spearman, 100),
 			(faction_set_slot, "fac_kingdom_5", slot_faction_troop_ratio_pikeman, 55),
 			(faction_set_slot, "fac_kingdom_5", slot_faction_troop_ratio_skirmisher, 25),
 			(faction_set_slot, "fac_kingdom_5", slot_faction_troop_ratio_shock_infantry, 15),
 			(faction_set_slot, "fac_kingdom_5", slot_faction_troop_ratio_archer, 15),
-			(faction_set_slot, "fac_kingdom_5", slot_faction_troop_ratio_crossbow, 75),
+			(faction_set_slot, "fac_kingdom_5", slot_faction_troop_ratio_crossbow, 80),
 			(faction_set_slot, "fac_kingdom_5", slot_faction_troop_ratio_cavalry, 25),
 			(faction_set_slot, "fac_kingdom_5", slot_faction_troop_ratio_lancer, 30),
 			(faction_set_slot, "fac_kingdom_5", slot_faction_troop_ratio_horse_archer, 15),
 			(faction_set_slot, "fac_kingdom_5", slot_faction_troop_ratio_mounted_skirmisher, 10),
 			
-			(faction_set_slot, "fac_kingdom_6", slot_faction_troop_ratio_infantry, 70),
+			(faction_set_slot, "fac_kingdom_6", slot_faction_troop_ratio_infantry, 75),
 			(faction_set_slot, "fac_kingdom_6", slot_faction_troop_ratio_spearman, 10),
 			(faction_set_slot, "fac_kingdom_6", slot_faction_troop_ratio_pikeman, 10),
 			(faction_set_slot, "fac_kingdom_6", slot_faction_troop_ratio_skirmisher, 100),
 			(faction_set_slot, "fac_kingdom_6", slot_faction_troop_ratio_shock_infantry, 20),
-			(faction_set_slot, "fac_kingdom_6", slot_faction_troop_ratio_archer, 50),
-			(faction_set_slot, "fac_kingdom_6", slot_faction_troop_ratio_crossbow, 10),
+			(faction_set_slot, "fac_kingdom_6", slot_faction_troop_ratio_archer, 25),
+			(faction_set_slot, "fac_kingdom_6", slot_faction_troop_ratio_crossbow, 5),
 			(faction_set_slot, "fac_kingdom_6", slot_faction_troop_ratio_cavalry, 90),
 			(faction_set_slot, "fac_kingdom_6", slot_faction_troop_ratio_lancer, 30),
 			(faction_set_slot, "fac_kingdom_6", slot_faction_troop_ratio_horse_archer, 25),
@@ -3694,8 +3735,9 @@ scripts = [
 			(call_script, "script_faction_change_slot", "fac_small_kingdom_14", slot_faction_troop_ratio_archer, 35),
 			(call_script, "script_faction_change_slot", "fac_small_kingdom_14", slot_faction_troop_ratio_crossbow, -30),
 			
-			# (call_script, "script_faction_change_slot", "fac_small_kingdom_15", slot_faction_troop_ratio_cavalry, 20),
-			(call_script, "script_faction_change_slot", "fac_small_kingdom_15", slot_faction_troop_ratio_infantry, -10),
+			(call_script, "script_faction_change_slot", "fac_small_kingdom_15", slot_faction_troop_ratio_cavalry, -10),
+			(call_script, "script_faction_change_slot", "fac_small_kingdom_15", slot_faction_troop_ratio_shock_infantry, -2),
+			(call_script, "script_faction_change_slot", "fac_small_kingdom_15", slot_faction_troop_ratio_infantry, -5),
 			(call_script, "script_faction_change_slot", "fac_small_kingdom_15", slot_faction_troop_ratio_crossbow, -5),
 			(call_script, "script_faction_change_slot", "fac_small_kingdom_15", slot_faction_troop_ratio_archer, -5),
 			
@@ -3705,7 +3747,7 @@ scripts = [
 			(call_script, "script_faction_change_slot", "fac_small_kingdom_16", slot_faction_troop_ratio_infantry, -5),
 			
 			(call_script, "script_faction_change_slot", "fac_small_kingdom_17", slot_faction_troop_ratio_cavalry, 5),
-			(call_script, "script_faction_change_slot", "fac_small_kingdom_17", slot_faction_troop_ratio_spearman, 10),
+			(call_script, "script_faction_change_slot", "fac_small_kingdom_17", slot_faction_troop_ratio_infantry, 10),
 			
 			(call_script, "script_faction_change_slot", "fac_small_kingdom_21", slot_faction_troop_ratio_lancer, 35),
 			(call_script, "script_faction_change_slot", "fac_small_kingdom_21", slot_faction_troop_ratio_infantry, 10),
@@ -3776,6 +3818,7 @@ scripts = [
 			(call_script, "script_faction_change_slot", "fac_small_kingdom_44", slot_faction_troop_ratio_archer, -10),
 			
 			(call_script, "script_faction_change_slot", "fac_small_kingdom_45", slot_faction_troop_ratio_skirmisher, 10),
+			(call_script, "script_faction_change_slot", "fac_small_kingdom_45", slot_faction_troop_ratio_cavalry, 25),
 			
 			(call_script, "script_faction_change_slot", "fac_small_kingdom_51", slot_faction_troop_ratio_archer, 60),
 			(call_script, "script_faction_change_slot", "fac_small_kingdom_51", slot_faction_troop_ratio_crossbow, -60),
@@ -3800,17 +3843,17 @@ scripts = [
 			(call_script, "script_faction_change_slot", "fac_small_kingdom_55", slot_faction_troop_ratio_lancer, 55),
 			(call_script, "script_faction_change_slot", "fac_small_kingdom_55", slot_faction_troop_ratio_horse_archer, 10),
 			
-			(call_script, "script_faction_change_slot", "fac_small_kingdom_61", slot_faction_troop_ratio_crossbow, 30),
+			(call_script, "script_faction_change_slot", "fac_small_kingdom_61", slot_faction_troop_ratio_crossbow, 35),
 			(call_script, "script_faction_change_slot", "fac_small_kingdom_61", slot_faction_troop_ratio_skirmisher, -10),
 			
-			(call_script, "script_faction_change_slot", "fac_small_kingdom_62", slot_faction_troop_ratio_archer, 30),
+			(call_script, "script_faction_change_slot", "fac_small_kingdom_62", slot_faction_troop_ratio_archer, 25),
 			(call_script, "script_faction_change_slot", "fac_small_kingdom_62", slot_faction_troop_ratio_skirmisher, -50),
 			(call_script, "script_faction_change_slot", "fac_small_kingdom_62", slot_faction_troop_ratio_mounted_skirmisher, -15),
 			
 			(call_script, "script_faction_change_slot", "fac_small_kingdom_63", slot_faction_troop_ratio_cavalry, 10),
 			(call_script, "script_faction_change_slot", "fac_small_kingdom_63", slot_faction_troop_ratio_lancer, 15),
-			(call_script, "script_faction_change_slot", "fac_small_kingdom_63", slot_faction_troop_ratio_mounted_skirmisher, -20),
-			(call_script, "script_faction_change_slot", "fac_small_kingdom_63", slot_faction_troop_ratio_skirmisher, -15),
+			(call_script, "script_faction_change_slot", "fac_small_kingdom_63", slot_faction_troop_ratio_mounted_skirmisher, -35),
+			(call_script, "script_faction_change_slot", "fac_small_kingdom_63", slot_faction_troop_ratio_skirmisher, -30),
 			
 			(call_script, "script_faction_change_slot", "fac_small_kingdom_64", slot_faction_troop_ratio_horse_archer, 35),
 			(call_script, "script_faction_change_slot", "fac_small_kingdom_64", slot_faction_troop_ratio_mounted_skirmisher, -25),
@@ -3910,7 +3953,7 @@ scripts = [
 			(faction_set_slot, "fac_culture_6", slot_faction_troops_end, kingdom_6_troops_end),
 			
 			(faction_set_slot, "fac_culture_1", slot_faction_common_begin, "trp_swadian_light_infantry"),
-			(faction_set_slot, "fac_culture_1", slot_faction_veteran_begin, "trp_swadian_spearman"),
+			(faction_set_slot, "fac_culture_1", slot_faction_veteran_begin, "trp_swadian_pikeman"),
 			(faction_set_slot, "fac_culture_1", slot_faction_elite_begin, "trp_swadian_guard"),
 			(faction_set_slot, "fac_culture_1", slot_faction_noble_begin, "trp_swadian_noble"),
 			
@@ -3984,6 +4027,48 @@ scripts = [
 	# output: none
 	("init_bandits",
 		[
+			(faction_set_slot, "fac_faction_1", slot_faction_peasant_num_tries, 400),
+			(faction_set_slot, "fac_faction_1", slot_faction_common_num_tries, -100),
+			(faction_set_slot, "fac_faction_1", slot_faction_veteran_num_tries, -100),
+			(faction_set_slot, "fac_faction_1", slot_faction_elite_num_tries, 100),
+			(faction_set_slot, "fac_faction_1", slot_faction_noble_num_tries, 100),
+			
+			(faction_set_slot, "fac_faction_2", slot_faction_peasant_num_tries, 400),
+			(faction_set_slot, "fac_faction_2", slot_faction_common_num_tries, -100),
+			(faction_set_slot, "fac_faction_2", slot_faction_veteran_num_tries, -100),
+			(faction_set_slot, "fac_faction_2", slot_faction_elite_num_tries, 100),
+			(faction_set_slot, "fac_faction_2", slot_faction_noble_num_tries, 100),
+			
+			(faction_set_slot, "fac_faction_3", slot_faction_peasant_num_tries, 400),
+			(faction_set_slot, "fac_faction_3", slot_faction_common_num_tries, -100),
+			(faction_set_slot, "fac_faction_3", slot_faction_veteran_num_tries, -100),
+			(faction_set_slot, "fac_faction_3", slot_faction_elite_num_tries, 100),
+			(faction_set_slot, "fac_faction_3", slot_faction_noble_num_tries, 100),
+			
+			(faction_set_slot, "fac_faction_4", slot_faction_peasant_num_tries, 400),
+			(faction_set_slot, "fac_faction_4", slot_faction_common_num_tries, -100),
+			(faction_set_slot, "fac_faction_4", slot_faction_veteran_num_tries, -100),
+			(faction_set_slot, "fac_faction_4", slot_faction_elite_num_tries, 100),
+			(faction_set_slot, "fac_faction_4", slot_faction_noble_num_tries, 100),
+			
+			(faction_set_slot, "fac_faction_5", slot_faction_peasant_num_tries, 400),
+			(faction_set_slot, "fac_faction_5", slot_faction_common_num_tries, -100),
+			(faction_set_slot, "fac_faction_5", slot_faction_veteran_num_tries, -100),
+			(faction_set_slot, "fac_faction_5", slot_faction_elite_num_tries, 100),
+			(faction_set_slot, "fac_faction_5", slot_faction_noble_num_tries, 100),
+			
+			(faction_set_slot, "fac_faction_6", slot_faction_peasant_num_tries, 400),
+			(faction_set_slot, "fac_faction_6", slot_faction_common_num_tries, -100),
+			(faction_set_slot, "fac_faction_6", slot_faction_veteran_num_tries, -100),
+			(faction_set_slot, "fac_faction_6", slot_faction_elite_num_tries, 100),
+			(faction_set_slot, "fac_faction_6", slot_faction_noble_num_tries, 100),
+			
+			(faction_set_slot, "fac_faction_7", slot_faction_peasant_num_tries, 400),
+			(faction_set_slot, "fac_faction_7", slot_faction_common_num_tries, -100),
+			(faction_set_slot, "fac_faction_7", slot_faction_veteran_num_tries, -100),
+			(faction_set_slot, "fac_faction_7", slot_faction_elite_num_tries, 100),
+			(faction_set_slot, "fac_faction_7", slot_faction_noble_num_tries, 100),
+			
 			(faction_set_slot, "fac_faction_1", slot_faction_culture, "fac_faction_1"),
 			(faction_set_slot, "fac_faction_2", slot_faction_culture, "fac_faction_2"),
 			(faction_set_slot, "fac_faction_3", slot_faction_culture, "fac_faction_3"),
@@ -4088,8 +4173,8 @@ scripts = [
 			(faction_set_slot, "fac_faction_5", slot_faction_troop_ratio_mounted_skirmisher, 80),
 			
 			(faction_set_slot, "fac_faction_6", slot_faction_troops_begin, "trp_bandit_tundra_bandit"),
-			(faction_set_slot, "fac_faction_6", slot_faction_common_begin, "trp_bandit_tundra_rider"),
-			(faction_set_slot, "fac_faction_6", slot_faction_veteran_begin, "trp_bandit_tundra_rider"),
+			(faction_set_slot, "fac_faction_6", slot_faction_common_begin, "trp_bandit_taiga_bandit"),
+			(faction_set_slot, "fac_faction_6", slot_faction_veteran_begin, "trp_bandit_taiga_bandit"),
 			(faction_set_slot, "fac_faction_6", slot_faction_elite_begin, "trp_bandit_taiga_bandit"),
 			(faction_set_slot, "fac_faction_6", slot_faction_noble_begin, "trp_bandit_taiga_chieftain"),
 			(faction_set_slot, "fac_faction_6", slot_faction_troops_end, "trp_bandit_desert_bandit"),
@@ -4107,8 +4192,8 @@ scripts = [
 			(faction_set_slot, "fac_faction_6", slot_faction_troop_ratio_mounted_skirmisher, 20),
 			
 			(faction_set_slot, "fac_faction_7", slot_faction_troops_begin, "trp_bandit_desert_bandit"),
-			(faction_set_slot, "fac_faction_7", slot_faction_common_begin, "trp_bandit_desert_rider"),
-			(faction_set_slot, "fac_faction_7", slot_faction_veteran_begin, "trp_bandit_desert_rider"),
+			(faction_set_slot, "fac_faction_7", slot_faction_common_begin, "trp_bandit_desert_nomad"),
+			(faction_set_slot, "fac_faction_7", slot_faction_veteran_begin, "trp_bandit_desert_nomad"),
 			(faction_set_slot, "fac_faction_7", slot_faction_elite_begin, "trp_bandit_desert_nomad"),
 			(faction_set_slot, "fac_faction_7", slot_faction_noble_begin, "trp_bandit_desert_chief"),
 			(faction_set_slot, "fac_faction_7", slot_faction_troops_end, bandits_end),
@@ -4258,6 +4343,12 @@ scripts = [
 			
 			(troop_set_slot, ":troop_no", slot_troop_level, ":new_rank"),
 			
+			(call_script, "script_troop_get_equipement_level", ":troop_no"),
+			(assign, ":equipement_level", reg0),
+			
+			(troop_set_slot, ":troop_no", slot_troop_equipement_level, ":equipement_level"),
+			
+			(store_add, ":equipement_template", ":template_troop", ":equipement_level"),
 			(val_add, ":template_troop", ":new_rank"),
 			
 			# Removing old equipment
@@ -4272,8 +4363,40 @@ scripts = [
 			# New stats
 			(call_script, "script_troop_change_stat_with_template", ":troop_no", ":template_troop"),
 			# New equipments
-			(call_script, "script_troop_change_equipement_with_template", ":troop_no", ":template_troop"),
+			(call_script, "script_troop_change_equipement_with_template", ":troop_no", ":equipement_template"),
 			(troop_equip_items, ":troop_no"),
+		]),
+	
+	# script_troop_get_equipement_level
+	# input:
+	# 	arg1: troop_no
+	# output:
+	# 	reg0: level
+	("troop_get_equipement_level",
+		[
+			(store_script_param, ":troop_no", 1),
+			
+			(store_troop_faction, ":faction", ":troop_no"),
+			(faction_get_slot, ":era", ":faction", slot_faction_era),
+			
+			(troop_get_slot, ":level", ":troop_no", slot_troop_level),
+			
+			(try_begin),
+				(le, ":era", 1),
+				(val_sub, ":level", 2),
+				(val_min, ":level", 4),
+			(else_try),
+				(le, ":era", 4),
+				# Everyone has -1 except king and marshall who get -2
+				(val_mul, ":level", 12),
+				(val_div, ":level", 15),
+			(else_try),
+				(le, ":era", 5),
+				(val_sub, ":level", 1),
+			(try_end),
+			(val_max, ":level", 0),
+			
+			(assign, reg0, ":level"),
 		]),
 	
 	# script_troop_update_name
@@ -4320,7 +4443,7 @@ scripts = [
 				(troop_raise_attribute, ":troop_no", ":stat", ":difference"),
 			(try_end),
 			
-			(try_for_range, ":skill", skl_trade, skl_reserved_14), # Do we need to go through all skills?
+			(try_for_range, ":skill", skl_trade, skl_reserved_15), # Do we need to go through all skills?
 				(store_skill_level, ":template_skill", ":skill", ":template"),
 				(store_skill_level, ":troop_skill", ":skill", ":troop_no"),
 				
@@ -4862,20 +4985,28 @@ scripts = [
 			(faction_get_slot, ":elite_mod", ":faction_no", slot_faction_elite_num_tries),
 			(faction_get_slot, ":noble_mod", ":faction_no", slot_faction_noble_num_tries),
 			
-			(val_mul, ":peasant_mod", 2),	# +1%
-			(val_mul, ":common_mod", 1),	# +0.5%
-			(val_mul, ":veteran_mod", -1),	# -0.5%
-			(val_mul, ":elite_mod", -2),	# -1%
-			(val_mul, ":noble_mod", -3),	# -1.5%
+			(val_div, ":peasant_mod", 2),	# +0.5%
+			(val_div, ":common_mod", 8),	# +0.125%
+			(val_div, ":veteran_mod", -20),	# -0.05%
+			(val_div, ":elite_mod", -12),	# -0.083%
+			(val_div, ":noble_mod", -6),	# -0.166%
 			
-			(assign, ":party_size_mod", 200),
+			(assign, ":party_size_mod", 100),
 			(val_add, ":party_size_mod", ":peasant_mod"),
 			(val_add, ":party_size_mod", ":common_mod"),
 			(val_add, ":party_size_mod", ":veteran_mod"),
 			(val_add, ":party_size_mod", ":elite_mod"),
 			(val_add, ":party_size_mod", ":noble_mod"),
 			
-			(val_div, ":party_size_mod", 2),
+			# (val_div, ":party_size_mod", 2),
+			
+			(faction_get_slot, ":era", ":faction_no", slot_faction_era),
+			(try_begin),
+				(lt, ":era", 5),
+				(val_mul, ":era", 4),
+				(store_sub, ":era_malus", 20, ":era"),
+				(val_sub, ":party_size_mod", ":era_malus"),
+			(try_end),
 			
 			(assign, reg0, ":party_size_mod"),
 		]),
@@ -5160,25 +5291,25 @@ scripts = [
 	# output: none
 	("init_siege_scene_slots",
 		[
-			(scene_set_slot, "scn_castle_01_outside", slot_scene_num_defend_points, 2),
-			(scene_set_slot, "scn_castle_01_outside", slot_scene_num_attack_spawn, 2),
-			(scene_set_slot, "scn_castle_01_outside", slot_scene_num_archer_points, 7),
+			(scene_set_slot, "scn_castle_plain_01_outside", slot_scene_num_defend_points, 2),
+			(scene_set_slot, "scn_castle_plain_01_outside", slot_scene_num_attack_spawn, 2),
+			(scene_set_slot, "scn_castle_plain_01_outside", slot_scene_num_archer_points, 8),
 			
-			(scene_set_slot, "scn_castle_02_outside", slot_scene_num_defend_points, 2),
-			(scene_set_slot, "scn_castle_02_outside", slot_scene_num_attack_spawn, 2),
-			(scene_set_slot, "scn_castle_02_outside", slot_scene_num_archer_points, 12),
+			(scene_set_slot, "scn_castle_snow_01_outside", slot_scene_num_defend_points, 2),
+			(scene_set_slot, "scn_castle_snow_01_outside", slot_scene_num_attack_spawn, 2),
+			(scene_set_slot, "scn_castle_snow_01_outside", slot_scene_num_archer_points, 7),
 			
-			(scene_set_slot, "scn_castle_03_outside", slot_scene_num_defend_points, 2),
-			(scene_set_slot, "scn_castle_03_outside", slot_scene_num_attack_spawn, 2),
-			(scene_set_slot, "scn_castle_03_outside", slot_scene_num_archer_points, 8),
+			(scene_set_slot, "scn_castle_plain_wood_01_outside", slot_scene_num_defend_points, 2),
+			(scene_set_slot, "scn_castle_plain_wood_01_outside", slot_scene_num_attack_spawn, 2),
+			(scene_set_slot, "scn_castle_plain_wood_01_outside", slot_scene_num_archer_points, 12),
 			
-			(scene_set_slot, "scn_castle_04_outside", slot_scene_num_defend_points, 2),
-			(scene_set_slot, "scn_castle_04_outside", slot_scene_num_attack_spawn, 2),
-			(scene_set_slot, "scn_castle_04_outside", slot_scene_num_archer_points, 9),
+			(scene_set_slot, "scn_castle_desert_01_outside", slot_scene_num_defend_points, 2),
+			(scene_set_slot, "scn_castle_desert_01_outside", slot_scene_num_attack_spawn, 2),
+			(scene_set_slot, "scn_castle_desert_01_outside", slot_scene_num_archer_points, 9),
 			
-			(scene_set_slot, "scn_castle_05_outside", slot_scene_num_defend_points, 2),
-			(scene_set_slot, "scn_castle_05_outside", slot_scene_num_attack_spawn, 2),
-			(scene_set_slot, "scn_castle_05_outside", slot_scene_num_archer_points, 9),
+			(scene_set_slot, "scn_castle_steppe_01_outside", slot_scene_num_defend_points, 2),
+			(scene_set_slot, "scn_castle_steppe_01_outside", slot_scene_num_attack_spawn, 2),
+			(scene_set_slot, "scn_castle_steppe_01_outside", slot_scene_num_archer_points, 9),
 		]),
 	
 	# script_set_team_defend_points
@@ -5246,6 +5377,9 @@ scripts = [
 	("cf_lord_can_spawn",
 		[
 			(store_script_param, ":troop_no", 1),
+			
+			(neg|troop_slot_ge, ":troop_no", slot_troop_prisoner_of, 0),
+			
 			(call_script, "script_troop_get_home", ":troop_no", 1),
 			(assign, ":home", reg0),
 			
@@ -5771,13 +5905,6 @@ scripts = [
 			(call_script, "script_party_get_companion_limit", ":party_no"),
 			(assign, ":limit", reg0),
 			
-			
-			# ToDo:
-			# (call_script, "script_party_get_party_size_limit_modifiers", ":party_no"),
-			# (assign, ":modifier", reg0),
-			# (val_mul, ":limit", ":modifier"),
-			# (val_div, ":limit", 100),
-			
 			(party_get_num_companions, ":num_troops", ":party_no"),
 			(try_begin),
 				(lt, ":num_troops", ":limit"),
@@ -5794,6 +5921,183 @@ scripts = [
 			(assign, reg0, ":num_recruited"),
 		]),
 	
+	# script_era_get_troops_multiplier
+	# input:
+	# 	arg1: era_no
+	# output:
+	# 	reg0: peasant_mult
+	# 	reg1: common_mult
+	# 	reg2: veteran_mult
+	# 	reg3: elite_mult
+	# 	reg4: noble_mult
+	("era_get_troops_multiplier",
+		[
+			(store_script_param, ":era", 1),
+			(try_begin),
+				(eq, ":era", 0),
+				(assign, reg0, 400),
+				(assign, reg1, 40),
+				(assign, reg2, 5),
+				(assign, reg3, 0),
+				(assign, reg4, 0),
+			(else_try),
+				(eq, ":era", 1),
+				(assign, reg0, 320),
+				(assign, reg1, 80),
+				(assign, reg2, 10),
+				(assign, reg3, 0),
+				(assign, reg4, 1),
+			(else_try),
+				(eq, ":era", 2),
+				(assign, reg0, 240),
+				(assign, reg1, 100),
+				(assign, reg2, 15),
+				(assign, reg3, 0),
+				(assign, reg4, 2),
+			(else_try),
+				(eq, ":era", 3),
+				(assign, reg0, 180),
+				(assign, reg1, 95),
+				(assign, reg2, 20),
+				(assign, reg3, 3),
+				(assign, reg4, 4),
+			(else_try),
+				(eq, ":era", 4),
+				(assign, reg0, 120),
+				(assign, reg1, 90),
+				(assign, reg2, 24),
+				(assign, reg3, 6),
+				(assign, reg4, 5),
+			(else_try),
+				(eq, ":era", 5),
+				(assign, reg0, 70),
+				(assign, reg1, 80),
+				(assign, reg2, 28),
+				(assign, reg3, 8),
+				(assign, reg4, 6),
+			(else_try),
+				(eq, ":era", 6),
+				(assign, reg0, 40),
+				(assign, reg1, 65),
+				(assign, reg2, 30),
+				(assign, reg3, 10),
+				(assign, reg4, 7),
+			(else_try),
+				(eq, ":era", 7),
+				(assign, reg0, 20),
+				(assign, reg1, 50),
+				(assign, reg2, 32),
+				(assign, reg3, 12),
+				(assign, reg4, 8),
+			(else_try),
+				(eq, ":era", 8),
+				(assign, reg0, 10),
+				(assign, reg1, 35),
+				(assign, reg2, 34),
+				(assign, reg3, 14),
+				(assign, reg4, 9),
+			(else_try),
+				(eq, ":era", 9),
+				(assign, reg0, 5),
+				(assign, reg1, 25),
+				(assign, reg2, 35),
+				(assign, reg3, 15),
+				(assign, reg4, 10),
+			(else_try),
+				(eq, ":era", 10),
+				(assign, reg0, 2),
+				(assign, reg1, 15),
+				(assign, reg2, 35),
+				(assign, reg3, 18),
+				(assign, reg4, 12),
+			(else_try),
+				(assign, reg10, ":era"),
+				(display_message, "@Error, incorrect era {reg10}!", text_color_impossible),
+				(assign, reg0, 8),
+				(assign, reg1, 10),
+				(assign, reg2, 5),
+				(assign, reg3, 2),
+				(assign, reg4, 1),
+			(try_end),
+		]),
+		
+	# script_faction_get_troops_modifier
+	# input:
+	# 	arg1: faction_no
+	# output:
+	#	reg0: peasant_mult
+	# 	reg1: common_mult
+	# 	reg2: veteran_mult
+	# 	reg3: elite_mult
+	# 	reg4: noble_mult
+	("faction_get_troops_modifier",
+		[
+			(store_script_param, ":faction_no", 1),
+			
+			(faction_get_slot, ":era", ":faction_no", slot_faction_era),
+			(faction_get_slot, ":era_time", ":faction_no", slot_faction_era_time),
+			
+			(assign, ":peasant_mult", 0),
+			(assign, ":common_mult", 0),
+			(assign, ":veteran_mult", 0),
+			(assign, ":elite_mult", 0),
+			(assign, ":noble_mult", 0),
+			
+			(try_begin),
+				(eq, ":era", 0),
+				(call_script, "script_era_get_troops_multiplier", 0),
+				(assign, ":peasant_mult", reg0),
+				(assign, ":common_mult", reg1),
+				(assign, ":veteran_mult", reg2),
+				(assign, ":elite_mult", reg3),
+				(assign, ":noble_mult", reg4),
+			(else_try),
+				(call_script, "script_era_get_troops_multiplier", ":era"),
+				(assign, ":peasant_mult", reg0),
+				(assign, ":common_mult", reg1),
+				(assign, ":veteran_mult", reg2),
+				(assign, ":elite_mult", reg3),
+				(assign, ":noble_mult", reg4),
+				(store_current_day, ":current_time"),
+				(store_sub, ":time_passed", ":current_time", ":era_time"),
+				(try_begin),
+					(lt, ":time_passed", era_minimum_duration),
+					(store_sub, ":old_era", ":era", 1),
+					(store_sub, ":time_left", ":time_passed", era_minimum_duration),
+					(call_script, "script_era_get_troops_multiplier", ":old_era"),
+					(assign, ":peasant_old_mult", reg0),
+					(assign, ":common_old_mult", reg1),
+					(assign, ":veteran_old_mult", reg2),
+					(assign, ":elite_old_mult", reg3),
+					(assign, ":noble_old_mult", reg4),
+					
+					(val_mul, ":peasant_mult", ":time_passed"),
+					(val_mul, ":common_mult", ":time_passed"),
+					(val_mul, ":veteran_mult", ":time_passed"),
+					(val_mul, ":elite_mult", ":time_passed"),
+					(val_mul, ":noble_mult", ":time_passed"),
+					
+					(val_mul, ":peasant_old_mult", ":time_left"),
+					(val_mul, ":common_old_mult", ":time_left"),
+					(val_mul, ":veteran_old_mult", ":time_left"),
+					(val_mul, ":elite_old_mult", ":time_left"),
+					(val_mul, ":noble_old_mult", ":time_left"),
+					
+					(val_add, ":peasant_mult", ":peasant_old_mult"),
+					(val_add, ":common_mult", ":common_old_mult"),
+					(val_add, ":veteran_mult", ":veteran_old_mult"),
+					(val_add, ":elite_mult", ":elite_old_mult"),
+					(val_add, ":noble_mult", ":noble_old_mult"),
+					
+					(val_div, ":peasant_mult", era_minimum_duration),
+					(val_div, ":common_mult", era_minimum_duration),
+					(val_div, ":veteran_mult", era_minimum_duration),
+					(val_div, ":elite_mult", era_minimum_duration),
+					(val_div, ":noble_mult", era_minimum_duration),
+				(try_end),
+			(try_end),
+		]),
+	
 	# script_party_add_reinforcements
 	# input:
 	# 	arg1: party_no
@@ -5805,29 +6109,41 @@ scripts = [
 			(store_script_param, ":party_no", 1),
 			(store_faction_of_party, ":faction", ":party_no"),
 			(faction_get_slot, ":culture", ":faction", slot_faction_culture),
-				
+			
+			(call_script, "script_faction_get_troops_modifier", ":faction"),
+			(assign, ":num_peasant", reg0),
+			(assign, ":num_common", reg1),
+			(assign, ":num_veteran", reg2),
+			(assign, ":num_elite", reg3),
+			(assign, ":num_noble", reg4),
+			
 			(party_get_slot, ":party_type", ":party_no", slot_party_type),
-			(try_begin), # We go up to 90% to let some margin
+			(try_begin),
 				(eq, ":party_type", spt_village),
-				(assign, ":num_peasant", 55),
-				(assign, ":num_common", 30),
-				(assign, ":num_veteran", 5),
-				(assign, ":num_elite", 0),
-				(assign, ":num_noble", 0),
+				(val_mul, ":num_peasant", 4),	# 400%
+				(val_div, ":num_common", 2),	# 50%
+				(val_div, ":num_veteran", 10),	# 10%
+				(val_mul, ":num_elite", 0),		# 0%
+				(val_mul, ":num_noble", 0),		# 0%
 			(else_try),
-				(eq, ":party_type", spt_castle),
-				(assign, ":num_peasant", 10),
-				(assign, ":num_common", 25),
-				(assign, ":num_veteran", 40),
-				(assign, ":num_elite", 10),
-				(assign, ":num_noble", 5),
-			(else_try),
-				# (eq, ":party_type", spt_town),
-				(assign, ":num_peasant", 15),
-				(assign, ":num_common", 35),
-				(assign, ":num_veteran", 20),
-				(assign, ":num_elite", 10),
-				(assign, ":num_noble", 10),
+				(eq, ":party_type", spt_town),
+				(val_mul, ":num_peasant", 3),	# 150%
+				(val_div, ":num_peasant", 2),
+				(val_mul, ":num_common", 5),	# 125%
+				(val_div, ":num_common", 4),
+				(val_mul, ":num_veteran", 3),	# 75%
+				(val_div, ":num_veteran", 4),
+				(val_mul, ":num_elite", 11),	# 110%
+				(val_div, ":num_elite", 10),
+				(val_mul, ":num_noble", 3),		# 150%
+				(val_mul, ":num_noble", 2),
+			# (else_try), # Castle is the base for troop modifiers
+				# (eq, ":party_type", spt_castle),
+				# (val_mul, ":num_peasant", 1),
+				# (val_mul, ":num_common", 1),
+				# (val_mul, ":num_veteran", 1),
+				# (val_mul, ":num_elite", 1),
+				# (val_mul, ":num_noble", 1),
 			(try_end),
 			
 			(faction_get_slot, ":peasant_mod", ":faction", slot_faction_peasant_num_tries),
@@ -5836,11 +6152,22 @@ scripts = [
 			(faction_get_slot, ":elite_mod", ":faction", slot_faction_elite_num_tries),
 			(faction_get_slot, ":noble_mod", ":faction", slot_faction_noble_num_tries),
 			
-			(val_add, ":num_peasant", ":peasant_mod"),
-			(val_add, ":num_common", ":common_mod"),
-			(val_add, ":num_veteran", ":veteran_mod"),
-			(val_add, ":num_elite", ":elite_mod"),
-			(val_add, ":num_noble", ":noble_mod"),
+			(store_mul, ":faction_peasant", ":num_peasant", ":peasant_mod"),
+			(store_mul, ":faction_common", ":num_common", ":common_mod"),
+			(store_mul, ":faction_veteran", ":num_veteran", ":veteran_mod"),
+			(store_mul, ":faction_elite", ":num_elite", ":elite_mod"),
+			(store_mul, ":faction_noble", ":num_noble", ":noble_mod"),
+			(val_div, ":faction_peasant", 100),
+			(val_div, ":faction_common", 100),
+			(val_div, ":faction_veteran", 100),
+			(val_div, ":faction_elite", 100),
+			(val_div, ":faction_noble", 100),
+			
+			(val_add, ":num_peasant", ":faction_peasant"),
+			(val_add, ":num_common", ":faction_common"),
+			(val_add, ":num_veteran", ":faction_veteran"),
+			(val_add, ":num_elite", ":faction_elite"),
+			(val_add, ":num_noble", ":faction_noble"),
 			
 			(assign, ":peasant_max", ":num_peasant"),
 			(store_add, ":common_max", ":peasant_max", ":num_common"),
@@ -5859,7 +6186,7 @@ scripts = [
 			(assign, ":total_cost", 0),
 			
 			# (assign, ":reinforcements", 0),
-			(store_random_in_range, ":random", 0, 100),
+			(store_random_in_range, ":random", 0, ":noble_max"),
 			(store_random_in_range, ":random_number", 50, 100),
 			(try_begin),
 				(lt, ":random", ":peasant_max"),
@@ -6037,19 +6364,6 @@ scripts = [
 			(assign, reg0, ":num_added"),
 			(assign, reg1, ":total_cost"),
 		]),
-	
-	# script_party_get_party_size_limit_modifiers
-	# input:
-	# 	arg1: party_no
-	# output:
-	# 	reg0: modifier
-	# ("party_get_party_size_limit_modifiers",
-		# [
-			# ToDo:
-			# (store_script_param, ":party_no", 1),
-			
-			# (assign, reg0, 100),
-		# ]),
 	
 	# script_party_send_reinforcements
 	# input:
@@ -6292,19 +6606,6 @@ scripts = [
 			(item_set_slot, "itm_building_temple", slot_building_build_time, 0),
 		]),
 	
-	# script_faction_get_troop_rate
-	# input: 
-	# 	arg1: faction_no
-	# output:
-	# 	reg0: rate
-	("faction_get_troop_rate",
-		[
-			# (store_script_param, ":faction_no", 1),
-			# ToDo:
-			
-			(assign, reg0, 100),
-		]),
-	
 	# script_party_has_building
 	# input:
 	# 	arg1: party_no
@@ -6482,6 +6783,7 @@ scripts = [
 			(call_script, "script_troop_update_home", ":lord_no"),
 			
 			(troop_set_slot, ":lord_no", slot_troop_leaded_party, -1),
+			(troop_set_slot, ":lord_no", slot_troop_prisoner_of, -1),
 		]),
 	
 	# script_troop_set_name
@@ -6616,10 +6918,13 @@ scripts = [
 			# Troops not added to factions
 			(troop_set_slot, "trp_swadian_light_bowman", slot_troop_faction_not_1, "fac_small_kingdom_14"), # Has Light Longbowman instead
 			(troop_set_slot, "trp_swadian_bowman", slot_troop_faction_not_1, "fac_small_kingdom_14"), # Has Heavy Longbowman instead
+			(troop_set_slot, "trp_swadian_pikeman", slot_troop_faction_not_1, "fac_small_kingdom_15"), # Has Spearman instead
 			(troop_set_slot, "trp_swadian_heavy_cavalry", slot_troop_faction_not_1, "fac_small_kingdom_17"), # Has Squire instead
 			
 			(troop_set_slot, "trp_vaegir_light_cavalry", slot_troop_faction_not_1, "fac_small_kingdom_22"), # Has Scout instead
 			(troop_set_slot, "trp_vaegir_heavy_cavalry", slot_troop_faction_not_1, "fac_small_kingdom_22"), # Has Horseman instead
+			(troop_set_slot, "trp_vaegir_medium_bowman", slot_troop_faction_not_1, "fac_small_kingdom_23"), # Has Longbowman instead
+			(troop_set_slot, "trp_vaegir_mounted_bowman", slot_troop_faction_not_1, "fac_small_kingdom_25"), # Has Mounted Longbowman instead
 			
 			(troop_set_slot, "trp_khergit_light_infantry", slot_troop_faction_not_1, "fac_small_kingdom_32"), # Has Light Skirmisher instead
 			(troop_set_slot, "trp_khergit_heavy_infantry", slot_troop_faction_not_1, "fac_small_kingdom_32"), # Has Warrior instead
@@ -6634,17 +6939,23 @@ scripts = [
 			(troop_set_slot, "trp_nord_light_bowman", slot_troop_faction_not_1, "fac_small_kingdom_42"), # Has Light Longbowman instead
 			(troop_set_slot, "trp_nord_heavy_bowman", slot_troop_faction_not_1, "fac_small_kingdom_42"), # Has Heavy Longbowman instead
 			(troop_set_slot, "trp_nord_light_infantry", slot_troop_faction_not_1, "fac_small_kingdom_43"), # Has Skirmisher instead
+			(troop_set_slot, "trp_nord_light_cavalry", slot_troop_faction_not_1, "fac_small_kingdom_43"), # Has Skirmisher instead
 			(troop_set_slot, "trp_nord_guard", slot_troop_faction_not_1, "fac_small_kingdom_43"), # Has Heavy Skirmisher instead
+			(troop_set_slot, "trp_nord_medium_longbowman", slot_troop_faction_not_2, "fac_small_kingdom_44"), # Has Crossbowman instead
 			(troop_set_slot, "trp_nord_medium_longbowman", slot_troop_faction_not_1, "fac_small_kingdom_45"), # Has Bowman instead
+			(troop_set_slot, "trp_nord_light_cavalry", slot_troop_faction_not_1, "fac_small_kingdom_45"), # Has Light Spear Cavalry instead
+			(troop_set_slot, "trp_nord_medium_cavalry", slot_troop_faction_not_1, "fac_small_kingdom_45"), # Has Spea Cavalry instead
+			(troop_set_slot, "trp_nord_heavy_cavalry", slot_troop_faction_not_1, "fac_small_kingdom_45"), # Has Heavy Spear Cavalry instead
 			
 			(troop_set_slot, "trp_rhodok_light_crossbowman", slot_troop_faction_not_1, "fac_small_kingdom_51"), #
 			(troop_set_slot, "trp_rhodok_light_horse_archer", slot_troop_faction_not_1, "fac_small_kingdom_51"), # Has Mounted Archer instead
 			(troop_set_slot, "trp_rhodok_medium_crossbowman", slot_troop_faction_not_1, "fac_small_kingdom_51"), # Has Bowman instead
 			(troop_set_slot, "trp_rhodok_heavy_crossbowman", slot_troop_faction_not_1, "fac_small_kingdom_51"), # Has Heavy Bowman instead
 			(troop_set_slot, "trp_rhodok_noble", slot_troop_faction_not_1, "fac_small_kingdom_51"), # Has Highlander instead
-			(troop_set_slot, "trp_rhodok_noble", slot_troop_faction_not_2, "fac_small_kingdom_52"), # Has Heroic Rider instead
-			(troop_set_slot, "trp_rhodok_noble_riders", slot_troop_faction_reserved_2, "fac_small_kingdom_53"), #
+			(troop_set_slot, "trp_rhodok_noble", slot_troop_faction_not_2, "fac_small_kingdom_52"), # Has Heroic Cavalry instead
 			
+			(troop_set_slot, "trp_sarranid_light_bowman", slot_troop_faction_not_1, "fac_small_kingdom_61"), # Has Light Crossbowman instead
+			(troop_set_slot, "trp_sarranid_bowman", slot_troop_faction_not_1, "fac_small_kingdom_61"), # Has Crossbowman instead
 			(troop_set_slot, "trp_sarranid_noble", slot_troop_faction_not_1, "fac_small_kingdom_63"), # Has Heavy Mamluke instead
 		]),
 	
@@ -7034,74 +7345,6 @@ scripts = [
 			(try_end),
 			
 			(assign, reg0, ":best_candidate"),
-		]),
-	
-	# script_party_template_update_slots
-	# input:
-	# 	arg1: party_template
-	# output:
-	# 	reg0: updated
-	("party_template_update_slots",
-		[
-			(store_script_param, ":party_template", 1),
-			(party_clear, "p_temp_party"),
-			
-			(try_for_range, ":slot", slot_party_template_num_troop_1, slot_party_template_num_troop_6 + 1),
-				(party_template_set_slot, ":party_template", ":slot", 100),
-				(store_add, ":slot_sec", ":slot", 6),
-				(party_template_set_slot, ":party_template", ":slot_sec", -1),
-			(try_end),
-			
-			(assign, ":end", 20),
-			(try_for_range, ":unused", 0, ":end"),
-				(party_add_template, "p_temp_party", ":party_template"),
-				
-				(party_get_num_companion_stacks, ":num_stack", "p_temp_party"),
-				(try_for_range, ":i_stack", 0, ":num_stack"),
-					(party_stack_get_size, ":stack_size", "p_temp_party", ":i_stack"),
-					(store_add, ":slot", ":i_stack", slot_party_template_num_troop_1),
-					(party_template_slot_ge, ":party_template", ":slot", ":stack_size"),
-					(party_template_set_slot, ":party_template", ":slot", ":stack_size"),
-				(try_end),
-				(party_clear, "p_temp_party"),
-			(try_end),
-			
-			(party_add_template, "p_temp_party", ":party_template"),
-			(party_get_num_companion_stacks, ":num_stack", "p_temp_party"),
-			(try_for_range, ":i_stack", 0, ":num_stack"),
-				(party_stack_get_troop_id, ":troop", "p_temp_party", ":i_stack"),
-				(store_add, ":slot", ":i_stack", slot_party_template_type_troop_1),
-				(party_template_set_slot, ":party_template", ":slot", ":troop"),
-			(try_end),
-			
-			(party_clear, "p_temp_party"),
-		]),
-	
-	# script_display_template_list
-	# input: none
-	# output: none
-	("display_template_list",
-		[
-			(try_for_range, ":template", "pt_kingdom_1_reinforcements_peasant_a", "pt_village_template"),
-				# (call_script, "script_party_template_update_slots", ":template"),
-				
-				(assign, reg10, ":template"),
-				(str_store_string, s10, "@Template no {reg10} :"),
-				(try_for_range, ":num_slot", slot_party_template_num_troop_1, slot_party_template_num_troop_6 + 1),
-					(store_add, ":troop_slot", ":num_slot", 6),
-					(party_template_get_slot, ":troop", ":template", ":troop_slot"),
-					(try_begin),
-						(eq, ":troop", -1),
-						(str_store_string, s10, "@{s10}"),
-					(else_try),
-						(party_template_get_slot, ":num_troop", ":template", ":num_slot"),
-						(str_store_troop_name, s11, ":troop"),
-						(assign, reg11, ":num_troop"),
-						(str_store_string, s10, "@{s10} {s11}-{reg11}."),
-					(try_end),
-				(try_end),
-				(display_log_message, "@{s10}"),
-			(try_end),
 		]),
 	
 	# script_party_count_fit_for_battle
@@ -7806,7 +8049,7 @@ scripts = [
 			# (troop_add_item, "trp_vaegir_mercenary_cavalry", "itm_two_handed_battle_axe_2"),
 			# (troop_add_item, "trp_vaegir_mercenary_cavalry", "itm_tab_shield_kite_cav_a"),
 			# (troop_add_item, "trp_vaegir_mercenary_cavalry", "itm_studded_leather_coat"),
-			(call_script, "script_troop_change_stat_with_template", "trp_vaegir_mercenary_bowman", "trp_vaegir_heavy_bowman"),
+			(call_script, "script_troop_change_stat_with_template", "trp_vaegir_mercenary_bowman", "trp_vaegir_heavy_longbowman"),
 			# (call_script, "script_troop_copy_items_from_troop", "trp_vaegir_mercenary_bowman", "trp_vaegir_heavy_bowman"),
 			# (call_script, "script_troop_remove_items_of_type", "trp_vaegir_mercenary_bowman", itp_type_shield),
 			# (call_script, "script_troop_remove_items_of_type", "trp_vaegir_mercenary_bowman", itp_type_body_armor),
@@ -7969,6 +8212,261 @@ scripts = [
 				(item_get_type, ":item_type", ":cur_item"),
 				(eq, ":item_type", ":type"),
 				(troop_remove_item, ":troop_no", ":cur_item"),
+			(try_end),
+		]),
+	
+	# script_party_join_battle
+	# input:
+	# 	arg1: party_to_join
+	# 	arg2: battle_party_1
+	# 	arg3; battle_party_2
+	# output:
+	# 	reg0: party_to_join (0: none, 1: party_1, 2: party_2)
+	("party_join_battle",
+		[
+			(store_script_param, ":party_to_join", 1),
+			(store_script_param, ":battle_party_1", 2),
+			(store_script_param, ":battle_party_2", 3),
+			
+			(store_faction_of_party, ":party_faction", ":party_to_join"),
+			(store_faction_of_party, ":party_1_faction", ":battle_party_1"),
+			(store_faction_of_party, ":party_2_faction", ":battle_party_2"),
+			
+			(store_relation, ":rel", ":party_faction", ":party_1_faction"),
+			(store_relation, ":rel2", ":party_faction", ":party_2_faction"),
+			
+			(assign, ":continue", 0),
+			(try_begin),
+				(party_get_attached_to, ":attached_to", ":party_to_join"),
+				(is_between, ":attached_to", centers_begin, centers_end),
+				# (assign, ":continue", 0),
+			(else_try),
+				(eq, ":party_faction", ":party_1_faction"),
+				(assign, ":continue", 1),
+			(else_try),
+				(eq, ":party_faction", ":party_2_faction"),
+				(assign, ":continue", 2),
+			(else_try),
+				(try_begin),
+					(lt, ":rel2", relation_bad),
+					(ge, ":rel", relation_friendly),
+					(assign, ":continue", 1),
+				(else_try),
+					(lt, ":rel2", relation_war),
+					(ge, ":rel", relation_neutral),
+					(assign, ":continue", 1),
+				(else_try),
+					(lt, ":rel", relation_bad),
+					(ge, ":rel2", relation_friendly),
+					(assign, ":continue", 2),
+				(else_try),
+					(lt, ":rel", relation_war),
+					(ge, ":rel2", relation_neutral),
+					(assign, ":continue", 2),
+				(try_end),
+			(try_end),
+			(assign, reg0, ":continue"),
+		]),
+	
+	# script_get_party_looted_gold
+	# input:
+	# 	arg1: looted_party
+	# output:
+	# 	reg0: gold_amount
+	("get_party_looted_gold",
+		[
+			(store_script_param, ":looted_party", 1),
+			
+			# (party_get_num_companions, ":num_enemy", ":looted_party"),
+			(party_get_num_companion_stacks, ":num_stack", ":looted_party"),
+			(assign, ":total_gold", 0),
+			(try_for_range, ":stack_no", 0, ":num_stack"),
+				(party_stack_get_troop_id, ":cur_troop", ":looted_party", ":stack_no"),
+				(assign, ":max_gold", 0),
+				(try_begin),
+					(neg|troop_is_hero, ":cur_troop"),
+					(party_stack_get_size, ":stack_size", ":looted_party", ":stack_no"),
+					(troop_get_slot, ":troop_quality", ":cur_troop", slot_troop_quality),
+					(store_mul, ":max_gold", ":troop_quality", 60),
+					(val_add, ":max_gold", 60),
+					(val_mul, ":max_gold", ":stack_size"),
+				(try_end),
+				(store_div, ":max_gold_div_2", ":max_gold", 2),
+				(store_random_in_range, ":max_gold", ":max_gold_div_2", ":max_gold"),
+				(val_add, ":total_gold", ":max_gold"),
+			(try_end),
+			(assign, reg0, ":total_gold"),
+		]),
+	
+	# script_party_update_merchants
+	# input:
+	# 	arg1: party_no
+	# output: none
+	("party_update_merchants",
+		[
+			(store_script_param, ":party_no", 1),
+			
+			(party_get_slot, ":party_type", ":party_no", slot_party_type),
+			(try_begin),
+				(eq, ":party_type", spt_town),
+				(store_sub, ":offset", ":party_no", towns_begin),
+				(store_add, ":merchant", merchants_weapons_begin, ":offset"),
+				(call_script, "script_troop_add_merchant_items_from_party", ":merchant", ":party_no", items_weapon),
+				(store_troop_gold, ":cur_gold", ":merchant"),
+				(store_div, ":sub", ":cur_gold", 5),
+				(store_sub, ":gold_added", 500, ":sub"),
+				(store_random_in_range, ":bonus_gold", 0, 10),
+				(val_add, ":gold_added", ":bonus_gold"),
+				(troop_add_gold, ":merchant", ":gold_added"),
+			(else_try),
+				(eq, ":party_type", spt_castle),
+			(else_try),
+				(eq, ":party_type", spt_village),
+			(try_end),
+		]),
+	
+	# script_troop_add_merchant_items_from_party
+	# input:
+	# 	arg1: merchant
+	# 	arg2: party_no
+	# 	arg3: items
+	# output: none
+	("troop_add_merchant_items_from_party",
+		[
+			(store_script_param, ":merchant", 1),
+			(store_script_param, ":party_no", 2),
+			(store_script_param, ":items", 3),
+			
+			(store_faction_of_party, ":party_faction", ":party_no"),
+			(faction_get_slot, ":culture", ":party_faction", slot_faction_culture),
+			
+			# (store_and, ":goods", ":items", items_good),
+			(store_and, ":weapons", ":items", items_weapon),
+			# (store_and, ":armor", ":items", items_armor),
+			# (store_and, ":horse", ":items", items_horse),
+			(troop_ensure_inventory_space, ":merchant", 60),
+			(try_begin),
+				(gt, ":weapons", 0),
+				(call_script, "script_troop_add_merchant_items", ":merchant", ":culture"),
+				
+			(try_end),
+			(troop_sort_inventory, ":merchant"),
+		]),
+	
+	# script_troop_add_merchant_items
+	# input:
+	# 	arg1: merchant
+	# 	arg2: culture
+	# output: none
+	("troop_add_merchant_items",
+		[
+			(store_script_param, ":merchant", 1),
+			(store_script_param, ":culture", 2),
+			
+			(try_begin),
+				(eq, ":culture" ,fac_culture_1),
+				(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_1", itp_type_one_handed_wpn, 8),
+				(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_1", itp_type_two_handed_wpn, 4),
+				(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_1", itp_type_polearm, 6),
+				
+				(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_1", itp_type_bow, 2),
+				(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_1", itp_type_crossbow, 2),
+				
+				(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_1", itp_type_arrows, 1),
+				(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_1", itp_type_bolts, 1),
+				
+				(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_1", itp_type_thrown, 1),
+				
+				(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_1", itp_type_shield, 6),
+			(else_try),
+				(eq, ":culture", fac_culture_2),
+				(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_2", itp_type_one_handed_wpn, 7),
+				(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_2", itp_type_two_handed_wpn, 6),
+				(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_2", itp_type_polearm, 6),
+				
+				(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_2", itp_type_bow, 6),
+				# (troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_2", itp_type_crossbow, 0),
+				
+				(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_2", itp_type_arrows, 2),
+				# (troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_2", itp_type_bolts, 0),
+				
+				(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_2", itp_type_thrown, 3),
+				
+				(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_2", itp_type_shield, 5),
+			(else_try),
+				(eq, ":culture", fac_culture_3),
+				(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_3", itp_type_one_handed_wpn, 8),
+				(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_3", itp_type_two_handed_wpn, 3),
+				(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_3", itp_type_polearm, 7),
+				
+				(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_3", itp_type_bow, 5),
+				# (troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_3", itp_type_crossbow, 0),
+				
+				(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_3", itp_type_arrows, 2),
+				# (troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_3", itp_type_bolts, 0),
+				
+				(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_3", itp_type_thrown, 3),
+				
+				(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_3", itp_type_shield, 6),
+			(else_try),
+				(eq, ":culture", fac_culture_4),
+				(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_4", itp_type_one_handed_wpn, 8),
+				(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_4", itp_type_two_handed_wpn, 5),
+				(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_4", itp_type_polearm, 5),
+				
+				(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_4", itp_type_bow, 4),
+				(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_4", itp_type_crossbow, 2),
+				
+				(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_4", itp_type_arrows, 2),
+				(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_4", itp_type_bolts, 1),
+				
+				(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_4", itp_type_thrown, 5),
+				
+				(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_4", itp_type_shield, 6),
+			(else_try),
+				(eq, ":culture", fac_culture_5),
+				(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_5", itp_type_one_handed_wpn, 8),
+				(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_5", itp_type_two_handed_wpn, 3),
+				(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_5", itp_type_polearm, 8),
+				
+				(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_5", itp_type_bow, 1),
+				(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_5", itp_type_crossbow, 5),
+				
+				(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_5", itp_type_arrows, 1),
+				(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_5", itp_type_bolts, 2),
+				
+				(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_5", itp_type_thrown, 2),
+				
+				(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_5", itp_type_shield, 6),
+			(else_try),
+				(eq, ":culture", fac_culture_6),
+				(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_6", itp_type_one_handed_wpn, 8),
+				(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_6", itp_type_two_handed_wpn, 4),
+				(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_6", itp_type_polearm, 5),
+				
+				(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_6", itp_type_bow, 4),
+				(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_6", itp_type_crossbow, 1),
+				
+				(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_6", itp_type_arrows, 2),
+				(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_6", itp_type_bolts, 1),
+				
+				(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_6", itp_type_thrown, 7),
+				
+				(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_6", itp_type_shield, 6),
+			(else_try),
+				(troop_add_merchandise_with_faction, ":merchant", "fac_commoners", itp_type_one_handed_wpn, 8),
+				(troop_add_merchandise_with_faction, ":merchant", "fac_commoners", itp_type_two_handed_wpn, 4),
+				(troop_add_merchandise_with_faction, ":merchant", "fac_commoners", itp_type_polearm, 7),
+				
+				(troop_add_merchandise_with_faction, ":merchant", "fac_commoners", itp_type_bow, 3),
+				(troop_add_merchandise_with_faction, ":merchant", "fac_commoners", itp_type_crossbow, 3),
+				
+				(troop_add_merchandise_with_faction, ":merchant", "fac_commoners", itp_type_arrows, 1),
+				(troop_add_merchandise_with_faction, ":merchant", "fac_commoners", itp_type_bolts, 1),
+				
+				(troop_add_merchandise_with_faction, ":merchant", "fac_commoners", itp_type_thrown, 2),
+				
+				(troop_add_merchandise_with_faction, ":merchant", "fac_commoners", itp_type_shield, 6),
 			(try_end),
 		]),
 	

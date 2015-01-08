@@ -113,6 +113,9 @@ slot_faction_master_culture = 46
 
 # slot_faction_troop_ratio_begin = slot_faction_troop_ratio_infantry
 
+slot_faction_era = 47		# Current era the faction is at
+slot_faction_era_time = 48	# Time at which the faction has attained this era
+
 #################
 ## Party Slots ##
 #################
@@ -243,12 +246,8 @@ slot_troop_temp_slot				= 0
 slot_troop_temp_hire_number			= slot_troop_temp_slot
 
 slot_troop_banner_scene_prop		= 1
-# slot_troop_test_num_spawned			= 2
 
-# slot_troop_ratio_base				= 3
-# slot_troop_ratio_adjusted			= 4 # Adjustment based on faction
-
-slot_troop_type						= 5
+slot_troop_type						= 2
 tt_infantry				= 1
 tt_spearman				= 2
 tt_pikeman				= 3
@@ -261,7 +260,7 @@ tt_lancer				= 9
 tt_horse_archer			= 10
 tt_mounted_skirmisher	= 11
 
-slot_troop_quality					= 6
+slot_troop_quality					= 3
 tq_peasant		= 0
 tq_common		= 1
 tq_veteran		= 2
@@ -269,7 +268,7 @@ tq_elite		= 3
 tq_noble		= 4
 
 
-slot_troop_lord_equipement 			= 7
+slot_troop_lord_equipement 			= 4
 tle_none = 0
 tle_light_bow = 1
 tle_heavy_bow = 2
@@ -278,12 +277,13 @@ tle_heavy_crossbow = 4
 tle_throwing = 5
 tle_polearm = 6
 
-slot_troop_lord_horse 				= 8
+slot_troop_lord_horse 				= 5
 
-slot_troop_original_faction 		= 9
+slot_troop_original_faction 		= 6
 
-slot_troop_rank 					= 10 # real rank
-slot_troop_level					= 11 # current rank
+slot_troop_rank 					= 7 # real rank
+slot_troop_level					= 8 # current rank
+slot_troop_equipement_level			= 9 # current rank
 
 slot_troop_kingdom_occupation 		= 12
 tko_none = 0
@@ -331,7 +331,9 @@ slot_troop_behavior 				= 23
 
 slot_troop_surplus_center			= 24
 
-slot_troop_faction_reserved_1		= 25
+slot_troop_prisoner_of				= 25 # Only heroes
+
+slot_troop_faction_reserved_1		= 25 # Only regulars
 slot_troop_faction_reserved_2		= 26
 slot_troop_faction_not_1			= 27
 slot_troop_faction_not_2			= 28
@@ -585,24 +587,28 @@ lords_begin = "trp_swadian_lord_1"
 lords_end = companions_begin
 
 # SCENES
-castle_scene_begin = "scn_castle_01_outside"
+castle_scene_begin = "scn_castle_plain_01_outside"
 castle_scene_end = "scn_meeting_scene_steppe"
 
-# plain_castle_scene_begin = castle_scene_begin
-# plain_dark_castle_scene_begin = 
-# plain_wood_castle_scene_begin = 
-# steppe_castle_scene_begin = 
-# snow_castle_scene_begin = 
-# snow_wood_castle_scene_begin = 
-# desert_castle_scene_begin = 
+castle_scene_plain_begin = "scn_castle_scene_begin"
+castle_scene_plain_dark_begin = "scn_castle_plain_wood_01_outside"
+castle_scene_plain_wood_begin = "scn_castle_plain_wood_01_outside"
+castle_scene_steppe_begin = "scn_castle_steppe_01_outside"
+castle_scene_steppe_wood_begin = "scn_castle_snow_01_outside"
+castle_scene_snow_begin = "scn_castle_snow_01_outside"
+castle_scene_snow_wood_begin = "scn_castle_desert_01_outside"
+castle_scene_desert_begin = "scn_castle_desert_01_outside"
+castle_scene_desert_wood_begin = castle_scene_end
 
-# plain_castle_scene_end = plain_dark_castle_scene_begin
-# plain_dark_castle_scene_end = plain_wood_castle_scene_begin
-# plain_wood_castle_scene_end = steppe_castle_scene_begin
-# steppe_castle_scene_end = snow_castle_scene_begin
-# snow_castle_scene_end = snow_wood_castle_scene_begin
-# snow_wood_castle_scene_end = desert_castle_scene_begin
-# desert_castle_scene_end = castle_scene_end
+castle_scene_plain_end = castle_scene_plain_dark_begin
+castle_scene_plain_dark_end = castle_scene_plain_wood_begin
+castle_scene_plain_wood_end = castle_scene_steppe_begin
+castle_scene_steppe_end = castle_scene_steppe_wood_begin
+castle_scene_steppe_wood_end = castle_scene_snow_begin
+castle_scene_snow_end = castle_scene_snow_wood_begin
+castle_scene_snow_wood_end = castle_scene_desert_begin
+castle_scene_desert_end = castle_scene_desert_wood_begin
+castle_scene_desert_wood_end = castle_scene_end
 
 
 # OTHER
@@ -671,6 +677,18 @@ center_town_buildings_end = center_buildings_end
 text_color_impossible = 0xcc0000
 text_color_gold = 0x55eeee
 text_color_valid = 0x00ee55
+
+era_minimum_duration = 50
+
+merchants_general_begin = "trp_merchant_town_11_general"
+# merchants_weapons_begin = "trp_merchant_town_11_weapon"
+merchants_weapons_begin = "trp_merchant_town_11_general"
+
+items_good = 0x1
+items_weapon = 0x2
+items_armor = 0x4
+items_horse = 0x8
+
 
 ##################
 ## Achievements ##

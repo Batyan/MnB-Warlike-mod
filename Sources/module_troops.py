@@ -109,6 +109,7 @@ def wp_sarranid(x):
   n |= wp_throwing(int(x*1.00))
   return n
 
+
 #################
 ## Definitions ##
 #################
@@ -148,9 +149,12 @@ def_lord_5_bal = str_22|agi_22|def_lord_5
 def_lord_5_agi = str_18|agi_26|def_lord_5
 
 def_lord_6 = int_14|cha_33
-def_lord_6_str = str_28|agi_19|def_lord_6
-def_lord_6_bal = str_24|agi_23|def_lord_6
-def_lord_6_agi = str_19|agi_28|def_lord_6
+# def_lord_6_str = str_28|agi_19|def_lord_6
+def_lord_6_str = def_lord_5_str
+# def_lord_6_bal = str_24|agi_23|def_lord_6
+def_lord_6_bal = def_lord_5_bal
+# def_lord_6_agi = str_19|agi_28|def_lord_6
+def_lord_6_agi = def_lord_5_agi
 
 def_lord_7 = int_15|cha_35
 def_lord_7_str = str_30|agi_21|def_lord_7
@@ -158,67 +162,74 @@ def_lord_7_bal = str_26|agi_25|def_lord_7
 def_lord_7_agi = str_21|agi_30|def_lord_7
 
 knows_lord_0 = knows_prisoner_management_1|knows_weapon_master_1|knows_tactics_1|knows_pathfinding_1|knows_inventory_management_2
-knows_lord_1 = knows_trainer_1|knows_prisoner_management_2|knows_weapon_master_2|knows_tactics_1|knows_pathfinding_1|knows_inventory_management_2
-knows_lord_2 = knows_leadership_1|knows_trainer_2|knows_prisoner_management_3|knows_weapon_master_3|knows_trade_1|knows_tactics_2|knows_pathfinding_1|knows_inventory_management_2
-knows_lord_3 = knows_leadership_2|knows_trainer_2|knows_prisoner_management_4|knows_weapon_master_4|knows_trade_1|knows_tactics_2|knows_pathfinding_1|knows_inventory_management_2
-knows_lord_4 = knows_leadership_4|knows_trainer_4|knows_prisoner_management_5|knows_weapon_master_5|knows_trade_2|knows_tactics_4|knows_pathfinding_1|knows_inventory_management_3
-knows_lord_5 = knows_leadership_7|knows_trainer_5|knows_prisoner_management_6|knows_weapon_master_6|knows_trade_3|knows_tactics_5|knows_pathfinding_1|knows_inventory_management_4
-knows_lord_6 = knows_leadership_7|knows_trainer_6|knows_prisoner_management_6|knows_weapon_master_6|knows_trade_3|knows_tactics_6|knows_pathfinding_1|knows_inventory_management_4
-knows_lord_7 = knows_leadership_9|knows_trainer_6|knows_prisoner_management_8|knows_weapon_master_7|knows_trade_3|knows_tactics_6|knows_pathfinding_1|knows_inventory_management_4
+knows_lord_1 = knows_trainer_2_1|knows_prisoner_management_2|knows_weapon_master_2|knows_tactics_1|knows_pathfinding_1|knows_inventory_management_2
+knows_lord_2 = knows_leadership_1|knows_trainer_2_2|knows_prisoner_management_3|knows_weapon_master_3|knows_trade_1|knows_tactics_2|knows_pathfinding_1|knows_inventory_management_2
+knows_lord_3 = knows_leadership_2|knows_trainer_2_2|knows_prisoner_management_4|knows_weapon_master_4|knows_trade_1|knows_tactics_2|knows_pathfinding_1|knows_inventory_management_2
+knows_lord_4 = knows_leadership_4|knows_trainer_2_4|knows_prisoner_management_5|knows_weapon_master_5|knows_trade_2|knows_tactics_4|knows_pathfinding_1|knows_inventory_management_3
+knows_lord_5 = knows_leadership_7|knows_trainer_2_5|knows_prisoner_management_6|knows_weapon_master_6|knows_trade_3|knows_tactics_5|knows_pathfinding_1|knows_inventory_management_4
+# knows_lord_6 = knows_leadership_7|knows_trainer_2_6|knows_prisoner_management_6|knows_weapon_master_6|knows_trade_3|knows_tactics_6|knows_pathfinding_1|knows_inventory_management_4
+knows_lord_6 = knows_lord_5
+knows_lord_7 = knows_leadership_9|knows_trainer_2_6|knows_prisoner_management_8|knows_weapon_master_7|knows_trade_3|knows_tactics_6|knows_pathfinding_1|knows_inventory_management_4
 
-knows_lord_swadian_0 = knows_lord_0|knows_ironflesh_3|knows_power_strike_3|knows_power_throw_1|knows_power_draw_4|knows_athletics_1|knows_riding_3|knows_horse_archery_2
+knows_lord_swadian_0 = knows_lord_0|knows_ironflesh_3|knows_power_strike_3|knows_power_throw_1|knows_power_draw_4|knows_athletics_1|knows_riding_4|knows_horse_archery_2
 knows_lord_swadian_1 = knows_lord_1|knows_ironflesh_4|knows_power_strike_3|knows_power_throw_1|knows_power_draw_4|knows_athletics_2|knows_riding_4|knows_horse_archery_3
 knows_lord_swadian_2 = knows_lord_2|knows_ironflesh_5|knows_power_strike_4|knows_power_throw_2|knows_power_draw_4|knows_athletics_3|knows_riding_5|knows_shield_1|knows_horse_archery_4
-knows_lord_swadian_3 = knows_lord_3|knows_ironflesh_6|knows_power_strike_5|knows_power_throw_2|knows_power_draw_4|knows_athletics_4|knows_riding_6|knows_shield_1|knows_horse_archery_5
-knows_lord_swadian_4 = knows_lord_4|knows_ironflesh_7|knows_power_strike_6|knows_power_throw_3|knows_power_draw_5|knows_athletics_5|knows_riding_7|knows_shield_1|knows_horse_archery_6
-knows_lord_swadian_5 = knows_lord_5|knows_ironflesh_8|knows_power_strike_7|knows_power_throw_3|knows_power_draw_6|knows_athletics_6|knows_riding_8|knows_shield_1|knows_horse_archery_7
-knows_lord_swadian_6 = knows_lord_6|knows_ironflesh_9|knows_power_strike_7|knows_power_throw_3|knows_power_draw_6|knows_athletics_6|knows_riding_8|knows_shield_1|knows_horse_archery_7
-knows_lord_swadian_7 = knows_lord_7|knows_ironflesh_10|knows_power_strike_7|knows_power_throw_3|knows_power_draw_6|knows_athletics_6|knows_riding_8|knows_shield_1|knows_horse_archery_7
+knows_lord_swadian_3 = knows_lord_3|knows_ironflesh_6|knows_power_strike_5|knows_power_throw_2|knows_power_draw_4|knows_athletics_4|knows_riding_5|knows_shield_1|knows_horse_archery_5
+knows_lord_swadian_4 = knows_lord_4|knows_ironflesh_7|knows_power_strike_6|knows_power_throw_3|knows_power_draw_5|knows_athletics_5|knows_riding_6|knows_shield_1|knows_horse_archery_6
+knows_lord_swadian_5 = knows_lord_5|knows_ironflesh_8|knows_power_strike_7|knows_power_throw_3|knows_power_draw_6|knows_athletics_6|knows_riding_6|knows_shield_1|knows_horse_archery_7
+# knows_lord_swadian_6 = knows_lord_6|knows_ironflesh_9|knows_power_strike_7|knows_power_throw_3|knows_power_draw_6|knows_athletics_6|knows_riding_8|knows_shield_1|knows_horse_archery_7
+knows_lord_swadian_6 = knows_lord_swadian_5
+knows_lord_swadian_7 = knows_lord_7|knows_ironflesh_10|knows_power_strike_7|knows_power_throw_3|knows_power_draw_6|knows_athletics_6|knows_riding_7|knows_shield_1|knows_horse_archery_7
 
-knows_lord_vaegir_0 = knows_lord_0|knows_ironflesh_1|knows_power_strike_3|knows_power_throw_2|knows_power_draw_4|knows_athletics_2|knows_riding_3|knows_horse_archery_2
+knows_lord_vaegir_0 = knows_lord_0|knows_ironflesh_1|knows_power_strike_3|knows_power_throw_2|knows_power_draw_4|knows_athletics_2|knows_riding_4|knows_horse_archery_2
 knows_lord_vaegir_1 = knows_lord_1|knows_ironflesh_2|knows_power_strike_3|knows_power_throw_2|knows_power_draw_4|knows_athletics_3|knows_riding_4|knows_horse_archery_3
 knows_lord_vaegir_2 = knows_lord_2|knows_ironflesh_3|knows_power_strike_4|knows_power_throw_3|knows_power_draw_5|knows_athletics_4|knows_riding_5|knows_shield_1|knows_horse_archery_4
-knows_lord_vaegir_3 = knows_lord_3|knows_ironflesh_4|knows_power_strike_5|knows_power_throw_3|knows_power_draw_5|knows_athletics_5|knows_riding_6|knows_shield_1|knows_horse_archery_5
-knows_lord_vaegir_4 = knows_lord_4|knows_ironflesh_5|knows_power_strike_6|knows_power_throw_4|knows_power_draw_6|knows_athletics_6|knows_riding_7|knows_shield_1|knows_horse_archery_6
-knows_lord_vaegir_5 = knows_lord_5|knows_ironflesh_6|knows_power_strike_7|knows_power_throw_4|knows_power_draw_7|knows_athletics_7|knows_riding_8|knows_shield_1|knows_horse_archery_7
-knows_lord_vaegir_6 = knows_lord_6|knows_ironflesh_7|knows_power_strike_7|knows_power_throw_5|knows_power_draw_7|knows_athletics_7|knows_riding_8|knows_shield_1|knows_horse_archery_7
-knows_lord_vaegir_7 = knows_lord_7|knows_ironflesh_8|knows_power_strike_7|knows_power_throw_4|knows_power_draw_8|knows_athletics_7|knows_riding_8|knows_shield_1|knows_horse_archery_7
+knows_lord_vaegir_3 = knows_lord_3|knows_ironflesh_4|knows_power_strike_5|knows_power_throw_3|knows_power_draw_5|knows_athletics_5|knows_riding_5|knows_shield_1|knows_horse_archery_5
+knows_lord_vaegir_4 = knows_lord_4|knows_ironflesh_5|knows_power_strike_6|knows_power_throw_4|knows_power_draw_6|knows_athletics_6|knows_riding_6|knows_shield_1|knows_horse_archery_6
+knows_lord_vaegir_5 = knows_lord_5|knows_ironflesh_6|knows_power_strike_7|knows_power_throw_4|knows_power_draw_7|knows_athletics_7|knows_riding_6|knows_shield_1|knows_horse_archery_7
+# knows_lord_vaegir_6 = knows_lord_6|knows_ironflesh_7|knows_power_strike_7|knows_power_throw_5|knows_power_draw_7|knows_athletics_7|knows_riding_8|knows_shield_1|knows_horse_archery_7
+knows_lord_vaegir_6 = knows_lord_vaegir_5
+knows_lord_vaegir_7 = knows_lord_7|knows_ironflesh_8|knows_power_strike_7|knows_power_throw_4|knows_power_draw_8|knows_athletics_7|knows_riding_7|knows_shield_1|knows_horse_archery_7
 
-knows_lord_khergit_0 = knows_lord_0|knows_ironflesh_1|knows_power_strike_3|knows_power_throw_2|knows_power_draw_4|knows_athletics_1|knows_riding_3|knows_horse_archery_3
+knows_lord_khergit_0 = knows_lord_0|knows_ironflesh_1|knows_power_strike_3|knows_power_throw_2|knows_power_draw_4|knows_athletics_1|knows_riding_4|knows_horse_archery_3
 knows_lord_khergit_1 = knows_lord_1|knows_ironflesh_2|knows_power_strike_3|knows_power_throw_2|knows_power_draw_4|knows_athletics_2|knows_riding_4|knows_horse_archery_4
 knows_lord_khergit_2 = knows_lord_2|knows_ironflesh_3|knows_power_strike_4|knows_power_throw_3|knows_power_draw_5|knows_athletics_3|knows_riding_5|knows_shield_1|knows_horse_archery_5
-knows_lord_khergit_3 = knows_lord_3|knows_ironflesh_4|knows_power_strike_5|knows_power_throw_3|knows_power_draw_5|knows_athletics_4|knows_riding_6|knows_shield_1|knows_horse_archery_6
-knows_lord_khergit_4 = knows_lord_4|knows_ironflesh_5|knows_power_strike_6|knows_power_throw_4|knows_power_draw_6|knows_athletics_5|knows_riding_7|knows_shield_1|knows_horse_archery_7
-knows_lord_khergit_5 = knows_lord_5|knows_ironflesh_6|knows_power_strike_7|knows_power_throw_4|knows_power_draw_7|knows_athletics_6|knows_riding_8|knows_shield_1|knows_horse_archery_8
-knows_lord_khergit_6 = knows_lord_6|knows_ironflesh_7|knows_power_strike_7|knows_power_throw_4|knows_power_draw_7|knows_athletics_6|knows_riding_9|knows_shield_1|knows_horse_archery_8
-knows_lord_khergit_7 = knows_lord_7|knows_ironflesh_8|knows_power_strike_7|knows_power_throw_4|knows_power_draw_8|knows_athletics_6|knows_riding_8|knows_shield_1|knows_horse_archery_8
+knows_lord_khergit_3 = knows_lord_3|knows_ironflesh_4|knows_power_strike_5|knows_power_throw_3|knows_power_draw_5|knows_athletics_4|knows_riding_5|knows_shield_1|knows_horse_archery_6
+knows_lord_khergit_4 = knows_lord_4|knows_ironflesh_5|knows_power_strike_6|knows_power_throw_4|knows_power_draw_6|knows_athletics_5|knows_riding_6|knows_shield_1|knows_horse_archery_7
+knows_lord_khergit_5 = knows_lord_5|knows_ironflesh_6|knows_power_strike_7|knows_power_throw_4|knows_power_draw_7|knows_athletics_6|knows_riding_6|knows_shield_1|knows_horse_archery_8
+# knows_lord_khergit_6 = knows_lord_6|knows_ironflesh_7|knows_power_strike_7|knows_power_throw_4|knows_power_draw_7|knows_athletics_6|knows_riding_9|knows_shield_1|knows_horse_archery_8
+knows_lord_khergit_6 = knows_lord_khergit_5
+knows_lord_khergit_7 = knows_lord_7|knows_ironflesh_8|knows_power_strike_7|knows_power_throw_4|knows_power_draw_8|knows_athletics_6|knows_riding_7|knows_shield_1|knows_horse_archery_8
 
-knows_lord_nord_0 = knows_lord_0|knows_ironflesh_2|knows_power_strike_4|knows_power_throw_3|knows_power_draw_4|knows_athletics_3|knows_riding_1|knows_horse_archery_1
-knows_lord_nord_1 = knows_lord_1|knows_ironflesh_3|knows_power_strike_4|knows_power_throw_3|knows_power_draw_4|knows_athletics_4|knows_riding_2|knows_horse_archery_2
-knows_lord_nord_2 = knows_lord_2|knows_ironflesh_4|knows_power_strike_5|knows_power_throw_4|knows_power_draw_5|knows_athletics_5|knows_riding_3|knows_shield_1|knows_horse_archery_3
-knows_lord_nord_3 = knows_lord_3|knows_ironflesh_5|knows_power_strike_6|knows_power_throw_4|knows_power_draw_5|knows_athletics_6|knows_riding_4|knows_shield_1|knows_horse_archery_4
-knows_lord_nord_4 = knows_lord_4|knows_ironflesh_6|knows_power_strike_7|knows_power_throw_5|knows_power_draw_6|knows_athletics_7|knows_riding_5|knows_shield_1|knows_horse_archery_5
-knows_lord_nord_5 = knows_lord_5|knows_ironflesh_7|knows_power_strike_8|knows_power_throw_5|knows_power_draw_7|knows_athletics_8|knows_riding_6|knows_shield_1|knows_horse_archery_6
-knows_lord_nord_6 = knows_lord_6|knows_ironflesh_8|knows_power_strike_8|knows_power_throw_6|knows_power_draw_7|knows_athletics_9|knows_riding_7|knows_shield_1|knows_horse_archery_6
-knows_lord_nord_7 = knows_lord_7|knows_ironflesh_9|knows_power_strike_9|knows_power_throw_5|knows_power_draw_8|knows_athletics_8|knows_riding_7|knows_shield_1|knows_horse_archery_6
+knows_lord_nord_0 = knows_lord_0|knows_ironflesh_2|knows_power_strike_4|knows_power_throw_3|knows_power_draw_4|knows_athletics_2|knows_riding_2|knows_horse_archery_1
+knows_lord_nord_1 = knows_lord_1|knows_ironflesh_3|knows_power_strike_4|knows_power_throw_3|knows_power_draw_4|knows_athletics_3|knows_riding_2|knows_horse_archery_2
+knows_lord_nord_2 = knows_lord_2|knows_ironflesh_4|knows_power_strike_5|knows_power_throw_4|knows_power_draw_5|knows_athletics_4|knows_riding_3|knows_shield_1|knows_horse_archery_3
+knows_lord_nord_3 = knows_lord_3|knows_ironflesh_5|knows_power_strike_6|knows_power_throw_4|knows_power_draw_5|knows_athletics_5|knows_riding_3|knows_shield_1|knows_horse_archery_4
+knows_lord_nord_4 = knows_lord_4|knows_ironflesh_6|knows_power_strike_7|knows_power_throw_5|knows_power_draw_6|knows_athletics_6|knows_riding_4|knows_shield_1|knows_horse_archery_5
+knows_lord_nord_5 = knows_lord_5|knows_ironflesh_7|knows_power_strike_8|knows_power_throw_5|knows_power_draw_7|knows_athletics_7|knows_riding_4|knows_shield_1|knows_horse_archery_6
+# knows_lord_nord_6 = knows_lord_6|knows_ironflesh_8|knows_power_strike_8|knows_power_throw_6|knows_power_draw_7|knows_athletics_7|knows_riding_7|knows_shield_1|knows_horse_archery_6
+knows_lord_nord_6 = knows_lord_nord_5
+knows_lord_nord_7 = knows_lord_7|knows_ironflesh_9|knows_power_strike_9|knows_power_throw_5|knows_power_draw_8|knows_athletics_7|knows_riding_5|knows_shield_1|knows_horse_archery_6
 
-knows_lord_rhodok_0 = knows_lord_0|knows_ironflesh_3|knows_power_strike_3|knows_power_throw_2|knows_power_draw_4|knows_athletics_2|knows_riding_2|knows_horse_archery_1
+knows_lord_rhodok_0 = knows_lord_0|knows_ironflesh_3|knows_power_strike_3|knows_power_throw_2|knows_power_draw_4|knows_athletics_2|knows_riding_3|knows_horse_archery_1
 knows_lord_rhodok_1 = knows_lord_1|knows_ironflesh_4|knows_power_strike_3|knows_power_throw_2|knows_power_draw_4|knows_athletics_3|knows_riding_3|knows_horse_archery_2
 knows_lord_rhodok_2 = knows_lord_2|knows_ironflesh_5|knows_power_strike_4|knows_power_throw_3|knows_power_draw_4|knows_athletics_4|knows_riding_4|knows_shield_1|knows_horse_archery_3
-knows_lord_rhodok_3 = knows_lord_3|knows_ironflesh_6|knows_power_strike_5|knows_power_throw_3|knows_power_draw_4|knows_athletics_5|knows_riding_5|knows_shield_1|knows_horse_archery_4
-knows_lord_rhodok_4 = knows_lord_4|knows_ironflesh_7|knows_power_strike_6|knows_power_throw_3|knows_power_draw_5|knows_athletics_6|knows_riding_6|knows_shield_1|knows_horse_archery_5
-knows_lord_rhodok_5 = knows_lord_5|knows_ironflesh_8|knows_power_strike_7|knows_power_throw_3|knows_power_draw_6|knows_athletics_7|knows_riding_7|knows_shield_1|knows_horse_archery_6
-knows_lord_rhodok_6 = knows_lord_6|knows_ironflesh_9|knows_power_strike_7|knows_power_throw_3|knows_power_draw_6|knows_athletics_7|knows_riding_8|knows_shield_1|knows_horse_archery_6
-knows_lord_rhodok_7 = knows_lord_7|knows_ironflesh_10|knows_power_strike_7|knows_power_throw_3|knows_power_draw_6|knows_athletics_7|knows_riding_7|knows_shield_1|knows_horse_archery_6
+knows_lord_rhodok_3 = knows_lord_3|knows_ironflesh_6|knows_power_strike_5|knows_power_throw_3|knows_power_draw_4|knows_athletics_5|knows_riding_4|knows_shield_1|knows_horse_archery_4
+knows_lord_rhodok_4 = knows_lord_4|knows_ironflesh_7|knows_power_strike_6|knows_power_throw_3|knows_power_draw_5|knows_athletics_6|knows_riding_5|knows_shield_1|knows_horse_archery_5
+knows_lord_rhodok_5 = knows_lord_5|knows_ironflesh_8|knows_power_strike_7|knows_power_throw_3|knows_power_draw_6|knows_athletics_7|knows_riding_5|knows_shield_1|knows_horse_archery_6
+# knows_lord_rhodok_6 = knows_lord_6|knows_ironflesh_9|knows_power_strike_7|knows_power_throw_3|knows_power_draw_6|knows_athletics_7|knows_riding_8|knows_shield_1|knows_horse_archery_6
+knows_lord_rhodok_6 = knows_lord_rhodok_5
+knows_lord_rhodok_7 = knows_lord_7|knows_ironflesh_10|knows_power_strike_7|knows_power_throw_3|knows_power_draw_6|knows_athletics_7|knows_riding_6|knows_shield_1|knows_horse_archery_6
 
-knows_lord_sarranid_0 = knows_lord_0|knows_ironflesh_1|knows_power_strike_3|knows_power_throw_3|knows_power_draw_4|knows_athletics_2|knows_riding_3|knows_horse_archery_2
+knows_lord_sarranid_0 = knows_lord_0|knows_ironflesh_1|knows_power_strike_3|knows_power_throw_3|knows_power_draw_4|knows_athletics_2|knows_riding_4|knows_horse_archery_2
 knows_lord_sarranid_1 = knows_lord_1|knows_ironflesh_2|knows_power_strike_3|knows_power_throw_3|knows_power_draw_4|knows_athletics_3|knows_riding_4|knows_horse_archery_3
 knows_lord_sarranid_2 = knows_lord_2|knows_ironflesh_3|knows_power_strike_4|knows_power_throw_4|knows_power_draw_4|knows_athletics_4|knows_riding_5|knows_shield_1|knows_horse_archery_4
-knows_lord_sarranid_3 = knows_lord_3|knows_ironflesh_4|knows_power_strike_5|knows_power_throw_4|knows_power_draw_4|knows_athletics_5|knows_riding_6|knows_shield_1|knows_horse_archery_5
-knows_lord_sarranid_4 = knows_lord_4|knows_ironflesh_5|knows_power_strike_6|knows_power_throw_5|knows_power_draw_5|knows_athletics_6|knows_riding_7|knows_shield_1|knows_horse_archery_6
-knows_lord_sarranid_5 = knows_lord_5|knows_ironflesh_6|knows_power_strike_7|knows_power_throw_5|knows_power_draw_6|knows_athletics_7|knows_riding_8|knows_shield_1|knows_horse_archery_7
-knows_lord_sarranid_6 = knows_lord_6|knows_ironflesh_7|knows_power_strike_7|knows_power_throw_6|knows_power_draw_6|knows_athletics_7|knows_riding_8|knows_shield_1|knows_horse_archery_7
-knows_lord_sarranid_7 = knows_lord_7|knows_ironflesh_8|knows_power_strike_7|knows_power_throw_6|knows_power_draw_7|knows_athletics_7|knows_riding_8|knows_shield_1|knows_horse_archery_7
+knows_lord_sarranid_3 = knows_lord_3|knows_ironflesh_4|knows_power_strike_5|knows_power_throw_4|knows_power_draw_4|knows_athletics_5|knows_riding_5|knows_shield_1|knows_horse_archery_5
+knows_lord_sarranid_4 = knows_lord_4|knows_ironflesh_5|knows_power_strike_6|knows_power_throw_5|knows_power_draw_5|knows_athletics_6|knows_riding_6|knows_shield_1|knows_horse_archery_6
+knows_lord_sarranid_5 = knows_lord_5|knows_ironflesh_6|knows_power_strike_7|knows_power_throw_5|knows_power_draw_6|knows_athletics_7|knows_riding_6|knows_shield_1|knows_horse_archery_7
+# knows_lord_sarranid_6 = knows_lord_6|knows_ironflesh_7|knows_power_strike_7|knows_power_throw_6|knows_power_draw_6|knows_athletics_7|knows_riding_8|knows_shield_1|knows_horse_archery_7
+knows_lord_sarranid_6 = knows_lord_sarranid_5
+knows_lord_sarranid_7 = knows_lord_7|knows_ironflesh_8|knows_power_strike_7|knows_power_throw_6|knows_power_draw_7|knows_athletics_7|knows_riding_7|knows_shield_1|knows_horse_archery_7
 
 wp_template_0 = 120
 wp_template_1 = 140
@@ -226,17 +237,18 @@ wp_template_2 = 160
 wp_template_3 = 180
 wp_template_4 = 200
 wp_template_5 = 220
-wp_template_6 = 210
+# wp_template_6 = 210
+wp_template_6 = wp_template_5
 wp_template_7 = 230
 
 
-knows_companion_noble_low = knows_leadership_2|knows_trainer_2|knows_prisoner_management_1|knows_weapon_master_4|knows_tactics_3|knows_pathfinding_1
-knows_companion_noble_med = knows_leadership_4|knows_trainer_3|knows_prisoner_management_2|knows_weapon_master_5|knows_tactics_5|knows_pathfinding_1
-knows_companion_noble_high = knows_leadership_6|knows_trainer_4|knows_prisoner_management_3|knows_weapon_master_6|knows_tactics_7|knows_pathfinding_2
+knows_companion_noble_low = knows_leadership_2|knows_trainer_2_2|knows_prisoner_management_1|knows_weapon_master_4|knows_tactics_3|knows_pathfinding_1
+knows_companion_noble_med = knows_leadership_4|knows_trainer_2_3|knows_prisoner_management_2|knows_weapon_master_5|knows_tactics_5|knows_pathfinding_1
+knows_companion_noble_high = knows_leadership_6|knows_trainer_2_4|knows_prisoner_management_3|knows_weapon_master_6|knows_tactics_7|knows_pathfinding_2
 
-knows_companion_warrior_low = knows_leadership_1|knows_trainer_3|knows_weapon_master_4|knows_tactics_1
-knows_companion_warrior_med = knows_leadership_2|knows_trainer_5|knows_weapon_master_5|knows_tactics_2
-knows_companion_warrior_high = knows_leadership_3|knows_trainer_7|knows_weapon_master_6|knows_tactics_3
+knows_companion_warrior_low = knows_leadership_1|knows_trainer_2_3|knows_weapon_master_4|knows_tactics_1
+knows_companion_warrior_med = knows_leadership_2|knows_trainer_2_5|knows_weapon_master_5|knows_tactics_2
+knows_companion_warrior_high = knows_leadership_3|knows_trainer_2_7|knows_weapon_master_6|knows_tactics_3
 
 knows_companion_support_medic_low = knows_common
 knows_companion_support_medic_med = knows_common
@@ -339,17 +351,17 @@ rhodok_face_middle_2  = 0x00000007c00062c76ddcdf7feefbffff00000000001efdbc000000
 rhodok_face_old_2     = 0x0000000bc00062c76ddcdf7feefbffff00000000001efdbc0000000000000000
 rhodok_face_older_2   = 0x0000000fc00062c76ddcdf7feefbffff00000000001efdbc0000000000000000
 
-sarranid_face_younger_1 = 0x0000000018046183390d63269c8dcd1d00000000001dca5d0000000000000000
-sarranid_face_young_1   = 0x000000002f0c7389352b6b4d5e82369a00000000001d275d0000000000000000
-sarranid_face_middle_1  = 0x000000072010634f39837342db72367400000000001e28550000000000000000
-sarranid_face_old_1     = 0x0000000b1f0865104ae5b28ad084b6ee00000000001d53260000000000000000
-sarranid_face_older_1   = 0x0000000fe200624b46e0b12d5a4e34e300000000001e38e30000000000000000
+sarranid_face_younger_2 = 0x0000000018046183390d63269c8dcd1d00000000001dca5d0000000000000000
+sarranid_face_young_2   = 0x000000002f0c7389352b6b4d5e82369a00000000001d275d0000000000000000
+sarranid_face_middle_2  = 0x000000072010634f39837342db72367400000000001e28550000000000000000
+sarranid_face_old_2     = 0x0000000b1f0865104ae5b28ad084b6ee00000000001d53260000000000000000
+sarranid_face_older_2   = 0x0000000fe200624b46e0b12d5a4e34e300000000001e38e30000000000000000
 
-sarranid_face_younger_2 = 0x000000019700758b47de4f58cb8adba1000000000015a2a30000000000000000
-sarranid_face_young_2   = 0x00000002c1006410329d96425645daa000000000001dda4b0000000000000000
-sarranid_face_middle_2  = 0x000000072610754638e52a21248e58da00000000001e37620000000000000000
-sarranid_face_old_2     = 0x0000000b2e0471c348a34a62d9a642a400000000001cd5990000000000000000
-sarranid_face_older_2   = 0x0000000ffd0071c658d28dabd469eb2900000000001fa3250000000000000000
+sarranid_face_younger_1 = 0x000000019700758b47de4f58cb8adba1000000000015a2a30000000000000000
+sarranid_face_young_1   = 0x00000002c1006410329d96425645daa000000000001dda4b0000000000000000
+sarranid_face_middle_1  = 0x000000072610754638e52a21248e58da00000000001e37620000000000000000
+sarranid_face_old_1     = 0x0000000b2e0471c348a34a62d9a642a400000000001cd5990000000000000000
+sarranid_face_older_1   = 0x0000000ffd0071c658d28dabd469eb2900000000001fa3250000000000000000
 
 man_face_younger_1 = 0x0000000000000001124000000020000000000000001c00800000000000000000
 man_face_young_1   = 0x0000000400000001124000000020000000000000001c00800000000000000000
@@ -1063,6 +1075,16 @@ troops = [
 	],
    str_9|agi_10|int_7|cha_7|level(10), wpex(70,50,60,50,40,75), knows_common|knows_ironflesh_1|knows_power_strike_3|knows_power_throw_2|knows_power_draw_1|knows_athletics_4|knows_riding_1, swadian_face_young_1, swadian_face_old_2 ],
   
+  # Basic ranged, picks, maces, daggers, bows, shields
+  # SPECIAL
+  ["swadian_hunter", "Swadian Hunter", "Swadian Hunters", tf_guarantee_recruit_armor|tf_guarantee_ranged, no_scene, reserved, fac_small_kingdom_14,
+   [itm_fighting_pick, itm_mace_2, itm_dagger, itm_arrows_b, itm_hunting_bow2,
+    itm_ankle_boots, itm_wrapping_boots,
+	itm_leather_armor,
+	itm_padded_coif, itm_arming_cap,
+	],
+   str_8|agi_10|int_6|cha_7|level(8), wpex(65,50,60,70,40,45), knows_common|knows_power_strike_2|knows_power_draw_4|knows_athletics_2|knows_riding_1, swadian_face_young_1, swadian_face_old_2 ],
+  
   # Common
   # Light infantry, swords, picks, maces, shields
   ["swadian_light_infantry", "Swadian Footman", "Swadian Footmen", tf_guarantee_common_armor|tf_guarantee_shield, no_scene, reserved, fac_kingdom_1,
@@ -1110,15 +1132,15 @@ troops = [
 	itm_saddle_horse],
    str_12|agi_16|int_7|cha_8|level(20), wpex(80,60,70,70,60,105), knows_common|knows_ironflesh_1|knows_power_strike_4|knows_power_throw_2|knows_power_draw_1|knows_athletics_3|knows_riding_6|knows_horse_archery_3, swadian_face_young_1, swadian_face_old_2 ],
   
-  # Light cavalry, swords, picks, maces, lances, shields
+  # Light cavalry, spears, shields
   # SPECIAL
   ["swadian_scout", "Swadian Scout", "Swadian Scouts", tf_guarantee_common_armor|tf_guarantee_horseman|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_15,
-   [itm_sword_medieval_a, itm_sword_medieval_a_long, itm_fighting_pick, itm_mace_2, itm_light_lance, itm_tab_shield_heater_cav_a,
+   [itm_spear, itm_tab_shield_heater_cav_a,
     itm_leather_boots, itm_leather_gloves,
 	itm_padded_cloth, itm_leather_jerkin, itm_leather_armor,
 	itm_footman_helmet, itm_mail_coif, itm_padded_coif, itm_padded_coif,
 	itm_saddle_horse],
-   str_12|agi_15|int_7|cha_8|level(19), wpex(90,85,115,60,50,50), knows_common|knows_ironflesh_1|knows_power_strike_4|knows_power_draw_1|knows_athletics_4|knows_riding_6|knows_horse_archery_2, swadian_face_young_1, swadian_face_old_2 ],
+   str_12|agi_15|int_7|cha_8|level(19), wpex(90,85,120,60,50,50), knows_common|knows_ironflesh_3|knows_power_strike_4|knows_power_draw_1|knows_athletics_4|knows_riding_6|knows_horse_archery_2, swadian_face_young_1, swadian_face_old_2 ],
   
   # Light ranged, swords, picks, maces, bows
   # SPECIAL
@@ -1140,15 +1162,25 @@ troops = [
 	],
    str_14|agi_13|int_8|cha_7|level(19), wpex(90,135,85,55,45,45), knows_common|knows_ironflesh_2|knows_power_strike_4|knows_power_throw_1|knows_power_draw_1|knows_athletics_6|knows_riding_2, swadian_face_young_1, swadian_face_old_2 ],
   
+  # Light infantry, spears, shields
+  # SPECIAL
+  ["swadian_light_spearman", "Swadian Light Spearman", "Swadian Light Spearmen", tf_guarantee_trained_armor|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_15,
+   [itm_war_spear, itm_tab_shield_heater_b,
+    itm_leather_boots, itm_leather_gloves,
+	itm_padded_cloth, itm_red_gambeson, itm_leather_jerkin, itm_padded_leather,
+	itm_footman_helmet, itm_mail_coif, itm_helmet_with_neckguard,
+	],
+   str_15|agi_12|int_7|cha_7|level(18), wpex(90,80,130,60,50,40), knows_common|knows_ironflesh_3|knows_power_strike_5|knows_power_draw_1|knows_athletics_5|knows_riding_2, swadian_face_young_1, swadian_face_old_2 ],
+  
   # Veteran
   # Heavy infantry, spears, shields
-  ["swadian_spearman", "Swadian Pikeman", "Swadian Pikemen", tf_guarantee_trained_armor|tf_guarantee_shield, no_scene, reserved, fac_kingdom_1,
+  ["swadian_pikeman", "Swadian Pikeman", "Swadian Pikemen", tf_guarantee_trained_armor|tf_guarantee_shield, no_scene, reserved, fac_kingdom_1,
    [itm_awlpike, itm_tab_shield_heater_c,
     itm_mail_chausses, itm_mail_mittens,
 	itm_haubergeon, itm_mail_with_surcoat,
 	itm_flat_topped_helmet, itm_kettle_hat, itm_guard_helmet, itm_guard_helmet, itm_bascinet, itm_bascinet_b, itm_bascinet_c,
 	],
-   str_20|agi_10|int_9|cha_8|level(24), wpex(90,80,120,60,50,40), knows_common|knows_ironflesh_6|knows_power_strike_5|knows_power_draw_1|knows_athletics_2|knows_riding_2|knows_shield_1, swadian_face_young_1, swadian_face_old_2 ],
+   str_20|agi_10|int_9|cha_8|level(24), wpex(90,80,110,60,50,40), knows_common|knows_ironflesh_6|knows_power_strike_5|knows_power_draw_1|knows_athletics_2|knows_riding_2|knows_shield_1, swadian_face_young_1, swadian_face_old_2 ],
   
   # Heavy infantry, swords, picks, maces, shields
   ["swadian_heavy_infantry", "Swadian Man-At-Arms", "Swadian Men-At-Arms", tf_guarantee_trained_armor|tf_guarantee_shield, no_scene, reserved, fac_kingdom_1,
@@ -1223,6 +1255,16 @@ troops = [
 	],
    str_14|agi_12|int_8|cha_9|level(20), wpex(85,50,60,75,70,55), knows_common|knows_ironflesh_2|knows_power_strike_2|knows_power_draw_6|knows_athletics_3|knows_riding_2|knows_horse_archery_1, swadian_face_young_1, swadian_face_old_2 ],
   
+  # Heavy infantry, spears, shields
+  # SPECIAL
+  ["swadian_spearman", "Swadian Spearman", "Swadian Spearmen", tf_guarantee_trained_armor|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_15,
+   [itm_war_spear, itm_tab_shield_heater_c,
+    itm_mail_chausses, itm_mail_mittens,
+	itm_haubergeon, itm_mail_with_surcoat,
+	itm_flat_topped_helmet, itm_kettle_hat, itm_guard_helmet, itm_guard_helmet, itm_bascinet, itm_bascinet_b, itm_bascinet_c,
+	],
+   str_19|agi_10|int_9|cha_8|level(23), wpex(90,80,120,60,50,40), knows_common|knows_ironflesh_6|knows_power_strike_5|knows_power_draw_1|knows_athletics_3|knows_riding_2|knows_shield_1, swadian_face_young_1, swadian_face_old_2 ],
+  
   # Elite
   # Heavy infantry, bastard swords, morningstars, shields
   ["swadian_guard", "Swadian Sergeant", "Swadian Sergeants", tf_guarantee_trained_armor|tf_guarantee_shield, no_scene, reserved, fac_kingdom_1,
@@ -1260,7 +1302,7 @@ troops = [
 	itm_coat_of_plates_red,
 	itm_guard_helmet, itm_guard_helmet, itm_bascinet, itm_bascinet_b, itm_bascinet_c,
 	],
-   str_25|agi_9|int_11|cha_10|level(32), wpex(95,85,130,65,55,50), knows_common|knows_ironflesh_9|knows_power_strike_5|knows_power_draw_1|knows_athletics_2|knows_riding_2|knows_shield_1, swadian_face_young_1, swadian_face_old_2 ],
+   str_25|agi_9|int_11|cha_10|level(32), wpex(95,85,120,65,55,50), knows_common|knows_ironflesh_9|knows_power_strike_5|knows_power_draw_1|knows_athletics_2|knows_riding_2|knows_shield_1, swadian_face_young_1, swadian_face_old_2 ],
   
   # Medium ranged, swords, picks, maces, crossbows, shields
   # SPECIAL
@@ -1272,15 +1314,15 @@ troops = [
 	],
    str_18|agi_14|int_10|cha_9|level(26), wpex(95,65,75,70,95,55), knows_common|knows_ironflesh_5|knows_power_strike_2|knows_power_draw_2|knows_athletics_1|knows_riding_2|knows_horse_archery_1|knows_shield_1, swadian_face_young_1, swadian_face_old_2 ],
   
-  # Heavy cavalry, swords, maces, picks, lances, shields
+  # Heavy cavalry, swords, maces, picks, 2h swords, shields
   # SPECIAL
   ["swadian_squire", "Swadian Squire", "Swadian Squires", tf_guarantee_trained_armor|tf_guarantee_horseman|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_17,
-   [itm_sword_medieval_c, itm_sword_medieval_c_long, itm_military_sickle_a, itm_mace_4, itm_lance, itm_tab_shield_heater_cav_b,
+   [itm_sword_medieval_c, itm_sword_medieval_c_long, itm_military_sickle_a, itm_mace_4, itm_sword_two_handed_a, itm_sword_two_handed_a, itm_tab_shield_heater_cav_b,
     itm_mail_chausses, itm_mail_mittens,
 	itm_haubergeon, itm_mail_with_surcoat,
 	itm_mail_coif, itm_helmet_with_neckguard, itm_kettle_hat, itm_flat_topped_helmet,
 	itm_hunter],
-   str_15|agi_15|int_10|cha_13|level(30), wpex(95,95,130,60,50,55), knows_common|knows_ironflesh_6|knows_power_strike_3|knows_power_draw_1|knows_athletics_3|knows_riding_5|knows_horse_archery_1, swadian_face_young_1, swadian_face_old_2 ],
+   str_15|agi_15|int_10|cha_13|level(30), wpex(95,115,95,60,50,55), knows_common|knows_ironflesh_6|knows_power_strike_3|knows_power_draw_1|knows_athletics_3|knows_riding_5|knows_horse_archery_1, swadian_face_young_1, swadian_face_old_2 ],
   
   # Noble
   # Heavy cavalry, swords, bastard swords, morningstars, lances, shields
@@ -1457,7 +1499,7 @@ troops = [
    str_13|agi_15|int_7|cha_8|level(20), wpex(90,80,135,60,25,90), knows_common|knows_ironflesh_2|knows_power_strike_5|knows_power_throw_2|knows_power_draw_1|knows_athletics_3|knows_riding_6|knows_horse_archery_3, vaegir_face_young_1, vaegir_face_old_2 ],
   
   # Light cavalry ranged, sabres, bows
-  ["vaegir_horse_archer", "Vaegir Mounted Bowman", "Vaegir Mounted Bowmen", tf_guarantee_trained_armor|tf_guarantee_horseman|tf_guarantee_ranged, no_scene, reserved, fac_kingdom_2,
+  ["vaegir_mounted_bowman", "Vaegir Mounted Bowman", "Vaegir Mounted Bowmen", tf_guarantee_trained_armor|tf_guarantee_horseman|tf_guarantee_ranged, no_scene, reserved, fac_kingdom_2,
    [itm_scimitar, itm_nomad_bow, itm_bodkin_arrows, itm_bodkin_arrows,
     itm_leather_boots, itm_leather_gloves,
 	itm_leather_vest, itm_leather_jerkin,
@@ -1495,6 +1537,26 @@ troops = [
 	itm_hunter],
    str_15|agi_15|int_7|cha_10|level(24), wpex(110,110,105,65,20,50), knows_common|knows_ironflesh_5|knows_power_strike_3|knows_power_throw_1|knows_power_draw_1|knows_athletics_3|knows_riding_5|knows_horse_archery_1, vaegir_face_young_1, vaegir_face_old_2 ],
   
+  # Light ranged, sabres, bows
+  # SPECIAL
+  ["vaegir_medium_longbowman", "Vaegir Longbowman", "Vaegir Longbowmen", tf_guarantee_trained_armor|tf_guarantee_ranged, no_scene, reserved, fac_small_kingdom_23,
+   [itm_scimitar, itm_war_bow, itm_bodkin_arrows, itm_bodkin_arrows,
+    itm_leather_boots, itm_leather_gloves,
+	itm_leather_jerkin, itm_tribal_warrior_outfit,
+	itm_vaegir_spiked_helmet, itm_vaegir_fur_helmet, itm_vaegir_fur_cap,
+	],
+   str_13|agi_16|int_7|cha_10|level(23), wpex(80,60,40,120,40,30), knows_common|knows_ironflesh_2|knows_power_strike_2|knows_power_draw_6|knows_athletics_5|knows_riding_2|knows_horse_archery_1, vaegir_face_young_1, vaegir_face_old_2 ],
+  
+  # Light cavalry ranged, sabres, bows
+  # SPECIAL
+  ["vaegir_mounted_longbowman", "Vaegir Mounted Longbowman", "Vaegir Mounted Longbowmen", tf_guarantee_trained_armor|tf_guarantee_horseman|tf_guarantee_ranged, no_scene, reserved, fac_small_kingdom_25,
+   [itm_scimitar, itm_war_bow, itm_bodkin_arrows, itm_bodkin_arrows,
+    itm_leather_boots, itm_leather_gloves,
+	itm_leather_vest, itm_leather_jerkin,
+	itm_vaegir_fur_helmet, itm_vaegir_fur_cap,
+	itm_steppe_horse],
+   str_13|agi_15|int_9|cha_10|level(24), wpex(80,60,40,115,40,40), knows_common|knows_ironflesh_1|knows_power_strike_2|knows_power_draw_6|knows_athletics_4|knows_riding_6|knows_horse_archery_6, vaegir_face_young_1, vaegir_face_old_2 ],
+  
   # Elite
   # Heavy infantry, poleaxes
   ["vaegir_guard", "Vaegir Guard", "Vaegir Guards", tf_guarantee_trained_armor, no_scene, reserved, fac_kingdom_2,
@@ -1506,17 +1568,17 @@ troops = [
    str_18|agi_15|int_8|cha_10|level(28), wpex(110,105,145,75,25,50), knows_common|knows_ironflesh_5|knows_power_strike_5|knows_power_throw_1|knows_power_draw_2|knows_athletics_5|knows_riding_2, vaegir_face_young_1, vaegir_face_old_2 ],
   
   # Medium ranged, sabres, bows, shields
-  ["vaegir_heavy_bowman", "Vaegir Heavy Bowman", "Vaegir Heavy Bowmen", tf_guarantee_trained_armor|tf_guarantee_ranged, no_scene, reserved, fac_kingdom_2,
-   [itm_scimitar, itm_war_bow, itm_bodkin_arrows, itm_tab_shield_kite_b,
+  ["vaegir_heavy_longbowman", "Vaegir Heavy Longbowman", "Vaegir Heavy Longbowmen", tf_guarantee_trained_armor|tf_guarantee_ranged, no_scene, reserved, fac_kingdom_2,
+   [itm_scimitar, itm_war_bow, itm_bodkin_arrows, itm_tab_shield_kite_c,
     itm_leather_boots, itm_mail_chausses, itm_leather_gloves,
 	itm_studded_leather_coat, itm_lamellar_vest,
 	itm_vaegir_lamellar_helmet, itm_vaegir_spiked_helmet, itm_vaegir_fur_helmet, itm_vaegir_fur_cap,
 	],
-   str_17|agi_13|int_8|cha_11|level(26), wpex(90,60,40,110,40,40), knows_common|knows_ironflesh_3|knows_power_strike_2|knows_power_draw_6|knows_athletics_4|knows_riding_2|knows_horse_archery_1, vaegir_face_young_1, vaegir_face_old_2 ],
+   str_17|agi_14|int_8|cha_12|level(28), wpex(90,60,40,110,40,40), knows_common|knows_ironflesh_3|knows_power_strike_2|knows_power_draw_6|knows_athletics_4|knows_riding_2|knows_horse_archery_1, vaegir_face_young_1, vaegir_face_old_2 ],
   
   # Heavy cavalry, lances, shields
   # SPECIAL
-  ["vaegir_lancer", "Vaegir Lancer", "Vaegir Lancers", tf_guarantee_trained_armor|tf_guarantee_shield|tf_guarantee_horseman, no_scene, reserved, fac_small_kingdom_21,
+  ["vaegir_heavy_lancer", "Vaegir Heavy Lancer", "Vaegir Heavy Lancers", tf_guarantee_trained_armor|tf_guarantee_shield|tf_guarantee_horseman, no_scene, reserved, fac_small_kingdom_21,
    [itm_heavy_lance, itm_tab_shield_kite_cav_b,
     itm_mail_chausses, itm_mail_mittens,
     itm_mail_hauberk, itm_lamellar_vest,
@@ -1526,7 +1588,7 @@ troops = [
   
   # Heavy cavalry ranged, sabres, bows
   # SPECIAL
-  ["vaegir_heavy_mounted_bowman", "Vaegir Heavy Mounted Bowman", "Vaegir Heavy Mounted Bowmen", tf_guarantee_trained_armor|tf_guarantee_ranged|tf_guarantee_horseman, no_scene, reserved, fac_small_kingdom_25,
+  ["vaegir_heavy_mounted_longbowman", "Vaegir Heavy Mounted Longbowman", "Vaegir Heavy Mounted Longbowmen", tf_guarantee_trained_armor|tf_guarantee_ranged|tf_guarantee_horseman, no_scene, reserved, fac_small_kingdom_25,
    [itm_scimitar, itm_war_bow, itm_bodkin_arrows,
     itm_leather_boots, itm_mail_chausses, itm_leather_gloves,
 	itm_lamellar_vest,
@@ -1562,27 +1624,37 @@ troops = [
 	itm_brigandine_red, itm_banded_armor, itm_lamellar_armor,
 	itm_vaegir_war_helmet, itm_vaegir_noble_helmet, itm_vaegir_helmet,
 	itm_hunter],
-   str_18|agi_20|int_10|cha_16|level(41), wpex(110,145,110,130,40,80), knows_common|knows_ironflesh_5|knows_power_strike_4|knows_power_throw_1|knows_power_draw_5|knows_athletics_5|knows_riding_6|knows_shield_1|knows_horse_archery_5, vaegir_face_young_1, vaegir_face_old_2 ],
+   str_18|agi_20|int_10|cha_17|level(42), wpex(110,145,110,130,40,80), knows_common|knows_ironflesh_5|knows_power_strike_4|knows_power_throw_1|knows_power_draw_5|knows_athletics_5|knows_riding_6|knows_shield_1|knows_horse_archery_5, vaegir_face_young_1, vaegir_face_old_2 ],
   
   # Heavy ranged, sabres, bows, shields
   # SPECIAL
-  ["vaegir_marksman", "Vaegir Marksman", "Vaegir Marksmen", tf_guarantee_trained_armor|tf_guarantee_shield|tf_guarantee_ranged, no_scene, reserved, fac_small_kingdom_23,
+  ["vaegir_marksman", "Vaegir Royal Longbowman", "Vaegir Royal Longbowmen", tf_guarantee_trained_armor|tf_guarantee_shield|tf_guarantee_ranged, no_scene, reserved, fac_small_kingdom_23,
    [itm_scimitar_b, itm_tab_shield_kite_d, itm_war_bow, itm_bodkin_arrows,
     itm_mail_boots, itm_mail_mittens,
 	itm_brigandine_red, itm_banded_armor, itm_lamellar_armor,
 	itm_vaegir_war_helmet, itm_vaegir_noble_helmet, itm_vaegir_helmet,
 	],
-   str_17|agi_21|int_12|cha_15|level(42), wpex(115,110,100,110,45,80), knows_common|knows_ironflesh_6|knows_power_strike_4|knows_power_throw_1|knows_power_draw_7|knows_athletics_5|knows_riding_4|knows_shield_1|knows_horse_archery_4, vaegir_face_young_1, vaegir_face_old_2 ],
+   str_17|agi_21|int_12|cha_18|level(45), wpex(115,110,100,120,45,80), knows_common|knows_ironflesh_6|knows_power_strike_4|knows_power_throw_1|knows_power_draw_7|knows_athletics_5|knows_riding_4|knows_shield_1|knows_horse_archery_4, vaegir_face_young_1, vaegir_face_old_2 ],
   
   # Heavy cavalry, lances, shields
   # SPECIAL
-  ["vaegir_heavy_lancer", "Vaegir Heavy Lancer", "Vaegir Heavy Lancer", tf_guarantee_trained_armor|tf_guarantee_shield|tf_guarantee_horseman, no_scene, reserved, fac_small_kingdom_21,
+  ["vaegir_royal_lancer", "Vaegir Royal Lancer", "Vaegir Royal Lancer", tf_guarantee_trained_armor|tf_guarantee_shield|tf_guarantee_horseman, no_scene, reserved, fac_small_kingdom_21,
    [itm_heavy_lance, itm_tab_shield_kite_cav_b,
     itm_mail_boots, itm_iron_greaves, itm_mail_mittens,
 	itm_banded_armor, itm_lamellar_armor,
 	itm_vaegir_war_helmet, itm_vaegir_noble_helmet, itm_vaegir_helmet,
 	itm_warhorse],
-   str_19|agi_20|int_12|cha_14|level(42), wpex(110,115,145,85,40,80), knows_common|knows_ironflesh_6|knows_power_strike_6|knows_power_throw_1|knows_power_draw_4|knows_athletics_4|knows_riding_6|knows_shield_1|knows_horse_archery_2, vaegir_face_young_1, vaegir_face_old_2 ],
+   str_19|agi_20|int_12|cha_16|level(44), wpex(110,115,145,85,40,80), knows_common|knows_ironflesh_6|knows_power_strike_6|knows_power_throw_1|knows_power_draw_4|knows_athletics_4|knows_riding_6|knows_shield_1|knows_horse_archery_2, vaegir_face_young_1, vaegir_face_old_2 ],
+  
+  # Heavy cavalry, sabres, 2h axes, lances, shields
+  # SPECIAL
+  ["vaegir_royal_horseman", "Vaegir Royal Horseman", "Vaegir Royal Horsemen", tf_guarantee_trained_armor|tf_guarantee_shield|tf_guarantee_horseman, no_scene, reserved, fac_small_kingdom_22,
+   [itm_scimitar_b, itm_bardiche, itm_tab_shield_kite_cav_b, itm_heavy_lance,
+    itm_mail_boots, itm_iron_greaves, itm_mail_mittens,
+	itm_banded_armor, itm_lamellar_armor,
+	itm_vaegir_war_helmet, itm_vaegir_noble_helmet, itm_vaegir_helmet,
+	itm_hunter],
+   str_17|agi_19|int_10|cha_16|level(39), wpex(115,140,145,85,40,80), knows_common|knows_ironflesh_6|knows_power_strike_5|knows_power_throw_1|knows_power_draw_4|knows_athletics_4|knows_riding_6|knows_shield_1|knows_horse_archery_2, vaegir_face_young_1, vaegir_face_old_2 ],
   
   ############
   # Khergits #
@@ -1590,12 +1662,12 @@ troops = [
   # Peasant
   # Basic infantry, maces, spears
   ["khergit_levy", "Khergit Levy", "Khergit Levies", tf_guarantee_recruit_armor, no_scene, reserved, fac_kingdom_3,
-   [itm_club, itm_shortened_spear,
+   [itm_shortened_spear,
     itm_nomad_boots, itm_hide_boots,
 	itm_leather_vest, itm_coarse_tunic,
 	itm_nomad_cap_b, itm_nomad_cap, itm_leather_steppe_cap_a, itm_leather_steppe_cap_c,
 	],
-   str_9|agi_9|int_6|cha_5|level(6), wpex(60,50,100,50,20,40), knows_common|knows_ironflesh_1|knows_power_strike_4|knows_power_draw_1|knows_athletics_3|knows_riding_2, khergit_face_young_1, khergit_face_old_2 ],
+   str_9|agi_9|int_6|cha_5|level(6), wpex(60,50,80,50,20,40), knows_common|knows_ironflesh_1|knows_power_strike_4|knows_power_draw_1|knows_athletics_3|knows_riding_2, khergit_face_young_1, khergit_face_old_2 ],
   
   # Basic ranged, maces, bows
   ["khergit_militia", "Khergit Tribesman", "Khergit Tribesmen", tf_guarantee_recruit_armor, no_scene, reserved, fac_kingdom_3,
@@ -1845,11 +1917,11 @@ troops = [
 	itm_lamellar_armor,
 	itm_khergit_cavalry_helmet, itm_khergit_guard_helmet,
 	],
-   str_16|agi_15|int_10|cha_8|level(27), wpex(100,85,100,70,25,105), knows_common|knows_ironflesh_3|knows_power_strike_2|knows_power_throw_3|knows_power_draw_2|knows_athletics_3|knows_riding_3|knows_shield_1|knows_horse_archery_1, khergit_face_young_1, khergit_face_old_2 ],
+   str_16|agi_16|int_10|cha_8|level(28), wpex(100,85,100,70,25,105), knows_common|knows_ironflesh_3|knows_power_strike_2|knows_power_throw_3|knows_power_draw_2|knows_athletics_3|knows_riding_3|knows_shield_1|knows_horse_archery_1, khergit_face_young_1, khergit_face_old_2 ],
   
   # Noble
   # Heavy cavalry ranged, sabres, maces, bows, shields
-  ["khergit_noble", "Khergit Chieftain", "Khergit Chieftains", tf_guarantee_trained_armor|tf_guarantee_horseman|tf_guarantee_shield|tf_guarantee_ranged, no_scene, reserved, fac_kingdom_3,
+  ["khergit_noble", "Khergit Noble Horse Archer", "Khergit Noble Horse Archers", tf_guarantee_trained_armor|tf_guarantee_horseman|tf_guarantee_shield|tf_guarantee_ranged, no_scene, reserved, fac_kingdom_3,
    [itm_sword_khergit_4, itm_spiked_mace, itm_khergit_bow, itm_khergit_arrows, itm_tab_shield_small_round_c,
     itm_splinted_greaves, itm_leather_gloves, itm_scale_gauntlets,
 	itm_lamellar_armor, itm_lamellar_vest_khergit,
@@ -1996,6 +2068,26 @@ troops = [
 	itm_saddle_horse],
    str_13|agi_15|int_7|cha_7|level(19), wpex(75,65,60,120,45,55), knows_common|knows_power_strike_2|knows_power_draw_4|knows_athletics_4|knows_riding_5|knows_horse_archery_4, nord_face_young_1, nord_face_old_2 ],
   
+  # Light cavalry skirmisher, swords, axes, javelins
+  # SPECIAL
+  ["nord_light_mounted_skirmisher", "Nord Light Mounted Skirmisher", "Nord Light Mounted Skirmisher", tf_guarantee_common_armor|tf_guarantee_horseman|tf_guarantee_ranged, no_scene, reserved, fac_small_kingdom_43,
+   [itm_sword_viking_1, itm_sword_viking_1_long, itm_one_handed_battle_axe_a, itm_javelin, itm_javelin, itm_javelin,
+    itm_leather_boots, itm_leather_gloves,
+	itm_leather_jerkin,
+	itm_nordic_archer_helmet, itm_nordic_veteran_archer_helmet, itm_nordic_footman_helmet,
+	itm_saddle_horse],
+   str_14|agi_15|int_7|cha_7|level(20), wpex(95,85,80,45,25,105), knows_common|knows_ironflesh_2|knows_power_strike_2|knows_power_throw_3|knows_athletics_4|knows_riding_5|knows_horse_archery_4, nord_face_young_1, nord_face_old_2 ],
+  
+  # Light cavalry, spears, shields
+  # SPECIAL
+  ["nord_light_spear_cavalry", "Nord Light Spear Cavalry", "Nord Light Spear Cavalries", tf_guarantee_common_armor|tf_guarantee_horseman, no_scene, reserved, fac_small_kingdom_45,
+   [itm_spear, itm_tab_shield_round_b,
+    itm_leather_boots, itm_leather_gloves,
+	itm_leather_jerkin,
+	itm_nordic_archer_helmet, itm_nordic_veteran_archer_helmet, itm_nordic_footman_helmet,
+	itm_saddle_horse],
+   str_12|agi_14|int_7|cha_6|level(16), wpex(95,90,125,45,25,60), knows_common|knows_ironflesh_2|knows_power_strike_4|knows_athletics_5|knows_riding_5, nord_face_young_1, nord_face_old_2 ],
+  
   # Veteran
   # Medium infantry, swords, axes, javelins, shields
   ["nord_medium_infantry", "Nord Warrior", "Nord Warriors", tf_guarantee_trained_armor|tf_guarantee_shield, no_scene, reserved, fac_kingdom_4,
@@ -2073,6 +2165,26 @@ troops = [
 	],
    str_16|agi_15|int_7|cha_7|level(22), wpex(80,65,60,120,45,55), knows_common|knows_ironflesh_2|knows_power_strike_3|knows_power_throw_1|knows_power_draw_4|knows_athletics_5|knows_riding_1, nord_face_young_1, nord_face_old_2 ],
   
+  # Light ranged, swords, axes, crossbow
+  # SPECIAL
+  ["nord_medium_crossbowman", "Nord Crossbowman", "Nord Crossbowmen", tf_guarantee_trained_armor|tf_guarantee_ranged, no_scene, reserved, fac_small_kingdom_44,
+   [itm_one_handed_battle_axe_a, itm_one_handed_battle_axe_a, itm_sword_viking_2, itm_sword_viking_2_small, itm_light_crossbow, itm_bolts, itm_bolts,
+    itm_leather_boots, itm_leather_gloves,
+	itm_leather_jerkin,
+	itm_nordic_archer_helmet, itm_nordic_veteran_archer_helmet, itm_nordic_footman_helmet,
+	],
+   str_16|agi_15|int_7|cha_7|level(22), wpex(80,65,60,75,115,55), knows_common|knows_ironflesh_3|knows_power_strike_3|knows_power_throw_1|knows_power_draw_4|knows_athletics_4|knows_riding_1, nord_face_young_1, nord_face_old_2 ],
+  
+  # Medium cavalry, spears, shields
+  # SPECIAL
+  ["nord_medium_spear_cavalry", "Nord Spear Cavalry", "Nord Spear Cavalries", tf_guarantee_trained_armor|tf_guarantee_horseman|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_45,
+   [itm_spear, itm_tab_shield_round_c,
+    itm_leather_boots, itm_leather_gloves,
+	itm_byrnie,
+	itm_nordic_veteran_archer_helmet, itm_nordic_footman_helmet, itm_nordic_fighter_helmet,
+	itm_pack_horse],
+   str_14|agi_13|int_8|cha_8|level(20), wpex(100,95,120,50,25,70), knows_common|knows_ironflesh_4|knows_power_strike_4|knows_power_throw_1|knows_athletics_4|knows_riding_4|knows_horse_archery_1, nord_face_young_1, nord_face_old_2 ],
+  
   # Elite
   # Medium cavalry, swords, axes, shields
   ["nord_heavy_cavalry", "Nord Heavy Cavalry", "Nord Heavy Cavalries", tf_guarantee_trained_armor|tf_guarantee_shield|tf_guarantee_horseman, no_scene, reserved, fac_kingdom_4,
@@ -2110,6 +2222,15 @@ troops = [
 	itm_nordic_veteran_archer_helmet, itm_nordic_footman_helmet, itm_nordic_fighter_helmet,
 	],
    str_16|agi_14|int_8|cha_9|level(24), wpex(90,70,65,85,45,60), knows_common|knows_ironflesh_3|knows_power_strike_4|knows_power_throw_1|knows_power_draw_6|knows_athletics_3|knows_riding_1, nord_face_young_1, nord_face_old_2 ],
+  
+  # Medium cavalry, spears, shields
+  ["nord_heavy_spear_cavalry", "Nord Heavy Spear Cavalry", "Nord Heavy Spear Cavalries", tf_guarantee_trained_armor|tf_guarantee_shield|tf_guarantee_horseman, no_scene, reserved, fac_small_kingdom_45,
+   [itm_war_spear, itm_tab_shield_round_d,
+    itm_mail_chausses, itm_mail_mittens,
+	itm_byrnie, itm_mail_shirt,
+	itm_nordic_footman_helmet, itm_nordic_fighter_helmet, itm_nordic_helmet,
+	itm_hunter],
+   str_16|agi_14|int_10|cha_10|level(27), wpex(100,95,115,55,30,75), knows_common|knows_ironflesh_5|knows_power_strike_4|knows_power_throw_1|knows_athletics_3|knows_riding_4|knows_horse_archery_1, nord_face_young_1, nord_face_old_2 ],
   
   # Noble
   # Heavy infantry, swords, axes, shields
@@ -2258,6 +2379,16 @@ troops = [
 	],
    str_11|agi_15|int_7|cha_6|level(16), wpex(85,70,90,20,45,80), knows_common|knows_ironflesh_2|knows_power_strike_4|knows_power_throw_3|knows_athletics_5, rhodok_face_young_1, rhodok_face_old_2 ],
   
+  # Light cavalry, spears, shields
+  # SPECIAL
+  ["rhodok_light_cavalry", "Rhodok Light Cavalry", "Rhodok Light Cavalries", tf_guarantee_recruit_armor|tf_guarantee_horseman|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_53,
+   [itm_double_sided_spear, itm_tab_shield_heater_cav_a,
+    itm_leather_boots, itm_leather_gloves,
+	itm_aketon_green, itm_leather_armor,
+	itm_padded_coif, itm_common_hood, itm_footman_helmet, itm_mail_coif,
+	itm_saddle_horse],
+   str_12|agi_13|int_7|cha_7|level(16), wpex(85,70,145,20,40,40), knows_common|knows_ironflesh_5|knows_power_strike_4|knows_athletics_4|knows_riding_6, rhodok_face_young_1, rhodok_face_old_2 ],
+  
   # Veteran
   # Medium infantry, swords, picks, shields
   ["rhodok_heavy_infantry", "Rhodok Heavy Swordsman", "Rhodok Heavy Swordsmen", tf_guarantee_trained_armor|tf_guarantee_shield, no_scene, reserved, fac_kingdom_5,
@@ -2295,14 +2426,14 @@ troops = [
 	],
    str_12|agi_14|int_8|cha_11|level(22), wpex(80,65,70,35,120,40), knows_common|knows_ironflesh_4|knows_power_strike_3|knows_power_draw_1|knows_athletics_4|knows_riding_1|knows_horse_archery_1, rhodok_face_young_1, rhodok_face_old_2 ],
   
-  # Light cavalry, swords, lances
-  ["rhodok_light_cavalry", "Rhodok Light Cavalry", "Rhodok Light Cavalries", tf_guarantee_trained_armor|tf_guarantee_horseman, no_scene, reserved, fac_kingdom_5,
-   [itm_sword_medieval_a, itm_sword_medieval_a_long, itm_light_lance,
-    itm_leather_boots, itm_leather_gloves,
-	itm_aketon_green, itm_ragged_outfit, itm_leather_armor,
-	itm_footman_helmet, itm_mail_coif, itm_helmet_with_neckguard,
-	itm_saddle_horse, itm_courser],
-   str_11|agi_15|int_6|cha_6|level(15), wpex(90,75,110,25,40,40), knows_common|knows_ironflesh_3|knows_power_strike_4|knows_athletics_2|knows_riding_5, rhodok_face_young_1, rhodok_face_old_2 ],
+  # Medium cavalry, spears, shields
+  ["rhodok_cavalry", "Rhodok Cavalry", "Rhodok Cavalries", tf_guarantee_trained_armor|tf_guarantee_horseman|tf_guarantee_shield, no_scene, reserved, fac_kingdom_5,
+   [itm_double_sided_spear, itm_tab_shield_heater_cav_a,
+    itm_mail_chausses, itm_mail_mittens, itm_leather_gloves,
+	itm_byrnie,
+	itm_kettle_hat, itm_mail_coif, itm_helmet_with_neckguard,
+	itm_pack_horse],
+   str_15|agi_13|int_8|cha_8|level(21), wpex(90,75,135,25,40,40), knows_common|knows_ironflesh_7|knows_power_strike_4|knows_athletics_4|knows_riding_5, rhodok_face_young_1, rhodok_face_old_2 ],
   
   # Light cavalry, swords, picks, shields
   ["rhodok_medium_cavalry", "Rhodok Horseman", "Rhodok Horsemen", tf_guarantee_trained_armor|tf_guarantee_horseman|tf_guarantee_shield, no_scene, reserved, fac_kingdom_5,
@@ -2374,17 +2505,17 @@ troops = [
   # Medium cavalry, swords, picks, shields
   # SPECIAL
   ["rhodok_heavy_cavalry", "Rhodok Heavy Cavalry", "Rhodok Heavy Cavalries", tf_guarantee_trained_armor|tf_guarantee_shield|tf_guarantee_horseman, no_scene, reserved, fac_small_kingdom_53,
-   [itm_sword_medieval_b, itm_military_cleaver_a, itm_military_sickle_a, itm_tab_shield_heater_cav_a,
-    itm_mail_chausses, itm_mail_mittens,
-	itm_byrnie,
-	itm_helmet_with_neckguard, itm_kettle_hat, itm_mail_coif,
+   [itm_double_sided_spear, itm_tab_shield_heater_cav_b,
+    itm_mail_boots, itm_mail_mittens,
+	itm_surcoat_over_mail,
+	itm_guard_helmet, itm_bascinet,
 	itm_hunter],
-   str_14|agi_14|int_9|cha_10|level(24), wpex(90,70,75,40,60,45), knows_common|knows_ironflesh_6|knows_power_strike_3|knows_power_draw_1|knows_athletics_2|knows_riding_4|knows_horse_archery_1, rhodok_face_young_1, rhodok_face_old_2 ],
+   str_18|agi_14|int_9|cha_11|level(29), wpex(90,70,130,40,60,45), knows_common|knows_ironflesh_9|knows_power_strike_4|knows_power_draw_1|knows_athletics_3|knows_riding_5|knows_horse_archery_1, rhodok_face_young_1, rhodok_face_old_2 ],
   
   # Heavy infantry, spears, shields
   # SPECIAL
-  ["rhodok_heavy_spearman", "Rhodok Heavy Spearman", "Rhodok Heavy Spearmen", tf_guarantee_trained_armor|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_53,
-   [itm_double_sided_spear, itm_tab_shield_pavise_c,
+  ["rhodok_heavy_spearman", "Rhodok Heavy Spearman", "Rhodok Heavy Spearmen", tf_guarantee_trained_armor|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_54,
+   [itm_war_spear, itm_tab_shield_pavise_c,
     itm_mail_boots, itm_mail_mittens,
 	itm_surcoat_over_mail,
 	itm_bascinet_2, itm_bascinet_3, itm_guard_helmet, itm_bascinet,
@@ -2394,7 +2525,7 @@ troops = [
   # Medium cavalry, lances, shields
   # SPECIAL
   ["rhodok_lancer", "Rhodok Heavy Lancer", "Rhodok Heavy Lancers", tf_guarantee_trained_armor|tf_guarantee_horseman|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_55,
-   [itm_light_lance, itm_tab_shield_heater_cav_a,
+   [itm_lance, itm_tab_shield_heater_cav_a,
     itm_mail_chausses, itm_mail_mittens,
 	itm_byrnie,
 	itm_helmet_with_neckguard, itm_kettle_hat, itm_mail_coif,
@@ -2421,20 +2552,30 @@ troops = [
 	],
    str_21|agi_15|int_13|cha_16|level(42), wpex(115,100,110,45,95,55), knows_common|knows_ironflesh_8|knows_power_strike_5|knows_power_throw_1|knows_power_draw_2|knows_athletics_3|knows_riding_3|knows_shield_1|knows_horse_archery_2, rhodok_face_young_1, rhodok_face_old_2 ],
   
+  # Heavy cavalry, spears, shields
+  # SPECIAL
+  ["rhodok_noble_cavalry", "Rhodok Heroic Cavalry", "Rhodok Heroic Cavalries", tf_guarantee_trained_armor|tf_guarantee_shield|tf_guarantee_horseman, no_scene, reserved, fac_small_kingdom_53,
+   [itm_double_sided_spear, itm_tab_shield_heater_cav_b,
+    itm_mail_boots, itm_iron_greaves, itm_mail_mittens, itm_gauntlets,
+	itm_coat_of_plates,
+	itm_full_helm, itm_bascinet_2, itm_bascinet_3, itm_guard_helmet, itm_bascinet,
+	itm_warhorse],
+   str_23|agi_16|int_13|cha_16|level(45), wpex(105,100,145,45,90,55), knows_common|knows_ironflesh_10|knows_power_strike_5|knows_power_throw_1|knows_power_draw_2|knows_athletics_4|knows_riding_6|knows_horse_archery_2, rhodok_face_young_1, rhodok_face_old_2 ],
+  
   # Heavy cavalry, swords, picks, morningstars, shields
   # SPECIAL
-  ["rhodok_noble_riders", "Rhodok Heroic Rider", "Rhodok Heroic Riders", tf_guarantee_trained_armor|tf_guarantee_shield|tf_guarantee_horseman, no_scene, reserved, fac_small_kingdom_52,
-   [itm_military_cleaver_b, itm_military_pick, itm_morningstar, itm_tab_shield_heater_cav_b,
+  ["rhodok_noble_rider", "Rhodok Heroic Rider", "Rhodok Heroic Riders", tf_guarantee_trained_armor|tf_guarantee_shield|tf_guarantee_horseman, no_scene, reserved, fac_small_kingdom_52,
+   [itm_military_cleaver_b, itm_morningstar, itm_military_pick, itm_sword_medieval_b, itm_tab_shield_heater_cav_b,
     itm_mail_boots, itm_mail_mittens,
 	itm_surcoat_over_mail,
 	itm_full_helm, itm_bascinet_2, itm_bascinet_3, itm_guard_helmet, itm_bascinet,
 	itm_hunter],
-   str_20|agi_18|int_14|cha_15|level(44), wpex(105,105,110,45,90,55), knows_common|knows_ironflesh_6|knows_power_strike_4|knows_power_throw_1|knows_power_draw_2|knows_athletics_2|knows_riding_5|knows_horse_archery_2, rhodok_face_young_1, rhodok_face_old_2 ],
+   str_18|agi_18|int_12|cha_15|level(40), wpex(105,100,105,45,90,55), knows_common|knows_ironflesh_7|knows_power_strike_4|knows_power_throw_1|knows_power_draw_2|knows_athletics_3|knows_riding_5|knows_horse_archery_2, rhodok_face_young_1, rhodok_face_old_2 ],
   
   # Heavy cavalry, lances, shields
   # SPECIAL
   ["rhodok_heavy_lancer", "Rhodok Heroic Lancer", "Rhodok Heroic Lancers", tf_guarantee_trained_armor|tf_guarantee_shield|tf_guarantee_horseman, no_scene, reserved, fac_small_kingdom_55,
-   [itm_lance, itm_tab_shield_heater_cav_b,
+   [itm_heavy_lance, itm_tab_shield_heater_cav_b,
     itm_mail_boots, itm_mail_mittens,
 	itm_surcoat_over_mail,
 	itm_full_helm, itm_bascinet_2, itm_bascinet_3, itm_guard_helmet, itm_bascinet,
@@ -2529,25 +2670,34 @@ troops = [
 	itm_arabian_horse_b],
    str_12|agi_18|int_6|cha_7|level(20), wpex(85,80,120,40,15,60), knows_common|knows_power_strike_5|knows_power_throw_1|knows_athletics_5|knows_riding_6, sarranid_face_young_1, sarranid_face_old_2 ],
   
+  # Light ranged, swords, maces, bows
+  ["sarranid_light_bowman", "Sarranid Light Archer", "Sarranid Light Archers", tf_guarantee_common_armor|tf_guarantee_ranged, no_scene, reserved, fac_kingdom_6,
+   [itm_arabian_sword_a, itm_mace_3, itm_hunting_bow2, itm_barbed_arrows, itm_barbed_arrows,
+    itm_sarranid_boots_b, itm_leather_gloves,
+	itm_archers_vest,
+	itm_turban, itm_desert_turban, itm_sarranid_warrior_cap,
+	],
+   str_10|agi_15|int_6|cha_8|level(16), wpex(75,65,70,145,25,45), knows_common|knows_ironflesh_1|knows_power_strike_2|knows_power_draw_4|knows_athletics_6|knows_riding_3, sarranid_face_young_1, sarranid_face_old_2 ],
+  
   # Light ranged, swords, maces, crossbows, shields
   # SPECIAL
   ["sarranid_light_crossbowman", "Sarranid Light Crossbowman", "Sarranid Light Crossbowmen", tf_guarantee_common_armor|tf_guarantee_ranged|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_61,
    [itm_arabian_sword_a, itm_mace_3, itm_crossbow, itm_bolts, itm_tab_shield_kite_b,
     itm_sarranid_boots_b, itm_leather_gloves,
 	itm_archers_vest,
-	itm_desert_turban, itm_sarranid_warrior_cap,
+	itm_turban, itm_desert_turban, itm_sarranid_warrior_cap,
 	],
-   str_12|agi_13|int_6|cha_6|level(14), wpex(75,65,65,40,100,50), knows_common|knows_ironflesh_2|knows_power_strike_2|knows_power_throw_1|knows_athletics_4|knows_riding_2, sarranid_face_young_1, sarranid_face_old_2 ],
+   str_12|agi_13|int_6|cha_6|level(14), wpex(80,65,65,40,100,50), knows_common|knows_ironflesh_2|knows_power_strike_2|knows_power_throw_1|knows_athletics_4|knows_riding_2, sarranid_face_young_1, sarranid_face_old_2 ],
   
   # Light cavalry ranged, swords, maces, bows
   # SPECIAL
   ["sarranid_light_horse_archer", "Sarranid Light Horse Archer", "Sarranid Light Horse Archers", tf_guarantee_common_armor|tf_guarantee_ranged|tf_guarantee_horseman, no_scene, reserved, fac_small_kingdom_64,
-   [itm_arabian_sword_a, itm_mace_2, itm_hunting_bow2, itm_barbed_arrows, itm_barbed_arrows,
-    itm_sarranid_boots_a, itm_sarranid_boots_b,
-	itm_sarranid_cloth_robe, itm_sarranid_cloth_robe_b, itm_skirmisher_armor,
-	itm_sarranid_felt_hat, itm_turban, itm_desert_turban,
+   [itm_arabian_sword_a, itm_mace_3, itm_hunting_bow2, itm_barbed_arrows, itm_barbed_arrows,
+    itm_sarranid_boots_b, itm_leather_gloves,
+	itm_archers_vest,
+	itm_turban, itm_desert_turban, itm_sarranid_warrior_cap,
 	itm_arabian_horse_a],
-   str_9|agi_16|int_6|cha_7|level(15), wpex(65,55,55,135,20,35), knows_common|knows_power_strike_2|knows_power_draw_4|knows_athletics_3|knows_riding_6|knows_horse_archery_6, sarranid_face_young_1, sarranid_face_old_2 ],
+   str_9|agi_16|int_6|cha_8|level(16), wpex(70,60,65,140,20,40), knows_common|knows_power_strike_2|knows_power_draw_4|knows_athletics_5|knows_riding_6|knows_horse_archery_6, sarranid_face_young_1, sarranid_face_old_2 ],
   
   # Light infantry, spears
   # SPECIAL
@@ -2579,13 +2729,13 @@ troops = [
    str_13|agi_16|int_7|cha_9|level(22), wpex(95,125,100,45,15,60), knows_common|knows_ironflesh_2|knows_power_strike_5|knows_power_throw_1|knows_athletics_5|knows_riding_2, sarranid_face_young_1, sarranid_face_old_2 ],
   
   # Light ranged, swords, maces, bows
-  ["sarranid_light_bowman", "Sarranid Archer", "Sarranid Archers", tf_guarantee_trained_armor|tf_guarantee_ranged, no_scene, reserved, fac_kingdom_6,
-   [itm_arabian_sword_b, itm_mace_3, itm_short_bow2, itm_bodkin_arrows, itm_bodkin_arrows,
-    itm_sarranid_boots_b, itm_leather_gloves,
-	itm_archers_vest,
-	itm_turban, itm_desert_turban, itm_sarranid_warrior_cap,
+  ["sarranid_bowman", "Sarranid Archer", "Sarranid Archers", tf_guarantee_trained_armor|tf_guarantee_ranged, no_scene, reserved, fac_kingdom_6,
+   [itm_arabian_sword_b, itm_mace_4, itm_short_bow2, itm_bodkin_arrows, itm_bodkin_arrows,
+    itm_sarranid_boots_c, itm_leather_gloves,
+	itm_arabian_armor_b, itm_sarranid_cavalry_robe,
+	itm_sarranid_warrior_cap, itm_sarranid_helmet1, itm_sarranid_mail_coif,
 	],
-   str_11|agi_17|int_7|cha_8|level(20), wpex(75,65,70,135,25,45), knows_common|knows_ironflesh_1|knows_power_strike_2|knows_power_draw_4|knows_athletics_6|knows_riding_3, sarranid_face_young_1, sarranid_face_old_2 ],
+   str_12|agi_18|int_7|cha_9|level(23), wpex(85,75,70,135,25,45), knows_common|knows_ironflesh_2|knows_power_strike_2|knows_power_draw_4|knows_athletics_4|knows_riding_3, sarranid_face_young_1, sarranid_face_old_2 ],
   
   # Medium infantry skirmisher, swords, maces, javelins
   ["sarranid_heavy_skirmisher", "Sarranid Heavy Skirmisher", "Sarranid Heavy Skirmishers", tf_guarantee_trained_armor|tf_guarantee_ranged, no_scene, reserved, fac_kingdom_6,
@@ -2603,7 +2753,7 @@ troops = [
 	itm_sarranid_cavalry_robe, itm_arabian_armor_b,
 	itm_sarranid_helmet1, itm_sarranid_mail_coif, itm_sarranid_horseman_helmet,
 	itm_arabian_horse_b, itm_arabian_horse_a],
-   str_15|agi_16|int_8|cha_10|level(26), wpex(105,95,100,40,15,80), knows_common|knows_ironflesh_2|knows_power_strike_3|knows_power_throw_2|knows_athletics_3|knows_riding_6|knows_horse_archery_2, sarranid_face_young_1, sarranid_face_old_2 ],
+   str_15|agi_16|int_8|cha_10|level(26), wpex(110,95,100,40,15,80), knows_common|knows_ironflesh_2|knows_power_strike_3|knows_power_throw_2|knows_athletics_3|knows_riding_6|knows_horse_archery_3, sarranid_face_young_1, sarranid_face_old_2 ],
   
   # Light cavalry skirmisher, swords, maces, javelins, shields
   # SPECIAL
@@ -2622,18 +2772,18 @@ troops = [
     itm_sarranid_boots_c, itm_leather_gloves,
 	itm_sarranid_cavalry_robe, itm_arabian_armor_b,
 	itm_sarranid_helmet1, itm_sarranid_mail_coif, itm_sarranid_horseman_helmet,
-	itm_arabian_horse_b, itm_arabian_horse_a],
+	itm_arabian_horse_b],
    str_15|agi_18|int_8|cha_9|level(27), wpex(90,85,115,45,20,60), knows_common|knows_ironflesh_3|knows_power_strike_5|knows_power_throw_1|knows_athletics_3|knows_riding_6|knows_horse_archery_1, sarranid_face_young_1, sarranid_face_old_2 ],
   
   # Light cavalry ranged, swords, maces, bows
   # SPECIAL
   ["sarranid_horse_archer", "Sarranid Horse Archer", "Sarranid Horse Archers", tf_guarantee_trained_armor|tf_guarantee_ranged|tf_guarantee_horseman, no_scene, reserved, fac_small_kingdom_64,
-   [itm_arabian_sword_b, itm_mace_3, itm_short_bow2, itm_bodkin_arrows, itm_bodkin_arrows,
-    itm_sarranid_boots_b, itm_leather_gloves,
-	itm_archers_vest,
-	itm_turban, itm_desert_turban, itm_sarranid_warrior_cap,
+   [itm_arabian_sword_b, itm_mace_4, itm_short_bow2, itm_bodkin_arrows, itm_bodkin_arrows,
+    itm_sarranid_boots_c, itm_leather_gloves,
+	itm_arabian_armor_b, itm_sarranid_cavalry_robe,
+	itm_sarranid_warrior_cap, itm_sarranid_helmet1, itm_sarranid_mail_coif,
 	itm_arabian_horse_a, itm_arabian_horse_b],
-   str_11|agi_18|int_7|cha_9|level(22), wpex(75,65,65,130,25,45), knows_common|knows_ironflesh_1|knows_power_strike_2|knows_power_draw_4|knows_athletics_3|knows_riding_6|knows_horse_archery_5, sarranid_face_young_1, sarranid_face_old_2 ],
+   str_11|agi_18|int_7|cha_9|level(22), wpex(80,70,65,130,25,45), knows_common|knows_ironflesh_1|knows_power_strike_2|knows_power_draw_4|knows_athletics_4|knows_riding_6|knows_horse_archery_5, sarranid_face_young_1, sarranid_face_old_2 ],
   
   # Medium infantry, spears
   # SPECIAL
@@ -2645,6 +2795,16 @@ troops = [
 	],
    str_16|agi_14|int_9|cha_7|level(23), wpex(90,75,130,45,20,55), knows_common|knows_ironflesh_4|knows_power_strike_5|knows_power_throw_1|knows_athletics_3|knows_riding_2, sarranid_face_young_1, sarranid_face_old_2 ],
   
+  # Medium ranged, swords, maces, crossbows, shields
+  # SPECIAL
+  ["sarranid_crossbowman", "Sarranid Crossbowman", "Sarranid Light Crossbowmen", tf_guarantee_trained_armor|tf_guarantee_ranged|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_61,
+   [itm_arabian_sword_b, itm_mace_4, itm_crossbow, itm_steel_bolts, itm_tab_shield_kite_c,
+    itm_sarranid_boots_c, itm_leather_gloves,
+	itm_arabian_armor_b, itm_sarranid_cavalry_robe,
+	itm_sarranid_warrior_cap, itm_sarranid_helmet1, itm_sarranid_mail_coif,
+	],
+   str_15|agi_15|int_7|cha_8|level(22), wpex(90,75,75,40,90,50), knows_common|knows_ironflesh_3|knows_power_strike_3|knows_power_throw_1|knows_athletics_3|knows_riding_2, sarranid_face_young_1, sarranid_face_old_2 ],
+  
   # Elite
   # Medium infantry, swords, maces, axes, shields
   ["sarranid_heavy_infantry", "Sarranid Heavy Infantry", "Sarranid Heavy Infantries", tf_guarantee_trained_armor|tf_guarantee_shield, no_scene, reserved, fac_kingdom_6,
@@ -2653,7 +2813,7 @@ troops = [
 	itm_sarranid_mail_shirt,
 	itm_sarranid_veiled_helmet,
 	],
-   str_17|agi_18|int_8|cha_10|level(30), wpex(105,100,100,50,20,60), knows_common|knows_ironflesh_5|knows_power_strike_2|knows_power_throw_1|knows_athletics_3|knows_riding_3, sarranid_face_young_1, sarranid_face_old_2 ],
+   str_17|agi_18|int_8|cha_10|level(30), wpex(105,100,100,50,20,60), knows_common|knows_ironflesh_5|knows_power_strike_3|knows_power_throw_1|knows_athletics_3|knows_riding_3, sarranid_face_young_1, sarranid_face_old_2 ],
   
   # Heavy cavalry, sword, maces, axes, shields
   ["sarranid_heavy_cavalry", "Sarranid Mamluke", "Sarranid Mamlukes", tf_guarantee_trained_armor|tf_guarantee_shield|tf_guarantee_horseman, no_scene, reserved, fac_kingdom_6,
@@ -2662,27 +2822,27 @@ troops = [
 	itm_sarranid_mail_shirt, itm_mamluke_mail,
 	itm_sarranid_veiled_helmet,
 	itm_arabian_horse_b],
-   str_16|agi_16|int_9|cha_13|level(31), wpex(100,95,100,45,15,65), knows_common|knows_ironflesh_4|knows_power_strike_2|knows_power_throw_1|knows_athletics_2|knows_riding_6, sarranid_face_young_1, sarranid_face_old_2 ],
+   str_16|agi_16|int_9|cha_13|level(31), wpex(100,95,100,45,15,65), knows_common|knows_ironflesh_4|knows_power_strike_3|knows_power_throw_1|knows_athletics_2|knows_riding_6, sarranid_face_young_1, sarranid_face_old_2 ],
   
   # Medium ranged, swords, maxes, bows, shields
   # SPECIAL
   ["sarranid_heavy_archer", "Sarranid Heavy Archer", "Sarranid Heavy Archers", tf_guarantee_trained_armor|tf_guarantee_ranged|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_62,
-   [itm_arabian_sword_b, itm_mace_4, itm_nomad_bow2, itm_bodkin_arrows, itm_tab_shield_kite_c,
+   [itm_arabian_sword_d, itm_mace_4, itm_sarranid_axe_a, itm_nomad_bow2, itm_bodkin_arrows, itm_tab_shield_kite_c,
     itm_sarranid_boots_c, itm_leather_gloves,
 	itm_arabian_armor_b,
-	itm_sarranid_warrior_cap, itm_sarranid_helmet1, itm_sarranid_mail_coif,
+	itm_sarranid_helmet1, itm_sarranid_mail_coif,
 	],
-   str_14|agi_17|int_8|cha_9|level(25), wpex(85,75,75,125,25,70), knows_common|knows_ironflesh_2|knows_power_strike_2|knows_power_throw_1|knows_power_draw_5|knows_athletics_4|knows_riding_3|knows_horse_archery_2, sarranid_face_young_1, sarranid_face_old_2 ],
+   str_15|agi_18|int_9|cha_10|level(29), wpex(95,75,75,125,25,70), knows_common|knows_ironflesh_3|knows_power_strike_2|knows_power_throw_1|knows_power_draw_5|knows_athletics_4|knows_riding_3|knows_horse_archery_2, sarranid_face_young_1, sarranid_face_old_2 ],
   
   # Medium cavalry ranged, swords, maces, bows, shields
   # SPECIAL
   ["sarranid_heavy_horse_archer", "Sarranid Heavy Horse Archer", "Sarranid Heavy Horse Archers", tf_guarantee_trained_armor|tf_guarantee_ranged|tf_guarantee_horseman|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_64,
-   [itm_sarranid_cavalry_sword, itm_mace_4, itm_nomad_bow2, itm_bodkin_arrows, itm_tab_shield_small_round_b,
+   [itm_sarranid_cavalry_sword, itm_mace_4, itm_sarranid_axe_a, itm_nomad_bow2, itm_bodkin_arrows, itm_tab_shield_small_round_b,
     itm_sarranid_boots_c, itm_leather_gloves,
-	itm_arabian_armor_b, itm_sarranid_cavalry_robe,
-	itm_sarranid_warrior_cap, itm_sarranid_helmet1, itm_sarranid_mail_coif,
+	itm_arabian_armor_b,
+	itm_sarranid_helmet1, itm_sarranid_mail_coif,
 	itm_arabian_horse_b],
-   str_14|agi_20|int_8|cha_10|level(29), wpex(85,75,75,120,25,70), knows_common|knows_ironflesh_2|knows_power_strike_2|knows_power_draw_5|knows_athletics_3|knows_riding_6|knows_horse_archery_5, sarranid_face_young_1, sarranid_face_old_2 ],
+   str_14|agi_19|int_9|cha_10|level(29), wpex(90,75,75,120,25,70), knows_common|knows_ironflesh_2|knows_power_strike_2|knows_power_draw_5|knows_athletics_3|knows_riding_6|knows_horse_archery_5, sarranid_face_young_1, sarranid_face_old_2 ],
   
   # Noble
   # Heavy cavalry ranged, swords, axes, maces, bows, shields
@@ -2692,24 +2852,24 @@ troops = [
 	itm_sarranid_mail_shirt,
 	itm_sarranid_veiled_helmet, itm_sarranid_mail_coif,
 	itm_arabian_horse_b],
-   str_18|agi_21|int_10|cha_18|level(44), wpex(110,105,105,125,25,70), knows_common|knows_ironflesh_4|knows_power_strike_4|knows_power_throw_1|knows_power_draw_5|knows_athletics_6|knows_riding_7|knows_shield_1|knows_horse_archery_6, sarranid_face_young_1, sarranid_face_old_2 ],
+   str_18|agi_21|int_10|cha_18|level(44), wpex(110,105,105,135,25,70), knows_common|knows_ironflesh_4|knows_power_strike_4|knows_power_throw_1|knows_power_draw_5|knows_athletics_6|knows_riding_7|knows_shield_1|knows_horse_archery_6, sarranid_face_young_1, sarranid_face_old_2 ],
   
   # Heavy cavalry, swords, axes, maces, lances, shields
   # SPECIAL
-  ["sarranid_elite_cavalry", "Sarranid Heavy Mamluke", "Sarranid Heavy Mamlukes", tf_guarantee_trained_armor|tf_guarantee_shield|tf_guarantee_horseman, no_scene, reserved, fac_small_kingdom_63,
+  ["sarranid_elite_cavalry", "Sarranid Cataphract", "Sarranid Cataphracts", tf_guarantee_trained_armor|tf_guarantee_shield|tf_guarantee_horseman, no_scene, reserved, fac_small_kingdom_63,
    [itm_sarranid_cavalry_sword, itm_iron_mace, itm_sarranid_axe_b, itm_bamboo_spear, itm_tab_shield_small_round_c,
     itm_sarranid_boots_d, itm_mail_mittens, itm_scale_gauntlets,
 	itm_mamluke_mail,
 	itm_sarranid_veiled_helmet,
 	itm_warhorse_sarranid],
-   str_19|agi_20|int_10|cha_19|level(45), wpex(115,105,135,50,20,70), knows_common|knows_ironflesh_4|knows_power_strike_3|knows_power_throw_1|knows_power_draw_2|knows_athletics_5|knows_riding_6|knows_shield_1|knows_horse_archery_2, sarranid_face_young_1, sarranid_face_old_2 ],
+   str_19|agi_20|int_10|cha_19|level(45), wpex(115,105,135,50,20,70), knows_common|knows_ironflesh_5|knows_power_strike_4|knows_power_throw_1|knows_power_draw_2|knows_athletics_5|knows_riding_6|knows_shield_1|knows_horse_archery_2, sarranid_face_young_1, sarranid_face_old_2 ],
   
   # Heavy cavalry skirmisher, swords, axes, maces, javelins, shields
   # SPECIAL
   ["sarranid_noble_skirmisher", "Sarranid Noble Skirmisher", "Sarranid Noble Skirmisher", tf_guarantee_trained_armor|tf_guarantee_ranged|tf_guarantee_shield|tf_guarantee_horseman, no_scene, reserved, fac_small_kingdom_65,
    [itm_sarranid_cavalry_sword, itm_iron_mace, itm_sarranid_axe_b, itm_jarid, itm_jarid, itm_tab_shield_small_round_c,
     itm_sarranid_boots_d, itm_mail_mittens, itm_scale_gauntlets,
-	itm_sarranid_mail_shirt,
+	itm_mamluke_mail,
 	itm_sarranid_veiled_helmet, itm_sarranid_mail_coif,
 	itm_arabian_horse_b],
    str_18|agi_22|int_10|cha_20|level(46), wpex(120,110,110,55,25,120), knows_common|knows_ironflesh_4|knows_power_strike_4|knows_power_throw_4|knows_power_draw_2|knows_athletics_6|knows_riding_7|knows_shield_1|knows_horse_archery_7, sarranid_face_young_1, sarranid_face_old_2 ],
@@ -3698,6 +3858,80 @@ troops = [
 	itm_sarranid_veiled_helmet,
     itm_warhorse_sarranid],
    def_lord_7_agi|level(4), wp_sarranid(wp_template_7), knows_lord_sarranid_7, 0, 0 ],
+  
+  # Vendors troops
+  ["merchant_town_11_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots],
+   def_attrib|level(4), wp(50), knows_common|knows_inventory_management_6, 0, 0 ],
+  ["merchant_town_12_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots],
+   def_attrib|level(4), wp(50), knows_common|knows_inventory_management_6, 0, 0 ],
+  
+  ["merchant_town_21_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots],
+   def_attrib|level(4), wp(50), knows_common|knows_inventory_management_6, 0, 0 ],
+  ["merchant_town_22_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots],
+   def_attrib|level(4), wp(50), knows_common|knows_inventory_management_6, 0, 0 ],
+  
+  ["merchant_town_31_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots],
+   def_attrib|level(4), wp(50), knows_common|knows_inventory_management_6, 0, 0 ],
+  ["merchant_town_32_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots],
+   def_attrib|level(4), wp(50), knows_common|knows_inventory_management_6, 0, 0 ],
+  
+  ["merchant_town_41_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots],
+   def_attrib|level(4), wp(50), knows_common|knows_inventory_management_6, 0, 0 ],
+  ["merchant_town_42_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots],
+   def_attrib|level(4), wp(50), knows_common|knows_inventory_management_6, 0, 0 ],
+  
+  ["merchant_town_51_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots],
+   def_attrib|level(4), wp(50), knows_common|knows_inventory_management_6, 0, 0 ],
+  ["merchant_town_52_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots],
+   def_attrib|level(4), wp(50), knows_common|knows_inventory_management_6, 0, 0 ],
+  
+  ["merchant_town_61_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots],
+   def_attrib|level(4), wp(50), knows_common|knows_inventory_management_6, 0, 0 ],
+  ["merchant_town_62_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots],
+   def_attrib|level(4), wp(50), knows_common|knows_inventory_management_6, 0, 0 ],
+   
+  ["merchant_town_131_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots],
+   def_attrib|level(4), wp(50), knows_common|knows_inventory_management_6, 0, 0 ],
+  ["merchant_town_231_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots],
+   def_attrib|level(4), wp(50), knows_common|knows_inventory_management_6, 0, 0 ],
+  ["merchant_town_251_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots],
+   def_attrib|level(4), wp(50), knows_common|knows_inventory_management_6, 0, 0 ],
+  ["merchant_town_331_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots],
+   def_attrib|level(4), wp(50), knows_common|knows_inventory_management_6, 0, 0 ],
+  ["merchant_town_341_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots],
+   def_attrib|level(4), wp(50), knows_common|knows_inventory_management_6, 0, 0 ],
+  ["merchant_town_451_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots],
+   def_attrib|level(4), wp(50), knows_common|knows_inventory_management_6, 0, 0 ],
+  ["merchant_town_531_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots],
+   def_attrib|level(4), wp(50), knows_common|knows_inventory_management_6, 0, 0 ],
+  ["merchant_town_541_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots],
+   def_attrib|level(4), wp(50), knows_common|knows_inventory_management_6, 0, 0 ],
+  ["merchant_town_611_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots],
+   def_attrib|level(4), wp(50), knows_common|knows_inventory_management_6, 0, 0 ],
+  ["merchant_town_631_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots],
+   def_attrib|level(4), wp(50), knows_common|knows_inventory_management_6, 0, 0 ],
   
   ["banner_background_color_array","{!}banner_background_color_array","{!}banner_background_color_array",tf_hero|tf_inactive,0,reserved,fac_commoners,[],def_attrib,0,knows_common,0 ],
 

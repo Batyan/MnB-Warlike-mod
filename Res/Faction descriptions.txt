@@ -1,0 +1,83 @@
+Does not include minor factions!
+
+Swadia:
+	Good infantry
+		High Resistance for heavy infantry
+		High Attack for light infantry
+	Good cavalry
+	Weak lancer
+	Weak ranged
+	Weak skirmisher
+	Average horse archer
+	
+	Good armour even for peasant troops
+	Tough heavy infantry/cavalry
+	Weak ranged, except against lightly armoured troops
+	Good, but late cavalry (tier +1)
+
+Vaegir:
+	Average infantry
+		Good light infantry
+		Average heavy infantry
+	Good cavalry
+		Good light cavalry
+		Average heavy cavalry
+	Average lancer
+	Good Ranged
+	Average skirmisher
+	Good horse archer
+	
+	Below average armours
+	Hard hitting troops
+	Best light cavalry
+	Best archers
+
+Khergit:
+	Weak infantry
+	Average cavalry
+	Good lancer
+	Average ranged
+	Average skirmisher
+	Good horse archer
+	
+	Weak armour
+	Infantry has small shields
+	Best lancers
+	Best horse archers
+
+Nord:
+	Good infantry
+	Weak cavalry
+	Average ranged
+	Average skirmisher
+	
+	Good armour for low tier
+	Somewhat weak armour for high tier
+	Weak low tier archer, above average medium archer
+	Best ratio defense/attack infantry
+
+Rhodok:
+	Average infantry
+	Average cavalry
+	Average lancer
+	Good ranged
+	Average skirmisher
+	Weak horse archer
+	
+	Tough troops
+	Below average armours except highest tiers
+	Best crossbowmen
+	Best pikemen/spearmen
+
+Sarranid:
+	Good infantry
+	Good cavalry
+	Weak lancer
+	Average ranged
+	Good skirmisher
+	Average horse archer
+	
+	Below average armour
+	No heavy horse
+	Best skirmisher
+	
