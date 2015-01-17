@@ -674,7 +674,7 @@ center_castle_buildings_end = "itm_building_university"
 center_town_buildings_begin = "itm_building_slaver"
 center_town_buildings_end = center_buildings_end
 
-text_color_impossible = 0xcc0000
+text_color_impossible = 0xc01010
 text_color_gold = 0x55eeee
 text_color_valid = 0x00ee55
 

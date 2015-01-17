@@ -16,3 +16,4 @@ menu_simple_encounter = 14
 menu_double_encounter = 15
 menu_encounter_battle = 16
 menu_battle_casualties = 17
+menu_after_battle = 18

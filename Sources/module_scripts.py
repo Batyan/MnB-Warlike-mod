@@ -76,7 +76,7 @@ scripts = [
 			
 			# ToDo: temporary
 			(try_for_range, ":faction", kingdoms_begin, kingdoms_end),
-				(faction_set_slot, ":faction", slot_faction_era, 10),
+				(faction_set_slot, ":faction", slot_faction_era, 4),
 			(try_end),
 			
 			(faction_set_slot, "fac_kingdom_1", slot_faction_leader, "trp_swadian_lord_1"),
@@ -1486,7 +1486,7 @@ scripts = [
 				(party_get_attached_party_with_rank, ":attached_party", ":root_party", ":attached_party_rank"),
 				(call_script, "script_clear_party_group", ":attached_party"),
 			(try_end),
-			(remove_party, ":root_party"),
+			# (remove_party, ":root_party"),
 		]),
 	
 	#script_add_troop_to_cur_tableau
@@ -5515,6 +5515,7 @@ scripts = [
 				(try_end),
 			(else_try),
 				(eq, ":current_behavior", tai_attacking_center),
+				(is_between, ":current_object", centers_begin, centers_end),
 				(store_distance_to_party_from_party, ":dist", ":party_no", ":current_object"),
 				(try_begin),
 					(lt, ":dist", 6),
@@ -5547,7 +5548,9 @@ scripts = [
 						# (try_end),
 					(else_try),
 						(str_store_party_name, s10, ":current_object"),
-						(display_message, "@Incorrect besieged party: {s10}"),
+						(str_store_party_name, s11, ":party_no"),
+						(assign, reg0, ":party_type"),
+						(display_message, "@Incorrect besieged party: {s10}^  Party type: {reg10}^  For party {s11}'s process mission", text_color_impossible),
 					(try_end),
 				(try_end),
 			(try_end),

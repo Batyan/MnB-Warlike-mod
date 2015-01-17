@@ -18,6 +18,7 @@ simple_triggers = [
 	(48,
 	[
 		(try_for_parties, ":party_no"),
+			(party_is_active, ":party_no"),
 			(party_get_slot, ":party_type", ":party_no", slot_party_type),
 			(try_begin),
 				(is_between, ":party_type", spt_village, spt_fort),
@@ -39,6 +40,7 @@ simple_triggers = [
     (24,
 	[
 		(try_for_parties, ":party_no"),
+			(party_is_active, ":party_no"),
 			(party_get_slot, ":party_type", ":party_no", slot_party_type),
 			(try_begin),
 				(is_between, ":party_type", spt_village, spt_fort),
@@ -91,6 +93,7 @@ simple_triggers = [
 	(6,
 	[
 		(try_for_parties, ":party_no"),
+			(party_is_active, ":party_no"),
 			(party_get_slot, ":party_type", ":party_no", slot_party_type),
 			(try_begin),
 				(is_between, ":party_type", spt_village, spt_fort),
@@ -127,6 +130,7 @@ simple_triggers = [
 	(2,
 	[
 		(try_for_parties, ":party_no"),
+			(party_is_active, ":party_no"),
 			(party_get_slot, ":party_type", ":party_no", slot_party_type),
 			(try_begin),
 				(eq, ":party_type", spt_convoy),
@@ -162,6 +166,7 @@ simple_triggers = [
 	[
 		(try_for_parties, ":party_no"),
 			(neq, ":party_no", "p_main_party"),
+			(party_is_active, ":party_no"),
 			# (party_get_slot, ":party_type", ":party_no", slot_party_type),
 			(party_get_attached_to, ":cur_attached_town", ":party_no"),
 			(lt, ":cur_attached_town", 1),

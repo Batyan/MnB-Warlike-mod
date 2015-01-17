@@ -892,6 +892,7 @@ mission_templates = [
 			
 			(ti_tab_pressed, 0, 0, [],
 				[
+					(end_current_battle),
 					(finish_mission, 0),
 				]),
 			
@@ -966,6 +967,7 @@ mission_templates = [
 			
 			(ti_tab_pressed, 0, 0, [],
 			[
+				(end_current_battle),
 				(finish_mission, 0),
 			]),
 			
@@ -1059,6 +1061,7 @@ mission_templates = [
 							(try_end),
 						(try_end),
 					(try_end),
+					(finish_party_battle_mode),
 					(try_begin),
 						(eq, ":team_1", 0),
 						(display_message, "@You are victorious!"),
