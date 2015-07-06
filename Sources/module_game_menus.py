@@ -23,39 +23,21 @@ game_menus = [
 			("continue", [], "Accept",
 				[
 					# (set_show_messages, 0),
-					# (troop_raise_attribute, "trp_player", ca_strength, 11),
-					# (troop_raise_attribute, "trp_player", ca_agility, 11),
-					# (troop_raise_attribute, "trp_player", ca_intelligence, 8),
-					# (troop_raise_attribute, "trp_player", ca_charisma, 8),
+					# (troop_raise_attribute, "trp_player", ca_strength, 1),
 					
-					# (troop_raise_skill,"trp_player", skl_ironflesh, 3),
-					# (troop_raise_skill,"trp_player", skl_power_strike, 2),
-					# (troop_raise_skill,"trp_player", skl_power_throw, 2),
-					# (troop_raise_skill,"trp_player", skl_power_draw, 5),
-					# (troop_raise_skill,"trp_player", skl_shield, 1),
-					# (troop_raise_skill,"trp_player", skl_athletics, 4),
-					# (troop_raise_skill,"trp_player", skl_riding, 5),
-					# (troop_raise_skill,"trp_player", skl_horse_archery, 4),
+					(troop_raise_skill,"trp_player", skl_power_strike, 2),
+					(troop_raise_skill,"trp_player", skl_power_throw, 1),
+					(troop_raise_skill,"trp_player", skl_power_draw, 2),
+					(troop_raise_skill,"trp_player", skl_athletics, 1),
+					(troop_raise_skill,"trp_player", skl_riding, 4),
 					
-					# (troop_raise_skill,"trp_player", skl_inventory_management, 10),
-					
-					# (troop_raise_skill,"trp_player", skl_leadership, 10),
-					
-					# (troop_raise_proficiency_linear, "trp_player", wpt_one_handed_weapon, 90),
-					# (troop_raise_proficiency_linear, "trp_player", wpt_two_handed_weapon, 90),
-					# (troop_raise_proficiency_linear, "trp_player", wpt_polearm, 90),
-					# (troop_raise_proficiency_linear, "trp_player", wpt_archery, 90),
-					# (troop_raise_proficiency_linear, "trp_player", wpt_crossbow, 90),
-					# (troop_raise_proficiency_linear, "trp_player", wpt_throwing, 90),
+					# (troop_raise_proficiency_linear, "trp_player", wpt_one_handed_weapon, 10),
 					
 					# (troop_add_item, "trp_player", "itm_leather_armor", 0),
-					
-					# (troop_add_item, "trp_player", "itm_leather_boots", 0),
-					# (troop_add_item, "trp_player", "itm_leather_gloves", 0),
 					# (troop_equip_items, "trp_player"),
 					
-					(call_script, "script_troop_use_template_troop", "trp_player", "trp_swadian_lord_template_5"),
-					(assign, "$g_test_player_troop", "trp_swadian_lord_template_5"),
+					(assign, "$g_test_player_troop", "trp_swadian_light_cavalry"),
+					# (call_script, "script_troop_use_template_troop", "trp_player", "$g_test_player_troop"),
 					(assign, "$g_test_player_faction", "fac_kingdom_1"),
 					
 					(party_set_faction, "p_main_party", "$g_test_player_faction"),
@@ -70,6 +52,7 @@ game_menus = [
 					
 					# (set_show_messages, 1),
 					# (change_screen_map),
+					(troop_add_item, "trp_player", "itm_hammer"),
 					(troop_add_item, "trp_player", "itm_spice"),
 					(troop_add_item, "trp_player", "itm_oil"),
 					(troop_add_item, "trp_player", "itm_raw_silk"),
@@ -122,7 +105,7 @@ game_menus = [
 		[
 			("continue", [], "Continue",
 				[
-					(change_screen_return),
+					(jump_to_menu, "mnu_start_game_3"),
 				]),
 		]),
 	
@@ -134,10 +117,6 @@ game_menus = [
 			("continue", [], "Continue",
 				[
 					(change_screen_return),
-				]),
-			("map", [], "Map",
-				[
-					(change_screen_map),
 				]),
 		]),
 	
@@ -175,6 +154,13 @@ game_menus = [
 					(jump_to_menu, "mnu_siege_battle_select"),
 				]),
 			
+			("camp_test_face_keys", [], "Test Face Keys",
+				[
+					(call_script, "script_troop_get_face_code", "trp_player"),
+					(troop_set_face_keys, "trp_player", s0),
+					(display_message, "@Face key: {s0}"),
+				]),
+			
 			("camp_test_battle_plain", [], "Go to plain battle test",
 				[
 					(store_random_in_range, ":scene", "scn_test_battle_plain", castle_scene_begin),
@@ -186,6 +172,7 @@ game_menus = [
 			("camp_wait_here", [], "Rest",
 				[
 					(rest_for_hours_interactive, 24 * 365, 5, 1),
+					(change_screen_return),
 					(change_screen_map),
 				]),
 			
@@ -198,6 +185,26 @@ game_menus = [
 				[
 					(store_faction_of_party, "$g_test_player_faction", "p_main_party"),
 					(jump_to_menu, "mnu_test_faction_join"),
+				]),
+			
+			("camp_train_levies", [(disable_menu_option),], "Initiate a training session",
+				[
+					# ToDo: training
+					# Training allows player to duel his companions/troops
+					# Also allows to train recruits if player/companion has at least 1 point in trainer
+					# Trained recruits will most likely end up being the troop type trained by the different trainings
+					# Available trainings:
+					# 	horseback
+					# 	lancing
+					# 	spear cavalry (only rhodoks, swadians-iven and nords-rizi)
+					# 	ranged (bow or crossbow depending on faction)
+					# 	horse archery
+					# 	melee fights (shield and sword)
+					# 	melee fights (shield and spear)
+					# 	melee fights (two handed swords)
+					# 	skirmishing (throwing weapons)
+					# 	mounted skirmishing (throwing weapons)
+					# (jump_to_menu, "mnu_levy_train"),
 				]),
 			
 			("resume_travelling",[], "Dismantle camp",
@@ -446,7 +453,26 @@ game_menus = [
 						(lt, ":num_troops", ":limit"),
 						(call_script, "script_party_add_reinforcements", "p_main_party"),
 					(try_end),
+					(troop_set_faction, "trp_player", "$g_test_player_faction"),
+							
+					(store_random_in_range, ":banner", banner_scene_props_begin, banner_scene_props_end),
+					(troop_set_slot, "trp_player", slot_troop_banner_scene_prop, ":banner"),
+			
 					(display_message, "@Joined!"),
+					(jump_to_menu, "mnu_test_faction_join"),
+				]),
+			
+			("join_era", [(faction_get_slot, reg10, "fac_kingdom_1", slot_faction_era),], "Increase era (current era: {reg10})",
+				[
+					(faction_get_slot, ":era", "fac_kingdom_1", slot_faction_era),
+					(val_add, ":era", 1),
+					(try_begin),
+						(gt, ":era", 10),
+						(assign, ":era", 0),
+					(try_end),
+					(try_for_range, ":faction", kingdoms_begin, kingdoms_end),
+						(faction_set_slot, ":faction", slot_faction_era, ":era"),
+					(try_end),
 					(jump_to_menu, "mnu_test_faction_join"),
 				]),
 			
@@ -474,16 +500,19 @@ game_menus = [
 					#TODO: meet leader
 				]),
 			
-			("center_besiege", [(disable_menu_option),], "Besiege the center",
+			("center_besiege", [], "Besiege the center",
 				[
-					#TODO: besiege
+					(call_script, "script_party_besiege_party", "p_main_party", "$g_encountered_party"),
+					(jump_to_menu, "mnu_town_siege"),
+					# (change_screen_return),
 				]),
 			
 			#ToDo: attack the guards (if villages)
 			
 			("center_leave", [], "Leave center",
 				[
-					(leave_encounter),
+					# (leave_encounter),
+					(change_screen_return),
 					(change_screen_map),
 				]),
 		]),
@@ -546,7 +575,8 @@ game_menus = [
 			
 			("center_leave", [], "Leave center",
 				[
-					(leave_encounter),
+					# (leave_encounter),
+					(change_screen_return),
 					(change_screen_map),
 				]),
 		]),
@@ -587,7 +617,8 @@ game_menus = [
 		
 		("center_leave", [], "Leave center",
 		[
-			(leave_encounter),
+			# (leave_encounter),
+			(change_screen_return),
 			(change_screen_map),
 		]),
 	]),
@@ -598,6 +629,7 @@ game_menus = [
 	"none",
 	[
 		(set_background_mesh, "mesh_pic_camp"),
+		(call_script, "script_party_update_merchants", "$g_encountered_party"),
 	],
 	[
 		("center_buy_goods", [(disable_menu_option),], "Buy goods",
@@ -607,33 +639,51 @@ game_menus = [
 		
 		("center_buy_weapons", 
 		[
-			(call_script, "script_party_has_building", "$g_encountered_party", "itm_building_smithy"),
-			(assign, ":has_building", reg0),
+			# (call_script, "script_party_has_building", "$g_encountered_party", "itm_building_smithy"),
+			# (assign, ":has_building", reg0),
 			
-			(this_or_next|party_slot_eq, "$g_encountered_party", slot_party_type, spt_castle),
-			(this_or_next|party_slot_eq, "$g_encountered_party", slot_party_type, spt_town),
-			(ge, ":has_building", 1),
+			# (this_or_next|party_slot_eq, "$g_encountered_party", slot_party_type, spt_castle),
+			# (this_or_next|party_slot_eq, "$g_encountered_party", slot_party_type, spt_town),
+			(is_between, "$g_encountered_party", towns_begin, towns_end),
+			# (ge, ":has_building", 1),
 		], "Buy weapons",
 		[
 			#ToDo: buy weapons
-			(party_get_slot, ":party_type", "$g_encountered_party", slot_party_type),
-			(eq, ":party_type", spt_town),
+			# (party_get_slot, ":party_type", "$g_encountered_party", slot_party_type),
+			# (eq, ":party_type", spt_town),
 			(store_sub, ":offset", "$g_encountered_party", towns_begin),
 			(store_add, ":merchant", merchants_weapons_begin, ":offset"),
 			(change_screen_trade, ":merchant"),
 		]),
 		
+		("center_buy_smith", 
+		[
+			(party_slot_eq, "$g_encountered_party", slot_party_type, spt_castle),
+		], "Buy gear",
+		[
+			#ToDo: buy weapons
+			# (party_get_slot, ":party_type", "$g_encountered_party", slot_party_type),
+			# (eq, ":party_type", spt_town),
+			(store_sub, ":offset", "$g_encountered_party", castles_begin),
+			(store_add, ":merchant", merchants_smiths_begin, ":offset"),
+			(change_screen_trade, ":merchant"),
+		]),
+		
 		("center_buy_armors", 
-		[(disable_menu_option),
-			(call_script, "script_party_has_building", "$g_encountered_party", "itm_building_smithy"),
-			(assign, ":has_building", reg0),
+		[
+			# (call_script, "script_party_has_building", "$g_encountered_party", "itm_building_smithy"),
+			# (assign, ":has_building", reg0),
 			
-			(this_or_next|party_slot_eq, "$g_encountered_party", slot_party_type, spt_castle),
-			(this_or_next|party_slot_eq, "$g_encountered_party", slot_party_type, spt_town),
-			(ge, ":has_building", 1),
+			# (this_or_next|party_slot_eq, "$g_encountered_party", slot_party_type, spt_castle),
+			# (party_slot_eq, "$g_encountered_party", slot_party_type, spt_town),
+			(is_between, "$g_encountered_party", towns_begin, towns_end),
+			# (ge, ":has_building", 1),
 		], "Buy armors",
 		[
 			#ToDo: buy armors
+			(store_sub, ":offset", "$g_encountered_party", towns_begin),
+			(store_add, ":merchant", merchants_armors_begin, ":offset"),
+			(change_screen_trade, ":merchant"),
 		]),
 		
 		("center_buy_horses", 
@@ -649,12 +699,17 @@ game_menus = [
 			#ToDo: buy horses
 		]),
 		
-		("center_pawnbroker", 
-		[(disable_menu_option),
+		("center_general", 
+		[
 			# (party_slot_eq, "$g_encountered_party", slot_party_type, spt_town),
-		], "Go see the pawnbroker",
+			(this_or_next|party_slot_eq, "$g_encountered_party", slot_party_type, spt_castle),
+			(party_slot_eq, "$g_encountered_party", slot_party_type, spt_town),
+		], "Go to the general store",
 		[
 			#ToDo: pawnbroker
+			(store_sub, ":offset", "$g_encountered_party", towns_begin),
+			(store_add, ":merchant", merchants_general_begin, ":offset"),
+			(change_screen_trade, ":merchant"),
 		]),
 		
 		("center_back", [], "Head back to the center",
@@ -710,9 +765,9 @@ game_menus = [
 		[
 			(val_max, "$g_num_levies", 0),
 			(assign, reg10, "$g_num_levies"),
-			(store_mul, reg11, "$g_num_levies", 50),
+			(store_mul, reg11, "$g_num_levies", train_levies_cost),
 			
-			(store_div, ":min_hours", "$g_num_levies", 5),
+			(store_div, ":min_hours", "$g_num_levies", 10),
 			(val_add, ":min_hours", 1),
 			
 			(store_mul, ":num_levies_5", "$g_num_levies", 5),
@@ -723,6 +778,7 @@ game_menus = [
 			(store_mul, ":sub", ":num_levies_5", ":div"),
 			(store_div, ":sub", ":num_levies_5", 30),
 			(store_sub, ":rest_time", ":num_levies_5", ":sub"),
+			(val_div, ":rest_time", 2),
 			
 			(val_max, ":rest_time", ":min_hours"),
 			(assign, reg12, ":rest_time"),
@@ -731,7 +787,7 @@ game_menus = [
 			(try_begin),
 				(gt, "$g_num_levies", 0),
 				(store_troop_gold, ":total_gold", "trp_player"),
-				(store_mul, ":total_cost", "$g_num_levies", 50),
+				(store_mul, ":total_cost", "$g_num_levies", train_levies_cost),
 				(try_begin),
 					(gt, ":total_gold", ":total_cost"),
 					
@@ -750,7 +806,7 @@ game_menus = [
 					
 					(party_clear, "p_temp_party"),
 					
-					(store_div, ":min_hours", "$g_num_levies", 5),
+					(store_div, ":min_hours", "$g_num_levies", 10),
 					(val_add, ":min_hours", 1),
 					
 					(store_mul, ":num_levies_5", "$g_num_levies", 5),
@@ -761,6 +817,7 @@ game_menus = [
 					(store_mul, ":sub", ":num_levies_5", ":div"),
 					(store_div, ":sub", ":num_levies_5", 30),
 					(store_sub, ":rest_time", ":num_levies_5", ":sub"),
+					(val_div, ":rest_time", 2),
 					
 					(val_max, ":rest_time", ":min_hours"),
 					(assign, reg12, ":rest_time"),
@@ -781,7 +838,107 @@ game_menus = [
 		]),
 	]),
 	
+	("town_siege", mnf_scale_picture,
+	"You are surrounding the walls of {s10}.^You can see the garrison making preparations on the battlements.",
+	"none",
+	[
+		(str_store_party_name, s10, "$g_encountered_party"),
+	],
+	[
+		("siege_meeting",
+		[ ], "Call for a meeting with the commander of the garrison",
+		[
+			# ToDo: meeting
+			# Meeting will take place with player and companions/soldiers and garrison commander
+			# Player can chose to attack the commander
+			# 	lose relation with faction, owner of center, family of commander
+			# 	lose renown
+			# 	lose reputation
+			# 	gain morale if at war
+			# 	gain relation with member of faction (not honourable ones)
+			# Or to talk
+		]),
+		
+		("siege_attack",
+		[ ], "Launch the attack",
+		[
+			(jump_to_menu, "mnu_encounter_battle_siege"),
+			(assign, "$g_enemy", "$g_encountered_party"),
+		]),
+		
+		("siege_build_equipement",
+		[ ], "Build siege equipment",
+		[
+			# ToDo: build ladders-siege tower
+		]),
+		
+		("siege_cheat_capture",
+		[ ], "|Cheat| Capture center",
+		[
+			(call_script, "script_party_group_defeat_party_group", "p_main_party", "$g_encountered_party"),
+		]),
+		
+		("siege_wait",
+		[ ], "Wait for some time",
+		[
+			(display_message, "@You need to stay close to the besieged center if you wish to keep it besieged."),
+			(change_screen_return),
+		]),
+		
+		("siege_leave_army",
+		[ ], "Leave your army to besiege the center",
+		[
+			# ToDo: leave army
+			# Leave most of your army (select a few troops/companions to follow you)
+			# The army will stay around the center to maintain the siege
+			# It will not attack the center by itself
+			# If the army is not big enough, the defenders might sally out and fight the besiegers
+			# 	When player arrives, the defenders will go back inside if player army+besieger is too large
+			# 	else fight on the field
+			# 	If besieging army is defeated in battle, player lose renown (for using bad strategies)
+		]),
+		
+		("siege_abandon",
+		[ ], "Abandon the siege",
+		[
+			(call_script, "script_party_lift_siege", "$g_encountered_party"),
+			(change_screen_return),
+		]),
+	]),
 	
+	
+	("siege_camp", mnf_scale_picture,
+	"You spot the camp of {s10} surrounding the town of {s11}, you decide to...",
+	"none",
+	[
+		(str_store_party_name, s11, "$g_encountered_party"),
+		(party_get_slot, ":leader", "$g_encountered_party_2", slot_party_leader),
+		(str_store_troop_name, s10, ":leader"),
+	],
+	[
+		("join_defenders",
+		[
+		# (str_store_party_name, s11, "$g_encountered_party_2"),
+		], "Sneak past the besieger and help the defenders of {s11}",
+		[
+			(select_enemy, 1),
+			(jump_to_menu, "mnu_encounter_battle_siege"),
+		]),
+		
+		("join_attackers",
+		[
+		], "Join the besiegers attacking the walls",
+		[
+			(select_enemy, 0),
+			(jump_to_menu, "mnu_encounter_battle_siege"),
+		]),
+		
+		("leave", [], "Leave", 
+		[
+			(leave_encounter),
+			(change_screen_return),
+		]),
+	]),
 	
 	
 	("simple_encounter", mnf_scale_picture,
@@ -790,13 +947,7 @@ game_menus = [
 	[
 		# (set_background_mesh, "mesh_pic_camp"),
 		(try_for_parties, ":party_no"),
-			(party_is_active, ":party_no"),
-			(neq, ":party_no", "$g_encountered_party"),
-			(party_get_slot, ":party_type", ":party_no", slot_party_type),
-			(eq, ":party_type", spt_war_party),
-			(store_distance_to_party_from_party, ":distance", ":party_no", "$g_encountered_party"),
-			(lt, ":distance", 12),
-			(call_script, "script_party_join_battle", ":party_no", "$g_encountered_party", "p_main_party"),
+			(call_script, "script_cf_party_join_battle", ":party_no", "$g_encountered_party", "p_main_party"),
 			(assign, ":continue", reg0),
 			(try_begin),
 				(eq, ":continue", 1),
@@ -825,17 +976,17 @@ game_menus = [
 			(str_store_faction_name, s11, ":faction"),], "Attack {s10} ({s11})",
 		[
 			# Preparation
+			
+			# (try_begin),
+				# (encountered_party_is_attacker),
+				# (assign, "$g_player_team", 1),
+			# (else_try),
+				(assign, "$g_player_team", 1),
+			# (try_end),
+			# (store_sub, ":enemy_team", 1, "$g_player_team"),
 			(assign, "$g_enemy", "$g_encountered_party"),
-			# (party_quick_attach_to_current_battle, "p_main_party", 0),
-			# (party_quick_attach_to_current_battle, "$g_encountered_party", 1),
 			(try_for_parties, ":party_no"),
-				(party_is_active, ":party_no"),
-				(neq, ":party_no", "$g_encountered_party"),
-				(party_get_slot, ":party_type", ":party_no", slot_party_type),
-				(eq, ":party_type", spt_war_party),
-				(store_distance_to_party_from_party, ":distance", ":party_no", "$g_encountered_party"),
-				(lt, ":distance", 12),
-				(call_script, "script_party_join_battle", ":party_no", "$g_encountered_party", "p_main_party"),
+				(call_script, "script_cf_party_join_battle", ":party_no", "$g_encountered_party", "p_main_party"),
 				(assign, ":continue", reg0),
 				(try_begin),
 					(eq, ":continue", 1),
@@ -850,10 +1001,20 @@ game_menus = [
 			(jump_to_menu, "mnu_encounter_battle"),
 		]),
 		
-		("encounter_leave", [], "Leave",
+		("encounter_surrender",
+		[ (disable_menu_option),
+		], "Surrender", []),
+		
+		("encounter_leave", 
+		[
+			(try_begin),
+				(encountered_party_is_attacker),
+				(disable_menu_option),
+			(try_end),
+		], "Leave",
 		[
 			(leave_encounter),
-			(change_screen_map),
+			(change_screen_return),
 		]),
 	]),
 	
@@ -883,35 +1044,93 @@ game_menus = [
 		("encounter_attack", 
 		[
 			(str_store_party_name, s10, "$g_encountered_party"),
+			(str_store_party_name, s12, "$g_encountered_party_2"),
 			(store_faction_of_party, ":faction", "$g_encountered_party"),
-			(str_store_faction_name, s11, ":faction"),], "Attack {s10} ({s11})",
+			(store_faction_of_party, ":faction_2", "$g_encountered_party_2"),
+			(str_store_faction_name, s11, ":faction"),
+			(str_store_faction_name, s13, ":faction_2"),
+			], "Help {s12} ({s13}) against {s10} ({s11})",
 		[
 			# Preparation
 			(assign, "$g_enemy", "$g_encountered_party"),
-			# (party_quick_attach_to_current_battle, "p_main_party", 0),
-			# (party_quick_attach_to_current_battle, "$g_encountered_party", 1),
-			(party_quick_attach_to_current_battle, "$g_encountered_party_2", 0),
+			(assign, "$g_player_team", 1),
+			(select_enemy, 0),
+			
+			(try_for_parties, ":party_no"),
+				(call_script, "script_cf_party_join_battle", ":party_no", "$g_encountered_party", "$g_encountered_party_2"),
+				# (party_is_active, ":party_no"),
+				# (neq, ":party_no", "$g_encountered_party"),
+				# (neq, ":party_no", "$g_encountered_party_2"),
+				# (neq, ":party_no", "p_main_party"),
+				# (party_get_slot, ":party_type", ":party_no", slot_party_type),
+				# (eq, ":party_type", spt_war_party),
+				# (party_get_attached_to, ":attached_party", ":party_no"),
+				# (lt, ":attached_party", 0),
+				# (store_distance_to_party_from_party, ":distance", ":party_no", "$g_encountered_party"),
+				# (lt, ":distance", reinforcement_range),
+				# (call_script, "script_party_join_battle", ":party_no", "$g_encountered_party", "$g_encountered_party_2"),
+				(assign, ":continue", reg0),
+				(try_begin),
+					(eq, ":continue", 1),
+					# (str_store_party_name, s20, ":party_no"),
+					(party_quick_attach_to_current_battle, ":party_no", 1),
+				(else_try),
+					(eq, ":continue", 2),
+					# (str_store_party_name, s20, ":party_no"),
+					(party_quick_attach_to_current_battle, ":party_no", 0),
+				(try_end),
+			(try_end),
+			
 			(jump_to_menu, "mnu_encounter_battle"),
 		]),
 		
 		("encounter_attack_2", 
 		[
 			(str_store_party_name, s10, "$g_encountered_party_2"),
-			(store_faction_of_party, ":faction", "$g_encountered_party_2"),
-			(str_store_faction_name, s11, ":faction"),], "Attack {s10} ({s11})",
+			(str_store_party_name, s12, "$g_encountered_party"),
+			(store_faction_of_party, ":faction", "$g_encountered_party"),
+			(store_faction_of_party, ":faction_2", "$g_encountered_party_2"),
+			(str_store_faction_name, s11, ":faction_2"),
+			(str_store_faction_name, s13, ":faction"),
+			], "Join {s12} ({s13}) against {s10} ({s11})",
 		[
 			# Preparation
 			(assign, "$g_enemy", "$g_encountered_party_2"),
-			# (party_quick_attach_to_current_battle, "p_main_party", 0),
-			(party_quick_attach_to_current_battle, "$g_encountered_party", 0),
-			# (party_quick_attach_to_current_battle, "$g_encountered_party_2", 1),
+			(assign, "$g_player_team", 0),
+			(select_enemy, 1),
+			
+			(try_for_parties, ":party_no"),
+				(call_script, "script_cf_party_join_battle", ":party_no", "$g_encountered_party", "$g_encountered_party_2"),
+				# (party_is_active, ":party_no"),
+				# (neq, ":party_no", "$g_encountered_party"),
+				# (neq, ":party_no", "$g_encountered_party_2"),
+				# (neq, ":party_no", "p_main_party"),
+				# (party_get_slot, ":party_type", ":party_no", slot_party_type),
+				# (eq, ":party_type", spt_war_party),
+				# (party_get_attached_to, ":attached_party", ":party_no"),
+				# (lt, ":attached_party", 0),
+				# (store_distance_to_party_from_party, ":distance", ":party_no", "$g_encountered_party"),
+				# (lt, ":distance", reinforcement_range),
+				# (call_script, "script_party_join_battle", ":party_no", "$g_encountered_party", "$g_encountered_party_2"),
+				(assign, ":continue", reg0),
+				(try_begin),
+					(eq, ":continue", 1),
+					# (str_store_party_name, s20, ":party_no"),
+					(party_quick_attach_to_current_battle, ":party_no", 1),
+				(else_try),
+					(eq, ":continue", 2),
+					# (str_store_party_name, s20, ":party_no"),
+					(party_quick_attach_to_current_battle, ":party_no", 0),
+				(try_end),
+			(try_end),
+			
 			(jump_to_menu, "mnu_encounter_battle"),
 		]),
 		
 		("encounter_leave", [], "Leave",
 		[
 			(leave_encounter),
-			(change_screen_map),
+			(change_screen_return),
 		]),
 	]),
 	
@@ -924,12 +1143,35 @@ game_menus = [
 		("battle_charge", [], "Charge the enemy",
 		[
 			(set_party_battle_mode),
+			# (encounter_attack),
 			(set_battle_advantage, 0),
 			
 			(call_script, "script_get_battle_scene"),
 			(assign, ":scene", reg0),
 			
 			(set_jump_mission, "mt_battle_field"),
+			(jump_to_scene, ":scene"),
+			
+			(jump_to_menu, "mnu_battle_casualties"),
+			(change_screen_mission),
+		]),
+	]),
+	
+	("encounter_battle_siege", mnf_scale_picture,
+	"Encounter",
+	"none",
+	[
+	],
+	[
+		("battle_charge", [], "Charge the enemy",
+		[
+			(set_party_battle_mode),
+			# (encounter_attack),
+			(set_battle_advantage, 0),
+			
+			(party_get_slot, ":scene", "$g_encountered_party", slot_party_siege_scene),
+			
+			(set_jump_mission, "mt_battle_siege"),
 			(jump_to_scene, ":scene"),
 			
 			(jump_to_menu, "mnu_battle_casualties"),
@@ -1045,12 +1287,14 @@ game_menus = [
 			(call_script, "script_get_party_looted_gold", "p_enemy_casualties"),
 			(assign, ":gold", reg0),
 			(troop_add_gold, "trp_player", ":gold"),
-			(end_current_battle),
-			(leave_encounter),
-			(change_screen_return),
-			# (change_screen_map),
 			(call_script, "script_party_group_defeat_party_group", "p_main_party", "$g_enemy"),
-			(jump_to_menu, "mnu_after_battle"),
+			
+			# (end_current_battle),
+			# (finish_party_battle_mode),
+			# (leave_encounter),
+			(change_screen_return),
+			
+			# (jump_to_menu, "mnu_after_battle"),
 		]),
 	]),
 	

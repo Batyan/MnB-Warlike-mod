@@ -8,14 +8,14 @@ from header_troops import *
 from header_music import *
 from module_constants import *
 
-
-
-
+daily = 1			# 1
+weekly = daily*7 	# 7
+monthly = daily*30 	# 30
 
 simple_triggers = [
 
 	# Parties trigger
-	(48,
+	(monthly*2,
 	[
 		(try_for_parties, ":party_no"),
 			(party_is_active, ":party_no"),
@@ -31,13 +31,13 @@ simple_triggers = [
 				
 				(try_begin),
 					(eq, ":party_type", spt_town),
-					(call_script, "script_party_update_merchants", ":party_no"),
+					(call_script, "script_party_update_merchants_gold", ":party_no"),
 				(try_end),
 			(try_end),
 		(try_end),
-		(display_message, "@Merchants updated..."),
 	]),
-    (24,
+	
+    (monthly,
 	[
 		(try_for_parties, ":party_no"),
 			(party_is_active, ":party_no"),
@@ -90,7 +90,7 @@ simple_triggers = [
 		
 	# ]),
 	
-	(6,
+	(daily*6,
 	[
 		(try_for_parties, ":party_no"),
 			(party_is_active, ":party_no"),
@@ -107,27 +107,28 @@ simple_triggers = [
 					(ge, ":besieger", 0),
 					(try_begin),
 						(neg|party_is_active, ":besieger"),
-						(party_set_slot, ":party_no", slot_party_besieged_by, -1),
+						(call_script, "script_party_lift_siege", ":party_no"),
+						# (party_set_slot, ":party_no", slot_party_besieged_by, -1),
 					(else_try),
-						# (store_distance_to_party_from_party, ":dist", ":party_no", ":besieger"),
-						# (gt, ":dist", 15),
-						(party_get_slot, ":leader", ":besieger", slot_party_leader),
-						(troop_get_slot, ":current_behavior", ":leader", slot_troop_behavior),
-						(troop_get_slot, ":current_object", ":leader", slot_troop_behavior_object),
+						(store_distance_to_party_from_party, ":dist", ":party_no", ":besieger"),
+						(gt, ":dist", 6),
+						# (party_get_slot, ":leader", ":besieger", slot_party_leader),
+						# (troop_get_slot, ":current_behavior", ":leader", slot_troop_behavior),
+						# (troop_get_slot, ":current_object", ":leader", slot_troop_behavior_object),
 						
-						(this_or_next|neq, ":current_behavior", tai_attacking_center),
-						(neq, ":current_object", ":party_no"),
-						(party_set_slot, ":party_no", slot_party_besieged_by, -1),
+						# (this_or_next|neq, ":current_behavior", tai_attacking_center),
+						# (neq, ":current_object", ":party_no"),
+						(call_script, "script_party_lift_siege", ":party_no"),
+						# (party_set_slot, ":party_no", slot_party_besieged_by, -1),
 					(try_end),
 				(try_end),
-			(else_try),
-				(eq, ":party_type", spt_war_party),
-				(call_script, "script_party_process_mission", ":party_no"),
+			# (else_try),
+				# (eq, ":party_type", spt_war_party),
 			(try_end),
 		(try_end),
 	]),
 	
-	(2,
+	(daily*2,
 	[
 		(try_for_parties, ":party_no"),
 			(party_is_active, ":party_no"),
@@ -155,9 +156,6 @@ simple_triggers = [
 					# (call_script, "script_cf_faction_need_party_nearby_resources", ":faction", ":party_no"),
 					# (call_script, "script_spawn_new_center_marker_with_party_resources", ":party_no"),
 				# (try_end),
-			(else_try),
-				(eq, ":party_type", spt_war_party),
-				(call_script, "script_party_process_ai", ":party_no"),
 			(try_end),
 		(try_end),
 	]),
@@ -177,7 +175,21 @@ simple_triggers = [
 	]),
 	
 	# Lords trigger
-	(24,
+	(monthly,
+	[
+		(try_for_range, ":lord_no", lords_begin, lords_end),
+			(troop_get_slot, ":occupation", ":lord_no", slot_troop_kingdom_occupation),
+			(try_begin),
+				(eq, ":occupation", tko_kingdom_hero),
+				(troop_get_slot, ":leaded_party", ":lord_no", slot_troop_leaded_party),
+				(gt, ":leaded_party", 0),
+				(party_is_active, ":leaded_party"),
+				(call_script, "script_party_process_mission", ":leaded_party"),
+			(try_end),
+		(try_end),
+	]),
+	
+	(weekly*2,
 	[
 		(try_for_range, ":lord_no", lords_begin, lords_end),
 			(troop_get_slot, ":occupation", ":lord_no", slot_troop_kingdom_occupation),
@@ -203,7 +215,7 @@ simple_triggers = [
 				(assign, ":best_equipement_rank", reg0),
 				(try_begin),
 					(this_or_next|neq, ":lord_level", ":real_rank"),
-					(lt, ":equipement_rank", ":best_equipement_rank"),
+					(neq, ":equipement_rank", ":best_equipement_rank"),
 					(call_script, "script_troop_update_level", ":lord_no", ":lord_level", ":real_rank"),
 				(try_end),
 				
@@ -241,8 +253,10 @@ simple_triggers = [
 							(assign, ":selected", ":other_lord"),
 						(try_end),
 					(try_end),
-					(ge, ":selected", 0),
-					(call_script, "script_troop_give_center_to_troop", ":lord_no", ":surplus_fief", ":selected"),
+					(try_begin),
+						(ge, ":selected", 0),
+						(call_script, "script_troop_give_center_to_troop", ":lord_no", ":surplus_fief", ":selected"),
+					(try_end),
 				(try_end),
 				
 				# Decrease days until next rethink for following marshall
@@ -261,35 +275,37 @@ simple_triggers = [
 	
 	# ]),
 	
-	(6,
+	(daily*2,
 	[
-		# (try_for_range, ":lord_no", lords_begin, lords_end),
-			# (troop_get_slot, ":occupation", ":lord_no", slot_troop_kingdom_occupation),
-			# (store_troop_faction, ":faction", ":lord_no"),
-			# (try_begin),
+		(try_for_range, ":lord_no", lords_begin, lords_end),
+			(troop_get_slot, ":occupation", ":lord_no", slot_troop_kingdom_occupation),
+			(try_begin),
 				# (this_or_next|eq, ":occupation", tko_),
-				# (eq, ":occupation", tko_kingdom_hero),
-				# (call_script, "script_troop_process_ai", ":lord_no"),
-			# (else_try),
-			# (try_end),
-		# (try_end),
+				(eq, ":occupation", tko_kingdom_hero),
+				(troop_get_slot, ":leaded_party", ":lord_no", slot_troop_leaded_party),
+				(gt, ":leaded_party", 0),
+				(party_is_active, ":leaded_party"),
+				(call_script, "script_party_process_ai", ":leaded_party"),
+			(try_end),
+		(try_end),
 	]),
 	
-	(24*7,
+	(monthly*6/(kingdoms_end - kingdoms_begin),
 	[
-		(try_for_range, ":faction_no", kingdoms_begin, kingdoms_end),
-			(faction_get_slot, ":center_no", ":faction_no", slot_faction_current_free_center),
-			(ge, ":center_no", centers_begin),
-			
-			(call_script, "script_faction_get_best_candidate_for_center", ":faction_no", ":center_no"),
-			(assign, ":troop_no", reg0),
-			
-			(gt, ":troop_no", -1),
-			(call_script, "script_give_center_to_troop", ":center_no", ":troop_no"),
-			
-			(faction_set_slot, ":faction_no", slot_faction_current_free_center, -1),
+		(try_begin),
+			(neg|is_between, "$g_politics_cur_faction", kingdoms_begin, kingdoms_end),
+			(assign, "$g_politics_cur_faction", kingdoms_begin),
 		(try_end),
+		(str_store_faction_name, s10, "$g_politics_cur_faction"),
+		(display_message, "@Current faction politics: {s10}"),
 		
+		(call_script, "script_faction_process_politics", "$g_politics_cur_faction"),
+		
+		(val_add, "$g_politics_cur_faction", 1),
+	]),
+	
+	(monthly*2,
+	[
 		(try_for_range_backwards, ":cur_center", centers_begin, centers_end),
 			(party_get_slot, ":lord", ":cur_center", slot_party_lord),
 			(lt, ":lord", 0),

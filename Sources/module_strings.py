@@ -309,10 +309,10 @@ strings = [
 	###########
 	
 	("kingdom_rank_0", "Knight {s0}"),
-	("kingdom_rank_1", "Baron {s0}"),
-	("kingdom_rank_2", "Viscount {s0}"),
-	("kingdom_rank_3", "Count {s0}"),
-	("kingdom_rank_4", "Lord {s0}"),
+	("kingdom_rank_1", "Knight {s0}"),
+	("kingdom_rank_2", "Baron {s0}"),
+	("kingdom_rank_3", "Viscount {s0}"),
+	("kingdom_rank_4", "Count {s0}"),
 	("kingdom_rank_5", "Duke {s0}"),
 	("kingdom_rank_6", "Marshall {s0}"),
 	("kingdom_rank_7", "King {s0}"),
@@ -352,9 +352,6 @@ strings = [
 	("sarranid_rank_5", "Malik {s0}"),
 	("sarranid_rank_6", "Caliph {s0}"),
 	("sarranid_rank_7", "Sultan {s0}"),
-	
-	("1_denar", "1 denar"),
-	("reg1_denars", "{reg1} denars"),
 	
 	("swadian_name_1", "Gallagus"),
 	("swadian_name_2", "Klargus"),
@@ -632,4 +629,12 @@ strings = [
 	("era_name_7", "Eighth Age"),
 	("era_name_8", "Ninth Age"),
 	("era_name_9", "Tenth Age"),
+	
+	("party_name_free_1", "Great Wolves"),
+	("party_name_free_2", "Lone Eagle"),
+	("party_name_holy_1", "The Holy Ones"),
+	("party_name_holy_2", "The Chosen Ones"),
+	("party_name_holy_evil_1", "Chosen Raiders"),
+	("party_name_evil_1", "Fearless Raiders"),
+	("party_name_evil_2", "Fearless Warriors"),
 ]

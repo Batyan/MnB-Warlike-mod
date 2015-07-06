@@ -62,7 +62,10 @@ scenes = [
 	
 	("castle_plain_wood_01_outside", sf_generate, "none", "none", (0,0), (240,240),-0.5,"0x0000000332655a630006098400001edc0000246b00007856",
 		[],[], "outer_terrain_plain"),
-	
+		
+	("castle_plain_dark_01_outside", sf_generate, "none", "none", (0,0), (240,240),-0.5,"0x00000001b244d2000006098d00005999000033a700007a61",
+		[],[], "outer_terrain_plain"),
+		
 	("castle_steppe_01_outside", sf_generate, "none", "none", (0,0), (240,240),-0.5,"0x00000003264b18e30004912200007b7e00006d9e00006880",
 		[],[], "outer_terrain_steppe"),
 	

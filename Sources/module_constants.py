@@ -1,6 +1,7 @@
 from ID_items import *
 from ID_quests import *
 from ID_factions import *
+from ID_meshes import *
 
 
 ################
@@ -115,6 +116,9 @@ slot_faction_master_culture = 46
 
 slot_faction_era = 47		# Current era the faction is at
 slot_faction_era_time = 48	# Time at which the faction has attained this era
+
+slot_faction_num_vassals = 49
+slot_faction_num_fiefs = 50
 
 #################
 ## Party Slots ##
@@ -285,6 +289,9 @@ slot_troop_rank 					= 7 # real rank
 slot_troop_level					= 8 # current rank
 slot_troop_equipement_level			= 9 # current rank
 
+# slot_troop_mercenary_captain_1		= slot_troop_level				# Only troops
+# slot_troop_mercenary_captain_2		= slot_troop_equipement_level	# Only troops
+
 slot_troop_kingdom_occupation 		= 12
 tko_none = 0
 tko_kingdom_hero = 1
@@ -320,16 +327,18 @@ slot_troop_vassal_of				= 19
 slot_troop_home						= 20
 
 slot_troop_mission 					= 21
-tm_gathering_army 		= 1
-tm_sieging_center 		= 2
-tm_raiding_center 		= 3
-tm_defending			= 4
-tm_attacking			= 5
+tm_none					= 0
+# tm_gathering_army 		= 1
+# tm_sieging_center 		= 2
+# tm_raiding_center 		= 3
+tm_defending			= 1
+tm_attacking			= 2
+tm_escorting			= 3
 
-slot_troop_behavior_object 			= 22
-slot_troop_behavior 				= 23
+slot_troop_mission_object			= 22
 
-slot_troop_surplus_center			= 24
+slot_troop_behavior_object 			= 23
+slot_troop_behavior 				= 24
 
 slot_troop_prisoner_of				= 25 # Only heroes
 
@@ -338,9 +347,9 @@ slot_troop_faction_reserved_2		= 26
 slot_troop_faction_not_1			= 27
 slot_troop_faction_not_2			= 28
 
-slot_troop_armor_weight = 29
-slot_troop_horse_weight = 30
-slot_troop_ranged_weapon_weight = 31
+slot_troop_armor_weight 			= 29
+slot_troop_horse_weight 			= 30
+slot_troop_ranged_weapon_weight 	= 31
 
 weight_very_light = 0
 weight_light = 1
@@ -348,6 +357,14 @@ weight_medium = 2
 weight_heavy = 3
 weight_very_heavy = 4
 
+slot_troop_last_met 				= 32
+
+slot_troop_surplus_center			= 33
+
+slot_troop_gathering				= 34
+
+slot_troop_last_attack				= 35
+slot_troop_last_rest				= 36
 
 ##################
 ## Player Slots ##
@@ -467,18 +484,19 @@ scene_prop_slots = 0
 
 other = 0
 
-banner_meshes_begin = 0
-banner_meshes_end = 1
+banner_meshes_begin = "mesh_banner_a01"
+banner_meshes_end = "mesh_banner_mesh_end"
 banner_meshes_end_minus_one = 1
 
-banner_scene_props_end_minus_one = 0
-banner_scene_props_begin = 0
+banner_scene_props_begin = "spr_banner_a"
+banner_scene_props_end = "spr_banner_end"
+banner_scene_props_end_minus_one = "spr_banner_kingdom_f"
 
 npc_kingdoms_begin = 0
 npc_kingdoms_end = 1
 
-arms_meshes_begin = 0
-arms_meshes_end = 1
+arms_meshes_begin = mesh_arms_a01
+arms_meshes_end = mesh_troop_label_banner
 
 # PARTIES
 centers_begin = "p_town_11"
@@ -495,10 +513,10 @@ walled_centers_begin = towns_begin
 walled_centers_end = castles_end
 
 # FACTIONS
-kingdoms_begin = "fac_kingdom_1"
-kingdoms_end = "fac_kingdoms_end"
+kingdoms_begin = fac_kingdom_1
+kingdoms_end = fac_kingdoms_end
 
-small_kingdoms_begin = "fac_small_kingdom_11"
+small_kingdoms_begin = fac_small_kingdom_11
 small_kingdoms_end = kingdoms_end
 
 # ITEMS
@@ -583,26 +601,26 @@ bandits_end				= soldiers_end
 
 ressource_gathering_pace = 200
 
-lords_begin = "trp_swadian_lord_1"
+lords_begin = "trp_lord_001"
 lords_end = companions_begin
 
 # SCENES
 castle_scene_begin = "scn_castle_plain_01_outside"
 castle_scene_end = "scn_meeting_scene_steppe"
 
-castle_scene_plain_begin = "scn_castle_scene_begin"
-castle_scene_plain_dark_begin = "scn_castle_plain_wood_01_outside"
+castle_scene_plain_begin = "scn_castle_plain_01_outside"
 castle_scene_plain_wood_begin = "scn_castle_plain_wood_01_outside"
+castle_scene_plain_dark_begin = "scn_castle_plain_dark_01_outside"
 castle_scene_steppe_begin = "scn_castle_steppe_01_outside"
-castle_scene_steppe_wood_begin = "scn_castle_snow_01_outside"
+castle_scene_steppe_wood_begin = "scn_castle_steppe_01_outside"
 castle_scene_snow_begin = "scn_castle_snow_01_outside"
-castle_scene_snow_wood_begin = "scn_castle_desert_01_outside"
+castle_scene_snow_wood_begin = "scn_castle_snow_01_outside"
 castle_scene_desert_begin = "scn_castle_desert_01_outside"
 castle_scene_desert_wood_begin = castle_scene_end
 
-castle_scene_plain_end = castle_scene_plain_dark_begin
-castle_scene_plain_dark_end = castle_scene_plain_wood_begin
-castle_scene_plain_wood_end = castle_scene_steppe_begin
+castle_scene_plain_end = castle_scene_plain_wood_begin
+castle_scene_plain_wood_end = castle_scene_plain_dark_begin
+castle_scene_plain_dark_end = castle_scene_steppe_begin
 castle_scene_steppe_end = castle_scene_steppe_wood_begin
 castle_scene_steppe_wood_end = castle_scene_snow_begin
 castle_scene_snow_end = castle_scene_snow_wood_begin
@@ -614,8 +632,17 @@ castle_scene_desert_wood_end = castle_scene_end
 # OTHER
 garrison_size_town = 400
 garrison_size_castle = 250
-garrison_size_village = 20
+garrison_size_village = 50
 garrison_size_fort = 50
+
+base_party_size_rank_0 = 10
+base_party_size_rank_1 = 15
+base_party_size_rank_2 = 40
+base_party_size_rank_3 = 55
+base_party_size_rank_4 = 100
+base_party_size_rank_5 = 150
+base_party_size_rank_6 = 200
+base_party_size_rank_7 = 200
 
 siege_attack_spawn_begin = 2
 siege_defend_points_begin = 10
@@ -637,9 +664,10 @@ tai_raiding_center = 4
 tai_attacking_party = 5
 tai_gathering_army = 6
 tai_accompanying_party = 7
-tai_traveling_to_party = 8
-tai_traveling_to_point = 9
-tai_attacking_center = 10
+tai_accompanying_troop = 8
+tai_traveling_to_party = 9
+tai_traveling_to_point = 10
+tai_attacking_center = 11
 
 names_begin = "str_swadian_name_1"
 names_end = "str_names_end"
@@ -678,17 +706,41 @@ text_color_impossible = 0xc01010
 text_color_gold = 0x55eeee
 text_color_valid = 0x00ee55
 
-era_minimum_duration = 50
+era_minimum_duration = 1
 
-merchants_general_begin = "trp_merchant_town_11_general"
-# merchants_weapons_begin = "trp_merchant_town_11_weapon"
-merchants_weapons_begin = "trp_merchant_town_11_general"
+merchants_begin = "trp_merchant_town_11_general"
+merchants_end = "trp_banner_background_color_array"
+
+merchants_general_begin = merchants_begin
+merchants_general_end = "trp_merchant_town_11_weapons"
+merchants_weapons_begin = merchants_general_end
+merchants_weapons_end = "trp_merchant_town_11_armors"
+merchants_armors_begin = merchants_weapons_end
+merchants_armors_end = "trp_merchant_castle_1a_smith"
+merchants_smiths_begin = merchants_armors_end
+merchants_smiths_end = merchants_end
+# merchants_smiths_end = "trp_merchant_town_11_horse"
+# merchants_horses_begin = merchants_smiths_end
+# merchants_horses_end = "trp_merchant_town_11_goods"
+# merchants_goods_begin = merchants_horses_end
+# merchants_goods_end = merchants_end
 
 items_good = 0x1
 items_weapon = 0x2
 items_armor = 0x4
 items_horse = 0x8
 
+merchant_base_gold_earn_weaponsmith = 500
+merchant_base_gold_earn_armorsmith = 600
+merchant_base_gold_earn_goods = 400
+merchant_base_gold_earn_horses = 650
+merchant_base_gold_earn_general = 350
+
+train_levies_cost = 40
+
+merchants_update_rate = 7*24
+
+reinforcement_range = 8
 
 ##################
 ## Achievements ##

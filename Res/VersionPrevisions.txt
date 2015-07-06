@@ -2,10 +2,13 @@
 	Land battles
 		Attack an enemy
 		Be helped by an ally
-0.150:
+	DONE
+	
+0.110:
 	Land battles
 		Be attacked by an enemy
 		Help an ally
+	DONE
 		
 0.200:
 	Siege battles
@@ -29,30 +32,32 @@
 		Good production
 		Good transformation
 		Party upkeep
-0.600:
+0.510:
 	Trading
 		Buying and selling (player)
 		Caravans
-0.700:
+0.600:
 	City management
 		Buildings, bank
-0.800:
+	Dialogs
+		Lords
+0.700:
 	Kingdom management
-0.900:
+0.800:
 	Heroes relations
 		Families
 		Friends
 	Heroes randomisation
 		Faces
 		Names
-1.000:
+0.900:
 	Politics
-1.100:
+1.000:
 	Companions
 	Personalities
-1.200:
+1.100:
 	Taverns
 	Mercenaries
-		Mercenary bands
 		Mercenary leaders
+		Mercenary bands
 		Tavern mercenaries
