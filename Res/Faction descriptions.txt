@@ -99,6 +99,7 @@ Swadian Minors:
 		
 	Duchy of Dhirim
 		Added Levy Spearmen
+<<<<<<< HEAD
 		Added Lancers
 		Added Light Horsemen
 		Added Heavy Lancers
@@ -108,6 +109,9 @@ Swadian Minors:
 		Removed Ranger
 		
 		More focused on lancers ad horse archers
+=======
+		Added Heavy Lancers
+>>>>>>> origin/master
 		
 	County of Gisim
 		Added Longbowmen
@@ -146,6 +150,7 @@ Swadian Minors:
 		
 		Squires are better when dismounted and can have 2h weapons
 		Increased prevalence of infantry
+<<<<<<< HEAD
 	
 Vaegir Minors:
 	County of Slezhk
@@ -171,3 +176,6 @@ Vaegir Minors:
 	County of Yruma
 	
 	Duchy of the Southern Taiga
+=======
+	
+>>>>>>> origin/master

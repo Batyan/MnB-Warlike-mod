@@ -43,6 +43,8 @@ scripts = [
 			
 			(assign, "$g_cur_free_lord", lords_begin),
 			
+			(call_script, "script_init_arms_colors"),
+			
 			(try_for_range, ":cur_center", towns_begin, towns_end),
 				(party_set_slot, ":cur_center", slot_party_type, spt_town),
 			(try_end),
@@ -128,6 +130,7 @@ scripts = [
 			(try_end),
 			
 			(try_for_range, ":center_no", walled_centers_begin, walled_centers_end),
+<<<<<<< HEAD
 				(store_faction_of_party, ":center_faction", ":center_no"),
 				(is_between, ":center_faction", kingdoms_begin, kingdoms_end),
 				
@@ -143,6 +146,21 @@ scripts = [
 				(assign, ":rank", reg0),
 				(troop_set_slot, ":lord_no", slot_troop_rank, ":rank"),
 				
+=======
+				(call_script, "script_find_free_lord"),
+				(assign, ":lord_no", reg0),
+				(store_faction_of_party, ":center_faction", ":center_no"),
+				
+				(party_set_slot, ":center_no", slot_party_lord, ":lord_no"),
+				
+				(call_script, "script_ready_lord", ":lord_no", ":center_faction"),
+				(call_script, "script_give_center_to_troop", ":center_no", ":lord_no"),
+				
+				(call_script, "script_troop_get_rank", ":lord_no"),
+				(assign, ":rank", reg0),
+				(troop_set_slot, ":lord_no", slot_troop_rank, ":rank"),
+				
+>>>>>>> origin/master
 				(call_script, "script_troop_change_level", ":lord_no", ":rank"),
 			(try_end),
 			
@@ -253,9 +271,12 @@ scripts = [
 					(else_try),
 						(jump_to_menu, "mnu_town"),
 					(try_end),
+<<<<<<< HEAD
 				# (else_try),
 					# (is_between, "$g_encountered_party", "p_places_stone_obelisk", "p_Bridge_1"),
 					# (jump_to_menu, "mnu_visit_place"),
+=======
+>>>>>>> origin/master
 				(else_try),
 					(jump_to_menu, "mnu_simple_encounter"),
 				(try_end),
@@ -5416,9 +5437,12 @@ scripts = [
 					
 					(troop_get_slot, ":rank", ":commander", slot_troop_rank),
 					(try_begin),
+<<<<<<< HEAD
 						(eq, ":commander", "trp_player"),
 						(assign, ":party_limit", 500),
 					(else_try),
+=======
+>>>>>>> origin/master
 						(eq, ":rank", 0),
 						(assign, ":party_limit", base_party_size_rank_0),
 					(else_try),
@@ -5813,6 +5837,13 @@ scripts = [
 			(scene_set_slot, "scn_castle_plain_dark_01_outside", slot_scene_num_defend_points, 2),
 			(scene_set_slot, "scn_castle_plain_dark_01_outside", slot_scene_num_attack_spawn, 2),
 			(scene_set_slot, "scn_castle_plain_dark_01_outside", slot_scene_num_archer_points, 8),
+<<<<<<< HEAD
+=======
+			
+			(scene_set_slot, "scn_castle_desert_01_outside", slot_scene_num_defend_points, 2),
+			(scene_set_slot, "scn_castle_desert_01_outside", slot_scene_num_attack_spawn, 2),
+			(scene_set_slot, "scn_castle_desert_01_outside", slot_scene_num_archer_points, 9),
+>>>>>>> origin/master
 			
 			(scene_set_slot, "scn_castle_steppe_01_outside", slot_scene_num_defend_points, 2),
 			(scene_set_slot, "scn_castle_steppe_01_outside", slot_scene_num_attack_spawn, 2),
@@ -6155,10 +6186,17 @@ scripts = [
 					(try_end),
 				(else_try),
 					(eq, ":current_behavior", tai_accompanying_troop),
+<<<<<<< HEAD
 					(troop_get_slot, ":object_leaded_party", ":mission_object", slot_troop_leaded_party),
 					
 					(try_begin),
 						(eq, ":current_object", ":object_leaded_party"),
+=======
+					
+					(try_begin),
+						(eq, ":current_object", ":mission_object"),
+						(troop_get_slot, ":object_leaded_party", ":current_object", slot_troop_leaded_party),
+>>>>>>> origin/master
 						(party_get_battle_opponent, ":opponent", ":object_leaded_party"),
 						(try_begin),
 							(ge, ":opponent", 0),
@@ -6234,6 +6272,7 @@ scripts = [
 						(assign, ":new_mission_object", ":home"),
 						(assign, ":stop", 1),
 					(try_end),
+<<<<<<< HEAD
 				(else_try),
 					# Defend walled home
 					(neq, ":home", ":walled_home"),
@@ -6399,6 +6438,172 @@ scripts = [
 			
 			(assign, reg0, ":num_gathered"),
 		]),
+=======
+				(else_try),
+					# Defend walled home
+					(neq, ":home", ":walled_home"),
+					
+					(party_get_battle_opponent, ":attacker", ":walled_home"),
+					(this_or_next|ge, ":attacker", 0),
+					(party_slot_ge, ":walled_home", slot_party_besieged_by, 0),
+					
+					(assign, ":new_mission", tm_defending),
+					(assign, ":new_mission_object", ":walled_home"),
+					(assign, ":stop", 1),
+				(try_end),
+				(eq, ":stop", 1),
+			(else_try),
+				(ge, ":rank", rank_castle),
+				(troop_get_slot, ":last_attack", ":leader", slot_troop_last_attack),
+				(store_current_hours, ":cur_hour"),
+				(store_sub, ":diff", ":cur_hour", ":last_attack"),
+				(ge, ":diff", 7*24),
+				(call_script, "script_faction_find_nearest_enemy_center", ":party_faction", ":party_no", spt_castle),
+				(assign, ":center", reg0),
+				(is_between, ":center", walled_centers_begin, walled_centers_end),
+				
+				(try_begin),
+					(party_get_slot, ":besieger", ":center", slot_party_besieged_by),
+					(ge, ":besieger", 0),
+					(neq, ":besieger", ":party_no"),
+					(assign, ":new_mission", tm_escorting),
+					(assign, ":new_mission_object", ":besieger"),
+				(else_try),
+					(assign, ":new_mission", tm_attacking),
+					(assign, ":new_mission_object", ":center"),
+				(try_end),
+			(try_end),
+			
+			(try_begin),
+				# Follow liege
+				(troop_get_slot, ":liege", ":leader", slot_troop_vassal_of),
+				(ge, ":liege", 0),
+				# (troop_get_slot, ":liege_mission", ":liege", slot_troop_mission),
+				# (this_or_next|eq, ":liege_mission", tm_gathering_army),
+				# (eq, ":liege_mission", tm_defending),
+				(troop_slot_eq, ":liege", slot_troop_gathering, 1),
+				
+				(try_begin),
+					(this_or_next|neq, ":new_mission", tm_defending),
+					(neg|party_slot_eq, ":new_mission_object", slot_party_lord, ":leader"),
+					# (neq, ":new_mission_object", ":home"),
+					(troop_get_slot, ":liege_party", ":liege", slot_troop_leaded_party),
+					(assign, ":new_mission", tm_escorting),
+					(assign, ":new_mission_object", ":liege_party"),
+				(try_end),
+			(try_end),
+			
+			(party_get_num_companions, ":num_troops", ":party_no"),
+			(call_script, "script_party_get_companion_limit", ":party_no"),
+			(assign, ":party_limit", reg0),
+			(store_div, ":party_combat_limit", ":party_limit", 3),
+			(try_begin),
+				(lt, ":num_troops", ":party_combat_limit"),
+				(assign, ":new_mission", tm_none),
+			(try_end),
+			
+			(troop_get_slot, ":gathering", ":leader", slot_troop_gathering),
+			(try_begin),
+				(ge, ":new_mission", tm_defending),
+				(try_begin),
+					(lt, ":gathering", 1),
+					(troop_set_slot, ":leader", slot_troop_gathering, 1),
+					(call_script, "script_party_gather_vassals", ":party_no"),
+				(try_end),
+			(else_try),
+				(troop_set_slot, ":leader", slot_troop_gathering, -1),
+			(try_end),
+			
+			(troop_set_slot, ":leader", slot_troop_mission, ":new_mission"),
+			(troop_set_slot, ":leader", slot_troop_mission_object, ":new_mission_object"),
+		]),
+	
+	# script_party_gather_vassals
+	# input:
+	# 	arg1: party_gathering
+	# output:
+	# 	reg0: num_gathered
+	("party_gather_vassals",
+		[
+			(store_script_param, ":party_no", 1),
+			(store_faction_of_party, ":party_faction", ":party_no"),
+			(party_get_slot, ":party_leader", ":party_no", slot_party_leader),
+			(troop_get_slot, ":leader_rank", ":party_leader", slot_troop_rank),
+			
+			(assign, ":num_gathered", 0),
+			
+			(try_for_range, ":lord_no", lords_begin, lords_end),
+				(troop_slot_ge, ":lord_no", slot_troop_kingdom_occupation, tko_kingdom_hero),
+				(store_troop_faction, ":lord_faction", ":lord_no"),
+				(troop_get_slot, ":liege", ":lord_no", slot_troop_vassal_of),
+				(troop_get_slot, ":lord_party", ":lord_no", slot_troop_leaded_party),
+				
+				(assign, ":follow_score", 0),
+				(try_begin),
+					(eq, ":liege", ":party_leader"),
+					(val_add, ":follow_score", 100),
+				(else_try),
+					(eq, ":lord_faction", ":party_faction"),
+					(val_add, ":follow_score", 50),
+				(else_try),
+					(store_relation, ":faction_relation", ":lord_faction", ":party_faction"),
+					(try_begin),
+						(ge, ":faction_relation", relation_allies),
+						(val_add, ":follow_score", 25),
+					(else_try),
+						(ge, ":faction_relation", relation_friendly),
+						(val_add, ":follow_score", 5),
+					(else_try),
+						(le, ":faction_relation", relation_bad),
+						(val_add, ":follow_score", -100),
+					(else_try),
+						(le, ":faction_relation", relation_war),
+						(val_add, ":follow_score", -200),
+					(try_end),
+				(try_end),
+				
+				(troop_get_slot, ":mission", ":lord_no", slot_troop_mission),
+				(try_begin),
+					(eq, ":mission", tm_defending),
+					(val_add, ":follow_score", -25),
+				(else_try),
+					(eq, ":mission", tm_attacking),
+					(val_add, ":follow_score", -10),
+				(else_try),
+					(eq, ":mission", tm_escorting),
+					(val_add, ":follow_score", -50),
+				(try_end),
+				(try_begin),
+					(troop_slot_eq, ":lord_no", slot_troop_gathering, 1),
+					(val_add, ":follow_score", -50),
+				(try_end),
+				
+				(ge, ":follow_score", 0),
+				(try_begin),
+					(ge, ":lord_party", 0),
+					(store_distance_to_party_from_party, ":dist", ":party_no", ":lord_party"),
+					(store_sub, ":dist_score", 25, ":dist"),
+					(val_mul, ":dist_score", 2),
+				(try_end),
+				
+				(troop_get_slot, ":lord_rank", ":lord_no", slot_troop_rank),
+				(store_sub, ":rank_score", ":leader_rank", ":lord_rank"),
+				(val_sub, ":rank_score", 1),
+				(val_mul, ":rank_score", 5),
+				
+				(val_add, ":follow_score", ":dist_score"),
+				(val_add, ":follow_score", ":rank_score"),
+				
+				(try_begin),
+					(ge, ":follow_score", 100),
+					(troop_set_slot, ":lord_no", slot_troop_mission, tm_escorting),
+					(troop_set_slot, ":lord_no", slot_troop_mission_object, ":party_no"),
+				(try_end),
+			(try_end),
+			
+			(assign, reg0, ":num_gathered"),
+		]),
+>>>>>>> origin/master
 		
 	# script_faction_find_nearest_enemy_center
 	# input:
@@ -7612,9 +7817,12 @@ scripts = [
 			(troop_set_slot, ":lord_no", slot_troop_last_met, -1),
 			(troop_set_slot, ":lord_no", slot_troop_gathering, -1),
 			
+<<<<<<< HEAD
 			(call_script, "script_troop_get_face_code", ":lord_no"),
 			(troop_set_face_keys, ":lord_no", s0),
 			
+=======
+>>>>>>> origin/master
 			(store_current_hours, ":cur_hour"),
 			(troop_set_slot, ":lord_no", slot_troop_last_attack, ":cur_hour"),
 			(troop_set_slot, ":lord_no", slot_troop_last_rest, ":cur_hour"),
@@ -7764,10 +7972,13 @@ scripts = [
 			
 			# Troops not added to factions
 			(troop_set_slot, "trp_swadian_champion", slot_troop_faction_not_1, "fac_small_kingdom_12"), # Has Heavy Infantry instead
+<<<<<<< HEAD
 			(troop_set_slot, "trp_swadian_ranger", slot_troop_faction_not_1, "fac_small_kingdom_13"), # Has Horseman instead
 			(troop_set_slot, "trp_swadian_light_lancer", slot_troop_faction_not_1, "fac_small_kingdom_13"), # Has Lancer instead
 			(troop_set_slot, "trp_swadian_light_cavalry", slot_troop_faction_not_1, "fac_small_kingdom_13"), # Has Horseman instead
 			(troop_set_slot, "trp_swadian_militia", slot_troop_faction_not_1, "fac_small_kingdom_14"), # Has Hunter instead
+=======
+>>>>>>> origin/master
 			(troop_set_slot, "trp_swadian_light_bowman", slot_troop_faction_not_1, "fac_small_kingdom_14"), # Has Light Longbowman instead
 			(troop_set_slot, "trp_swadian_bowman", slot_troop_faction_not_1, "fac_small_kingdom_14"), # Has Heavy Longbowman instead
 			(troop_set_slot, "trp_swadian_pikeman", slot_troop_faction_not_1, "fac_small_kingdom_15"), # Has Spearman instead
@@ -7780,9 +7991,14 @@ scripts = [
 			(troop_set_slot, "trp_vaegir_heavy_infantry", slot_troop_faction_not_1, "fac_small_kingdom_23"), # Has Heavy Footman instead
 			(troop_set_slot, "trp_vaegir_guard", slot_troop_faction_not_1, "fac_small_kingdom_23"), # Has Horseman instead
 			(troop_set_slot, "trp_vaegir_medium_bowman", slot_troop_faction_not_1, "fac_small_kingdom_25"), # Has Longbowman instead
+<<<<<<< HEAD
 			(troop_set_slot, "trp_vaegir_mounted_bowman", slot_troop_faction_not_1, "fac_small_kingdom_21"), # Has Hussar instead
 			(troop_set_slot, "trp_vaegir_mounted_bowman", slot_troop_faction_not_2, "fac_small_kingdom_25"), # Has Mounted Longbowman instead
 			(troop_set_slot, "trp_vaegir_royal_hussar", slot_troop_faction_not_1, "fac_small_kingdom_25"), # Has Royal Mounted Longbowman instead
+=======
+			(troop_set_slot, "trp_vaegir_mounted_bowman", slot_troop_faction_not_1, "fac_small_kingdom_25"), # Has Mounted Longbowman instead
+			(troop_set_slot, "trp_vaegir_noble", slot_troop_faction_not_1, "fac_small_kingdom_25"), # Has Royal Mounted Longbowman instead
+>>>>>>> origin/master
 			
 			(troop_set_slot, "trp_khergit_light_infantry", slot_troop_faction_not_1, "fac_small_kingdom_32"), # Has Light Skirmisher instead
 			(troop_set_slot, "trp_khergit_heavy_infantry", slot_troop_faction_not_1, "fac_small_kingdom_32"), # Has Warrior instead
@@ -7800,17 +8016,26 @@ scripts = [
 			(troop_set_slot, "trp_nord_heavy_bowman", slot_troop_faction_not_1, "fac_small_kingdom_42"), # Has Heavy Longbowman instead
 			(troop_set_slot, "trp_nord_light_infantry", slot_troop_faction_not_1, "fac_small_kingdom_43"), # Has Skirmisher instead
 			(troop_set_slot, "trp_nord_light_cavalry", slot_troop_faction_not_1, "fac_small_kingdom_43"), # Has Light Mounted Skirmisher instead
+<<<<<<< HEAD
+=======
+			(troop_set_slot, "trp_nord_medium_cavalry", slot_troop_faction_not_1, "fac_small_kingdom_43"), # Has Mounted Skirmisher instead
+>>>>>>> origin/master
 			(troop_set_slot, "trp_nord_guard", slot_troop_faction_not_1, "fac_small_kingdom_43"), # Has Heavy Skirmisher instead
 			(troop_set_slot, "trp_nord_medium_cavalry", slot_troop_faction_not_1, "fac_small_kingdom_44"), # Has Spear Cavalry instead
 			(troop_set_slot, "trp_nord_heavy_cavalry", slot_troop_faction_not_1, "fac_small_kingdom_44"), # Has Heavy Spear Cavalry instead
 			(troop_set_slot, "trp_nord_medium_longbowman", slot_troop_faction_not_2, "fac_small_kingdom_44"), # Has Crossbowman instead
 			(troop_set_slot, "trp_nord_medium_longbowman", slot_troop_faction_not_1, "fac_small_kingdom_45"), # Has Bowman instead
 			(troop_set_slot, "trp_nord_light_cavalry", slot_troop_faction_not_2, "fac_small_kingdom_45"), # Has Light Spear Cavalry instead
+<<<<<<< HEAD
 			(troop_set_slot, "trp_nord_medium_cavalry", slot_troop_faction_not_2, "fac_small_kingdom_45"), # Has Spear Cavalry instead
 			(troop_set_slot, "trp_nord_heavy_cavalry", slot_troop_faction_not_2, "fac_small_kingdom_45"), # Has Heavy Spear Cavalry instead
 			
 			(troop_set_slot, "trp_nord_medium_spear_cavalry", slot_troop_faction_reserved_2, "fac_small_kingdom_44"), #
 			(troop_set_slot, "trp_nord_heavy_spear_cavalry", slot_troop_faction_reserved_2, "fac_small_kingdom_44"), #
+=======
+			(troop_set_slot, "trp_nord_medium_cavalry", slot_troop_faction_not_1, "fac_small_kingdom_45"), # Has Spear Cavalry instead
+			(troop_set_slot, "trp_nord_heavy_cavalry", slot_troop_faction_not_1, "fac_small_kingdom_45"), # Has Heavy Spear Cavalry instead
+>>>>>>> origin/master
 			
 			(troop_set_slot, "trp_rhodok_light_crossbowman", slot_troop_faction_not_1, "fac_small_kingdom_51"), #
 			(troop_set_slot, "trp_rhodok_light_horse_archer", slot_troop_faction_not_1, "fac_small_kingdom_51"), # Has Mounted Archer instead
@@ -7831,7 +8056,11 @@ scripts = [
 			(troop_set_slot, "trp_sarranid_guard", slot_troop_faction_not_1, "fac_small_kingdom_63"), # Has Warrior instead
 			(troop_set_slot, "trp_sarranid_heavy_skirmisher", slot_troop_faction_not_1, "fac_small_kingdom_63"), # Has Skirmisher instead
 			(troop_set_slot, "trp_sarranid_heavy_infantry", slot_troop_faction_not_1, "fac_small_kingdom_63"), # Has Sergeant instead
+<<<<<<< HEAD
 			(troop_set_slot, "trp_sarranid_noble_horse_archer", slot_troop_faction_not_1, "fac_small_kingdom_63"), # Has Heavy Mamluke instead
+=======
+			(troop_set_slot, "trp_sarranid_noble", slot_troop_faction_not_1, "fac_small_kingdom_63"), # Has Heavy Mamluke instead
+>>>>>>> origin/master
 		]),
 	
 	# script_init_troops_types
@@ -8121,6 +8350,7 @@ scripts = [
 			(try_end),
 			
 			# Secial treatments
+<<<<<<< HEAD
 			(troop_set_slot, "trp_swadian_militia", slot_troop_type, tt_archer),
 			(troop_set_slot, "trp_swadian_sergeant", slot_troop_type, tt_shock_infantry), # Because swadians have too many of them
 			# (troop_set_slot, "trp_khergit_militia", slot_troop_type, tt_archer),
@@ -8177,6 +8407,11 @@ scripts = [
 				
 				(troop_set_slot, ":troop_no", slot_troop_archer_score, ":score"),
 			(try_end),
+=======
+			(troop_set_slot, "trp_swadian_militia", slot_troop_type, tt_crossbow),
+			(troop_set_slot, "trp_swadian_sergeant", slot_troop_type, tt_shock_infantry), # Because swadians have too many of them
+			# (troop_set_slot, "trp_khergit_militia", slot_troop_type, tt_archer),
+>>>>>>> origin/master
 		]),
 	
 	# script_troop_get_home
@@ -9215,9 +9450,86 @@ scripts = [
 				(try_for_range, ":unused", 0, ":num_times"),
 					(call_script, "script_troop_add_merchant_items_from_party", ":merchant", ":party_no", items_weapon|items_armor),
 				(try_end),
+<<<<<<< HEAD
+=======
 			(try_end),
 		]),
 	
+	# script_party_update_merchants_gold
+	# input:
+	# 	arg1: party_no
+	# output: none
+	("party_update_merchants_gold",
+		[
+			(store_script_param, ":party_no", 1),
+			
+			# (party_get_slot, ":party_type", ":party_no", slot_party_type),
+			
+			(store_sub, ":offset", ":party_no", towns_begin),
+			(try_begin),
+				(is_between, ":party_no", towns_begin, "p_town_131"),
+				(store_add, ":weapon_merchant", merchants_weapons_begin, ":offset"),
+				(call_script, "script_troop_update_merchant_gold", ":weapon_merchant"),
+			(try_end),
+			
+			(store_add, ":general_merchant", merchants_general_begin, ":offset"),
+			
+			(call_script, "script_troop_update_merchant_gold", ":general_merchant"),
+		]),
+	
+	# script_troop_update_merchant_gold
+	# input:
+	# 	arg1: troop_no
+	# output: none
+	("troop_update_merchant_gold",
+		[
+			(store_script_param, ":merchant", 1),
+			
+			(assign, ":base_gold", 100),
+			
+			(try_begin),
+				(is_between, ":merchant", merchants_general_begin, merchants_general_end),
+				(assign, ":base_gold", merchant_base_gold_earn_general),
+			(else_try),
+				# (is_between, ":merchant", merchants_weapons_begin, merchants_weapons_end),
+				(assign, ":base_gold", merchant_base_gold_earn_weaponsmith),
+			# (else_try),
+				# (is_between, ":merchant", merchants_armors_begin, merchants_armors_end),
+				# (assign, ":base_gold", merchant_base_gold_earn_armorsmith),
+			# (else_try),
+				# (is_between, ":merchant", merchants_goods_begin, merchants_goods_end),
+				# (assign, ":base_gold", merchant_base_gold_earn_goods),
+			# (else_try),
+				# (is_between, ":merchant", merchants_horses_begin, merchants_horses_end),
+				# (assign, ":base_gold", merchant_base_gold_earn_horses),
+>>>>>>> origin/master
+			(try_end),
+			
+			(call_script, "script_troop_add_merchant_gold", ":merchant", ":base_gold"),
+		]),
+	
+	# script_troop_add_merchant_gold
+	# input:
+	# 	arg1: troop_no
+	# 	arg2: base_gold
+	# output:
+	# 	reg0: gold_added
+	("troop_add_merchant_gold",
+		[
+			(store_script_param, ":merchant", 1),
+			(store_script_param, ":base_gold", 2),
+			
+			(store_troop_gold, ":cur_gold", ":merchant"),
+			(store_div, ":sub", ":cur_gold", 5),
+			(store_sub, ":gold_added", ":base_gold", ":sub"),
+			(store_random_in_range, ":bonus_gold", 0, 10),
+			(val_add, ":gold_added", ":bonus_gold"),
+			(troop_add_gold, ":merchant", ":gold_added"),
+			
+			(assign, reg0, ":gold_added"),
+		]),
+	
+<<<<<<< HEAD
 	# script_party_update_merchants_gold
 	# input:
 	# 	arg1: party_no
@@ -9291,6 +9603,8 @@ scripts = [
 			(assign, reg0, ":gold_added"),
 		]),
 	
+=======
+>>>>>>> origin/master
 	
 	# script_troop_add_merchant_items_from_party
 	# input:
@@ -9317,6 +9631,7 @@ scripts = [
 			(troop_ensure_inventory_space, ":merchant", ":capacity"),
 			
 			(assign, ":num_items", 0),
+<<<<<<< HEAD
 			(try_begin),
 				(gt, ":weapons", 0),
 				(val_add, ":num_items", 1),
@@ -9336,6 +9651,27 @@ scripts = [
 			
 			(try_begin),
 				(gt, ":weapons", 0),
+=======
+			(try_begin),
+				(gt, ":weapons", 0),
+				(val_add, ":num_items", 1),
+			(try_end),
+			(try_begin),
+				(gt, ":armor", 0),
+				(val_add, ":num_items", 1),
+			(try_end),
+			(try_begin),
+				(gt, ":horse", 0),
+				(val_add, ":num_items", 1),
+			(try_end),
+			(try_begin),
+				(gt, ":goods", 0),
+				(val_add, ":num_items", 1),
+			(try_end),
+			
+			(try_begin),
+				(gt, ":weapons", 0),
+>>>>>>> origin/master
 				(store_div, ":items", 15, ":num_items"),
 				(try_begin),
 					(gt, ":goods", 0),
@@ -9379,6 +9715,7 @@ scripts = [
 	# 	arg1: merchant
 	# 	arg2: culture
 	#	zrg3: num_items
+<<<<<<< HEAD
 	# output: none
 	("troop_add_merchant_items_weapons",
 		[
@@ -9606,10 +9943,242 @@ scripts = [
 	# 	arg3: num_items
 	# output: none
 	("troop_add_merchant_items_armors",
+=======
+	# output: none
+	("troop_add_merchant_items_weapons",
+>>>>>>> origin/master
 		[
 			(store_script_param, ":merchant", 1),
 			(store_script_param, ":culture", 2),
 			(store_script_param, ":num_items", 3),
+<<<<<<< HEAD
+=======
+			
+			(try_for_range, ":unused", 0, ":num_items"),
+				(try_begin),
+					(eq, ":culture" ,fac_culture_1),
+					(store_random_in_range, ":rand", 0, 31),
+					(try_begin),
+						(lt, ":rand", 8),
+						(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_1", itp_type_one_handed_wpn, 1),
+					(else_try),
+						(lt, ":rand", 12),
+						(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_1", itp_type_two_handed_wpn, 1),
+					(else_try),
+						(lt, ":rand", 18),
+						(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_1", itp_type_polearm, 1),
+					(else_try),
+						(lt, ":rand", 20),
+						(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_1", itp_type_bow, 1),
+					(else_try),
+						(lt, ":rand", 22),
+						(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_1", itp_type_crossbow, 1),
+					(else_try),
+						(lt, ":rand", 23),
+						(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_1", itp_type_arrows, 1),
+					(else_try),
+						(lt, ":rand", 24),
+						(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_1", itp_type_bolts, 1),
+					(else_try),
+						(lt, ":rand", 25),
+						(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_1", itp_type_thrown, 1),
+					(else_try),
+						# (le, ":rand", 31),
+						(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_1", itp_type_shield, 1),
+					(try_end),
+				(else_try),
+					(eq, ":culture", fac_culture_2),
+					(store_random_in_range, ":rand", 0, 35),
+					(try_begin),
+						(lt, ":rand", 7),
+						(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_2", itp_type_one_handed_wpn, 1),
+					(else_try),
+						(lt, ":rand", 13),
+						(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_2", itp_type_two_handed_wpn, 1),
+					(else_try),
+						(lt, ":rand", 19),
+						(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_2", itp_type_polearm, 1),
+					(else_try),
+						(lt, ":rand", 25),
+						(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_2", itp_type_bow, 1),
+					# (troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_2", itp_type_crossbow, 0),
+					(else_try),
+						(lt, ":rand", 27),
+						(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_2", itp_type_arrows, 1),
+					# (troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_2", itp_type_bolts, 0),
+					(else_try),
+						(lt, ":rand", 30),
+						(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_2", itp_type_thrown, 1),
+					(else_try),
+						# (lt, ":rand", 35),
+						(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_2", itp_type_shield, 1),
+					(try_end),
+				(else_try),
+					(eq, ":culture", fac_culture_3),
+					(store_random_in_range, ":rand", 0, 34),
+					(try_begin),
+						(lt, ":rand", 8),
+						(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_3", itp_type_one_handed_wpn, 1),
+					(else_try),
+						(lt, ":rand", 11),
+						(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_3", itp_type_two_handed_wpn, 1),
+					(else_try),
+						(lt, ":rand", 18),
+						(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_3", itp_type_polearm, 1),
+					(else_try),
+						(lt, ":rand", 23),
+						(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_3", itp_type_bow, 1),
+					# (troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_3", itp_type_crossbow, 0),
+					(else_try),
+						(lt, ":rand", 25),
+						(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_3", itp_type_arrows, 1),
+					# (troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_3", itp_type_bolts, 0),
+					(else_try),
+						(lt, ":rand", 28),
+						(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_3", itp_type_thrown, 1),
+					(else_try),
+						# (lt, ":rand", 34),
+						(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_3", itp_type_shield, 1),
+					(try_end),
+				(else_try),
+					(eq, ":culture", fac_culture_4),
+					(store_random_in_range, ":rand", 0, 38),
+					(try_begin),
+						(lt, ":rand", 8),
+						(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_4", itp_type_one_handed_wpn, 1),
+					(else_try),
+						(lt, ":rand", 13),
+						(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_4", itp_type_two_handed_wpn, 1),
+					(else_try),
+						(lt, ":rand", 18),
+						(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_4", itp_type_polearm, 1),
+					(else_try),
+						(lt, ":rand", 22),
+						(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_4", itp_type_bow, 1),
+					(else_try),
+						(lt, ":rand", 24),
+						(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_4", itp_type_crossbow, 1),
+					(else_try),
+						(lt, ":rand", 26),
+						(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_4", itp_type_arrows, 1),
+					(else_try),
+						(lt, ":rand", 27),
+						(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_4", itp_type_bolts, 1),
+					(else_try),
+						(lt, ":rand", 32),
+						(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_4", itp_type_thrown, 1),
+					(else_try),
+						# (lt, ":rand", 38),
+						(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_4", itp_type_shield, 1),
+					(try_end),
+				(else_try),
+					(eq, ":culture", fac_culture_5),
+					(store_random_in_range, ":rand", 0, 36),
+					(try_begin),
+						(lt, ":rand", 8),
+						(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_5", itp_type_one_handed_wpn, 1),
+					(else_try),
+						(lt, ":rand", 11),
+						(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_5", itp_type_two_handed_wpn, 1),
+					(else_try),
+						(lt, ":rand", 19),
+						(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_5", itp_type_polearm, 1),
+					(else_try),
+						(lt, ":rand", 20),
+						(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_5", itp_type_bow, 1),
+					(else_try),
+						(lt, ":rand", 25),
+						(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_5", itp_type_crossbow, 1),
+					(else_try),
+						(lt, ":rand", 26),
+						(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_5", itp_type_arrows, 1),
+					(else_try),
+						(lt, ":rand", 28),
+						(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_5", itp_type_bolts, 1),
+					(else_try),
+						(lt, ":rand", 30),
+						(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_5", itp_type_thrown, 1),
+					(else_try),
+						# (lt, ":rand", 36),
+						(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_5", itp_type_shield, 1),
+					(try_end),
+				(else_try),
+					(eq, ":culture", fac_culture_6),
+					(store_random_in_range, ":rand", 0, 38),
+					(try_begin),
+						(lt, ":rand", 8),
+						(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_6", itp_type_one_handed_wpn, 1),
+					(else_try),
+						(lt, ":rand", 12),
+						(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_6", itp_type_two_handed_wpn, 1),
+					(else_try),
+						(lt, ":rand", 17),
+						(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_6", itp_type_polearm, 1),
+					(else_try),
+						(lt, ":rand", 21),
+						(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_6", itp_type_bow, 1),
+					(else_try),
+						(lt, ":rand", 22),
+						(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_6", itp_type_crossbow, 1),
+					(else_try),
+						(lt, ":rand", 24),
+						(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_6", itp_type_arrows, 1),
+					(else_try),
+						(lt, ":rand", 25),
+						(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_6", itp_type_bolts, 1),
+					(else_try),
+						(lt, ":rand", 32),
+						(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_6", itp_type_thrown, 1),
+					(else_try),
+						# (lt, ":rand", 38),
+						(troop_add_merchandise_with_faction, ":merchant", "fac_kingdom_6", itp_type_shield, 1),
+					(try_end),
+				(else_try),
+					(store_random_in_range, ":rand", 0, 35),
+					(try_begin),
+						(lt, ":rand", 8),
+						(troop_add_merchandise_with_faction, ":merchant", "fac_commoners", itp_type_one_handed_wpn, 1),
+					(else_try),
+						(lt, ":rand", 12),
+						(troop_add_merchandise_with_faction, ":merchant", "fac_commoners", itp_type_two_handed_wpn, 1),
+					(else_try),
+						(lt, ":rand", 19),
+						(troop_add_merchandise_with_faction, ":merchant", "fac_commoners", itp_type_polearm, 1),
+					(else_try),
+						(lt, ":rand", 22),
+						(troop_add_merchandise_with_faction, ":merchant", "fac_commoners", itp_type_bow, 1),
+					(else_try),
+						(lt, ":rand", 25),
+						(troop_add_merchandise_with_faction, ":merchant", "fac_commoners", itp_type_crossbow, 1),
+					(else_try),
+						(lt, ":rand", 26),
+						(troop_add_merchandise_with_faction, ":merchant", "fac_commoners", itp_type_arrows, 1),
+					(else_try),
+						(lt, ":rand", 27),
+						(troop_add_merchandise_with_faction, ":merchant", "fac_commoners", itp_type_bolts, 1),
+					(else_try),
+						(lt, ":rand", 29),
+						(troop_add_merchandise_with_faction, ":merchant", "fac_commoners", itp_type_thrown, 1),
+					(else_try),
+						# (lt, ":rand", 35),
+						(troop_add_merchandise_with_faction, ":merchant", "fac_commoners", itp_type_shield, 1),
+					(try_end),
+				(try_end),
+			(try_end),
+		]),
+	
+	# script_troop_add_merchant_items_armors
+	# input:
+	# 	arg1: troop_no
+	# 	arg2: culture
+	# 	arg3: num_items
+	# output: none
+	("troop_add_merchant_items_armors",
+		[
+			(store_script_param, ":merchant", 1),
+			(store_script_param, ":culture", 2),
+			(store_script_param, ":num_items", 3),
+>>>>>>> origin/master
 			
 			(try_begin),
 				(eq, ":culture", "fac_culture_1"),
@@ -9869,11 +10438,17 @@ scripts = [
 			(try_end),
 			
 			(party_get_slot, ":besieged_lord", ":besieged", slot_party_lord),
+<<<<<<< HEAD
 			(try_begin),
 				(ge, ":besieged_lord", 0),
 				(troop_get_slot, ":besieged_lord_party", ":besieged_lord", slot_troop_leaded_party),
 				(call_script, "script_party_process_mission", ":besieged_lord_party"),
 			(try_end),
+=======
+			(troop_get_slot, ":besieged_lord_party", ":besieged_lord", slot_troop_leaded_party),
+			(call_script, "script_party_process_mission", ":besieged_lord_party"),
+			
+>>>>>>> origin/master
 			(display_message, "@{s10} has been besieged by {s11}"),
 		]),
 	
@@ -9914,10 +10489,17 @@ scripts = [
 			(try_begin),
 				(eq, ":center_type", spt_town),
 				(assign, ":value", 3),
+<<<<<<< HEAD
 			(else_try),
 				(eq,":center_type", spt_castle),
 				(assign, ":value", 2),
 			(else_try),
+=======
+			(else_try),
+				(eq,":center_type", spt_castle),
+				(assign, ":value", 2),
+			(else_try),
+>>>>>>> origin/master
 				(eq, ":center_type", spt_village),
 				(assign, ":value", 1),
 			(try_end),
@@ -9936,11 +10518,14 @@ scripts = [
 				(party_detach, ":attached_party"),
 			(try_end),
 			
+<<<<<<< HEAD
 			(try_begin),
 				(party_slot_ge, ":center_no", slot_party_besieged_by, 0),
 				(call_script, "script_party_lift_siege", ":center_no"),
 			(try_end),
 			
+=======
+>>>>>>> origin/master
 			# Political consequences
 			
 			(party_get_slot, ":leader", ":party_no", slot_party_leader),
@@ -10126,6 +10711,7 @@ scripts = [
 	# output:
 	# 	s0: new_face_key
 	# ("set_random_faction_hair_texture",
+<<<<<<< HEAD
 		# [
 			# (store_script_param, ":faction_no", 1),
 		# ]),
@@ -10169,10 +10755,58 @@ scripts = [
 	# output:
 	# 	s0: new_face_key
 	# ("set_random_faction_skin_color",
+=======
+>>>>>>> origin/master
 		# [
 			# (store_script_param, ":faction_no", 1),
 		# ]),
 		
+<<<<<<< HEAD
+=======
+	# script_set_random_faction_hair_color
+	# input: 
+	# 	arg1: faction_no
+	# 	s0: face_key
+	# output:
+	# 	s0: new_face_key
+	("set_random_faction_hair_color",
+		[
+			(store_script_param, ":faction_no", 1),
+			(assign, ":value", 0),
+			(try_begin),
+				(eq, ":faction_no", fac_culture_1),
+				(store_random_in_range, ":value", 30, 64),
+			(else_try),
+				(eq, ":faction_no", fac_culture_2),
+				(store_random_in_range, ":value", 10, 50),
+			(else_try),
+				(eq, ":faction_no", fac_culture_3),
+				(store_random_in_range, ":value", 30, 64),
+			(else_try),
+				(eq, ":faction_no", fac_culture_4),
+				(store_random_in_range, ":value", 0, 30),
+			(else_try),
+				(eq, ":faction_no", fac_culture_5),
+				(store_random_in_range, ":value", 20, 64),
+			(else_try),
+				(eq, ":faction_no", fac_culture_6),
+				(store_random_in_range, ":value", 30, 64),
+			(try_end),
+			(face_keys_set_hair_color, s0, ":value"),
+		]),
+		
+	# script_set_random_faction_skin_color
+	# input: 
+	# 	arg1: faction_no
+	# 	s0: face_key
+	# output:
+	# 	s0: new_face_key
+	# ("set_random_faction_skin_color",
+		# [
+			# (store_script_param, ":faction_no", 1),
+		# ]),
+		
+>>>>>>> origin/master
 	# script_set_random_faction_morph_key
 	# input: 
 	# 	arg1: faction_no
@@ -10190,6 +10824,7 @@ scripts = [
 	# 	reg0: troop_no
 	("find_free_lord",
 		[
+<<<<<<< HEAD
 			(assign, ":end", 1000),
 			(try_for_range, ":unused", 0, ":end"),
 				(try_begin),
@@ -10218,6 +10853,19 @@ scripts = [
 				# (assign, ":end", 0),
 			# (try_end),
 			(store_sub, reg0, "$g_cur_free_lord", 1),
+=======
+			(assign, ":free_lord", -1),
+			(assign, ":end", lords_end),
+			(try_for_range, ":lord_no", lords_begin, ":end"),
+				(troop_get_slot, ":occupation", ":lord_no", slot_troop_kingdom_occupation),
+				(store_troop_faction, ":lord_faction", ":lord_no"),
+				(eq, ":lord_faction", fac_commoners),
+				(eq, ":occupation", 0),
+				(assign, ":free_lord", ":lord_no"),
+				(assign, ":end", 0),
+			(try_end),
+			(assign, reg0, ":free_lord"),
+>>>>>>> origin/master
 		]),
 	
 	# script_cf_party_join_battle
@@ -10245,6 +10893,7 @@ scripts = [
 			(call_script, "script_party_select_battle_side", ":party_no", ":battling_party_1", ":battling_party_2"),
 		]),
 	
+<<<<<<< HEAD
 	# script_agent_get_archer_score
 	# input:
 	# 	arg1: agent_no
@@ -10276,4 +10925,6 @@ scripts = [
 			
 			(assign, reg0, ":score"),
 		]),
+=======
+>>>>>>> origin/master
 ]

@@ -367,8 +367,11 @@ slot_troop_gathering				= 34
 
 slot_troop_last_attack				= 35
 slot_troop_last_rest				= 36
+<<<<<<< HEAD
 
 slot_troop_archer_score				= 37
+=======
+>>>>>>> origin/master
 
 ##################
 ## Player Slots ##
@@ -745,15 +748,22 @@ merchant_base_gold_earn_goods = 400
 merchant_base_gold_earn_horses = 650
 merchant_base_gold_earn_general = 350
 
+<<<<<<< HEAD
 train_levies_cost = 25
+=======
+train_levies_cost = 40
+>>>>>>> origin/master
 
 merchants_update_rate = 7*24
 
 reinforcement_range = 8
+<<<<<<< HEAD
 
 starting_year = 733
 
 archer_score_shield_malus = 60
+=======
+>>>>>>> origin/master
 
 ##################
 ## Achievements ##
