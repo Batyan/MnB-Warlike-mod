@@ -25,7 +25,6 @@ game_menus = [
 					# (set_show_messages, 0),
 					# (troop_raise_attribute, "trp_player", ca_strength, 1),
 					
-<<<<<<< HEAD
 					(troop_raise_skill,"trp_player", skl_power_strike, 3),
 					(troop_raise_skill,"trp_player", skl_power_throw, 2),
 					(troop_raise_skill,"trp_player", skl_power_draw, 4),
@@ -33,51 +32,16 @@ game_menus = [
 					(troop_raise_skill,"trp_player", skl_riding, 5),
 					
 					(assign, "$g_test_player_troop", -1),
-=======
-					(troop_raise_skill,"trp_player", skl_power_strike, 2),
-					(troop_raise_skill,"trp_player", skl_power_throw, 1),
-					(troop_raise_skill,"trp_player", skl_power_draw, 2),
-					(troop_raise_skill,"trp_player", skl_athletics, 1),
-					(troop_raise_skill,"trp_player", skl_riding, 4),
-					
->>>>>>> origin/master
 					# (troop_raise_proficiency_linear, "trp_player", wpt_one_handed_weapon, 10),
 					
 					# (troop_add_item, "trp_player", "itm_leather_armor", 0),
 					# (troop_equip_items, "trp_player"),
 					
-<<<<<<< HEAD
-=======
-					(assign, "$g_test_player_troop", "trp_swadian_light_cavalry"),
-					# (call_script, "script_troop_use_template_troop", "trp_player", "$g_test_player_troop"),
-					(assign, "$g_test_player_faction", "fac_kingdom_1"),
-					
-					(party_set_faction, "p_main_party", "$g_test_player_faction"),
-					(try_for_range, ":unused", 0, 30),
-						(call_script, "script_party_get_companion_limit", "p_main_party"),
-						(assign, ":limit", reg0),
-						(party_get_num_companions, ":num_troops", "p_main_party"),
-						(lt, ":num_troops", ":limit"),
-						(call_script, "script_party_add_reinforcements", "p_main_party"),
-					(try_end),
->>>>>>> origin/master
 					# (party_set_faction, "p_main_party", "fac_player_faction"),
 					
 					# (set_show_messages, 1),
 					# (change_screen_map),
-<<<<<<< HEAD
 					
-=======
-					(troop_add_item, "trp_player", "itm_hammer"),
-					(troop_add_item, "trp_player", "itm_spice"),
-					(troop_add_item, "trp_player", "itm_oil"),
-					(troop_add_item, "trp_player", "itm_raw_silk"),
-					(troop_add_item, "trp_player", "itm_iron"),
-					(troop_add_item, "trp_player", "itm_raw_leather"),
-					(troop_add_item, "trp_player", "itm_smoked_fish"),
-					(troop_add_item, "trp_player", "itm_apples"),
-					(troop_add_item, "trp_player", "itm_grain"),
->>>>>>> origin/master
 					(jump_to_menu, "mnu_start_phase_2"),
 				]),
 			
@@ -134,7 +98,6 @@ game_menus = [
 			("continue", [], "Continue",
 				[
 					(change_screen_return),
-<<<<<<< HEAD
 					(try_begin),
 						(eq, "$g_test_player_troop", -1),
 						(assign, "$g_test_player_troop", "trp_swadian_light_cavalry"),
@@ -145,8 +108,6 @@ game_menus = [
 						(assign, "$g_test_player_faction", "fac_kingdom_1"),
 						(start_presentation, "prsnt_intro_select_kingdom"),
 					(try_end),
-=======
->>>>>>> origin/master
 				]),
 		]),
 	
@@ -808,11 +769,7 @@ game_menus = [
 			(store_mul, ":sub", ":num_levies_5", ":div"),
 			(store_div, ":sub", ":num_levies_5", 40),
 			(store_sub, ":rest_time", ":num_levies_5", ":sub"),
-<<<<<<< HEAD
 			(val_div, ":rest_time", 3),
-=======
-			(val_div, ":rest_time", 2),
->>>>>>> origin/master
 			
 			(val_max, ":rest_time", ":min_hours"),
 			(assign, reg12, ":rest_time"),
@@ -851,11 +808,7 @@ game_menus = [
 					(store_mul, ":sub", ":num_levies_5", ":div"),
 					(store_div, ":sub", ":num_levies_5", 40),
 					(store_sub, ":rest_time", ":num_levies_5", ":sub"),
-<<<<<<< HEAD
 					(val_div, ":rest_time", 3),
-=======
-					(val_div, ":rest_time", 2),
->>>>>>> origin/master
 					
 					(val_max, ":rest_time", ":min_hours"),
 					(assign, reg12, ":rest_time"),
@@ -881,7 +834,6 @@ game_menus = [
 	"none",
 	[
 		(str_store_party_name, s10, "$g_encountered_party"),
-<<<<<<< HEAD
 		(try_for_parties, ":party_no"),
 			(call_script, "script_cf_party_join_battle", ":party_no", "$g_encountered_party", "p_main_party"),
 			(assign, ":continue", reg0),
@@ -899,12 +851,6 @@ game_menus = [
 	[
 		("siege_meeting",
 		[ (disable_menu_option),], "Call for a meeting with the commander of the garrison",
-=======
-	],
-	[
-		("siege_meeting",
-		[ ], "Call for a meeting with the commander of the garrison",
->>>>>>> origin/master
 		[
 			# ToDo: meeting
 			# Meeting will take place with player and companions/soldiers and garrison commander
@@ -920,7 +866,6 @@ game_menus = [
 		("siege_attack",
 		[ ], "Launch the attack",
 		[
-<<<<<<< HEAD
 			(assign, "$g_enemy", "$g_encountered_party"),
 			(try_for_parties, ":party_no"),
 				(call_script, "script_cf_party_join_battle", ":party_no", "$g_encountered_party", "p_main_party"),
@@ -940,14 +885,6 @@ game_menus = [
 		
 		("siege_build_equipement",
 		[ (disable_menu_option),], "Build siege equipment",
-=======
-			(jump_to_menu, "mnu_encounter_battle_siege"),
-			(assign, "$g_enemy", "$g_encountered_party"),
-		]),
-		
-		("siege_build_equipement",
-		[ ], "Build siege equipment",
->>>>>>> origin/master
 		[
 			# ToDo: build ladders-siege tower
 		]),
@@ -966,11 +903,7 @@ game_menus = [
 		]),
 		
 		("siege_leave_army",
-<<<<<<< HEAD
 		[ (disable_menu_option),], "Leave your army to besiege the center",
-=======
-		[ ], "Leave your army to besiege the center",
->>>>>>> origin/master
 		[
 			# ToDo: leave army
 			# Leave most of your army (select a few troops/companions to follow you)
@@ -989,10 +922,7 @@ game_menus = [
 			(change_screen_return),
 		]),
 	]),
-<<<<<<< HEAD
 	
-=======
->>>>>>> origin/master
 	
 	("siege_camp", mnf_scale_picture,
 	"You spot the camp of {s10} surrounding the town of {s11}, you decide to...",
@@ -1019,39 +949,6 @@ game_menus = [
 		[
 			(select_enemy, 0),
 			(assign, "$g_enemy", "$g_encountered_party"),
-			(jump_to_menu, "mnu_encounter_battle_siege"),
-		]),
-		
-		("leave", [], "Leave", 
-		[
-			(leave_encounter),
-			(change_screen_return),
-		]),
-	]),
-	
-	("siege_camp", mnf_scale_picture,
-	"You spot the camp of {s10} surrounding the town of {s11}, you decide to...",
-	"none",
-	[
-		(str_store_party_name, s11, "$g_encountered_party"),
-		(party_get_slot, ":leader", "$g_encountered_party_2", slot_party_leader),
-		(str_store_troop_name, s10, ":leader"),
-	],
-	[
-		("join_defenders",
-		[
-		# (str_store_party_name, s11, "$g_encountered_party_2"),
-		], "Sneak past the besieger and help the defenders of {s11}",
-		[
-			(select_enemy, 1),
-			(jump_to_menu, "mnu_encounter_battle_siege"),
-		]),
-		
-		("join_attackers",
-		[
-		], "Join the besiegers attacking the walls",
-		[
-			(select_enemy, 0),
 			(jump_to_menu, "mnu_encounter_battle_siege"),
 		]),
 		

@@ -389,15 +389,9 @@ simple_triggers = [
 		(try_end),
 		(str_store_faction_name, s10, "$g_politics_cur_faction"),
 		(display_message, "@Current faction politics: {s10}"),
-<<<<<<< HEAD
 		
 		(call_script, "script_faction_process_politics", "$g_politics_cur_faction"),
 		
-=======
-		
-		(call_script, "script_faction_process_politics", "$g_politics_cur_faction"),
-		
->>>>>>> origin/master
 		(val_add, "$g_politics_cur_faction", 1),
 	]),
 	

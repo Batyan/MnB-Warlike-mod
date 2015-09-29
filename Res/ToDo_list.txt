@@ -272,12 +272,5 @@ ToDo:
 			- 0.5 x proficiency (highest melee)
 			- 1 x str
 			- 5 x ironflesh
-=======
-- Add dungeons
-	Underground arena
-		Fist fighting?
-		Battle to the death?
-	Maze
->>>>>>> origin/master
 # To test
 - simulate battles

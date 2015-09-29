@@ -928,7 +928,6 @@ troops = [
   ["lord_239", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x00000000061042d341497659088e4474000000000006a76f0000000000000000, 0 ],
   ["lord_240", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
-<<<<<<< HEAD
    def_lord_attrib, wp(70), knows_common, 0x000000000d04718d372c6d9f4d6d46a400000000001ea4910000000000000000, 0 ],
   ["lord_241", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x000000000d04718d372c6d9f4d6d46a400000000001ea4910000000000000000, 0 ],
@@ -936,15 +935,6 @@ troops = [
    def_lord_attrib, wp(70), knows_common, 0x000000000d04718d372c6d9f4d6d46a400000000001ea4910000000000000000, 0 ],
   ["lord_243", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x000000000d04718d372c6d9f4d6d46a400000000001ea4910000000000000000, 0 ],
-=======
-   def_lord_attrib, wp(70), knows_common, 0x000000000d04718d372c6d9f4d6d46a400000000001ea4910000000000000000, 0 ],
-  ["lord_241", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
-   def_lord_attrib, wp(70), knows_common, 0x000000000d04718d372c6d9f4d6d46a400000000001ea4910000000000000000, 0 ],
-  ["lord_242", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
-   def_lord_attrib, wp(70), knows_common, 0x000000000d04718d372c6d9f4d6d46a400000000001ea4910000000000000000, 0 ],
-  ["lord_243", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
-   def_lord_attrib, wp(70), knows_common, 0x000000000d04718d372c6d9f4d6d46a400000000001ea4910000000000000000, 0 ],
->>>>>>> origin/master
   ["lord_244", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x000000000d04718d372c6d9f4d6d46a400000000001ea4910000000000000000, 0 ],
   ["lord_245", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
@@ -1588,11 +1578,7 @@ troops = [
    str_14|agi_15|int_8|cha_10|level(24), wpex(110,85,100,60,50,50), knows_common|knows_ironflesh_3|knows_power_strike_4|knows_power_draw_1|knows_athletics_4|knows_riding_6|knows_horse_archery_2, swadian_face_young_1, swadian_face_old_2 ],
   
   # Medium cavalry ranged, swords, bows, crossbows, shields
-<<<<<<< HEAD
   ["swadian_ranger", "Swadian Ranger", "Swadian Rangers", tf_guarantee_trained_armor|tf_guarantee_ranged|tf_guarantee_horseman|tf_guarantee_shield, no_scene, reserved, fac_kingdom_1,
-=======
-  ["swadian_horse_archer", "Swadian Ranger", "Swadian Rangers", tf_guarantee_trained_armor|tf_guarantee_ranged|tf_guarantee_horseman|tf_guarantee_shield, no_scene, reserved, fac_kingdom_1,
->>>>>>> origin/master
    [itm_sword_medieval_b, itm_bolts, itm_light_crossbow, itm_barbed_arrows, itm_short_bow2, itm_tab_shield_heater_cav_a,itm_tab_shield_heater_cav_a_plain_1,itm_tab_shield_heater_cav_a_plain_2,
     itm_leather_boots, itm_leather_gloves,
 	itm_padded_cloth, itm_leather_armor, itm_leather_jerkin,
@@ -1601,11 +1587,7 @@ troops = [
    str_13|agi_18|int_9|cha_7|level(24), wpex(95,50,80,125,115,60), knows_common|knows_ironflesh_1|knows_power_strike_2|knows_power_draw_4|knows_athletics_3|knows_riding_5|knows_horse_archery_4, swadian_face_young_1, swadian_face_old_2 ],
   
   # Light cavalry, lances, shields
-<<<<<<< HEAD
   ["swadian_light_lancer", "Swadian Light Lancer", "Swadian Light Lancers", tf_guarantee_trained_armor|tf_guarantee_horseman|tf_guarantee_shield, no_scene, reserved, fac_kingdom_1,
-=======
-  ["swadian_light_lancer", "Swadian Lancer", "Swadian Lancers", tf_guarantee_trained_armor|tf_guarantee_horseman|tf_guarantee_shield, no_scene, reserved, fac_kingdom_1,
->>>>>>> origin/master
    [itm_lance, itm_tab_shield_heater_cav_a,itm_tab_shield_heater_cav_a_plain_1,itm_tab_shield_heater_cav_a_plain_2,
     itm_leather_boots, itm_leather_gloves,
 	itm_padded_cloth, itm_leather_armor, itm_red_gambeson, itm_leather_jerkin,
@@ -1643,7 +1625,6 @@ troops = [
 	],
    str_18|agi_11|int_10|cha_9|level(25), wpex(95,100,115,60,50,45), knows_common|knows_ironflesh_5|knows_power_strike_4|knows_power_throw_1|knows_power_draw_1|knows_athletics_4|knows_riding_2, swadian_face_young_1, swadian_face_old_2 ],
   
-<<<<<<< HEAD
   # Medium cavalry, lances, shields
   # SPECIAL
   ["swadian_lancer", "Swadian Lancer", "Swadian Lancers", tf_guarantee_trained_armor|tf_guarantee_horseman|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_13,
@@ -1664,8 +1645,6 @@ troops = [
 	itm_hunter],
    str_15|agi_15|int_10|cha_11|level(28), wpex(100,60,90,115,105,70), knows_common|knows_ironflesh_4|knows_power_strike_2|knows_power_draw_4|knows_athletics_3|knows_riding_5|knows_horse_archery_5, swadian_face_young_1, swadian_face_old_2 ],
   
-=======
->>>>>>> origin/master
   # Elite
   # Heavy infantry, bastard swords, morningstars, shields
   ["swadian_sergeant", "Swadian Sergeant", "Swadian Sergeants", tf_guarantee_trained_armor|tf_guarantee_shield, no_scene, reserved, fac_kingdom_1,
@@ -1988,7 +1967,6 @@ troops = [
 	],
    str_16|agi_14|int_8|cha_9|level(24), wpex(105,100,100,65,25,50), knows_common|knows_ironflesh_4|knows_power_strike_3|knows_power_throw_1|knows_power_draw_1|knows_athletics_4|knows_riding_2|knows_shield_1, vaegir_face_young_1, vaegir_face_old_2 ],
    
-<<<<<<< HEAD
   # Light cavalry ranged, sabres, axes, bows, shields
   # SPECIAL
   ["vaegir_hussar", "Vaegir Hussar", "Vaegir Hussars", tf_guarantee_trained_armor|tf_guarantee_horseman|tf_guarantee_ranged|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_21,
@@ -1999,8 +1977,6 @@ troops = [
 	itm_steppe_horse],
    str_13|agi_15|int_9|cha_11|level(25), wpex(95,105,60,120,40,40), knows_common|knows_ironflesh_2|knows_power_strike_2|knows_power_draw_5|knows_athletics_4|knows_riding_6|knows_horse_archery_5, vaegir_face_young_1, vaegir_face_old_2 ],
   
-=======
->>>>>>> origin/master
   # Elite
   # Heavy infantry, poleaxes
   ["vaegir_guard", "Vaegir Guard", "Vaegir Guards", tf_guarantee_trained_armor, no_scene, reserved, fac_kingdom_2,
@@ -2070,7 +2046,6 @@ troops = [
 	],
    str_19|agi_14|int_9|cha_12|level(31), wpex(125,115,110,75,25,50), knows_common|knows_ironflesh_5|knows_power_strike_4|knows_power_throw_1|knows_power_draw_2|knows_athletics_3|knows_riding_2, vaegir_face_young_1, vaegir_face_old_2 ],
   
-<<<<<<< HEAD
   # Heavy cavalry ranged, sabres, axes, bows, shields
   # SPECIAL
   ["vaegir_heavy_hussar", "Vaegir Heavy Hussar", "Vaegir Heavy Hussars", tf_guarantee_trained_armor|tf_guarantee_horseman|tf_guarantee_ranged|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_21,
@@ -2084,11 +2059,6 @@ troops = [
   # Noble
   # Heavy cavalry ranged, sabres, 2h axes, bows, shields
   ["vaegir_royal_hussar", "Vaegir Royal Hussar", "Vaegir Royal Hussars", tf_guarantee_trained_armor|tf_guarantee_shield|tf_guarantee_horseman|tf_guarantee_ranged, no_scene, reserved, fac_kingdom_2,
-=======
-  # Noble
-  # Heavy cavalry ranged, sabres, 2h axes, bows, shields
-  ["vaegir_noble", "Vaegir Hussar", "Vaegir Hussars", tf_guarantee_trained_armor|tf_guarantee_shield|tf_guarantee_horseman|tf_guarantee_ranged, no_scene, reserved, fac_kingdom_2,
->>>>>>> origin/master
    [itm_scimitar_b, itm_bardiche, itm_strong_bow, itm_bodkin_arrows, itm_tab_shield_kite_cav_b,itm_tab_shield_kite_cav_b_plain_1,itm_tab_shield_kite_cav_b_plain_2,
     itm_mail_boots, itm_iron_greaves, itm_mail_mittens,
 	itm_brigandine_red, itm_banded_armor, itm_lamellar_armor,
@@ -2098,11 +2068,7 @@ troops = [
   
   # Heavy ranged, sabres, bows, shields
   # SPECIAL
-<<<<<<< HEAD
   ["vaegir_royal_longbowman", "Vaegir Royal Longbowman", "Vaegir Royal Longbowmen", tf_guarantee_trained_armor|tf_guarantee_shield|tf_guarantee_ranged, no_scene, reserved, fac_small_kingdom_25,
-=======
-  ["vaegir_marksman", "Vaegir Royal Longbowman", "Vaegir Royal Longbowmen", tf_guarantee_trained_armor|tf_guarantee_shield|tf_guarantee_ranged, no_scene, reserved, fac_small_kingdom_25,
->>>>>>> origin/master
    [itm_scimitar_b, itm_war_bow, itm_bodkin_arrows, itm_tab_shield_kite_d,itm_tab_shield_kite_d_plain_1,itm_tab_shield_kite_d_plain_2,
     itm_mail_boots, itm_mail_mittens,
 	itm_brigandine_red, itm_banded_armor, itm_lamellar_armor,
@@ -3398,11 +3364,7 @@ troops = [
 	itm_arabian_armor_b, itm_sarranid_mail_shirt,
 	itm_sarranid_helmet1, itm_sarranid_mail_coif,
 	],
-<<<<<<< HEAD
    str_16|agi_16|int_8|cha_9|level(26), wpex(120,105,105,45,15,55), knows_common|knows_ironflesh_3|knows_power_strike_3|knows_power_throw_1|knows_athletics_4|knows_riding_3|knows_shield_1, sarranid_face_young_1, sarranid_face_old_2 ],
-=======
-   str_16|agi_16|int_8|cha_9|level(26), wpex(120,105,105,45,15,55), knows_common|knows_ironflesh_3|knows_power_strike_3|knows_power_throw_2|knows_athletics_4|knows_riding_3|knows_shield_1, sarranid_face_young_1, sarranid_face_old_2 ],
->>>>>>> origin/master
   
   # Medium infantry skirmisher, swords, maces, javelins, shields
   # SPECIAL
@@ -3465,11 +3427,7 @@ troops = [
   
   # Noble
   # Heavy cavalry ranged, swords, axes, maces, bows, shields
-<<<<<<< HEAD
   ["sarranid_noble_horse_archer", "Sarranid Noble Horse Archer", "Sarranid Noble Horse Archers", tf_guarantee_trained_armor|tf_guarantee_ranged|tf_guarantee_shield|tf_guarantee_horseman, no_scene, reserved, fac_kingdom_6,
-=======
-  ["sarranid_noble", "Sarranid Noble", "Sarranid Noble", tf_guarantee_trained_armor|tf_guarantee_ranged|tf_guarantee_shield|tf_guarantee_horseman, no_scene, reserved, fac_kingdom_6,
->>>>>>> origin/master
    [itm_sarranid_cavalry_sword, itm_iron_mace, itm_sarranid_axe_b, itm_nomad_bow2, itm_bodkin_arrows, itm_tab_shield_small_round_c,itm_tab_shield_small_round_c_plain_1,itm_tab_shield_small_round_c_plain_2,
     itm_sarranid_boots_d, itm_mail_mittens, itm_scale_gauntlets,
 	itm_sarranid_mail_shirt,

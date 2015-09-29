@@ -758,7 +758,6 @@ test_battle_faction_select = (
 				(store_current_scene, ":scene"),
 				(modify_visitors_at_site, ":scene"),
 				
-<<<<<<< HEAD
 				(team_get_slot, ":team_faction", "$g_test_cur_team", slot_team_test_faction),
 				(faction_get_slot, ":culture", ":team_faction", slot_faction_culture),
 				(faction_get_slot, ":troop_begin", ":culture", slot_faction_noble_begin),
@@ -767,9 +766,6 @@ test_battle_faction_select = (
 					(store_random_in_range, ":troop", ":troop_begin", ":troop_end"),
 					(add_visitors_to_current_scene, "$g_test_player_team", ":troop", 2),
 				(try_end),
-=======
-				(add_visitors_to_current_scene, 0, "trp_rhodok_noble", 5),
->>>>>>> origin/master
 			(try_end),
 		])
 
@@ -1539,7 +1535,6 @@ mission_templates = [
 				(try_end),
 			]),
 		]),
-<<<<<<< HEAD
 	
 	("visit_place", 0, 0, "Visit place",
 		[
@@ -1557,6 +1552,4 @@ mission_templates = [
 			(ti_tab_pressed, 0, 0, [],
 			[(finish_mission, 0),]),
 		]),
-=======
->>>>>>> origin/master
 ]

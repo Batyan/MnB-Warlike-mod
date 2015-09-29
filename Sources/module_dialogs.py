@@ -132,16 +132,9 @@ dialogs = [
 		[
 		], "Show me your items.", "member_chat_end",
 		[
-<<<<<<< HEAD
 			(troop_clear_inventory, "trp_temp_troop"),
 			(call_script, "script_troop_copy_items_from_troop", "trp_temp_troop", "$g_talk_troop"),
 			(change_screen_loot, "trp_temp_troop"),
-=======
-			(call_script, "script_troop_copy_items_from_troop", "trp_temp_troop", "$g_talk_troop"),
-			(change_screen_trade, "trp_temp_troop"),
-			(troop_clear_inventory, "trp_temp_troop"),
-			# (change_screen_trade, "$g_talk_troop"),
->>>>>>> origin/master
 		]],
 	
 	[anyone|plyr, "member_chat_player",
