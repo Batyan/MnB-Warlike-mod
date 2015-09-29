@@ -83,6 +83,12 @@ itp_unbalanced               = 0x0000000800000000
 itp_covers_beard             = 0x0000001000000000    #remove beard mesh
 itp_no_pick_up_from_ground   = 0x0000002000000000
 itp_can_knock_down           = 0x0000004000000000
+itp_covers_hair              = 0x0000008000000000    #remove hair mesh for armors only
+
+itp_force_show_body          = 0x0000010000000000 # forces showing body (works on body armor items)
+itp_force_show_left_hand     = 0x0000020000000000 # forces showing left hand (works on hand armor items)
+itp_force_show_right_hand    = 0x0000040000000000 # forces showing right hand (works on hand armor items)
+
 itp_extra_penetration        = 0x0000100000000000
 itp_has_bayonet              = 0x0000200000000000
 itp_cant_reload_while_moving = 0x0000400000000000
@@ -381,7 +387,7 @@ itc_staff      = itc_parry_polearm| itcf_thrust_onehanded_lance |itcf_thrust_one
 itc_spear      = itc_parry_polearm| itcf_thrust_onehanded_lance |itcf_thrust_onehanded_lance_horseback | itcf_thrust_polearm
 itc_cutting_spear = itc_spear|itcf_overswing_polearm
 itc_pike       = itcf_thrust_onehanded_lance |itcf_thrust_onehanded_lance_horseback | itcf_thrust_polearm
-itc_guandao    = itc_parry_polearm|itcf_overswing_polearm|itcf_thrust_polearm|itcf_slashright_polearm|itcf_slashleft_polearm|itcf_horseback_slashright_onehanded|itcf_horseback_slashleft_onehanded|itcf_horseback_slash_polearm
+itc_guandao    = itc_staff|itcf_horseback_slashright_onehanded|itcf_horseback_slashleft_onehanded|itcf_horseback_slash_polearm
 
 itc_greatlance = itcf_thrust_onehanded_lance |itcf_thrust_onehanded_lance_horseback| itcf_thrust_polearm
 itc_musket_melee = itc_parry_polearm|itcf_overswing_musket|itcf_thrust_musket|itcf_slashright_twohanded|itcf_slashleft_twohanded

@@ -1,5 +1,46 @@
 ToDo:
-- Add center siegeing
+- Kingdoms:
+	Policies
+		Vassals:
+			Low taxes, vassals take care of their properties in their entirety
+			Medium taxes, vassals take care of their properties, liege participate in building constructions and reparations
+			High taxes, vassals take care of their properties, liege participate in building constructions, reparations and troop wages
+		Leader:
+			Elected by population (elders of villages/cities/castles), can be lifelong rule or a certain period
+				High relation with centers is important
+				Bribes are possible and cheap
+				Increased relation with population after election
+			Elected from council (high ranking lords), can be lifelong rule or a certain period
+				High relations with counsellors is important
+				Bribes are possible but expensive
+				Increased relation with council after election
+				Counsellors help rule the realm
+			Kingdom (Passed by blood only)
+				Relations doesn't matter
+				Can cause instability amongst siblings
+				Increased relation with supporters and neutral when changing ruler
+			Tribal Kingdom (Passed by blood, can be contested by arms)
+				Relations only needed when arms contest
+				Varying relations when arms contest is over (higher with supporters and neutral, lower with supporters of other side)
+				Increased relation with supporters and neutral when changing ruler (without arms)
+		Foreign:
+			Trade
+				Commerce
+					All goods are accepted
+					Some goods are taxed (chosen by leader)
+					Some goods are refused (chosen by leader)
+					Only goods that are needed are accepted (not produced or not enough produced)
+					Nothing is accepted
+				Taxes
+					No taxes
+					Low taxes
+					Moderate taxes
+					High taxes
+			Borders
+				Fiefs are accessible to all except enemy
+				Fiefs are accessible to any with treaties
+				Fiefs are accessible to all allies
+				Fiefs are accessible to none but vassals
 - add lords dialog
 	- presentation
 	- main dialog
@@ -31,27 +72,35 @@ ToDo:
 - complete resources list
 - process production
 - recruitment cost gold
-- recruitment priority
-- add controlled recruitment
 - faction_get_best_candidate_for_center
 - remove low tier troops from full centers (only peasants?)
 - add retextured horses for variety
-- add center besieging
 - add center looting
 - lords fleeing from another should retreat to a friendly center
 - add lord rest in center
 - add vendors in towns - castles - villages
 	one seller in each center - General goods: goods, low horses (if no horse merchant), low weapons (if no weapon merchant), low armors (if no armor merchant)
-	two more for cities - Weapon merchant, armor merchant
-	one more for castles - Weapon/armor merchant
 	if stables then horse merchant
 - add presentation for buying and selling goods
 	filter options
 		goods, weapons, armors, horses
-- add bandit hideouts
-- add bandit parties
-- add bandit leader parties (able to loot villages, castles and towns)
-	a looted center will lose some of its garrison, money, population and goods
+- add mercenary bands
+	Mercenaries can be hired to follow
+	Adds a captain and a number of troops (single type or multiple)
+	Captain will take for template the troop one rank higher (try to be same type)
+	Manually point which troops can become mercs? With captain?
+		slot_troop_mercenary_from (faction)
+		slot_troop_mercenary_captain
+- add bandits:
+	add bounties on players and heroes
+		bounties are given by certain heroes (lords mostly)
+			Can ask for liege (or ally if kingdom is small) to put bounty in its place
+		bounties will lead to people being aggressive/afraid
+		slot_troop_bounty + slot_troop_bounty_giver
+	bandit hideouts
+	bandit parties
+	bandit leader parties (able to loot villages, castles and towns)
+		a looted center will lose some of its garrison, money, population and goods
 - add patrols
 	one patrol per center, patrols around that center, and joins if it is attacked
 	patrol may come back to center to give out prisoners or refill its troops
@@ -62,31 +111,89 @@ ToDo:
 - add peasants
 - add prisoner train
 - add garrison reinforcements
-- add lord personality traits
+- add lord personality traits (use party templates for slots)
+	Base Stats:
+		Str: 					12
+		Agi: 					12
+		Int: 					12
+		Cha: 					12
+		Ironflesh: 				2
+		PowerStrike:			3
+		PowerThrow:				2
+		PowerDraw:				4
+		Intimidation:			5
+		WeaponMaster:			0
+		Shield:					0
+		Athletics:				3
+		Riding:					3
+		HorseArchery:			2
+		Looting:				0
+		Trainer:				0
+		Tracking:				0
+		Tactics:				0
+		Pathfinding:			0
+		Spotting:				0
+		InventoryManagement:	0
+		WoundTreatement:		0
+		FirstAid:				0
+		Engineer:				0
+		Persuasion:				5
+		PrisonerManagement:		0
+		Leadership:				2
+		Trade:					0
+	
+	
 	Fearless:	Base morale is increased by 10, while the leader is alive morale can't be under base morale.
 				If leader defeated in battle, morale drops 2 times faster
-	Dumb:		-2 int
-	Tough:		+1 ironflesh
-	Smart:		+2 int
+	Dumb:		-4 int
+	Tough:		+3 ironflesh
+	Smart:		+4 int, -1 intimidation
 	Coward:		Morale boost (+20?) if leader is defeated in battle. Double morale loss for every event while leader is alive.
-	Tactician:	+1 tactics, +1 int, -1 str, grants ability "Rally"
-	Warrior:	+1 str, -1 int, grants ability "War Cry"
-	Strategist:	+1 cha, -1 agi, +1 int, +1 leadership
-	Thick:		+2 str, -1 int
-	Swift:		+1 agi, +1 athletics
-	Shy:		Reserved about talking about himself, more stable relations
-	Eccentric:	Does not mind being talked about, will openly talk about himself, less stable relations
-	Generous:	More likely to lend money, can do things that are not in his best interest
-	Selfish:	Less likely to lend money, does not give without anything in return
-	Cruel:		Likes to see his enemies suffer
-	Dull:		Does not appreciate humour, harder to befriend
-	Funny:		Likes a good joke
-	Egocentric:	Thinks himself the center of attention, does not like being wrong
-
+	Tactician:	+2 tactics, +2 int, -2 str, grants ability "Rally"
+	Warrior:	+3 str, -2 int, grants ability "War Cry"
+	Strategist:	+2 cha, -3 agi, +2 int, +2 leadership
+	Thick:		+4 str, -3 int
+	Swift:		+3 agi, +2 athletics
+	Witty: 		+2 int, -2 cha, +2 persuasion
+	Shy:		Reserved about talking about himself, more stable relations, +2 int, -1 intimidation
+	Eccentric:	Does not mind being talked about, will openly talk about himself, less stable relations, +2 cha, -1 persuasion
+	Generous:	More likely to lend money, can do things that are not in his best interest, +1 persuasion
+	Selfish:	Less likely to lend money, does not give without anything in return, -1 persuasion
+	Cruel:		Likes to see his enemies suffer, -2 persuasion, +2 intimidation
+	Dull:		Does not appreciate humour, harder to befriend, -1 cha
+	Funny:		Likes a good joke, +1 cha
+	Egocentric:	Thinks himself the center of attention, does not like being wrong, +1 int, -1 cha, -1 persuasion
+	Noble Blood:Better relation with others of noble blood, lower relations with the rest
+	Bastard:	Grants noble blood, lower relations with others of noble blood, lower renown gain
+	Noble:		Grants "Noble Family" to descendants, better relation with those of non-noble blood, slightly better relation with those of noble blood
+	Noble Family: Grants "Noble Blood" to descendants, +2 cha, +1 intimidation, +1 persuasion
+	Bloodthirsty: -10 morale for enemy units, -5 morale for friendly units (not own units), -1 ironflesh
+	Berserker: 	+5 ironflesh, +3 power strike, +1 athletics, +3 indimidation, -2 power draw, -2 riding, -2 persuasion
+		Needs to win a certain number of battle using only melee/throwing weapons while having no horse and very light/no armor
+	Left Handed: +2 weapon master, +1 trainer, +1 shield, -3 cha, -1 power strike
+	
 - abilities:
 	War Cry:	decrease morale for surrounding enemies, range and strength determined by str (strength = str/2) (range = str)
 	Rally:		increase morale for surrounding allies, range and strength determined by cha (strength = cha/2) (range = cha)
-		
+- add family trees
+	slot_troop_married_to
+	slot_troop_father
+	slot_troop_mother
+	slot_troop_child_1
+	slot_troop_child_2
+	slot_troop_child_3
+	slot_troop_child_4
+	slot_troop_child_5
+	slot_troop_child_6
+	slot_troop_child_7
+	slot_troop_child_8
+	slot_troop_child_9
+	slot_troop_child_10
+	script_troop_is_in_family_of
+		troop_1
+		troop_2
+		num_move (does not look too far for family)
+		r_relation_name
 - add morale
 	in battle, morale increase/decrease damage of troop by 1% for every 5 point over/under 'neutral' morale
 - add companions
@@ -100,11 +207,70 @@ ToDo:
 		diplomats, doctors, traders
 - add companion auto-levelling
 - add companion manual levelling presentation
-- add bodyguards behavior
+- add bodyguards
+	add behaviors (battle)
+	bodyguards will be assigned to important ladies of the realm (when traveling?)
+	can be upgraded from regular troops (max of lord_rank per lord/lady?)
+	or hired from special building
+	troops:
+		able to create own troop?
 - add technologies
 - add eras
 - recruitment dependent on :
 	+ era
 	- buildings
+- weapon proficiencies decay
+- weapon proficiencies training
+- add dungeons
+	underground arena
+		fist fighting?
+		battle to the death?
+	maze
+- add weather system
+	sand storm?
+		only in desert
+		more frequent during summer
+		less frequent during winter
+		decrease archer accuracy up to 25%?
+	haze
+		mostly during morning
+		very rare during summer
+		frequent in autumn/winter
+		average during spring
+		not in desert regions
+		less frequent in steppe
+		decrease archer accuracy up to 50%?
+	rain
+		extremely rare in desert
+		not frequent in steppe
+		rare in snow
+		frequent in autumn
+		rare during summer
+		decrease archer accuracy up to 85%?
+	snow
+		only in snow area or sometimes in plain area during winter
+		decrease archer accuracy up to 70%?
+	add own global variables to control weather
+		set_global_haze_amount
+		set_global_cloud_amount
+	rain
+- add settings presentation:
+	shield paintings (only banner, banner plus one color, banner plus both colors)
+	enable weather effects on troops/heroes
+	enable morale
+	enable morale damage boost
+- add siege ranged units to melee
+	If not enough melee ratio, take some ranged away from post to defend
+		lowest score:
+			+ 25 x power draw
+			+ 1 x proficiency (bow)
+			+ 2 x proficiency (xbow)
+			+ 1 x proficiency (throw)
+			+ 15 x power throw
+			- 60 if shield
+			- 10 x power strike
+			- 0.5 x proficiency (highest melee)
+			- 1 x str
+			- 5 x ironflesh
 # To test
 - simulate battles

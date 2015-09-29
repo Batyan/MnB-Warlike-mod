@@ -8,9 +8,9 @@ Swadia:
 	Weak lancer
 	Weak ranged
 	Weak skirmisher
-	Average horse archer
+	Weak horse archer
 	
-	Good armour even for peasant troops
+	Good armour even for levy troops
 	Tough heavy infantry/cavalry
 	Weak ranged, except against lightly armoured troops
 	Good, but late cavalry (tier +1)
@@ -80,4 +80,94 @@ Sarranid:
 	Below average armour
 	No heavy horse
 	Best skirmisher
+
+Swadian Minors:
+	County of Tevarin
+		Added Heavy Pikemen
+		Added Heavy Crossbowmen
+		
+		Increased crossbow strength
+		Decreased bow number
+		
+	County of Elberl
+		Added Guard
+		Added Heavy Infantry
+		Added Levy Infantry
+		
+		Good shock troops addition
+		Vulnerable to ranged troops
+		
+	Duchy of Dhirim
+		Added Levy Spearmen
+		Added Lancers
+		Added Light Horsemen
+		Added Heavy Lancers
+		Added Horsemen
+		
+		Removed Light Lancer
+		Removed Ranger
+		
+		More focused on lancers ad horse archers
+		
+	County of Gisim
+		Added Longbowmen
+		Added Heavy Longbowmen
+		Added Hunter
+		
+		Removed Light Bowmen
+		Removed Bowmen
+		
+		Increased bowmen damage
+		Decreased bowmen accuracy and rate of fire
+		
+		Reduced crossbow number
+		
+	Grand County of Ivenn
+		Added Scouts
+		Added Light Spearmen
+		Added Spearmen
+		
+		Removed Pikemen
+		
+		Light cavalry in common tier
+		Spearmen deal less damage and have shorter range but are faster
+		
+	County of Tilbaut
+		Added Mounted Skirmishers
+		Added Levy Skirmishers
+		
+		Increased swadian skirmisher units
+		
+	County of Uxkhal
+		Added Squires
+		Added Foot-Knights
+		
+		Removed Heavy cavalry
+		
+		Squires are better when dismounted and can have 2h weapons
+		Increased prevalence of infantry
 	
+Vaegir Minors:
+	County of Slezhk
+		Added Levy Axemen
+		Added Heavy Lancers
+		Added Royal Lancers
+		
+		Increased lancer number
+	
+	County of Khudan
+		Added Club Levies
+		Added Scouts
+		Added Horsemen
+		Added Royal Horsemen
+		
+		Removed Light Cavalry
+		Removed Heavy Cavalry
+		
+		Cheaper cavalry
+	
+	Duchy of the Northern Taiga
+	
+	County of Yruma
+	
+	Duchy of the Southern Taiga

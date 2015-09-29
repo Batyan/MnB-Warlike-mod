@@ -62,11 +62,17 @@ scenes = [
 	
 	("castle_plain_wood_01_outside", sf_generate, "none", "none", (0,0), (240,240),-0.5,"0x0000000332655a630006098400001edc0000246b00007856",
 		[],[], "outer_terrain_plain"),
-	
+		
+	("castle_plain_dark_01_outside", sf_generate, "none", "none", (0,0), (240,240),-0.5,"0x00000001b244d2000006098d00005999000033a700007a61",
+		[],[], "outer_terrain_plain"),
+		
 	("castle_steppe_01_outside", sf_generate, "none", "none", (0,0), (240,240),-0.5,"0x00000003264b18e30004912200007b7e00006d9e00006880",
 		[],[], "outer_terrain_steppe"),
 	
 	("castle_snow_01_outside", sf_generate, "none", "none", (0,0), (240,240),-0.5,"0x0000000040c391af0005fd1100007c4900007ef600007fea",
+		[],[], "outer_terrain_snow"),
+		
+	("castle_snow_forest_01_outside", sf_generate, "none", "none", (0,0), (240,240),-0.5,"0x00000000c7a745630005a16a0000493f00002d040000207f",
 		[],[], "outer_terrain_snow"),
 	
 	("castle_desert_01_outside", sf_generate, "none", "none", (0,0), (240,240),-0.5,"0x0000000355e350e30004912200003bf800006d9e00005ab9",
@@ -88,6 +94,13 @@ scenes = [
 		[],[]),
 	("meeting_scene_desert_forest",0,"ch_meet_desert_a", "bo_encounter_spot", (-40,-40),(40,40),-100,"0",
 		[],[]),
+		
+		
+		
+	("places_plain_stone_obelisk",sf_generate,"none", "none", (-40,-40),(40,40),-100,"0x0000000239c0115d00087221000042c600005a4300000fa1",
+		[],[], "outer_terrain_plain"),
+	("places_desert_grand_tree",0,"none", "none", (-40,-40),(40,40),-100,"0x0000000239c0115d00087221000042c600005a4300000fa1",
+		[],[], "outer_terrain_desert"),
 
 	
 	

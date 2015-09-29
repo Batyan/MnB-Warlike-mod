@@ -1,4 +1,5 @@
 # export_dir = "C:/Games/Mount&Blade Warband/Modules/Whatever/"
-export_dir = "E:/Games/Mount&Blade Warband/Modules/Whatever/"
+# export_dir = "E:/Games/Mount&Blade Warband/Modules/Whatever/"
+export_dir = "E:/Games/Mount&Blade Warband 1.166/Modules/Whatever/"
 # export_dir = "C:/Games/Steam/steamapps/common/mountblade warband/Modules/Whatever/"
 # export_dir = "C:/Program Files (x86)/Mount&Blade Warband/Modules/Whatever/"

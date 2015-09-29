@@ -8,14 +8,14 @@ from header_troops import *
 from header_music import *
 from module_constants import *
 
-
-
-
+daily = 1			# 1
+weekly = daily*7 	# 7
+monthly = daily*30 	# 30
 
 simple_triggers = [
 
 	# Parties trigger
-	(48,
+	(monthly*2,
 	[
 		(try_for_parties, ":party_no"),
 			(party_is_active, ":party_no"),
@@ -31,13 +31,13 @@ simple_triggers = [
 				
 				(try_begin),
 					(eq, ":party_type", spt_town),
-					(call_script, "script_party_update_merchants", ":party_no"),
+					(call_script, "script_party_update_merchants_gold", ":party_no"),
 				(try_end),
 			(try_end),
 		(try_end),
-		(display_message, "@Merchants updated..."),
 	]),
-    (24,
+	
+    (monthly,
 	[
 		(try_for_parties, ":party_no"),
 			(party_is_active, ":party_no"),
@@ -90,7 +90,7 @@ simple_triggers = [
 		
 	# ]),
 	
-	(6,
+	(daily*6,
 	[
 		(try_for_parties, ":party_no"),
 			(party_is_active, ":party_no"),
@@ -107,27 +107,28 @@ simple_triggers = [
 					(ge, ":besieger", 0),
 					(try_begin),
 						(neg|party_is_active, ":besieger"),
-						(party_set_slot, ":party_no", slot_party_besieged_by, -1),
+						(call_script, "script_party_lift_siege", ":party_no"),
+						# (party_set_slot, ":party_no", slot_party_besieged_by, -1),
 					(else_try),
-						# (store_distance_to_party_from_party, ":dist", ":party_no", ":besieger"),
-						# (gt, ":dist", 15),
-						(party_get_slot, ":leader", ":besieger", slot_party_leader),
-						(troop_get_slot, ":current_behavior", ":leader", slot_troop_behavior),
-						(troop_get_slot, ":current_object", ":leader", slot_troop_behavior_object),
+						(store_distance_to_party_from_party, ":dist", ":party_no", ":besieger"),
+						(gt, ":dist", 6),
+						# (party_get_slot, ":leader", ":besieger", slot_party_leader),
+						# (troop_get_slot, ":current_behavior", ":leader", slot_troop_behavior),
+						# (troop_get_slot, ":current_object", ":leader", slot_troop_behavior_object),
 						
-						(this_or_next|neq, ":current_behavior", tai_attacking_center),
-						(neq, ":current_object", ":party_no"),
-						(party_set_slot, ":party_no", slot_party_besieged_by, -1),
+						# (this_or_next|neq, ":current_behavior", tai_attacking_center),
+						# (neq, ":current_object", ":party_no"),
+						(call_script, "script_party_lift_siege", ":party_no"),
+						# (party_set_slot, ":party_no", slot_party_besieged_by, -1),
 					(try_end),
 				(try_end),
-			(else_try),
-				(eq, ":party_type", spt_war_party),
-				(call_script, "script_party_process_mission", ":party_no"),
+			# (else_try),
+				# (eq, ":party_type", spt_war_party),
 			(try_end),
 		(try_end),
 	]),
 	
-	(2,
+	(daily*2,
 	[
 		(try_for_parties, ":party_no"),
 			(party_is_active, ":party_no"),
@@ -155,12 +156,89 @@ simple_triggers = [
 					# (call_script, "script_cf_faction_need_party_nearby_resources", ":faction", ":party_no"),
 					# (call_script, "script_spawn_new_center_marker_with_party_resources", ":party_no"),
 				# (try_end),
-			(else_try),
-				(eq, ":party_type", spt_war_party),
-				(call_script, "script_party_process_ai", ":party_no"),
 			(try_end),
 		(try_end),
 	]),
+	
+	# (0.5,
+	# [
+		# (store_current_hours, ":day"),
+		# (store_div, ":long_years", 1461), # 1461 = 365.25*4 (4 whole years)
+		# (val_sub, ":day_of_year", ":long_year"), # Remove excess days from years with 366 days
+		# (store_mod, ":day_of_year", ":day", 365),
+		# (store_add, ":offset_day_of_year", ":day_of_year", 40),
+		# (val_mod, ":offset_day_of_year", 365), # We use an offset to move the end of the year winter to a value of 0
+		# (store_mul, ":season", ":offset_day_of_year", 4),
+		# (val_div, ":season", 365),
+		
+		# (assign, ":cloud_base", 50),
+		# (assign, ":cloud_variant", 50),
+		# (assign, ":cloud_spike", 20),
+		
+		# (try_begin),
+			# (eq, ":season", 0),
+			# (assign, ":cloud_base", 40),
+			# (assign, ":cloud_variant", 25),
+			# (assign, ":cloud_spike", 4),
+		# (else_try),
+			# (eq, ":season", 1),
+			# (assign, ":cloud_base", 30),
+			# (assign, ":cloud_variant", 50),
+			# (assign, ":cloud_spike", 2),
+		# (else_try),
+			# (eq, ":season", 2),
+			# (assign, ":cloud_base", 20),
+			# (assign, ":cloud_variant", 10),
+			# (assign, ":cloud_spike", 20),
+		# (else_try),
+			# (eq, ":season", 3),
+			# (assign, ":cloud_base", 60),
+			# (assign, ":cloud_variant", 40),
+			# (assign, ":cloud_spike", 6),
+		# (try_end),
+		
+		# (party_get_current_terrain, ":terrain", "p_main_party"),
+		# (try_begin),
+			# (this_or_next|eq, ":terrain", rt_snow),
+			# (eq, ":terrain", rt_snow_forest),
+			# (val_add, ":cloud_base", 5),
+			# (val_add, ":cloud_variant", 10),
+			# (val_add, ":cloud_spike", -5),
+		# (else_try),
+			# (this_or_next|eq, ":terrain", rt_steppe),
+			# (eq, ":terrain", rt_steppe_forest),
+			# (val_add, ":cloud_base", -5),
+			# (val_add, ":cloud_variant", -10),
+			# (val_add, ":cloud_spike", 5),
+		# (else_try),
+			# (this_or_next|eq, ":terrain", rt_desert),
+			# (eq, ":terrain", rt_desert_forest),
+			# (val_add, ":cloud_base", -50),
+			# (val_add, ":cloud_variant", -50),
+			# (val_add, ":cloud_spike", -20),
+		# (else_try),
+			
+		# (try_end),
+		
+		# (val_clamp, ":cloud_base", 0, 100),
+		# (val_clamp, ":cloud_variant", 0, 100),
+		# (val_clamp, ":cloud_spike", 2, 100),
+		
+		# (try_begin),
+			# (this_or_next|eq, ":terrain", rt_forest),
+			# (this_or_next|eq, ":terrain", rt_snow_forest),
+			# (this_or_next|eq, ":terrain", rt_steppe_forest),
+			# (eq, ":terrain", rt_desert_forest),
+			# (val_mul, ":cloud_spike", 3),
+			# (val_div, ":cloud_spike", 2),
+			# (val_add, ":cloud_variant", 10),
+		# (try_end),
+		
+		# (store_mul, ":cloud", "$g_global_cloud_amount", ":cloud_base"),
+		# (store_random_in_range, ":variant", 0, ":cloud_variant"),
+		# (val_add, ":cloud", ":variant"),
+		
+	# ]),
 	
 	(0.1,
 	[
@@ -174,10 +252,35 @@ simple_triggers = [
 			(is_between, ":cur_town", centers_begin, centers_end),
 			(party_attach_to_party, ":party_no", ":cur_town"),
 		(try_end),
+		
+		(get_global_haze_amount, ":haze"),
+		(get_global_cloud_amount, ":cloud"),
+		(val_mul, ":haze", 2),
+		(val_mul, ":cloud", 2),
+		(val_add, ":haze", "$g_global_haze_amount"),
+		(val_div, ":haze", 3),
+		(val_add, ":cloud", "$g_global_cloud_amount"),
+		(val_div, ":cloud", 3),
+		(set_global_haze_amount, ":haze"),
+		(set_global_cloud_amount, ":cloud"),
 	]),
 	
 	# Lords trigger
-	(24,
+	(monthly,
+	[
+		(try_for_range, ":lord_no", lords_begin, lords_end),
+			(troop_get_slot, ":occupation", ":lord_no", slot_troop_kingdom_occupation),
+			(try_begin),
+				(eq, ":occupation", tko_kingdom_hero),
+				(troop_get_slot, ":leaded_party", ":lord_no", slot_troop_leaded_party),
+				(gt, ":leaded_party", 0),
+				(party_is_active, ":leaded_party"),
+				(call_script, "script_party_process_mission", ":leaded_party"),
+			(try_end),
+		(try_end),
+	]),
+	
+	(weekly*2,
 	[
 		(try_for_range, ":lord_no", lords_begin, lords_end),
 			(troop_get_slot, ":occupation", ":lord_no", slot_troop_kingdom_occupation),
@@ -203,7 +306,7 @@ simple_triggers = [
 				(assign, ":best_equipement_rank", reg0),
 				(try_begin),
 					(this_or_next|neq, ":lord_level", ":real_rank"),
-					(lt, ":equipement_rank", ":best_equipement_rank"),
+					(neq, ":equipement_rank", ":best_equipement_rank"),
 					(call_script, "script_troop_update_level", ":lord_no", ":lord_level", ":real_rank"),
 				(try_end),
 				
@@ -241,8 +344,10 @@ simple_triggers = [
 							(assign, ":selected", ":other_lord"),
 						(try_end),
 					(try_end),
-					(ge, ":selected", 0),
-					(call_script, "script_troop_give_center_to_troop", ":lord_no", ":surplus_fief", ":selected"),
+					(try_begin),
+						(ge, ":selected", 0),
+						(call_script, "script_troop_give_center_to_troop", ":lord_no", ":surplus_fief", ":selected"),
+					(try_end),
 				(try_end),
 				
 				# Decrease days until next rethink for following marshall
@@ -261,35 +366,37 @@ simple_triggers = [
 	
 	# ]),
 	
-	(6,
+	(daily*2,
 	[
-		# (try_for_range, ":lord_no", lords_begin, lords_end),
-			# (troop_get_slot, ":occupation", ":lord_no", slot_troop_kingdom_occupation),
-			# (store_troop_faction, ":faction", ":lord_no"),
-			# (try_begin),
+		(try_for_range, ":lord_no", lords_begin, lords_end),
+			(troop_get_slot, ":occupation", ":lord_no", slot_troop_kingdom_occupation),
+			(try_begin),
 				# (this_or_next|eq, ":occupation", tko_),
-				# (eq, ":occupation", tko_kingdom_hero),
-				# (call_script, "script_troop_process_ai", ":lord_no"),
-			# (else_try),
-			# (try_end),
-		# (try_end),
+				(eq, ":occupation", tko_kingdom_hero),
+				(troop_get_slot, ":leaded_party", ":lord_no", slot_troop_leaded_party),
+				(gt, ":leaded_party", 0),
+				(party_is_active, ":leaded_party"),
+				(call_script, "script_party_process_ai", ":leaded_party"),
+			(try_end),
+		(try_end),
 	]),
 	
-	(24*7,
+	(monthly*6/(kingdoms_end - kingdoms_begin),
 	[
-		(try_for_range, ":faction_no", kingdoms_begin, kingdoms_end),
-			(faction_get_slot, ":center_no", ":faction_no", slot_faction_current_free_center),
-			(ge, ":center_no", centers_begin),
-			
-			(call_script, "script_faction_get_best_candidate_for_center", ":faction_no", ":center_no"),
-			(assign, ":troop_no", reg0),
-			
-			(gt, ":troop_no", -1),
-			(call_script, "script_give_center_to_troop", ":center_no", ":troop_no"),
-			
-			(faction_set_slot, ":faction_no", slot_faction_current_free_center, -1),
+		(try_begin),
+			(neg|is_between, "$g_politics_cur_faction", kingdoms_begin, kingdoms_end),
+			(assign, "$g_politics_cur_faction", kingdoms_begin),
 		(try_end),
+		(str_store_faction_name, s10, "$g_politics_cur_faction"),
+		(display_message, "@Current faction politics: {s10}"),
 		
+		(call_script, "script_faction_process_politics", "$g_politics_cur_faction"),
+		
+		(val_add, "$g_politics_cur_faction", 1),
+	]),
+	
+	(monthly*2,
+	[
 		(try_for_range_backwards, ":cur_center", centers_begin, centers_end),
 			(party_get_slot, ":lord", ":cur_center", slot_party_lord),
 			(lt, ":lord", 0),
