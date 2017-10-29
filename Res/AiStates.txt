@@ -1,0 +1,25 @@
+States :
+ - Idle
+ 	- Resting -> Patrolling
+ 	- Visiting -> Idle/Resting
+ - Scouting
+ 	- Center Reconnaissance -> Attacking
+ 	- Allied Center Reconnaissance -> Defending
+ - Attacking
+ 	- Gathering -> Leading ?
+ 	- Siegeing -> Attacking/In Battle
+ 	- In Battle ? -> Idle ?
+ - Defending
+ 	- Reinforcing center
+ 	- Breaking siege
+ - Patrolling
+ 	- Reinforcing
+ 	- Patrolling home center
+ - Leading ?
+ 	- Breaking siege
+ 	- Siegeing -> Attacking/Siegeing
+ - Following
+ 	- Helping in battle
+ 	- Following
+
+Save the faction lords in faction slots (to facilitate looking for lords of a certain faction)

@@ -1,63 +1,167 @@
-0.100:
+0.100: -- DONE --
 	Land battles
 		Attack an enemy
 		Be helped by an ally
-	DONE
-	
-0.110:
-	Land battles
-		Be attacked by an enemy
-		Help an ally
-	DONE
-		
-0.200:
-	Siege battles
+	0.110: -- DONE --
+		Land battles
+			Be attacked by an enemy
+			Help an ally
+0.200: Battle
+	Siege battles -- DONE --
 		Attack
 		Defend
 	Take prisoners (troops and heroes)
-0.300:
-	Faction ai
-		Elect leader
-		Declare war/peace
-		Elect Marshall
-0.400:
-	Better party ai
-	Marshall
-	Cooperation (ai)
-		Transfer troops (center to center)
-		Transfer prisoners
-0.500:
-	Economy
-		Taxes
-		Good production
-		Good transformation
-		Party upkeep
-0.510:
-	Trading
+	Free prisoners (troops and heroes)
+	0.210:
+		Battle lost consequences
+			Prisoner of party
+			Steal items
+			Steal gold
+		Battle loot
+			Loot stolen gold and items
+			Loot enemy soldiers
+			Loot ally soldiers
+	0.220: -- DONE --
+		Bandit spawns
+	0.230:
+		Character Deaths (only npcs)
+	0.240:
+		Party Morale
+	0.250:
+		Character personalities (system only)
+0.300: Economy
+	Taxes
+	Good production
+	0.310: Trading
 		Buying and selling (player)
 		Caravans
-0.600:
-	City management
-		Buildings, bank
+	0.320: Party upkeep
+		Money management
+			Weekly finances presentation
+	0.330: Goods
+		Good transformation
+		Good consumption
+0.400: Faction ai
+	Elect leader
+	Declare war/peace
+	Elect Marshall
+	0.410:
+		Faction defeating
+		Faction vassalage
+	0.420:
+		Faction splitting (civil war)
+0.500: Party ai
+	Better party ai
+	Marshall ai
+	0.510:
+		Cooperation (ai)
+			Transfer troops (center to center)
+			Transfer prisoners
+0.600: City Management
+	Buildings
+	Bank
+0.700: Kingdom Management
+	Possible for player to lead a kingdom
+	0.710:
+		Kingdom policies
+0.800: NPCs
+	Add kingdom women
 	Dialogs
 		Lords
-0.700:
-	Kingdom management
-0.800:
-	Heroes relations
-		Families
-		Friends
-	Heroes randomisation
-		Faces
-		Names
-0.900:
+		Ladies
+	0.810:
+		Heroes relations
+			Families
+			Friends
+		Heroes randomisation
+			Faces
+			Names
+0.900: Politics
 	Politics
-1.000:
-	Companions
+	Kingdom policies
+	0.910: Information
+		Add troop notes
+		Add center notes
+		Add faction notes
+		Add info pages
+1.000: Companions - Personalities
+	Player Companions
 	Personalities
-1.100:
+	1.010:
+		Lord Companions
+1.100: Taverns
 	Taverns
 	Mercenaries
 		Mercenary leaders
 		Mercenary bands
 		Tavern mercenaries
+	1.110: Bandits
+		Refined bandit groups
+		Bandits ambush (center)
+		Roaming bandits
+		Deserters
+1.200: Time
+	Player Death
+		Select next character
+	Passing of time
+		Characters getting old with time
+	Children
+		Generate children from parents
+1.300: Battle
+	Battle ai
+		Increase variety of formations
+		Leave reserve behind main battle
+	Battle player
+		Select predefined formation before battle
+		Create custom formation
+		Disable automatic formations
+		Split troops
+			Engaged formations do not balance unit number
+	1.310: Battle - Siege
+		Siege improvements
+			Allows garrison starving
+			Allows leaving while keeping the siege on (making a camp)
+		Siege battles
+			Give attackers tactics ?
+				Select only one side to attack
+				Focus heavy troops on one side
+				Focus number on one side
+			Ai tactics
+				Ranged firing before assaulting
+					Archers in front (closer to walls)
+					Archers behind infantry (more protected)
+				Ranged covering
+					Infantry charging with archers supporting the assault
+1.400: Weather
+	Weather
+	Seasons
+		Seasons have an impact on ressource generation ?
+	Day / Night
+1.500: Starting Scenario
+	Possible to select a start from a certain number of scenarios
+		Select a random existing scenario
+			Select starting character
+				Faction
+				Rank
+				Situation
+					Vassals
+					Wealth
+		Randomize entirely the game
+			randomizes the starting lords, faction relations
+1.600: Difficulty
+	Add difficulty modifiers for faction AI
+1.700: Custom Battles
+	More personalisation than native
+		Battle size
+		Factions
+		Reinforcements
+1.800: Basic Multiplayer
+	Battle modes:
+		Battle
+		Siege
+		Bot battle
+		Bot siege
+		Conquest
+			4 castles on the map
+			Capture a castle to control it
+			Castles produce bot soldiers to defend and attack

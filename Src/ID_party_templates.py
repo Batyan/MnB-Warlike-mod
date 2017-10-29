@@ -1,0 +1,16 @@
+pt_none = 0
+pt_rescued_prisoners = 1
+pt_enemy = 2
+pt_hero_party = 3
+pt_village_template = 4
+pt_castle_template = 5
+pt_town_template = 6
+pt_hunters = 7
+pt_caravan = 8
+pt_peasants = 9
+pt_patrol = 10
+pt_scout = 11
+pt_war_party = 12
+pt_reinforcements = 13
+pt_outlaws = 14
+pt_templates_end = 15

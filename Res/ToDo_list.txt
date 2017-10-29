@@ -1,276 +1,815 @@
 ToDo:
+- Add debug mode for ais
+    Enable/Disable ai
+    Reset ai
+- Add troop wages
+    Add wages presentation
+- Add info pages to give general informations about the mod
+    Add welcome page
+    Add Heroes page
+        heroes no longer level
+            instead use personalities and character traits (link)
+    Add kingdom page
+        heroes relations
+        vassalage
+        families improved
+    Add kingdom management page
+        foreign relations
+        client states (faction vassalage)
+        alliances / treaties
+    Add economy page
+        Almost everything cost more
+            troop wages
+            troop recruitement
+            buildings
+        Great gains in trade
+        Banditry (link)
+        Slavery
+    Add banditry page
+        Caravans
+            Gain depend on caravan
+            Defense is variable
+                Well defended caravans yield greater profits
+                Some buildings increase caravan protections
+        Villages
+            Usualy not well dedfended (~30 militias max)
+            Can yield great gains if village is prosperous
+            Can greatly deteriorate relations with village / owner / faction
+        Outlaws can now have bounties placed on them
+            You can hunt bounties or be the one hunted
+    Add personalities and character traits page
+        Characters are generated with a certain number of traits
+        Characters can change their attributes by doing certain actions
+        Most npcs will not change traits (or only certain traits)
+        Traits will influence npcs personalities (dialogs, management, policies, relations and battle)
+    Add families page
+        Creating lasting families is the main goal
+        Families usualy have greater and more lasting bonds than friends
+        When you die, it is possible to, depending on your settings, play as another character
+        Protecting family members is important, by maintaning good relations with other families might be more important if your goal is to lead them
+    Add skills / attribute / wp page
+        Reworked attributes
+            Attributes now may influence dialog checks
+            Influence battles (example CHA influences morale of troops)
+        New and different skills
+            Intimidation
+                Now possible to not persuade but force them to accept your point of view
+                Intimidation is easier than persuasion, but you may have side effects (loss of relations) and also dependant on your personal strength / your army strength
+            Weapon master
+                Now influences weapon proeficiency decay
+            Tactics
+                Now improves morale of troops (from leadership)
+            No more surgery
+                Surgery is overpowered and not in line with the goal of the mod (no more invincible armies)
+            Training
+                As leveling up troops and heroes is no longer possible, training skill influences some actions on the map (training recruits) and increases your companions wp in your party to match yours (does not work if your wp is lower than that of your companion)
+        Weapon proficiency
+            Now slowly decays over time, can be toggled on/off in settings menu
+            Weapon master skill will increase threshold for decay and help reduce decay by up to 40%
+        No more leveling up
+            Stats are gained by events, repeated actions, reputation, and personality traits
+            Most dialog options may potentialy make you earn a personality trait
+- Add notes
+    troop notes
+    faction notes
+    center notes
+- Add troops
+    Special troops:
+        Camp followers for every faction
+            Swadian : light cavalry
+            Khergit : light skirmisher cavalry
+            Rhodok  : light crossbow
+            Sarranid: light horse archer
+        Sword sisters
+            Swadian : heavy cavalry with lance
+            Vaegir  : heavy cavalry with javelins
+            Rhodok  : heavy cavalry
+        Others
+            Khergit Lance (heavy lancer with javelins, courser)
+    Regular troops
+        Add troops from module_factions
+            Swadian Heavy Bowman
+            Khergit Tribal Infantry
+            Khergit Tribal Light Archer
+            Khergit Tribal Archer
+            Khergit Noble Skirmisher
+            Nord Mounted Skirmisher
+            Rhodok Light Horseman
+            Sarranid Noble Horseman
+    Mercenaries
+        Mercenaries have lower skills and attributes than average faction troops of that type
+        However they have good armors at high level
+        They are also available for everyone and have most type of troops
+        Add recruit level mercenaries
+            -Mercenary Levy Infantry
+            -Mercenary Levy Archer
+            -Mercenary Levy Crossbowman
+            -Mercenary Levy Spearman
+            -Mercenary Levy Skirmisher
+        Add noble level mercenaries
+            -Mercenary Knight
+            -Mercenary Armoured Mounted Crossbowman
+            -Mercenary Paladin (Bec de Corbin)
+        Add more variety in mercenaries
+            -Mercenary Light Spearman
+            -Mercenary Heavy Spearman
+            -Mercenary Light Infantry
+            -Mercenary Infantry
+            -Mercenary Heavy Infantry
+            Mercenary Light Skirmisher
+            Mercenary Heavy Skirmisher
+            -Mercenary Light Cavalry
+            -Mercenary Cavalry
+            -Mercenary Heavy Cavalry
+            -Mercenary Light Archer
+            -Mercenary Archer
+            -Mercenary Heavy Archer
+            -Mercenary Light Crossbowman
+            -Mercenary Crossbowman
+            -Mercenary Heavy Crossbowman
+            Mercenary Light Lancer
+            Mercenary Heavy Lancer
+            Mercenary Light Horse Archer
+            Mercenary Heavy Horse Archer
+            Mercenary Mounted Skirmisher
+        Add special mercenaries (style specific)
+        Add female mercenaries
+            Mercenary Horse Archer
+            Mercenary Archer
+            Mercenary Light Rider
+            Mercenary Heavy Rider
+            Mercenary Camp Follower
+            Mercenary Sword Sister
+- Lords: 
+    Remove troops from party when peace (prioritize low quality)
+        slot_party_prepared_for_war
+            1 -> ready for war, normal ai
+                if there is no war, head to home center to dump low quality troops (up to 33% party_size)
+            0 -> not ready
+                if there is war, head to home center to recruit troops (up to 75% party_size)
+    Lords fleeing from another should retreat to a friendly center
+    Redo lords AI
+    Add lords dialog
+        - presentation
+        - main dialog
+            - ask question
+                - whereabouts
+                - lord opinion
+                    - war
+                    - liege
+                    - leader
+                    - marshall
+                - location of someone
+                    - family members only ?
+                    - ask a specific family member ?
+                    - ask a faction leader ?
+                - location of somewhere
+                    - location of lord's fief
+                    - location of undiscovered player fief
+                    - location of leader fief
+                    - location of the kingdom
+                        Give indications on some of the kingdom's fiefs
+            - talk
+                Talking with a lord might increase his relationship (certain topics can decrease relation and the lord will leave if relation is bad enough - rumors, like/dislike)
+                - rumors
+                - family members
+                - someone you don't like
+                - someone you like
+                    The lord might lie when telling the last two (depending on personality and relation) unless the player spoke first and was frank
+                - something you don't like
+                - something you like
+                    The last two may give indications on the personality of the person
+                Depending on relations and personality, lord will 
+                    Ask that you answer the same question first
+                    Ask you to stop bothering him
+                    Answer immediatly (and sometimes ask you the question after)
+                    Answer to the question will propose to tell the truth or fabricate a story
+                        Lying may have consequences later on and may change your personality
+                        If you have a lying personality you may have negative effects for telling the truth and may not have negative effects for lying (because you are good at it?)
+            - duel
+            - deliver demands
+        - player defeated
+        - lord defeated
+        - helped a lord
+    Add lord companions:
+        Swadian lords:
+            Knights         -       -       -       -       -       -       - B: 75  - M: *
+        Vaegir lords:       
+            Knights         -       -       -       -       -       -       - B: 65  - M: *
+            Wives           -       -       -       -       -       -       - B: 15  - M: 1
+        Khergit lords:      
+            Wives           -       -       -       -       -       -       - B: 75  - M: *
+        Nordic lords:
+            Housecarls      -       -       -       -       -       -       - B: 150 - M: 1
+            Family (husbands, wifes, sons, daughters, brothers, sisters)    - B: 25  - M: * (1 wife)
+        Rhodok lords:
+            Heroes          -       -       -       -       -       -       - B: 50  - M: 1
+            Sons            -       -       -       -       -       -       - B: 10  - M: *
+        Sarranid lords:
+            Heroes          -       -       -       -       -       -       - B: 35  - M: 2
+            Family (sons, brothers) -       -       -       -       -       - B: 20  - M: *
+        Likelyness:
+            B: Base likelyness at lord level 5 (town owner)
+            M: Max number
+        Specificities:
+            Nord family members only come when newly appointed lord (or when low level lord)
+                When he gets additionnal land he will prioritize giving it to family members (except husband/wife)
+                Then they will prefer taking housecarls
+            Rhodok and sarranid heroes may randomly be picked when a soldier performs especially well (for example knocks a lord unconscious)
+            Companion chances should be influenced by personalities
+        Lord companions are able to participate in duels instead of their lord
+        Can the player become a companion?
 - Kingdoms:
-	Policies
-		Vassals:
-			Low taxes, vassals take care of their properties in their entirety
-			Medium taxes, vassals take care of their properties, liege participate in building constructions and reparations
-			High taxes, vassals take care of their properties, liege participate in building constructions, reparations and troop wages
-		Leader:
-			Elected by population (elders of villages/cities/castles), can be lifelong rule or a certain period
-				High relation with centers is important
-				Bribes are possible and cheap
-				Increased relation with population after election
-			Elected from council (high ranking lords), can be lifelong rule or a certain period
-				High relations with counsellors is important
-				Bribes are possible but expensive
-				Increased relation with council after election
-				Counsellors help rule the realm
-			Kingdom (Passed by blood only)
-				Relations doesn't matter
-				Can cause instability amongst siblings
-				Increased relation with supporters and neutral when changing ruler
-			Tribal Kingdom (Passed by blood, can be contested by arms)
-				Relations only needed when arms contest
-				Varying relations when arms contest is over (higher with supporters and neutral, lower with supporters of other side)
-				Increased relation with supporters and neutral when changing ruler (without arms)
-		Foreign:
-			Trade
-				Commerce
-					All goods are accepted
-					Some goods are taxed (chosen by leader)
-					Some goods are refused (chosen by leader)
-					Only goods that are needed are accepted (not produced or not enough produced)
-					Nothing is accepted
-				Taxes
-					No taxes
-					Low taxes
-					Moderate taxes
-					High taxes
-			Borders
-				Fiefs are accessible to all except enemy
-				Fiefs are accessible to any with treaties
-				Fiefs are accessible to all allies
-				Fiefs are accessible to none but vassals
-- add lords dialog
-	- presentation
-	- main dialog
-	- player defeated
-	- lord defeated
-	- helped a lord
+    Policies 
+        Vassals:
+            Low taxes, vassals take care of their properties in their entirety
+            Medium taxes, vassals take care of their properties, liege participate in building constructions and reparations
+            High taxes, vassals take care of their properties, liege participate in building constructions, reparations and troop wages
+        Leader:
+            Elected by population (elders of villages/cities/castles), can be lifelong rule or a certain period
+                High relation with centers is important
+                Bribes are possible and cheap
+                Increased relation with population after election
+            Elected from council (high ranking lords), can be lifelong rule or a certain period
+                High relations with counsellors is important
+                Bribes are possible but expensive
+                Increased relation with council after election
+                Counsellors help rule the realm
+            Kingdom (Passed by blood only)
+                Relations doesn't matter
+                Can cause instability amongst siblings
+                Increased relation with supporters and neutral when changing ruler
+            Tribal Kingdom (Passed by blood, can be contested by arms)
+                Relations only needed when arms contest
+                Varying relations when arms contest is over (higher with supporters and neutral, lower with supporters of other side)
+                Increased relation with supporters and neutral when changing ruler (without arms)
+        Foreign:
+            Trade
+                Commerce
+                    All goods are accepted
+                    Some goods are taxed (chosen by leader)
+                    Some goods are refused (chosen by leader)
+                    Only goods that are needed are accepted (not produced or not enough produced)
+                    Nothing is accepted
+                Taxes
+                    No taxes
+                    Low taxes
+                    Moderate taxes
+                    High taxes
+                    Add taxes on:
+                        Buying
+                        Selling
+                        Fixed taxes (process_population?)
+                        Wealth
+                        Property
+                        Visiting
+            Borders
+                Fiefs are accessible to all except enemy
+                Fiefs are accessible to any with treaties
+                Fiefs are accessible to all allies
+                Fiefs are accessible to none but vassals
+        Families:
+            Clans
+                Tournament to determine strongest of willing participants
+                Claims all of the clan's territory
+                    Can distribute to other clan members later
+                Family is not linked to bloodline
+            Male succession:
+                First son claims all of the family's territory
+            Female succession:
+                First daughter claims all of the family's territory
+            Shared heritage:
+                The current leader of the family decides who will have what
+        Marriage: (v0.810)
+            Female centered:
+                Female keeps her family name if she has one, male will be integrated into her family
+                Usualy linked with female succession
+            Male centered:
+                Male keeps his family name if he has one, female will be integrated into his family
+                Usualy linked with male succession
+            If they chose so, both can create a new family if the family type permits it
+        Genders:
+            Female allowed/not allowed to be leading parties
+            Female allowed/not allowed to own land
+            Male allowed/not allowed to be leading parties
+            Male allowed/not allowed to own land
+        Slavery:
+            Slavery allowed
+                Nobles are allowed to own slaves
+                Slave related buildings are allowed
+            Slavery tolerated
+                Slavery is not outlawed but is frowned upon
+                Slave buildings will be less effective
+                Slave buildings will bring side effects
+                Nobles will lose reputation when they own slaves
+            Slavery outlawed
+                Slaves are not allowed
+                Slave buildings are not allowed
 - add villages/castles/town menu
-	Tavern
-		Mercenaries
-		Companions
-		Random Townspeople
-		Bar keeper
-		Guards
-		Vigil(tavern_2)
-		Drunk
-		Shady characters
-			Assassins
-			Black market
-			Random drunk
-			Spy
-	Village raise levies
-		Number: rand(val/2, val = 2 + persuasion/2 + leadership/4 + renown/100)
-		Time spent : max(5 * num_recruit - (5 * num_recruit / (10 + total_party_trainer)), 1 + num_recruit/5)
-		Specific levies
-			-20% number + 20% time
-		Balanced levies
-		Manage number
-		If building => random chance for common unit
-- complete resources list
+    Tavern
+        Mercenaries
+        Companions
+        Random Townspeople
+        Bar keeper
+        Guards
+        Vigil(tavern_2)
+        Drunk
+        Shady characters
+            Assassins
+            Black market
+            Random drunk
+            Spy
+    Village raise levies
+        Number: rand(val/2, val = 2 + persuasion/2 + leadership/4 + renown/100)
+        Time spent : max(5 * num_recruit - (5 * num_recruit / (10 + total_party_trainer)), 1 + num_recruit/5)
+        Specific levies
+            -20% number + 20% time
+        Balanced levies
+        Manage number
+        If building => random chance for common unit
+- add debts system for centers
+    if high debt
+        risk of peasant revolution
+            may create a new kingdom (with a change in policy => if was kingdom might be governor)
+        risk of bandit takeover
+        risk of curruption takeover
+            other kingdom may take the center by inciting a peasant revolution (center will belong to new faction)
+- ressources list
+    ressources are consumed by centers
+        if there is enough of a certain good for the population, it will start beeing sold
+        a certain part of surplus is transformed into direct money or consumed for happiness
+        if there is not enough of a certain good, it will start beeing imported
+        for each needed good that is not imported, it will deduce money or happiness from the center
+        ressources will be part of determining how long a center can hold in case of a siege
+            generation will be reduced during sieges (by 90%)
+            and trade will be halted
+    ressources are generated by centers depending on their location and their surroundings
+        each type of terrain allows for the generation of a certain item
+        some terrain favors certain types of goods but overall every center should generate the same amount of goods (at the same population and happiness level)
+        centers producing a lot of food items will be able to last longer during sieges
+        centers producing a lot of other items will likely sell them for more
+        if too much of a certain item is generated on the map, it will not be balanced by each center (except for its price)
+        if too few items of a certain type are generated on the map, only its price will increase
+        during times of war, goods generation will most likely decrease (raids, trade blocked...)
+            it will increase the price of all items, and may benefit peaceful factions and merchants
 - process production
-- recruitment cost gold
+    productions are goods transformed into another
+    produced goods are very rare in the nature, some are not found at all
+    produced goods have a higher value than their raw materials and can be sold at very high prices
+    produced goods are produced on top of the natural ressource generation and it is not possible to reduce one to increase the other
+    it is possible though to stop producing goods
+- recruitment
+    costs gold
+    redo recruitement system ?
+        fixed amount of recruitement "points" for each center and each recruit quality
+        each recruit demands for a certain number of points (calculated with the level of the troop ?)
+            maybe add a malus for some unit types 
+                *1.25 for ranged units
+                +horse for horsemen
+        if not enough points to acquire the troop, stop here and add the points to the center's points
+        certain buildings give more points for recruitments
+        eras give slightly increased points for recruitements
+        capturing / looting a center reduces the number of available points (/5 ?)
+        looted centers do not produce points
+        besieged centers produce 1/3 of points
 - faction_get_best_candidate_for_center
 - remove low tier troops from full centers (only peasants?)
 - add retextured horses for variety
-- add center looting
-- lords fleeing from another should retreat to a friendly center
-- add lord rest in center
+- add looting
+    center looting
+    party looting
+        loot enemy soldiers
+            improves morale
+            lowers enemy relation
+        loot ally soldiers
+            reduces morale
+            lower enemy relation
+            lowers reputation
+    prisoners looting
+        allows you to loot your prisoners, they will then have peasant clothing
+            will be sold for less
+            lowers relation with the faction
+            lowers reputation
+    looting sharing
+        share the loot equaly between each member
+        for each member, loot is 50% leader, 50% member
+        leader gets priority for loot
+- redo troop looting system
+    when looting takes probablility of certain item
+        armors 45%
+            40p chest
+            30p helmet
+            20p boots
+            10p gloves
+        weapons 45%
+            50p main weapon
+            30p ranged
+            30p secondary (pole weapons)
+            25p shield
+            20p ammunition / throwing
+        horse 10%
+    looting is only done during menus so it should not be bad to take time to do it
 - add vendors in towns - castles - villages
-	one seller in each center - General goods: goods, low horses (if no horse merchant), low weapons (if no weapon merchant), low armors (if no armor merchant)
-	if stables then horse merchant
+    one seller in each center - General goods: goods, low horses (if no horse merchant), clothes, commoners tools (knives, peasant tools, staves, hunting tools)
+    if stables then horse merchant
+    Change merchant armor / weapon generation with loot from reinforcements (v0.510)
+        Takes into account era when getting weapons / armors
+        Makes early eras have rare powerful weapons
+        May make some weapons / armors unavailable ?
 - add presentation for buying and selling goods
-	filter options
-		goods, weapons, armors, horses
+    filter options
+        goods, weapons, armors, horses
+    Redo the merchant updating system
+        Loot faction troops inventory (to simulate eras)
 - add mercenary bands
-	Mercenaries can be hired to follow
-	Adds a captain and a number of troops (single type or multiple)
-	Captain will take for template the troop one rank higher (try to be same type)
-	Manually point which troops can become mercs? With captain?
-		slot_troop_mercenary_from (faction)
-		slot_troop_mercenary_captain
-- add bandits:
-	add bounties on players and heroes
-		bounties are given by certain heroes (lords mostly)
-			Can ask for liege (or ally if kingdom is small) to put bounty in its place
-		bounties will lead to people being aggressive/afraid
-		slot_troop_bounty + slot_troop_bounty_giver
-	bandit hideouts
-	bandit parties
-	bandit leader parties (able to loot villages, castles and towns)
-		a looted center will lose some of its garrison, money, population and goods
+    Mercenaries can be hired to follow (only if led by a hero)
+    Adds a captain and a number of troops (single type or multiple)
+    Add mercenary heroes
+        Mercenary heroes take the template of the troops they lead or a higher rank
+        Can be hired like regular mercenaries
+        Some do not participate in politics (cannot be hired if part of a faction and at war)
+            Will leave party if the kindom declares war or if player joins a kingdom at war
+- add bandits: 
+    add bounties on players and heroes
+        bounties are given by certain heroes (lords mostly)
+            Can ask for liege (or ally if kingdom is small) to put bounty in its place
+        bounties will lead to people being aggressive/afraid
+        slot_troop_bounty + slot_troop_bounty_giver
+    bandit hideouts
+    bandit parties
+    bandit leader parties (able to loot villages, castles and towns)
+        a looted center will lose some of its garrison, money, population and goods
+    roaming bandits
+        many small parties all around the map
+        unhappy populace generate bandits
+        may exceptionnaly generate a bandit hero leading a big group
+    deserters
+        deserters are created after big battles from the losing side
+        deserters sometimes head to villages to grow and or loot
+    bandits can loot villages
+    hero bandits can siege weak castles
+    if a bandit faction posesses a center, they may become a normal faction (allied with bandits of the same type)
+        hero bandits will gather near the center before becoming a faction
+        only if enough bandit heroes
 - add patrols
-	one patrol per center, patrols around that center, and joins if it is attacked
-	patrol may come back to center to give out prisoners or refill its troops
+    one patrol per center, patrols around that center, and joins if it is attacked
+    patrol may come back to center to give out prisoners or refill its troops
+    only wealthy centers will have patrols
+    party size 50-80 ?
 - add scout
+    acts like a smaller patrol
+    may follow nearby peasants / caravans until they get too far from the center
+    act as a bandit hunter (only against small parties)
+    party size 10-30 ?
 - add caravans
-- add escorts (only if trade post)
-	follows caravans out of the town
+    add escorts (only if trade post)
+        follows caravans out of the town (or joins party)
 - add peasants
+    peasants travel between center to linked center
+    may head out to another city to sell specific goods ?
 - add prisoner train
+    move prisoners when too many prisoners in center
+        moving_price == distance * num_moved
+    prisoners cost a small amount of cash every week : troop_cost - 99% + 1
+    prisoners can be sold
+        to original faction for troop_cost - 50%
+        as slave in towns with slaver building for troop_strength * 10 + troop_agility * 6 + troop_charisma * 4
+        to ransom broker for troop_cost - 60%
 - add garrison reinforcements
+    village to linked_center
+        pays for recruiting price + 10%
+    walled_center to needing_center
+        pays for recruiting price + 25% + modifiers
+            modifiers:
+                distance +
+                relation -
+                needing_center need -
+                walled_center danger +
 - add lord personality traits (use party templates for slots)
-	Base Stats:
-		Str: 					12
-		Agi: 					12
-		Int: 					12
-		Cha: 					12
-		Ironflesh: 				2
-		PowerStrike:			3
-		PowerThrow:				2
-		PowerDraw:				4
-		Intimidation:			5
-		WeaponMaster:			0
-		Shield:					0
-		Athletics:				3
-		Riding:					3
-		HorseArchery:			2
-		Looting:				0
-		Trainer:				0
-		Tracking:				0
-		Tactics:				0
-		Pathfinding:			0
-		Spotting:				0
-		InventoryManagement:	0
-		WoundTreatement:		0
-		FirstAid:				0
-		Engineer:				0
-		Persuasion:				5
-		PrisonerManagement:		0
-		Leadership:				2
-		Trade:					0
-	
-	
-	Fearless:	Base morale is increased by 10, while the leader is alive morale can't be under base morale.
-				If leader defeated in battle, morale drops 2 times faster
-	Dumb:		-4 int
-	Tough:		+3 ironflesh
-	Smart:		+4 int, -1 intimidation
-	Coward:		Morale boost (+20?) if leader is defeated in battle. Double morale loss for every event while leader is alive.
-	Tactician:	+2 tactics, +2 int, -2 str, grants ability "Rally"
-	Warrior:	+3 str, -2 int, grants ability "War Cry"
-	Strategist:	+2 cha, -3 agi, +2 int, +2 leadership
-	Thick:		+4 str, -3 int
-	Swift:		+3 agi, +2 athletics
-	Witty: 		+2 int, -2 cha, +2 persuasion
-	Shy:		Reserved about talking about himself, more stable relations, +2 int, -1 intimidation
-	Eccentric:	Does not mind being talked about, will openly talk about himself, less stable relations, +2 cha, -1 persuasion
-	Generous:	More likely to lend money, can do things that are not in his best interest, +1 persuasion
-	Selfish:	Less likely to lend money, does not give without anything in return, -1 persuasion
-	Cruel:		Likes to see his enemies suffer, -2 persuasion, +2 intimidation
-	Dull:		Does not appreciate humour, harder to befriend, -1 cha
-	Funny:		Likes a good joke, +1 cha
-	Egocentric:	Thinks himself the center of attention, does not like being wrong, +1 int, -1 cha, -1 persuasion
-	Noble Blood:Better relation with others of noble blood, lower relations with the rest
-	Bastard:	Grants noble blood, lower relations with others of noble blood, lower renown gain
-	Noble:		Grants "Noble Family" to descendants, better relation with those of non-noble blood, slightly better relation with those of noble blood
-	Noble Family: Grants "Noble Blood" to descendants, +2 cha, +1 intimidation, +1 persuasion
-	Bloodthirsty: -10 morale for enemy units, -5 morale for friendly units (not own units), -1 ironflesh
-	Berserker: 	+5 ironflesh, +3 power strike, +1 athletics, +3 indimidation, -2 power draw, -2 riding, -2 persuasion
-		Needs to win a certain number of battle using only melee/throwing weapons while having no horse and very light/no armor
-	Left Handed: +2 weapon master, +1 trainer, +1 shield, -3 cha, -1 power strike
-	
+    Base Stats:
+        Str:                    12
+        Agi:                    12
+        Int:                    12
+        Cha:                    12
+        Ironflesh:              2
+        PowerStrike:            3
+        PowerThrow:             2
+        PowerDraw:              4
+        Intimidation:           3
+        WeaponMaster:           0
+        Shield:                 0
+        Athletics:              3
+        Riding:                 3
+        HorseArchery:           2
+        Looting:                0
+        Trainer:                0
+        Tracking:               0
+        Tactics:                0
+        Pathfinding:            0
+        Spotting:               0
+        InventoryManagement:    0
+        WoundTreatement:        0
+        FirstAid:               0
+        Engineer:               0
+        Persuasion:             3
+        PrisonerManagement:     0
+        Leadership:             2
+        Trade:                  0
+    
+    
+    Fearless:   Base morale is increased by 10, while the leader is alive morale can't be under base morale.
+                If leader defeated in battle, morale drops 2 times faster
+    Dumb:       -4 int
+    Tough:      +3 ironflesh
+    Smart:      +4 int, -1 intimidation
+    Coward:     Morale boost (+20?) if leader is defeated in battle. Double morale loss for every event while leader is alive.
+    Tactician:  +2 tactics, +2 int, -2 str, grants ability "Rally"
+    Warrior:    +3 str, -2 int, grants ability "War Cry"
+    Strategist: +2 cha, -3 agi, +2 int, +2 leadership
+    Thick:      +4 str, -3 int
+    Swift:      +3 agi, +2 athletics
+    Witty:      +2 int, -2 cha, +2 persuasion
+    Shy:        Reserved about talking about himself, more stable relations, +2 int, -1 intimidation
+    Eccentric:  Does not mind being talked about, will openly talk about himself, less stable relations, +2 cha, -1 persuasion
+    Generous:   More likely to lend money, can do things that are not in his best interest, +1 persuasion
+    Selfish:    Less likely to lend money, does not give without anything in return, -1 persuasion
+    Cruel:      Likes to see his enemies suffer, -2 persuasion, +2 intimidation
+    Dull:       Does not appreciate humour, harder to befriend, -1 cha
+    Funny:      Likes a good joke, +1 cha
+    Egocentric: Thinks himself the center of attention, does not like being wrong, +1 int, -1 cha, -1 persuasion
+    Noble Blood:Better relation with others of noble blood, lower relations with the rest
+    Bastard:    Grants noble blood, lower relations with others of noble blood, lower renown gain
+    Noble:      Grants "Noble Family" to descendants, better relation with those of non-noble blood, slightly better relation with those of noble blood
+    Noble Family: Grants "Noble Blood" to descendants, +2 cha, +1 intimidation, +1 persuasion
+    Bloodthirsty: -10 morale for enemy units, -5 morale for friendly units (not own units), -1 ironflesh
+    Berserker:  +5 ironflesh, +3 power strike, +1 athletics, +3 indimidation, -2 power draw, -2 riding, -2 persuasion
+        Needs to win a certain number of battle using only melee/throwing weapons while having no horse and very light/no armor
+    Left Handed: +2 weapon master, +1 trainer, +1 shield, -3 cha, -1 power strike
 - abilities:
-	War Cry:	decrease morale for surrounding enemies, range and strength determined by str (strength = str/2) (range = str)
-	Rally:		increase morale for surrounding allies, range and strength determined by cha (strength = cha/2) (range = cha)
+    War Cry:    decrease morale for surrounding enemies, range and strength determined by str (strength = str/2) (range = str)
+    Rally:      increase morale for surrounding allies, range and strength determined by cha (strength = cha/2) (range = cha)
 - add family trees
-	slot_troop_married_to
-	slot_troop_father
-	slot_troop_mother
-	slot_troop_child_1
-	slot_troop_child_2
-	slot_troop_child_3
-	slot_troop_child_4
-	slot_troop_child_5
-	slot_troop_child_6
-	slot_troop_child_7
-	slot_troop_child_8
-	slot_troop_child_9
-	slot_troop_child_10
-	script_troop_is_in_family_of
-		troop_1
-		troop_2
-		num_move (does not look too far for family)
-		r_relation_name
+    use factions for families
+    families may have relationships between each other
+    relationships between families can influence some npc relation checks
+        not all, mostly politics and public ones because members do not want to be seen treating with an 'enemy' family
+        other than those, relations do not deteriorate because of family (excecpt certain personalities?)
 - add morale
-	in battle, morale increase/decrease damage of troop by 1% for every 5 point over/under 'neutral' morale
+    in battle, morale increase/decrease damage of troop by 1% for every 5 point over/under 'neutral' morale
+    demoralized troops flee battles more easily
+    low morale increases chances of desertion
+    extremely low morale may lead to mutiny (with a generated hero / companion leading them)
+    morale is influenced by:
+        percentage of weekly wages
+        amount of food
+        recent battles
+        certain personality traits
+        weather?
+    morale is stored for :
+        team with members dieing or killing
+        division with members dieing or killing
+        certain character trains for companions/player can change team or division morale
 - add companions
-	nobles -- good fighters, possible lords
-		far-away noble, low rank noble, betrayed noble, banished noble
-	warriors -- best fighters
-		mercenaries, soldiers, elite soldiers
-	support -- decent fighters, party skills
-		assassins, scouts, field medics, caravan leaders
-	civilians -- not fighters, party skills
-		diplomats, doctors, traders
-- add companion auto-levelling
-- add companion manual levelling presentation
+    nobles -- good fighters, possible lords
+        far-away noble, low rank noble, betrayed noble, banished noble
+    warriors -- best fighters
+        mercenaries, soldiers, elite soldiers
+    support -- decent fighters, party skills
+        assassins, scouts, field medics, caravan leaders
+    civilians -- not fighters, party skills
+        diplomats, doctors, traders
+    Allows lords to have companions
+        Think of script_agent_troop_get_banner_mesh for banners of lord's companions
 - add bodyguards
-	add behaviors (battle)
-	bodyguards will be assigned to important ladies of the realm (when traveling?)
-	can be upgraded from regular troops (max of lord_rank per lord/lady?)
-	or hired from special building
-	troops:
-		able to create own troop?
+    add behaviors (battle)
+    bodyguards will be assigned to important ladies of the realm (when traveling?)
+    can be upgraded from regular troops (max of lord_rank per lord/lady?)
+    or hired from special building
+    troops:
+        able to create own troop?
+- add buildings
+    add building requirements
+        requires previous buildings
+        requires era (technology?)
+        requires ressources
+- add weather system
+    sand storm?
+        only in desert
+        more frequent during summer
+        less frequent during winter
+        decrease archer accuracy down to 50%?
+        decrease move speed down to 50%?
+        big morale penalties
+    haze
+        mostly during morning
+        very rare during summer
+        frequent in autumn/winter
+        average during spring
+        not in desert regions
+        less frequent in steppe
+        decrease archer accuracy down to 50%?
+        slight morale penalties
+    rain
+        extremely rare in desert
+        not frequent in steppe
+        rare in snow
+        frequent in autumn
+        rare during summer
+        decrease archer accuracy down to 85%?
+        decrease archer shooting speed down to 75%?
+        slight morale penalties
+    snow
+        only in snow area or sometimes in plain/steppe area during winter
+        decrease archer accuracy down to 90%?
+        decrease archer shooting speed down to 95%?
+        decrease move speed down to 90%?
+        slight morale penalties
+    snowstorm
+        rare in snow area or very rarely in plain during winter
+        mostly during winter
+        decrease archer accuracy down to 60%?
+        decrease archer shoot speed down to 85%?
+        decrease move speed down to 50%?
+        big morale penalties
+    add own global variables to control weather
+        set_global_haze_amount
+        set_global_cloud_amount
 - add technologies
-- add eras
-- recruitment dependent on :
-	+ era
-	- buildings
-- weapon proficiencies decay
+    army size (1-5)
+        reduce army size penalties
+    building requirements
+    religion?
 - weapon proficiencies training
 - add dungeons
-	underground arena
-		fist fighting?
-		battle to the death?
-	maze
-- add weather system
-	sand storm?
-		only in desert
-		more frequent during summer
-		less frequent during winter
-		decrease archer accuracy up to 25%?
-	haze
-		mostly during morning
-		very rare during summer
-		frequent in autumn/winter
-		average during spring
-		not in desert regions
-		less frequent in steppe
-		decrease archer accuracy up to 50%?
-	rain
-		extremely rare in desert
-		not frequent in steppe
-		rare in snow
-		frequent in autumn
-		rare during summer
-		decrease archer accuracy up to 85%?
-	snow
-		only in snow area or sometimes in plain area during winter
-		decrease archer accuracy up to 70%?
-	add own global variables to control weather
-		set_global_haze_amount
-		set_global_cloud_amount
-	rain
+    underground arena
+        fist fighting?
+        battle to the death?
+    maze
+- add camp presentation:
+    battle division parameters
+        disable automatic division organization
+        customize division organization
+            assigns groups to troop type
+            divide groups in two divisions
+                random divide
+                troop quality divide (prefers high tier troops for one, low tier for the other)
+    assign default battle commander
+        gives a follower command of your troops so that you can focus on combat (also available before battle)
+    send messenger
+        need a presentation for receiver selection
+    set a camp (camps are permanant and if placed near a center it will besiege it if enemy)
+    change troop wages
+    change food rations
+    send someone on a mission
+        buy food
+        siege a center
+        sell items
+        scout a center
+        spy a kingdom
+        it is possible to give troops to this person
+            giving troops to someone on a mission may increase or decrease the odds of success
+                for example, siegeing a center requires a good number of men, scouting does not, spying is negatively affected
+    take a special action
+        release prisoners
+        execute prisoners
+        execute troops
+        inspect your company
+            will give information on morale and the general appreciation of your soldiers
+            may increase morale
 - add settings presentation:
-	shield paintings (only banner, banner plus one color, banner plus both colors)
-	enable weather effects on troops/heroes
-	enable morale
-	enable morale damage boost
-- add siege ranged units to melee
-	If not enough melee ratio, take some ranged away from post to defend
-		lowest score:
-			+ 25 x power draw
-			+ 1 x proficiency (bow)
-			+ 2 x proficiency (xbow)
-			+ 1 x proficiency (throw)
-			+ 15 x power throw
-			- 60 if shield
-			- 10 x power strike
-			- 0.5 x proficiency (highest melee)
-			- 1 x str
-			- 5 x ironflesh
-# To test
-- simulate battles
+    shield paintings (only banner, banner plus one color, banner plus both colors)
+        3 Checkbox (one for each setting)
+        banner selector
+        shield examples for 3 settings
+            troop is taken from current faction
+                swadian : swadian man-at-arms
+                vaegir : vaegir heavy infantry
+                khergit : khergit heavy spearman
+                nord : nord warrior
+                rhodok : rhodok heavy infantry
+                sarranid : sarranid guard
+                else : mercenary infantry
+    enable weather
+        enable improved particle effects (can slow down the game)
+        effects on troops
+        effects on heroes
+        effects on player
+    enable morale
+        enable morale battle effects
+            troops efficiency (melee damage boost + accuracy + hp?)
+            troops routing
+        enable morale map effects
+            map speed boost
+            troops deserting
+    death handling
+        player death only from old age / battles allowed / diseases allowed / no death allowed
+        companion death only from old age / battles allowed / diseases allowed
+        allowed successors : randomized descendants / select descendant / first child descendant
+        options of no descendants : lose the game / select an existing relative / generate a distant relative / start a new nameless character
+    losing
+        create a new member of family if no one left
+        allowed to switch to affiliated family if no one left
+        only allows member of same family
+        only allows descendants of player character
+    change party size (decrease for weaker computers or people who wish for smaller, short battles; increase for people who don't want to change it using battlesizer or config files)
+    difficulty
+        slider for difficulty ?
+        character randomization difficulty
+            easier means more good traits for potential player characters
+            bonus to player controled character
+        checks bonuses (persuasion, intimidation, general rolls)
+        ai agressivity ? (or use vanilla difficulty)
+        gold bonuses (gives more gold when receiving gold)
+            only up to 50% of gold ?
+        player party size bonus ?
+        also gives general difficulty advices ?
+            recommended difficulty
+                normal damage to allies (focus on casualties of the mod -- causes big imbalances ?)
+                any damage for player (less for easier plays)
+                good ai
+                good campaign ai
+                normal speed ?
+            recommended mod difficulty
+                character randomization a normal or slightly up for player (not potential player characters)
+                checks bonuses any ?
+                ai agressivity any ?
+                gold bonuses normal
+                player party size bonus any (does not bring too many advantages)
+- add random events
+    during mother pregnancy
+        to give some traits to the child
+            some events can lead to the death of someone (mother, child, both, father, siblings) ?
+        child agitated
+            sing a song
+            play music
+            hire a bard
+            do nothing
+            seek a doctor
+    events in certain centers
+        can lead to increase / decrease in population, wealth, relation with player, with ruler, goods storage
+        dispute over land
+        dispute over object
+        dispute over cattle
+        suspicious killings
+            increase guard during night
+            do nothing
+            hire agents
+            warn population
+        suspicious disparitions
+            do nothing
+            warn population
+            send a search party
+            offer reward
+        enemy spy caught
+            execute him
+            release him
+            throw him in prison
+            recruit him
+            hang him
+            torture him
+        good harvests
+            do nothing
+            increase taxes
+            decrease taxes
+            claim a sign of the gods
+        bad harvest
+            do nothing
+            increase taxes
+            decrease taxes
+            claim as a warning of the gods
+        refugees seek shelter
+            allow them in
+            refuse them
+            give them money
+            hang them
+        large group of wild horses found
+            capture them and train them
+            capture them and kill them (food and skin)
+            capture them and sell them
+            leave them
+            capture some of them
+        wolves heard howling during nights
+            bad omen
+            good omen
+            kill the wolves
+            drive them away
+    events between vassals
+        can lead to disputes, reconciliations, improved relations
+    a lord can ask you to do small quests for him
+        for the kingdom
+            asks if you are loyal to the kingdom or to the king
+                if to king then 'nevermind'
+                else asks to do quest 'for the kingdom' (can be against the wish of the king)
+                    ask to force war to be declared
+                    ask to assassinate a lord (own, rival or friendly faction)
+                    ask to create war between two rival kingdoms
+                    ask to break alliance between allies
+                you can accuse him of treason
+        for the king
+            asks if you are loyal to the king
+                if yes then
+                    ask to assassinate a member of own faction
+                    ask to force war
+                    ask to assassinate a lord
+                    ask to spy on lord / kingdom
+                else may still give the quest (if possible to assimilate the goal of kingdom with goal of king)

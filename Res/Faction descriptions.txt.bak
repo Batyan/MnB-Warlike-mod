@@ -1,3 +1,5 @@
+Does not include minor factions!
+
 Swadia:
 	Good infantry
 		High Resistance for heavy infantry
@@ -15,6 +17,8 @@ Swadia:
 
 Vaegir:
 	Average infantry
+		Good light infantry
+		Average heavy infantry
 	Good cavalry
 		Good light cavalry
 		Average heavy cavalry
@@ -61,7 +65,7 @@ Rhodok:
 	Weak horse archer
 	
 	Tough troops
-	Below average armours
+	Below average armours except highest tiers
 	Best crossbowmen
 	Best pikemen/spearmen
 
@@ -79,74 +83,91 @@ Sarranid:
 
 Swadian Minors:
 	County of Tevarin
-		More emphasis on crossbows over bows
+		Added Heavy Pikemen
+		Added Heavy Crossbowmen
+		
+		Increased crossbow strength
+		Decreased bow number
+		
 	County of Elberl
-		Focus on shock troops
+		Added Guard
+		Added Heavy Infantry
+		Added Levy Infantry
+		
+		Good shock troops addition
+		Vulnerable to ranged troops
+		
 	Duchy of Dhirim
-		More focused on lancers and horse archers
+		Added Levy Spearmen
+		Added Lancers
+		Added Light Horsemen
+		Added Heavy Lancers
+		Added Horsemen
+		
+		Removed Light Lancer
+		Removed Ranger
+		
+		More focused on lancers ad horse archers
+		
 	County of Gisim
-		Focused on longbowmen
+		Added Longbowmen
+		Added Heavy Longbowmen
+		Added Hunter
+		
+		Removed Light Bowmen
+		Removed Bowmen
+		
+		Increased bowmen damage
+		Decreased bowmen accuracy and rate of fire
+		
+		Reduced crossbow number
+		
 	Grand County of Ivenn
+		Added Scouts
+		Added Light Spearmen
+		Added Spearmen
+		
+		Removed Pikemen
+		
 		Light cavalry in common tier
-		Spearmen instead of pikemen
+		Spearmen deal less damage and have shorter range but are faster
+		
 	County of Tilbaut
+		Added Mounted Skirmishers
+		Added Levy Skirmishers
+		
 		Increased swadian skirmisher units
+		
 	County of Uxkhal
-		Increased prevalence of (heavy) infantry
+		Added Squires
+		Added Foot-Knights
+		
+		Removed Heavy cavalry
+		
+		Squires are better when dismounted and can have 2h weapons
+		Increased prevalence of infantry
+	
 Vaegir Minors:
 	County of Slezhk
-		More focus on lancers and hybrid horse archers / cavalry
+		Added Levy Axemen
+		Added Heavy Lancers
+		Added Royal Lancers
+		
+		Increased lancer number
+	
 	County of Khudan
-		Focus on blunt weapon infantry
+		Added Club Levies
+		Added Scouts
+		Added Horsemen
+		Added Royal Horsemen
+		
+		Removed Light Cavalry
+		Removed Heavy Cavalry
+		
+		Cheaper cavalry
+	
 	Duchy of the Northern Taiga
-		Focus on heavy infantry
+	
 	County of Yruma
-		Focus on skirmisher units
+	
 	Duchy of the Southern Taiga
-		Focus on longbowmen and horse archers
-Khergit Minors:
-	Eastern Tribes
-		Focus on shock infantry
-	Warriors of Sungetche
-		Focus on footmen
-	Narra Khanate
-		Focus on horse archers and mounted skirmishers
-	Halmar Khanate
-		Focus on lancers
-	Unhun Tribes
-		Focus on spear cavalry
-	Tribes of Azugan
-		Focus on foot archers
-Nord Minors:
-	Pirash Warriors
-		Focus on lancers, horse archers
-	Gundig Warriors
-		Focus on longbowmen, light infantry
-	Wercheg Warriors
-		Focus on skirmishers
-	Aldelen Warriors
-		Focus on spears and crossbows
-	Rizi Hold
-		Focus on spear cavalry
-Rhodok Minors:
-	Highlanders
-		Focus on bowmen and infantry
-	Bezan Community
-		Focus on melee cavalry and pikemen
-	City of Veluca
-		Focus on spear cavalry
-	City of Jamiche
-		Focus on spearmen, skirmishers and mounted crossbowmen
-	Saren Community
-		Focus on lancers and mounted crossbowmen
-Sarranid Minors:
-	Oasis of Barriye
-		Focus on crossbowmen
-	Defenders of Sharwa Keep
-		Focus on archers
-	Sarrdak Sultanate
-		Focus on lancers, heavy infantry, heavy cavalry
-	Tribes of Uzgha
-		Focus on horse archers
-	Great Tribes of Durquba
-		Focus on mounted skirmishers and pikemen

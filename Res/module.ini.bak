@@ -42,13 +42,13 @@ track_spotting_multiplier = 0.8
 player_wounded_treshold = 5
 hero_wounded_treshold = 15
 
-#skill_prisoner_management_bonus = 5
-#skill_leadership_bonus = 3
-#base_companion_limit = 20
+skill_prisoner_management_bonus = 5
+skill_leadership_bonus = 3
+base_companion_limit = 20
 
-player_xp_multiplier   = 1.0
-hero_xp_multiplier     = 1.0
-regulars_xp_multiplier = 1.0
+player_xp_multiplier   = 2.0
+hero_xp_multiplier     = 2.0
+regulars_xp_multiplier = 3.0
 
 
 display_wp_firearms = 0
@@ -58,7 +58,7 @@ damage_interrupt_attack_threshold      = 0.0
 # Same thing for multiplayer
 damage_interrupt_attack_threshold_mp   = 0.0
 
-# Extra penetration is currently only used on javelin type weapons
+# No extra penetration flags are set, so keep them ineffective
 extra_penetration_factor_soak = 0.5
 extra_penetration_factor_reduction = 0.75
 
@@ -75,7 +75,7 @@ armor_reduction_factor_against_pierce    = 0.75	#
 armor_reduction_factor_against_blunt     = 1.2	# 
 
 
-horse_charge_damage_multiplier        = 0.1
+horse_charge_damage_multiplier        = 0.4
 couched_lance_damage_multiplier       = 0.65
 fall_damage_multiplier                = 1.0
 
@@ -88,7 +88,7 @@ shield_penetration_factor = 1.0
 #setting speed_power to 2.0 makes damage scale with the square of missile's speed.
 # you can set it to 1.0 to make it scale linearly as it was before.
 missile_damage_speed_power = 1.6
-melee_damage_speed_power = 1.5
+melee_damage_speed_power = 1.8
 
 multiplayer_walk_enabled = 0
 
@@ -364,8 +364,6 @@ load_mod_resource = weapon_meshes_new_bows
 
 load_resource = wb_mp_objects_a
 
-load_mod_resource = armors_herald
-
 #works_with_version_min  = 1000 #deprecated, use module_version and compatible_savegame_module_version instead
 #works_with_version_max  = 1011 #deprecated, use module_version and compatible_savegame_module_version instead
 
@@ -395,8 +393,7 @@ use_crossbow_as_firearm = 0
 can_reload_while_moving = 0
 can_run_faster_with_skills = 0
 use_phased_reload = 0
-horses_try_running_away = 0
-horses_rear_with_attack = 1
+horses_try_running_away = 0horses_rear_with_attack = 1
 lance_pike_effect_speed = 3.0
 no_friendly_fire_for_bots = 0
 can_adjust_camera_distance = 1
@@ -405,9 +402,4 @@ has_forced_particles = 0
 can_use_scene_props_in_single_player = 0
 disable_attack_while_jumping = 1
 disable_high_hdr = 0
-has_accessories_for_female = 0
-restrict_attacks_more_in_multiplayer = 0
-
-skill_points_per_level = 0
-attribute_points_per_level = 0
-weapon_points_per_level = 0
+has_accessories_for_female = 0restrict_attacks_more_in_multiplayer = 0

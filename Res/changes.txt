@@ -1,5 +1,30 @@
-v 1.111:
+v 0.111:
 -Added change log tracking
 -Added faction selection presentation
+-Added Rhodok Scout to kingdom_55
+-Added Bandit spawns
+-Reduced bows / crossbows shoot speed
 
-v 1.200:
+v 0.200:
+-Increased Sarranid Archers Bows proficiency
+-Fixed lords following incorrectly
+-Redone merchants goods (now takes into account era)
+-Added debug mode (through cheatmenu)
+-Added version number on ToDo_list
+-Fixed parties joining the wrong side when player joins a battle
+-Added taking prisoners
+-Added freeing prisoners
+-Added reinforcements between centers
+-Added party size report
+-Added primitive troop notes
+-Moved party morale bonus from leadership to tactics
+-Added proficiency loss for player
+-Fixed lords trying to follow prisoner lords
+-Added basic leader selection
+-Added factional mercenaries
+-Added building prices
+-Slightly reduced number of archers in factions (except sarranids)
+-Added mercenary culture and faction
+-Added mercenary troops
+-Khergit Horsemen are now spear cavalry
+-Changed Nord Infantry to Light Infantry (Nord Infantry is a special troop with slightly lower power strike)
