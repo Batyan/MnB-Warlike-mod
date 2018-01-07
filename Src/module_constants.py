@@ -2,6 +2,7 @@ from ID_items import *
 from ID_quests import *
 from ID_factions import *
 from ID_meshes import *
+from ID_strings import *
 
 
 
@@ -179,12 +180,12 @@ garrison_size_fort = 50
 
 base_party_size_rank_0 = 10
 base_party_size_rank_1 = 15
-base_party_size_rank_2 = 40
-base_party_size_rank_3 = 55
-base_party_size_rank_4 = 100
-base_party_size_rank_5 = 150
-base_party_size_rank_6 = 200
-base_party_size_rank_7 = 200
+base_party_size_rank_2 = 35
+base_party_size_rank_3 = 50
+base_party_size_rank_4 = 80
+base_party_size_rank_5 = 120
+base_party_size_rank_6 = 125
+base_party_size_rank_7 = 150
 
 siege_attack_spawn_begin = 2
 siege_defend_points_begin = 10
@@ -301,6 +302,10 @@ war_damage_raid_divider = 2
 war_damage_siege_divider = 20
 
 war_damage_inflicted_bonus_divider = 3
+
+faction_size_names_begin = str_swadian_faction_small
+faction_size_names_end = str_sarranid_faction_large + 1
+faction_size_names_count = 3
 
 ################
 ## Item Slots ##
@@ -433,6 +438,14 @@ slot_faction_war_damage = 52
 slot_faction_last_peace = 53
 
 slot_faction_preparing_war = 54
+
+slot_faction_size = 55
+sfs_small = 0
+sfs_medium = 1
+sfs_large = 2
+
+slot_faction_name_holder = 56
+slot_faction_has_fixed_name = 57
 
 #################
 ## Party Slots ##
@@ -825,6 +838,7 @@ stt_default = 0
 stt_shieldwall = 1
 stt_defend = 2
 stt_short_engage = 3
+stt_defend_skirmish = 4
 
 slot_team_battle_phase		= 6
 stbp_deploy = 0
@@ -856,7 +870,14 @@ slot_team_division_9_number = 23
 
 slot_team_num_division		= 24
 
-
+# grc_infantry = 0
+# grc_archers = 1
+# grc_cavalry = 2
+grc_other = 3
+grc_charge_group = 4
+grc_reinforcement_infantry = 5
+grc_reinforcement_archer = 6
+grc_reinforcement_cavalry = 7
 
 #################
 ## Quest Slots ##

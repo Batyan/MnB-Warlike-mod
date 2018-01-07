@@ -24,6 +24,8 @@ party_templates = [
     ###########
 	## Other ##
 	###########
+
+	("name_holders_template", "Faction Name Holder", 0, 0, 0, 0, []),
 	
 	("village_template", "Village template", icon_village_a|pf_village, 0, fac_commoners, 0, []),
 	("castle_template", "Castle template", icon_castle_a|pf_castle, 0, fac_commoners, 0, []),

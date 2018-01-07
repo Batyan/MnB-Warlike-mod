@@ -1,9 +1,3 @@
-v 0.111:
--Added change log tracking
--Added faction selection presentation
--Added Rhodok Scout to kingdom_55
--Added Bandit spawns
--Reduced bows / crossbows shoot speed
 
 v 0.200:
 -Increased Sarranid Archers Bows proficiency
@@ -28,3 +22,15 @@ v 0.200:
 -Added mercenary troops
 -Khergit Horsemen are now spear cavalry
 -Changed Nord Infantry to Light Infantry (Nord Infantry is a special troop with slightly lower power strike)
+-Reduced Spearmen, Pikemen and Lancers Power Strike (to balance ai calculations), increased weapons speed and damage to compensate
+-Added new castles and villages to main and swadians/vaegir minors factions
+-Greatly reduced party size (to compensate for increased number of lords)
+-During sieges, archers will not go towards archer towers unless they are holding ground.
+-Factions will change name depending on their size
+
+v 0.111:
+-Added change log tracking
+-Added faction selection presentation
+-Added Rhodok Scout to kingdom_55
+-Added Bandit spawns
+-Reduced bows / crossbows shoot speed

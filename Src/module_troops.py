@@ -1399,7 +1399,7 @@ troops = [
     itm_padded_cloth, itm_leather_armor,
     itm_padded_coif, itm_arming_cap,
     ],
-   str_10|agi_8|int_7|cha_6|level(8), wpex(65,60,85,50,40,35), knows_common|knows_ironflesh_2|knows_power_strike_5|knows_power_draw_1|knows_athletics_2|knows_riding_1, swadian_face_young_1, swadian_face_old_2 ],
+   str_10|agi_8|int_7|cha_6|level(8), wpex(65,60,85,50,40,35), knows_common|knows_ironflesh_2|knows_power_strike_3|knows_power_draw_1|knows_athletics_2|knows_riding_1, swadian_face_young_1, swadian_face_old_2 ],
   
   # Basic infantry skirmisher, swords, picks, maces, darts, shields
   # SPECIAL
@@ -1526,7 +1526,7 @@ troops = [
     itm_haubergeon, itm_mail_with_surcoat,
     itm_flat_topped_helmet, itm_kettle_hat, itm_guard_helmet, itm_guard_helmet, itm_bascinet, itm_bascinet_b, itm_bascinet_c,
     ],
-   str_20|agi_10|int_9|cha_8|level(24), wpex(90,80,110,60,50,40), knows_common|knows_ironflesh_6|knows_power_strike_5|knows_power_draw_1|knows_athletics_2|knows_riding_2|knows_shield_1, swadian_face_young_1, swadian_face_old_2 ],
+   str_20|agi_10|int_9|cha_8|level(24), wpex(90,80,110,60,50,40), knows_common|knows_ironflesh_6|knows_power_strike_4|knows_power_draw_1|knows_athletics_2|knows_riding_2|knows_shield_1, swadian_face_young_1, swadian_face_old_2 ],
   
   # Heavy infantry, swords, picks, maces, shields
   ["swadian_heavy_infantry", "Swadian Man-At-Arms", "Swadian Men-At-Arms", tf_guarantee_trained_armor|tf_guarantee_shield, no_scene, reserved, fac_kingdom_1,
@@ -1609,7 +1609,7 @@ troops = [
     itm_haubergeon, itm_mail_with_surcoat,
     itm_flat_topped_helmet, itm_kettle_hat, itm_guard_helmet, itm_guard_helmet, itm_bascinet, itm_bascinet_b, itm_bascinet_c,
     ],
-   str_19|agi_10|int_9|cha_8|level(23), wpex(90,80,120,60,50,40), knows_common|knows_ironflesh_6|knows_power_strike_5|knows_power_draw_1|knows_athletics_3|knows_riding_2|knows_shield_1, swadian_face_young_1, swadian_face_old_2 ],
+   str_19|agi_10|int_9|cha_8|level(23), wpex(90,80,120,60,50,40), knows_common|knows_ironflesh_6|knows_power_strike_4|knows_power_draw_1|knows_athletics_3|knows_riding_2|knows_shield_1, swadian_face_young_1, swadian_face_old_2 ],
   
   # Heavy infantry, polearms
   # SPECIAL
@@ -1629,7 +1629,7 @@ troops = [
     itm_padded_cloth, itm_padded_leather, itm_red_gambeson, itm_leather_jerkin,
     itm_footman_helmet, itm_mail_coif, itm_helmet_with_neckguard,
     itm_hunter],
-   str_14|agi_17|int_7|cha_9|level(24), wpex(90,75,140,55,45,45), knows_common|knows_ironflesh_4|knows_power_strike_4|knows_power_draw_1|knows_athletics_3|knows_riding_5|knows_horse_archery_1, swadian_face_young_1, swadian_face_old_2 ],
+   str_14|agi_17|int_7|cha_9|level(24), wpex(90,75,140,55,45,45), knows_common|knows_ironflesh_4|knows_power_strike_3|knows_power_draw_1|knows_athletics_3|knows_riding_5|knows_horse_archery_1, swadian_face_young_1, swadian_face_old_2 ],
   
   # Heavy cavalry, swords, picks, maces, bows, crossbows, shields
   # SPECIAL
@@ -1668,7 +1668,7 @@ troops = [
     itm_mail_with_surcoat, itm_coat_of_plates_red,
     itm_guard_helmet, itm_guard_helmet, itm_bascinet, itm_bascinet_b, itm_bascinet_c,
     itm_hunter],
-   str_17|agi_15|int_10|cha_14|level(33), wpex(100,105,130,60,50,55), knows_common|knows_ironflesh_9|knows_power_strike_5|knows_power_draw_1|knows_athletics_2|knows_riding_5|knows_shield_1|knows_horse_archery_1, swadian_face_young_1, swadian_face_old_2 ],
+   str_17|agi_15|int_10|cha_14|level(33), wpex(100,105,130,60,50,55), knows_common|knows_ironflesh_9|knows_power_strike_3|knows_power_draw_1|knows_athletics_2|knows_riding_5|knows_shield_1|knows_horse_archery_1, swadian_face_young_1, swadian_face_old_2 ],
   
   # Heavy infantry, spears, shields
   # SPECIAL
@@ -1678,7 +1678,7 @@ troops = [
     itm_coat_of_plates_red,
     itm_guard_helmet, itm_guard_helmet, itm_bascinet, itm_bascinet_b, itm_bascinet_c,
     ],
-   str_24|agi_9|int_10|cha_9|level(29), wpex(95,85,120,65,55,50), knows_common|knows_ironflesh_9|knows_power_strike_5|knows_power_draw_1|knows_athletics_2|knows_riding_2|knows_shield_1, swadian_face_young_1, swadian_face_old_2 ],
+   str_24|agi_9|int_10|cha_9|level(29), wpex(95,85,120,65,55,50), knows_common|knows_ironflesh_9|knows_power_strike_4|knows_power_draw_1|knows_athletics_2|knows_riding_2|knows_shield_1, swadian_face_young_1, swadian_face_old_2 ],
   
   # Medium ranged, swords, picks, maces, crossbows, shields
   # SPECIAL
@@ -1741,7 +1741,7 @@ troops = [
     itm_fur_coat, itm_leather_vest, itm_linen_tunic,
     itm_vaegir_fur_cap, itm_leather_cap, itm_leather_warrior_cap,
     ],
-   str_10|agi_8|int_5|cha_6|level(6), wpex(55,65,90,60,20,35), knows_common|knows_ironflesh_3|knows_power_strike_5|knows_power_draw_1|knows_athletics_3|knows_riding_1, vaegir_face_young_1, vaegir_face_old_2 ],
+   str_10|agi_8|int_5|cha_6|level(6), wpex(55,65,90,60,20,35), knows_common|knows_ironflesh_3|knows_power_strike_3|knows_power_draw_1|knows_athletics_3|knows_riding_1, vaegir_face_young_1, vaegir_face_old_2 ],
   
   # Basic ranged, axes, daggers, bows
   ["vaegir_militia", "Vaegir Hunter", "Vaegir Hunters", tf_guarantee_recruit_armor, no_scene, reserved, fac_kingdom_2,
@@ -1866,7 +1866,7 @@ troops = [
     itm_mail_hauberk, itm_studded_leather_coat, itm_lamellar_vest,
     itm_vaegir_lamellar_helmet, itm_vaegir_fur_helmet, itm_vaegir_helmet, itm_vaegir_spiked_helmet,
     ],
-   str_14|agi_16|int_8|cha_6|level(21), wpex(100,90,130,65,25,45), knows_common|knows_ironflesh_5|knows_power_strike_5|knows_power_throw_1|knows_power_draw_1|knows_athletics_4|knows_riding_1|knows_shield_1, vaegir_face_young_1, vaegir_face_old_2 ],
+   str_14|agi_16|int_8|cha_6|level(21), wpex(100,90,130,65,25,45), knows_common|knows_ironflesh_5|knows_power_strike_4|knows_power_throw_1|knows_power_draw_1|knows_athletics_4|knows_riding_1|knows_shield_1, vaegir_face_young_1, vaegir_face_old_2 ],
   
   # Medium infantry skirmisher, 2h axes, javelins, shields
   ["vaegir_skirmisher", "Vaegir Skirmisher", "Vaegir Skirmishers", tf_guarantee_trained_armor|tf_guarantee_ranged, no_scene, reserved, fac_kingdom_2,
@@ -1931,7 +1931,7 @@ troops = [
     itm_mail_hauberk, itm_lamellar_vest,
     itm_vaegir_lamellar_helmet, itm_vaegir_spiked_helmet, itm_vaegir_fur_helmet,
     ],
-   str_15|agi_13|int_8|cha_9|level(22), wpex(95,90,135,70,25,50), knows_common|knows_ironflesh_5|knows_power_strike_5|knows_power_throw_1|knows_power_draw_2|knows_athletics_5|knows_riding_2, vaegir_face_young_1, vaegir_face_old_2 ],
+   str_15|agi_13|int_8|cha_9|level(22), wpex(95,90,135,70,25,50), knows_common|knows_ironflesh_5|knows_power_strike_4|knows_power_throw_1|knows_power_draw_2|knows_athletics_5|knows_riding_2, vaegir_face_young_1, vaegir_face_old_2 ],
   
    # Medium cavalry, sabres, axes, shields
    # SPECIAL
@@ -2020,7 +2020,7 @@ troops = [
     itm_mail_hauberk, itm_lamellar_vest,
     itm_vaegir_lamellar_helmet, itm_vaegir_helmet,
     itm_hunter],
-   str_16|agi_16|int_8|cha_11|level(28), wpex(100,105,135,75,25,55), knows_common|knows_ironflesh_5|knows_power_strike_5|knows_power_throw_1|knows_power_draw_1|knows_athletics_3|knows_riding_5|knows_horse_archery_1, vaegir_face_young_1, vaegir_face_old_2 ],
+   str_16|agi_16|int_8|cha_11|level(28), wpex(100,105,135,75,25,55), knows_common|knows_ironflesh_5|knows_power_strike_4|knows_power_throw_1|knows_power_draw_1|knows_athletics_3|knows_riding_5|knows_horse_archery_1, vaegir_face_young_1, vaegir_face_old_2 ],
   
   # Heavy cavalry ranged, sabres, bows
   # SPECIAL
@@ -2040,7 +2040,7 @@ troops = [
     itm_lamellar_armor, itm_banded_armor,
     itm_vaegir_helmet, itm_vaegir_noble_helmet, itm_vaegir_lamellar_helmet,
     ],
-   str_20|agi_14|int_9|cha_10|level(30), wpex(105,100,125,75,25,55), knows_common|knows_ironflesh_6|knows_power_strike_6|knows_power_throw_1|knows_power_draw_2|knows_athletics_4|knows_riding_2, vaegir_face_young_1, vaegir_face_old_2 ],
+   str_20|agi_14|int_9|cha_10|level(30), wpex(105,100,125,75,25,55), knows_common|knows_ironflesh_6|knows_power_strike_4|knows_power_throw_1|knows_power_draw_2|knows_athletics_4|knows_riding_2, vaegir_face_young_1, vaegir_face_old_2 ],
   
   # Medium infantry skirmisher, sabres, javelins, shields
   # SPECIAL
@@ -2110,7 +2110,7 @@ troops = [
     itm_banded_armor, itm_lamellar_armor,
     itm_vaegir_war_helmet, itm_vaegir_noble_helmet, itm_vaegir_helmet,
     itm_warhorse],
-   str_19|agi_20|int_12|cha_16|level(44), wpex(110,115,145,85,40,80), knows_common|knows_ironflesh_6|knows_power_strike_6|knows_power_throw_1|knows_power_draw_4|knows_athletics_4|knows_riding_6|knows_shield_1|knows_horse_archery_2, vaegir_face_young_1, vaegir_face_old_2 ],
+   str_19|agi_20|int_12|cha_16|level(44), wpex(110,115,145,85,40,80), knows_common|knows_ironflesh_6|knows_power_strike_5|knows_power_throw_1|knows_power_draw_4|knows_athletics_4|knows_riding_6|knows_shield_1|knows_horse_archery_2, vaegir_face_young_1, vaegir_face_old_2 ],
   
   # Heavy cavalry, sabres, 2h axes, lances, shields
   # SPECIAL
@@ -2153,7 +2153,7 @@ troops = [
     itm_leather_vest, itm_coarse_tunic,
     itm_nomad_cap_b, itm_nomad_cap, itm_leather_steppe_cap_a, itm_leather_steppe_cap_c,
     ],
-   str_9|agi_9|int_6|cha_5|level(6), wpex(60,50,80,50,20,40), knows_common|knows_ironflesh_2|knows_power_strike_4|knows_power_draw_1|knows_athletics_3|knows_riding_2, khergit_face_young_1, khergit_face_old_2 ],
+   str_9|agi_9|int_6|cha_5|level(6), wpex(60,50,80,50,20,40), knows_common|knows_ironflesh_2|knows_power_strike_3|knows_power_draw_1|knows_athletics_3|knows_riding_2, khergit_face_young_1, khergit_face_old_2 ],
   
   # Basic ranged, maces, bows
   ["khergit_militia", "Khergit Tribesman", "Khergit Tribesmen", tf_guarantee_recruit_armor, no_scene, reserved, fac_kingdom_3,
@@ -2228,7 +2228,7 @@ troops = [
     itm_nomad_robe, itm_tribal_warrior_outfit,
     itm_leather_steppe_cap_b,
     itm_courser],
-   str_12|agi_16|int_7|cha_10|level(22), wpex(90,80,160,60,20,65), knows_common|knows_ironflesh_4|knows_power_strike_4|knows_power_throw_1|knows_power_draw_2|knows_athletics_4|knows_riding_6|knows_horse_archery_2, khergit_face_young_1, khergit_face_old_2 ],
+   str_12|agi_16|int_7|cha_10|level(22), wpex(90,80,160,60,20,65), knows_common|knows_ironflesh_4|knows_power_strike_5|knows_power_throw_1|knows_power_draw_2|knows_athletics_4|knows_riding_6|knows_horse_archery_2, khergit_face_young_1, khergit_face_old_2 ],
   
   # Light infantry, spears, shields
   ["khergit_light_spearman", "Khergit Light Spearman", "Khergit Light Spearmen", tf_guarantee_common_armor|tf_guarantee_shield, no_scene, reserved, fac_kingdom_3,
@@ -2306,7 +2306,7 @@ troops = [
     itm_lamellar_vest_khergit,
     itm_khergit_war_helmet, itm_leather_steppe_cap_b,
     ],
-   str_14|agi_15|int_8|cha_8|level(22), wpex(90,75,130,65,20,60), knows_common|knows_ironflesh_4|knows_power_strike_5|knows_power_throw_1|knows_power_draw_2|knows_athletics_2|knows_riding_3|knows_shield_1|knows_horse_archery_1, khergit_face_young_1, khergit_face_old_2 ],
+   str_14|agi_15|int_8|cha_8|level(22), wpex(90,75,130,65,20,60), knows_common|knows_ironflesh_4|knows_power_strike_4|knows_power_throw_1|knows_power_draw_2|knows_athletics_2|knows_riding_3|knows_shield_1|knows_horse_archery_1, khergit_face_young_1, khergit_face_old_2 ],
   
   # Medium cavalry, sabres, maces, shields
   ["khergit_heavy_cavalry", "Khergit Heavy Cavalry", "Khergit Heavy Cavalries", tf_guarantee_trained_armor|tf_guarantee_horseman|tf_guarantee_shield, no_scene, reserved, fac_kingdom_3,
@@ -2324,7 +2324,7 @@ troops = [
     itm_lamellar_vest_khergit,
     itm_khergit_cavalry_helmet, itm_khergit_guard_helmet,
     itm_hunter],
-   str_15|agi_15|int_8|cha_11|level(26), wpex(95,80,150,60,20,70), knows_common|knows_ironflesh_6|knows_power_strike_5|knows_power_throw_1|knows_power_draw_2|knows_athletics_3|knows_riding_5|knows_shield_1|knows_horse_archery_2, khergit_face_young_1, khergit_face_old_2 ],
+   str_15|agi_15|int_8|cha_11|level(26), wpex(95,80,150,60,20,70), knows_common|knows_ironflesh_6|knows_power_strike_4|knows_power_throw_1|knows_power_draw_2|knows_athletics_3|knows_riding_5|knows_shield_1|knows_horse_archery_2, khergit_face_young_1, khergit_face_old_2 ],
   
   # Light cavalry ranged, sabres, bows, shields
   ["khergit_horse_archer", "Khergit Horse Archer", "Khergit Horse Archers", tf_guarantee_trained_armor|tf_guarantee_horseman|tf_guarantee_ranged, no_scene, reserved, fac_kingdom_3,
@@ -2402,7 +2402,7 @@ troops = [
     itm_lamellar_armor,
     itm_khergit_cavalry_helmet, itm_khergit_guard_helmet,
     itm_hunter],
-   str_15|agi_16|int_9|cha_13|level(30), wpex(100,85,150,60,20,70), knows_common|knows_ironflesh_8|knows_power_strike_6|knows_power_throw_1|knows_power_draw_2|knows_athletics_2|knows_riding_6|knows_shield_1|knows_horse_archery_2, khergit_face_young_1, khergit_face_old_2 ],
+   str_15|agi_16|int_9|cha_13|level(30), wpex(100,85,150,60,20,70), knows_common|knows_ironflesh_8|knows_power_strike_5|knows_power_throw_1|knows_power_draw_2|knows_athletics_2|knows_riding_6|knows_shield_1|knows_horse_archery_2, khergit_face_young_1, khergit_face_old_2 ],
   
   # Medium infantry, 2h swords
   # SPECIAL
@@ -2472,7 +2472,7 @@ troops = [
     itm_lamellar_armor,
     itm_khergit_cavalry_helmet, itm_khergit_guard_helmet,
     itm_warhorse_steppe],
-   str_19|agi_21|int_11|cha_22|level(50), wpex(100,90,175,90,45,85), knows_common|knows_ironflesh_9|knows_power_strike_7|knows_power_throw_2|knows_power_draw_3|knows_athletics_3|knows_riding_7|knows_shield_1|knows_horse_archery_2, khergit_face_young_1, khergit_face_old_2 ],
+   str_19|agi_21|int_11|cha_22|level(50), wpex(100,90,175,90,45,85), knows_common|knows_ironflesh_9|knows_power_strike_6|knows_power_throw_2|knows_power_draw_3|knows_athletics_3|knows_riding_7|knows_shield_1|knows_horse_archery_2, khergit_face_young_1, khergit_face_old_2 ],
   
   # Heavy cavalry, spears, shields
   # SPECIAL
@@ -2495,7 +2495,7 @@ troops = [
     itm_blue_tunic, itm_coarse_tunic, itm_fur_coat,
     itm_leather_cap, itm_nordic_archer_helmet, itm_skullcap,
     ],
-   str_12|agi_9|int_5|cha_6|level(9), wpex(60,60,80,30,15,25), knows_common|knows_ironflesh_2|knows_power_strike_5|knows_athletics_1, nord_face_young_1, nord_face_old_2 ],
+   str_12|agi_9|int_5|cha_6|level(9), wpex(60,60,80,30,15,25), knows_common|knows_ironflesh_2|knows_power_strike_3|knows_athletics_1, nord_face_young_1, nord_face_old_2 ],
   
   # Basic infantry, axes, shields
   ["nord_militia", "Nord Raider", "Nord Raiders", tf_guarantee_recruit_armor|tf_guarantee_shield, no_scene, reserved, fac_kingdom_4,
@@ -2669,7 +2669,7 @@ troops = [
     itm_byrnie,
     itm_nordic_footman_helmet, itm_nordic_fighter_helmet, itm_nordic_helmet,
     ],
-   str_18|agi_12|int_7|cha_8|level(22), wpex(100,95,115,55,25,70), knows_common|knows_ironflesh_5|knows_power_strike_5|knows_power_throw_1|knows_athletics_3|knows_shield_1, nord_face_young_1, nord_face_old_2 ],
+   str_18|agi_12|int_7|cha_8|level(22), wpex(100,95,115,55,25,70), knows_common|knows_ironflesh_5|knows_power_strike_4|knows_power_throw_1|knows_athletics_3|knows_shield_1, nord_face_young_1, nord_face_old_2 ],
   
   # Light cavalry, lances, shields
   # SPECIAL
@@ -2817,7 +2817,7 @@ troops = [
     itm_banded_armor,
     itm_nordic_helmet, itm_nordic_huscarl_helmet, itm_nordic_warlord_helmet,
     itm_hunter],
-   str_19|agi_19|int_12|cha_15|level(42), wpex(110,105,125,70,30,90), knows_common|knows_ironflesh_5|knows_power_strike_5|knows_power_throw_2|knows_athletics_3|knows_riding_5|knows_horse_archery_1, nord_face_young_1, nord_face_old_2 ],
+   str_19|agi_19|int_12|cha_15|level(42), wpex(110,105,125,70,30,90), knows_common|knows_ironflesh_5|knows_power_strike_4|knows_power_throw_2|knows_athletics_3|knows_riding_5|knows_horse_archery_1, nord_face_young_1, nord_face_old_2 ],
   
   ###########
   # Rhodoks #
@@ -2830,7 +2830,7 @@ troops = [
     itm_green_tunic, itm_tunic_with_green_cape, itm_coarse_tunic,
     itm_common_hood, itm_hood_b, itm_hood_c, itm_hood_d, itm_head_wrappings,
     ],
-   str_12|agi_7|int_5|cha_6|level(7), wpex(60,55,95,15,35,30), knows_common|knows_ironflesh_4|knows_power_strike_5, rhodok_face_young_1, rhodok_face_old_2 ],
+   str_12|agi_7|int_5|cha_6|level(7), wpex(60,55,95,15,35,30), knows_common|knows_ironflesh_4|knows_power_strike_3, rhodok_face_young_1, rhodok_face_old_2 ],
   
   # Basic infantry, swords, picks, shields
   ["rhodok_militia", "Rhodok Militia", "Rhodok Militias", tf_guarantee_recruit_armor|tf_guarantee_shield, no_scene, reserved, fac_kingdom_5,
@@ -2859,7 +2859,7 @@ troops = [
     itm_green_tunic, itm_tunic_with_green_cape, itm_coarse_tunic,
     itm_common_hood, itm_hood_b, itm_hood_c, itm_hood_d, itm_head_wrappings,
     ],
-   str_12|agi_7|int_6|cha_6|level(8), wpex(60,55,95,15,35,30), knows_common|knows_ironflesh_6|knows_power_strike_5|knows_athletics_1, rhodok_face_young_1, rhodok_face_old_2 ],
+   str_12|agi_7|int_6|cha_6|level(8), wpex(60,55,95,15,35,30), knows_common|knows_ironflesh_6|knows_power_strike_3|knows_athletics_1, rhodok_face_young_1, rhodok_face_old_2 ],
   
   # Basic ranged, swords, picks, crossbows
   # SPECIAL
@@ -2993,7 +2993,7 @@ troops = [
     itm_byrnie,
     itm_mail_coif, itm_kettle_hat, itm_helmet_with_neckguard,
     ],
-   str_16|agi_9|int_8|cha_10|level(20), wpex(80,70,140,20,50,40), knows_common|knows_ironflesh_6|knows_power_strike_5|knows_athletics_3|knows_riding_2|knows_shield_1, rhodok_face_young_1, rhodok_face_old_2 ],
+   str_16|agi_9|int_8|cha_10|level(20), wpex(80,70,140,20,50,40), knows_common|knows_ironflesh_6|knows_power_strike_4|knows_athletics_3|knows_riding_2|knows_shield_1, rhodok_face_young_1, rhodok_face_old_2 ],
   
   # Medium infantry skirmisher, 2h maces, javelins, shields
   ["rhodok_champion", "Rhodok Champion", "Rhodok Champions", tf_guarantee_trained_armor|tf_guarantee_ranged, no_scene, reserved, fac_kingdom_5,
@@ -3068,7 +3068,7 @@ troops = [
     itm_surcoat_over_mail,
     itm_bascinet_2, itm_bascinet_3, itm_guard_helmet, itm_bascinet,
     ],
-   str_20|agi_10|int_9|cha_12|level(28), wpex(95,80,150,25,60,40), knows_common|knows_ironflesh_9|knows_power_strike_6|knows_power_throw_1|knows_athletics_1|knows_riding_3, rhodok_face_young_1, rhodok_face_old_2 ],
+   str_20|agi_10|int_9|cha_12|level(28), wpex(95,80,150,25,60,40), knows_common|knows_ironflesh_9|knows_power_strike_5|knows_power_throw_1|knows_athletics_1|knows_riding_3, rhodok_face_young_1, rhodok_face_old_2 ],
   
   # Medium ranged, swords, picks, crossbows, shields
   ["rhodok_heavy_crossbowman", "Rhodok Heavy Crossbowman", "Rhodok Heavy Crossbowmen", tf_guarantee_trained_armor|tf_guarantee_ranged|tf_guarantee_shield, no_scene, reserved, fac_kingdom_5,
@@ -3107,7 +3107,7 @@ troops = [
     itm_surcoat_over_mail,
     itm_bascinet_2, itm_bascinet_3, itm_guard_helmet, itm_bascinet,
     ],
-   str_19|agi_13|int_10|cha_13|level(32), wpex(95,80,150,40,60,40), knows_common|knows_ironflesh_8|knows_power_strike_6|knows_power_throw_1|knows_athletics_3|knows_riding_3|knows_shield_1, rhodok_face_young_1, rhodok_face_old_2 ],
+   str_19|agi_13|int_10|cha_13|level(32), wpex(95,80,150,40,60,40), knows_common|knows_ironflesh_8|knows_power_strike_5|knows_power_throw_1|knows_athletics_3|knows_riding_3|knows_shield_1, rhodok_face_young_1, rhodok_face_old_2 ],
   
   # Medium cavalry, lances, shields
   # SPECIAL
@@ -3117,7 +3117,7 @@ troops = [
     itm_byrnie,
     itm_helmet_with_neckguard, itm_kettle_hat,
     itm_hunter],
-   str_14|agi_15|int_9|cha_10|level(25), wpex(85,80,130,40,60,50), knows_common|knows_ironflesh_7|knows_power_strike_5|knows_athletics_2|knows_riding_4|knows_horse_archery_1, rhodok_face_young_1, rhodok_face_old_2 ],
+   str_14|agi_15|int_9|cha_10|level(25), wpex(85,80,130,40,60,50), knows_common|knows_ironflesh_7|knows_power_strike_4|knows_athletics_2|knows_riding_4|knows_horse_archery_1, rhodok_face_young_1, rhodok_face_old_2 ],
   
   # Heavy infantry, picks, maces, shields
   # SPECIAL
@@ -3217,7 +3217,7 @@ troops = [
     itm_scale_armor, itm_coat_of_plates,
     itm_full_helm, itm_bascinet_2, itm_bascinet_3, itm_guard_helmet,
     ],
-   str_32|agi_16|int_12|cha_18|level(55), wpex(100,95,170,45,130,55), knows_common|knows_ironflesh_10|knows_power_strike_7|knows_power_throw_1|knows_power_draw_2|knows_athletics_2|knows_riding_3|knows_horse_archery_2, rhodok_face_young_1, rhodok_face_old_2 ],
+   str_32|agi_16|int_12|cha_18|level(55), wpex(100,95,170,45,130,55), knows_common|knows_ironflesh_10|knows_power_strike_5|knows_power_throw_1|knows_power_draw_2|knows_athletics_2|knows_riding_3|knows_horse_archery_2, rhodok_face_young_1, rhodok_face_old_2 ],
   
   #############
   # Sarranids #
@@ -3420,7 +3420,7 @@ troops = [
     itm_sarranid_cavalry_robe, itm_arabian_armor_b,
     itm_sarranid_helmet1, itm_sarranid_mail_coif, itm_sarranid_horseman_helmet,
     itm_arabian_horse_b],
-   str_15|agi_18|int_8|cha_9|level(27), wpex(90,85,115,45,20,60), knows_common|knows_ironflesh_3|knows_power_strike_5|knows_power_throw_1|knows_athletics_3|knows_riding_6|knows_horse_archery_1, sarranid_face_young_1, sarranid_face_old_2 ],
+   str_15|agi_18|int_8|cha_9|level(27), wpex(90,85,115,45,20,60), knows_common|knows_ironflesh_3|knows_power_strike_3|knows_power_throw_1|knows_athletics_3|knows_riding_6|knows_horse_archery_1, sarranid_face_young_1, sarranid_face_old_2 ],
   
   # Medium cavalry ranged, swords, maces, bows
   # SPECIAL
@@ -3440,7 +3440,7 @@ troops = [
     itm_arabian_armor_b,
     itm_sarranid_helmet1, itm_sarranid_mail_coif,
     ],
-   str_16|agi_14|int_9|cha_7|level(23), wpex(90,75,120,45,20,55), knows_common|knows_ironflesh_4|knows_power_strike_5|knows_power_throw_1|knows_athletics_3|knows_riding_2, sarranid_face_young_1, sarranid_face_old_2 ],
+   str_16|agi_14|int_9|cha_7|level(23), wpex(90,75,120,45,20,55), knows_common|knows_ironflesh_4|knows_power_strike_4|knows_power_throw_1|knows_athletics_3|knows_riding_2, sarranid_face_young_1, sarranid_face_old_2 ],
   
   # Medium ranged, swords, maces, crossbows, shields
   # SPECIAL
@@ -3606,7 +3606,7 @@ troops = [
     itm_tabard, itm_linen_tunic, itm_red_shirt, itm_coarse_tunic,
 
     ],
-   str_11|agi_7|int_5|cha_6|level(6), wpex(60,55,75,30,30,25), knows_common|knows_ironflesh_3|knows_power_strike_5|knows_athletics_3, man_face_young_1, man_face_old_2],
+   str_11|agi_7|int_5|cha_6|level(6), wpex(60,55,75,30,30,25), knows_common|knows_ironflesh_3|knows_power_strike_3|knows_athletics_3, man_face_young_1, man_face_old_2],
   
   # Basic infnatry ranged, swords, maces, picks, javelins, shields
   ["mercenary_levy_skirmisher", "Mercenary Levy Skirmisher", "Mercenary Levy Skirmishers", tf_guarantee_recruit_armor|tf_guarantee_ranged|tf_guarantee_shield, no_scene, reserved, fac_commoners,
@@ -3689,7 +3689,7 @@ troops = [
     itm_mail_hauberk, itm_mail_shirt, itm_heraldic_mail_with_tunic,
     itm_kettle_hat, itm_mail_coif, itm_helmet_with_neckguard
     ],
-   str_16|agi_14|int_7|cha_8|level(22), wpex(80,80,105,45,45,40), knows_common|knows_ironflesh_4|knows_power_strike_5|knows_power_throw_1|knows_athletics_2|knows_riding_2|knows_shield_1, man_face_young_1, man_face_old_2 ],
+   str_16|agi_14|int_7|cha_8|level(22), wpex(80,80,105,45,45,40), knows_common|knows_ironflesh_4|knows_power_strike_4|knows_power_throw_1|knows_athletics_2|knows_riding_2|knows_shield_1, man_face_young_1, man_face_old_2 ],
   
   # Medium cavalry, swords, picks, maces, lances, shields
   ["mercenary_cavalry", "Mercenary Cavalry", "Mercenary Cavalries", tf_guarantee_trained_armor|tf_guarantee_shield|tf_guarantee_horseman, no_scene, reserved, fac_commoners,
@@ -3970,7 +3970,7 @@ troops = [
     itm_cuir_bouilli, itm_banded_armor,
     itm_nordic_huscarl_helmet, itm_nordic_warlord_helmet,
     ],
-    str_20|agi_18|int_11|cha_12|level(38), wpex(95,95,130,70,30,70), knows_common|knows_ironflesh_6|knows_power_strike_6|knows_athletics_4|knows_shield_1, man_face_young_1, man_face_old_2 ],
+    str_20|agi_18|int_11|cha_12|level(38), wpex(95,95,130,70,30,70), knows_common|knows_ironflesh_6|knows_power_strike_5|knows_athletics_4|knows_shield_1, man_face_young_1, man_face_old_2 ],
 
   # Heavy infantry, swords, axes, throwing axes, shields
   ["nord_companion_infantry", "Nord Companion Infantry", "Nord Companion Infantries", tf_guarantee_trained_armor|tf_guarantee_shield, no_scene, reserved, fac_kingdom_4,
@@ -4269,7 +4269,7 @@ troops = [
     itm_tribal_warrior_outfit, itm_nomad_robe, itm_nomad_vest,
     itm_leather_steppe_cap_c, itm_nomad_cap, itm_leather_steppe_cap_a, itm_nomad_cap_b, itm_steppe_cap, itm_leather_steppe_cap_b,
     itm_steppe_horse],
-   str_10|agi_15|int_7|cha_8|level(17), wpex(70,55,90,65,25,55), knows_common|knows_ironflesh_2|knows_power_strike_4|knows_power_throw_2|knows_power_draw_3|knows_athletics_2|knows_riding_5|knows_horse_archery_4, man_face_young_1, man_face_old_2 ],
+   str_10|agi_15|int_7|cha_8|level(17), wpex(70,55,90,65,25,55), knows_common|knows_ironflesh_2|knows_power_strike_3|knows_power_throw_2|knows_power_draw_3|knows_athletics_2|knows_riding_5|knows_horse_archery_4, man_face_young_1, man_face_old_2 ],
   
   ["bandit_steppe_hunter", "Steppe Hunter", "Steppe Hunters", tf_guarantee_recruit_armor|tf_guarantee_ranged|tf_guarantee_horseman, no_scene, reserved, fac_faction_5,
    [itm_sword_khergit_1, itm_nomad_bow, itm_barbed_arrows, itm_javelin,
@@ -5024,6 +5024,8 @@ troops = [
    [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
   ["merchant_town_341_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
    [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
+  ["merchant_town_431_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
   ["merchant_town_451_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
    [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
   ["merchant_town_531_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
@@ -5045,20 +5047,42 @@ troops = [
    [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
   ["merchant_castle_1e_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
    [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
+  ["merchant_castle_1f_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
+  ["merchant_castle_1g_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
   
   ["merchant_castle_11a_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
    [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
+  ["merchant_castle_11b_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
   ["merchant_castle_12a_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
    [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
+  ["merchant_castle_12b_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
+  ["merchant_castle_13a_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
+  ["merchant_castle_13b_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
+  ["merchant_castle_13c_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
   ["merchant_castle_14a_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
+  ["merchant_castle_14b_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
    [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
   ["merchant_castle_15a_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
    [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
   ["merchant_castle_15b_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
    [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
+  ["merchant_castle_15c_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
   ["merchant_castle_16a_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
    [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
+  ["merchant_castle_16b_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
   ["merchant_castle_17a_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
+  ["merchant_castle_17b_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
    [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
   
   ["merchant_castle_2a_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
@@ -5071,12 +5095,32 @@ troops = [
    [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
   ["merchant_castle_2e_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
    [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
+  ["merchant_castle_2f_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
+  ["merchant_castle_2g_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
   
   ["merchant_castle_21a_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
    [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
+  ["merchant_castle_21b_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
   ["merchant_castle_22a_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
    [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
+  ["merchant_castle_22b_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
+  ["merchant_castle_23b_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
+  ["merchant_castle_23c_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
   ["merchant_castle_24a_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
+  ["merchant_castle_24b_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
+  ["merchant_castle_25b_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
+  ["merchant_castle_25c_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
+  ["merchant_castle_25d_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
    [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
   
   ["merchant_castle_3a_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
@@ -5089,14 +5133,26 @@ troops = [
    [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
   ["merchant_castle_3e_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
    [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
+  ["merchant_castle_3f_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
+  ["merchant_castle_3g_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
   
   ["merchant_castle_31a_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
    [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
   ["merchant_castle_32a_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
    [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
+  ["merchant_castle_33b_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
+  ["merchant_castle_33c_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
+  ["merchant_castle_34b_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
   ["merchant_castle_35a_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
    [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
   ["merchant_castle_36a_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
+  ["merchant_castle_36b_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
    [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
   
   ["merchant_castle_4a_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
@@ -5109,18 +5165,28 @@ troops = [
    [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
   ["merchant_castle_4e_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
    [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
+  ["merchant_castle_4f_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
+  ["merchant_castle_4g_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
   
   ["merchant_castle_41a_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
    [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
   ["merchant_castle_42a_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
    [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
-  ["merchant_castle_43a_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
-   [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
   ["merchant_castle_43b_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
+  ["merchant_castle_43c_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
+  ["merchant_castle_43d_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
+  ["merchant_castle_43e_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
    [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
   ["merchant_castle_44a_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
    [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
   ["merchant_castle_44b_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
+  ["merchant_castle_44c_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
    [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
   
   ["merchant_castle_5a_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
@@ -5132,6 +5198,10 @@ troops = [
   ["merchant_castle_5d_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
    [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
   ["merchant_castle_5e_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
+  ["merchant_castle_5f_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
+  ["merchant_castle_5g_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
    [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
   
   ["merchant_castle_51a_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
@@ -5154,6 +5224,10 @@ troops = [
   ["merchant_castle_6d_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
    [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
   ["merchant_castle_6e_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
+  ["merchant_castle_6f_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
+  ["merchant_castle_6g_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
    [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
   
   ["merchant_castle_62a_general", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
@@ -5205,6 +5279,8 @@ troops = [
    [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
   ["merchant_town_341_weapons", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
    [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
+  ["merchant_town_431_weapons", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
   ["merchant_town_451_weapons", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
    [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
   ["merchant_town_531_weapons", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
@@ -5252,6 +5328,8 @@ troops = [
    [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
   ["merchant_town_341_armors", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
    [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
+  ["merchant_town_431_armors", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
   ["merchant_town_451_armors", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
    [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
   ["merchant_town_531_armors", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
@@ -5274,20 +5352,42 @@ troops = [
    [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
   ["merchant_castle_1e_smith", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
    [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
+  ["merchant_castle_1f_smith", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
+  ["merchant_castle_1g_smith", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
   
   ["merchant_castle_11a_smith", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
    [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
+  ["merchant_castle_11b_smith", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
   ["merchant_castle_12a_smith", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
    [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
+  ["merchant_castle_12b_smith", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
+  ["merchant_castle_13a_smith", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
+  ["merchant_castle_13b_smith", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
+  ["merchant_castle_13c_smith", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
   ["merchant_castle_14a_smith", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
+  ["merchant_castle_14b_smith", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
    [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
   ["merchant_castle_15a_smith", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
    [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
   ["merchant_castle_15b_smith", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
    [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
+  ["merchant_castle_15c_smith", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
   ["merchant_castle_16a_smith", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
    [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
+  ["merchant_castle_16b_smith", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
   ["merchant_castle_17a_smith", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
+  ["merchant_castle_17b_smith", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
    [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
   
   ["merchant_castle_2a_smith", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
@@ -5300,12 +5400,32 @@ troops = [
    [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
   ["merchant_castle_2e_smith", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
    [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
+  ["merchant_castle_2f_smith", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
+  ["merchant_castle_2g_smith", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
   
   ["merchant_castle_21a_smith", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
    [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
+  ["merchant_castle_21b_smith", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
   ["merchant_castle_22a_smith", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
    [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
+  ["merchant_castle_22b_smith", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
+  ["merchant_castle_23b_smith", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
+  ["merchant_castle_23c_smith", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
   ["merchant_castle_24a_smith", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
+  ["merchant_castle_24b_smith", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
+  ["merchant_castle_25b_smith", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
+  ["merchant_castle_25c_smith", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
+  ["merchant_castle_25d_smith", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
    [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
   
   ["merchant_castle_3a_smith", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
@@ -5318,14 +5438,26 @@ troops = [
    [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
   ["merchant_castle_3e_smith", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
    [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
+  ["merchant_castle_3f_smith", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
+  ["merchant_castle_3g_smith", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
   
   ["merchant_castle_31a_smith", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
    [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
   ["merchant_castle_32a_smith", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
    [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
+  ["merchant_castle_33b_smith", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
+  ["merchant_castle_33c_smith", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
+  ["merchant_castle_34b_smith", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
   ["merchant_castle_35a_smith", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
    [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
   ["merchant_castle_36a_smith", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
+  ["merchant_castle_36b_smith", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
    [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
   
   ["merchant_castle_4a_smith", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
@@ -5338,18 +5470,28 @@ troops = [
    [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
   ["merchant_castle_4e_smith", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
    [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
+  ["merchant_castle_4f_smith", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
+  ["merchant_castle_4g_smith", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
   
   ["merchant_castle_41a_smith", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
    [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
   ["merchant_castle_42a_smith", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
    [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
-  ["merchant_castle_43a_smith", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
-   [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
   ["merchant_castle_43b_smith", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
+  ["merchant_castle_43c_smith", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
+  ["merchant_castle_43d_smith", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
+  ["merchant_castle_43e_smith", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
    [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
   ["merchant_castle_44a_smith", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
    [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
   ["merchant_castle_44b_smith", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
+  ["merchant_castle_44c_smith", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
    [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
   
   ["merchant_castle_5a_smith", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
@@ -5361,6 +5503,10 @@ troops = [
   ["merchant_castle_5d_smith", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
    [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
   ["merchant_castle_5e_smith", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
+  ["merchant_castle_5f_smith", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
+  ["merchant_castle_5g_smith", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
    [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
   
   ["merchant_castle_51a_smith", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
@@ -5383,6 +5529,10 @@ troops = [
   ["merchant_castle_6d_smith", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
    [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
   ["merchant_castle_6e_smith", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
+  ["merchant_castle_6f_smith", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+   [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
+  ["merchant_castle_6g_smith", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
    [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
   
   ["merchant_castle_62a_smith", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,

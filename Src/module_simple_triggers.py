@@ -246,6 +246,7 @@ simple_triggers = [
                 (party_get_cur_town, ":cur_town", ":party_no"),
                 (is_between, ":cur_town", centers_begin, centers_end),
                 (party_attach_to_party, ":party_no", ":cur_town"),
+                (call_script, "script_party_visit_center", ":party_no", ":cur_town"),
             (try_end),
             
             (get_global_haze_amount, ":haze"),

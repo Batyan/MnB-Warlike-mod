@@ -305,6 +305,10 @@ ToDo:
             Slavery outlawed
                 Slaves are not allowed
                 Slave buildings are not allowed
+    Foreign Relations
+        Trading with an enemy may decrease relation
+        Attacking a party will decrease relation
+        Other factions relation changes may change relation
 - add villages/castles/town menu
     Tavern
         Mercenaries
@@ -352,6 +356,7 @@ ToDo:
         if too few items of a certain type are generated on the map, only its price will increase
         during times of war, goods generation will most likely decrease (raids, trade blocked...)
             it will increase the price of all items, and may benefit peaceful factions and merchants
+    ressources have a base price of 100, slots will determine the amount of this type of ressource (global and faction level ?)
 - process production
     productions are goods transformed into another
     produced goods are very rare in the nature, some are not found at all
