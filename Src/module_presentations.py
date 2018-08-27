@@ -89,7 +89,7 @@ presentations = [
 					(call_script, "script_troop_get_cost", ":troop_no"),
 					(assign, ":troop_cost", reg0),
 					
-					(call_script, "script_troop_get_cost_modifier", ":troop_no", ":current_city", "trp_player"),
+					(call_script, "script_troop_get_cost_modifier", ":troop_no", ":current_city", player_troop),
 					(assign, ":cost_modifier", reg0),
 					(val_mul, ":troop_cost", ":cost_modifier"),
 					(val_div, ":troop_cost", 100),
@@ -139,7 +139,7 @@ presentations = [
 			(position_set_y, pos1, 1000),
 			(overlay_set_size, "$g_hire_soldiers_total_cost", pos1),
 			# Current money
-			(store_troop_gold, reg0, "trp_player"),
+			(store_troop_gold, reg0, player_troop),
 			(str_store_string, s0, "@Current money: {reg0} denars"),
 			(create_text_overlay, reg0, s0, tf_left_align),
 			(position_set_x, pos1, 200),
@@ -283,12 +283,12 @@ presentations = [
 			(else_try),
 				(eq, ":object", "$g_presentation_ok"),
 				
-				(call_script, "script_calculate_hire_troop_cost", ":current_city", "trp_player"),
+				(call_script, "script_calculate_hire_troop_cost", ":current_city", player_troop),
 				(assign, ":total_cost", reg0),
 				(assign, ":total_num_troops", reg1),
 				(party_get_free_companions_capacity, ":free_slots", "p_main_party"),
 				
-				(store_troop_gold, ":player_gold", "trp_player"),
+				(store_troop_gold, ":player_gold", player_troop),
 				(try_begin),
 					(gt, ":total_cost", ":player_gold"),
 					(assign, reg2, ":player_gold"),
@@ -318,7 +318,7 @@ presentations = [
 							(call_script, "script_troop_get_cost", ":troop_no"),
 							(val_mul, ":num_troops_not_added", reg0),
 							
-							(call_script, "script_troop_get_cost_modifier", ":troop_no", ":current_city", "trp_player"),
+							(call_script, "script_troop_get_cost_modifier", ":troop_no", ":current_city", player_troop),
 							(assign, ":cost_modifier", reg0),
 							(val_mul, ":num_troops_not_added", ":cost_modifier"),
 							(val_div, ":num_troops_not_added", 100),
@@ -331,7 +331,7 @@ presentations = [
 					(val_add, ":center_wealth", ":total_cost"),
 					(party_set_slot, ":current_city", slot_party_wealth, ":center_wealth"),
 					
-					(troop_remove_gold, "trp_player", ":total_cost"),
+					(troop_remove_gold, player_troop, ":total_cost"),
 					# Restart the presentation
 					(assign, "$temp", ":current_city"),
 					(start_presentation, "prsnt_recruit_from_town_garrison"),
@@ -346,7 +346,7 @@ presentations = [
 				(troop_set_slot, ":troop_no", slot_troop_temp_hire_number, ":value"),
 				(overlay_set_val, ":object", ":value"),
 				
-				(call_script, "script_calculate_hire_troop_cost", ":current_city", "trp_player"),
+				(call_script, "script_calculate_hire_troop_cost", ":current_city", player_troop),
 				(assign, ":total_cost", reg0),
 				(assign, ":num_troops", reg1),
 				(overlay_set_text, "$g_hire_soldiers_total_cost", "@Total cost: {reg0} denars"),
@@ -359,7 +359,7 @@ presentations = [
 				(assign, reg11, ":total"),
 				(overlay_set_text, "$g_hire_soldiers_free_capacity", "@Party size: {reg11}/{reg10}"),
 				(try_begin),
-					(store_troop_gold, ":player_gold", "trp_player"),
+					(store_troop_gold, ":player_gold", player_troop),
 					(gt, ":total_cost", ":player_gold"),
 					(overlay_set_color, "$g_hire_soldiers_total_cost", text_color_impossible),
 				(else_try),
@@ -460,7 +460,7 @@ presentations = [
 			(try_begin),
 				(eq, ":object", "$g_presentation_ok"),
 				
-				(troop_set_faction, "trp_player", "$g_test_player_faction"),
+				(troop_set_faction, player_troop, "$g_test_player_faction"),
 				
 				(party_set_faction, "p_main_party", "$g_test_player_faction"),
 				(try_for_range, ":unused", 0, 30),

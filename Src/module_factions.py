@@ -69,7 +69,7 @@ factions = [
 	("small_kingdom_55", "Saren", 0, 0.9, [("outlaws",-0.5),], [], 0x6755db), # Mounted Crossbow + Heavy Lancer + Heroic Lancer + Scout + Levy Crossbow
 	
 	("small_kingdom_61", "Barriye", 0, 0.9, [("outlaws",-0.5),], [], 0x804303), # Light Crossbowman + Levy Horseman + Crossbowman + Noble Horseman?
-	("small_kingdom_62", "Sharwa Keep", 0, 0.9, [("outlaws",-0.5),], [], 0xd87a17), # Heavy Archer + Noble Infantry
+	("small_kingdom_62", "Sharwa Keep", 0, 0.9, [("outlaws",-0.5),], [], 0xd87a17), # Heavy Archer + Noble Infantry + Levy Spearman + Spearman + Heavy Spearman + Noble Spearman
 	("small_kingdom_63", "Sarrdak", 0, 0.9, [("outlaws",-0.5),], [], 0xFFA445), # Heavy Lancer + Cataphract + Levy Infantry + Footman + Warrior + Skirmisher + Sergeant
 	("small_kingdom_64", "Uzgha", 0, 0.9, [("outlaws",-0.5),], [], 0x6f6a3e), # Light Horse Archer + Horse Archer + Heavy Horse Archer
 	("small_kingdom_65", "Durquba", 0, 0.9, [("outlaws",-0.5),], [], 0x4d4400), # Mounted Skirmisher + Pikeman + Heavy Pikeman + Noble Skirmisher
@@ -88,67 +88,4 @@ factions = [
 	("cultures_end", "Culture end", 0, 0.9, [("outlaws",-0.5),], []),
 	
 	("outlaws", "Outlaw", ff_always_hide_label|max_player_rating(-30), 0.9, [], []),
-
-	# Families for lords 
-	# Families can also be attributed to other heroes (companions, mercenary leaders, bandits?)
-	("family_1", "Family 1", ff_always_hide_label, 0.9, [], []),
-	("family_2", "Family ", ff_always_hide_label, 0.9, [], []),
-	("family_3", "Family ", ff_always_hide_label, 0.9, [], []),
-	("family_4", "Family ", ff_always_hide_label, 0.9, [], []),
-	("family_5", "Family ", ff_always_hide_label, 0.9, [], []),
-	("family_6", "Family ", ff_always_hide_label, 0.9, [], []),
-	("family_7", "Family ", ff_always_hide_label, 0.9, [], []),
-	("family_8", "Family ", ff_always_hide_label, 0.9, [], []),
-	("family_9", "Family ", ff_always_hide_label, 0.9, [], []),
-	("family_10", "Family ", ff_always_hide_label, 0.9, [], []),
-	("family_11", "Family ", ff_always_hide_label, 0.9, [], []),
-	("family_12", "Family ", ff_always_hide_label, 0.9, [], []),
-	("family_13", "Family ", ff_always_hide_label, 0.9, [], []),
-	("family_14", "Family ", ff_always_hide_label, 0.9, [], []),
-	("family_15", "Family ", ff_always_hide_label, 0.9, [], []),
-	("family_16", "Family ", ff_always_hide_label, 0.9, [], []),
-	("family_17", "Family ", ff_always_hide_label, 0.9, [], []),
-	("family_18", "Family ", ff_always_hide_label, 0.9, [], []),
-	("family_19", "Family ", ff_always_hide_label, 0.9, [], []),
-	("family_20", "Family ", ff_always_hide_label, 0.9, [], []),
-	("family_31", "Family ", ff_always_hide_label, 0.9, [], []),
-	("family_32", "Family ", ff_always_hide_label, 0.9, [], []),
-	("family_33", "Family ", ff_always_hide_label, 0.9, [], []),
-	("family_34", "Family ", ff_always_hide_label, 0.9, [], []),
-	("family_35", "Family ", ff_always_hide_label, 0.9, [], []),
-	("family_36", "Family ", ff_always_hide_label, 0.9, [], []),
-	("family_37", "Family ", ff_always_hide_label, 0.9, [], []),
-	("family_38", "Family ", ff_always_hide_label, 0.9, [], []),
-	("family_39", "Family ", ff_always_hide_label, 0.9, [], []),
-	("family_40", "Family ", ff_always_hide_label, 0.9, [], []),
-	("family_41", "Family ", ff_always_hide_label, 0.9, [], []),
-	("family_42", "Family ", ff_always_hide_label, 0.9, [], []),
-	("family_43", "Family ", ff_always_hide_label, 0.9, [], []),
-	("family_44", "Family ", ff_always_hide_label, 0.9, [], []),
-	("family_45", "Family ", ff_always_hide_label, 0.9, [], []),
-	("family_46", "Family ", ff_always_hide_label, 0.9, [], []),
-	("family_47", "Family ", ff_always_hide_label, 0.9, [], []),
-	("family_48", "Family ", ff_always_hide_label, 0.9, [], []),
-	("family_49", "Family ", ff_always_hide_label, 0.9, [], []),
-	("family_50", "Family ", ff_always_hide_label, 0.9, [], []),
-	("family_51", "Family ", ff_always_hide_label, 0.9, [], []),
-	("family_52", "Family ", ff_always_hide_label, 0.9, [], []),
-	("family_53", "Family ", ff_always_hide_label, 0.9, [], []),
-	("family_54", "Family ", ff_always_hide_label, 0.9, [], []),
-	("family_55", "Family ", ff_always_hide_label, 0.9, [], []),
-	("family_56", "Family ", ff_always_hide_label, 0.9, [], []),
-	("family_57", "Family ", ff_always_hide_label, 0.9, [], []),
-	("family_58", "Family ", ff_always_hide_label, 0.9, [], []),
-	("family_59", "Family ", ff_always_hide_label, 0.9, [], []),
-	("family_60", "Family ", ff_always_hide_label, 0.9, [], []),
-	("family_61", "Family ", ff_always_hide_label, 0.9, [], []),
-	("family_62", "Family ", ff_always_hide_label, 0.9, [], []),
-	("family_63", "Family ", ff_always_hide_label, 0.9, [], []),
-	("family_64", "Family ", ff_always_hide_label, 0.9, [], []),
-	("family_65", "Family ", ff_always_hide_label, 0.9, [], []),
-	("family_66", "Family ", ff_always_hide_label, 0.9, [], []),
-	("family_67", "Family ", ff_always_hide_label, 0.9, [], []),
-	("family_68", "Family ", ff_always_hide_label, 0.9, [], []),
-	("family_69", "Family ", ff_always_hide_label, 0.9, [], []),
-	("family_70", "Family ", ff_always_hide_label, 0.9, [], []),
 ]

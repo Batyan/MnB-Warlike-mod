@@ -35,7 +35,7 @@ simple_triggers = [
                     # Generate bandits
                     (store_random_in_range, ":rand", 0, 50),
                     (try_begin), # Generate bandits more often if center prosperity is low
-                        (eq, ":rand", 0),
+                        (le, ":rand", 10),
                         (call_script, "script_party_spawn_bandits", ":party_no"),
                     (try_end),
                 (try_end),
@@ -246,9 +246,8 @@ simple_triggers = [
                 (party_get_cur_town, ":cur_town", ":party_no"),
                 (is_between, ":cur_town", centers_begin, centers_end),
                 (party_attach_to_party, ":party_no", ":cur_town"),
-                (call_script, "script_party_visit_center", ":party_no", ":cur_town"),
             (try_end),
-            
+
             (get_global_haze_amount, ":haze"),
             (get_global_cloud_amount, ":cloud"),
             (val_mul, ":haze", 2),
@@ -259,6 +258,16 @@ simple_triggers = [
             (val_div, ":cloud", 3),
             (set_global_haze_amount, ":haze"),
             (set_global_cloud_amount, ":cloud"),
+        ]),
+
+    (0.1, # Player prisoner
+        [
+            (troop_get_slot, ":player_prisoner", player_troop, slot_troop_prisoner_of),
+            (try_begin),
+                (gt, ":player_prisoner", 0),
+                (key_is_down, key_space),
+                (jump_to_menu, "mnu_player_prisoner_take_action"),
+            (try_end),
         ]),
     
     (monthly, # Lord mission
@@ -280,86 +289,94 @@ simple_triggers = [
         [
             (try_for_range, ":lord_no", lords_begin, lords_end),
                 (troop_get_slot, ":occupation", ":lord_no", slot_troop_kingdom_occupation),
-                (neg|troop_slot_ge, ":lord_no", slot_troop_prisoner_of, 0), # Do not process prisoners
-                # ToDo
+                (troop_get_slot, ":prisoner_of", ":lord_no", slot_troop_prisoner_of),
                 (try_begin),
-                    (eq, ":occupation", tko_kingdom_hero),
-                    (troop_get_slot, ":leaded_party", ":lord_no", slot_troop_leaded_party),
+                    (le, ":prisoner_of", 0), # Do not process prisoners
                     (try_begin),
-                        (gt, ":leaded_party", 0),
-                        # 
-                    (else_try),
-                        (call_script, "script_cf_lord_can_spawn", ":lord_no"),
-                        (call_script, "script_spawn_lord", ":lord_no"),
-                    # (else_try),
-                    (try_end),
-                    
-                    (troop_get_slot, ":lord_level", ":lord_no", slot_troop_level),
-                    # (call_script, "script_troop_get_rank", ":lord_no"),
-                    # (assign, ":real_rank", reg0),
-                    (troop_get_slot, ":real_rank", ":lord_no", slot_troop_rank),
-                    (troop_get_slot, ":equipement_rank", ":lord_no", slot_troop_equipement_level),
-                    (call_script, "script_troop_get_equipement_level", ":lord_no"),
-                    (assign, ":best_equipement_rank", reg0),
-                    (try_begin),
-                        (this_or_next|neq, ":lord_level", ":real_rank"),
-                        (neq, ":equipement_rank", ":best_equipement_rank"),
-                        (call_script, "script_troop_update_level", ":lord_no", ":lord_level", ":real_rank"),
-                    (try_end),
-                    
-                    (try_begin),
-                        (ge, ":real_rank", rank_castle),
-                        (troop_get_slot, ":surplus_fief", ":lord_no", slot_troop_surplus_center),
-                        (gt, ":surplus_fief", 0),
-                        (party_get_slot, ":party_type", ":surplus_fief", slot_party_type),
-                        (store_troop_faction, ":faction", ":lord_no"),
-                        (assign, ":selected", -1),
-                        (assign, ":end", lords_end),
-                        (try_for_range, ":other_lord", lords_begin, ":end"),
-                            (store_troop_faction, ":other_faction", ":other_lord"),
-                            (eq, ":other_faction", ":faction"),
-                            (try_begin),
-                                (troop_slot_eq, ":other_lord", slot_troop_vassal_of, ":lord_no"),
-                                (troop_get_slot, ":rank", ":other_lord", slot_troop_rank),
+                        (eq, ":occupation", tko_kingdom_hero),
+                        (troop_get_slot, ":leaded_party", ":lord_no", slot_troop_leaded_party),
+                        (try_begin),
+                            (gt, ":leaded_party", 0),
+                            # 
+                        (else_try),
+                            (call_script, "script_cf_lord_can_spawn", ":lord_no"),
+                            (call_script, "script_spawn_lord", ":lord_no"),
+                        # (else_try),
+                        (try_end),
+                        
+                        (troop_get_slot, ":lord_level", ":lord_no", slot_troop_level),
+                        # (call_script, "script_troop_get_rank", ":lord_no"),
+                        # (assign, ":real_rank", reg0),
+                        (troop_get_slot, ":real_rank", ":lord_no", slot_troop_rank),
+                        (troop_get_slot, ":equipement_rank", ":lord_no", slot_troop_equipement_level),
+                        (call_script, "script_troop_get_equipement_level", ":lord_no"),
+                        (assign, ":best_equipement_rank", reg0),
+                        (try_begin),
+                            (this_or_next|neq, ":lord_level", ":real_rank"),
+                            (neq, ":equipement_rank", ":best_equipement_rank"),
+                            (call_script, "script_troop_update_level", ":lord_no", ":lord_level", ":real_rank"),
+                        (try_end),
+                        
+                        (try_begin),
+                            (ge, ":real_rank", rank_castle),
+                            (troop_get_slot, ":surplus_fief", ":lord_no", slot_troop_surplus_center),
+                            (gt, ":surplus_fief", 0),
+                            (party_get_slot, ":party_type", ":surplus_fief", slot_party_type),
+                            (store_troop_faction, ":faction", ":lord_no"),
+                            (assign, ":selected", -1),
+                            (assign, ":end", lords_end),
+                            (try_for_range, ":other_lord", lords_begin, ":end"),
+                                (store_troop_faction, ":other_faction", ":other_lord"),
+                                (eq, ":other_faction", ":faction"),
                                 (try_begin),
+                                    (troop_slot_eq, ":other_lord", slot_troop_vassal_of, ":lord_no"),
+                                    (troop_get_slot, ":rank", ":other_lord", slot_troop_rank),
+                                    (try_begin),
+                                        (lt, ":rank", rank_castle),
+                                        (this_or_next|gt, ":party_type", spt_village),
+                                        (lt, ":rank", rank_village),
+                                        (assign, ":selected", ":other_lord"),
+                                    (else_try),
+                                        (lt, ":rank", rank_village),
+                                        (assign, ":selected", ":other_lord"),
+                                        (assign, ":end", 0),
+                                    (try_end),
+                                (else_try),
+                                    (troop_slot_eq, ":other_lord", slot_troop_vassal_of, -1),
+                                    (troop_get_slot, ":rank", ":other_lord", slot_troop_rank),
                                     (lt, ":rank", rank_castle),
                                     (this_or_next|gt, ":party_type", spt_village),
-                                    (lt, ":rank", rank_village),
+                                    (neq, ":rank", rank_two_village),
+                                    (eq, ":selected", -1),
                                     (assign, ":selected", ":other_lord"),
-                                (else_try),
-                                    (lt, ":rank", rank_village),
-                                    (assign, ":selected", ":other_lord"),
-                                    (assign, ":end", 0),
                                 (try_end),
-                            (else_try),
-                                (troop_slot_eq, ":other_lord", slot_troop_vassal_of, -1),
-                                (troop_get_slot, ":rank", ":other_lord", slot_troop_rank),
-                                (lt, ":rank", rank_castle),
-                                (this_or_next|gt, ":party_type", spt_village),
-                                (neq, ":rank", rank_two_village),
-                                (eq, ":selected", -1),
-                                (assign, ":selected", ":other_lord"),
+                            (try_end),
+                            (try_begin),
+                                (ge, ":selected", 0),
+                                (call_script, "script_troop_give_center_to_troop", ":lord_no", ":surplus_fief", ":selected"),
+                            (else_try), # Promote a relative with a fief
+                                (call_script, "script_find_free_lord"),
+                                (assign, ":new_lord", reg0),
+                                (gt, ":new_lord", 0),
+                                (call_script, "script_ready_lord", ":new_lord", ":faction"),
+                                (call_script, "script_troop_give_center_to_troop", ":lord_no", ":surplus_fief", ":new_lord"),
                             (try_end),
                         (try_end),
-                        (try_begin),
-                            (ge, ":selected", 0),
-                            (call_script, "script_troop_give_center_to_troop", ":lord_no", ":surplus_fief", ":selected"),
-                        (else_try), # Promote a relative with a fief
-                            (call_script, "script_find_free_lord"),
-                            (assign, ":new_lord", reg0),
-                            (gt, ":new_lord", 0),
-                            (call_script, "script_ready_lord", ":new_lord", ":faction"),
-                            (call_script, "script_troop_give_center_to_troop", ":lord_no", ":surplus_fief", ":new_lord"),
-                        (try_end),
+                        
+                        # Decrease days until next rethink for following marshall
+                        (troop_get_slot, ":days_left", ":lord_no", slot_troop_days_next_rethink),
+                        (val_sub, ":days_left", 1),
+                        (val_max, ":days_left", 0),
+                        (troop_set_slot, ":lord_no", slot_troop_days_next_rethink, ":days_left"),
+                    # (else_try),
+                        
                     (try_end),
-                    
-                    # Decrease days until next rethink for following marshall
-                    (troop_get_slot, ":days_left", ":lord_no", slot_troop_days_next_rethink),
-                    (val_sub, ":days_left", 1),
-                    (val_max, ":days_left", 0),
-                    (troop_set_slot, ":lord_no", slot_troop_days_next_rethink, ":days_left"),
-                # (else_try),
-                    
+                (else_try),
+                    # Try to free lord
+                    # Very low chance if at war (escape)
+                    # Highly likely if good relations (npc or faction)
+                    # Increased chance if long time since prisoner
+                    (call_script, "script_troop_prisoner", ":lord_no"),
                 (try_end),
             (try_end),
         ]),
@@ -367,13 +384,9 @@ simple_triggers = [
     (yearly, # Yearly wages for parties
         [
             (try_for_parties, ":party_no"),
-                # (party_get_slot, ":party_type", ":party_no", slot_party_type),
+                # Every party must pay wages
                 (call_script, "script_party_pay_wages", ":party_no"),
             (try_end),
-            # (try_for_range, ":troop_no", npc_heroes_begin, npc_heroes_end),
-            #     (troop_slot_ge, ":troop_no", slot_troop_kingdom_occupation, tko_kingdom_hero),
-            #     (call_script, "script_troop_pay_wages", ":troop_no"),
-            # (try_end),
         ]),
     
     (yearly, # Weapon proficiency decay
@@ -382,7 +395,7 @@ simple_triggers = [
                 # Might do it for all heroes
                 # But will need to have them increase their proficiency after every battle
                 # Or do it only to player companions at a reduced rate
-                (call_script, "script_troop_proficiency_decay", "trp_player"),
+                (call_script, "script_troop_proficiency_decay", player_troop),
             (try_end),
         ]),
     

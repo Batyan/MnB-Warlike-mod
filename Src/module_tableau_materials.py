@@ -452,7 +452,7 @@ tableaus = [
 ##     (position_move_z, pos1, -50),
 ##     (cur_tableau_add_mesh, "mesh_tableau_mesh_custom_banner", pos1, 0, 0),
 ##
-##     (call_script, "script_get_custom_banner_charge_type_position_scale_color", "trp_player", ":positioning"),
+##     (call_script, "script_get_custom_banner_charge_type_position_scale_color", player_troop, ":positioning"),
 ##     (try_begin),
 ##       (ge, ":num_charges", 1),
 ##       (cur_tableau_add_mesh_with_vertex_color, reg0, pos0, reg1, 0, reg2),
@@ -476,23 +476,23 @@ tableaus = [
   # ("background_selection", 0, "missiles", 512, 512, 0, 0, 100, 100,
    # [
      # (store_script_param, ":banner_bg", 1),
-     # (troop_get_slot, ":old_bg", "trp_player", slot_troop_custom_banner_bg_type),
-     # (troop_set_slot, "trp_player", slot_troop_custom_banner_bg_type, ":banner_bg"),
+     # (troop_get_slot, ":old_bg", player_troop, slot_troop_custom_banner_bg_type),
+     # (troop_set_slot, player_troop, slot_troop_custom_banner_bg_type, ":banner_bg"),
      # (set_fixed_point_multiplier, 100),
-     # (call_script, "script_draw_banner_to_region", "trp_player", 0, 0, 10000, 10000, 9800, 9800, 10000, 10000, 0),
+     # (call_script, "script_draw_banner_to_region", player_troop, 0, 0, 10000, 10000, 9800, 9800, 10000, 10000, 0),
      # (cur_tableau_set_camera_parameters, 0, 100, 100, 0, 100000),
-     # (troop_set_slot, "trp_player", slot_troop_custom_banner_bg_type, ":old_bg"),
+     # (troop_set_slot, player_troop, slot_troop_custom_banner_bg_type, ":old_bg"),
      # ]),
 
   # ("positioning_selection", 0, "missiles", 512, 512, 0, 0, 100, 100,
    # [
      # (store_script_param, ":positioning", 1),
-     # (troop_get_slot, ":old_positioning", "trp_player", slot_troop_custom_banner_positioning),
-     # (troop_set_slot, "trp_player", slot_troop_custom_banner_positioning, ":positioning"),
+     # (troop_get_slot, ":old_positioning", player_troop, slot_troop_custom_banner_positioning),
+     # (troop_set_slot, player_troop, slot_troop_custom_banner_positioning, ":positioning"),
      # (set_fixed_point_multiplier, 100),
-     # (call_script, "script_draw_banner_to_region", "trp_player", 0, 0, 10000, 10000, 9800, 9800, 10000, 10000, 0),
+     # (call_script, "script_draw_banner_to_region", player_troop, 0, 0, 10000, 10000, 9800, 9800, 10000, 10000, 0),
      # (cur_tableau_set_camera_parameters, 0, 100, 100, 0, 100000),
-     # (troop_set_slot, "trp_player", slot_troop_custom_banner_positioning, ":old_positioning"),
+     # (troop_set_slot, player_troop, slot_troop_custom_banner_positioning, ":old_positioning"),
      # ]),
 
 ##  ("retirement_troop", 0, "troop_portrait", 1024, 1024, 0, 0, 600, 600,
@@ -575,7 +575,7 @@ tableaus = [
 ##     (position_set_z, pos5, 96),
 ##     (position_set_y, pos5, 350),
 ##
-####     (troop_get_inventory_slot, ":horse_item", "trp_player", ek_horse),
+####     (troop_get_inventory_slot, ":horse_item", player_troop, ek_horse),
 ####     (try_begin),
 ####       (gt, ":horse_item", 0),
 ####       (position_rotate_z, pos2, -40),
@@ -585,7 +585,7 @@ tableaus = [
 ####       (position_set_y, pos5, 480),
 ####     (try_end),
 ##
-##     (cur_tableau_add_troop, "trp_player", pos2, ":animation" , 0),
+##     (cur_tableau_add_troop, player_troop, pos2, ":animation" , 0),
 ##
 ##     (position_rotate_x, pos5, -90),
 ##     (position_rotate_z, pos5, 180),

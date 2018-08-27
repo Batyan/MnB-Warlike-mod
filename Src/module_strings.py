@@ -804,4 +804,10 @@ strings = [
   ("building_order",            "The order is the ultimate military building. It increases the chance for noble units to be trained."),
   ("building_tavern_2",         "The improved tavern is one of, if not the most important building in a center. It increases prosperity by 10%% and has more room for people to rent."),
   ("building_trading_post_2",   "The improved trading post increases profits from trade by 10%% and gives caravans a big escort."),
+
+  ("item_taxes_sell", "Town selling taxes: {reg10} denars"),
+  ("item_taxes_buy", "Town buying taxes: {reg10} denars"),
+
+
+
 ]
