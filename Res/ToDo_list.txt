@@ -201,7 +201,7 @@ ToDo:
             Wives           -       -       -       -       -       -       - B: 75  - M: *
         Nordic lords:
             Housecarls      -       -       -       -       -       -       - B: 150 - M: 1
-            Family (husbands, wifes, sons, daughters, brothers, sisters)    - B: 25  - M: * (1 wife)
+            Family (husbands, wives, sons, daughters, brothers, sisters)    - B: 25  - M: * (1 wife)
         Rhodok lords:
             Heroes          -       -       -       -       -       -       - B: 50  - M: 1
             Sons            -       -       -       -       -       -       - B: 10  - M: *
@@ -219,6 +219,79 @@ ToDo:
             Companion chances should be influenced by personalities
         Lord companions are able to participate in duels instead of their lord
         Can the player become a companion?
+        Companions are not tied to the party of the leader they are following
+            Can wait in a center
+            Can be prisoner
+            Can lead prisoners to owned center
+            Can bring reinforcements for a siege
+    Add lord personality traits (use party templates for slots)
+        Base Stats:
+            Str:                    12
+            Agi:                    12
+            Int:                    12
+            Cha:                    12
+            Ironflesh:              2
+            PowerStrike:            3
+            PowerThrow:             2
+            PowerDraw:              4
+            Intimidation:           3
+            WeaponMaster:           0
+            Shield:                 0
+            Athletics:              3
+            Riding:                 3
+            HorseArchery:           2
+            Looting:                0
+            Trainer:                0
+            Tracking:               0
+            Tactics:                0
+            Pathfinding:            0
+            Spotting:               0
+            InventoryManagement:    0
+            WoundTreatement:        0
+            FirstAid:               0
+            Engineer:               0
+            Persuasion:             3
+            PrisonerManagement:     0
+            Leadership:             2
+            Trade:                  0
+        
+        Fearless:   Base morale is increased by 10, while the leader is alive morale can't be under base morale.
+                    If leader defeated in battle, morale drops 2 times faster
+        Dumb:       -4 int
+        Tough:      +3 ironflesh
+        Smart:      +4 int, -1 intimidation
+        Coward:     Morale boost (+20?) if leader is defeated in battle. Double morale loss for every event while leader is alive.
+        Tactician:  +2 tactics, +2 int, -2 str, grants ability "Rally"
+        Warrior:    +3 str, -2 int, grants ability "War Cry"
+        Strategist: +2 cha, -3 agi, +2 int, +2 leadership
+        Thick:      +4 str, -3 int
+        Swift:      +3 agi, +2 athletics
+        Witty:      +2 int, -2 cha, +2 persuasion
+        Shy:        Reserved about talking about himself, more stable relations, +2 int, -1 intimidation
+        Eccentric:  Does not mind being talked about, will openly talk about himself, less stable relations, +2 cha, -1 persuasion
+        Generous:   More likely to lend money, can do things that are not in his best interest, +1 persuasion
+        Selfish:    Less likely to lend money, does not give without anything in return, -1 persuasion
+        Cruel:      Likes to see his enemies suffer, -2 persuasion, +2 intimidation
+        Dull:       Does not appreciate humour, harder to befriend, -1 cha
+        Funny:      Likes a good joke, +1 cha
+        Egocentric: Thinks himself the center of attention, does not like being wrong, +1 int, -1 cha, -1 persuasion
+        Noble Blood:Better relation with others of noble blood, lower relations with the rest
+        Bastard:    Grants noble blood, lower relations with others of noble blood, lower renown gain
+        Noble:      Grants "Noble Family" to descendants, better relation with those of non-noble blood, slightly better relation with those of noble blood
+        Noble Family: Grants "Noble Blood" to descendants, +2 cha, +1 intimidation, +1 persuasion
+        Bloodthirsty: -10 morale for enemy units, -5 morale for friendly units (not own units), -1 ironflesh
+        Berserker:  +5 ironflesh, +3 power strike, +1 athletics, +3 indimidation, -2 power draw, -2 riding, -2 persuasion
+            Needs to win a certain number of battle using only melee/throwing weapons while having no horse and very light/no armor
+        Left Handed: +2 weapon master, +1 trainer, +1 shield, -3 cha, -1 power strike
+    Abilities:
+        War Cry:    decrease morale for surrounding enemies, range and strength determined by str (strength = str/2) (range = str)
+        Rally:      increase morale for surrounding allies, range and strength determined by cha (strength = cha/2) (range = cha)
+    Add family trees
+        use factions for families
+        families may have relationships between each other
+        relationships between families can influence some npc relation checks
+            not all, mostly politics and public ones because members do not want to be seen treating with an 'enemy' family
+            other than those, relations do not deteriorate because of family (excecpt certain personalities?)
 - Kingdoms:
     Policies 
         Vassals:
@@ -331,13 +404,20 @@ ToDo:
         Balanced levies
         Manage number
         If building => random chance for common unit
-- add debts system for centers
-    if high debt
-        risk of peasant revolution
-            may create a new kingdom (with a change in policy => if was kingdom might be governor)
-        risk of bandit takeover
-        risk of curruption takeover
-            other kingdom may take the center by inciting a peasant revolution (center will belong to new faction)
+- add debts system
+    for centers
+        if high debt
+            risk of peasant revolution
+                may create a new kingdom (with a change in policy => if was kingdom might be governor)
+            risk of bandit takeover
+            risk of curruption takeover
+                other kingdom may take the center by inciting a peasant revolution (center will belong to new faction)
+    for heroes
+        debt to other hero (or center?)
+        player can reimburse debts with wages presentation
+            can decide the amount during the presentation
+            not reimbursing for more than a month can lead to a relation hit
+        debts will have interests each month
 - ressources list
     ressources are consumed by centers
         if there is enough of a certain good for the population, it will start beeing sold
@@ -377,6 +457,8 @@ ToDo:
         capturing / looting a center reduces the number of available points (/5 ?)
         looted centers do not produce points
         besieged centers produce 1/3 of points
+        when a center doesn't need recruitement points accumulate in the center
+        if the center has a pool of points, gets up to 2 times more troops, depleting the pool by the amount of those troops
 - faction_get_best_candidate_for_center
 - remove low tier troops from full centers (only peasants?)
 - add retextured horses for variety
@@ -426,139 +508,74 @@ ToDo:
         goods, weapons, armors, horses
     Redo the merchant updating system
         Loot faction troops inventory (to simulate eras)
-- add mercenary bands
-    Mercenaries can be hired to follow (only if led by a hero)
-    Adds a captain and a number of troops (single type or multiple)
-    Add mercenary heroes
-        Mercenary heroes take the template of the troops they lead or a higher rank
-        Can be hired like regular mercenaries
-        Some do not participate in politics (cannot be hired if part of a faction and at war)
-            Will leave party if the kindom declares war or if player joins a kingdom at war
-- add bandits: 
-    add bounties on players and heroes
-        bounties are given by certain heroes (lords mostly)
-            Can ask for liege (or ally if kingdom is small) to put bounty in its place
-        bounties will lead to people being aggressive/afraid
-        slot_troop_bounty + slot_troop_bounty_giver
-    bandit hideouts
-    bandit parties
-    bandit leader parties (able to loot villages, castles and towns)
-        a looted center will lose some of its garrison, money, population and goods
-    roaming bandits
-        many small parties all around the map
-        unhappy populace generate bandits
-        may exceptionnaly generate a bandit hero leading a big group
-    deserters
-        deserters are created after big battles from the losing side
-        deserters sometimes head to villages to grow and or loot
-    bandits can loot villages
-    hero bandits can siege weak castles
-    if a bandit faction posesses a center, they may become a normal faction (allied with bandits of the same type)
-        hero bandits will gather near the center before becoming a faction
-        only if enough bandit heroes
-- add patrols
-    one patrol per center, patrols around that center, and joins if it is attacked
-    patrol may come back to center to give out prisoners or refill its troops
-    only wealthy centers will have patrols
-    party size 50-80 ?
-- add scout
-    acts like a smaller patrol
-    may follow nearby peasants / caravans until they get too far from the center
-    act as a bandit hunter (only against small parties)
-    party size 10-30 ?
-- add caravans
-    add escorts (only if trade post)
-        follows caravans out of the town (or joins party)
-- add peasants
-    peasants travel between center to linked center
-    may head out to another city to sell specific goods ?
-- add prisoner train
-    move prisoners when too many prisoners in center
-        moving_price == distance * num_moved
-    prisoners cost a small amount of cash every week : troop_cost - 99% + 1
-    prisoners can be sold
-        to original faction for troop_cost - 50%
-        as slave in towns with slaver building for troop_strength * 10 + troop_agility * 6 + troop_charisma * 4
-        to ransom broker for troop_cost - 60%
-- add garrison reinforcements
-    village to linked_center
-        pays for recruiting price + 10%
-    walled_center to needing_center
-        pays for recruiting price + 25% + modifiers
-            modifiers:
-                distance +
-                relation -
-                needing_center need -
-                walled_center danger +
-- add lord personality traits (use party templates for slots)
-    Base Stats:
-        Str:                    12
-        Agi:                    12
-        Int:                    12
-        Cha:                    12
-        Ironflesh:              2
-        PowerStrike:            3
-        PowerThrow:             2
-        PowerDraw:              4
-        Intimidation:           3
-        WeaponMaster:           0
-        Shield:                 0
-        Athletics:              3
-        Riding:                 3
-        HorseArchery:           2
-        Looting:                0
-        Trainer:                0
-        Tracking:               0
-        Tactics:                0
-        Pathfinding:            0
-        Spotting:               0
-        InventoryManagement:    0
-        WoundTreatement:        0
-        FirstAid:               0
-        Engineer:               0
-        Persuasion:             3
-        PrisonerManagement:     0
-        Leadership:             2
-        Trade:                  0
-    
-    
-    Fearless:   Base morale is increased by 10, while the leader is alive morale can't be under base morale.
-                If leader defeated in battle, morale drops 2 times faster
-    Dumb:       -4 int
-    Tough:      +3 ironflesh
-    Smart:      +4 int, -1 intimidation
-    Coward:     Morale boost (+20?) if leader is defeated in battle. Double morale loss for every event while leader is alive.
-    Tactician:  +2 tactics, +2 int, -2 str, grants ability "Rally"
-    Warrior:    +3 str, -2 int, grants ability "War Cry"
-    Strategist: +2 cha, -3 agi, +2 int, +2 leadership
-    Thick:      +4 str, -3 int
-    Swift:      +3 agi, +2 athletics
-    Witty:      +2 int, -2 cha, +2 persuasion
-    Shy:        Reserved about talking about himself, more stable relations, +2 int, -1 intimidation
-    Eccentric:  Does not mind being talked about, will openly talk about himself, less stable relations, +2 cha, -1 persuasion
-    Generous:   More likely to lend money, can do things that are not in his best interest, +1 persuasion
-    Selfish:    Less likely to lend money, does not give without anything in return, -1 persuasion
-    Cruel:      Likes to see his enemies suffer, -2 persuasion, +2 intimidation
-    Dull:       Does not appreciate humour, harder to befriend, -1 cha
-    Funny:      Likes a good joke, +1 cha
-    Egocentric: Thinks himself the center of attention, does not like being wrong, +1 int, -1 cha, -1 persuasion
-    Noble Blood:Better relation with others of noble blood, lower relations with the rest
-    Bastard:    Grants noble blood, lower relations with others of noble blood, lower renown gain
-    Noble:      Grants "Noble Family" to descendants, better relation with those of non-noble blood, slightly better relation with those of noble blood
-    Noble Family: Grants "Noble Blood" to descendants, +2 cha, +1 intimidation, +1 persuasion
-    Bloodthirsty: -10 morale for enemy units, -5 morale for friendly units (not own units), -1 ironflesh
-    Berserker:  +5 ironflesh, +3 power strike, +1 athletics, +3 indimidation, -2 power draw, -2 riding, -2 persuasion
-        Needs to win a certain number of battle using only melee/throwing weapons while having no horse and very light/no armor
-    Left Handed: +2 weapon master, +1 trainer, +1 shield, -3 cha, -1 power strike
-- abilities:
-    War Cry:    decrease morale for surrounding enemies, range and strength determined by str (strength = str/2) (range = str)
-    Rally:      increase morale for surrounding allies, range and strength determined by cha (strength = cha/2) (range = cha)
-- add family trees
-    use factions for families
-    families may have relationships between each other
-    relationships between families can influence some npc relation checks
-        not all, mostly politics and public ones because members do not want to be seen treating with an 'enemy' family
-        other than those, relations do not deteriorate because of family (excecpt certain personalities?)
+- parties
+    - add mercenary bands
+        Mercenaries can be hired to follow (only if led by a hero)
+        Adds a captain and a number of troops (single type or multiple)
+        Add mercenary heroes
+            Mercenary heroes take the template of the troops they lead or a higher rank
+            Can be hired like regular mercenaries
+            Some do not participate in politics (cannot be hired if part of a faction and at war)
+                Will leave party if the kindom declares war or if player joins a kingdom at war
+    - add bandits: 
+        add bounties on players and heroes
+            bounties are given by certain heroes (lords mostly)
+                Can ask for liege (or ally if kingdom is small) to put bounty in its place
+            bounties will lead to people being aggressive/afraid
+            slot_troop_bounty + slot_troop_bounty_giver
+        bandit hideouts
+        bandit parties
+        bandit leader parties (able to loot villages, castles and towns)
+            a looted center will lose some of its garrison, money, population and goods
+        roaming bandits
+            many small parties all around the map
+            unhappy populace generate bandits
+            may exceptionnaly generate a bandit hero leading a big group
+        deserters
+            deserters are created after big battles from the losing side
+            deserters sometimes head to villages to grow and or loot
+        bandits can loot villages
+        hero bandits can siege weak castles
+        if a bandit faction posesses a center, they may become a normal faction (allied with bandits of the same type)
+            hero bandits will gather near the center before becoming a faction
+            only if enough bandit heroes
+    - add patrols
+        one patrol per center, patrols around that center, and joins if it is attacked
+        patrol may come back to center to give out prisoners or refill its troops
+        only wealthy centers will have patrols
+        party size 50-80 ?
+        start with a month worth of wages
+        party stays until party size is too low, morale is too low, or prisoner are too many
+    - add scout
+        acts like a smaller patrol
+        may follow nearby peasants / caravans until they get too far from the center
+        act as a bandit hunter (only against small parties)
+        party size 10-30 ?
+        start with a month worth of wages (need that much wealth in the center to be able to spawn)
+    - add caravans
+        add escorts (only if trade post)
+            follows caravans out of the town (or joins party)
+    - add peasants
+        peasants travel between center to linked center
+        may head out to another city to sell specific goods ?
+    - add prisoner train
+        move prisoners when too many prisoners in center
+            moving_price == distance * num_moved
+        prisoners cost a small amount of cash every week : troop_cost - 99% + 1
+        prisoners can be sold
+            to original faction for troop_cost - 50%
+            as slave in towns with slaver building for troop_strength * 10 + troop_agility * 6 + troop_charisma * 4
+            to ransom broker for troop_cost - 60%
+    - add garrison reinforcements
+        village to linked_center
+            pays for recruiting price + 10%
+        walled_center to needing_center
+            pays for recruiting price + 25% + modifiers
+                modifiers:
+                    distance +
+                    relation -
+                    needing_center need -
+                    walled_center danger +
 - add morale
     in battle, morale increase/decrease damage of troop by 1% for every 5 point over/under 'neutral' morale
     demoralized troops flee battles more easily
@@ -585,6 +602,8 @@ ToDo:
         diplomats, doctors, traders
     Allows lords to have companions
         Think of script_agent_troop_get_banner_mesh for banners of lord's companions
+    Have a set amount of scripted companions ? Randomly appearing in the game as the same character ?
+        Might make the end game with less than them and less interesting ?
 - add bodyguards
     add behaviors (battle)
     bodyguards will be assigned to important ladies of the realm (when traveling?)
@@ -818,3 +837,23 @@ ToDo:
                     ask to assassinate a lord
                     ask to spy on lord / kingdom
                 else may still give the quest (if possible to assimilate the goal of kingdom with goal of king)
+- add death events
+    after battle, defeat outcomes: 
+        - player captured
+        - player left for dead
+        - player managed to escape
+    mini-adventure games after outcomes, left for dead can lead to death of the player
+        depends on difficult settings
+            easy difficulty will be very forgiving and have high chances of random positive outcomes
+            hard difficulty will leave little chance and have high risk of death
+        - roll a number at the begining of the game (0 to 2 ? should be influenced by player character personality ?)
+        - for each step of the game, three actions with a value attached to them are available
+        - at the end count the number of values for each number and determine an outcome
+        - after the outcome is decided, roll a dice, the number can affect the original outcome
+            - death can become a just-in-time rescue
+            - death can become humiliating (robbed by bandits, ...)
+            - death can become a capture by an enemy scout (came back to check on survivors)
+            - escape throw can come with luck (find a defeated companion on the verge of death)
+            - escape throw can come with death of a companion
+            - 'neutral' outcome may become a duel with an enemy soldier
+            - 'neutral' outcome may be robbed by bandits (persuasion dialog, cannot die in this state)

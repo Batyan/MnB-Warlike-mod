@@ -32,11 +32,13 @@ battle_siege_equalize_division = (
 		(store_current_scene, ":cur_scene"),
 		(scene_get_slot, ":num_points", ":cur_scene", slot_scene_num_defend_points),
 		(store_add, ":end", ":num_points", grc_cavalry),
+
+		(assign, ":defender_team", 0),
 		
 		(assign, ":slot", slot_team_division_3_number),
 		(assign, ":num_total", 0),
 		(try_for_range, ":unused", grc_cavalry, ":end"),
-			(team_get_slot, ":num_current", 0, ":slot"),
+			(team_get_slot, ":num_current", ":defender_team", ":slot"),
 			(val_add, ":num_total", ":num_current"),
 			(val_add, ":slot", 1),
 		(try_end),
@@ -44,40 +46,41 @@ battle_siege_equalize_division = (
 		(try_for_agents, ":agent_no"),
 			(agent_is_alive, ":agent_no"),
 			(agent_get_team, ":team", ":agent_no"),
-			(eq, ":team", 0),
+			(eq, ":team", ":defender_team"),
 			(agent_get_division, ":division", ":agent_no"),
 			(try_begin),
 				(ge, ":division", grc_cavalry),
 				(store_add, ":slot", ":division", slot_team_division_1_number),
-				(team_get_slot, ":num_troops", 0, ":slot"),
+				(team_get_slot, ":num_troops", ":defender_team", ":slot"),
 				(try_begin),
-					(ge, ":num_troops", ":avg"),
+					# (ge, ":num_troops", ":avg"),
 					(val_add, ":num_troops", -2),
 					(ge, ":num_troops", ":avg"),
 					(val_add, ":num_troops", 1),
 					
+					# ToDo: Seek least manner division
 					(store_random_in_range, ":random_division", grc_cavalry, ":end"),
 					(agent_set_division, ":agent_no", ":random_division"),
 					(agent_set_slot, ":agent_no", slot_agent_new_division, ":random_division"),
 					
-					(team_set_slot, 0, ":slot", ":num_troops"),
+					(team_set_slot, ":defender_team", ":slot", ":num_troops"),
 					(store_add, ":new_slot", ":random_division", slot_team_division_1_number),
-					(team_get_slot, ":new_num_troops", 0, ":new_slot"),
+					(team_get_slot, ":new_num_troops", ":defender_team", ":new_slot"),
 					(val_add, ":new_num_troops", 1),
-					(team_set_slot, ":new_slot", 0, ":new_num_troops"),
+					(team_set_slot, ":new_slot", ":defender_team", ":new_num_troops"),
 				(try_end),
 			(try_end),
 		(try_end),
 		
-		(team_get_slot, ":num_archers", 0, slot_team_division_2_number),
+		(team_get_slot, ":num_archers", ":defender_team", slot_team_division_2_number),
 		(try_begin),
 			(ge, ":num_archers", ":num_total"),
 			(try_begin),
-				(team_slot_eq, 0, slot_team_formation, stf_siege),
+				(team_slot_eq, ":defender_team", slot_team_formation, stf_siege),
 				(store_mul, ":num_total_max_throw", ":num_total", 2),
 				(ge, ":num_archers", ":num_total_max_throw"),
-				(team_set_slot, 0, slot_team_formation, stf_siege_no_throw),
-				(call_script, "script_team_set_division_slots_for_formation", 0, stf_siege_no_throw),
+				(team_set_slot, ":defender_team", slot_team_formation, stf_siege_no_throw),
+				(call_script, "script_team_set_division_slots_for_formation", ":defender_team", stf_siege_no_throw),
 				(try_begin),
                     (call_script, "script_cf_debug", debug_simple),
 					(display_message, "@Automatic change to siege no throw formation"),
@@ -92,7 +95,7 @@ battle_siege_equalize_division = (
 				(try_for_agents, ":agent_no"),
 					(agent_is_alive, ":agent_no"),
 					(agent_get_team, ":team", ":agent_no"),
-					(eq, ":team", 0),
+					(eq, ":team", ":defender_team"),
 					(agent_get_division, ":division", ":agent_no"),
 					(eq, ":division", grc_archers),
 					(agent_slot_eq, ":agent_no", slot_agent_forced_defend, 0),
@@ -246,7 +249,7 @@ battle_siege_equalize_division = (
 			(try_for_agents, ":agent_no"),
 				(agent_is_alive, ":agent_no"),
 				(agent_get_team, ":team", ":agent_no"),
-				(eq, ":team", 0),
+				(eq, ":team", ":defender_team"),
 				(agent_get_division, ":division", ":agent_no"),
 				(neq, ":division", grc_archers),
 				(agent_slot_eq, ":agent_no", slot_agent_forced_defend, 1),
@@ -467,19 +470,19 @@ test_battle_spawn_troops_2_teams = (
 			(try_begin),
 				(lt, ":num_alive", ":num_men_threshold"),
 				
-				(try_begin),
-					(eq, ":cur_team", 1), # ToDo: player control
-					(team_slot_ge, ":cur_team", slot_team_battle_phase, stbp_combat),
-					(try_for_agents, ":agent_no"),
-						(agent_get_team, ":agent_team", ":agent_no"),
-						(eq, ":agent_team", ":cur_team"),
-						(agent_set_slot, ":agent_no", slot_agent_charge, 1),
-						(agent_set_division, ":agent_no", 4),
-						(agent_set_slot, ":agent_no", slot_agent_new_division, 4),
-					(try_end),
-					(team_set_slot, ":cur_team", slot_team_battle_phase, stbp_deploy),
-					(call_script, "script_init_team_battle_ai", ":cur_team"),
-				(try_end),
+				# (try_begin),
+				# 	(eq, ":cur_team", 1), # ToDo: player control
+				# 	(team_slot_ge, ":cur_team", slot_team_battle_phase, stbp_combat),
+				# 	(try_for_agents, ":agent_no"),
+				# 		(agent_get_team, ":agent_team", ":agent_no"),
+				# 		(eq, ":agent_team", ":cur_team"),
+				# 		(agent_set_slot, ":agent_no", slot_agent_charge, 1),
+				# 		(agent_set_division, ":agent_no", 4),
+				# 		(agent_set_slot, ":agent_no", slot_agent_new_division, 4),
+				# 	(try_end),
+				# 	(team_set_slot, ":cur_team", slot_team_battle_phase, stbp_deploy),
+				# 	(call_script, "script_init_team_battle_ai", ":cur_team"),
+				# (try_end),
 				
 				(team_get_slot, ":spawn_point", ":cur_team", slot_team_test_spawn_point),
 				(call_script, "script_test_spawn_team_members", ":cur_team", ":spawn_point"),
@@ -517,13 +520,13 @@ test_battle_spawn_troops = (
 				(try_begin),
 					(neq, ":cur_team", 0), # ToDo: player control
 					(team_slot_ge, ":cur_team", slot_team_battle_phase, stbp_combat),
-					(try_for_agents, ":agent_no"),
-						(agent_get_team, ":agent_team", ":agent_no"),
-						(eq, ":agent_team", ":cur_team"),
-						(agent_set_slot, ":agent_no", slot_agent_charge, 1),
-						(agent_set_division, ":agent_no", 4),
-						(agent_set_slot, ":agent_no", slot_agent_new_division, 4),
-					(try_end),
+					# (try_for_agents, ":agent_no"),
+					# 	(agent_get_team, ":agent_team", ":agent_no"),
+					# 	(eq, ":agent_team", ":cur_team"),
+					# 	(agent_set_slot, ":agent_no", slot_agent_charge, 1),
+					# 	(agent_set_division, ":agent_no", 4),
+					# 	(agent_set_slot, ":agent_no", slot_agent_new_division, 4),
+					# (try_end),
 					(team_set_slot, ":cur_team", slot_team_battle_phase, stbp_deploy),
 					(call_script, "script_init_team_battle_ai", ":cur_team"),
 				(try_end),
@@ -576,32 +579,21 @@ battle_reinforcements = (
 			(assign, ":num_men_threshold", 12),
 			(try_begin),
 				(lt, ":num_troops", ":num_men_threshold"),
-				
+
 				(try_begin),
 					(neq, ":cur_team", "$g_player_team"),
 					(team_slot_ge, ":cur_team", slot_team_battle_phase, stbp_combat),
-					(try_for_agents, ":agent_no"),
-						(agent_get_team, ":agent_team", ":agent_no"),
-						(eq, ":agent_team", ":cur_team"),
-						(agent_set_slot, ":agent_no", slot_agent_charge, 1),
-						(agent_set_division, ":agent_no", 4),
-						(agent_set_slot, ":agent_no", slot_agent_new_division, 4),
-					(try_end),
+					# (try_for_agents, ":agent_no"),
+					# 	(agent_get_team, ":agent_team", ":agent_no"),
+					# 	(eq, ":agent_team", ":cur_team"),
+					# 	(agent_set_slot, ":agent_no", slot_agent_charge, 1),
+					# 	(agent_set_division, ":agent_no", 4),
+					# 	(agent_set_slot, ":agent_no", slot_agent_new_division, 4),
+					# (try_end),
 					(team_set_slot, ":cur_team", slot_team_battle_phase, stbp_deploy),
 					(call_script, "script_init_team_battle_ai", ":cur_team"),
 				(try_end),
-				(try_begin),
-					(team_slot_ge, ":allied_team", slot_team_battle_phase, stbp_combat),
-					(try_for_agents, ":agent_no"),
-						(agent_get_team, ":agent_team", ":agent_no"),
-						(eq, ":agent_team", ":allied_team"),
-						(agent_set_slot, ":agent_no", slot_agent_charge, 1),
-						(agent_set_division, ":agent_no", 4),
-						(agent_set_slot, ":agent_no", slot_agent_new_division, 4),
-					(try_end),
-					(team_set_slot, ":allied_team", slot_team_battle_phase, stbp_deploy),
-					(call_script, "script_init_team_battle_ai", ":allied_team"),
-				(try_end),
+
 				(team_get_slot, ":entry", ":cur_team", slot_team_test_spawn_point),
 				(add_reinforcements_to_entry, ":entry", 4),
 			(try_end),
@@ -637,20 +629,24 @@ test_battle_init = (
 		[
 			(store_current_scene, ":cur_scene"),
 			(modify_visitors_at_site, ":cur_scene"),
-			(add_visitors_to_current_scene, 0, "trp_player", 1),
-			
-			(try_for_range, ":team", 0, 2),
-				(team_give_order, ":team", grc_archers, mordr_stand_ground),
-			(try_end),
+			(add_visitors_to_current_scene, 0, player_troop, 1),
+
+			(call_script, "script_init_battle_ais"),
 		])
 		
 battle_init = (
 	0, 0, ti_once,
 		[],
 		[
+			# (try_for_range, ":team", 0, 4),
+			# 	(team_set_slot, ":team", slot_team_battle_phase, stbp_deploy),
+			# 	(call_script, "script_init_team_battle_ai", ":team"),
+			# (try_end),
+
+			(call_script, "script_init_battle_ais"),
 			# (store_current_scene, ":cur_scene"),
 			# (modify_visitors_at_site, ":cur_scene"),
-			# (add_visitors_to_current_scene, 0, "trp_player", 1),
+			# (add_visitors_to_current_scene, 0, player_troop, 1),
 			
 			# (try_for_range, ":team", 0, 2),
 				# (team_give_order, ":team", grc_archers, mordr_stand_ground),
@@ -663,7 +659,7 @@ test_battle_init_siege = (
 		[
 			(store_current_scene, ":cur_scene"),
 			(modify_visitors_at_site, ":cur_scene"),
-			(add_visitors_to_current_scene, 0, "trp_player", 1),
+			(add_visitors_to_current_scene, 0, player_troop, 1),
 			
 			# (try_for_range, ":team", 0, 1),
 			(team_give_order, 0, grc_archers, mordr_stand_ground),
@@ -812,7 +808,7 @@ test_battle_faction_select = (
 				(try_end),
 			(else_try),
 				(key_clicked, key_semicolon),
-				(try_for_range, ":troop_no", "trp_player", "trp_swadian_lord_template_0"),
+				(try_for_range, ":troop_no", player_troop, "trp_swadian_lord_template_0"),
 					(troop_set_slot, ":troop_no", slot_troop_mission_deaths, 0),
 					(troop_set_slot, ":troop_no", slot_troop_mission_kills, 0),
 				(try_end),
@@ -878,19 +874,6 @@ test_battle_faction_select = (
 			(try_end),
 		])
 
-test_battle_spawn = (
-	ti_on_agent_spawn, 0, 0,
-		[],
-		[
-			(store_trigger_param, ":agent_no", 1),
-			# (get_player_agent_no, ":player_agent"),
-			(try_begin),
-				# (neq, ":agent_no", ":player_agent"),
-				(call_script, "script_agent_reassign_division", ":agent_no"),
-				(call_script, "script_init_agent", ":agent_no"),
-			(try_end),
-		])
-
 battle_spawn = (
 	ti_on_agent_spawn, 0, 0,
 		[],
@@ -937,16 +920,6 @@ test_battle_siege_spawn = (
 				
 				(call_script, "script_init_agent", ":agent_no"),
 				(agent_set_slot, ":agent_no", slot_agent_forced_defend, 0),
-			(try_end),
-		])
-
-test_battle_division_control = (
-	5, 0, 0,
-		[],
-		[
-			(try_for_agents, ":agent_no"),
-				(agent_is_alive, ":agent_no"),
-				(call_script, "script_agent_reassign_division", ":agent_no"),
 			(try_end),
 		])
 
@@ -1123,7 +1096,7 @@ test_battle_player_respawn = (
 		[
 			(try_begin),
 				(is_between, "$g_test_player_troop", soldiers_begin, soldiers_end),
-				(call_script, "script_troop_use_template_troop", "trp_player", "$g_test_player_troop"),
+				(call_script, "script_troop_use_template_troop", player_troop, "$g_test_player_troop"),
 			(try_end),
 
 			(store_current_scene, ":scene"),
@@ -1134,7 +1107,7 @@ test_battle_player_respawn = (
 				(call_script, "script_scene_get_spawn_range", "$g_test_player_team"),
 				(assign, ":spawn_point", reg0),
 			(try_end),
-			(add_visitors_to_current_scene, ":spawn_point", "trp_player", 1),
+			(add_visitors_to_current_scene, ":spawn_point", player_troop, 1),
 		])
 
 test_battle_lord_spawn = (
@@ -1149,7 +1122,7 @@ test_battle_lord_spawn = (
 				(agent_is_alive, ":agent_no"),
 				(agent_get_troop_id, ":troop_id", ":agent_no"),
 				(troop_is_hero, ":troop_id"),
-				(neq, ":troop_id", "trp_player"),
+				(neq, ":troop_id", player_troop),
 				(agent_get_team, ":agent_team", ":agent_no"),
 				(try_begin),
 					(eq, ":agent_team", 0),
@@ -1373,10 +1346,11 @@ test_battle_death_event = (
 		(store_trigger_param_2, ":killer_agent_no"),
 		# (store_trigger_param_3, ":is_wounded"),
 
-		(agent_get_troop_id, ":dead_troop_id", ":dead_agent_no"),
-		(agent_get_troop_id, ":killer_troop_id", ":killer_agent_no"),
-		(agent_get_wielded_item, ":killer_wielded_item", ":killer_agent_no", 0),
 		(try_begin),
+			(agent_is_human, ":dead_agent_no"),
+			(agent_get_troop_id, ":dead_troop_id", ":dead_agent_no"),
+			(agent_get_troop_id, ":killer_troop_id", ":killer_agent_no"),
+			(agent_get_wielded_item, ":killer_wielded_item", ":killer_agent_no", 0),
 			(try_begin),
 				(gt,":killer_wielded_item", 0),
 				(item_get_slot, ":num_item_kills", ":killer_wielded_item", slot_item_mission_kills),
@@ -1408,7 +1382,6 @@ test_battle_death_event = (
 
 		(try_end),
 	])
-	
 	
 #################
 ## Definitions ##
@@ -1514,7 +1487,7 @@ mission_templates = [
 					(assign, "$g_test_player_team", 0),
 					# (assign, "$g_test_player_troop", "trp_swadian_militia"),
 					
-					# (call_script, "script_troop_use_template_troop", "trp_player", "$g_test_player_troop"),
+					# (call_script, "script_troop_use_template_troop", player_troop, "$g_test_player_troop"),
 				]),
 			
 			(ti_tab_pressed, 0, 0, [],
@@ -1547,9 +1520,9 @@ mission_templates = [
 			test_battle_init,
 			test_battle_spawn_troops,
 			test_battle_fix_division,
-			test_battle_division_control,
+			battle_division_control,
 			
-			test_battle_spawn,
+			battle_spawn,
 			test_battle_faction_select,
 			test_battle_death_event,
 			
@@ -1579,7 +1552,7 @@ mission_templates = [
 					(assign, "$g_test_cur_team", 0),
 					# (assign, "$g_test_player_troop", "trp_swadian_militia"),
 					
-					# (call_script, "script_troop_use_template_troop", "trp_player", "$g_test_player_troop"),
+					# (call_script, "script_troop_use_template_troop", player_troop, "$g_test_player_troop"),
 				]),
 			
 			(5, 0, 0,
@@ -1711,10 +1684,12 @@ mission_templates = [
 					(try_end),
 					(try_begin),
 						(eq, ":team_1", 0),
+						(assign, "$g_battle_result", 1),
 						(display_message, "@You are victorious!"),
 						(finish_mission, 0),
 					(else_try),
 						(eq, ":team_0", 0),
+						(assign, "$g_battle_result", -1),
 						(display_message, "@You have been defeated!"),
 						(finish_mission, 0),
 					(try_end),
@@ -1806,10 +1781,12 @@ mission_templates = [
 					(try_end),
 					(try_begin),
 						(eq, ":team_1", 0),
+						(assign, "$g_battle_result", 1),
 						(display_message, "@You are victorious!"),
 						(finish_mission, 0),
 					(else_try),
 						(eq, ":team_0", 0),
+						(assign, "$g_battle_result", -1),
 						(display_message, "@You have been defeated!"),
 						(finish_mission, 0),
 					(try_end),
@@ -1827,7 +1804,7 @@ mission_templates = [
 			[
 				(store_current_scene, ":scene"),
 				(modify_visitors_at_site, ":scene"),
-				(add_visitors_to_current_scene, 0, "trp_player", 1),
+				(add_visitors_to_current_scene, 0, player_troop, 1),
 			]),
 			
 			(ti_tab_pressed, 0, 0, [],

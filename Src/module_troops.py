@@ -442,190 +442,192 @@ troops = [
     ## Other ##
     ###########
   
-  
   ["temp_equipement_troop", "Equip Troop", "Equip Troop", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
    [],
    def_attrib, wp(70), knows_common, 0, 0 ],
+  ["current_player","Player","Player",tf_hero|tf_unmoveable_in_party_window,no_scene,reserved,fac_player_faction,
+   [itm_sword_medieval_b, itm_tab_shield_heater_cav_a, itm_light_lance, itm_leather_boots, itm_leather_gloves, itm_leather_armor, itm_saddle_horse],
+   str_12|agi_12|int_12|cha_12|level(1),wp(10),0,0x000000018000000136db6db6db6db6db00000000001db6db0000000000000000 ],
   #########
   # Lords #
   #########
-  ["lord_001", "Lord 1", "Lord 1", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_001", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x0000000007085111455ba5c8e382c91c00000000000d342b0000000000000000, 0 ],
-  ["lord_002", "Lord 2", "Lord 2", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_002", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x000000000200320538ab30c4ca6dc862000000000009c6990000000000000000, 0 ],
-  ["lord_003", "Lord 3", "Lord 3", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_003", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x000000002410358224db4ee51a7b541b000000000018b6940000000000000000, 0 ],
-  ["lord_004", "Lord 4", "Lord 4", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_004", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x000000001d0015c235ac6144e26e12b20000000000132d140000000000000000, 0 ],
-  ["lord_005", "Lord 5", "Lord 5", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_005", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x00000000050c330456f46ea3a552a550000000000011d6a10000000000000000, 0 ],
-  ["lord_006", "Lord 6", "Lord 6", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_006", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x00000000170403913614a9586231a6a6000000000010b4e30000000000000000, 0 ],
-  ["lord_007", "Lord 7", "Lord 7", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_007", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x0000000017044411292c89c54cd1c4dc00000000001d6ae10000000000000000, 0 ],
-  ["lord_008", "Lord 8", "Lord 8", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_008", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x000000002808258635a42dd8d3062a1d00000000001d56e20000000000000000, 0 ],
-  ["lord_009", "Lord 9", "Lord 9", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_009", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x000000000e04200826e45629636ec6e400000000001dc51e0000000000000000, 0 ],
-  ["lord_010", "Lord 10", "Lord 10", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_010", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x0000000027101404269c522b4a713b2300000000001cb6a10000000000000000, 0 ],
-  ["lord_011", "Lord 11", "Lord 11", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_011", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x00000000201024d144e3ae390b9348ec00000000001e68a40000000000000000, 0 ],
-  ["lord_012", "Lord 12", "Lord 12", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_012", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x000000000a042591330cd6b71e88996300000000000d36900000000000000000, 0 ],
-  ["lord_013", "Lord 13", "Lord 13", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_013", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x00000000090c3094296c563a8aa9d2ea00000000000556eb0000000000000000, 0 ],
-  ["lord_014", "Lord 14", "Lord 14", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_014", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x00000000350025cd12f46b67298d666200000000001ec6e90000000000000000, 0 ],
-  ["lord_015", "Lord 15", "Lord 15", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_015", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x000000002b0c5111469b35d4a37128750000000000063a9d0000000000000000, 0 ],
-  ["lord_016", "Lord 16", "Lord 16", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_016", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x00000000300015102b2369e50b6ed7ad00000000001e395c0000000000000000, 0 ],
-  ["lord_017", "Lord 17", "Lord 17", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_017", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x000000002e043550391bcd3235373461000000000009b9220000000000000000, 0 ],
-  ["lord_018", "Lord 18", "Lord 18", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_018", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x000000002e042407439b8abad98a54e400000000001db8d40000000000000000, 0 ],
-  ["lord_019", "Lord 19", "Lord 19", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_019", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x000000001f08254a46dd88ad0330b50a00000000001e36ec0000000000000000, 0 ],
-  ["lord_020", "Lord 20", "Lord 20", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_020", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x00000000300c2106484d8d991b51e91200000000001c2ada0000000000000000, 0 ],
-  ["lord_021", "Lord 21", "Lord 21", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_021", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x000000001f08254a46dd88ad0330b50a00000000001e36ec0000000000000000, 0 ],
-  ["lord_022", "Lord 22", "Lord 22", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_022", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x00000000300c2106484d8d991b51e91200000000001c2ada0000000000000000, 0 ],
-  ["lord_023", "Lord 21", "Lord 21", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_023", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x000000001f08254a46dd88ad0330b50a00000000001e36ec0000000000000000, 0 ],
-  ["lord_024", "Lord 22", "Lord 22", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_024", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x00000000300c2106484d8d991b51e91200000000001c2ada0000000000000000, 0 ],
-  ["lord_025", "Lord 23", "Lord 23", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_025", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x000000002e042407439b8abad98a54e400000000001db8d40000000000000000, 0 ],
-  ["lord_026", "Lord 24", "Lord 24", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_026", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x00000000300015102b2369e50b6ed7ad00000000001e395c0000000000000000, 0 ],
-  ["lord_027", "Lord 23", "Lord 23", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_027", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x000000002e042407439b8abad98a54e400000000001db8d40000000000000000, 0 ],
-  ["lord_028", "Lord 24", "Lord 24", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_028", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x00000000300015102b2369e50b6ed7ad00000000001e395c0000000000000000, 0 ],
-  ["lord_029", "Lord 25", "Lord 25", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_029", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x000000001f08254a46dd88ad0330b50a00000000001e36ec0000000000000000, 0 ],
-  ["lord_030", "Lord 26", "Lord 26", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_030", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x00000000300c2106484d8d991b51e91200000000001c2ada0000000000000000, 0 ],
-  ["lord_031", "Lord 27", "Lord 27", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_031", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x000000002e042407439b8abad98a54e400000000001db8d40000000000000000, 0 ],
-  ["lord_032", "Lord 28", "Lord 28", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_032", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x00000000300015102b2369e50b6ed7ad00000000001e395c0000000000000000, 0 ],
-  ["lord_033", "Lord 29", "Lord 29", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_033", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x00000000300015102b2369e50b6ed7ad00000000001e395c0000000000000000, 0 ],
-  ["lord_034", "Lord 27", "Lord 27", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_034", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x000000002e042407439b8abad98a54e400000000001db8d40000000000000000, 0 ],
-  ["lord_035", "Lord 28", "Lord 28", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_035", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x00000000300015102b2369e50b6ed7ad00000000001e395c0000000000000000, 0 ],
-  ["lord_036", "Lord 29", "Lord 29", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_036", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x00000000300015102b2369e50b6ed7ad00000000001e395c0000000000000000, 0 ],
-  ["lord_037", "Lord 30", "Lord 30", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_037", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x000000002e042407439b8abad98a54e400000000001db8d40000000000000000, 0 ],
-  ["lord_038", "Lord 31", "Lord 31", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_038", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x00000000300015102b2369e50b6ed7ad00000000001e395c0000000000000000, 0 ],
-  ["lord_039", "Lord 30", "Lord 30", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_039", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x000000002e042407439b8abad98a54e400000000001db8d40000000000000000, 0 ],
-  ["lord_040", "Lord 31", "Lord 31", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_040", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x00000000300015102b2369e50b6ed7ad00000000001e395c0000000000000000, 0 ],
-  ["lord_041", "Lord 32", "Lord 32", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_041", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x000000002e042407439b8abad98a54e400000000001db8d40000000000000000, 0 ],
-  ["lord_042", "Lord 33", "Lord 33", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_042", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x00000000300015102b2369e50b6ed7ad00000000001e395c0000000000000000, 0 ],
-  ["lord_043", "Lord 34", "Lord 34", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_043", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x000000002e042407439b8abad98a54e400000000001db8d40000000000000000, 0 ],
-  ["lord_044", "Lord 35", "Lord 35", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_044", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x00000000300015102b2369e50b6ed7ad00000000001e395c0000000000000000, 0 ],
-  ["lord_045", "Lord 34", "Lord 34", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_045", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x000000002e042407439b8abad98a54e400000000001db8d40000000000000000, 0 ],
-  ["lord_046", "Lord 35", "Lord 35", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_046", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x00000000300015102b2369e50b6ed7ad00000000001e395c0000000000000000, 0 ],
-  ["lord_047", "Lord 36", "Lord 36", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_047", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x000000002e042407439b8abad98a54e400000000001db8d40000000000000000, 0 ],
-  ["lord_048", "Lord 37", "Lord 37", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_048", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x00000000300015102b2369e50b6ed7ad00000000001e395c0000000000000000, 0 ],
-  ["lord_049", "Lord 36", "Lord 36", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_049", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x000000002e042407439b8abad98a54e400000000001db8d40000000000000000, 0 ],
-  ["lord_050", "Lord 37", "Lord 37", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_050", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x00000000300015102b2369e50b6ed7ad00000000001e395c0000000000000000, 0 ],
-  ["lord_051", "Lord 38", "Lord 38", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_051", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x000000002e042407439b8abad98a54e400000000001db8d40000000000000000, 0 ],
-  ["lord_052", "Lord 39", "Lord 39", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_052", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x00000000300015102b2369e50b6ed7ad00000000001e395c0000000000000000, 0 ],
-  ["lord_053", "Lord 38", "Lord 38", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_053", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x000000002e042407439b8abad98a54e400000000001db8d40000000000000000, 0 ],
-  ["lord_054", "Lord 39", "Lord 39", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_054", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x00000000300015102b2369e50b6ed7ad00000000001e395c0000000000000000, 0 ],
-  ["lord_055", "Lord 1", "Lord 1", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_055", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x000000000a10304b46554cd96565c6e300000000001b48d90000000000000000, 0 ],
-  ["lord_056", "Lord 2", "Lord 2", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_056", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x00000000020c52c748eb2e2adc5b4ac900000000001ddb640000000000000000, 0 ],
-  ["lord_057", "Lord 3", "Lord 3", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_057", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x00000000140813531923992121ae4a8c000000000018c31e0000000000000000, 0 ],
-  ["lord_058", "Lord 4", "Lord 4", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_058", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x000000002b080089690c48c7138cb8a400000000001cc6de0000000000000000, 0 ],
-  ["lord_059", "Lord 5", "Lord 5", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_059", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x00000000001055d236a359d70b8a66ef00000000001ebc930000000000000000, 0 ],
-  ["lord_060", "Lord 6", "Lord 6", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_060", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x00000000190012061794c8b96c4de50a00000000001ec4e30000000000000000, 0 ],
-  ["lord_061", "Lord 7", "Lord 7", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_061", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x00000000260c15104c5b7648c391e2ed00000000001e38ea0000000000000000, 0 ],
-  ["lord_062", "Lord 8", "Lord 8", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_062", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x000000000f08114b1acc45372d6a252900000000001db4a10000000000000000, 0 ],
-  ["lord_063", "Lord 9", "Lord 9", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_063", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x000000001e10150328f2753a7392592300000000001d54a30000000000000000, 0 ],
-  ["lord_064", "Lord 10", "Lord 10", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_064", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x000000003f1001c92b7389c32cb1ca5d00000000001da6f30000000000000000, 0 ],
-  ["lord_065", "Lord 11", "Lord 11", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_065", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x00000000290c00c146da92a624ae56a300000000001d575a0000000000000000, 0 ],
-  ["lord_066", "Lord 12", "Lord 12", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_066", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x000000003f04108434ea70c87432b5ab00000000001dc9360000000000000000, 0 ],
-  ["lord_067", "Lord 13", "Lord 13", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_067", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x000000003510110a4d1d6dcb248da12d00000000001da2c10000000000000000, 0 ],
-  ["lord_068", "Lord 14", "Lord 14", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_068", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x000000003f04020d369c563cdb0d692300000000001e26940000000000000000, 0 ],
-  ["lord_069", "Lord 15", "Lord 15", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_069", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x000000003d1015c82c9441c92492c8e200000000001da7950000000000000000, 0 ],
-  ["lord_070", "Lord 16", "Lord 16", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_070", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x00000000370415494a9551c2e6d2d75c00000000001ed4da0000000000000000, 0 ],
-  ["lord_071", "Lord 17", "Lord 17", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_071", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x00000000310c111446db4e3734554a8b00000000001eb90a0000000000000000, 0 ],
-  ["lord_072", "Lord 18", "Lord 18", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_072", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x000000003f08058142b4b94a55aa352400000000001dc89c0000000000000000, 0 ],
-  ["lord_073", "Lord 19", "Lord 19", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_073", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x00000000330c15c81513a936dc2ec6db00000000001e14b30000000000000000, 0 ],
-  ["lord_074", "Lord 20", "Lord 20", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_074", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x00000000100413025b24715b6d5b1d6200000000001dc6f30000000000000000, 0 ],
-  ["lord_075", "Lord 21", "Lord 21", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_075", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x00000000330c15c81513a936dc2ec6db00000000001e14b30000000000000000, 0 ],
-  ["lord_076", "Lord 22", "Lord 22", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_076", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x00000000100413025b24715b6d5b1d6200000000001dc6f30000000000000000, 0 ],
-  ["lord_077", "Lord 23", "Lord 23", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_077", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x00000000330c15c81513a936dc2ec6db00000000001e14b30000000000000000, 0 ],
-  ["lord_078", "Lord 24", "Lord 24", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_078", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x00000000100413025b24715b6d5b1d6200000000001dc6f30000000000000000, 0 ],
-  ["lord_079", "Lord 25", "Lord 25", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_079", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x00000000330c15c81513a936dc2ec6db00000000001e14b30000000000000000, 0 ],
-  ["lord_080", "Lord 26", "Lord 26", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_080", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x00000000100413025b24715b6d5b1d6200000000001dc6f30000000000000000, 0 ],
-  ["lord_081", "Lord 27", "Lord 27", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_081", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x00000000330c15c81513a936dc2ec6db00000000001e14b30000000000000000, 0 ],
-  ["lord_082", "Lord 28", "Lord 28", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_082", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x00000000100413025b24715b6d5b1d6200000000001dc6f30000000000000000, 0 ],
-  ["lord_083", "Lord 29", "Lord 29", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_083", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x00000000330c15c81513a936dc2ec6db00000000001e14b30000000000000000, 0 ],
-  ["lord_084", "Lord 30", "Lord 30", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_084", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x00000000330c15c81513a936dc2ec6db00000000001e14b30000000000000000, 0 ],
-  ["lord_085", "Lord 31", "Lord 31", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_085", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x00000000100413025b24715b6d5b1d6200000000001dc6f30000000000000000, 0 ],
-  ["lord_086", "Lord 32", "Lord 32", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_086", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x00000000330c15c81513a936dc2ec6db00000000001e14b30000000000000000, 0 ],
-  ["lord_087", "Lord 33", "Lord 33", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_087", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x00000000100413025b24715b6d5b1d6200000000001dc6f30000000000000000, 0 ],
-  ["lord_088", "Lord 34", "Lord 34", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_088", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x00000000330c15c81513a936dc2ec6db00000000001e14b30000000000000000, 0 ],
-  ["lord_089", "Lord 35", "Lord 35", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_089", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x00000000100413025b24715b6d5b1d6200000000001dc6f30000000000000000, 0 ],
   ["lord_090", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x000000003a0863063c9c4243132db69200000000000d67520000000000000000, 0 ],
@@ -667,37 +669,37 @@ troops = [
    def_lord_attrib, wp(70), knows_common, 0x000000001d08318a5cbaa5229d79b8ed00000000001ec3340000000000000000, 0 ],
   ["lord_109", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x000000002d1043804733cdb4db6e03a600000000001d370b0000000000000000, 0 ],
-  ["lord_110", "Lord 21", "Lord 21", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_110", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x000000001d08318a5cbaa5229d79b8ed00000000001ec3340000000000000000, 0 ],
-  ["lord_111", "Lord 22", "Lord 22", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_111", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x000000002d1043804733cdb4db6e03a600000000001d370b0000000000000000, 0 ],
-  ["lord_112", "Lord 23", "Lord 23", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_112", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x000000001d08318a5cbaa5229d79b8ed00000000001ec3340000000000000000, 0 ],
-  ["lord_113", "Lord 24", "Lord 24", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_113", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x000000002d1043804733cdb4db6e03a600000000001d370b0000000000000000, 0 ],
-  ["lord_114", "Lord 25", "Lord 25", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_114", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x000000001d08318a5cbaa5229d79b8ed00000000001ec3340000000000000000, 0 ],
-  ["lord_115", "Lord 26", "Lord 26", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_115", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x000000002d1043804733cdb4db6e03a600000000001d370b0000000000000000, 0 ],
-  ["lord_116", "Lord 27", "Lord 27", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_116", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x000000001d08318a5cbaa5229d79b8ed00000000001ec3340000000000000000, 0 ],
-  ["lord_117", "Lord 28", "Lord 28", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_117", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x000000002d1043804733cdb4db6e03a600000000001d370b0000000000000000, 0 ],
-  ["lord_118", "Lord 29", "Lord 29", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_118", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x000000001d08318a5cbaa5229d79b8ed00000000001ec3340000000000000000, 0 ],
-  ["lord_119", "Lord 30", "Lord 30", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_119", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x000000002d1043804733cdb4db6e03a600000000001d370b0000000000000000, 0 ],
-  ["lord_120", "Lord 31", "Lord 31", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_120", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x000000001d08318a5cbaa5229d79b8ed00000000001ec3340000000000000000, 0 ],
-  ["lord_121", "Lord 32", "Lord 32", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_121", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x000000002d1043804733cdb4db6e03a600000000001d370b0000000000000000, 0 ],
-  ["lord_122", "Lord 33", "Lord 33", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_122", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x000000001d08318a5cbaa5229d79b8ed00000000001ec3340000000000000000, 0 ],
-  ["lord_123", "Lord 34", "Lord 34", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_123", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x000000002d1043804733cdb4db6e03a600000000001d370b0000000000000000, 0 ],
-  ["lord_124", "Lord 35", "Lord 35", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_124", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x000000001d08318a5cbaa5229d79b8ed00000000001ec3340000000000000000, 0 ],
-  ["lord_125", "Lord 36", "Lord 36", tf_hero, no_scene, reserved, fac_commoners, [],
+  ["lord_125", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x000000002d1043804733cdb4db6e03a600000000001d370b0000000000000000, 0 ],
   ["lord_126", "Lord", "Lord", tf_hero, no_scene, reserved, fac_commoners, [],
    def_lord_attrib, wp(70), knows_common, 0x00000000151002d049359138cd4db89400000000001eca630000000000000000, 0 ],
@@ -1358,7 +1360,6 @@ troops = [
     itm_full_helm,
     ],
    str_24|agi_14|int_12|cha_17|level(44), wp_rhodok(220), knows_ironflesh_10|knows_power_strike_7|knows_athletics_5|knows_shield_1|knows_companion_noble_high, 0x000000000d04718d372c6d9f4d6d46a400000000001ea4910000000000000000, 0 ],
-  
   # Warriors
   # Support
   # Civilians
@@ -1526,7 +1527,7 @@ troops = [
     itm_haubergeon, itm_mail_with_surcoat,
     itm_flat_topped_helmet, itm_kettle_hat, itm_guard_helmet, itm_guard_helmet, itm_bascinet, itm_bascinet_b, itm_bascinet_c,
     ],
-   str_20|agi_10|int_9|cha_8|level(24), wpex(90,80,110,60,50,40), knows_common|knows_ironflesh_6|knows_power_strike_4|knows_power_draw_1|knows_athletics_2|knows_riding_2|knows_shield_1, swadian_face_young_1, swadian_face_old_2 ],
+   str_20|agi_10|int_9|cha_8|level(24), wpex(90,80,110,60,50,40), knows_common|knows_ironflesh_6|knows_power_strike_3|knows_power_draw_1|knows_athletics_2|knows_riding_2|knows_shield_1, swadian_face_young_1, swadian_face_old_2 ],
   
   # Heavy infantry, swords, picks, maces, shields
   ["swadian_heavy_infantry", "Swadian Man-At-Arms", "Swadian Men-At-Arms", tf_guarantee_trained_armor|tf_guarantee_shield, no_scene, reserved, fac_kingdom_1,
@@ -1609,7 +1610,7 @@ troops = [
     itm_haubergeon, itm_mail_with_surcoat,
     itm_flat_topped_helmet, itm_kettle_hat, itm_guard_helmet, itm_guard_helmet, itm_bascinet, itm_bascinet_b, itm_bascinet_c,
     ],
-   str_19|agi_10|int_9|cha_8|level(23), wpex(90,80,120,60,50,40), knows_common|knows_ironflesh_6|knows_power_strike_4|knows_power_draw_1|knows_athletics_3|knows_riding_2|knows_shield_1, swadian_face_young_1, swadian_face_old_2 ],
+   str_19|agi_10|int_9|cha_8|level(23), wpex(90,80,120,60,50,40), knows_common|knows_ironflesh_6|knows_power_strike_3|knows_power_draw_1|knows_athletics_3|knows_riding_2|knows_shield_1, swadian_face_young_1, swadian_face_old_2 ],
   
   # Heavy infantry, polearms
   # SPECIAL
@@ -1678,7 +1679,7 @@ troops = [
     itm_coat_of_plates_red,
     itm_guard_helmet, itm_guard_helmet, itm_bascinet, itm_bascinet_b, itm_bascinet_c,
     ],
-   str_24|agi_9|int_10|cha_9|level(29), wpex(95,85,120,65,55,50), knows_common|knows_ironflesh_9|knows_power_strike_4|knows_power_draw_1|knows_athletics_2|knows_riding_2|knows_shield_1, swadian_face_young_1, swadian_face_old_2 ],
+   str_24|agi_9|int_10|cha_9|level(29), wpex(95,85,120,65,55,50), knows_common|knows_ironflesh_9|knows_power_strike_3|knows_power_draw_1|knows_athletics_2|knows_riding_2|knows_shield_1, swadian_face_young_1, swadian_face_old_2 ],
   
   # Medium ranged, swords, picks, maces, crossbows, shields
   # SPECIAL
@@ -1711,9 +1712,9 @@ troops = [
    str_24|agi_10|int_11|cha_10|level(32), wpex(110,110,125,65,55,50), knows_common|knows_ironflesh_9|knows_power_strike_5|knows_power_throw_1|knows_power_draw_2|knows_athletics_3|knows_riding_3, swadian_face_young_1, swadian_face_old_2 ],
   
   # Noble
-  # Heavy cavalry, swords, bastard swords, morningstars, lances, shields
+  # Heavy cavalry, swords, picks, maces, morningstars, lances, shields
   ["swadian_noble", "Swadian Knight", "Swadian Knights", tf_guarantee_trained_armor|tf_guarantee_horseman|tf_guarantee_shield, no_scene, reserved, fac_kingdom_1,
-   [itm_sword_medieval_c, itm_sword_medieval_c_long, itm_bastard_sword_a, itm_bastard_sword_b, itm_morningstar, itm_heavy_lance, itm_tab_shield_heater_cav_b,itm_tab_shield_heater_cav_b_plain_1,itm_tab_shield_heater_cav_b_plain_2,
+   [itm_sword_medieval_c, itm_sword_medieval_c_long, itm_military_sickle_a, itm_mace_4, itm_bastard_sword_b, itm_morningstar, itm_heavy_lance, itm_tab_shield_heater_cav_b,itm_tab_shield_heater_cav_b_plain_1,itm_tab_shield_heater_cav_b_plain_2,
     itm_iron_greaves, itm_mail_boots, itm_mail_mittens, itm_gauntlets,
     itm_coat_of_plates_red, itm_heraldic_mail_with_surcoat, itm_heraldic_mail_with_tabard,
     itm_guard_helmet, itm_guard_helmet, itm_bascinet, itm_bascinet_b, itm_bascinet_c, itm_great_helmet, itm_great_helmet,
@@ -1847,7 +1848,7 @@ troops = [
     itm_tribal_warrior_outfit,
     itm_vaegir_fur_cap, itm_vaegir_fur_helmet, itm_vaegir_spiked_helmet,
     ],
-   str_15|agi_12|int_7|cha_7|level(18), wpex(100,95,90,60,20,45), knows_common|knows_ironflesh_4|knows_power_strike_5|knows_power_throw_1|knows_power_draw_1|knows_athletics_5|knows_riding_3, vaegir_face_young_1, vaegir_face_old_2 ],
+   str_15|agi_12|int_7|cha_7|level(18), wpex(100,95,90,60,20,45), knows_common|knows_ironflesh_4|knows_power_strike_4|knows_power_throw_1|knows_power_draw_1|knows_athletics_5|knows_riding_3, vaegir_face_young_1, vaegir_face_old_2 ],
   
   # Veteran
   # Medium infantry, sabres, shields
@@ -1866,7 +1867,7 @@ troops = [
     itm_mail_hauberk, itm_studded_leather_coat, itm_lamellar_vest,
     itm_vaegir_lamellar_helmet, itm_vaegir_fur_helmet, itm_vaegir_helmet, itm_vaegir_spiked_helmet,
     ],
-   str_14|agi_16|int_8|cha_6|level(21), wpex(100,90,130,65,25,45), knows_common|knows_ironflesh_5|knows_power_strike_4|knows_power_throw_1|knows_power_draw_1|knows_athletics_4|knows_riding_1|knows_shield_1, vaegir_face_young_1, vaegir_face_old_2 ],
+   str_14|agi_16|int_8|cha_6|level(21), wpex(100,90,130,65,25,45), knows_common|knows_ironflesh_5|knows_power_strike_3|knows_power_throw_1|knows_power_draw_1|knows_athletics_4|knows_riding_1|knows_shield_1, vaegir_face_young_1, vaegir_face_old_2 ],
   
   # Medium infantry skirmisher, 2h axes, javelins, shields
   ["vaegir_skirmisher", "Vaegir Skirmisher", "Vaegir Skirmishers", tf_guarantee_trained_armor|tf_guarantee_ranged, no_scene, reserved, fac_kingdom_2,
@@ -1991,7 +1992,7 @@ troops = [
     itm_mail_hauberk, itm_lamellar_vest,
     itm_vaegir_lamellar_helmet, itm_vaegir_fur_helmet, itm_vaegir_helmet, itm_vaegir_spiked_helmet,
     ],
-   str_18|agi_13|int_8|cha_8|level(24), wpex(105,100,95,65,25,50), knows_common|knows_ironflesh_5|knows_power_strike_4|knows_power_throw_1|knows_power_draw_1|knows_athletics_4|knows_riding_2|knows_shield_1, vaegir_face_young_1, vaegir_face_old_2 ],
+   str_18|agi_13|int_8|cha_8|level(24), wpex(105,100,95,65,25,50), knows_common|knows_ironflesh_5|knows_power_strike_3|knows_power_throw_1|knows_power_draw_1|knows_athletics_4|knows_riding_2|knows_shield_1, vaegir_face_young_1, vaegir_face_old_2 ],
    
   # Elite
   # Heavy infantry, poleaxes
@@ -2052,15 +2053,15 @@ troops = [
     ],
    str_15|agi_16|int_9|cha_9|level(26), wpex(105,95,90,65,25,90), knows_common|knows_ironflesh_4|knows_power_strike_3|knows_power_throw_3|knows_power_draw_1|knows_athletics_4|knows_riding_2|knows_shield_1, vaegir_face_young_1, vaegir_face_old_2 ],
    
-  # Heavy infantry, sabres, shields
+  # Heavy infantry, sabres, axes, shields
   # SPECIAL
   ["vaegir_warrior", "Vaegir Warrior", "Vaegir Warriors", tf_guarantee_trained_armor|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_23,
-   [itm_scimitar_c, itm_tab_shield_kite_d,itm_tab_shield_kite_d_plain_1,itm_tab_shield_kite_d_plain_2,
+   [itm_scimitar_b, itm_one_handed_war_axe_b, itm_tab_shield_kite_d,itm_tab_shield_kite_d_plain_1,itm_tab_shield_kite_d_plain_2,
     itm_mail_boots, itm_iron_greaves, itm_mail_mittens,
     itm_lamellar_armor, itm_banded_armor,
     itm_vaegir_helmet, itm_vaegir_noble_helmet, itm_vaegir_lamellar_helmet,
     ],
-   str_19|agi_14|int_9|cha_12|level(31), wpex(125,115,110,75,25,50), knows_common|knows_ironflesh_5|knows_power_strike_4|knows_power_throw_1|knows_power_draw_2|knows_athletics_3|knows_riding_2, vaegir_face_young_1, vaegir_face_old_2 ],
+   str_19|agi_14|int_9|cha_12|level(31), wpex(125,115,110,75,25,50), knows_common|knows_ironflesh_5|knows_power_strike_3|knows_power_throw_1|knows_power_draw_2|knows_athletics_3|knows_riding_2, vaegir_face_young_1, vaegir_face_old_2 ],
   
   # Heavy cavalry ranged, sabres, axes, bows, shields
   # SPECIAL
@@ -2080,7 +2081,7 @@ troops = [
     itm_lamellar_armor, itm_banded_armor,
     itm_vaegir_helmet, itm_vaegir_noble_helmet, itm_vaegir_lamellar_helmet,
     ],
-   str_21|agi_14|int_9|cha_11|level(32), wpex(110,105,100,75,25,50), knows_common|knows_ironflesh_7|knows_power_strike_4|knows_power_throw_1|knows_power_draw_2|knows_athletics_3|knows_riding_2, vaegir_face_young_1, vaegir_face_old_2 ],
+   str_21|agi_14|int_9|cha_11|level(32), wpex(110,105,100,75,25,50), knows_common|knows_ironflesh_7|knows_power_strike_3|knows_power_throw_1|knows_power_draw_2|knows_athletics_3|knows_riding_2, vaegir_face_young_1, vaegir_face_old_2 ],
   
   # Noble
   # Heavy cavalry ranged, sabres, 2h axes, bows, shields
@@ -2267,7 +2268,7 @@ troops = [
     itm_leather_vest, itm_steppe_armor,
     itm_leather_steppe_cap_b, itm_steppe_cap,
     itm_steppe_horse],
-   str_9|agi_17|int_8|cha_9|level(20), wpex(95,80,100,60,20,105), knows_common|knows_power_strike_3|knows_power_throw_3|knows_power_draw_2|knows_athletics_3|knows_riding_6|knows_horse_archery_5, khergit_face_young_1, khergit_face_old_2 ],
+   str_9|agi_17|int_8|cha_9|level(20), wpex(95,80,100,60,20,105), knows_common|knows_power_strike_4|knows_power_throw_3|knows_power_draw_2|knows_athletics_3|knows_riding_6|knows_horse_archery_5, khergit_face_young_1, khergit_face_old_2 ],
   
   # Light infantry skirmisher, sabres, maces, javelins, shields
   # SPECIAL
@@ -2315,7 +2316,7 @@ troops = [
     itm_lamellar_vest_khergit,
     itm_khergit_war_helmet, itm_leather_steppe_cap_b,
     itm_hunter],
-   str_13|agi_15|int_8|cha_10|level(23), wpex(100,85,95,65,20,70), knows_common|knows_ironflesh_3|knows_power_strike_2|knows_power_throw_1|knows_power_draw_1|knows_athletics_2|knows_riding_5|knows_horse_archery_1, khergit_face_young_1, khergit_face_old_2 ],
+   str_13|agi_15|int_8|cha_10|level(23), wpex(100,85,95,65,20,70), knows_common|knows_ironflesh_3|knows_power_strike_3|knows_power_throw_1|knows_power_draw_1|knows_athletics_2|knows_riding_5|knows_horse_archery_1, khergit_face_young_1, khergit_face_old_2 ],
   
   # Heavy cavalry, lances, shields
   ["khergit_lancer", "Khergit Lancer", "Khergit Lancers", tf_guarantee_trained_armor|tf_guarantee_horseman|tf_guarantee_shield, no_scene, reserved, fac_kingdom_3,
@@ -2343,7 +2344,7 @@ troops = [
     itm_lamellar_vest_khergit,
     itm_khergit_war_helmet, itm_leather_steppe_cap_b,
     ],
-   str_13|agi_14|int_8|cha_7|level(19), wpex(110,80,100,65,20,60), knows_common|knows_ironflesh_4|knows_power_strike_2|knows_power_throw_1|knows_power_draw_2|knows_athletics_3|knows_riding_3|knows_shield_1|knows_horse_archery_1, khergit_face_young_1, khergit_face_old_2 ],
+   str_13|agi_14|int_8|cha_7|level(19), wpex(110,80,100,65,20,60), knows_common|knows_ironflesh_4|knows_power_strike_3|knows_power_throw_1|knows_power_draw_2|knows_athletics_3|knows_riding_3|knows_shield_1|knows_horse_archery_1, khergit_face_young_1, khergit_face_old_2 ],
   
   # Medium cavalry skirmisher, sabres, maces, javelins, shields
   # SPECIAL
@@ -2353,7 +2354,7 @@ troops = [
     itm_lamellar_vest_khergit,
     itm_khergit_war_helmet, itm_leather_steppe_cap_b,
     itm_hunter],
-   str_13|agi_16|int_9|cha_10|level(25), wpex(85,85,95,65,20,105), knows_common|knows_ironflesh_2|knows_power_strike_2|knows_power_throw_3|knows_power_draw_1|knows_athletics_2|knows_riding_5|knows_horse_archery_5, khergit_face_young_1, khergit_face_old_2 ],
+   str_13|agi_16|int_9|cha_10|level(25), wpex(85,85,95,65,20,105), knows_common|knows_ironflesh_2|knows_power_strike_3|knows_power_throw_3|knows_power_draw_1|knows_athletics_2|knows_riding_5|knows_horse_archery_5, khergit_face_young_1, khergit_face_old_2 ],
   
   # Medium infantry, sabres, maces, javelins, shields
   # SPECIAL
@@ -2363,7 +2364,7 @@ troops = [
     itm_lamellar_vest_khergit,
     itm_khergit_war_helmet, itm_leather_steppe_cap_b,
     ],
-   str_14|agi_14|int_8|cha_8|level(21), wpex(110,80,100,65,20,80), knows_common|knows_ironflesh_3|knows_power_strike_2|knows_power_throw_2|knows_power_draw_2|knows_athletics_3|knows_riding_3|knows_shield_1|knows_horse_archery_1, khergit_face_young_1, khergit_face_old_2 ],
+   str_14|agi_14|int_8|cha_8|level(21), wpex(110,80,100,65,20,80), knows_common|knows_ironflesh_3|knows_power_strike_3|knows_power_throw_2|knows_power_draw_2|knows_athletics_3|knows_riding_3|knows_shield_1|knows_horse_archery_1, khergit_face_young_1, khergit_face_old_2 ],
   
   # Heavy cavalry, spears, shields
   # SPECIAL
@@ -2432,7 +2433,7 @@ troops = [
     itm_lamellar_vest_khergit,
     itm_khergit_cavalry_helmet, itm_khergit_guard_helmet,
     ],
-   str_15|agi_16|int_10|cha_8|level(27), wpex(100,85,100,70,25,105), knows_common|knows_ironflesh_3|knows_power_strike_2|knows_power_throw_3|knows_power_draw_2|knows_athletics_3|knows_riding_3|knows_shield_1|knows_horse_archery_1, khergit_face_young_1, khergit_face_old_2 ],
+   str_15|agi_16|int_10|cha_8|level(27), wpex(100,85,100,70,25,105), knows_common|knows_ironflesh_3|knows_power_strike_3|knows_power_throw_3|knows_power_draw_2|knows_athletics_3|knows_riding_3|knows_shield_1|knows_horse_archery_1, khergit_face_young_1, khergit_face_old_2 ],
   
   # Noble
   # Heavy cavalry ranged, sabres, maces, bows, shields
@@ -3042,7 +3043,7 @@ troops = [
   
   # Light cavalry ranged, swords, picks, crossbows, shields
   # SPECIAL
-  ["rhodok_mounted_crossbow", "Rhodok Mounted Crossbow", "Rhodok Mounted Crossbows", tf_guarantee_trained_armor|tf_guarantee_horseman|tf_guarantee_ranged, no_scene, reserved, fac_small_kingdom_54,
+  ["rhodok_mounted_crossbow", "Rhodok Mounted Crossbowman", "Rhodok Mounted Crossbowmen", tf_guarantee_trained_armor|tf_guarantee_horseman|tf_guarantee_ranged, no_scene, reserved, fac_small_kingdom_54,
    [itm_sword_medieval_b, itm_military_sickle_a, itm_light_crossbow, itm_steel_bolts, itm_tab_shield_heater_cav_a,itm_tab_shield_heater_cav_a_plain_1,itm_tab_shield_heater_cav_a_plain_2,
     itm_leather_boots, itm_leather_gloves,
     itm_aketon_green, itm_ragged_outfit,
@@ -3107,7 +3108,7 @@ troops = [
     itm_surcoat_over_mail,
     itm_bascinet_2, itm_bascinet_3, itm_guard_helmet, itm_bascinet,
     ],
-   str_19|agi_13|int_10|cha_13|level(32), wpex(95,80,150,40,60,40), knows_common|knows_ironflesh_8|knows_power_strike_5|knows_power_throw_1|knows_athletics_3|knows_riding_3|knows_shield_1, rhodok_face_young_1, rhodok_face_old_2 ],
+   str_19|agi_13|int_10|cha_13|level(32), wpex(95,80,150,40,60,40), knows_common|knows_ironflesh_8|knows_power_strike_4|knows_power_throw_1|knows_athletics_3|knows_riding_3|knows_shield_1, rhodok_face_young_1, rhodok_face_old_2 ],
   
   # Medium cavalry, lances, shields
   # SPECIAL
@@ -3131,7 +3132,7 @@ troops = [
   
   # Medium cavalry ranged, swords, picks, crossbows, shields
   # SPECIAL
-  ["rhodok_heavy_mounted_crossbow", "Rhodok Heavy Mounted Crossbow", "Rhodok Heavy Mounted Crossbows", tf_guarantee_trained_armor|tf_guarantee_horseman|tf_guarantee_ranged|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_54,
+  ["rhodok_heavy_mounted_crossbow", "Rhodok Heavy Mounted Crossbowman", "Rhodok Heavy Mounted Crossbowmen", tf_guarantee_trained_armor|tf_guarantee_horseman|tf_guarantee_ranged|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_54,
    [itm_sword_medieval_b, itm_military_sickle_a, itm_light_crossbow, itm_steel_bolts, itm_tab_shield_heater_cav_b,itm_tab_shield_heater_cav_b_plain_1,itm_tab_shield_heater_cav_b_plain_2,
     itm_mail_chausses, itm_mail_mittens,
     itm_byrnie,
@@ -3201,7 +3202,7 @@ troops = [
   
   # Heavy cavalry ranged, swords, picks, crossbows, shields
   # SPECIAL
-  ["rhodok_noble_mounted_crossbow", "Rhodok Heroic Mounted Crossbow", "Rhodok Heroic Mounted Crossbows", tf_guarantee_trained_armor|tf_guarantee_horseman|tf_guarantee_ranged|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_54,
+  ["rhodok_noble_mounted_crossbow", "Rhodok Heroic Mounted Crossbowman", "Rhodok Heroic Mounted Crossbowmen", tf_guarantee_trained_armor|tf_guarantee_horseman|tf_guarantee_ranged|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_54,
    [itm_sword_medieval_b, itm_military_pick, itm_light_crossbow, itm_steel_bolts, itm_tab_shield_heater_cav_b,itm_tab_shield_heater_cav_b_plain_1,itm_tab_shield_heater_cav_b_plain_2,
     itm_mail_boots, itm_mail_mittens,
     itm_surcoat_over_mail,
@@ -3270,10 +3271,20 @@ troops = [
     ],
    str_9|agi_12|int_5|cha_6|level(9), wpex(70,60,65,25,15,40), knows_common|knows_ironflesh_1|knows_power_strike_4|knows_athletics_4|knows_riding_1, sarranid_face_young_1, sarranid_face_old_2 ],
   
+  # Basic infantry, spears, shields
+  # SPECIAL
+  ["sarranid_levy_spearman", "Sarranid Levy Spearman", "Sarranid Levy Spearmen", tf_guarantee_recruit_armor, no_scene, reserved, fac_small_kingdom_62,
+   [itm_spear, itm_tab_shield_kite_a,itm_tab_shield_kite_a_plain_1,itm_tab_shield_kite_a_plain_2,
+    itm_sarranid_boots_a, itm_sarranid_boots_b,
+    itm_sarranid_cloth_robe, itm_sarranid_cloth_robe_b, itm_skirmisher_armor,
+    itm_sarranid_felt_hat, itm_turban, itm_desert_turban,
+    ],
+   str_9|agi_9|int_5|cha_5|level(5), wpex(65,65,85,25,15,40), knows_common|knows_ironflesh_1|knows_power_strike_3|knows_athletics_4|knows_riding_1, sarranid_face_young_1, sarranid_face_old_2 ],
+  
   # Common
   # Light infantry, swords, maces, axes, spears, shields
   ["sarranid_medium_infantry", "Sarranid Infantry", "Sarranid Infantries", tf_guarantee_common_armor|tf_guarantee_shield, no_scene, reserved, fac_kingdom_6,
-   [itm_arabian_sword_b, itm_mace_3, itm_sarranid_axe_a, itm_bamboo_spear, itm_tab_shield_kite_b,itm_tab_shield_kite_b_plain_1,itm_tab_shield_kite_b_plain_2,
+   [itm_arabian_sword_b, itm_mace_3, itm_sarranid_axe_a, itm_tab_shield_kite_b,itm_tab_shield_kite_b_plain_1,itm_tab_shield_kite_b_plain_2,
     itm_sarranid_boots_b, itm_leather_gloves,
     itm_archers_vest,
     itm_desert_turban, itm_sarranid_warrior_cap,
@@ -3282,7 +3293,7 @@ troops = [
   
   # Light infantry skirmisher, swords, javelins, shields
   ["sarranid_light_skirmisher", "Sarranid Light Skirmisher", "Sarranid Light Skirmishers", tf_guarantee_common_armor|tf_guarantee_ranged|tf_guarantee_shield, no_scene, reserved, fac_kingdom_6,
-   [itm_arabian_sword_a, itm_javelin, itm_javelin, itm_tab_shield_kite_b,itm_tab_shield_kite_b_plain_1,itm_tab_shield_kite_b_plain_2,
+   [itm_arabian_sword_a, itm_mace_3, itm_javelin, itm_javelin, itm_tab_shield_kite_b,itm_tab_shield_kite_b_plain_1,itm_tab_shield_kite_b_plain_2,
     itm_sarranid_boots_b, itm_leather_gloves,
     itm_archers_vest, itm_skirmisher_armor,
     itm_turban, itm_desert_turban,
@@ -3300,7 +3311,7 @@ troops = [
   
   # Light cavalry, lances, shields
   ["sarranid_light_lancer", "Sarranid Light Lancer", "Sarranid Light Lancers", tf_guarantee_recruit_armor|tf_guarantee_shield|tf_guarantee_horseman, no_scene, reserved, fac_kingdom_6,
-   [itm_bamboo_spear, itm_tab_shield_small_round_a,itm_tab_shield_small_round_a_plain_1,itm_tab_shield_small_round_a_plain_2,
+   [itm_light_lance, itm_tab_shield_small_round_a,itm_tab_shield_small_round_a_plain_1,itm_tab_shield_small_round_a_plain_2,
     itm_sarranid_boots_b, itm_leather_gloves,
     itm_sarranid_cloth_robe, itm_sarranid_cloth_robe_b,
     itm_turban, itm_desert_turban,
@@ -3339,7 +3350,7 @@ troops = [
   # Light infantry, spears
   # SPECIAL
   ["sarranid_pikeman", "Sarranid Pikeman", "Sarranid Pikemen", tf_guarantee_common_armor, no_scene, reserved, fac_small_kingdom_65,
-   [itm_bamboo_spear,
+   [itm_pike,
     itm_sarranid_boots_b, itm_leather_gloves,
     itm_sarranid_leather_armor,
     itm_desert_turban, itm_sarranid_warrior_cap,
@@ -3355,6 +3366,16 @@ troops = [
     itm_desert_turban, itm_sarranid_warrior_cap,
     ],
    str_15|agi_14|int_7|cha_7|level(20), wpex(110,105,105,40,15,50), knows_common|knows_ironflesh_2|knows_power_strike_4|knows_power_throw_1|knows_athletics_5|knows_riding_2, sarranid_face_young_1, sarranid_face_old_2 ],
+  
+  # Light infantry, spears, shields
+  # SPECIAL
+  ["sarranid_light_spearman", "Sarranid Light Spearman", "Sarranid Light Spearmen", tf_guarantee_common_armor|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_62,
+   [itm_spear, itm_tab_shield_kite_b,itm_tab_shield_kite_b_plain_1,itm_tab_shield_kite_b_plain_2,
+    itm_sarranid_boots_b, itm_leather_gloves,
+    itm_archers_vest,
+    itm_desert_turban, itm_sarranid_warrior_cap,
+    ],
+   str_14|agi_14|int_6|cha_6|level(18), wpex(100,95,125,40,15,50), knows_common|knows_ironflesh_2|knows_power_strike_5|knows_power_throw_1|knows_athletics_5|knows_riding_2, sarranid_face_young_1, sarranid_face_old_2 ],
   
   # Veteran
   # Medium infantry, swords, maces, axes, javelins, shields
@@ -3415,7 +3436,7 @@ troops = [
   # Medium cavalry, lances, shields
   # SPECIAL
   ["sarranid_heavy_lancer", "Sarranid Heavy Lancer", "Sarranid Heavy Lancers", tf_guarantee_trained_armor|tf_guarantee_shield|tf_guarantee_horseman, no_scene, reserved, fac_small_kingdom_63,
-   [itm_bamboo_spear, itm_tab_shield_small_round_b,itm_tab_shield_small_round_b_plain_1,itm_tab_shield_small_round_b_plain_2,
+   [itm_lance, itm_tab_shield_small_round_b,itm_tab_shield_small_round_b_plain_1,itm_tab_shield_small_round_b_plain_2,
     itm_sarranid_boots_c, itm_leather_gloves,
     itm_sarranid_cavalry_robe, itm_arabian_armor_b,
     itm_sarranid_helmet1, itm_sarranid_mail_coif, itm_sarranid_horseman_helmet,
@@ -3435,7 +3456,7 @@ troops = [
   # Medium infantry, spears
   # SPECIAL
   ["sarranid_heavy_pikeman", "Sarranid Heavy Pikeman", "Sarranid Heavy Pikemen", tf_guarantee_trained_armor, no_scene, reserved, fac_small_kingdom_65,
-   [itm_bamboo_spear,
+   [itm_pike,
     itm_sarranid_boots_c, itm_leather_gloves,
     itm_arabian_armor_b,
     itm_sarranid_helmet1, itm_sarranid_mail_coif,
@@ -3472,6 +3493,16 @@ troops = [
     ],
    str_13|agi_16|int_8|cha_9|level(23), wpex(85,80,80,45,20,115), knows_common|knows_ironflesh_3|knows_power_strike_3|knows_power_throw_3|knows_athletics_5|knows_riding_3|knows_horse_archery_1, sarranid_face_young_1, sarranid_face_old_2 ],
   
+  # Medium infantry, spears, shields
+  # SPECIAL
+  ["sarranid_medium_spearman", "Sarranid Spearman", "Sarranid Spearmen", tf_guarantee_trained_armor|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_62,
+   [itm_war_spear, itm_tab_shield_kite_c,itm_tab_shield_kite_c_plain_1,itm_tab_shield_kite_c_plain_2,
+    itm_sarranid_boots_c, itm_leather_gloves,
+    itm_arabian_armor_b,
+    itm_sarranid_helmet1, itm_sarranid_mail_coif,
+    ],
+   str_16|agi_15|int_7|cha_8|level(23), wpex(105,105,120,45,15,55), knows_common|knows_ironflesh_4|knows_power_strike_3|knows_power_throw_2|knows_athletics_3|knows_riding_3|knows_shield_1, sarranid_face_young_1, sarranid_face_old_2 ],
+  
   # Elite
   # Medium infantry, swords, maces, axes, shields
   ["sarranid_heavy_infantry", "Sarranid Heavy Infantry", "Sarranid Heavy Infantries", tf_guarantee_trained_armor|tf_guarantee_shield, no_scene, reserved, fac_kingdom_6,
@@ -3480,7 +3511,7 @@ troops = [
     itm_sarranid_mail_shirt,
     itm_sarranid_veiled_helmet,
     ],
-   str_17|agi_18|int_8|cha_10|level(30), wpex(110,100,100,50,20,60), knows_common|knows_ironflesh_5|knows_power_strike_3|knows_power_throw_1|knows_athletics_3|knows_riding_3, sarranid_face_young_1, sarranid_face_old_2 ],
+   str_17|agi_18|int_8|cha_10|level(30), wpex(110,100,100,50,20,60), knows_common|knows_ironflesh_5|knows_power_strike_3|knows_power_throw_1|knows_athletics_3|knows_riding_3|knows_shield_1, sarranid_face_young_1, sarranid_face_old_2 ],
   
   # Heavy cavalry, sword, maces, axes, shields
   ["sarranid_heavy_cavalry", "Sarranid Mamluke", "Sarranid Mamlukes", tf_guarantee_trained_armor|tf_guarantee_shield|tf_guarantee_horseman, no_scene, reserved, fac_kingdom_6,
@@ -3489,7 +3520,7 @@ troops = [
     itm_sarranid_mail_shirt, itm_mamluke_mail,
     itm_sarranid_veiled_helmet,
     itm_arabian_horse_b],
-   str_16|agi_16|int_9|cha_13|level(31), wpex(105,95,100,45,15,65), knows_common|knows_ironflesh_4|knows_power_strike_3|knows_power_throw_1|knows_athletics_2|knows_riding_6, sarranid_face_young_1, sarranid_face_old_2 ],
+   str_16|agi_16|int_9|cha_13|level(31), wpex(105,95,100,45,15,65), knows_common|knows_ironflesh_4|knows_power_strike_3|knows_power_throw_1|knows_athletics_2|knows_riding_6|knows_shield_1, sarranid_face_young_1, sarranid_face_old_2 ],
   
   # Medium ranged, swords, maxes, bows, shields
   # SPECIAL
@@ -3519,7 +3550,17 @@ troops = [
     itm_mamluke_mail,
     itm_sarranid_veiled_helmet,
     ],
-   str_19|agi_17|int_9|cha_10|level(32), wpex(110,100,100,50,20,60), knows_common|knows_ironflesh_6|knows_power_strike_3|knows_power_throw_1|knows_athletics_3|knows_riding_3, sarranid_face_young_1, sarranid_face_old_2 ],
+   str_19|agi_17|int_9|cha_10|level(32), wpex(110,100,100,50,20,60), knows_common|knows_ironflesh_6|knows_power_strike_3|knows_power_throw_1|knows_athletics_3|knows_riding_3|knows_shield_1, sarranid_face_young_1, sarranid_face_old_2 ],
+  
+  # Heavy infantry, spears, shields
+  # SPECIAL
+  ["sarranid_heavy_spearman", "Sarranid Heavy Spearman", "Sarranid Heavy Spearmen", tf_guarantee_trained_armor|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_62,
+   [itm_war_spear, itm_tab_shield_kite_d,itm_tab_shield_kite_d_plain_1,itm_tab_shield_kite_d_plain_2,
+    itm_sarranid_boots_d, itm_mail_mittens,
+    itm_sarranid_mail_shirt,
+    itm_sarranid_veiled_helmet,
+    ],
+   str_18|agi_17|int_8|cha_9|level(29), wpex(100,100,120,50,20,60), knows_common|knows_ironflesh_6|knows_power_strike_3|knows_power_throw_1|knows_athletics_3|knows_riding_3|knows_shield_1, sarranid_face_young_1, sarranid_face_old_2 ],
   
   # Noble
   # Heavy cavalry ranged, swords, axes, maces, bows, shields
@@ -3533,13 +3574,13 @@ troops = [
   
   # Heavy cavalry, swords, axes, maces, lances, shields
   # SPECIAL
-  ["sarranid_elite_cavalry", "Sarranid Cataphract", "Sarranid Cataphracts", tf_guarantee_trained_armor|tf_guarantee_shield|tf_guarantee_horseman, no_scene, reserved, fac_small_kingdom_63,
-   [itm_sarranid_cavalry_sword, itm_iron_mace, itm_sarranid_axe_b, itm_bamboo_spear, itm_tab_shield_small_round_c,itm_tab_shield_small_round_c_plain_1,itm_tab_shield_small_round_c_plain_2,
+  ["sarranid_noble_cavalry", "Sarranid Cataphract", "Sarranid Cataphracts", tf_guarantee_trained_armor|tf_guarantee_shield|tf_guarantee_horseman, no_scene, reserved, fac_small_kingdom_63,
+   [itm_sarranid_cavalry_sword, itm_iron_mace, itm_sarranid_axe_b, itm_heavy_lance, itm_tab_shield_small_round_c,itm_tab_shield_small_round_c_plain_1,itm_tab_shield_small_round_c_plain_2,
     itm_sarranid_boots_d, itm_mail_mittens, itm_scale_gauntlets,
     itm_mamluke_mail,
     itm_sarranid_veiled_helmet,
     itm_warhorse_sarranid],
-   str_19|agi_20|int_10|cha_19|level(45), wpex(115,105,135,50,20,70), knows_common|knows_ironflesh_5|knows_power_strike_4|knows_power_throw_1|knows_power_draw_2|knows_athletics_5|knows_riding_6|knows_shield_1|knows_horse_archery_2, sarranid_face_young_1, sarranid_face_old_2 ],
+   str_19|agi_20|int_10|cha_20|level(46), wpex(115,105,135,50,20,70), knows_common|knows_ironflesh_5|knows_power_strike_4|knows_power_throw_1|knows_power_draw_2|knows_athletics_5|knows_riding_6|knows_shield_1|knows_horse_archery_2, sarranid_face_young_1, sarranid_face_old_2 ],
   
   # Heavy cavalry skirmisher, swords, axes, maces, javelins, shields
   # SPECIAL
@@ -3549,7 +3590,7 @@ troops = [
     itm_mamluke_mail,
     itm_sarranid_veiled_helmet, itm_sarranid_mail_coif,
     itm_arabian_horse_b],
-   str_18|agi_22|int_10|cha_20|level(46), wpex(120,110,110,55,25,120), knows_common|knows_ironflesh_4|knows_power_strike_4|knows_power_throw_4|knows_power_draw_2|knows_athletics_6|knows_riding_7|knows_shield_1|knows_horse_archery_7, sarranid_face_young_1, sarranid_face_old_2 ],
+   str_18|agi_21|int_10|cha_19|level(45), wpex(120,110,110,55,25,120), knows_common|knows_ironflesh_4|knows_power_strike_4|knows_power_throw_4|knows_power_draw_2|knows_athletics_6|knows_riding_7|knows_shield_1|knows_horse_archery_7, sarranid_face_young_1, sarranid_face_old_2 ],
   
   # Heavy infantry ranged, 2h swords, bows
   # SPECIAL
@@ -3560,6 +3601,16 @@ troops = [
     itm_sarranid_veiled_helmet,
     ],
    str_19|agi_19|int_10|cha_17|level(42), wpex(110,130,105,125,25,70), knows_common|knows_ironflesh_4|knows_power_strike_5|knows_power_throw_1|knows_power_draw_5|knows_athletics_6|knows_riding_5|knows_shield_1|knows_horse_archery_4, sarranid_face_young_1, sarranid_face_old_2 ],
+  
+  # Heavy infantry, spears, shields
+  # SPECIAL
+  ["sarranid_noble_spearman", "Sarranid Noble Spearman", "Sarranid Noble Spearmen", tf_guarantee_trained_armor|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_62,
+   [itm_war_spear, itm_tab_shield_kite_d,itm_tab_shield_kite_d_plain_1,itm_tab_shield_kite_d_plain_2,
+    itm_sarranid_boots_d, itm_mail_mittens, itm_scale_gauntlets,
+    itm_mamluke_mail,
+    itm_sarranid_veiled_helmet,
+    ],
+   str_21|agi_18|int_10|cha_16|level(42), wpex(100,100,150,55,25,70), knows_common|knows_ironflesh_8|knows_power_strike_6|knows_power_throw_1|knows_athletics_5|knows_riding_5|knows_shield_1, sarranid_face_young_1, sarranid_face_old_2 ],
   
   ###############
   # Mercenaries #
@@ -3643,7 +3694,7 @@ troops = [
     itm_leather_jerkin,
     itm_footman_helmet, itm_helmet_with_neckguard, itm_mail_coif
     ],
-   str_14|agi_12|int_6|cha_7|level(16), wpex(75,75,100,40,40,35), knows_common|knows_ironflesh_2|knows_power_strike_5|knows_power_throw_1|knows_athletics_4|knows_riding_2, man_face_young_1, man_face_old_2 ],
+   str_14|agi_12|int_6|cha_7|level(16), wpex(75,75,100,40,40,35), knows_common|knows_ironflesh_2|knows_power_strike_4|knows_power_throw_1|knows_athletics_4|knows_riding_2, man_face_young_1, man_face_old_2 ],
   
   # Light ranged, swords, maces, picks, bows
   ["mercenary_light_archer", "Mercenary Light Archer", "Mercenary Light Archers", tf_guarantee_trained_armor|tf_guarantee_ranged, no_scene, reserved, fac_commoners,
@@ -3689,7 +3740,7 @@ troops = [
     itm_mail_hauberk, itm_mail_shirt, itm_heraldic_mail_with_tunic,
     itm_kettle_hat, itm_mail_coif, itm_helmet_with_neckguard
     ],
-   str_16|agi_14|int_7|cha_8|level(22), wpex(80,80,105,45,45,40), knows_common|knows_ironflesh_4|knows_power_strike_4|knows_power_throw_1|knows_athletics_2|knows_riding_2|knows_shield_1, man_face_young_1, man_face_old_2 ],
+   str_16|agi_14|int_7|cha_8|level(22), wpex(80,80,105,45,45,40), knows_common|knows_ironflesh_4|knows_power_strike_3|knows_power_throw_1|knows_athletics_2|knows_riding_2|knows_shield_1, man_face_young_1, man_face_old_2 ],
   
   # Medium cavalry, swords, picks, maces, lances, shields
   ["mercenary_cavalry", "Mercenary Cavalry", "Mercenary Cavalries", tf_guarantee_trained_armor|tf_guarantee_shield|tf_guarantee_horseman, no_scene, reserved, fac_commoners,
@@ -3709,7 +3760,7 @@ troops = [
     ],
    str_12|agi_18|int_8|cha_7|level(22), wpex(75,65,65,100,50,55), knows_common|knows_ironflesh_2|knows_power_strike_2|knows_power_throw_1|knows_power_draw_4|knows_athletics_3|knows_riding_2, man_face_young_1, man_face_old_2 ],
   
-  # Light ranged, swords, crossbows, shields
+  # Light ranged, swords, picks, maces, crossbows, shields
   ["mercenary_crossbowman", "Mercenary Crossbowman", "Mercenary Crossbowmen", tf_guarantee_trained_armor|tf_guarantee_shield|tf_guarantee_ranged, no_scene, reserved, fac_commoners,
    [itm_sword_medieval_b, itm_sword_medieval_b_small, itm_military_sickle_a, itm_mace_4, itm_crossbow, itm_steel_bolts, itm_tab_shield_heater_b,itm_tab_shield_heater_b_plain_1,itm_tab_shield_heater_b_plain_2, itm_tab_shield_kite_b,itm_tab_shield_kite_b_plain_1,itm_tab_shield_kite_b_plain_2,
     itm_leather_boots, itm_leather_gloves,
@@ -3932,7 +3983,7 @@ troops = [
     itm_nordic_footman_helmet, itm_nordic_fighter_helmet, itm_nordic_veteran_archer_helmet,
     itm_coarse_tunic, itm_blue_tunic,
     ],
-   str_12|agi_11|int_7|cha_9|level(16), wpex(110,100,95,55,40,95), knows_common|knows_ironflesh_3|knows_power_strike_3|knows_power_throw_3|knows_athletics_6, woman_face_1, woman_face_2 ],
+   str_12|agi_11|int_7|cha_9|level(16), wpex(110,100,95,55,40,95), knows_common|knows_ironflesh_3|knows_power_strike_4|knows_power_throw_3|knows_athletics_6, woman_face_1, woman_face_2 ],
   
   # Medium infantry, swords, axes, shields
   # Requires barracks_2
@@ -3970,7 +4021,7 @@ troops = [
     itm_cuir_bouilli, itm_banded_armor,
     itm_nordic_huscarl_helmet, itm_nordic_warlord_helmet,
     ],
-    str_20|agi_18|int_11|cha_12|level(38), wpex(95,95,130,70,30,70), knows_common|knows_ironflesh_6|knows_power_strike_5|knows_athletics_4|knows_shield_1, man_face_young_1, man_face_old_2 ],
+    str_20|agi_18|int_11|cha_12|level(38), wpex(95,95,130,70,30,70), knows_common|knows_ironflesh_6|knows_power_strike_4|knows_athletics_4|knows_shield_1, man_face_young_1, man_face_old_2 ],
 
   # Heavy infantry, swords, axes, throwing axes, shields
   ["nord_companion_infantry", "Nord Companion Infantry", "Nord Companion Infantries", tf_guarantee_trained_armor|tf_guarantee_shield, no_scene, reserved, fac_kingdom_4,
@@ -4848,7 +4899,7 @@ troops = [
    def_lord_0_agi|level(4), wp_sarranid(wp_template_0), knows_lord_sarranid_0, 0, 0 ],
   ["sarranid_lord_template_1", "Mamluke", "Mamluke", tf_is_merchant, no_scene, reserved, fac_culture_6,
    [itm_arabian_sword_b, itm_mace_3,
-    itm_javelin, itm_hunting_bow2, itm_arrows_b,
+    itm_javelin, itm_hunting_bow2, itm_arrows_b, itm_light_lance,
     itm_tab_shield_kite_b, itm_tab_shield_small_round_a,
     itm_sarranid_boots_b, itm_leather_gloves,
     itm_archers_vest,
@@ -4857,7 +4908,7 @@ troops = [
    def_lord_1_agi|level(4), wp_sarranid(wp_template_1), knows_lord_sarranid_1, 0, 0 ],
   ["sarranid_lord_template_2", "Lesser Noble", "Lesser Noble", tf_is_merchant, no_scene, reserved, fac_culture_6,
    [itm_arabian_sword_b, itm_mace_3, itm_sarranid_axe_a, itm_sarranid_two_handed_axe_a,
-    itm_javelin, itm_short_bow2, itm_barbed_arrows, itm_bamboo_spear, itm_crossbow, itm_bolts,
+    itm_javelin, itm_short_bow2, itm_barbed_arrows, itm_light_lance, itm_crossbow, itm_bolts,
     itm_tab_shield_kite_b, itm_tab_shield_small_round_b,
     itm_sarranid_boots_b, itm_leather_gloves,
     itm_sarranid_cavalry_robe, itm_sarranid_leather_armor,
@@ -4866,7 +4917,7 @@ troops = [
    def_lord_2_agi|level(4), wp_sarranid(wp_template_2), knows_lord_sarranid_2, 0, 0 ],
   ["sarranid_lord_template_3", "Noble", "Noble", tf_is_merchant, no_scene, reserved, fac_culture_6,
    [itm_arabian_sword_b, itm_mace_3, itm_sarranid_axe_a, itm_sarranid_two_handed_axe_a,
-    itm_javelin, itm_short_bow2, itm_bodkin_arrows, itm_bamboo_spear, itm_crossbow, itm_bolts,
+    itm_javelin, itm_short_bow2, itm_bodkin_arrows, itm_lance, itm_crossbow, itm_bolts,
     itm_tab_shield_kite_b, itm_tab_shield_small_round_b,
     itm_sarranid_boots_c, itm_leather_gloves,
     itm_sarranid_cavalry_robe, itm_arabian_armor_b,
@@ -4875,7 +4926,7 @@ troops = [
    def_lord_3_agi|level(4), wp_sarranid(wp_template_3), knows_lord_sarranid_3, 0, 0 ],
   ["sarranid_lord_template_4", "Emir", "Emir", tf_is_merchant, no_scene, reserved, fac_culture_6,
    [itm_sarranid_cavalry_sword, itm_mace_4, itm_sarranid_axe_b, itm_sarranid_two_handed_axe_b,
-    itm_jarid, itm_nomad_bow2, itm_bodkin_arrows, itm_bamboo_spear, itm_crossbow, itm_steel_bolts,
+    itm_jarid, itm_nomad_bow2, itm_bodkin_arrows, itm_lance, itm_crossbow, itm_steel_bolts,
     itm_tab_shield_kite_c, itm_tab_shield_small_round_c,
     itm_sarranid_boots_c, itm_leather_gloves,
     itm_sarranid_mail_shirt,
@@ -4884,7 +4935,7 @@ troops = [
    def_lord_4_agi|level(4), wp_sarranid(wp_template_4), knows_lord_sarranid_4, 0, 0 ],
   ["sarranid_lord_template_5", "Malik", "Malik", tf_is_merchant, no_scene, reserved, fac_culture_6,
    [itm_arabian_sword_d, itm_sarranid_cavalry_sword, itm_iron_mace, itm_two_handed_iron_mace, itm_sarranid_axe_b, itm_sarranid_two_handed_axe_b,
-    itm_jarid, itm_nomad_bow2, itm_bodkin_arrows, itm_bamboo_spear, itm_heavy_crossbow, itm_steel_bolts,
+    itm_jarid, itm_nomad_bow2, itm_bodkin_arrows, itm_heavy_lance, itm_heavy_crossbow, itm_steel_bolts,
     itm_tab_shield_kite_d, itm_tab_shield_small_round_c,
     itm_sarranid_boots_d, itm_mail_mittens,
     itm_mamluke_mail, itm_sarranid_mail_shirt,
@@ -4893,7 +4944,7 @@ troops = [
    def_lord_5_agi|level(4), wp_sarranid(wp_template_5), knows_lord_sarranid_5, 0, 0 ],
   ["sarranid_lord_template_6", "Calif", "Calif", tf_is_merchant, no_scene, reserved, fac_culture_6,
    [itm_arabian_sword_d, itm_sarranid_cavalry_sword, itm_iron_mace, itm_two_handed_iron_mace, itm_sarranid_axe_b, itm_sarranid_two_handed_axe_b,
-    itm_jarid, itm_nomad_bow2, itm_bodkin_arrows, itm_bamboo_spear, itm_heavy_crossbow, itm_steel_bolts,
+    itm_jarid, itm_nomad_bow2, itm_bodkin_arrows, itm_heavy_lance, itm_heavy_crossbow, itm_steel_bolts,
     itm_tab_shield_small_round_c,
     itm_sarranid_boots_d, itm_scale_gauntlets,
     itm_mamluke_mail, itm_sarranid_elite_armor,
@@ -4902,7 +4953,7 @@ troops = [
    def_lord_6_agi|level(4), wp_sarranid(wp_template_6), knows_lord_sarranid_6, 0, 0 ],
   ["sarranid_lord_template_7", "Sultan", "Sultan", tf_is_merchant, no_scene, reserved, fac_culture_6,
    [itm_arabian_sword_d, itm_sarranid_cavalry_sword, itm_iron_mace, itm_two_handed_iron_mace, itm_sarranid_axe_b, itm_sarranid_two_handed_axe_b,
-    itm_jarid, itm_nomad_bow2, itm_bodkin_arrows, itm_bamboo_spear, itm_heavy_crossbow, itm_steel_bolts,
+    itm_jarid, itm_nomad_bow2, itm_bodkin_arrows, itm_heavy_lance, itm_heavy_crossbow, itm_steel_bolts,
     itm_tab_shield_small_round_c,
     itm_sarranid_boots_d, itm_scale_gauntlets,
     itm_mamluke_mail, itm_sarranid_elite_armor,

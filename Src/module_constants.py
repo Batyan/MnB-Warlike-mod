@@ -307,6 +307,8 @@ faction_size_names_begin = str_swadian_faction_small
 faction_size_names_end = str_sarranid_faction_large + 1
 faction_size_names_count = 3
 
+player_troop = "trp_player"
+
 ################
 ## Item Slots ##
 ################
@@ -321,9 +323,12 @@ slot_building_cost_gold		= 3
 slot_building_build_time	= 4
 
 slot_item_produced_quantity	= 1 # Number of items produced per batch
-slot_item_produced_need		= 2 # Number of items required to make a batch
-slot_item_produced_from_1 	= 3 # First item needed to produce this good
-slot_item_produced_from_2	= 4 # Second item needed to produce this good (if any)
+slot_item_produced_from_1 	= 2 # First item needed to produce this good
+slot_item_produced_from_2	= 3 # Second item needed to produce this good (if any)
+slot_item_produced_from_3	= 4 # Third item needed to produce this good (if any)
+slot_item_produced_need_1	= 5 # Number of items required to make a batch
+slot_item_produced_need_2	= 6 # Number of items required to make a batch
+slot_item_produced_need_3	= 7 # Number of items required to make a batch
 
 #################
 ## Agent Slots ##
@@ -455,8 +460,8 @@ party_slots = 0
 
 slot_party_type				= 1
 
-spt_caravan		= 5
-spt_civilian	= 6
+spt_civilian	= 5
+spt_caravan		= 6
 spt_war_party	= 7
 spt_patrol		= 8
 spt_scout		= 9
@@ -484,9 +489,9 @@ slot_party_mission_object	= 6
 
 slot_party_wealth 			= 7
 slot_party_population 		= 8   # Does not include slave population
-population_max_town = 20000
-population_max_castle = 50
-population_max_village = 2000
+population_max_town = 150000
+population_max_castle = 500
+population_max_village = 15000
 slot_party_population_slave = 127 # 
 
 
@@ -503,12 +508,12 @@ slot_party_num_others 		= 16 # Contains every other non fighting party (should i
 
 slot_party_total_resources = 17
 
-slot_party_ressources_begin = itm_spice # 19
-slot_party_ressources_end = itm_sumpter_horse # 54
-slot_party_ressources_count = slot_party_ressources_end - slot_party_ressources_begin # 35
+slot_party_ressources_begin = itm_spice # 18
+slot_party_ressources_end = itm_saddle_horse # 58
+slot_party_ressources_count = slot_party_ressources_end - slot_party_ressources_begin # 40
 
-slot_party_ressources_current_amount_begin = slot_party_ressources_end # 54
-slot_party_ressources_current_amount_end = slot_party_ressources_current_amount_begin + slot_party_ressources_count # 89
+slot_party_ressources_current_amount_begin = slot_party_ressources_end # 58
+slot_party_ressources_current_amount_end = slot_party_ressources_current_amount_begin + slot_party_ressources_count # 98
 
 slot_party_building_slot_1	= 101
 slot_party_building_slot_2	= 102
@@ -593,7 +598,12 @@ pn_know_slaves	= 0x80
 
 slot_party_morale = 136
 
-slot_party_item_consumed_begin 	= 137 # Number of items consumed per 100 citizens
+slot_party_taxes = 137
+slot_party_prosperity = 138
+
+slot_party_unpaid_wages = 139
+
+slot_party_item_consumed_begin 	= 140 # Number of items consumed per 100 citizens
 slot_party_item_consumed_end	= slot_party_item_consumed_begin + goods_end - goods_begin
 
 
@@ -729,7 +739,7 @@ tb_patrol				= 3
 slot_troop_prisoner_of				= 25 # Only heroes
 
 slot_troop_faction_reserved_1		= 25 # Only regulars
-slot_troop_faction_reserved_2		= 26
+slot_troop_faction_reserved_2		= 26 # Only regulars
 slot_troop_faction_not_1			= 27
 slot_troop_faction_not_2			= 28
 
@@ -794,12 +804,19 @@ slot_troop_died = 55 # Contains the date of death of an NPC
 slot_troop_honor = 56
 slot_troop_renown = 57
 
+slot_troop_accompanying = 58 # Used for companions -- Stores the current party the troop is following
+slot_troop_companion_of = 59 # Used for companions -- Stores the leader it is following
 
+slot_troop_relations_begin = 400
+
+
+# # # ToDo: remove test slots
 slot_troop_mission_kills = 200
 slot_troop_mission_deaths = 201
 slot_item_mission_kills = 200
 slot_faction_mission_kills = 200
 slot_faction_mission_deaths = 201
+# # #
 
 ##################
 ## Player Slots ##
@@ -844,7 +861,9 @@ slot_team_battle_phase		= 6
 stbp_deploy = 0
 stbp_advance = 1
 stbp_engage = 2
-stbp_combat = 3
+stbp_prepare = 3
+stbp_assault = 4
+stbp_combat = 5
 
 stbp_siege_one = 1
 stbp_siege_two = 2
@@ -869,6 +888,32 @@ slot_team_division_8_number = 22
 slot_team_division_9_number = 23
 
 slot_team_num_division		= 24
+
+slot_team_division_1_type 	= 25
+slot_team_division_2_type 	= 26
+slot_team_division_3_type 	= 27
+slot_team_division_4_type 	= 28
+slot_team_division_5_type 	= 29
+slot_team_division_6_type 	= 30
+slot_team_division_7_type 	= 31
+slot_team_division_8_type 	= 32
+slot_team_division_9_type 	= 33
+stdt_shield = 1
+stdt_infantry = 2
+stdt_heavy_infantry = 3
+stdt_light_infantry = 4
+stdt_shock_infantry = 5
+stdt_cavalry = 6
+stdt_lance = 7
+stdt_heavy_cavalry = 8
+stdt_light_cavalry = 9
+stdt_horse_skirmisher = 10
+stdt_horse_archer = 11
+stdt_skirmisher = 12
+stdt_ranged = 13
+stdt_crossbow = 14
+stdt_archer = 15
+stdt_charge = -1
 
 # grc_infantry = 0
 # grc_archers = 1

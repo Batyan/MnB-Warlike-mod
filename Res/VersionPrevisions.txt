@@ -7,28 +7,23 @@
 			Be attacked by an enemy
 			Help an ally
 0.200: Battle
-	Siege battles -- DONE --
+	Siege battles
 		Attack
 		Defend
 	Take prisoners (troops and heroes)
 	Free prisoners (troops and heroes)
-	0.210:
-		Battle lost consequences
-			Prisoner of party
-			Steal items
-			Steal gold
+	0.210: -- DONE --
 		Battle loot
 			Loot stolen gold and items
 			Loot enemy soldiers
 			Loot ally soldiers
-	0.220: -- DONE --
-		Bandit spawns
+	0.220:
+		Basic Bandit interactions
 	0.230:
-		Character Deaths (only npcs)
-	0.240:
-		Party Morale
-	0.250:
-		Character personalities (system only)
+		Battle lost consequences
+			Prisoner of party
+			Steal items
+			Steal gold
 0.300: Economy
 	Taxes
 	Good production
@@ -41,14 +36,23 @@
 	0.330: Goods
 		Good transformation
 		Good consumption
+	0.340: Money changers
+		Lords need to pay to upgrade gear
+		Hire/Sell mercenaries
+		Lending money
+		Lord debts
 0.400: Faction ai
 	Elect leader
 	Declare war/peace
 	Elect Marshall
-	0.410:
+	0.410: Keep lord count up
+		Escape captivity
+		Pay ransom
+		Free prisoners
+	0.420: Victory
 		Faction defeating
 		Faction vassalage
-	0.420:
+	0.430: Civil war
 		Faction splitting (civil war)
 0.500: Party ai
 	Better party ai
@@ -60,6 +64,9 @@
 0.600: City Management
 	Buildings
 	Bank
+	0.610: Player City Management
+		Change taxes
+		Change internal policies
 0.700: Kingdom Management
 	Possible for player to lead a kingdom
 	0.710:
@@ -76,14 +83,20 @@
 		Heroes randomisation
 			Faces
 			Names
+	0.820:
+		NPCs personalities
 0.900: Politics
 	Politics
-	Kingdom policies
+	Kingdom government types
 	0.910: Information
 		Add troop notes
 		Add center notes
 		Add faction notes
 		Add info pages
+	0.920: Schemes
+		Relation changes with events
+		Rivalries
+		Supporting neutral party
 1.000: Companions - Personalities
 	Player Companions
 	Personalities
@@ -103,20 +116,24 @@
 1.200: Time
 	Player Death
 		Select next character
-	Passing of time
+	1.210: NPCs
+		NPCs death
+	1.220: Passing of time
 		Characters getting old with time
-	Children
-		Generate children from parents
+		Children
+			Generate children from parents
 1.300: Battle
-	Battle ai
-		Increase variety of formations
-		Leave reserve behind main battle
-	Battle player
-		Select predefined formation before battle
-		Create custom formation
-		Disable automatic formations
-		Split troops
-			Engaged formations do not balance unit number
+	Party morale
+	1.310: Battle - Plain
+		Battle ai
+			Increase variety of formations
+			Leave reserve behind main battle
+		Battle player
+			Select predefined formation before battle
+			Create custom formation
+			Disable automatic formations
+			Split troops
+				Engaged formations do not balance unit number
 	1.310: Battle - Siege
 		Siege improvements
 			Allows garrison starving
@@ -157,11 +174,11 @@
 		Reinforcements
 1.800: Basic Multiplayer
 	Battle modes:
-		Battle
-		Siege
-		Bot battle
-		Bot siege
-		Conquest
-			4 castles on the map
-			Capture a castle to control it
-			Castles produce bot soldiers to defend and attack
+	1.810: Battle
+	1.820: Siege
+	1.830: Bot battle
+	1.840: Bot siege
+	1.850: Conquest
+		4 castles on the map
+		Capture a castle to control it
+		Castles produce bot soldiers to defend and attack

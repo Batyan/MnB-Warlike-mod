@@ -1,3 +1,25 @@
+v 0.210:
+-Experimental battle tactics for ais
+-Added looting of gold and items on defeated parties
+-Added basic faction notes and faction discovery
+
+v 0.202:
+-Increased Khergit Powerstrike
+-Improved population growth and balance
+-Removed bamboo spear from Sarranids
+-Added taxes for town trading
+-Added party wages
+-Fixed lords disapearing (because of prisoner mismanagement)
+-Improved battle tactics
+-Bandits spawn more often on low prosperity centers, they are stronger on high prosperity centers
+
+v 0.201:
+-Changed Nord Infantry to Light Infantry (Nord Infantry is a special troop with slightly lower power strike)
+-Reduced Spearmen, Pikemen and Lancers Power Strike (to balance ai calculations), increased weapons speed and damage to compensate
+-Added new castles and villages to main and swadians/vaegir minors factions
+-Greatly reduced party size (to compensate for increased number of lords)
+-During sieges, archers will not go towards archer towers unless they are holding ground.
+-Factions will change name depending on their size
 
 v 0.200:
 -Increased Sarranid Archers Bows proficiency
@@ -21,12 +43,6 @@ v 0.200:
 -Added mercenary culture and faction
 -Added mercenary troops
 -Khergit Horsemen are now spear cavalry
--Changed Nord Infantry to Light Infantry (Nord Infantry is a special troop with slightly lower power strike)
--Reduced Spearmen, Pikemen and Lancers Power Strike (to balance ai calculations), increased weapons speed and damage to compensate
--Added new castles and villages to main and swadians/vaegir minors factions
--Greatly reduced party size (to compensate for increased number of lords)
--During sieges, archers will not go towards archer towers unless they are holding ground.
--Factions will change name depending on their size
 
 v 0.111:
 -Added change log tracking

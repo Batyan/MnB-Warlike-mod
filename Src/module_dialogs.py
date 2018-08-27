@@ -176,11 +176,11 @@ dialogs = [
 	[anyone, "start",
 		[(store_faction_of_party, ":party_faction", "$g_talk_party"),
 		 (is_between, ":party_faction", "fac_faction_1", "fac_kingdom_1"),
-		 (troop_get_type, reg10, "trp_player"),], "Your money or your life {reg10?lass:lad}!", "bandit_player_talk", []],
+		 (troop_get_type, reg10, player_troop),], "Your money or your life {reg10?lass:lad}!", "bandit_player_talk", []],
 
 	[anyone|plyr, "bandit_player_talk",
 		[
-			(store_troop_gold,":gold","trp_player"),
+			(store_troop_gold,":gold",player_troop),
 			(gt,":gold",500),
 		], "Here take it and leave me alone!", "bandit_give_gold",[]],
 
@@ -190,7 +190,7 @@ dialogs = [
 	[anyone, "bandit_give_gold",
 		[], "Easy money...", "close_window", 
 		[
-			(troop_remove_gold,"trp_player",500),
+			(troop_remove_gold,player_troop,500),
 			(leave_encounter),
 		]],
 	[anyone, "bandit_fight",
@@ -246,4 +246,19 @@ dialogs = [
 	
 	[anyone, "member_chat_end",
 		[], "Anything else {My Lord/My Lady}?", "member_chat_player", []],
+
+	[anyone, "prisoner_chat",
+		[
+			(store_conversation_troop, "$g_talk_troop"),
+			(eq, 0, 1),
+		], "!No dialog", "close_window", []],
+
+	[anyone, "prisoner_chat",
+		[], "What do you want ?", "prisoner_chat_player", []],
+
+	[anyone|plyr, "prisoner_chat_player",
+		[], "Stay put", "close_window", []],
+
+	[anyone|plyr, "prisoner_chat_player",
+		[], "You are free to go", "close_window", [(call_script, "script_troop_freed", "$g_talk_troop", -1),]],
 ]
