@@ -14,6 +14,9 @@ from module_constants import *
 
 
 dialogs = [
+	################
+	# Init dialogs #
+	################
 	[anyone, "start", 
 		[
 			(store_conversation_troop, "$g_talk_troop"),
@@ -30,6 +33,9 @@ dialogs = [
 			(eq, 0, 1),
 		], "Yo_Dawg, yo' ass should not read this!", "close_window", []],
 	
+	#######################
+	# Agressive lord talk #
+	#######################
 	[anyone, "start",
 		[ 
 			(encountered_party_is_attacker),
@@ -43,13 +49,15 @@ dialogs = [
 			(store_current_hours, ":date"),
 			(troop_set_slot, "$g_talk_troop", slot_troop_last_met, ":date"),
 		]],
-	
 	[anyone, "start",
 		[ 
 			(encountered_party_is_attacker),
 			(is_between, "$g_talk_troop", lords_begin, lords_end),
 		], "{playername}... We meet again, do you have anything to say before I crush you?", "player_lord_greeting_attacked", []],
-	
+
+	#############
+	# Lord Talk #
+	#############	
 	[anyone, "start", 
 		[
 			(is_between, "$g_talk_troop", lords_begin, lords_end),
@@ -173,6 +181,9 @@ dialogs = [
 		[(party_set_slot, "$g_talk_party", slot_party_speak_allowed, 0),
 		 (encounter_attack),]],
 
+	###############
+	# Bandit talk #
+	###############
 	[anyone, "start",
 		[(store_faction_of_party, ":party_faction", "$g_talk_party"),
 		 (is_between, ":party_faction", "fac_faction_1", "fac_kingdom_1"),
@@ -180,22 +191,84 @@ dialogs = [
 
 	[anyone|plyr, "bandit_player_talk",
 		[
-			(store_troop_gold,":gold",player_troop),
-			(gt,":gold",500),
-		], "Here take it and leave me alone!", "bandit_give_gold",[]],
-
+			(store_troop_gold, ":gold", player_troop),
+			(gt, ":gold", 500),
+			(call_script, "script_game_get_money_text", 500),
+			(str_store_string_reg, s10, s0),
+		], "Take {s10} and be on your way!", "bandit_give_gold",[]],
+	[anyone|plyr, "bandit_player_talk",
+		[
+			(store_troop_gold, ":gold", player_troop),
+			(gt, ":gold", 1500),
+			(val_div, ":gold", 2),
+			(call_script, "script_game_get_money_text", ":gold"),
+			(str_store_string_reg, s10, s0),
+		], "Take {s10} and be on your way!", "bandit_give_gold_half",[]],
+	[anyone|plyr, "bandit_player_talk",
+		[
+			(store_troop_gold, ":gold", player_troop),
+			(gt, ":gold", 100),
+			(call_script, "script_game_get_money_text", ":gold"),
+			(str_store_string_reg, s10, s0),
+		], "Here take everything and leave me alone! ({s10})", "bandit_give_gold_all",[]],
+	[anyone|plyr, "bandit_player_talk",
+		[
+			(store_troop_gold, ":gold", player_troop),
+			(le, ":gold", 100),
+			(gt, ":gold", 0),
+			(call_script, "script_game_get_money_text", ":gold"),
+			(str_store_string_reg, s10, s0),
+		], "This is all I have ({s10}).", "bandit_give_gold_low",[]],
+	[anyone|plyr, "bandit_player_talk",
+		[
+			(store_troop_gold, ":gold", player_troop),
+			(le, ":gold", 0),
+		], "I don't have any money with me, please let me go.", "bandit_give_gold_nothing",[]],
 	[anyone|plyr, "bandit_player_talk",
 		[], "Take it if you can!", "bandit_fight", []],
-
+	# ToDo: Bandits can refuse gold, thinking there is more
+	[anyone, "bandit_give_gold_low",
+		[], "Ugh... fine... Get lost I don't want to see you again.", "close_window", 
+		[
+			(store_troop_gold, ":gold", player_troop),
+			(troop_remove_gold, player_troop, ":gold"),
+			(leave_encounter),
+		]],
+	# ToDo: Bandits can refuse gold, thinking there is more
 	[anyone, "bandit_give_gold",
 		[], "Easy money...", "close_window", 
 		[
-			(troop_remove_gold,player_troop,500),
+			(troop_remove_gold, player_troop, 500),
 			(leave_encounter),
+		]],
+	[anyone, "bandit_give_gold_half",
+		[], "Easy money...", "close_window", 
+		[
+			(store_troop_gold, ":gold", player_troop),
+			(val_div, ":gold", 2),
+			(troop_remove_gold, player_troop, ":gold"),
+			(leave_encounter),
+		]],
+	[anyone, "bandit_give_gold_all",
+		[], "Nice...", "close_window", 
+		[
+			(store_troop_gold, ":gold", player_troop),
+			(troop_remove_gold, player_troop, ":gold"),
+			(leave_encounter),
+		]],
+	# ToDo: Bandits can let go of player, thinking they gain nothing for robbing
+	# Or they can chose to take one of the player's item/companion
+	[anyone, "bandit_give_gold_nothing",
+		[], "Then you pay with your life!", "close_window", 
+		[
+			(party_set_slot, "$g_talk_party", slot_party_speak_allowed, 0),
 		]],
 	[anyone, "bandit_fight",
 		[], "Just how I like it!", "close_window", [(party_set_slot, "$g_talk_party", slot_party_speak_allowed, 0),]],
 
+	#################
+	# Error dialogs #
+	#################
     [anyone|plyr, "start", [], "Dialog Error. No dialog found.", "close_window", []],
 	
 	[anyone, "start",
@@ -213,16 +286,17 @@ dialogs = [
 	# [anyone, "enemy_defeated",
 		# [(display_debug_message, "@Enemy defeated"),], "Hail traveller. It's a pleasure to meet you, what is your name?.", "player_greeting", []],
 	
+	###############
+	# Member chat #
+	###############
 	[anyone, "member_chat",
 		[
 			(store_conversation_troop, "$g_talk_troop"),
 			(eq, 0, 1),
 		], "!No dialog", "close_window", []],
-		
 	[anyone, "member_chat",
 		[(troop_equip_items, "$g_talk_troop"), # TEST
 		], "Yes {My Lord/My Lady}?", "member_chat_player", []],
-	
 	[anyone|plyr, "member_chat_player",
 		[
 		], "Show me your stats.", "member_chat_end",
@@ -230,7 +304,6 @@ dialogs = [
 			# (change_screen_view_character, "$g_talk_troop"),
 			(change_screen_view_character),
 		]],
-	
 	[anyone|plyr, "member_chat_player",
 		[
 		], "Show me your items.", "member_chat_end",
@@ -239,14 +312,15 @@ dialogs = [
 			(call_script, "script_troop_copy_items_from_troop", "trp_temp_troop", "$g_talk_troop"),
 			(change_screen_loot, "trp_temp_troop"),
 		]],
-	
 	[anyone|plyr, "member_chat_player",
 		[], "Nothing.", "close_window",
 		[]],
-	
 	[anyone, "member_chat_end",
 		[], "Anything else {My Lord/My Lady}?", "member_chat_player", []],
 
+	#################
+	# Prisoner chat #
+	#################
 	[anyone, "prisoner_chat",
 		[
 			(store_conversation_troop, "$g_talk_troop"),
@@ -260,5 +334,5 @@ dialogs = [
 		[], "Stay put", "close_window", []],
 
 	[anyone|plyr, "prisoner_chat_player",
-		[], "You are free to go", "close_window", [(call_script, "script_troop_freed", "$g_talk_troop", -1),]],
+		[(troop_is_hero, "$g_talk_troop"),], "You are free to go", "close_window", [(call_script, "script_troop_freed", "$g_talk_troop", -1),]],
 ]
