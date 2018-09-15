@@ -23,6 +23,7 @@ ToDo:
             troop recruitement
             buildings
         Great gains in trade
+        Greater gains in fiefs
         Banditry (link)
         Slavery
     Add banditry page
@@ -37,6 +38,7 @@ ToDo:
             Can greatly deteriorate relations with village / owner / faction
         Outlaws can now have bounties placed on them
             You can hunt bounties or be the one hunted
+            High number of witnesses increase the chance of a bounty and its severity
     Add personalities and character traits page
         Characters are generated with a certain number of traits
         Characters can change their attributes by doing certain actions

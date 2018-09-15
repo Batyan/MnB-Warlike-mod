@@ -58,7 +58,7 @@ battle_siege_equalize_division = (
 					(ge, ":num_troops", ":avg"),
 					(val_add, ":num_troops", 1),
 					
-					# ToDo: Seek least manner division
+					# ToDo: Seek least manned division
 					(store_random_in_range, ":random_division", grc_cavalry, ":end"),
 					(agent_set_division, ":agent_no", ":random_division"),
 					(agent_set_slot, ":agent_no", slot_agent_new_division, ":random_division"),
@@ -444,6 +444,7 @@ test_battle_siege_spawn_troops = (
 			(try_end),
 		(try_end),
 	])
+
 test_battle_spawn_troops_2_teams = (
 	10, 0, 0,
 	[],
@@ -1379,7 +1380,6 @@ test_battle_death_event = (
 				(val_add, ":num_kills", 1),
 				(faction_set_slot, ":killer_troop_faction", slot_faction_mission_kills, ":num_kills"),
 			(try_end),
-
 		(try_end),
 	])
 	

@@ -12300,7 +12300,6 @@ scripts = [
             (assign, reg0, 1),
         ]),
 
-
     # script_party_spawn_bandits
         # input:
         #   arg1: center_no
@@ -12897,6 +12896,7 @@ scripts = [
     ("party_pay_wages", 
         [
             (store_script_param, ":party_no", 1),
+
             (call_script, "script_party_get_wages", ":party_no"),
             (assign, ":party_wages", reg0),
 
@@ -13312,6 +13312,7 @@ scripts = [
             (str_store_faction_name_link, s10, ":faction_no"),
             (display_message, "@Notes updated ({s10})"),
         ]),
+
     # script_update_party_notes
         # input:
         #   arg1: party_no
@@ -13362,7 +13363,7 @@ scripts = [
 
             (store_item_value, ":real_price", ":item_no"),
             # Trade skill influences the random outcome
-            (store_skill_level, ":trade", ":troop_no"),
+            (store_skill_level, ":trade", skl_trade, ":troop_no"),
 
             # We add different static elements to have a different number for each item/price/troop/day
             (store_add, ":rand", "$g_daily_random", ":real_price"),
@@ -13379,5 +13380,125 @@ scripts = [
             (val_add, ":estimated_price", ":real_price"),
 
             (assign, reg0, ":estimated_price"),
+        ]),
+
+    # script_troop_bargain
+        # input:
+        #   arg1: bargaining_troop
+        #   arg2: other_troop
+        #   arg3: ratio_offered
+        #   arg4: bargain_type
+        #       -1: aggressive bargain, uses strength and indimidation
+        #       1: friendly bargain, uses intelligence and persuasion
+        # output:
+        #   reg0: outcome 
+        #       -1 very happy with offer
+        #       0 content with offer
+        #       1 unhappy with offer
+        # this script is called when bargain between 2 troops
+    ("troop_bargain",
+        [
+            (store_script_param, ":bargaining_troop", 1),
+            (store_script_param, ":other_troop", 2),
+            (store_script_param, ":ratio_offered", 3),
+            (store_script_param, ":bargain_type", 4),
+
+            (assign, ":outcome", 0),
+
+            (assign, ":skill", 0),
+            (assign, ":attribute", 0),
+            (assign, ":main_attribute_weight", 3),
+            (assign, ":main_skill_weight", 5),
+
+            (try_begin),
+                (eq, ":bargain_type", -1),
+                (assign, ":skill", skl_intimidation),
+                (assign, ":attribute", ca_strength),
+            (else_try),
+                (assign, ":skill", skl_persuasion),
+                (assign, ":attribute", ca_intelligence),
+            (try_end),
+            (store_skill_level, ":bargaining_troop_skill", ":skill", ":bargaining_troop"),
+            (val_mul, ":bargaining_troop_skill", ":main_skill_weight"),
+
+            (store_attribute_level, ":b_attribute", ":bargaining_troop", ":attribute"),
+            (store_attribute_level, ":o_attribute", ":other_troop", ":attribute"),
+            (val_mul, ":b_attribute", ":main_attribute_weight"),
+            (val_mul, ":o_attribute", ":main_attribute_weight"),
+
+            # Both persuasion use charisma (less weighted)
+            (store_attribute_level, ":b_charisma", ":bargaining_troop", ca_charisma),
+            (store_attribute_level, ":o_charisma", ":other_troop", ca_charisma),
+            (val_add, ":b_attribute", ":b_charisma"),
+            (val_add, ":o_attribute", ":o_charisma"),
+
+            (store_sub, ":difference", ":b_attribute", ":o_attribute"),
+            (val_add, ":difference", ":bargaining_troop_skill"),
+
+            (val_add, ":difference", 100),
+            (val_sub, ":difference", ":ratio_offered"),
+            (try_begin),
+                (gt, ":difference", 0),
+                (assign, ":outcome", 1),
+                # ToDo: if difference close to 0 can have a chance at neutral outcome
+            (else_try),
+                (lt, ":difference", 0),
+                (assign, ":outcome", -1),
+                # ToDo: if difference close to 0 can have a chance at neutral outcome
+            (try_end),
+
+            (assign, reg0, ":outcome"),
+        ]),
+
+    # script_party_bargain
+    # input:
+    #   arg1: bargaining_party
+    #   arg2: other_party
+    #   arg3: ratio_offered
+    #   arg4: bargain_type
+    # output:
+    #   reg0: outcome
+    #       -1 very happy with offer
+    #       0 content with offer
+    #       1 unhappy with offer
+    # this script is called when bargain between 2 parties
+    ("party_bargain", 
+        [
+            (store_script_param, ":bargaining_party", 1),
+            (store_script_param, ":other_party", 2),
+            (store_script_param, ":ratio_offered", 3),
+            (store_script_param, ":bargain_type", 4),
+
+            (assign, ":outcome", 0),
+
+            (try_begin),
+                (eq, ":bargain_type", -1),
+                (call_script, "script_party_group_calculate_strength", ":bargaining_party"),
+                (assign, ":strength", reg0),
+                (val_add, ":strength", reg1),
+
+                (call_script, "script_party_group_calculate_strength", ":other_party"),
+                (assign, ":other_party_strength", reg0),
+                (val_add, ":other_party_strength", reg1),
+                (val_min, ":other_party_strength", 1),
+
+                (val_mul, ":strength", 100),
+                (val_div, ":strength", ":other_party_strength"),
+
+                (val_mul, ":strength", ":ratio_offered"),
+                (val_div, ":strength", 100),
+
+                (try_begin),
+                    (gt, ":strength", 100),
+                    (assign, ":outcome", -1),
+                (else_try),
+                    (lt, ":strength", 100),
+                    (assign, ":outcome", 1),
+                (try_end),
+            # (else_try),
+                # peaceful bargain type with parties ?
+            (try_end),
+
+            (assign, reg0, ":outcome"),
         ]),
 ]

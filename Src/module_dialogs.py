@@ -188,7 +188,6 @@ dialogs = [
 		[(store_faction_of_party, ":party_faction", "$g_talk_party"),
 		 (is_between, ":party_faction", "fac_faction_1", "fac_kingdom_1"),
 		 (troop_get_type, reg10, player_troop),], "Your money or your life {reg10?lass:lad}!", "bandit_player_talk", []],
-
 	[anyone|plyr, "bandit_player_talk",
 		[
 			(store_troop_gold, ":gold", player_troop),
@@ -199,7 +198,7 @@ dialogs = [
 	[anyone|plyr, "bandit_player_talk",
 		[
 			(store_troop_gold, ":gold", player_troop),
-			(gt, ":gold", 1500),
+			(gt, ":gold", 1200),
 			(val_div, ":gold", 2),
 			(call_script, "script_game_get_money_text", ":gold"),
 			(str_store_string_reg, s10, s0),
@@ -227,8 +226,44 @@ dialogs = [
 	[anyone|plyr, "bandit_player_talk",
 		[], "Take it if you can!", "bandit_fight", []],
 	# ToDo: Bandits can refuse gold, thinking there is more
+	
 	[anyone, "bandit_give_gold_low",
-		[], "Ugh... fine... Get lost I don't want to see you again.", "close_window", 
+		[
+			(call_script, "script_troop_get_gold_rating", player_troop, "$g_talk_troop"),
+			(assign, ":estimated_gold", reg0),
+			(store_troop_gold, ":gold", player_troop),
+			(val_mul, ":estimated_gold", 100),
+			(val_div, ":estimated_gold", ":gold"),
+			(ge, ":estimated_gold", 75),
+			(call_script, "script_party_group_calculate_strength", "p_main_party"),
+			# We add strength and defense 
+			(assign, ":player_strength", reg0),
+			(val_add, ":player_strength", reg1),
+			(call_script, "script_party_group_calculate_strength", "$g_talk_party"),
+			(assign, ":bandits_strength", reg0),
+			(val_add, ":bandits_strength", reg1),
+			(store_mul, ":ratio", ":bandits_strength", 100),
+			(val_div, ":ratio", ":player_strength"),
+			(gt, ":ratio", 65),
+
+			(val_add, ":ratio", ":estimated_gold"),
+			(val_div, ":ratio", 2),
+			(ge, ":ratio", 85),
+		], "I think you can do better than that, give me everything or pay with your blood !", "bandit_demand_all", 
+		[
+			(store_troop_gold, ":gold", player_troop),
+			(troop_remove_gold, player_troop, ":gold"),
+			(leave_encounter),
+		]],
+	[anyone, "bandit_give_gold_low",
+		[
+			# (call_script, "script_troop_get_gold_rating", player_troop, "$g_talk_troop"),
+			# (assign, ":estimated_gold", reg0),
+			# (store_troop_gold, ":gold", player_troop),
+			# (val_mul, ":estimated_gold", 100),
+			# (val_div, ":estimated_gold", ":gold"),
+			# (lt, ":estimated_gold", 75),
+		], "Ugh... fine... Get lost I don't want to see you again.", "close_window", 
 		[
 			(store_troop_gold, ":gold", player_troop),
 			(troop_remove_gold, player_troop, ":gold"),
@@ -256,6 +291,17 @@ dialogs = [
 			(troop_remove_gold, player_troop, ":gold"),
 			(leave_encounter),
 		]],
+	[anyone, "bandit_give_all",
+		[], "A pleasure doing business with you.", "close_window", 
+		[
+			(store_troop_gold, ":gold", player_troop),
+			(troop_remove_gold, player_troop, ":gold"),
+			(leave_encounter),
+		]],
+	[anyone|plyr, "bandit_demand_all",
+		[], "Take what you want", "bandit_give_all", []],
+	[anyone|plyr, "bandit_demand_all",
+		[], "Then you'll have a fight !", "bandit_fight", []],
 	# ToDo: Bandits can let go of player, thinking they gain nothing for robbing
 	# Or they can chose to take one of the player's item/companion
 	[anyone, "bandit_give_gold_nothing",
@@ -326,13 +372,10 @@ dialogs = [
 			(store_conversation_troop, "$g_talk_troop"),
 			(eq, 0, 1),
 		], "!No dialog", "close_window", []],
-
 	[anyone, "prisoner_chat",
 		[], "What do you want ?", "prisoner_chat_player", []],
-
 	[anyone|plyr, "prisoner_chat_player",
 		[], "Stay put", "close_window", []],
-
 	[anyone|plyr, "prisoner_chat_player",
 		[(troop_is_hero, "$g_talk_troop"),], "You are free to go", "close_window", [(call_script, "script_troop_freed", "$g_talk_troop", -1),]],
 ]
