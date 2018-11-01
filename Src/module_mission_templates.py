@@ -829,6 +829,12 @@ test_battle_faction_select = (
 					(team_get_slot, ":team_faction", ":team", slot_team_test_faction),
 					(faction_get_slot, ":faction_troops_begin", ":team_faction", slot_faction_troops_begin),
 					(faction_get_slot, ":faction_troops_end", ":team_faction", slot_faction_troops_end),
+
+					(team_get_gap_distance, ":team_gap", ":team", grc_infantry),
+					(assign, reg12, ":team"),
+					(assign, reg13, ":team_gap"),
+					(display_message, "@Team {reg12} infantry gap: {reg13}."),
+
 					(assign, ":best_killer", 0),
 					(assign, ":best_killer_score", 0),
 					(assign, ":most_killed", 0),
@@ -934,27 +940,13 @@ battle_division_control = (
 			(try_end),
 		])
 
-test_battle_division_control_siege = (
+battle_division_control_siege = (
 	5, 0, 0,
 		[],
 		[
 			(try_for_agents, ":agent_no"),
 				(agent_is_alive, ":agent_no"),
 				(call_script, "script_agent_reassign_division_siege", ":agent_no"),
-			(try_end),
-		])
-
-test_battle_fix_division = (
-	0.5, 0, 0,
-		[],
-		[
-			(try_for_agents, ":agent"),
-				(agent_is_alive, ":agent"),
-				(agent_slot_ge, ":agent", slot_agent_new_division, 0),
-				(agent_get_division, ":division", ":agent"),
-				(neg|agent_slot_eq, ":agent", slot_agent_new_division, ":division"),
-				(agent_get_slot, ":new_div", ":agent", slot_agent_new_division),
-				(agent_set_division, ":agent", ":new_div"),
 			(try_end),
 		])
 
@@ -972,7 +964,7 @@ battle_fix_division = (
 			(try_end),
 		])
 
-test_battle_siege_move_archer_to_archer_position = (
+battle_siege_move_archer_to_archer_position = (
 	6, 0, 0,
 		[
 			(try_for_range, ":team", 0, 4),
@@ -1450,10 +1442,10 @@ mission_templates = [
 			test_battle_siege_spawn_troops,
 			test_battle_faction_select,
 			test_battle_siege_spawn,
-			test_battle_division_control_siege,
+			battle_division_control_siege,
 			test_battle_death_event,
-			test_battle_fix_division,
-			test_battle_siege_move_archer_to_archer_position,
+			battle_fix_division,
+			battle_siege_move_archer_to_archer_position,
 			test_battle_siege_refill_ammo,
 			
 			test_battle_player_respawn,
@@ -1519,7 +1511,7 @@ mission_templates = [
 		[
 			test_battle_init,
 			test_battle_spawn_troops,
-			test_battle_fix_division,
+			battle_fix_division,
 			battle_division_control,
 			
 			battle_spawn,
@@ -1714,9 +1706,9 @@ mission_templates = [
 			battle_init_siege,
 			battle_reinforcements_siege,
 			test_battle_siege_spawn,
-			test_battle_division_control_siege,
-			test_battle_fix_division,
-			test_battle_siege_move_archer_to_archer_position,
+			battle_division_control_siege,
+			battle_fix_division,
+			battle_siege_move_archer_to_archer_position,
 			test_battle_siege_refill_ammo,
 			
 			battle_siege_equalize_division,

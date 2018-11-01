@@ -32,7 +32,7 @@
 		Caravans
 	0.320: Party upkeep
 		Money management
-			Weekly finances presentation
+			Weekly/Monthly finances presentation
 	0.330: Goods
 		Good transformation
 		Good consumption
