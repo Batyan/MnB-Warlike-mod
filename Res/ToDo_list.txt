@@ -1,5 +1,4 @@
 ToDo:
-- Helping allies not using formations
 - Debug ais not using reserves
 - Add debug mode for ais
     Enable/Disable ai

@@ -2,6 +2,7 @@ v 0.220:
 -Added bandit dialogs
 -Changed some messages displayed to log_message type (saved in save game)
 -Party wealth is added to looted gold
+-Increased bandits aggressiveness
 
 v 0.210:
 -Experimental battle tactics for ais
