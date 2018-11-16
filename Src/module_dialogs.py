@@ -419,21 +419,32 @@ dialogs = [
 			(call_script, "script_get_bandit_dialog", "$g_talk_party", "str_bandit_defensive_player_rob_give_all_forest"),
 		], "{s0}", "close_window", [(leave_encounter),]],
 	[anyone, "bandit_player_rob",
-		[(ge, "$g_dialog_outcome", bargain_neutral),(call_script, "script_get_bandit_dialog", "$g_talk_party", "str_bandit_defensive_player_rob_give_item_forest"),], "{s0}", "close_window", []],
+		[
+			(ge, "$g_dialog_outcome", bargain_neutral),
+			(call_script, "script_get_bandit_dialog", "$g_talk_party", "str_bandit_defensive_player_rob_give_item_forest"),
+		], "{s0}", "close_window", [
+			(troop_clear_inventory, "trp_temp_troop"),
+			(call_script, "script_troop_copy_items_from_troop", "trp_temp_troop", "$g_talk_troop"),
+			(change_screen_loot, "trp_temp_troop"),
+		]],
 	[anyone, "bandit_player_rob",
 		[(call_script, "script_get_bandit_dialog", "$g_talk_party", "str_bandit_defensive_player_rob_give_not_forest"),], "{s0}", "close_window", [(party_set_slot, "$g_talk_party", slot_party_speak_allowed, 0),(encounter_attack),]],
 
 	[anyone|plyr, "bandit_player_ask_surrender_accept_leave_men",
 		[(call_script, "script_get_bandit_dialog", "$g_talk_party", "str_bandit_defensive_surrender_leave_men_accept_forest"),], "{s0}", "close_window", [
-			# ToDo: capture leader only, scatter old party, increase honor
+
+			(call_script, "script_party_take_troop_prisoner", "p_main_party", "$g_talk_troop", "$g_talk_party", 1),
+			(call_script, "script_troop_change_honor", player_troop, 1),
+			(party_clear, "$g_talk_party"),
+			# ToDo: scatter old party
 			(leave_encounter),
 		]],
 	[anyone|plyr, "bandit_player_ask_surrender_accept_leave_men",
 		[
 			(call_script, "script_party_group_take_party_group_prisoner", "p_main_party", "$g_talk_party"),
+			(call_script, "script_troop_change_honor", player_troop, -2),
 			(call_script, "script_get_bandit_dialog", "$g_talk_party", "str_bandit_defensive_surrender_leave_men_refuse_forest"),
 		], "{s0}", "close_window", [
-			# ToDo: reduce honor
 			(leave_encounter),
 		]],
 	#################

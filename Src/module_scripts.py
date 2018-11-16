@@ -938,14 +938,8 @@ scripts = [
                     (party_get_num_companion_stacks, ":num_stacks", ":prisoner_party"),
                     (store_random_in_range, ":rand", 0, ":num_stacks"),
                     (party_stack_get_troop_id, ":troop_id", ":prisoner_party", ":rand"),
-                    (try_begin),
-                        (troop_is_hero, ":troop_id"),
-                        (call_script, "script_troop_taken_prisoner", ":troop_id", ":party_group_no"),
-                        (party_force_add_prisoners, ":party_group_no", ":troop_id", 1),
-                    (else_try),
-                        (party_add_prisoners, ":party_group_no", ":troop_id", 1),
-                    (try_end),
-                    (party_remove_members, ":prisoner_party", ":troop_id", 1),
+
+                    (call_script, "script_party_take_troop_prisoner", ":party_group_no", ":troop_id", ":prisoner_party", 1),
                 (try_end),
                 # Then we iterate over attached parties
                 (try_for_range, ":attached_party_rank", 0, ":num_attached_parties"),
@@ -956,14 +950,7 @@ scripts = [
                         (store_random_in_range, ":rand", 0, ":num_stacks"),
                         (party_stack_get_troop_id, ":troop_id", ":prisoner_party", ":rand"),
 
-                        (try_begin),
-                            (troop_is_hero, ":troop_id"),
-                            (call_script, "script_troop_taken_prisoner", ":troop_id", ":attached_party"),
-                            (party_force_add_prisoners, ":party_group_no", ":troop_id", 1),
-                        (else_try),
-                            (party_add_prisoners, ":party_group_no", ":troop_id", 1),
-                        (try_end),
-                        (party_remove_members, ":prisoner_party", ":troop_id", 1),
+                        (call_script, "script_party_take_troop_prisoner", ":attached_party", ":troop_id", ":prisoner_party", 1),
                     (try_end),
                 (try_end),
             (try_end),
@@ -973,14 +960,7 @@ scripts = [
                 (try_for_range_backwards, ":cur_stack", 0, ":num_stacks"),
                     (party_stack_get_size, ":stack_size", ":prisoner_party", ":cur_stack"),
                     (party_stack_get_troop_id, ":troop_id", ":prisoner_party", ":cur_stack"),
-                    (try_begin),
-                        (troop_is_hero, ":troop_id"),
-                        (call_script, "script_troop_taken_prisoner", ":troop_id", ":party_group_no"),
-                        (party_force_add_prisoners, ":party_group_no", ":troop_id", 1),
-                    (else_try),
-                        (party_add_prisoners, ":party_group_no", ":troop_id", ":stack_size"),
-                    (try_end),
-                    (party_remove_members, ":prisoner_party", ":troop_id", ":stack_size"),
+                    (call_script, "script_party_take_troop_prisoner", ":party_group_no", ":troop_id", ":prisoner_party", ":stack_size"),
                 (try_end),
             (try_end),
         ]),
@@ -12494,6 +12474,33 @@ scripts = [
 
             (assign, reg0, ":bandit_party"),
             (assign, reg1, ":bandit_faction"),
+        ]),
+
+    # script_party_take_troop_prisoner
+        # input:
+        #   arg1: party_id
+        #   arg2: troop_id
+        #   arg3: from_party
+        # output: none
+    ("party_take_troop_prisoner",
+        [
+            (store_script_param, ":party_id", 1),
+            (store_script_param, ":troop_id", 2),
+            (store_script_param, ":from_party", 3),
+            (store_script_param, ":amount", 4),
+
+            (try_begin),
+                (troop_is_hero, ":troop_id"),
+                (call_script, "script_troop_taken_prisoner", ":troop_id", ":party_id"),
+                (assign, ":amount", 1),
+                (party_force_add_prisoners, ":party_id", ":troop_id", ":amount"),
+            (else_try),
+                (party_add_prisoners, ":party_id", ":troop_id", ":amount"),
+            (try_end),
+            (try_begin),
+                (ge, ":from_party", 0),
+                (party_remove_members, ":from_party", ":troop_id", ":amount"),
+            (try_end),
         ]),
 
     # script_troop_taken_prisoner
