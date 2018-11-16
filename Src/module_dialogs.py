@@ -9,11 +9,24 @@ from ID_troops import *
 from ID_party_templates import *
 from module_constants import *
 
-
+######################
+## GLOBAL VARIABLES ##
+######################
+# $g_dialog_outcome: 
+# 		shared variable to handle dialog outcomes
+# 		it must be set in the first matching dialog
+# $g_talk_troop:
+# 		holds the conversation troop
+# $g_talk_party:
+# 		holds the conversation party
+##
 
 
 
 dialogs = [
+	################
+	# Init dialogs #
+	################
 	[anyone, "start", 
 		[
 			(store_conversation_troop, "$g_talk_troop"),
@@ -28,8 +41,17 @@ dialogs = [
 			(try_end),
 			
 			(eq, 0, 1),
-		], "Yo_Dawg, yo' ass should not read this!", "close_window", []],
+		], "!ERROR! Should not display", "close_window", []],
+
+	##################
+	# Generic Dialog #
+	##################
+	# [anyone|plyr, "player_leave",
+	# 	[], "...", "close_window", [(leave_encounter),]],
 	
+	#######################
+	# Agressive lord talk #
+	#######################
 	[anyone, "start",
 		[ 
 			(encountered_party_is_attacker),
@@ -43,13 +65,15 @@ dialogs = [
 			(store_current_hours, ":date"),
 			(troop_set_slot, "$g_talk_troop", slot_troop_last_met, ":date"),
 		]],
-	
 	[anyone, "start",
 		[ 
 			(encountered_party_is_attacker),
 			(is_between, "$g_talk_troop", lords_begin, lords_end),
 		], "{playername}... We meet again, do you have anything to say before I crush you?", "player_lord_greeting_attacked", []],
-	
+
+	#############
+	# Lord Talk #
+	#############	
 	[anyone, "start", 
 		[
 			(is_between, "$g_talk_troop", lords_begin, lords_end),
@@ -173,29 +197,259 @@ dialogs = [
 		[(party_set_slot, "$g_talk_party", slot_party_speak_allowed, 0),
 		 (encounter_attack),]],
 
+	###############
+	# Bandit talk #
+	###############
 	[anyone, "start",
-		[(store_faction_of_party, ":party_faction", "$g_talk_party"),
-		 (is_between, ":party_faction", "fac_faction_1", "fac_kingdom_1"),
-		 (troop_get_type, reg10, player_troop),], "Your money or your life {reg10?lass:lad}!", "bandit_player_talk", []],
+		[
+			(store_faction_of_party, ":party_faction", "$g_talk_party"),
+			(is_between, ":party_faction", "fac_faction_1", "fac_kingdom_1"),
+			(encountered_party_is_attacker),
+			(troop_get_type, reg10, player_troop),
+			(call_script, "script_get_bandit_dialog", "$g_talk_party", "str_bandit_greetings_aggressive_forest"),
+		 ], "{s0}", "bandit_player_talk", []],
+	[anyone, "start",
+		[
+			(store_faction_of_party, ":party_faction", "$g_talk_party"),
+			(is_between, ":party_faction", "fac_faction_1", "fac_kingdom_1"),
+			(troop_get_type, reg10, player_troop),
+			(call_script, "script_get_bandit_dialog", "$g_talk_party", "str_bandit_greetings_defensive_forest"),
+		 ], "{s0}", "bandit_player_talk_aggressive", []],
 
 	[anyone|plyr, "bandit_player_talk",
 		[
-			(store_troop_gold,":gold",player_troop),
-			(gt,":gold",500),
-		], "Here take it and leave me alone!", "bandit_give_gold",[]],
-
+			(store_troop_gold, ":gold", player_troop),
+			(gt, ":gold", 500),
+			(call_script, "script_game_get_money_text", 500),
+			(str_store_string_reg, s10, s0),
+			(call_script, "script_get_bandit_dialog", "$g_talk_party", "str_bandit_player_give_gold_forest"),
+		], "{s0}", "bandit_give_gold",[]],
 	[anyone|plyr, "bandit_player_talk",
-		[], "Take it if you can!", "bandit_fight", []],
+		[
+			(store_troop_gold, ":gold", player_troop),
+			(gt, ":gold", 1200),
+			(val_div, ":gold", 2),
+			(call_script, "script_game_get_money_text", ":gold"),
+			(str_store_string_reg, s10, s0),
+			(call_script, "script_get_bandit_dialog", "$g_talk_party", "str_bandit_player_give_gold_half_forest"),
+		], "{s0}", "bandit_give_gold_half",[]],
+	[anyone|plyr, "bandit_player_talk",
+		[
+			(store_troop_gold, ":gold", player_troop),
+			(gt, ":gold", 100),
+			(call_script, "script_game_get_money_text", ":gold"),
+			(str_store_string_reg, s10, s0),
+			(call_script, "script_get_bandit_dialog", "$g_talk_party", "str_bandit_player_give_gold_all_forest"),
+		], "{s0}", "bandit_give_gold_all",[]],
+	[anyone|plyr, "bandit_player_talk",
+		[
+			(store_troop_gold, ":gold", player_troop),
+			(le, ":gold", 100),
+			(gt, ":gold", 0),
+			(call_script, "script_game_get_money_text", ":gold"),
+			(str_store_string_reg, s10, s0),
+			(call_script, "script_get_bandit_dialog", "$g_talk_party", "str_bandit_player_give_gold_low_forest"),
+		], "{s0}", "bandit_give_gold_low",[]],
+	[anyone|plyr, "bandit_player_talk",
+		[
+			(store_troop_gold, ":gold", player_troop),
+			(le, ":gold", 0),
+			(call_script, "script_get_bandit_dialog", "$g_talk_party", "str_bandit_player_give_gold_nothing_forest"),
+		], "{s0}", "bandit_give_gold_nothing",[]],
+	[anyone|plyr, "bandit_player_talk",
+		[(call_script, "script_get_bandit_dialog", "$g_talk_party", "str_bandit_player_fight_forest"),], "{s0}", "bandit_fight", []],
+	
+	[anyone, "bandit_give_gold_low",
+		[
+			(call_script, "script_troop_get_gold_rating", player_troop, "$g_talk_troop"),
+			(assign, ":estimated_gold", reg0),
+			(store_troop_gold, ":gold", player_troop),
+			(val_mul, ":estimated_gold", 100),
+			(val_div, ":estimated_gold", ":gold"),
+			(ge, ":estimated_gold", 75),
+			(call_script, "script_party_group_calculate_strength", "p_main_party"),
+			# We add strength and defense 
+			(assign, ":player_strength", reg0),
+			(val_add, ":player_strength", reg1),
+			(call_script, "script_party_group_calculate_strength", "$g_talk_party"),
+			(assign, ":bandits_strength", reg0),
+			(val_add, ":bandits_strength", reg1),
+			(store_mul, ":ratio", ":bandits_strength", 100),
+			(val_div, ":ratio", ":player_strength"),
+			(gt, ":ratio", 65),
 
+			(val_add, ":ratio", ":estimated_gold"),
+			(val_div, ":ratio", 2),
+			(ge, ":ratio", 85),
+
+			(call_script, "script_get_bandit_dialog", "$g_talk_party", "str_bandit_refuse_low_money_forest"),
+		], "{s0}", "bandit_demand_all", []],
+	[anyone, "bandit_give_gold_low",
+		[
+			(store_troop_gold, ":gold", player_troop),
+			(troop_remove_gold, player_troop, ":gold"),
+			(party_get_slot, ":party_wealth", "$g_talk_party", slot_party_wealth),
+			(val_add, ":party_wealth", ":gold"),
+			(party_set_slot, "$g_talk_party", slot_party_wealth, ":party_wealth"),
+			(call_script, "script_get_bandit_dialog", "$g_talk_party", "str_bandit_accept_low_money_forest"),
+		], "{s0}.", "close_window", [(leave_encounter),]],
+	# ToDo: Bandits can refuse gold, thinking there is more
 	[anyone, "bandit_give_gold",
-		[], "Easy money...", "close_window", 
 		[
-			(troop_remove_gold,player_troop,500),
-			(leave_encounter),
+			(assign, ":gold", 500),
+			(troop_remove_gold, player_troop, ":gold"),
+			(party_get_slot, ":party_wealth", "$g_talk_party", slot_party_wealth),
+			(val_add, ":party_wealth", ":gold"),
+			(party_set_slot, "$g_talk_party", slot_party_wealth, ":party_wealth"),
+			(call_script, "script_get_bandit_dialog", "$g_talk_party", "str_bandit_accept_gold_forest"),
+		], "{s0}", "close_window", [(leave_encounter),]],
+	[anyone, "bandit_give_gold_half",
+		[
+			(store_troop_gold, ":gold", player_troop),
+			(val_div, ":gold", 2),
+			(troop_remove_gold, player_troop, ":gold"),
+			(party_get_slot, ":party_wealth", "$g_talk_party", slot_party_wealth),
+			(val_add, ":party_wealth", ":gold"),
+			(party_set_slot, "$g_talk_party", slot_party_wealth, ":party_wealth"),
+			(call_script, "script_get_bandit_dialog", "$g_talk_party", "str_bandit_accept_gold_half_forest"),
+		], "{s0}", "close_window", [(leave_encounter),]],
+	[anyone, "bandit_give_gold_all",
+		[
+			(store_troop_gold, ":gold", player_troop),
+			(troop_remove_gold, player_troop, ":gold"),
+			(party_get_slot, ":party_wealth", "$g_talk_party", slot_party_wealth),
+			(val_add, ":party_wealth", ":gold"),
+			(party_set_slot, "$g_talk_party", slot_party_wealth, ":party_wealth"),
+			(call_script, "script_get_bandit_dialog", "$g_talk_party", "str_bandit_accept_gold_all_forest"),
+		], "{s0}", "close_window", [(leave_encounter),]],
+	[anyone, "bandit_give_all",
+		[
+			(store_troop_gold, ":gold", player_troop),
+			(troop_remove_gold, player_troop, ":gold"),
+			(party_get_slot, ":party_wealth", "$g_talk_party", slot_party_wealth),
+			(val_add, ":party_wealth", ":gold"),
+			(party_set_slot, "$g_talk_party", slot_party_wealth, ":party_wealth"),
+			(call_script, "script_get_bandit_dialog", "$g_talk_party", "str_bandit_accept_all_forest"),
+		], "{s0}", "close_window", [(leave_encounter),]],
+	[anyone|plyr, "bandit_demand_all",
+		[(call_script, "script_get_bandit_dialog", "$g_talk_party", "str_bandit_player_give_all_forest"),], "{s0}", "bandit_give_all", []],
+	[anyone|plyr, "bandit_demand_all",
+		[(call_script, "script_get_bandit_dialog", "$g_talk_party", "str_bandit_player_give_nothing_forest"),], "{s0}", "bandit_fight", []],
+	# ToDo: Bandits can let go of player, thinking they gain nothing for robbing
+	# Or they can chose to take one of the player's item/companion
+	[anyone, "bandit_give_gold_nothing",
+		[(call_script, "script_get_bandit_dialog", "$g_talk_party", "str_bandit_refuse_nothing_forest"),], "{s0}", "close_window", 
+		[
+			(party_set_slot, "$g_talk_party", slot_party_speak_allowed, 0),
+			(encounter_attack),
 		]],
 	[anyone, "bandit_fight",
-		[], "Just how I like it!", "close_window", [(party_set_slot, "$g_talk_party", slot_party_speak_allowed, 0),]],
+		[(call_script, "script_get_bandit_dialog", "$g_talk_party", "str_bandit_fight_aggressive_forest"),], "{s0}", "close_window", [(party_set_slot, "$g_talk_party", slot_party_speak_allowed, 0),(encounter_attack),]],
 
+	[anyone|plyr, "bandit_player_talk_aggressive",
+		[(call_script, "script_get_bandit_dialog", "$g_talk_party", "str_bandit_defensive_player_fight_forest"),], "{s0}", "bandit_player_attack", []],
+	[anyone|plyr, "bandit_player_talk_aggressive",
+		[(call_script, "script_get_bandit_dialog", "$g_talk_party", "str_bandit_defensive_player_recruit_forest"),], "{s0}", "bandit_player_ask_join", []],
+	[anyone|plyr, "bandit_player_talk_aggressive",
+		[(call_script, "script_get_bandit_dialog", "$g_talk_party", "str_bandit_defensive_player_rob_forest"),], "{s0}", "bandit_player_rob", []],
+	# [anyone|plyr, "bandit_player_talk_aggressive",
+	# 	[(call_script, "script_get_bandit_dialog", "$g_talk_party", "str_bandit_defensive_player_bounty_forest"),], "{s0}", "close_window", []],
+	[anyone|plyr, "bandit_player_talk_aggressive",
+		[(call_script, "script_get_bandit_dialog", "$g_talk_party", "str_bandit_defensive_player_nevermind_forest"),], "{s0}", "close_window", [(leave_encounter),]],
+
+	[anyone, "bandit_player_attack",
+		[
+			(call_script, "script_party_bargain", "p_main_party", "$g_talk_party", 100, bargain_type_strength, -10), 
+			(ge, reg0, bargain_neutral), 
+			(call_script, "script_get_bandit_dialog", "$g_talk_party", "str_bandit_defensive_ask_bargain_forest"),
+		], "{s0}", "bandit_player_agressive_bargain", []],
+	[anyone, "bandit_player_attack",
+		[(call_script, "script_get_bandit_dialog", "$g_talk_party", "str_bandit_defensive_fight_back_forest"),], "{s0}", "close_window", [(party_set_slot, "$g_talk_party", slot_party_speak_allowed, 0),(encounter_attack),]],
+
+	[anyone|plyr, "bandit_player_agressive_bargain",
+		[(call_script, "script_get_bandit_dialog", "$g_talk_party", "str_bandit_defensive_player_attack_no_bargain_forest"),], "{s0}", "close_window", [(party_set_slot, "$g_talk_party", slot_party_speak_allowed, 0),(encounter_attack),]],
+	[anyone|plyr, "bandit_player_agressive_bargain",
+		[(call_script, "script_get_bandit_dialog", "$g_talk_party", "str_bandit_defensive_player_attack_recruit_forest"),], "{s0}", "bandit_player_ask_join", []],
+	[anyone|plyr, "bandit_player_agressive_bargain",
+		[(call_script, "script_get_bandit_dialog", "$g_talk_party", "str_bandit_defensive_player_attack_rob_forest"),], "{s0}", "bandit_player_rob", []],
+	[anyone|plyr, "bandit_player_agressive_bargain",
+		[(call_script, "script_get_bandit_dialog", "$g_talk_party", "str_bandit_defensive_player_attack_ask_surrender_forest"),], "{s0}", "bandit_player_ask_surrender", []],
+	[anyone|plyr, "bandit_player_agressive_bargain",
+		[(call_script, "script_get_bandit_dialog", "$g_talk_party", "str_bandit_defensive_player_attack_nevermind_forest"),], "{s0}", "close_window", [(leave_encounter),]],
+
+
+	[anyone, "bandit_player_ask_surrender",
+		[
+			(call_script, "script_party_bargain", "p_main_party", "$g_talk_party", 100, bargain_type_strength, -40),
+			(assign, "$g_dialog_outcome", reg0),
+			(eq, "$g_dialog_outcome", bargain_success),
+			(call_script, "script_party_group_take_party_group_prisoner", "p_main_party", "$g_talk_party"),
+			(call_script, "script_get_bandit_dialog", "$g_talk_party", "str_bandit_defensive_surrender_forest"),
+		], "{s0}", "close_window", [(leave_encounter),]],
+	[anyone, "bandit_player_ask_surrender",
+		[(eq, "$g_dialog_outcome", bargain_neutral),(call_script, "script_get_bandit_dialog", "$g_talk_party", "str_bandit_defensive_surrender_leave_men_forest"),], "{s0}", "bandit_player_ask_surrender_accept_leave_men", []],
+	[anyone, "bandit_player_ask_surrender",
+		[(call_script, "script_get_bandit_dialog", "$g_talk_party", "str_bandit_defensive_surrender_not_forest"),], "{s0}", "close_window", [(party_set_slot, "$g_talk_party", slot_party_speak_allowed, 0),(encounter_attack),]],
+	[anyone, "bandit_player_ask_join",
+		[
+			(call_script, "script_troop_bargain", player_troop, "$g_talk_troop", 100, bargain_type_strength, -25), 
+			(ge, reg0, bargain_neutral),
+			(distribute_party_among_party_group, "$g_talk_party", "p_main_party"),
+			(party_clear, "$g_talk_party"),
+			(call_script, "script_get_bandit_dialog", "$g_talk_party", "str_bandit_defensive_player_ask_join_accept_forest"),
+			# ToDo: if neutral outcome, need penalities for recruiting, chance to escape or morale maluses (temporary -5/-10 "trouble making")
+		], "{s0}", "close_window", [(leave_encounter),]],
+	[anyone, "bandit_player_ask_join",
+		[(call_script, "script_get_bandit_dialog", "$g_talk_party", "str_bandit_defensive_player_ask_join_refuse_forest"),], "{s0}", "close_window", [(party_set_slot, "$g_talk_party", slot_party_speak_allowed, 0),(encounter_attack),]],
+	[anyone, "bandit_player_rob",
+		[
+			(call_script, "script_party_bargain", "p_main_party", "$g_talk_party", 100, bargain_type_strength, -10), 
+			(assign, "$g_dialog_outcome", reg0),
+			(ge, "$g_dialog_outcome", bargain_neutral), 
+			(call_script, "script_party_get_gold", "$g_talk_party"),
+			(assign, ":gold", reg0),
+			(ge, ":gold", 50),
+			(try_begin),
+				(eq, "$g_dialog_outcome", bargain_neutral),
+				(val_div, ":gold", 3),
+			(try_end),
+			(call_script, "script_party_remove_gold", "$g_talk_party", ":gold"),
+			(assign, ":player_gold", reg0),
+			(troop_add_gold, player_troop, ":player_gold"),
+			(call_script, "script_get_bandit_dialog", "$g_talk_party", "str_bandit_defensive_player_rob_give_all_forest"),
+		], "{s0}", "close_window", [(leave_encounter),]],
+	[anyone, "bandit_player_rob",
+		[
+			(ge, "$g_dialog_outcome", bargain_neutral),
+			(call_script, "script_get_bandit_dialog", "$g_talk_party", "str_bandit_defensive_player_rob_give_item_forest"),
+		], "{s0}", "close_window", [
+			(troop_clear_inventory, "trp_temp_troop"),
+			(call_script, "script_troop_copy_items_from_troop", "trp_temp_troop", "$g_talk_troop"),
+			(change_screen_loot, "trp_temp_troop"),
+		]],
+	[anyone, "bandit_player_rob",
+		[(call_script, "script_get_bandit_dialog", "$g_talk_party", "str_bandit_defensive_player_rob_give_not_forest"),], "{s0}", "close_window", [(party_set_slot, "$g_talk_party", slot_party_speak_allowed, 0),(encounter_attack),]],
+
+	[anyone|plyr, "bandit_player_ask_surrender_accept_leave_men",
+		[(call_script, "script_get_bandit_dialog", "$g_talk_party", "str_bandit_defensive_surrender_leave_men_accept_forest"),], "{s0}", "close_window", [
+
+			(call_script, "script_party_take_troop_prisoner", "p_main_party", "$g_talk_troop", "$g_talk_party", 1),
+			(call_script, "script_troop_change_honor", player_troop, 1),
+			(party_clear, "$g_talk_party"),
+			# ToDo: scatter old party
+			(leave_encounter),
+		]],
+	[anyone|plyr, "bandit_player_ask_surrender_accept_leave_men",
+		[
+			(call_script, "script_party_group_take_party_group_prisoner", "p_main_party", "$g_talk_party"),
+			(call_script, "script_troop_change_honor", player_troop, -2),
+			(call_script, "script_get_bandit_dialog", "$g_talk_party", "str_bandit_defensive_surrender_leave_men_refuse_forest"),
+		], "{s0}", "close_window", [
+			(leave_encounter),
+		]],
+	#################
+	# Error dialogs #
+	#################
     [anyone|plyr, "start", [], "Dialog Error. No dialog found.", "close_window", []],
 	
 	[anyone, "start",
@@ -213,16 +467,17 @@ dialogs = [
 	# [anyone, "enemy_defeated",
 		# [(display_debug_message, "@Enemy defeated"),], "Hail traveller. It's a pleasure to meet you, what is your name?.", "player_greeting", []],
 	
+	###############
+	# Member chat #
+	###############
 	[anyone, "member_chat",
 		[
 			(store_conversation_troop, "$g_talk_troop"),
 			(eq, 0, 1),
 		], "!No dialog", "close_window", []],
-		
 	[anyone, "member_chat",
 		[(troop_equip_items, "$g_talk_troop"), # TEST
 		], "Yes {My Lord/My Lady}?", "member_chat_player", []],
-	
 	[anyone|plyr, "member_chat_player",
 		[
 		], "Show me your stats.", "member_chat_end",
@@ -230,7 +485,6 @@ dialogs = [
 			# (change_screen_view_character, "$g_talk_troop"),
 			(change_screen_view_character),
 		]],
-	
 	[anyone|plyr, "member_chat_player",
 		[
 		], "Show me your items.", "member_chat_end",
@@ -239,26 +493,24 @@ dialogs = [
 			(call_script, "script_troop_copy_items_from_troop", "trp_temp_troop", "$g_talk_troop"),
 			(change_screen_loot, "trp_temp_troop"),
 		]],
-	
 	[anyone|plyr, "member_chat_player",
 		[], "Nothing.", "close_window",
 		[]],
-	
 	[anyone, "member_chat_end",
 		[], "Anything else {My Lord/My Lady}?", "member_chat_player", []],
 
+	#################
+	# Prisoner chat #
+	#################
 	[anyone, "prisoner_chat",
 		[
 			(store_conversation_troop, "$g_talk_troop"),
 			(eq, 0, 1),
 		], "!No dialog", "close_window", []],
-
 	[anyone, "prisoner_chat",
 		[], "What do you want ?", "prisoner_chat_player", []],
-
 	[anyone|plyr, "prisoner_chat_player",
 		[], "Stay put", "close_window", []],
-
 	[anyone|plyr, "prisoner_chat_player",
-		[], "You are free to go", "close_window", [(call_script, "script_troop_freed", "$g_talk_troop", -1),]],
+		[(troop_is_hero, "$g_talk_troop"),], "You are free to go", "close_window", [(call_script, "script_troop_freed", "$g_talk_troop", -1),]],
 ]

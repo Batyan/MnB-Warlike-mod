@@ -22,25 +22,7 @@ game_menus = [
 		[		
 			("continue", [], "Accept",
 				[
-					# (set_show_messages, 0),
-					# (troop_raise_attribute, player_troop, ca_strength, 1),
-					
-					(troop_raise_skill,player_troop, skl_power_strike, 3),
-					(troop_raise_skill,player_troop, skl_power_throw, 2),
-					(troop_raise_skill,player_troop, skl_power_draw, 4),
-					(troop_raise_skill,player_troop, skl_athletics, 3),
-					(troop_raise_skill,player_troop, skl_riding, 5),
-					
 					(assign, "$g_test_player_troop", -1),
-					# (troop_raise_proficiency_linear, player_troop, wpt_one_handed_weapon, 10),
-					
-					# (troop_add_item, player_troop, "itm_leather_armor", 0),
-					# (troop_equip_items, player_troop),
-					
-					# (party_set_faction, "p_main_party", "fac_player_faction"),
-					
-					# (set_show_messages, 1),
-					# (change_screen_map),
 					
 					(jump_to_menu, "mnu_start_phase_2"),
 				]),
@@ -960,7 +942,9 @@ game_menus = [
 					(party_set_faction, "p_temp_party", ":faction"),
 
 					(call_script, "script_party_add_troops", "p_temp_party", ":peasant_begin", ":common_begin", "$g_num_levies"),
-					(store_div, reg11, reg1, 2),
+					(store_div, ":cost", reg1, 2),
+					(call_script, "script_game_get_money_text", ":cost"),
+					(str_store_string_reg, s10, s0),
 
 					(party_set_faction, "p_temp_party", fac_commoners),
 					
@@ -979,7 +963,7 @@ game_menus = [
 					
 					(val_max, ":rest_time", ":min_hours"),
 					(assign, reg12, ":rest_time"),
-				], "Recruit {reg10} levies : {reg11} denars ({reg12} hours)",
+				], "Recruit {reg10} levies : {s10} ({reg12} hours)",
 				[
 					(try_begin),
 						(gt, "$g_num_levies", 0),

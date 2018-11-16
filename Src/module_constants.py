@@ -309,6 +309,13 @@ faction_size_names_count = 3
 
 player_troop = "trp_player"
 
+bargain_success = 1
+bargain_neutral = 0
+bargain_failure = -1
+
+bargain_type_strength = -1
+bargain_type_cunning = 1
+
 ################
 ## Item Slots ##
 ################
@@ -564,7 +571,6 @@ slot_party_siege_scene = 124
 # 125
 # 126
 
-
 # Taxes are a way for land owners to earn money
 # It is possible to customise what your citizens are taxed on
 # Imposing a fixed taxation will decrease population growth as poorer people are the most affected
@@ -602,6 +608,8 @@ slot_party_taxes = 137
 slot_party_prosperity = 138
 
 slot_party_unpaid_wages = 139
+
+slot_party_temp = 140
 
 slot_party_item_consumed_begin 	= 140 # Number of items consumed per 100 citizens
 slot_party_item_consumed_end	= slot_party_item_consumed_begin + goods_end - goods_begin
@@ -683,6 +691,7 @@ tko_dead = -1 	# Dead people are not the same as not living ones
 tko_none = 0
 tko_kingdom_hero = 1
 tko_mercenary = 2
+tko_bandit = 3
 slot_troop_personality 				= 13
 tp_default = 0x0000
 

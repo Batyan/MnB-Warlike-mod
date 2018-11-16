@@ -1,4 +1,5 @@
 ToDo:
+- Debug ais not using reserves
 - Add debug mode for ais
     Enable/Disable ai
     Reset ai
@@ -23,6 +24,7 @@ ToDo:
             troop recruitement
             buildings
         Great gains in trade
+        Greater gains in fiefs
         Banditry (link)
         Slavery
     Add banditry page
@@ -37,6 +39,7 @@ ToDo:
             Can greatly deteriorate relations with village / owner / faction
         Outlaws can now have bounties placed on them
             You can hunt bounties or be the one hunted
+            High number of witnesses increase the chance of a bounty and its severity
     Add personalities and character traits page
         Characters are generated with a certain number of traits
         Characters can change their attributes by doing certain actions
@@ -147,6 +150,11 @@ ToDo:
                 if there is no war, head to home center to dump low quality troops (up to 33% party_size)
             0 -> not ready
                 if there is war, head to home center to recruit troops (up to 75% party_size)
+        slot_party_prepare_for_war
+            complements the above
+            beligerent lords will prepare for war if neighboring a rival kingdom
+            before declaring war, leader will ask lords to prepare for war
+                makes surprise war possible to gain advantage against unprepared enemy
     Lords fleeing from another should retreat to a friendly center
     Redo lords AI
     Add lords dialog
@@ -194,10 +202,10 @@ ToDo:
     Add lord companions:
         Swadian lords:
             Knights         -       -       -       -       -       -       - B: 75  - M: *
-        Vaegir lords:       
+        Vaegir lords:
             Knights         -       -       -       -       -       -       - B: 65  - M: *
             Wives           -       -       -       -       -       -       - B: 15  - M: 1
-        Khergit lords:      
+        Khergit lords:
             Wives           -       -       -       -       -       -       - B: 75  - M: *
         Nordic lords:
             Housecarls      -       -       -       -       -       -       - B: 150 - M: 1
@@ -295,9 +303,10 @@ ToDo:
 - Kingdoms:
     Policies 
         Vassals:
-            Low taxes, vassals take care of their properties in their entirety
-            Medium taxes, vassals take care of their properties, liege participate in building constructions and reparations
-            High taxes, vassals take care of their properties, liege participate in building constructions, reparations and troop wages
+            No taxes, vassals take care of their properties in their entirety
+            Low taxes, vassals take care of their properties in their entirety, liege participate in building constructions
+            Medium taxes, vassals take care of their properties, liege participate in building constructions, reparations and troop garrisons
+            High taxes, liege takes care of all the property costs
         Leader:
             Elected by population (elders of villages/cities/castles), can be lifelong rule or a certain period
                 High relation with centers is important
@@ -324,18 +333,11 @@ ToDo:
                     Some goods are refused (chosen by leader)
                     Only goods that are needed are accepted (not produced or not enough produced)
                     Nothing is accepted
-                Taxes
+                Taxes (customs)
                     No taxes
                     Low taxes
                     Moderate taxes
                     High taxes
-                    Add taxes on:
-                        Buying
-                        Selling
-                        Fixed taxes (process_population?)
-                        Wealth
-                        Property
-                        Visiting
             Borders
                 Fiefs are accessible to all except enemy
                 Fiefs are accessible to any with treaties
@@ -347,12 +349,21 @@ ToDo:
                 Claims all of the clan's territory
                     Can distribute to other clan members later
                 Family is not linked to bloodline
-            Male succession:
-                First son claims all of the family's territory
-            Female succession:
-                First daughter claims all of the family's territory
-            Shared heritage:
+            Firstborn succession:
+                First child claims all of the family's territory
+            Selected succession:
                 The current leader of the family decides who will have what
+            Shared heritage:
+                All children get a small portion of heritage
+                For small 
+        Economy:
+            Taxes
+                Buying
+                Selling
+                Fixed taxes (process_population?)
+                Wealth
+                Property
+                Visiting
         Marriage: (v0.810)
             Female centered:
                 Female keeps her family name if she has one, male will be integrated into her family
@@ -362,10 +373,14 @@ ToDo:
                 Usualy linked with male succession
             If they chose so, both can create a new family if the family type permits it
         Genders:
-            Female allowed/not allowed to be leading parties
-            Female allowed/not allowed to own land
-            Male allowed/not allowed to be leading parties
-            Male allowed/not allowed to own land
+            Female
+                Allowed/not allowed to be leading parties
+                Allowed/not allowed to own land
+            Male
+                Allowed/not allowed to be leading parties
+                Allowed/not allowed to own land
+            Not allowing male/female to own land/lead party only applies if married
+                Still leads to seen badly
         Slavery:
             Slavery allowed
                 Nobles are allowed to own slaves
@@ -382,6 +397,85 @@ ToDo:
         Trading with an enemy may decrease relation
         Attacking a party will decrease relation
         Other factions relation changes may change relation
+- Main Kingdom policies:
+    Swadia
+        Vassals: Moderate / High Taxes
+        Leader: Kingdom
+        Foreign Trade Commerce: Only needed goods
+        Foreign Trade Taxes: High taxes
+        Foreign Borders: All allies
+        Families: Firstborn
+        Economy Taxes: Fixed taxes / Property
+        Marriage: Male centered
+        Genders Female: None
+        Genders Male: Lead + Own
+        Slavery: Tolerated
+    Vaegir
+        Vassals: Moderate Taxes
+        Leader: Kingdom
+        Foreign Trade Commerce: Only needed goods
+        Foreign Trade Taxes: Moderate taxes
+        Foreign Borders: All treaties
+        Families: Selected
+        Economy Taxes: Buying / Selling / Wealth
+        Marriage: Male centered
+        Genders Female: Lead
+        Genders Male: Lead + Own
+        Slavery: Outlawed
+    Khergit
+        Vassals: Low Taxes
+        Leader: Tribal Kingdom
+        Foreign Trade Commerce: Some refused
+        Foreign Trade Taxes: High taxes
+        Foreign Borders: All treaties
+        Families: Clans
+        Economy Taxes: Fixed taxes / Wealth / Property
+        Marriage: Both
+        Genders Female: Own + Lead
+        Genders Male: Own + Lead
+        Slavery: Allowed
+    Nord
+        Vassals: No Taxes
+        Leader: Tribal Kingdom
+        Foreign Trade Commerce: Some taxed
+        Foreign Trade Taxes: Low taxes
+        Foreign Borders: All allies
+        Families: Selected
+        Economy Taxes: Wealth / Property
+        Marriage: Male centered
+        Genders Female: Own + Lead
+        Genders Male: Own + Lead
+        Slavery: Tolerated
+    Rhodok
+        Vassals: High Taxes
+        Leader: Council
+        Foreign Trade Commerce: All accepted
+        Foreign Trade Taxes: Low taxes
+        Foreign Borders: All treaties
+        Families: Firstborn
+        Economy Taxes: Buying / Selling / Wealth / Property
+        Marriage: Male centered
+        Genders Female: Lead
+        Genders Male: Own + Lead
+        Slavery: Outlawed
+    Sarranid
+        Vassals: High Taxes
+        Leader: Kingdom
+        Foreign Trade Commerce: All accepted
+        Foreign Trade Taxes: High taxes
+        Foreign Borders: All accepted
+        Families: Shared
+        Economy Taxes: Fixed / Property
+        Marriage: Female centered
+        Genders Female: Own + Lead
+        Genders Male: Own + Lead
+        Slavery: Allowed
+    Store faction tendency as well as current law (different rulers can have different rules + player changes)
+        Factions should have a hard time having anything far from tendency values
+        Prolonged periods of time under a certain law should change tendency
+        Tendency is law*100 to handle progressing tendencies
+            Certain actions as leader/vassal should change the tendency
+                Allows the player to have an influence in faction laws even as vassal
 - add villages/castles/town menu
     Tavern
         Mercenaries

@@ -36,3 +36,4 @@ Icon
 .Trashes
 proj.sublime-project
 proj.sublime-workspace
+*.bak

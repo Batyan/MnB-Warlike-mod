@@ -106,6 +106,6 @@ convoy_personality = aggressiveness_0 | courage_9
 soldier_personality = aggressiveness_8 | courage_9
 merchant_personality = aggressiveness_0 | courage_7
 escorted_merchant_personality = aggressiveness_0 | courage_11
-bandit_personality   = aggressiveness_3 | courage_8 | banditness
+bandit_personality   = aggressiveness_5 | courage_8 | banditness
 
 

@@ -32,7 +32,7 @@
 		Caravans
 	0.320: Party upkeep
 		Money management
-			Weekly finances presentation
+			Weekly/Monthly finances presentation
 	0.330: Goods
 		Good transformation
 		Good consumption
@@ -165,6 +165,9 @@
 					Wealth
 		Randomize entirely the game
 			randomizes the starting lords, faction relations
+	1.510: Helpers
+		Add info pages
+		Flesh out note pages
 1.600: Difficulty
 	Add difficulty modifiers for faction AI
 1.700: Custom Battles

@@ -653,7 +653,7 @@ party_add_leader                      = 1612  # (party_add_leader, <party_id>, <
 party_force_add_members               = 1613  # (party_force_add_members, <party_id>, <troop_id>, <number>),
                                               # Adds troops to party ignoring party size limits. Mostly used to add hero troops.
 party_force_add_prisoners             = 1614  # (party_force_add_prisoners, <party_id>, <troop_id>, <number>),
-                                              # Adds prisoners to party ignoring party size limits. Mostly used to add hero prisoners.
+                                              # Adds prisoners to party ignoring party size limits. Only used to add hero prisoners.
 party_add_template                    = 1675  # (party_add_template, <party_id>, <party_template_id>, [reverse_prisoner_status]),
                                               # Reinforces the party using the specified party template. Optional flag switches troop/prisoner status for reinforcements.
 distribute_party_among_party_group    = 1698  # (distribute_party_among_party_group, <party_to_be_distributed>, <group_root_party>),
@@ -2553,7 +2553,7 @@ team_set_relation                        = 1796  # (team_set_relation, <team_no>
 store_remaining_team_no                  = 2360  # (store_remaining_team_no, <destination>),
                                                  # Retrieves the number of the last remaining team. Currently not used in Native, possibly deprecated.
 team_get_gap_distance                    = 1828  # (team_get_gap_distance, <destination>, <team_no>, <sub_class>),
-                                                 # Version 1.153+. UNTESTED. Supposedly returns average gap between troops of a specified team/class (depends on how many Stand Closer/Spread Out orders were given).
+                                                 # Version 1.153+. Gives the team formation gap, numbers go from 1 (close) to 6 (spread out).
 
 # Combat statistics
 
