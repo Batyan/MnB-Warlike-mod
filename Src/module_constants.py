@@ -307,8 +307,6 @@ faction_size_names_begin = str_swadian_faction_small
 faction_size_names_end = str_sarranid_faction_large + 1
 faction_size_names_count = 3
 
-player_troop = "trp_player"
-
 bargain_success = 1
 bargain_neutral = 0
 bargain_failure = -1
@@ -347,7 +345,7 @@ slot_agent_new_division = 1
 
 slot_agent_is_in_scripted_mode	= 2
 slot_agent_target_entry_point	= 3
-slot_agent_is_not_reinforcement	= 4
+slot_agent_is_reinforcement	= 4
 
 slot_agent_charge = 5
 
@@ -867,12 +865,12 @@ stt_short_engage = 3
 stt_defend_skirmish = 4
 
 slot_team_battle_phase		= 6
-stbp_deploy = 0
-stbp_advance = 1
-stbp_engage = 2
-stbp_prepare = 3
-stbp_assault = 4
-stbp_combat = 5
+stbp_deploy = 1
+stbp_advance = 2
+stbp_engage = 3
+stbp_prepare = 4
+stbp_assault = 5
+stbp_combat = 6
 
 stbp_siege_one = 1
 stbp_siege_two = 2
@@ -928,10 +926,11 @@ stdt_charge = -1
 # grc_archers = 1
 # grc_cavalry = 2
 grc_other = 3
-grc_charge_group = 4
-grc_reinforcement_infantry = 5
-grc_reinforcement_archer = 6
-grc_reinforcement_cavalry = 7
+grc_flank = 4
+grc_charge_group = 5
+grc_reinforcement_infantry = 6
+grc_reinforcement_archer = 7
+grc_reinforcement_cavalry = 8
 
 #################
 ## Quest Slots ##

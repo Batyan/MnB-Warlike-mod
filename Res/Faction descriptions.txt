@@ -13,6 +13,11 @@ Swadia:
 	Weak ranged, except against lightly armoured troops
 	Good, but late cavalry (tier +1)
 
+	Difficulty
+		Position: hard
+		Troops: easy
+		Goals: hard
+
 Vaegir:
 	Average infantry
 	Good cavalry
@@ -28,6 +33,11 @@ Vaegir:
 	Best light cavalry
 	Best archers
 
+	Difficulty
+		Position: hard
+		Troops: average
+		Goals: easy
+
 Khergit:
 	Weak infantry
 	Average cavalry
@@ -41,6 +51,11 @@ Khergit:
 	Best lancers
 	Best horse archers
 
+	Difficulty
+		Position: average
+		Troops: hard
+		Goals: average
+
 Nord:
 	Good infantry
 	Weak cavalry
@@ -51,6 +66,11 @@ Nord:
 	Somewhat weak armour for high tier
 	Weak low tier archer, above average medium archer
 	Best ratio defense/attack infantry
+
+	Difficulty
+		Position: average
+		Troops: easy
+		Goals: hard
 
 Rhodok:
 	Average infantry
@@ -65,6 +85,11 @@ Rhodok:
 	Best crossbowmen
 	Best pikemen/spearmen
 
+	Difficulty
+		Position: easy
+		Troops: hard
+		Goals: average
+
 Sarranid:
 	Good infantry
 	Good cavalry
@@ -76,6 +101,11 @@ Sarranid:
 	Below average armour
 	No heavy horse
 	Best skirmisher
+
+	Difficulty
+		Position: easy
+		Troops: average
+		Goals: hard
 
 Swadian Minors:
 	County of Tevarin

@@ -684,7 +684,7 @@ ToDo:
     morale is stored for :
         team with members dieing or killing
         division with members dieing or killing
-        certain character trains for companions/player can change team or division morale
+        certain character traits for companions/player can change team or division morale
 - add companions
     nobles -- good fighters, possible lords
         far-away noble, low rank noble, betrayed noble, banished noble
@@ -951,3 +951,27 @@ ToDo:
             - escape throw can come with death of a companion
             - 'neutral' outcome may become a duel with an enemy soldier
             - 'neutral' outcome may be robbed by bandits (persuasion dialog, cannot die in this state)
+- add faction goals
+    swadia
+        reunite all of swadian territory (war or allies)
+        take veluca and ergellon castle
+        push back the nords (elliminate faction)
+    vaegirs
+        take sungetche and tulbuk
+        eliminate wercheg raiders
+        reunite all of vaegir territory (war or allies)
+    khergit
+        take dhirim
+        reunite all of khergit territory (war or allies)
+        make alliance or eliminate the sarranids
+    nord
+        take all vaegir territory
+        reunite all of nord territory
+        destroy swadia
+    rhodok
+        reunite all of rhodok territory
+        make an alliance with at least 2 other main empires
+    sarranid
+        take all of rhodok territory
+        reunite all of sarranid territory
+        take dhirim

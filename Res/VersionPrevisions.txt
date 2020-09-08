@@ -17,30 +17,20 @@
 			Loot stolen gold and items
 			Loot enemy soldiers
 			Loot ally soldiers
-	0.220:
+	0.220: -- DONE --
 		Basic Bandit interactions
 	0.230:
 		Battle lost consequences
 			Prisoner of party
 			Steal items
 			Steal gold
-0.300: Economy
-	Taxes
-	Good production
-	0.310: Trading
-		Buying and selling (player)
-		Caravans
-	0.320: Party upkeep
-		Money management
-			Weekly/Monthly finances presentation
-	0.330: Goods
-		Good transformation
-		Good consumption
-	0.340: Money changers
-		Lords need to pay to upgrade gear
-		Hire/Sell mercenaries
-		Lending money
-		Lord debts
+0.300: Party ai
+	Better party ai
+	Marshall ai
+	0.310:
+		Cooperation (ai)
+			Transfer troops (center to center)
+			Transfer prisoners
 0.400: Faction ai
 	Elect leader
 	Declare war/peace
@@ -54,13 +44,23 @@
 		Faction vassalage
 	0.430: Civil war
 		Faction splitting (civil war)
-0.500: Party ai
-	Better party ai
-	Marshall ai
-	0.510:
-		Cooperation (ai)
-			Transfer troops (center to center)
-			Transfer prisoners
+0.500: Economy
+	Taxes
+	Good production
+	0.510: Trading
+		Buying and selling (player)
+		Caravans
+	0.520: Party upkeep
+		Money management
+			Weekly/Monthly finances presentation
+	0.530: Goods
+		Good transformation
+		Good consumption
+	0.540: Money changers
+		Lords need to pay to upgrade gear
+		Hire/Sell mercenaries
+		Lending money
+		Lord debts
 0.600: City Management
 	Buildings
 	Bank

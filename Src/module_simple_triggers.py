@@ -35,7 +35,7 @@ simple_triggers = [
                     # Generate bandits
                     (store_random_in_range, ":rand", 0, 50),
                     (try_begin), # Generate bandits more often if center prosperity is low
-                        (le, ":rand", 10),
+                        (le, ":rand", 4),
                         (call_script, "script_party_spawn_bandits", ":party_no"),
                     (try_end),
                 (try_end),
@@ -192,7 +192,7 @@ simple_triggers = [
                 # (assign, ":cloud_spike", 6),
             # (try_end),
             
-            # (party_get_current_terrain, ":terrain", "p_main_party"),
+            # (party_get_current_terrain, ":terrain", "$g_player_party"),
             # (try_begin),
                 # (this_or_next|eq, ":terrain", rt_snow),
                 # (eq, ":terrain", rt_snow_forest),
@@ -238,7 +238,7 @@ simple_triggers = [
     (0.1, # Weather
         [
             (try_for_parties, ":party_no"),
-                (neq, ":party_no", "p_main_party"),
+                (neq, ":party_no", "$g_player_party"),
                 (party_is_active, ":party_no"),
                 # (party_get_slot, ":party_type", ":party_no", slot_party_type),
                 (party_get_attached_to, ":cur_attached_town", ":party_no"),
@@ -262,7 +262,7 @@ simple_triggers = [
 
     (0.1, # Player prisoner
         [
-            (troop_get_slot, ":player_prisoner", player_troop, slot_troop_prisoner_of),
+            (troop_get_slot, ":player_prisoner", "$g_player_troop", slot_troop_prisoner_of),
             (try_begin),
                 (gt, ":player_prisoner", 0),
                 (key_is_down, key_space),
@@ -395,7 +395,7 @@ simple_triggers = [
                 # Might do it for all heroes
                 # But will need to have them increase their proficiency after every battle
                 # Or do it only to player companions at a reduced rate
-                (call_script, "script_troop_proficiency_decay", player_troop),
+                (call_script, "script_troop_proficiency_decay", "$g_player_troop"),
             (try_end),
         ]),
     

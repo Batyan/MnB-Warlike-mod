@@ -615,7 +615,7 @@ strings = [
   ("nordic_name_45", "Roggvigr"),
   ("nordic_name_46", "Ralofnir"),
   ("nordic_name_47", "Olfigr"),
-  # ("nordic_name_48", ""),
+  ("nordic_name_48", "Rorik"),
   # ("nordic_name_49", ""),
   # ("nordic_name_50", ""),
   

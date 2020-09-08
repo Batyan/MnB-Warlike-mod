@@ -29,14 +29,14 @@ game_menus = [
 			
 			("start_female", 
 				[
-					(troop_get_type, ":player_gender", player_troop),
+					(troop_get_type, ":player_gender", "$g_player_troop"),
 					(try_begin),
 						(eq, ":player_gender", tf_female),
 						(disable_menu_option),
 					(try_end),
 				], "Start as female character",
 				[
-					(troop_set_type, player_troop, tf_female),
+					(troop_set_type, "$g_player_troop", tf_female),
 					(troop_set_type, "trp_player", tf_female),
 					(display_message, "@Player is female"),
 					(jump_to_menu, "mnu_start_game_0"),
@@ -44,14 +44,14 @@ game_menus = [
 			
 			("start_male", 
 				[
-					(troop_get_type, ":player_gender", player_troop),
+					(troop_get_type, ":player_gender", "$g_player_troop"),
 					(try_begin),
 						(eq, ":player_gender", tf_male),
 						(disable_menu_option),
 					(try_end),
 				], "Start as male character",
 				[
-					(troop_set_type, player_troop, tf_male),
+					(troop_set_type, "$g_player_troop", tf_male),
 					(troop_set_type, "trp_player", tf_female),
 					(display_message, "@Player is male"),
 					(jump_to_menu, "mnu_start_game_0"),
@@ -87,14 +87,14 @@ game_menus = [
 						(assign, "$g_test_player_troop", "trp_swadian_light_cavalry"),
 
 						(store_random_in_range, ":banner", banner_scene_props_begin, banner_scene_props_end),
-						(troop_set_slot, player_troop, slot_troop_banner_scene_prop, ":banner"),
+						(troop_set_slot, "$g_player_troop", slot_troop_banner_scene_prop, ":banner"),
 					(else_try),
 						(neg|is_between, "$g_test_player_faction", kingdoms_begin, kingdoms_end),
 						(assign, "$g_test_player_faction", "fac_kingdom_1"),
 						(start_presentation, "prsnt_intro_select_kingdom"),
 
-						# (call_script, "script_troop_copy_face_code_from_troop", player_troop, "trp_player"),
-						# (set_player_troop, player_troop),
+						# (call_script, "script_troop_copy_face_code_from_troop", "$g_player_troop", "trp_player"),
+						# (set_player_troop, "$g_player_troop"),
 					(try_end),
 				]),
 		]),
@@ -159,8 +159,8 @@ game_menus = [
 			
 			("camp_test_face_keys", [(call_script, "script_cf_debug", debug_all),], "Test Face Keys",
 				[
-					(call_script, "script_troop_get_face_code", player_troop),
-					(troop_set_face_keys, player_troop, s0),
+					(call_script, "script_troop_get_face_code", "$g_player_troop"),
+					(troop_set_face_keys, "$g_player_troop", s0),
 					(display_message, "@Face key: {s0}"),
 				]),
 			
@@ -187,7 +187,7 @@ game_menus = [
 				
 			("camp_test_join_faction", [(call_script, "script_cf_debug", debug_all),], "Join a faction",
 				[
-					(store_faction_of_party, "$g_test_player_faction", "p_main_party"),
+					(store_faction_of_party, "$g_test_player_faction", "$g_player_party"),
 					(jump_to_menu, "mnu_test_faction_join"),
 				]),
 			
@@ -247,6 +247,9 @@ game_menus = [
 			("setting_misc",
 				[], "Misc. settings",
 				[(start_presentation, "prsnt_setting_misc"),]),
+			("setting_go_back",
+				[], "Go back",
+				[(jump_to_menu, "mnu_camp"),]),
 		]),
 
 	("debug_settings", 0,
@@ -502,7 +505,7 @@ game_menus = [
 		"none",
 		[
 			(str_store_troop_name, s10, "$g_test_player_troop"),
-			(store_faction_of_party, ":faction", "p_main_party"),
+			(store_faction_of_party, ":faction", "$g_player_party"),
 			(str_store_faction_name, s11, ":faction"),
 			(str_store_faction_name, s12, "$g_test_player_faction"),
 		],
@@ -570,29 +573,29 @@ game_menus = [
 				]),
 			("join_accept", [], "Join",
 				[
-					(party_clear, "p_main_party"),
-					(party_add_leader, "p_main_party", player_troop),
-					(call_script, "script_troop_use_template_troop", player_troop, "$g_test_player_troop"),
-					(party_set_faction, "p_main_party", "$g_test_player_faction"),
+					(party_clear, "$g_player_party"),
+					(party_add_leader, "$g_player_party", "$g_player_troop"),
+					(call_script, "script_troop_use_template_troop", "$g_player_troop", "$g_test_player_troop"),
+					(party_set_faction, "$g_player_party", "$g_test_player_faction"),
 					(try_for_range, ":unused", 0, 50),
-						(call_script, "script_party_get_companion_limit", "p_main_party"),
+						(call_script, "script_party_get_companion_limit", "$g_player_party"),
 						(assign, ":limit", reg0),
-						(party_get_num_companions, ":num_troops", "p_main_party"),
+						(party_get_num_companions, ":num_troops", "$g_player_party"),
 						(lt, ":num_troops", ":limit"),
-						(call_script, "script_party_add_reinforcements", "p_main_party"),
+						(call_script, "script_party_add_reinforcements", "$g_player_party"),
 					(try_end),
-					(troop_set_faction, player_troop, "$g_test_player_faction"),
+					(troop_set_faction, "$g_player_troop", "$g_test_player_faction"),
 					
 					(store_random_in_range, ":banner", banner_scene_props_begin, banner_scene_props_end),
-					(troop_set_slot, player_troop, slot_troop_banner_scene_prop, ":banner"),
+					(troop_set_slot, "$g_player_troop", slot_troop_banner_scene_prop, ":banner"),
 			
 					(display_message, "@Joined!"),
 					(jump_to_menu, "mnu_test_faction_join"),
 				]),
 			("join_accept_no_change", [], "Join (no player change)",
 				[
-					(party_set_faction, "p_main_party", "$g_test_player_faction"),
-					(troop_set_faction, player_troop, "$g_test_player_faction"),
+					(party_set_faction, "$g_player_party", "$g_test_player_faction"),
+					(troop_set_faction, "$g_player_troop", "$g_test_player_faction"),
 			
 					(display_message, "@Joined!"),
 					(jump_to_menu, "mnu_test_faction_join"),
@@ -660,7 +663,7 @@ game_menus = [
 			
 			("center_besiege", [], "Besiege the center",
 				[
-					(call_script, "script_party_besiege_party", "p_main_party", "$g_encountered_party"),
+					(call_script, "script_party_besiege_party", "$g_player_party", "$g_encountered_party"),
 					(jump_to_menu, "mnu_town_siege"),
 				]),
 			
@@ -744,7 +747,7 @@ game_menus = [
 			
 		],
 		[
-			("center_manage", [(party_slot_eq, "$g_encountered_party", slot_party_leader, player_troop),], "Manage the center",
+			("center_manage", [(party_slot_eq, "$g_encountered_party", slot_party_leader, "$g_player_troop"),], "Manage the center",
 				[
 					(jump_to_menu, "mnu_town_manage"),
 				]),
@@ -953,7 +956,7 @@ game_menus = [
 					
 					(store_mul, ":num_levies_5", "$g_num_levies", 5),
 					
-					(store_skill_level, ":trainer", skl_trainer, player_troop),
+					(store_skill_level, ":trainer", skl_trainer, "$g_player_troop"),
 					(store_add, ":div", 20, ":trainer"),
 					
 					(store_mul, ":sub", ":num_levies_5", ":div"),
@@ -967,14 +970,14 @@ game_menus = [
 				[
 					(try_begin),
 						(gt, "$g_num_levies", 0),
-						(store_troop_gold, ":total_gold", player_troop),
+						(store_troop_gold, ":total_gold", "$g_player_troop"),
 						# (store_mul, ":total_cost", "$g_num_levies", train_levies_cost),
 						(assign, ":total_cost", reg11),
 						(try_begin),
 							(gt, ":total_gold", ":total_cost"),
 							
-							(distribute_party_among_party_group, "p_temp_party", "p_main_party"),
-							(troop_remove_gold, player_troop, ":total_cost"),
+							(distribute_party_among_party_group, "p_temp_party", "$g_player_party"),
+							(troop_remove_gold, "$g_player_troop", ":total_cost"),
 							
 							(party_clear, "p_temp_party"),
 							
@@ -983,7 +986,7 @@ game_menus = [
 							
 							(store_mul, ":num_levies_5", "$g_num_levies", 5),
 							
-							(store_skill_level, ":trainer", skl_trainer, player_troop),
+							(store_skill_level, ":trainer", skl_trainer, "$g_player_troop"),
 							(store_add, ":div", 20, ":trainer"),
 							
 							(store_mul, ":sub", ":num_levies_5", ":div"),
@@ -1040,7 +1043,8 @@ game_menus = [
 		[
 			(str_store_party_name, s10, "$g_encountered_party"),
 			(try_for_parties, ":party_no"),
-				(call_script, "script_cf_party_join_battle", ":party_no", "$g_encountered_party", "p_main_party"),
+				(neq, ":party_no", "$g_player_party"),
+				(call_script, "script_cf_party_join_battle", ":party_no", "$g_encountered_party", "$g_player_party"),
 				(assign, ":continue", reg0),
 				(try_begin),
 					(eq, ":continue", 1),
@@ -1076,7 +1080,7 @@ game_menus = [
 				[
 					(assign, "$g_enemy", "$g_encountered_party"),
 					(try_for_parties, ":party_no"),
-						(call_script, "script_cf_party_join_battle", ":party_no", "$g_encountered_party", "p_main_party"),
+						(call_script, "script_cf_party_join_battle", ":party_no", "$g_encountered_party", "$g_player_party"),
 						(assign, ":continue", reg0),
 						(try_begin),
 							(eq, ":continue", 1),
@@ -1100,7 +1104,7 @@ game_menus = [
 			("siege_cheat_capture",
 				[(call_script, "script_cf_debug", debug_simple|debug_war), ], "|Cheat| Capture center",
 				[
-					(call_script, "script_party_group_defeat_party_group", "p_main_party", "$g_encountered_party"),
+					(call_script, "script_party_group_defeat_party_group", "$g_player_party", "$g_encountered_party"),
 				]),
 			
 			("siege_wait",
@@ -1172,7 +1176,7 @@ game_menus = [
 		[
 			# (set_background_mesh, "mesh_pic_camp"),
 			(try_for_parties, ":party_no"),
-				(call_script, "script_cf_party_join_battle", ":party_no", "$g_encountered_party", "p_main_party"),
+				(call_script, "script_cf_party_join_battle", ":party_no", "$g_encountered_party", "$g_player_party"),
 				(assign, ":continue", reg0),
 				(try_begin),
 					(eq, ":continue", 1),
@@ -1213,7 +1217,7 @@ game_menus = [
 					# (store_sub, ":enemy_team", 1, "$g_player_team"),
 					(assign, "$g_enemy", "$g_encountered_party"),
 					(try_for_parties, ":party_no"),
-						(call_script, "script_cf_party_join_battle", ":party_no", "$g_encountered_party", "p_main_party"),
+						(call_script, "script_cf_party_join_battle", ":party_no", "$g_encountered_party", "$g_player_party"),
 						(assign, ":continue", reg0),
 						(try_begin),
 							(eq, ":continue", 1),
@@ -1229,8 +1233,17 @@ game_menus = [
 				]),
 			
 			("encounter_surrender",
-				[ (disable_menu_option),
-				], "Surrender", []),
+				[
+					(try_begin),
+						(neg|encountered_party_is_attacker),
+						(disable_menu_option),
+					(try_end),
+				], "Surrender",
+				[
+					(call_script, "script_party_take_player_party_prisoner", "$g_encountered_party"),
+					(leave_encounter),
+					(change_screen_return),
+				]),
 			
 			("encounter_leave", 
 				[
@@ -1470,22 +1483,25 @@ game_menus = [
 
 			(try_begin),
 				(eq, "$g_battle_result", -1),
-				(store_random_in_range, reg20, 0, 2), # outcome of the defeat
+				(store_random_in_range, reg20, 0, 5), # outcome of the defeat
 			(try_end),
 		],
 		[
-			("defeat_taken_prisoner", [(eq, "$g_battle_result", -1),(eq, reg20, 0),],
-				"You are taken prisoner by your oppenents", [(change_screen_return),]),
+			("defeat_taken_prisoner", [(eq, "$g_battle_result", -1),(lt, reg20, 4),],
+				"You are taken prisoner by your oppenents", [
+					(call_script, "script_party_take_player_party_prisoner", "$g_enemy"),
+					(change_screen_return),
+				]),
 
-			("defeat_left_for_dead", [(eq, "$g_battle_result", -1),(eq, reg20, 1),],
-				"Your enemies believe you dead and leave you lying on the ground", [(change_screen_return),]),
+			("defeat_left_for_dead", [(eq, "$g_battle_result", -1),(eq, reg20, 4),],
+				"Your enemies believe you dead and leave you lying on the ground", [(rest_for_hours, 2, 1, 0),(change_screen_return),]),
 
 			("loot_enemies", [(eq, "$g_battle_result", 1),(neq, "$g_looted_enemies", 1),], "Loot the fallen enemies",
 				[
 					(call_script, "script_get_party_looted_gold", "p_enemy_casualties"),
 					(assign, ":gold", reg0),
-					(call_script, "script_party_group_distribute_gold", "p_main_party", ":gold"),
-					(call_script, "script_party_group_defeat_party_group", "p_main_party", "$g_enemy"),
+					(call_script, "script_party_group_distribute_gold", "$g_player_party", ":gold"),
+					(call_script, "script_party_group_defeat_party_group", "$g_player_party", "$g_enemy"),
 
 					(call_script, "script_party_get_loot", "p_enemy_casualties", 1, -1),
 					(assign, ":loot_troop", reg0),
@@ -1502,10 +1518,10 @@ game_menus = [
 					(store_sqrt, ":morale", ":gold"),
 					(val_div, ":morale", 50),
 					(val_add, ":morale", 1),
-					(call_script, "script_party_change_morale", "p_main_party", ":morale"),
-					(call_script, "script_troop_change_relation_with_party_heroes", player_troop, "p_enemy_casualties", -1),
+					(call_script, "script_party_change_morale", "$g_player_party", ":morale"),
+					(call_script, "script_troop_change_relation_with_party_heroes", "$g_player_troop", "p_enemy_casualties", -1),
 					# ToDo: reduce relation with faction and slightly with looted lords
-					(call_script, "script_party_group_defeat_party_group", "p_main_party", "$g_enemy"),
+					(call_script, "script_party_group_defeat_party_group", "$g_player_party", "$g_enemy"),
 
 					(change_screen_return),
 				]),
@@ -1518,13 +1534,13 @@ game_menus = [
 					(val_add, ":gold", reg0),
 					(call_script, "script_get_party_looted_gold", "p_player_casualties"),
 					(val_add, ":gold", reg0),
-					(call_script, "script_party_group_distribute_gold", "p_main_party", ":gold"),
+					(call_script, "script_party_group_distribute_gold", "$g_player_party", ":gold"),
 
-					(call_script, "script_troop_change_honor", player_troop, -1),
-					(call_script, "script_party_change_morale", "p_main_party", -5),
+					(call_script, "script_troop_change_honor", "$g_player_troop", -1),
+					(call_script, "script_party_change_morale", "$g_player_party", -5),
 					# ToDo: reduce relation with faction and with looted lords (includes allies at a reduced rate)
-					(call_script, "script_troop_change_relation_with_party_heroes", player_troop, "p_enemy_casualties", -2),
-					(call_script, "script_troop_change_relation_with_party_heroes", player_troop, "p_ally_casualties", -1),
+					(call_script, "script_troop_change_relation_with_party_heroes", "$g_player_troop", "p_enemy_casualties", -2),
+					(call_script, "script_troop_change_relation_with_party_heroes", "$g_player_troop", "p_ally_casualties", -1),
 					
 					(call_script, "script_party_get_loot", "p_enemy_casualties", 1, -1),
 					(assign, ":loot_troop", reg0),
@@ -1539,16 +1555,16 @@ game_menus = [
 				[
 					(call_script, "script_get_party_looted_gold", "p_enemy_casualties"),
 					(assign, ":gold", reg0),
-					(troop_add_gold, player_troop, ":gold"),
-					(call_script, "script_troop_change_honor", player_troop, 1),
+					(troop_add_gold, "$g_player_troop", ":gold"),
+					(call_script, "script_troop_change_honor", "$g_player_troop", 1),
 					# ToDo: slightly increase relation with faction
-					(call_script, "script_party_group_defeat_party_group", "p_main_party", "$g_enemy"),
+					(call_script, "script_party_group_defeat_party_group", "$g_player_party", "$g_enemy"),
 
 					(change_screen_return),
 				]),
 			("leave", [(eq, "$g_battle_result", 1), (eq, "$g_looted_enemies", 1),], "Leave the battlefield",
 				[
-					(call_script, "script_party_group_defeat_party_group", "p_main_party", "$g_enemy"),
+					(call_script, "script_party_group_defeat_party_group", "$g_player_party", "$g_enemy"),
 
 					(change_screen_return),
 				]),
@@ -1589,11 +1605,11 @@ game_menus = [
 		"Party size report :^^Current max party size: {reg10}^Modifiers:^  - Base party size: {reg11}^  - Charisma bonus: +{reg12}^  - Leadership multiplier: {reg13}% = +{reg14}^  - Faction modifiers: {s10}{reg15}% = {s10}{reg16}",
 		"none",
 		[
-			(call_script, "script_party_get_companion_limit", "p_main_party"),
+			(call_script, "script_party_get_companion_limit", "$g_player_party"),
 			(assign, ":companion_limit", reg0),
 
-			(troop_get_slot, ":rank", player_troop, slot_troop_rank),
-			(store_faction_of_party, ":player_faction", "p_main_party"),
+			(troop_get_slot, ":rank", "$g_player_troop", slot_troop_rank),
+			(store_faction_of_party, ":player_faction", "$g_player_party"),
 
             (try_begin),
                 (assign, ":base_limit", base_party_size_rank_7),
@@ -1623,11 +1639,11 @@ game_menus = [
                 (assign, ":base_limit", base_party_size_rank_7),
             (try_end),
 
-            (store_attribute_level, ":charisma_bonus", player_troop, ca_charisma),
+            (store_attribute_level, ":charisma_bonus", "$g_player_troop", ca_charisma),
 
             (store_add, ":party_limit", ":base_limit", ":charisma_bonus"),
 
-            (store_skill_level, ":leadership", skl_leadership, player_troop),
+            (store_skill_level, ":leadership", skl_leadership, "$g_player_troop"),
             (val_mul, ":leadership", 5),
             
             (store_mul, ":leadership_bonus", ":party_limit", ":leadership"),
@@ -1662,7 +1678,7 @@ game_menus = [
 		"{s10} holds you prisoner, chains holding your arms and legs in place.^^You can see two guards playing cards glancing at you from time to time.^You guess that they are your jailers.",
 		"none",
 		[
-			(troop_get_slot, ":captor", player_troop, slot_troop_prisoner_of),
+			(troop_get_slot, ":captor", "$g_player_troop", slot_troop_prisoner_of),
 			(try_begin),
 				(is_between, ":captor", lords_begin, lords_end),
 				(str_store_troop_name, s10, ":captor"),
@@ -1674,7 +1690,7 @@ game_menus = [
 			("action_call_guards", [], "Call the guards", [(jump_to_menu, "mnu_player_prisoner_call_guards"),]),
 			("action_insult_guards", [], "Yell insults at the guards", [(jump_to_menu, "mnu_player_prisoner_insult_guards"),]),
 			("action_escape", [], "Try to find a way to escape", [(jump_to_menu, "mnu_player_prisoner_escape"),]),
-			("action_do_nothing", [], "Do nothing", [(change_screen_return),]),
+			("action_do_nothing", [], "Do nothing", [(change_screen_return),(rest_for_hours, 24, 1, 0),]),
 		]),
 
 	("player_prisoner_call_guards", mnf_scale_picture, 
@@ -1746,7 +1762,7 @@ game_menus = [
 		"none",
 		[],
 		[
-			("action_blackout", [], "You feel like you are dying, you close your eyes and all becomes dark", [(troop_set_health, player_troop, 5),(jump_to_menu, "mnu_player_prisoner_guard_beating_end"),]),
+			("action_blackout", [], "You feel like you are dying, you close your eyes and all becomes dark", [(troop_set_health, "$g_player_troop", 5),(jump_to_menu, "mnu_player_prisoner_guard_beating_end"),]),
 		]),
 
 	("player_prisoner_guard_beating_end", mnf_scale_picture, 
@@ -1754,14 +1770,49 @@ game_menus = [
 		"none",
 		[],
 		[
-			("action_go_back", [], "Go back", [(change_screen_return),]),
+			("action_go_back", [], "Go back", [(change_screen_return),(rest_for_hours, 24, 1, 0),]),
 		]),
 
+	("player_prisoner_escape", mnf_scale_picture, 
+		"You think of ways to escape your predicament...",
+		"none",
+		[
+			(store_troop_health, ":player_health", "$g_player_troop", 0),
+			(gt, ":player_health", 50),
+		],
+		[
+			("action_escape_persuade", [], "Try to persuade your captors", [(jump_to_menu, "mnu_player_prisoner_escape_persuade"),]),
+			("action_escape_sneak", [], "Try to sneak away unnoticed", [(jump_to_menu, "mnu_player_prisoner_escape_sneak"),]),
+			("action_escape_force", [], "Try to force your way out", [(jump_to_menu, "mnu_player_prisoner_escape_force"),]),
+			("action_go_back", [], "Perhaps later...", [(jump_to_menu, "mnu_player_prisoner_take_action"),]),
+		]),
 	("player_prisoner_escape", mnf_scale_picture, 
 		"In your current conditon you don't think you will be able to move at all, let alone escape.",
 		"none",
 		[],
 		[
 			("action_go_back", [], "Perhaps later...", [(jump_to_menu, "mnu_player_prisoner_take_action"),]),
+		]),
+
+	("player_prisoner_escape_persuade", mnf_scale_picture, 
+		"You call your guard to your cell. When nearby you persuade him to open the cell, and promise him gold in exchange for your liberation. After a moment of hesitation, he looks left and right, then, he signals for you to run in a direction with a movement of his hand.",
+		"none",
+		[],
+		[
+			("action_go_back", [], "Free at last", [(call_script, "script_player_party_free"),(change_screen_return),]),
+		]),
+	("player_prisoner_escape_sneak", mnf_scale_picture, 
+		"You notice the round of the guards. During a shift, you quietly unlock your cell and stealthily move away for your captors.",
+		"none",
+		[],
+		[
+			("action_go_back", [], "Free at last", [(call_script, "script_player_party_free"),(change_screen_return),]),
+		]),
+	("player_prisoner_escape_force", mnf_scale_picture, 
+		"You call your guard to your cell. He closes in, as you gesture to move closer. Once within striking distance, you grab him by the collar and slam his face on the iron bars. He falls unconscious and you grab the key to your cell.",
+		"none",
+		[],
+		[
+			("action_go_back", [], "Free at last", [(call_script, "script_player_party_free"),(change_screen_return),]),
 		]),
  ]

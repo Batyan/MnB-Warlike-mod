@@ -1,3 +1,10 @@
+v 0.230:
+-Added player taken prisoner
+-Fix camp settings menu
+-Enable surrender
+-Count allies when determining winner during battle
+-Fix various script error
+
 v 0.220:
 -Added bandit dialogs
 -Changed some messages displayed to log_message type (saved in save game)
