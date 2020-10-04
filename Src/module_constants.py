@@ -609,7 +609,9 @@ slot_party_unpaid_wages = 139
 
 slot_party_temp = 140
 
-slot_party_item_consumed_begin 	= 140 # Number of items consumed per 100 citizens
+slot_party_origin_center = 141
+
+slot_party_item_consumed_begin 	= 142 # Number of items consumed per 100 citizens
 slot_party_item_consumed_end	= slot_party_item_consumed_begin + goods_end - goods_begin
 
 

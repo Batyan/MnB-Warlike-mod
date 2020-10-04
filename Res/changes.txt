@@ -4,6 +4,7 @@ v 0.230:
 -Enable surrender
 -Count allies when determining winner during battle
 -Fix various script error
+-Fix convoys reinforcing enemy centers
 
 v 0.220:
 -Added bandit dialogs

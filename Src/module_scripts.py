@@ -918,6 +918,8 @@ scripts = [
                 (try_end),
             (try_end),
 
+            (call_script, "script_party_group_steal_party_prisoner", ":party_group_no", "p_prisoners_party"),
+
             (call_script, "script_party_group_take_party_prisoner", ":party_group_no", "p_prisoners_party"),
             
             (call_script, "script_party_group_free_party", ":party_group_no", "p_temp_party"),
@@ -971,6 +973,52 @@ scripts = [
                     (party_stack_get_troop_id, ":troop_id", ":prisoner_party", ":cur_stack"),
                     (call_script, "script_party_take_troop_prisoner", ":party_group_no", ":troop_id", ":prisoner_party", ":stack_size"),
                 (try_end),
+            (try_end),
+        ]),
+
+    # script_party_group_steal_party_prisoner
+    # input:
+    #   arg1: party_group_no
+    #   arg2: prisoner_party
+    # output: none
+    ("party_group_steal_party_prisoner",
+        [
+            (store_script_param, ":party_group_no", 1),
+            (store_script_param, ":prisoner_party", 2),
+
+            (assign, ":total_gold", 0),
+
+            (party_get_num_companion_stacks, ":num_stacks", ":prisoner_party"),
+            (try_for_range_backwards, ":cur_stack", 0, ":num_stacks"),
+                (party_stack_get_troop_id, ":troop_id", ":prisoner_party", ":cur_stack"),
+                (try_begin),
+                    (troop_is_hero, ":troop_id"),
+                    (store_troop_gold, ":current_gold", ":troop_id"),
+                    # ToDo: percent gold removed global difficulty parameter
+                    (store_div, ":removed_gold", ":current_gold", 20),
+                    (troop_remove_gold, ":troop_id", ":removed_gold"),
+                    (val_add, ":total_gold", ":removed_gold"),
+                (else_try),
+                    # ToDo: refine regular troop gold cost
+                    (store_character_level, ":troop_level", ":troop_id"),
+                    (val_mul, ":troop_level", 2),
+                    (val_add, ":troop_level", ":total_gold"),
+                (try_end),
+            (try_end),
+            (call_script, "script_party_group_share_gold", ":party_group_no", ":total_gold"),
+        ]),
+
+    # script_party_group_share_gold
+    ("party_group_share_gold",
+        [
+            (store_script_param, ":party_group_no", 1),
+            (store_script_param, ":total_gold", 2),
+
+            # ToDo: refine gold distribution
+            (party_get_slot, ":leader", ":party_group_no", slot_party_leader),
+            (try_begin),
+                (ge, ":leader", 0),
+                (troop_add_gold, ":leader", ":total_gold"),
             (try_end),
         ]),
 
@@ -4400,6 +4448,8 @@ scripts = [
             
             (spawn_around_party, ":party_no", ":party_template"),
             (assign, ":spawned_party", reg0),
+
+            (party_set_slot, ":spawned_party", slot_party_origin_center, ":party_no"),
             
             (assign, reg0, ":spawned_party"),
         ]),
@@ -13350,7 +13400,7 @@ scripts = [
                     (party_count_prisoners_of_type, ":prisoner", ":prisoner_of", ":troop_no"),
                     (gt, ":prisoner", 0),
 
-                    # ToDo: refine random chance
+                    # ToDo: refine chance
                     (store_random_in_range, ":rand", 0, 100),
                     (try_begin),
                         (eq, ":rand", 0),
