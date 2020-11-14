@@ -3343,9 +3343,10 @@ scripts = [
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_pottery", 1),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_raw_dyes", 3),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_iron", 1),
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_raw_date_fruit", 2),
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_raw_olives", 2),
+                (call_script, "script_party_update_resources_slot", ":party_no", "itm_raw_date_fruit", 6),
+                (call_script, "script_party_update_resources_slot", ":party_no", "itm_raw_olives", 1),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_chicken", 1),
+                (call_script, "script_party_update_resources_slot", ":party_no", "itm_raw_leather", 1),
                 # (call_script, "script_party_update_resources_slot", ":party_no", "itm_", 1),
                 
                 (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_wet, -10),
@@ -7839,6 +7840,7 @@ scripts = [
             (assign, ":best_modifier", -1),
             (assign, ":asked", 0),
             (try_for_range, ":center_no", walled_centers_begin, walled_centers_end),
+                (neq, ":center_no", ":party_no"),
                 (store_faction_of_party, ":center_faction", ":center_no"),
                 # ToDo: Allow allies with reduced likelyness
                 (eq, ":center_faction", ":party_faction"),
@@ -12357,7 +12359,7 @@ scripts = [
                 (store_add, ":relation_change", ":new_relation", ":change"),
                 (call_script, "script_faction_political_event", ":faction_1", ":faction_2", ":relation_change", ":change"),
                 
-                (call_script, "script_cf_debug", debug_faction|debug_simple),
+                (call_script, "script_cf_debug", debug_faction),
                 (str_store_faction_name, s10, ":faction_1"),
                 (str_store_faction_name, s11, ":faction_2"),
                 (assign, reg10, ":current_relation"),
@@ -12369,7 +12371,7 @@ scripts = [
                 (neq, ":new_relation", ":current_relation"),
                 (set_relation, ":faction_1", ":faction_2", ":new_relation"),
                 
-                (call_script, "script_cf_debug", debug_faction|debug_simple),
+                (call_script, "script_cf_debug", debug_faction),
                 (str_store_faction_name, s10, ":faction_1"),
                 (str_store_faction_name, s11, ":faction_2"),
                 (assign, reg10, ":current_relation"),
@@ -13527,7 +13529,7 @@ scripts = [
         #   arg5: difficulty
         # output:
         #   reg0: outcome
-        #       bargain_success, bargain_neutral, bargain_failure
+        #       outcome_success, outcome_neutral, outcome_failure
         # this script is called when bargain between 2 troops
     ("troop_bargain",
         [
@@ -13537,7 +13539,7 @@ scripts = [
             (store_script_param, ":bargain_type", 4),
             (store_script_param, ":difficulty", 5),
 
-            (assign, ":outcome", bargain_neutral),
+            (assign, ":outcome", outcome_neutral),
 
             (assign, ":skill", 0),
             (assign, ":attribute", 0),
@@ -13583,7 +13585,7 @@ scripts = [
                 (store_sub, ":neutral", ":difference", ":neutral_offset"),
                 (try_begin),
                     (gt, ":neutral", 100),
-                    (assign, ":outcome", bargain_success),
+                    (assign, ":outcome", outcome_success),
                 (try_end),
             (else_try),
                 (lt, ":difference", 100),
@@ -13591,7 +13593,7 @@ scripts = [
                 (store_add, ":neutral", ":difference", ":neutral_offset"),
                 (try_begin),
                     (lt, ":neutral", 100),
-                    (assign, ":outcome", bargain_failure),
+                    (assign, ":outcome", outcome_failure),
                 (try_end),
             (try_end),
 
@@ -13602,7 +13604,7 @@ scripts = [
                 (assign, reg10, ":difference"),
                 (assign, reg11, ":ratio_offered"),
                 # (assign, reg12, ":outcome"),
-                (store_add, ":bargain_string", ":outcome", "str_bargain_neutral"),
+                (store_add, ":bargain_string", ":outcome", "str_outcome_neutral"),
                 (str_store_string, s12, ":bargain_string"),
                 (display_message, "@{s10} bargain with {s11}: Offered ratio ({reg11}) transformed to {reg10}. Outcome is {s12}."),
             (try_end),
@@ -13619,7 +13621,7 @@ scripts = [
         #   arg5: difficulty
         # output:
         #   reg0: outcome
-        #       bargain_success, bargain_neutral, bargain_failure
+        #       outcome_success, outcome_neutral, outcome_failure
         # this script is called when bargain between 2 parties
     ("party_bargain", 
         [
@@ -13629,7 +13631,7 @@ scripts = [
             (store_script_param, ":bargain_type", 4),
             (store_script_param, ":difficulty", 5),
 
-            (assign, ":outcome", bargain_neutral),
+            (assign, ":outcome", outcome_neutral),
 
             (try_begin),
                 (eq, ":bargain_type", bargain_type_strength),
@@ -13694,7 +13696,7 @@ scripts = [
                     (store_sub, ":neutral", ":strength", ":neutral_offset"),
                     (try_begin),
                         (gt, ":neutral", 100),
-                        (assign, ":outcome", bargain_success),
+                        (assign, ":outcome", outcome_success),
                     (try_end),
                 (else_try),
                     (lt, ":strength", 100),
@@ -13702,7 +13704,7 @@ scripts = [
                     (store_add, ":neutral", ":strength", ":neutral_offset"),
                     (try_begin),
                         (lt, ":neutral", 100),
-                        (assign, ":outcome", bargain_failure),
+                        (assign, ":outcome", outcome_failure),
                     (try_end),
                 (try_end),
             # (else_try),
@@ -13716,7 +13718,7 @@ scripts = [
                 (assign, reg10, ":strength"),
                 (assign, reg11, ":ratio_offered"),
                 # (assign, reg12, ":outcome"),
-                (store_add, ":bargain_string", ":outcome", "str_bargain_neutral"),
+                (store_add, ":bargain_string", ":outcome", "str_outcome_neutral"),
                 (str_store_string, s12, ":bargain_string"),
                 (display_message, "@{s10} bargain with {s11}: Offered ratio ({reg11}) transformed to {reg10}. Outcome is {s12}."),
             (try_end),
@@ -13778,5 +13780,59 @@ scripts = [
 
             (set_camera_follow_party, "$g_player_party"),
             (rest_for_hours, 0, 0, 0),
+        ]),
+
+    # script_troop_escape_chance
+        # input:
+        #   arg1: troop_no
+        #   arg2: holder_party
+        #   arg3: escape_type
+        # output:
+        #   reg0: outcome (1 success, -1 failure, 0)
+    ("troop_escape_chance",
+        [
+            (store_script_param, ":troop_no", 1),
+            # (store_script_param, ":holder_party", 2),
+            (store_script_param, ":escape_type", 3),
+
+            (assign, ":needed_value", 35),
+            (assign, ":skill", 0),
+            (assign, ":outcome", outcome_neutral),
+
+            (try_begin),
+                (eq, ":escape_type", escape_type_wits),
+                (store_skill_level, ":skill_1", skl_persuasion, ":troop_no"),
+                (store_skill_level, ":skill_2", skl_trade, ":troop_no"),
+                (val_mul, ":skill_1", 2),
+                (store_add, ":skill", ":skill_1", ":skill_2"),
+            (else_try),
+                (eq, ":escape_type", escape_type_agility),
+
+                (store_skill_level, ":skill_1", skl_pathfinding, ":troop_no"),
+                (store_skill_level, ":skill_2", skl_spotting, ":troop_no"),
+                (store_skill_level, ":skill_3", skl_tracking, ":troop_no"),
+                (store_add, ":skill", ":skill_1", ":skill_2"),
+                (val_add, ":skill", ":skill_3"),
+            (else_try),
+                (eq, ":escape_type", escape_type_strength),
+
+                (store_skill_level, ":skill_1", skl_intimidation, ":troop_no"),
+                (store_skill_level, ":skill_2", skl_ironflesh, ":troop_no"),
+                (store_skill_level, ":skill_3", skl_power_strike, ":troop_no"),
+                (store_add, ":skill", ":skill_1", ":skill_2"),
+                (val_add, ":skill", ":skill_3"),
+            (try_end),
+
+            (store_random_in_range, ":rand", 0, 41),
+            (val_add, ":skill", ":rand"),
+
+            (try_begin),
+                (gt, ":skill", ":needed_value"),
+                (assign, ":outcome", outcome_success),
+            (else_try),
+                (assign, ":outcome", outcome_failure),
+            (try_end),
+
+            (assign, reg0, ":outcome"),
         ]),
 ]

@@ -792,9 +792,9 @@ strings = [
   ("sarranid_faction_medium", "Oasis of {s0}"),
   ("sarranid_faction_large", "{s0} Sultanate"),
 
-  ("bargain_failure", "Failure"),
-  ("bargain_neutral", "Neutral"),
-  ("bargain_success", "Success"),
+  ("outcome_failure", "Failure"),
+  ("outcome_neutral", "Neutral"),
+  ("outcome_success", "Success"),
 
   # Building descriptions
   ("building_hunter_camp",      "The hunter camp periodicaly sends hunters to hunt outside of the village. The hunters will join the fight when defending the village."),

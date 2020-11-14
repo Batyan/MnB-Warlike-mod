@@ -282,5 +282,6 @@ script_party_bargain = 280
 script_get_bandit_dialog = 281
 script_party_take_player_party_prisoner = 282
 script_player_party_free = 283
+script_troop_escape_chance = 284
 
 

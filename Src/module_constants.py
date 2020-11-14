@@ -173,19 +173,19 @@ castle_scene_desert_wood_end = castle_scene_end
 
 
 # OTHER
-garrison_size_town = 400
-garrison_size_castle = 250
+garrison_size_town = 750
+garrison_size_castle = 400
 garrison_size_village = 50
 garrison_size_fort = 50
 
 base_party_size_rank_0 = 10
 base_party_size_rank_1 = 15
 base_party_size_rank_2 = 35
-base_party_size_rank_3 = 50
-base_party_size_rank_4 = 80
-base_party_size_rank_5 = 120
-base_party_size_rank_6 = 125
-base_party_size_rank_7 = 150
+base_party_size_rank_3 = 60
+base_party_size_rank_4 = 100
+base_party_size_rank_5 = 150
+base_party_size_rank_6 = 160
+base_party_size_rank_7 = 200
 
 siege_attack_spawn_begin = 2
 siege_defend_points_begin = 10
@@ -307,12 +307,16 @@ faction_size_names_begin = str_swadian_faction_small
 faction_size_names_end = str_sarranid_faction_large + 1
 faction_size_names_count = 3
 
-bargain_success = 1
-bargain_neutral = 0
-bargain_failure = -1
+outcome_success = 1
+outcome_neutral = 0
+outcome_failure = -1
 
 bargain_type_strength = -1
 bargain_type_cunning = 1
+
+escape_type_wits = 1
+escape_type_agility = 2
+escape_type_strength = 3
 
 ################
 ## Item Slots ##

@@ -303,10 +303,15 @@ ToDo:
 - Kingdoms:
     Policies 
         Vassals:
-            No taxes, vassals take care of their properties in their entirety
-            Low taxes, vassals take care of their properties in their entirety, liege participate in building constructions
-            Medium taxes, vassals take care of their properties, liege participate in building constructions, reparations and troop garrisons
-            High taxes, liege takes care of all the property costs
+            No taxes
+            Low taxes
+            Medium taxes
+            High taxes
+        Property belonging
+            vassals take care of their properties in their entirety
+            vassals take care of their properties in their entirety, liege participate in building constructions
+            vassals take care of their properties, liege participate in building constructions, reparations and troop garrisons
+            Liege takes care of all the property costs
         Leader:
             Elected by population (elders of villages/cities/castles), can be lifelong rule or a certain period
                 High relation with centers is important
@@ -511,6 +516,7 @@ ToDo:
         player can reimburse debts with wages presentation
             can decide the amount during the presentation
             not reimbursing for more than a month can lead to a relation hit
+            usualy an amount of ~5% of remaining debt min
         debts will have interests each month
 - ressources list
     ressources are consumed by centers
@@ -670,6 +676,13 @@ ToDo:
                     relation -
                     needing_center need -
                     walled_center danger +
+    - redo lords party size
+        party size depends on passive income
+        lords by default use a percentage of their income as max party size
+        number of owned fiefs change the percentage
+        number of vassals don't change the percentage
+            will increase absolute party size because of taxes
+        personality may increase/decrease party size proportion
 - add morale
     in battle, morale increase/decrease damage of troop by 1% for every 5 point over/under 'neutral' morale
     demoralized troops flee battles more easily
