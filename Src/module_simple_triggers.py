@@ -284,8 +284,11 @@ simple_triggers = [
             (troop_get_slot, ":player_prisoner", "$g_player_troop", slot_troop_prisoner_of),
             (try_begin),
                 (gt, ":player_prisoner", 0),
-                (key_is_down, key_space),
-                (jump_to_menu, "mnu_player_prisoner_take_action"),
+                (try_begin),
+                    (key_is_down, key_space),
+                    (jump_to_menu, "mnu_player_prisoner_take_action"),
+                (try_end),
+                (set_camera_follow_party, ":player_prisoner"),
             (try_end),
         ]),
     
