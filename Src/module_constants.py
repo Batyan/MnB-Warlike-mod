@@ -187,6 +187,8 @@ base_party_size_rank_5 = 150
 base_party_size_rank_6 = 160
 base_party_size_rank_7 = 200
 
+party_size_div_peace = 6
+
 siege_attack_spawn_begin = 2
 siege_defend_points_begin = 10
 siege_archer_points_begin = 20
@@ -317,6 +319,13 @@ bargain_type_cunning = 1
 escape_type_wits = 1
 escape_type_agility = 2
 escape_type_strength = 3
+
+process_mission_iteration_count = 5
+
+type_critical = 3
+type_moderate = 2
+type_slight = 1
+type_none = 0
 
 ################
 ## Item Slots ##
@@ -460,6 +469,10 @@ sfs_large = 2
 
 slot_faction_name_holder = 56
 slot_faction_has_fixed_name = 57
+
+slot_faction_status = 58
+sfst_default = 0
+sfst_disabled = -1
 
 #################
 ## Party Slots ##
@@ -615,7 +628,12 @@ slot_party_temp = 140
 
 slot_party_origin_center = 141
 
-slot_party_item_consumed_begin 	= 142 # Number of items consumed per 100 citizens
+slot_party_preparing_for_war = 142
+slot_party_prepared_for_war = 143
+
+slot_party_process_mission_iteration = 144
+
+slot_party_item_consumed_begin 	= 200 # Number of items consumed per 100 citizens
 slot_party_item_consumed_end	= slot_party_item_consumed_begin + goods_end - goods_begin
 
 
@@ -727,15 +745,6 @@ slot_troop_home						= 20
 
 slot_troop_mission 					= 21
 tm_none					= 0
-# tm_recruit				= 1
-# tm_gather 				= 2
-# tm_prepare 				= 3
-# tm_follow 				= 4
-# tm_attack 				= 5
-# tm_defend 				= 6
-tm_gathering_army 		= 1
-tm_sieging_center 		= 2
-tm_raiding_center 		= 3
 tm_defending			= 1
 tm_attacking			= 2
 tm_escorting			= 3

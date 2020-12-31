@@ -1,3 +1,8 @@
+v 0.300:
+-Lords at peace deposit troops in their home center
+-Reduced wages for garrisoned troops to 1/5th
+-Improved treatment of lords mission processing
+
 v 0.230:
 -Added player taken prisoner
 -Fix camp settings menu

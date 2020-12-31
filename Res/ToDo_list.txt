@@ -1,5 +1,4 @@
 ToDo:
-- Debug ais not using reserves
 - Add debug mode for ais
     Enable/Disable ai
     Reset ai
@@ -34,7 +33,7 @@ ToDo:
                 Well defended caravans yield greater profits
                 Some buildings increase caravan protections
         Villages
-            Usualy not well dedfended (~30 militias max)
+            Usualy not well defended (~30 militias max)
             Can yield great gains if village is prosperous
             Can greatly deteriorate relations with village / owner / faction
         Outlaws can now have bounties placed on them
@@ -644,14 +643,14 @@ ToDo:
         patrol may come back to center to give out prisoners or refill its troops
         only wealthy centers will have patrols
         party size 50-80 ?
-        start with a month worth of wages
-        party stays until party size is too low, morale is too low, or prisoner are too many
+        start with 5 months worth of wages
+        party stays until party size is too low, morale is too low, or prisoner are too many, or not enough money left for next wages
     - add scout
         acts like a smaller patrol
         may follow nearby peasants / caravans until they get too far from the center
         act as a bandit hunter (only against small parties)
         party size 10-30 ?
-        start with a month worth of wages (need that much wealth in the center to be able to spawn)
+        start with 3 months worth of wages (need that much wealth in the center to be able to spawn)
     - add caravans
         add escorts (only if trade post)
             follows caravans out of the town (or joins party)

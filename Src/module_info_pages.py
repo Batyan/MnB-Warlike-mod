@@ -18,21 +18,21 @@ info_pages = [
                           "^They are good to have to increase the number of men without paying too much, and can scare more experienced but less numerous armies." + 
                           "^Be careful though that they do not get exposed in battle against an equivalent number of men, they will lose quickly and your life will be next." + 
                           "^To hire more expensive troops, you will need to head in towns and castles, towns usualy have the most skilled troops and castles have a high number of good troops." + 
-                          "^^If you need more men than you can afford, mercenaries can sometimes propose good deals, with lower hiring price but in the long term their high wages will drain you of your incomes."),
+                          "^^If you need more men than you can afford, mercenaries can sometimes propose good deals, with lower hiring price but in the long term their higher wages will drain you of your incomes."),
     ("info_culture", "Cultures", "The land of Calradia has a wide range of diverse cultures, but they can be reduced into 6 categories:" + 
                                  "^^Swadians." + 
                                  "^In times of war they chose to focus on strong infantry, powerful heavy cavalry and agile ranged units." + 
                                  "^Their main weaknesses are:" + 
                                  "^Late cavalry - The swadians like to focus on heavy cavalry, and no horseman can beat the heavily armed Knight," + 
                                  " unfortunately, their cavalry arrives late on the battlefield, and low level troops are not allowed to ride horses." + 
-                                 "^Light ranged troops - Their ranged infantry have light weapons, in melee and at ranged, they are accurate but lack the impact of heavy bows and crossbows to penetrate heavy armour." + 
+                                 "^Light ranged troops - Their ranged infantry have light weapons, in melee and at range, they are accurate but lack the impact of heavy bows and crossbows to penetrate heavy armour." + 
                                  "^^Vaegirs." + 
                                  "^The Vaegirs focus on swift and merciless battles. They utilize their great archers to rain arrows on enemy formations, then use their cavalry and light infantry to storm the courageous fools." + 
                                  "^Their main weaknesses are:" + 
                                  "^Lightly armoured troops - Most of their early troops, infantry, archers and cavalry are lightly armoured and do not always have shields, their most dangerous foes are themselves." + 
                                  "^Swift battles - Battles with Vaegir armies are fast, but it means you can quickly lose your men and not have the time to prepare a new strategy, always be prepared for everything before engaging the battle." + 
                                  "^^Khergits." + 
-                                 "^The Khergits are born on horseback, or that is what their horsemen would tell you. Whether true or not, they use nearly as much horses on the battlefield as they use men." + 
+                                 "^The Khergits are born on horseback, or that is what their horsemen would tell you. Whether true or not, they use nearly as many horses on the battlefield as they use men." + 
                                  " Be wary of their charges, for they will sting your entire lines." + 
                                  "^Their main weaknesses are:" + 
                                  "^Lightly armoured troops - They use speed on the battlefield to avoir getting hit, but it happens, and sometimes it hurts." + 
@@ -47,11 +47,11 @@ info_pages = [
                                  "^The Rhodoks used to live 'barbaric lives in their mountains', but do not believe such things, they live mostly in mountains, yes, but are by all means the most refined culture," + 
                                  " if we scale refined with the amount of wine you produce. In war, they focus on infantry of all kind, spearmen, swordsmen, pikemen, crossbowmen. With pointy, sharpy, deadly wepaons." + 
                                  "^Their main weaknesses are:" + 
-                                 "^Lightly armoured troops - At least on low level troops, they think armour can be compensated with toughness." + 
+                                 "^Lightly armoured troops - At least for low level troops, they think armour can be compensated with toughness." + 
                                  " They may be tougher than the average man, but armor saves lives, even more so when you are tough." + 
                                  "^Weak cavalry - They do not suffer as much from it as nords, but mountains are not well suited for cavalry, and the Rhodoks have trouble adapting to this kind of war." + 
                                  " They provide excelent anti-cavalry troops though." + 
-                                 "^^Sarranids.^The Sarranids live in the desertic regions of the southern Calradia." + 
+                                 "^^Sarranids.^The Sarranids live in the desert regions of southern Calradia." + 
                                  " They have a history of warring against each other and it makes them formidable warriors on the battlefield." + 
                                  " They prefer skirmishing with their enemy to soften them before the final charge." + 
                                  "^Their main weaknesses are:" + 

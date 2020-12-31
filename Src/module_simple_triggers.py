@@ -292,7 +292,7 @@ simple_triggers = [
             (try_end),
         ]),
     
-    (monthly, # Lord mission
+    (weekly, # Lord mission
         [
             (try_for_range, ":lord_no", lords_begin, lords_end),
                 (troop_get_slot, ":occupation", ":lord_no", slot_troop_kingdom_occupation),
@@ -302,7 +302,7 @@ simple_triggers = [
                     (troop_get_slot, ":leaded_party", ":lord_no", slot_troop_leaded_party),
                     (gt, ":leaded_party", 0),
                     (party_is_active, ":leaded_party"),
-                    (call_script, "script_party_process_mission", ":leaded_party"),
+                    (call_script, "script_party_process_mission", ":leaded_party", 0),
                 (try_end),
             (try_end),
         ]),
