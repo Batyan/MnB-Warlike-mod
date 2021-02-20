@@ -1190,6 +1190,7 @@ game_menus = [
 				[
 					(select_enemy, 1),
 					(assign, "$g_enemy", "$g_encountered_party_2"),
+					(assign, "$g_player_team", 0),
 					(jump_to_menu, "mnu_encounter_battle_siege"),
 				]),
 			
@@ -1199,6 +1200,7 @@ game_menus = [
 				[
 					(select_enemy, 0),
 					(assign, "$g_enemy", "$g_encountered_party"),
+					(assign, "$g_player_team", 1),
 					(jump_to_menu, "mnu_encounter_battle_siege"),
 				]),
 			
