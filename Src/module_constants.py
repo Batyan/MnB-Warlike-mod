@@ -187,7 +187,7 @@ base_party_size_rank_5 = 150
 base_party_size_rank_6 = 160
 base_party_size_rank_7 = 200
 
-party_size_div_peace = 6
+party_size_div_peace = 3
 
 siege_attack_spawn_begin = 2
 siege_defend_points_begin = 10

@@ -180,6 +180,11 @@ game_menus = [
 					(change_screen_map),
 				]),
 			
+			("camp_test_stats", [(call_script, "script_cf_debug", debug_all),], "Display stats",
+				[
+					(jump_to_menu, "mnu_test_stats"),
+				]),
+			
 			("camp_test_faction_relations", [(call_script, "script_cf_debug", debug_all),], "Modify faction relations",
 				[
 					(jump_to_menu, "mnu_test_faction_relations"),
@@ -343,6 +348,34 @@ game_menus = [
 					(display_message, "@Global cloud: {reg10}"),
 					(jump_to_menu, "mnu_debug_menu"),
 				]),
+			("debug_return",
+				[], "Go back",
+				[(jump_to_menu, "mnu_camp"),]),
+		]),
+
+	("test_stats", 0,
+		"Display stats",
+		"none",
+		[],
+		[
+			("debug_garrison_size_stats",
+				[],"Garrison size stats",
+				[]),
+			("debug_garrison_wages_stats",
+				[],"Garrison wages stats",
+				[]),
+
+			("debug_center_taxes_stats",
+				[],"Center taxes stats",
+				[]),
+			("debug_center_trade_stats",
+				[],"Center trade stats",
+				[]),
+			("debug_center_population_stats",
+				[],"Center population stats",
+				[]),
+			
+
 			("debug_return",
 				[], "Go back",
 				[(jump_to_menu, "mnu_camp"),]),
@@ -573,6 +606,12 @@ game_menus = [
 				]),
 			("join_accept", [], "Join",
 				[
+					(party_get_num_prisoner_stacks, ":prisoner_stacks", "$g_player_party"),
+					(try_for_range, ":stack_no", 0, ":prisoner_stacks"),
+						(party_prisoner_stack_get_troop_id, ":troop_id", "$g_player_party", ":stack_no"),
+						(troop_is_hero, ":troop_id"),
+            			(call_script, "script_troop_released", ":troop_id"),
+					(try_end),
 					(party_clear, "$g_player_party"),
 					(party_add_leader, "$g_player_party", "$g_player_troop"),
 					(call_script, "script_troop_use_template_troop", "$g_player_troop", "$g_test_player_troop"),

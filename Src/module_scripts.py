@@ -13563,22 +13563,22 @@ scripts = [
 
             (troop_get_slot, ":prisoner_of", ":troop_no", slot_troop_prisoner_of),
             (try_begin),
-                (try_begin),
-                    (gt, ":prisoner_of", 0),
-                    (party_is_active, ":prisoner_of"),
-                    (party_count_prisoners_of_type, ":prisoner", ":prisoner_of", ":troop_no"),
-                    (gt, ":prisoner", 0),
+                (gt, ":prisoner_of", 0),
+                (party_is_active, ":prisoner_of"),
+                (party_count_prisoners_of_type, ":prisoner", ":prisoner_of", ":troop_no"),
+                (gt, ":prisoner", 0),
 
-                    # ToDo: refine chance
-                    (store_random_in_range, ":rand", 0, 100),
-                    (try_begin),
-                        (eq, ":rand", 0),
-                        (call_script, "script_troop_released", ":troop_no"),
-                    (try_end),
-                (else_try),
-                    # Captor no longer valid
+                # ToDo: refine chance
+                (store_random_in_range, ":rand", 0, 100),
+                (try_begin),
+                    (eq, ":rand", 0),
                     (call_script, "script_troop_released", ":troop_no"),
+                    (assign, ":freed", 1),
                 (try_end),
+            (else_try),
+                # Captor no longer valid
+                (call_script, "script_troop_released", ":troop_no"),
+                (assign, ":freed", 1),
             (try_end),
 
             (assign, reg0, ":freed"),

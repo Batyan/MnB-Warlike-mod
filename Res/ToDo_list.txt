@@ -397,6 +397,11 @@ ToDo:
             Slavery outlawed
                 Slaves are not allowed
                 Slave buildings are not allowed
+        Mercenary:
+            Vassals allowed to be mercenary of other kingdoms
+                Only during peace / allowed anytime
+            Vassals can hire their own mercenaries
+                Only for faction leader / allow marshall / allow high rank lords (city owner)
     Foreign Relations
         Trading with an enemy may decrease relation
         Attacking a party will decrease relation
@@ -536,6 +541,10 @@ ToDo:
         during times of war, goods generation will most likely decrease (raids, trade blocked...)
             it will increase the price of all items, and may benefit peaceful factions and merchants
     ressources have a base price of 100, slots will determine the amount of this type of ressource (global and faction level ?)
+- process population
+    max pop limits to ~2-3% military ?
+        village -> ~50 -> 1600-2500
+        town -> 600 -> 20000-30000
 - process production
     productions are goods transformed into another
     produced goods are very rare in the nature, some are not found at all
@@ -987,3 +996,8 @@ ToDo:
         take all of rhodok territory
         reunite all of sarranid territory
         take dhirim
+- add debug stats page
+    garrison size
+    garrison wage
+    center taxes
+    center trade
