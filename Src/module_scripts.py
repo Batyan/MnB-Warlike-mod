@@ -11607,6 +11607,9 @@ scripts = [
             (try_begin),
                 (is_between, ":center_no", centers_begin, centers_end),
                 
+                (store_faction_of_party, ":center_faction", ":center_no"),
+                (eq, ":center_faction", ":faction_no"),
+                
                 (call_script, "script_faction_get_best_candidate_for_center", ":faction_no", ":center_no"),
                 (assign, ":troop_no", reg0),
                 
