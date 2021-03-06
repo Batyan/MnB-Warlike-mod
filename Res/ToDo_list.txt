@@ -290,6 +290,7 @@ ToDo:
         Berserker:  +5 ironflesh, +3 power strike, +1 athletics, +3 indimidation, -2 power draw, -2 riding, -2 persuasion
             Needs to win a certain number of battle using only melee/throwing weapons while having no horse and very light/no armor
         Left Handed: +2 weapon master, +1 trainer, +1 shield, -3 cha, -1 power strike
+        One hidden trait for each skill, goes from -2 to +5 ? (increase with use of said skill)
     Abilities:
         War Cry:    decrease morale for surrounding enemies, range and strength determined by str (strength = str/2) (range = str)
         Rally:      increase morale for surrounding allies, range and strength determined by cha (strength = cha/2) (range = cha)
@@ -384,7 +385,7 @@ ToDo:
                 Allowed/not allowed to be leading parties
                 Allowed/not allowed to own land
             Not allowing male/female to own land/lead party only applies if married
-                Still leads to seen badly
+                Still leads to be seen badly
         Slavery:
             Slavery allowed
                 Nobles are allowed to own slaves

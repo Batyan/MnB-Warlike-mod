@@ -2349,7 +2349,7 @@ troops = [
   # Peasant
   # Basic infantry, spears
   ["khergit_levy", "Khergit Levy Spearman", "Khergit Levy Spearmen", tf_guarantee_recruit_armor|tf_guarantee_shield, no_scene, reserved, fac_kingdom_3,
-   [itm_shortened_spear, itm_tab_shield_small_round_a,itm_tab_shield_small_round_a_plain_1,itm_tab_shield_small_round_a_plain_2, itm_tab_shield_round_a,itm_tab_shield_round_a_plain_1,itm_tab_shield_round_a_plain_2,
+   [itm_shortened_spear, itm_tab_shield_small_round_a,itm_tab_shield_small_round_a_plain_1,itm_tab_shield_small_round_a_plain_2,
     itm_nomad_boots, itm_hide_boots,
     itm_leather_vest, itm_coarse_tunic,
     itm_nomad_cap_b, itm_nomad_cap, itm_leather_steppe_cap_a, itm_leather_steppe_cap_c,
@@ -2358,7 +2358,7 @@ troops = [
   
   # Basic ranged, maces, bows
   ["khergit_militia", "Khergit Tribesman", "Khergit Tribesmen", tf_guarantee_recruit_armor, no_scene, reserved, fac_kingdom_3,
-   [itm_club, itm_hunting_bow, itm_arrows_b, itm_arrows_b,
+   [itm_club, itm_butchering_knife, itm_knife, itm_hunting_bow, itm_arrows_b, itm_arrows_b,
     itm_nomad_boots, itm_hide_boots,
     itm_leather_vest, itm_coarse_tunic,
     itm_nomad_cap_b, itm_nomad_cap, itm_leather_steppe_cap_a, itm_leather_steppe_cap_c,
@@ -2368,7 +2368,7 @@ troops = [
   # Basic cavalry ranged, spears, bows
   # SPECIAL
   ["khergit_clansman", "Khergit Clansman", "Khergit Clansman", tf_guarantee_recruit_armor|tf_guarantee_horseman, no_scene, reserved, fac_small_kingdom_35,
-   [itm_shortened_spear, itm_hunting_bow, itm_arrows_b,
+   [itm_light_lance, itm_hunting_bow, itm_arrows_b, itm_tab_shield_round_a,itm_tab_shield_round_a_plain_1,itm_tab_shield_round_a_plain_2,
     itm_nomad_boots, itm_hide_boots,
     itm_leather_vest, itm_coarse_tunic,
     itm_nomad_cap_b, itm_nomad_cap, itm_leather_steppe_cap_a, itm_leather_steppe_cap_c,
@@ -3425,8 +3425,8 @@ troops = [
   #############
   # Peasant
   # Basic infantry, swords, maces
-  ["sarranid_levy", "Sarranid Levy", "Sarranid Levies", tf_guarantee_recruit_armor, no_scene, reserved, fac_kingdom_6,
-   [itm_arabian_sword_a, itm_mace_2,
+  ["sarranid_levy", "Sarranid Levy", "Sarranid Levies", tf_guarantee_recruit_armor|tf_guarantee_shield, no_scene, reserved, fac_kingdom_6,
+   [itm_arabian_sword_a, itm_mace_2, itm_tab_shield_kite_a,itm_tab_shield_kite_a_plain_1,itm_tab_shield_kite_a_plain_2,
     itm_sarranid_boots_a, itm_sarranid_boots_b,
     itm_sarranid_cloth_robe, itm_sarranid_cloth_robe_b, itm_skirmisher_armor,
     itm_sarranid_felt_hat, itm_turban, itm_desert_turban,
@@ -3473,7 +3473,7 @@ troops = [
   
   # Basic infantry, spears, shields
   # SPECIAL
-  ["sarranid_levy_spearman", "Sarranid Levy Spearman", "Sarranid Levy Spearmen", tf_guarantee_recruit_armor, no_scene, reserved, fac_small_kingdom_62,
+  ["sarranid_levy_spearman", "Sarranid Levy Spearman", "Sarranid Levy Spearmen", tf_guarantee_recruit_armor|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_62,
    [itm_spear, itm_tab_shield_kite_a,itm_tab_shield_kite_a_plain_1,itm_tab_shield_kite_a_plain_2,
     itm_sarranid_boots_a, itm_sarranid_boots_b,
     itm_sarranid_cloth_robe, itm_sarranid_cloth_robe_b, itm_skirmisher_armor,

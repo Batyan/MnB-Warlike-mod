@@ -829,6 +829,9 @@ slot_troop_renown = 57
 slot_troop_accompanying = 58 # Used for companions -- Stores the current party the troop is following
 slot_troop_companion_of = 59 # Used for companions -- Stores the leader it is following
 
+slot_troop_num_followers = 60 # Stores number of parties trying to follow
+slot_troop_num_followers_ready = 61 # Stores number of parties currently nearby and following
+
 slot_troop_relations_begin = 400
 
 

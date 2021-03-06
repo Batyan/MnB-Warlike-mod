@@ -7088,7 +7088,7 @@ scripts = [
     # input: 
     #   arg1: party_no
     # output: none
-    # ("party_process_ai_new", 
+    # ("party_process_ai",
     #     [
     #         (store_script_param, ":party_no", 1),
 
@@ -7116,7 +7116,7 @@ scripts = [
     # input:
     #   arg1: party_no
     # output: none
-    # ("party_process_mission_new",
+    # ("party_process_mission",
     #     [
     #         (store_script_param, ":party_no", 1),
 
@@ -8510,7 +8510,6 @@ scripts = [
                 (party_set_slot, ":spawned_party", slot_party_mission, spm_reinforce),
                 (party_set_slot, ":spawned_party", slot_party_mission_object, ":linked_center"),
                 
-                
                 (party_set_ai_behavior, ":spawned_party", ai_bhvr_travel_to_party),
                 (party_set_ai_object, ":spawned_party", ":linked_center"),
                 
@@ -8518,7 +8517,7 @@ scripts = [
                     (eq, ":num_sent", 0),
                     (remove_party, ":spawned_party"),
                 (else_try),
-                    (call_script, "script_cf_debug", debug_war),
+                    (call_script, "script_cf_debug", debug_faction),
                     (str_store_party_name, s10, ":party_no"),
                     (str_store_party_name, s11, ":linked_center"),
                     (assign, reg10, ":num_sent"),
@@ -9182,12 +9181,12 @@ scripts = [
             (try_end),
             # Reset relations
             (store_sub, ":own_offset", ":lord_no", npc_heroes_begin),
-            (store_add, ":own_slot", ":own_offset", slot_troop_relations_begin),
+            (store_add, ":own_relation_slot", ":own_offset", slot_troop_relations_begin),
             (try_for_range, ":other_troop", npc_heroes_begin, npc_heroes_end),
                 (store_sub, ":offset", ":other_troop", npc_heroes_begin),
-                (store_add, ":slot", ":offset", slot_troop_relations_begin),
-                (troop_set_slot, ":lord_no", ":slot", 0),
-                (troop_set_slot, ":other_troop", ":own_slot", 0),
+                (store_add, ":relation_slot", slot_troop_relations_begin, ":offset"),
+                (troop_set_slot, ":lord_no", ":relation_slot", 0),
+                (troop_set_slot, ":other_troop", ":own_relation_slot", 0),
             (try_end),
         ]),
     
@@ -14004,5 +14003,53 @@ scripts = [
             (try_end),
 
             (assign, reg0, ":outcome"),
+        ]),
+
+    # script_prepare_troop_followers
+        # input: none
+        # output: none
+    ("prepare_troop_followers",
+        [
+            (try_for_range, ":lord_no", lords_begin, lords_end),
+                (troop_set_slot, ":lord_no", slot_troop_num_followers, 0),
+                (troop_set_slot, ":lord_no", slot_troop_num_followers_ready, 0),
+            (try_end),
+            (try_for_range, ":lord_no", lords_begin, lords_end),
+                (troop_get_slot, ":occupation", ":lord_no", slot_troop_kingdom_occupation),
+                (neg|troop_slot_ge, ":lord_no", slot_troop_prisoner_of, 0), # Do not process prisoners
+                (try_begin),
+                    (eq, ":occupation", tko_kingdom_hero),
+                    (troop_get_slot, ":leaded_party", ":lord_no", slot_troop_leaded_party),
+                    (ge, ":leaded_party", 0),
+                    (party_is_active, ":leaded_party"),
+                    (troop_get_slot, ":lord_mission", ":lord_no", slot_troop_mission),
+                    (eq, ":lord_mission", tm_escorting),
+                    (troop_get_slot, ":lord_mission_object", ":lord_no", slot_troop_mission_object),
+                    (ge, ":lord_mission_object", 0),
+                    (troop_get_slot, ":num_followers", ":lord_mission_object", slot_troop_num_followers),
+                    (val_add, ":num_followers", 1),
+                    (troop_set_slot, ":lord_mission_object", slot_troop_num_followers, ":num_followers"),
+                    (troop_get_slot, ":lord_mission_object_party", ":lord_mission_object", slot_troop_leaded_party),
+                    (ge, ":lord_mission_object_party", 1),
+                    (party_is_active, ":lord_mission_object_party"),
+                    (store_distance_to_party_from_party, ":distance", ":lord_mission_object_party", ":leaded_party"),
+                    (le, ":distance", 4),
+                    (troop_get_slot, ":num_followers_ready", ":lord_mission_object", slot_troop_num_followers_ready),
+                    (val_add, ":num_followers_ready", 1),
+                    (troop_set_slot, ":lord_mission_object", slot_troop_num_followers_ready, ":num_followers"),
+                (try_end),
+            (try_end),
+            (try_begin),
+                (call_script, "script_cf_debug", debug_ai),
+                (try_for_range, ":lord_no", lords_begin, lords_end),
+                    (troop_get_slot, ":followers", ":lord_no", slot_troop_num_followers),
+                    (troop_get_slot, ":followers_ready", ":lord_no", slot_troop_num_followers_ready),
+                    (gt, ":followers", 0),
+                    (str_store_troop_name, s10, ":lord_no"),
+                    (assign, reg10, ":followers"),
+                    (assign, reg11, ":followers_ready"),
+                    (display_message, "@Lord {s10} has {reg10} followers ({reg11} ready)"),
+                (try_end),
+            (try_end),
         ]),
 ]

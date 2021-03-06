@@ -289,11 +289,14 @@ simple_triggers = [
                     (jump_to_menu, "mnu_player_prisoner_take_action"),
                 (try_end),
                 (set_camera_follow_party, ":player_prisoner"),
+            (else_try),
+                # ToDo: free player
             (try_end),
         ]),
     
     (weekly, # Lord mission
         [
+            (call_script, "script_prepare_troop_followers"),
             (try_for_range, ":lord_no", lords_begin, lords_end),
                 (troop_get_slot, ":occupation", ":lord_no", slot_troop_kingdom_occupation),
                 (neg|troop_slot_ge, ":lord_no", slot_troop_prisoner_of, 0), # Do not process prisoners
