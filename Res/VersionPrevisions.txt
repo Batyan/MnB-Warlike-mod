@@ -24,13 +24,15 @@
 			Prisoner of party
 			Steal items
 			Steal gold
-0.300: Party ai
-	Better party ai
-	Marshall ai
-	0.310:
-		Cooperation (ai)
-			Transfer troops (center to center)
-			Transfer prisoners
+0.300: Economy
+	Taxes
+	Good production
+	0.310: Party upkeep
+		Money management
+			Weekly/Monthly finances presentation
+	0.320: Trading
+		Buying and selling (player)
+		Caravans
 0.400: Faction ai
 	Elect leader
 	Declare war/peace
@@ -42,21 +44,14 @@
 	0.420: Victory
 		Faction defeating
 		Faction vassalage
-	0.430: Civil war
-		Faction splitting (civil war)
-0.500: Economy
-	Taxes
-	Good production
-	0.510: Trading
-		Buying and selling (player)
-		Caravans
-	0.520: Party upkeep
-		Money management
-			Weekly/Monthly finances presentation
-	0.530: Goods
-		Good transformation
-		Good consumption
-	0.540: Money changers
+0.500: Party ai
+	Better party ai
+	Marshall ai
+	0.510:
+		Cooperation (ai)
+			Transfer troops (center to center)
+			Transfer prisoners
+	0.520: Money changers
 		Lords need to pay to upgrade gear
 		Hire/Sell mercenaries
 		Lending money
@@ -67,6 +62,9 @@
 	0.610: Player City Management
 		Change taxes
 		Change internal policies
+	0.620: Goods
+		Good transformation
+		Good consumption
 0.700: Kingdom Management
 	Possible for player to lead a kingdom
 	0.710:
@@ -97,6 +95,8 @@
 		Relation changes with events
 		Rivalries
 		Supporting neutral party
+	0.930: Civil war
+		Faction splitting (civil war)
 1.000: Companions - Personalities
 	Player Companions
 	Personalities
