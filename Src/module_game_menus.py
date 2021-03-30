@@ -1138,6 +1138,7 @@ game_menus = [
 				[ ], "Launch the attack",
 				[
 					(assign, "$g_enemy", "$g_encountered_party"),
+					(assign, "$g_player_team", 0),
 					(try_for_parties, ":party_no"),
 						(call_script, "script_cf_party_join_battle", ":party_no", "$g_encountered_party", "$g_player_party"),
 						(assign, ":continue", reg0),
@@ -1161,7 +1162,7 @@ game_menus = [
 				]),
 			
 			("siege_cheat_capture",
-				[(call_script, "script_cf_debug", debug_simple|debug_war), ], "|Cheat| Capture center",
+				[(call_script, "script_cf_debug", debug_all), ], "|Cheat| Capture center",
 				[
 					(call_script, "script_party_group_defeat_party_group", "$g_player_party", "$g_encountered_party"),
 				]),

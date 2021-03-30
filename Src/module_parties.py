@@ -160,7 +160,6 @@ parties = [
 	
 	("castle_41a","Ismirala Castle", icon_castle_a|pf_castle, 0, pt_none, fac_small_kingdom_41,0,ai_bhvr_hold,0,(12.2, 76.2),[], 170),
 	("castle_42a","Chalbek Castle", icon_castle_a|pf_castle, 0, pt_none, fac_small_kingdom_42,0,ai_bhvr_hold,0,(-94.1, 114.4),[], 170),
-	# ("castle_43a","Wercherg Castle", icon_castle_a|pf_castle, 0, pt_none, fac_small_kingdom_43,0,ai_bhvr_hold,0,(-3.4, 115.8),[], 170),
 	("castle_43b","Gamarr Castle", icon_castle_a|pf_castle, 0, pt_none, fac_small_kingdom_43,0,ai_bhvr_hold,0,(-33.1, 113.2),[], 170),
 	("castle_43c","Albruq Castle", icon_castle_a|pf_castle, 0, pt_none, fac_small_kingdom_43,0,ai_bhvr_hold,0,(22.5, 97.2),[], 170),
 	("castle_43d","New Castle", icon_castle_a|pf_castle, 0, pt_none, fac_small_kingdom_43,0,ai_bhvr_hold,0,(21.5, 114.7),[], 170),
@@ -285,7 +284,6 @@ parties = [
 	("village_25c1","New Village", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_25,0,ai_bhvr_hold,0,(127.2, 107.1),[], 170),
 	("village_25d1","New Village", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_25,0,ai_bhvr_hold,0,(139.3, 77),[], 170),
 
-	
 	("village_311","Dusturil", icon_village_a|pf_village, 0, pt_none, fac_kingdom_3,0,ai_bhvr_hold,0,(127, -25),[], 170),
 	("village_312","Dashbigha", icon_village_a|pf_village, 0, pt_none, fac_kingdom_3,0,ai_bhvr_hold,0,(134, -33),[], 170),
 	("village_313","Dash Kulun", icon_village_a|pf_village, 0, pt_none, fac_kingdom_3,0,ai_bhvr_hold,0,(144, -23),[], 170),
