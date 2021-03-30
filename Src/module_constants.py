@@ -173,19 +173,19 @@ castle_scene_desert_wood_end = castle_scene_end
 
 
 # OTHER
-garrison_size_town = 400
-garrison_size_castle = 250
+garrison_size_town = 750
+garrison_size_castle = 400
 garrison_size_village = 50
 garrison_size_fort = 50
 
 base_party_size_rank_0 = 10
 base_party_size_rank_1 = 15
 base_party_size_rank_2 = 35
-base_party_size_rank_3 = 50
-base_party_size_rank_4 = 80
-base_party_size_rank_5 = 120
-base_party_size_rank_6 = 125
-base_party_size_rank_7 = 150
+base_party_size_rank_3 = 60
+base_party_size_rank_4 = 100
+base_party_size_rank_5 = 150
+base_party_size_rank_6 = 160
+base_party_size_rank_7 = 200
 
 siege_attack_spawn_begin = 2
 siege_defend_points_begin = 10
@@ -307,14 +307,16 @@ faction_size_names_begin = str_swadian_faction_small
 faction_size_names_end = str_sarranid_faction_large + 1
 faction_size_names_count = 3
 
-player_troop = "trp_player"
-
-bargain_success = 1
-bargain_neutral = 0
-bargain_failure = -1
+outcome_success = 1
+outcome_neutral = 0
+outcome_failure = -1
 
 bargain_type_strength = -1
 bargain_type_cunning = 1
+
+escape_type_wits = 1
+escape_type_agility = 2
+escape_type_strength = 3
 
 ################
 ## Item Slots ##
@@ -347,7 +349,7 @@ slot_agent_new_division = 1
 
 slot_agent_is_in_scripted_mode	= 2
 slot_agent_target_entry_point	= 3
-slot_agent_is_not_reinforcement	= 4
+slot_agent_is_reinforcement	= 4
 
 slot_agent_charge = 5
 
@@ -611,7 +613,9 @@ slot_party_unpaid_wages = 139
 
 slot_party_temp = 140
 
-slot_party_item_consumed_begin 	= 140 # Number of items consumed per 100 citizens
+slot_party_origin_center = 141
+
+slot_party_item_consumed_begin 	= 142 # Number of items consumed per 100 citizens
 slot_party_item_consumed_end	= slot_party_item_consumed_begin + goods_end - goods_begin
 
 
@@ -867,12 +871,12 @@ stt_short_engage = 3
 stt_defend_skirmish = 4
 
 slot_team_battle_phase		= 6
-stbp_deploy = 0
-stbp_advance = 1
-stbp_engage = 2
-stbp_prepare = 3
-stbp_assault = 4
-stbp_combat = 5
+stbp_deploy = 1
+stbp_advance = 2
+stbp_engage = 3
+stbp_prepare = 4
+stbp_assault = 5
+stbp_combat = 6
 
 stbp_siege_one = 1
 stbp_siege_two = 2
@@ -928,10 +932,11 @@ stdt_charge = -1
 # grc_archers = 1
 # grc_cavalry = 2
 grc_other = 3
-grc_charge_group = 4
-grc_reinforcement_infantry = 5
-grc_reinforcement_archer = 6
-grc_reinforcement_cavalry = 7
+grc_flank = 4
+grc_charge_group = 5
+grc_reinforcement_infantry = 6
+grc_reinforcement_archer = 7
+grc_reinforcement_cavalry = 8
 
 #################
 ## Quest Slots ##

@@ -41,7 +41,7 @@ factions = [
 	("small_kingdom_14", "Gisim", 0, 0.9, [("outlaws",-0.5),], [], 0x660044), # Light Longbowman + Longbowman + Hunter
 	("small_kingdom_15", "Ivenn", 0, 0.9, [("outlaws",-0.5),], [], 0xDD0055), # Scout + Light Spearman + Spearman
 	("small_kingdom_16", "Tilbaut", 0, 0.9, [("outlaws",-0.5),], [], 0xBB5500), # Mounted Skirmisher + Levy Skirmisher
-	("small_kingdom_17", "Uxkhal", 0, 0.9, [("outlaws",-0.5),], [], 0x511515), # Squire + Foot Knight
+	("small_kingdom_17", "Burglen", 0, 0.9, [("outlaws",-0.5),], [], 0x511515), # Squire + Foot Knight
 	
 	("small_kingdom_21", "Slezhk", 0, 0.9, [("outlaws",-0.5),], [], 0x554400), # Royal Lancer + Heavy Lancer + Levy Axeman + Hussar + Heavy Hussar
 	("small_kingdom_22", "Khudan", 0, 0.9, [("outlaws",-0.5),], [], 0x005500), # Scout + Club Levy + Horseman + Royal Horseman + Light Club Infantry + Club Infantry + Heavy Club Infantry

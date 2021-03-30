@@ -615,7 +615,7 @@ strings = [
   ("nordic_name_45", "Roggvigr"),
   ("nordic_name_46", "Ralofnir"),
   ("nordic_name_47", "Olfigr"),
-  # ("nordic_name_48", ""),
+  ("nordic_name_48", "Rorik"),
   # ("nordic_name_49", ""),
   # ("nordic_name_50", ""),
   
@@ -792,9 +792,9 @@ strings = [
   ("sarranid_faction_medium", "Oasis of {s0}"),
   ("sarranid_faction_large", "{s0} Sultanate"),
 
-  ("bargain_failure", "Failure"),
-  ("bargain_neutral", "Neutral"),
-  ("bargain_success", "Success"),
+  ("outcome_failure", "Failure"),
+  ("outcome_neutral", "Neutral"),
+  ("outcome_success", "Success"),
 
   # Building descriptions
   ("building_hunter_camp",      "The hunter camp periodicaly sends hunters to hunt outside of the village. The hunters will join the fight when defending the village."),

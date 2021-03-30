@@ -1,3 +1,14 @@
+v 0.230:
+-Added player taken prisoner
+-Fix camp settings menu
+-Enable surrender
+-Count allies when determining winner during battle
+-Fix various script error
+-Fix convoys reinforcing enemy centers
+-Fix centers sending reinforcements to themselves
+-Add a new town (small_kingdom_17) and 2 castles (small_kingdom_51 & small_kingdom_52)
+-Rename and move swadian small_kingdom_17
+
 v 0.220:
 -Added bandit dialogs
 -Changed some messages displayed to log_message type (saved in save game)

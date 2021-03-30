@@ -36,3 +36,6 @@ menu_player_prisoner_guard_teach_lesson = 34
 menu_player_prisoner_guard_beating = 35
 menu_player_prisoner_guard_beating_end = 36
 menu_player_prisoner_escape = 37
+menu_player_prisoner_escape_persuade = 38
+menu_player_prisoner_escape_sneak = 39
+menu_player_prisoner_escape_force = 40
