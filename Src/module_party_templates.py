@@ -31,16 +31,16 @@ party_templates = [
 	("castle_template", "Castle template", icon_castle_a|pf_castle, 0, fac_commoners, 0, []),
 	("town_template", "Town template", icon_town|pf_village, 0, fac_commoners, 0, []),
 	
-	("hunters", "Hunters", icon_axeman, 0, fac_commoners, aggressiveness_1|courage_6, [(trp_common_hunter_bow, 2, 6),]),
-	("caravan", "Caravan", icon_mule, 0, fac_commoners, 0, []),
-	("peasants", "Peasants", icon_peasant, 0, fac_commoners, 0, []),
-	("patrol", "Patrol", icon_vaegir_knight, pf_show_faction, fac_commoners, 0, []),
-	("scout", "Scout", icon_player_horseman, pf_show_faction, fac_commoners, 0, []),
+	("hunters", "Hunters", icon_axeman|carries_goods(4), 0, fac_commoners, aggressiveness_1|courage_6, [(trp_common_hunter_bow, 2, 6),]),
+	("caravan", "Caravan", icon_mule|carries_goods(24), 0, fac_commoners, 0, []),
+	("peasants", "Peasants", icon_peasant|carries_goods(15), 0, fac_commoners, 0, []),
+	("patrol", "Patrol", icon_vaegir_knight|carries_goods(10), pf_show_faction, fac_commoners, 0, []),
+	("scout", "Scout", icon_player_horseman|carries_goods(1), pf_show_faction, fac_commoners, 0, []),
 	("war_party", "War Party", icon_gray_knight, pf_show_faction|pf_default_behavior, fac_commoners, 0, []),
 	
 	("reinforcements", "Reinforcements", icon_axeman, 0, fac_commoners, convoy_personality, []),
 	
-	("outlaws", "Bandits", icon_axeman, 0, fac_commoners, bandit_personality, []),
+	("outlaws", "Bandits", icon_axeman|carries_goods(10), 0, fac_commoners, bandit_personality, []),
 	("templates_end", "end", 0, 0, 0, 0, [ ]),
 
 
