@@ -35,7 +35,7 @@ simple_triggers = [
                     # Generate bandits
                     (store_random_in_range, ":rand", 0, 50),
                     (try_begin), # Generate bandits more often if center prosperity is low
-                        (le, ":rand", 10),
+                        (le, ":rand", 4),
                         (call_script, "script_party_spawn_bandits", ":party_no"),
                     (try_end),
                 (try_end),
@@ -128,16 +128,35 @@ simple_triggers = [
             (try_for_parties, ":party_no"),
                 (party_is_active, ":party_no"),
                 (party_get_slot, ":party_type", ":party_no", slot_party_type),
+
+                (store_faction_of_party, ":party_faction", ":party_no"),
+
                 (try_begin),
                     (eq, ":party_type", spt_convoy),
                     (party_slot_eq, ":party_no", slot_party_mission, spm_reinforce),
                     
                     (try_begin),
                         (get_party_ai_object, ":object", ":party_no"),
-                        (party_get_cur_town, ":cur_town", ":party_no"),
-                        (eq, ":object", ":cur_town"),
-                        (call_script, "script_party_transfer_members_to_party", ":party_no", ":cur_town", 1),
-                        (remove_party, ":party_no"),
+
+                        (try_begin),
+                            (is_between, ":object", centers_begin, centers_end),
+                            (store_faction_of_party, ":center_faction", ":object"),
+                            (neq, ":center_faction", ":party_faction"),
+                            (store_relation, ":rel", ":center_faction", ":party_faction"),
+                            (lt, ":rel", relation_neutral),
+
+                            (party_get_slot, ":origin_party", ":party_no", slot_party_origin_center),
+                            (neq, ":object", ":origin_party"),
+                            (party_set_slot, ":party_no", slot_party_mission_object, ":origin_party"),
+                            
+                            (party_set_ai_behavior, ":party_no", ai_bhvr_travel_to_party),
+                            (party_set_ai_object, ":party_no", ":origin_party"),
+                        (else_try),
+                            (party_get_cur_town, ":cur_town", ":party_no"),
+                            (eq, ":object", ":cur_town"),
+                            (call_script, "script_party_transfer_members_to_party", ":party_no", ":cur_town", 1),
+                            (remove_party, ":party_no"),
+                        (try_end),
                     (try_end),
                 (else_try),
                     # (is_between, ":party_type", spt_village, spt_fort),
@@ -192,7 +211,7 @@ simple_triggers = [
                 # (assign, ":cloud_spike", 6),
             # (try_end),
             
-            # (party_get_current_terrain, ":terrain", "p_main_party"),
+            # (party_get_current_terrain, ":terrain", "$g_player_party"),
             # (try_begin),
                 # (this_or_next|eq, ":terrain", rt_snow),
                 # (eq, ":terrain", rt_snow_forest),
@@ -238,7 +257,7 @@ simple_triggers = [
     (0.1, # Weather
         [
             (try_for_parties, ":party_no"),
-                (neq, ":party_no", "p_main_party"),
+                (neq, ":party_no", "$g_player_party"),
                 (party_is_active, ":party_no"),
                 # (party_get_slot, ":party_type", ":party_no", slot_party_type),
                 (party_get_attached_to, ":cur_attached_town", ":party_no"),
@@ -262,11 +281,14 @@ simple_triggers = [
 
     (0.1, # Player prisoner
         [
-            (troop_get_slot, ":player_prisoner", player_troop, slot_troop_prisoner_of),
+            (troop_get_slot, ":player_prisoner", "$g_player_troop", slot_troop_prisoner_of),
             (try_begin),
                 (gt, ":player_prisoner", 0),
-                (key_is_down, key_space),
-                (jump_to_menu, "mnu_player_prisoner_take_action"),
+                (try_begin),
+                    (key_is_down, key_space),
+                    (jump_to_menu, "mnu_player_prisoner_take_action"),
+                (try_end),
+                (set_camera_follow_party, ":player_prisoner"),
             (try_end),
         ]),
     
@@ -395,7 +417,7 @@ simple_triggers = [
                 # Might do it for all heroes
                 # But will need to have them increase their proficiency after every battle
                 # Or do it only to player companions at a reduced rate
-                (call_script, "script_troop_proficiency_decay", player_troop),
+                (call_script, "script_troop_proficiency_decay", "$g_player_troop"),
             (try_end),
         ]),
     

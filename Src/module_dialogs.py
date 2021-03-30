@@ -205,20 +205,20 @@ dialogs = [
 			(store_faction_of_party, ":party_faction", "$g_talk_party"),
 			(is_between, ":party_faction", "fac_faction_1", "fac_kingdom_1"),
 			(encountered_party_is_attacker),
-			(troop_get_type, reg10, player_troop),
+			(troop_get_type, reg10, "$g_player_troop"),
 			(call_script, "script_get_bandit_dialog", "$g_talk_party", "str_bandit_greetings_aggressive_forest"),
 		 ], "{s0}", "bandit_player_talk", []],
 	[anyone, "start",
 		[
 			(store_faction_of_party, ":party_faction", "$g_talk_party"),
 			(is_between, ":party_faction", "fac_faction_1", "fac_kingdom_1"),
-			(troop_get_type, reg10, player_troop),
+			(troop_get_type, reg10, "$g_player_troop"),
 			(call_script, "script_get_bandit_dialog", "$g_talk_party", "str_bandit_greetings_defensive_forest"),
 		 ], "{s0}", "bandit_player_talk_aggressive", []],
 
 	[anyone|plyr, "bandit_player_talk",
 		[
-			(store_troop_gold, ":gold", player_troop),
+			(store_troop_gold, ":gold", "$g_player_troop"),
 			(gt, ":gold", 500),
 			(call_script, "script_game_get_money_text", 500),
 			(str_store_string_reg, s10, s0),
@@ -226,7 +226,7 @@ dialogs = [
 		], "{s0}", "bandit_give_gold",[]],
 	[anyone|plyr, "bandit_player_talk",
 		[
-			(store_troop_gold, ":gold", player_troop),
+			(store_troop_gold, ":gold", "$g_player_troop"),
 			(gt, ":gold", 1200),
 			(val_div, ":gold", 2),
 			(call_script, "script_game_get_money_text", ":gold"),
@@ -235,7 +235,7 @@ dialogs = [
 		], "{s0}", "bandit_give_gold_half",[]],
 	[anyone|plyr, "bandit_player_talk",
 		[
-			(store_troop_gold, ":gold", player_troop),
+			(store_troop_gold, ":gold", "$g_player_troop"),
 			(gt, ":gold", 100),
 			(call_script, "script_game_get_money_text", ":gold"),
 			(str_store_string_reg, s10, s0),
@@ -243,7 +243,7 @@ dialogs = [
 		], "{s0}", "bandit_give_gold_all",[]],
 	[anyone|plyr, "bandit_player_talk",
 		[
-			(store_troop_gold, ":gold", player_troop),
+			(store_troop_gold, ":gold", "$g_player_troop"),
 			(le, ":gold", 100),
 			(gt, ":gold", 0),
 			(call_script, "script_game_get_money_text", ":gold"),
@@ -252,7 +252,7 @@ dialogs = [
 		], "{s0}", "bandit_give_gold_low",[]],
 	[anyone|plyr, "bandit_player_talk",
 		[
-			(store_troop_gold, ":gold", player_troop),
+			(store_troop_gold, ":gold", "$g_player_troop"),
 			(le, ":gold", 0),
 			(call_script, "script_get_bandit_dialog", "$g_talk_party", "str_bandit_player_give_gold_nothing_forest"),
 		], "{s0}", "bandit_give_gold_nothing",[]],
@@ -261,9 +261,9 @@ dialogs = [
 	
 	[anyone, "bandit_give_gold_low",
 		[
-			(call_script, "script_troop_get_gold_rating", player_troop, "$g_talk_troop"),
+			(call_script, "script_troop_get_gold_rating", "$g_player_troop", "$g_talk_troop"),
 			(assign, ":estimated_gold", reg0),
-			(store_troop_gold, ":gold", player_troop),
+			(store_troop_gold, ":gold", "$g_player_troop"),
 			(val_mul, ":estimated_gold", 100),
 			(val_div, ":estimated_gold", ":gold"),
 			(ge, ":estimated_gold", 75),
@@ -286,8 +286,8 @@ dialogs = [
 		], "{s0}", "bandit_demand_all", []],
 	[anyone, "bandit_give_gold_low",
 		[
-			(store_troop_gold, ":gold", player_troop),
-			(troop_remove_gold, player_troop, ":gold"),
+			(store_troop_gold, ":gold", "$g_player_troop"),
+			(troop_remove_gold, "$g_player_troop", ":gold"),
 			(party_get_slot, ":party_wealth", "$g_talk_party", slot_party_wealth),
 			(val_add, ":party_wealth", ":gold"),
 			(party_set_slot, "$g_talk_party", slot_party_wealth, ":party_wealth"),
@@ -297,7 +297,7 @@ dialogs = [
 	[anyone, "bandit_give_gold",
 		[
 			(assign, ":gold", 500),
-			(troop_remove_gold, player_troop, ":gold"),
+			(troop_remove_gold, "$g_player_troop", ":gold"),
 			(party_get_slot, ":party_wealth", "$g_talk_party", slot_party_wealth),
 			(val_add, ":party_wealth", ":gold"),
 			(party_set_slot, "$g_talk_party", slot_party_wealth, ":party_wealth"),
@@ -305,9 +305,9 @@ dialogs = [
 		], "{s0}", "close_window", [(leave_encounter),]],
 	[anyone, "bandit_give_gold_half",
 		[
-			(store_troop_gold, ":gold", player_troop),
+			(store_troop_gold, ":gold", "$g_player_troop"),
 			(val_div, ":gold", 2),
-			(troop_remove_gold, player_troop, ":gold"),
+			(troop_remove_gold, "$g_player_troop", ":gold"),
 			(party_get_slot, ":party_wealth", "$g_talk_party", slot_party_wealth),
 			(val_add, ":party_wealth", ":gold"),
 			(party_set_slot, "$g_talk_party", slot_party_wealth, ":party_wealth"),
@@ -315,8 +315,8 @@ dialogs = [
 		], "{s0}", "close_window", [(leave_encounter),]],
 	[anyone, "bandit_give_gold_all",
 		[
-			(store_troop_gold, ":gold", player_troop),
-			(troop_remove_gold, player_troop, ":gold"),
+			(store_troop_gold, ":gold", "$g_player_troop"),
+			(troop_remove_gold, "$g_player_troop", ":gold"),
 			(party_get_slot, ":party_wealth", "$g_talk_party", slot_party_wealth),
 			(val_add, ":party_wealth", ":gold"),
 			(party_set_slot, "$g_talk_party", slot_party_wealth, ":party_wealth"),
@@ -324,8 +324,8 @@ dialogs = [
 		], "{s0}", "close_window", [(leave_encounter),]],
 	[anyone, "bandit_give_all",
 		[
-			(store_troop_gold, ":gold", player_troop),
-			(troop_remove_gold, player_troop, ":gold"),
+			(store_troop_gold, ":gold", "$g_player_troop"),
+			(troop_remove_gold, "$g_player_troop", ":gold"),
 			(party_get_slot, ":party_wealth", "$g_talk_party", slot_party_wealth),
 			(val_add, ":party_wealth", ":gold"),
 			(party_set_slot, "$g_talk_party", slot_party_wealth, ":party_wealth"),
@@ -360,7 +360,7 @@ dialogs = [
 	[anyone, "bandit_player_attack",
 		[
 			(call_script, "script_party_bargain", "p_main_party", "$g_talk_party", 100, bargain_type_strength, -10), 
-			(ge, reg0, bargain_neutral), 
+			(ge, reg0, outcome_neutral), 
 			(call_script, "script_get_bandit_dialog", "$g_talk_party", "str_bandit_defensive_ask_bargain_forest"),
 		], "{s0}", "bandit_player_agressive_bargain", []],
 	[anyone, "bandit_player_attack",
@@ -382,18 +382,18 @@ dialogs = [
 		[
 			(call_script, "script_party_bargain", "p_main_party", "$g_talk_party", 100, bargain_type_strength, -40),
 			(assign, "$g_dialog_outcome", reg0),
-			(eq, "$g_dialog_outcome", bargain_success),
+			(eq, "$g_dialog_outcome", outcome_success),
 			(call_script, "script_party_group_take_party_group_prisoner", "p_main_party", "$g_talk_party"),
 			(call_script, "script_get_bandit_dialog", "$g_talk_party", "str_bandit_defensive_surrender_forest"),
 		], "{s0}", "close_window", [(leave_encounter),]],
 	[anyone, "bandit_player_ask_surrender",
-		[(eq, "$g_dialog_outcome", bargain_neutral),(call_script, "script_get_bandit_dialog", "$g_talk_party", "str_bandit_defensive_surrender_leave_men_forest"),], "{s0}", "bandit_player_ask_surrender_accept_leave_men", []],
+		[(eq, "$g_dialog_outcome", outcome_neutral),(call_script, "script_get_bandit_dialog", "$g_talk_party", "str_bandit_defensive_surrender_leave_men_forest"),], "{s0}", "bandit_player_ask_surrender_accept_leave_men", []],
 	[anyone, "bandit_player_ask_surrender",
 		[(call_script, "script_get_bandit_dialog", "$g_talk_party", "str_bandit_defensive_surrender_not_forest"),], "{s0}", "close_window", [(party_set_slot, "$g_talk_party", slot_party_speak_allowed, 0),(encounter_attack),]],
 	[anyone, "bandit_player_ask_join",
 		[
-			(call_script, "script_troop_bargain", player_troop, "$g_talk_troop", 100, bargain_type_strength, -25), 
-			(ge, reg0, bargain_neutral),
+			(call_script, "script_troop_bargain", "$g_player_troop", "$g_talk_troop", 100, bargain_type_strength, -25), 
+			(ge, reg0, outcome_neutral),
 			(distribute_party_among_party_group, "$g_talk_party", "p_main_party"),
 			(party_clear, "$g_talk_party"),
 			(call_script, "script_get_bandit_dialog", "$g_talk_party", "str_bandit_defensive_player_ask_join_accept_forest"),
@@ -405,22 +405,22 @@ dialogs = [
 		[
 			(call_script, "script_party_bargain", "p_main_party", "$g_talk_party", 100, bargain_type_strength, -10), 
 			(assign, "$g_dialog_outcome", reg0),
-			(ge, "$g_dialog_outcome", bargain_neutral), 
+			(ge, "$g_dialog_outcome", outcome_neutral), 
 			(call_script, "script_party_get_gold", "$g_talk_party"),
 			(assign, ":gold", reg0),
 			(ge, ":gold", 50),
 			(try_begin),
-				(eq, "$g_dialog_outcome", bargain_neutral),
+				(eq, "$g_dialog_outcome", outcome_neutral),
 				(val_div, ":gold", 3),
 			(try_end),
 			(call_script, "script_party_remove_gold", "$g_talk_party", ":gold"),
 			(assign, ":player_gold", reg0),
-			(troop_add_gold, player_troop, ":player_gold"),
+			(troop_add_gold, "$g_player_troop", ":player_gold"),
 			(call_script, "script_get_bandit_dialog", "$g_talk_party", "str_bandit_defensive_player_rob_give_all_forest"),
 		], "{s0}", "close_window", [(leave_encounter),]],
 	[anyone, "bandit_player_rob",
 		[
-			(ge, "$g_dialog_outcome", bargain_neutral),
+			(ge, "$g_dialog_outcome", outcome_neutral),
 			(call_script, "script_get_bandit_dialog", "$g_talk_party", "str_bandit_defensive_player_rob_give_item_forest"),
 		], "{s0}", "close_window", [
 			(troop_clear_inventory, "trp_temp_troop"),
@@ -434,7 +434,7 @@ dialogs = [
 		[(call_script, "script_get_bandit_dialog", "$g_talk_party", "str_bandit_defensive_surrender_leave_men_accept_forest"),], "{s0}", "close_window", [
 
 			(call_script, "script_party_take_troop_prisoner", "p_main_party", "$g_talk_troop", "$g_talk_party", 1),
-			(call_script, "script_troop_change_honor", player_troop, 1),
+			(call_script, "script_troop_change_honor", "$g_player_troop", 1),
 			(party_clear, "$g_talk_party"),
 			# ToDo: scatter old party
 			(leave_encounter),
@@ -442,7 +442,7 @@ dialogs = [
 	[anyone|plyr, "bandit_player_ask_surrender_accept_leave_men",
 		[
 			(call_script, "script_party_group_take_party_group_prisoner", "p_main_party", "$g_talk_party"),
-			(call_script, "script_troop_change_honor", player_troop, -2),
+			(call_script, "script_troop_change_honor", "$g_player_troop", -2),
 			(call_script, "script_get_bandit_dialog", "$g_talk_party", "str_bandit_defensive_surrender_leave_men_refuse_forest"),
 		], "{s0}", "close_window", [
 			(leave_encounter),

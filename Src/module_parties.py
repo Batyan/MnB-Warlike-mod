@@ -52,7 +52,7 @@ parties = [
 	("prisoners_party", "prisoners_party", pf_disabled, 0, pt_none, fac_commoners, 0, ai_bhvr_hold, 0, (0,0), []),
 	
 	("town_11","Praven", icon_town|pf_town, 0, pt_none, fac_kingdom_1,0,ai_bhvr_hold,0,(-96, 26.4),[], 170),
-	("town_12","Suno", icon_town|pf_town, 0, pt_none, fac_kingdom_1,0,ai_bhvr_hold,0,(-41.8, 11.8),[], 80),
+	("town_12","Suno", icon_town|pf_town, 0, pt_none, fac_kingdom_1,0,ai_bhvr_hold,0,(-46.7, 13.8),[], 80),
 	
 	("town_21","Reyvadin", icon_town|pf_town, 0, pt_none, fac_kingdom_2,0,ai_bhvr_hold,0,(48.44, 39.3),[], 170),
 	("town_22","Curaw", icon_town|pf_town, 0, pt_none, fac_kingdom_2,0,ai_bhvr_hold,0,(60.6, 85.5),[], 70),
@@ -203,12 +203,12 @@ parties = [
 	("village_112","Veidar", icon_village_a|pf_village, 0, pt_none, fac_kingdom_1,0,ai_bhvr_hold,0,(-107, 30),[], 170),
 	("village_113","Azgad", icon_village_a|pf_village, 0, pt_none, fac_kingdom_1,0,ai_bhvr_hold,0,(-84, 33),[], 170),
 	
-	("village_121","Talhberl", icon_village_a|pf_village, 0, pt_none, fac_kingdom_1,0,ai_bhvr_hold,0,(-31.7, 10),[], 170),
+	("village_121","Talhberl", icon_village_a|pf_village, 0, pt_none, fac_kingdom_1,0,ai_bhvr_hold,0,(-37.6, 12.5),[], 170),
 	("village_122","Ruluns", icon_village_a|pf_village, 0, pt_none, fac_kingdom_1,0,ai_bhvr_hold,0,(-54.8, 23.5),[], 170),
 	("village_123","Ibiran", icon_village_a|pf_village, 0, pt_none, fac_kingdom_1,0,ai_bhvr_hold,0,(-57.1, 13.5),[], 170),
 	
-	("village_1a1","Nomar", icon_village_a|pf_village, 0, pt_none, fac_kingdom_1,0,ai_bhvr_hold,0,(-22, -22),[], 170),
-	("village_1b1","Chide", icon_village_a|pf_village, 0, pt_none, fac_kingdom_1,0,ai_bhvr_hold,0,(-8.5, 13.8),[], 170),
+	("village_1a1","Uxkhal", icon_village_a|pf_village, 0, pt_none, fac_kingdom_1,0,ai_bhvr_hold,0,(-57, -12.2),[], 170),
+	("village_1b1","New Village", icon_village_a|pf_village, 0, pt_none, fac_kingdom_1,0,ai_bhvr_hold,0,(-46.4, -3.5),[], 170),
 	("village_1c1","Ryibelet", icon_village_a|pf_village, 0, pt_none, fac_kingdom_1,0,ai_bhvr_hold,0,(-70.5, 40.1),[], 170),
 	("village_1d1","Veigar", icon_village_a|pf_village, 0, pt_none, fac_kingdom_1,0,ai_bhvr_hold,0,(-114.8, 18.5),[], 170),
 	("village_1e1","Burglen", icon_village_a|pf_village, 0, pt_none, fac_kingdom_1,0,ai_bhvr_hold,0,(-73.6, 12.2),[], 170),
