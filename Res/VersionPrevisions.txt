@@ -1,8 +1,8 @@
-0.100: -- DONE --
+0.100:
 	Land battles
 		Attack an enemy
 		Be helped by an ally
-	0.110: -- DONE --
+	0.110:
 		Land battles
 			Be attacked by an enemy
 			Help an ally
@@ -12,12 +12,12 @@
 		Defend
 	Take prisoners (troops and heroes)
 	Free prisoners (troops and heroes)
-	0.210: -- DONE --
+	0.210:
 		Battle loot
 			Loot stolen gold and items
 			Loot enemy soldiers
 			Loot ally soldiers
-	0.220: -- DONE --
+	0.220:
 		Basic Bandit interactions
 	0.230:
 		Battle lost consequences
