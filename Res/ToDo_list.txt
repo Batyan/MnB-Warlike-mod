@@ -2,6 +2,7 @@ ToDo:
 - Add debug mode for ais
     Enable/Disable ai
     Reset ai
+- Fix siege assault battle result
 - Add troop wages
     Add wages presentation
 - Add info pages to give general informations about the mod
@@ -1002,3 +1003,48 @@ ToDo:
     garrison wage
     center taxes
     center trade
+- add battle tactics
+    battle tactics are subset of tactics used by specific divisions
+    divisions are assigned a tactic after making sure it is possible to create a division with enough units
+
+    main infantry (++heavy infantry, +light infantry, -shock infantry)
+        all
+    support (++crossbow, +archer, +skirmisher)
+        all
+    skirmish (++archer, +crossbow, -skirmisher)
+        all
+    skirmish close (++skirmisher, +horse skirmisher, -crossbow)
+        nord
+        sarranid
+    flank (++shock infantry, +light infantry)
+        all
+    main cavalry (++heavy cavalry, -light cavalry, +heavy lancer)
+        all
+    shock (++heavy lancer, +light lancer, -heavy cavalry)
+        swadia
+        vaegir
+        khergit
+        rhodok
+        sarranid
+    fast skirmish (++horse skirmisher, +horse archer)
+        vaegir
+        khergit
+        nord
+        sarranid
+    fast circle (++horse archer, +horse skirmisher)
+        khergit
+        sarranid
+    fast flank (++light cavalry, +light lancer, +light cavalry)
+        vaegir
+        khergit
+        rhodok
+        sarranid
+    skirmish flank (++skirmisher, +archer, -crossbow)
+        swadia
+        vaegir
+        sarranid
+    fast skirmish flank (++horse skirmisher, -horse archer)
+        vaegir
+        sarranid
+    protect cavalry (++light cavalry, +light lancer, -horse skirmisher)
+        all

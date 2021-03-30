@@ -252,6 +252,7 @@ center_town_buildings_end = center_buildings_end
 text_color_impossible = 0xc01010
 text_color_gold = 0x55eeee
 text_color_valid = 0x00ee55
+text_color_capture = 0xDD2200
 
 era_minimum_duration = 1
 
@@ -483,16 +484,17 @@ party_slots = 0
 slot_party_type				= 1
 
 spt_civilian	= 5
-spt_caravan		= 6
-spt_war_party	= 7
+spt_bandit		= 6
+spt_caravan		= 7
 spt_patrol		= 8
 spt_scout		= 9
 spt_convoy		= 10
+spt_war_party	= 11
 
-spt_village		= 11
-spt_castle		= 12
-spt_town		= 13
-spt_fort		= 14
+spt_village		= 12
+spt_castle		= 13
+spt_town		= 14
+spt_fort		= 15
 
 slot_party_leader			= 2
 slot_party_lord				= slot_party_leader
@@ -511,22 +513,29 @@ slot_party_mission_object	= 6
 
 slot_party_wealth 			= 7
 slot_party_population 		= 8   # Does not include slave population
-population_max_town = 150000
+population_max_town = 25000
 population_max_castle = 500
-population_max_village = 15000
-slot_party_population_slave = 127 # 
+population_max_village = 1500
+slot_party_population_noble = 9
+population_noble_max_town = 25000
+population_noble_max_castle = 500
+population_noble_max_village = 1500
+slot_party_population_artisan = 10
+population_artisan_max_town = 25000
+population_artisan_max_castle = 500
+population_artisan_max_village = 1500
+slot_party_population_slave = 11
+population_slave_max_town = 25000
+population_slave_max_castle = 500
+population_slave_max_village = 1500
 
+slot_party_population_max 	= 12
+slot_party_population_noble_max = 13
+slot_party_population_artisan_max = 14
+slot_party_population_slave_max = 15
 
-slot_party_ressource_radius = 9
+slot_party_ressource_radius = 16
 
-slot_party_linked_party		= 10
-
-slot_party_num_hunters 		= 11
-slot_party_num_peasants		= 12
-slot_party_num_caravans		= 13
-slot_party_num_patrols		= 14
-slot_party_num_scouts		= 15
-slot_party_num_others 		= 16 # Contains every other non fighting party (should include hunters too?)
 
 slot_party_total_resources = 17
 
@@ -583,8 +592,8 @@ bs_charge_2 = 6
 bs_melee = 7
 
 slot_party_siege_scene = 124
-# 125
-# 126
+
+slot_party_linked_party		= 126
 
 # Taxes are a way for land owners to earn money
 # It is possible to customise what your citizens are taxed on
@@ -632,6 +641,13 @@ slot_party_preparing_for_war = 142
 slot_party_prepared_for_war = 143
 
 slot_party_process_mission_iteration = 144
+
+slot_party_num_hunters 		= 145
+slot_party_num_peasants		= 146
+slot_party_num_caravans		= 147
+slot_party_num_patrols		= 148
+slot_party_num_scouts		= 149
+slot_party_num_others 		= 150 # Contains every other non fighting party (should include hunters too?)
 
 slot_party_item_consumed_begin 	= 200 # Number of items consumed per 100 citizens
 slot_party_item_consumed_end	= slot_party_item_consumed_begin + goods_end - goods_begin

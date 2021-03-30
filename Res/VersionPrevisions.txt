@@ -25,14 +25,25 @@
 			Steal items
 			Steal gold
 0.300: Economy
+	AI party looting
 	Taxes
-	Good production
-	0.310: Party upkeep
+	0.310: Population
+		Population types
+		Balanced tax generation
+		Population growth / migration
+	0.320: Party upkeep
 		Money management
 			Weekly/Monthly finances presentation
-	0.320: Trading
+		Party unpaid wages
+		Defensive party (scout / patrol)
+	0.330: Trading
+		Good production
 		Buying and selling (player)
 		Caravans
+	0.340: Living economy
+		Civilian parties
+		Prisoner transfer
+		Gold movements
 0.400: Faction ai
 	Elect leader
 	Declare war/peace

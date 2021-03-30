@@ -78,7 +78,7 @@ simple_triggers = [
                     (party_get_cur_town, ":cur_town", ":party_no"),
                     (try_begin),
                         (ge, ":cur_town", centers_begin),
-                        (call_script, "script_party_does_center_buisness", ":party_no", ":cur_town"),
+                        (call_script, "script_party_does_center_business", ":party_no", ":cur_town"),
                     (try_end),
                 (try_end),
             (try_end),
@@ -411,6 +411,7 @@ simple_triggers = [
             (try_for_parties, ":party_no"),
                 # Every party must pay wages
                 (call_script, "script_party_pay_wages", ":party_no"),
+                (call_script, "script_party_pay_debts", ":party_no"),
             (try_end),
         ]),
     

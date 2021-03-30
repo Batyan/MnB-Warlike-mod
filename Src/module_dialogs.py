@@ -406,7 +406,7 @@ dialogs = [
 			(call_script, "script_party_bargain", "p_main_party", "$g_talk_party", 100, bargain_type_strength, -10), 
 			(assign, "$g_dialog_outcome", reg0),
 			(ge, "$g_dialog_outcome", outcome_neutral), 
-			(call_script, "script_party_get_gold", "$g_talk_party"),
+			(call_script, "script_party_get_total_wealth", "$g_talk_party"),
 			(assign, ":gold", reg0),
 			(ge, ":gold", 50),
 			(try_begin),

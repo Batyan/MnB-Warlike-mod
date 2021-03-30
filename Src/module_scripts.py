@@ -808,6 +808,7 @@ scripts = [
             (call_script, "script_faction_damage_faction", ":winner_faction", ":defeated_faction", ":num_defeated", 0),
             
             (call_script, "script_party_group_defeated", ":defeated_party"),
+            (call_script, "script_party_group_loot_party_group", ":winner_party", ":defeated_party"),
             (call_script, "script_party_group_take_party_group_prisoner", ":winner_party", ":defeated_party"),
 
             (try_begin),
@@ -837,6 +838,64 @@ scripts = [
                 (try_end),
             (try_end),
         ]),
+
+    # script_party_group_loot_party_group
+    # input:
+    #   arg1: party_group_looting
+    #   arg2: party_group_looted
+    # output: none
+    ("party_group_loot_party_group",
+        [
+            (store_script_param, ":party_group_no", 1),
+            (store_script_param, ":looted_party_group", 2),
+
+            (call_script, "script_party_group_get_looted_gold", ":looted_party_group"),
+            (assign, ":total_gold", reg0),
+
+            (call_script, "script_party_group_share_gold", ":party_group_no", ":total_gold"),
+        ]),
+
+    # script_party_group_get_looted_gold
+    # input:
+    #   arg1: party_group_no
+    # output:
+    #   reg0: total_looted_gold
+    ("party_group_get_looted_gold",
+        [
+            (store_script_param, ":party_group_no", 1),
+
+            (assign, ":total_gold", 0),
+
+            (party_get_num_companion_stacks, ":num_stacks", ":party_group_no"),
+            (try_for_range_backwards, ":cur_stack", 0, ":num_stacks"),
+                (party_stack_get_troop_id, ":troop_id", ":party_group_no", ":cur_stack"),
+                (try_begin),
+                    (troop_is_hero, ":troop_id"),
+                    (store_troop_gold, ":current_gold", ":troop_id"),
+                    # ToDo: percent gold removed global difficulty parameter
+                    (store_div, ":removed_gold", ":current_gold", 20),
+                    (troop_remove_gold, ":troop_id", ":removed_gold"),
+                    (val_add, ":total_gold", ":removed_gold"),
+                (else_try),
+                    # ToDo: refine regular troop gold cost
+                    (store_character_level, ":troop_level", ":troop_id"),
+                    (val_mul, ":troop_level", 20),
+                    (val_add, ":total_gold", ":troop_level"),
+                (try_end),
+            (try_end),
+
+            (party_get_slot, ":party_wealth", ":party_group_no", slot_party_wealth),
+            (val_add, ":total_gold", ":party_wealth"),
+
+            (party_get_num_attached_parties, ":num_attached_parties", ":party_group_no"),
+            (try_for_range, ":cur_party_index", 0, ":num_attached_parties"),
+                (party_get_attached_party_with_rank, ":cur_party", ":party_group_no", ":cur_party_index"),
+                (call_script, "script_party_group_get_looted_gold", ":cur_party"),
+                (val_add, ":total_gold", reg0),
+            (try_end),
+
+            (assign, reg0, ":total_gold"),
+        ]),
     
     # script_party_group_defeated
     # input:
@@ -854,7 +913,7 @@ scripts = [
                 
                 ###
                 (str_store_troop_name_link, s10, ":leader"),
-                (display_log_message, "@{s10} has been defeated in battle."),
+                (display_log_message, "@{s10} has been defeated in battle.", text_color_capture),
                 ###
             (try_end),
                         
@@ -918,8 +977,6 @@ scripts = [
                 (try_end),
             (try_end),
 
-            (call_script, "script_party_group_steal_party_prisoner", ":party_group_no", "p_prisoners_party"),
-
             (call_script, "script_party_group_take_party_prisoner", ":party_group_no", "p_prisoners_party"),
             
             (call_script, "script_party_group_free_party", ":party_group_no", "p_temp_party"),
@@ -976,49 +1033,114 @@ scripts = [
             (try_end),
         ]),
 
-    # script_party_group_steal_party_prisoner
+    # script_party_group_share_gold
     # input:
     #   arg1: party_group_no
-    #   arg2: prisoner_party
+    #   arg2: total_gold
     # output: none
-    ("party_group_steal_party_prisoner",
-        [
-            (store_script_param, ":party_group_no", 1),
-            (store_script_param, ":prisoner_party", 2),
-
-            (assign, ":total_gold", 0),
-
-            (party_get_num_companion_stacks, ":num_stacks", ":prisoner_party"),
-            (try_for_range_backwards, ":cur_stack", 0, ":num_stacks"),
-                (party_stack_get_troop_id, ":troop_id", ":prisoner_party", ":cur_stack"),
-                (try_begin),
-                    (troop_is_hero, ":troop_id"),
-                    (store_troop_gold, ":current_gold", ":troop_id"),
-                    # ToDo: percent gold removed global difficulty parameter
-                    (store_div, ":removed_gold", ":current_gold", 20),
-                    (troop_remove_gold, ":troop_id", ":removed_gold"),
-                    (val_add, ":total_gold", ":removed_gold"),
-                (else_try),
-                    # ToDo: refine regular troop gold cost
-                    (store_character_level, ":troop_level", ":troop_id"),
-                    (val_mul, ":troop_level", 2),
-                    (val_add, ":troop_level", ":total_gold"),
-                (try_end),
-            (try_end),
-            (call_script, "script_party_group_share_gold", ":party_group_no", ":total_gold"),
-        ]),
-
-    # script_party_group_share_gold
     ("party_group_share_gold",
         [
             (store_script_param, ":party_group_no", 1),
             (store_script_param, ":total_gold", 2),
 
-            # ToDo: refine gold distribution
-            (party_get_slot, ":leader", ":party_group_no", slot_party_leader),
+            (assign, ":total_gold_shared", 0),
+
+            (party_get_num_companions, ":main_party_num_companions", ":party_group_no"),
+            # We also add a flat value to make sure small parties get a little gold
+            (val_add, ":main_party_num_companions", 10),
+            (assign, ":total_army_size", ":main_party_num_companions"),
+
+            (party_get_num_attached_parties, ":num_attached_parties", ":party_group_no"),
+            (try_for_range, ":cur_party_index", 0, ":num_attached_parties"),
+                (party_get_attached_party_with_rank, ":cur_party", ":party_group_no", ":cur_party_index"),
+                (party_get_num_companions, ":num_companions", ":cur_party"),
+                (val_add, ":total_army_size", ":num_companions"),
+                # We also add a flat value to make sure small parties get a little gold
+                (val_add, ":total_army_size", 10),
+            (try_end),
+
+            # MAIN PARTY
+            (store_mul, ":share", ":main_party_num_companions", 100),
+            (val_div, ":share", ":total_army_size"),
+            (val_max, ":share", 1),
+
+            (store_mul, ":gold_share", ":share", ":total_gold"),
+            (val_div, ":gold_share", 100),
+
+            (val_add, ":total_gold_shared", ":gold_share"),
+            (call_script, "script_party_loot_gold", ":party_group_no", ":gold_share"),
+            # /MAIN PARTY
+
+            (try_for_range, ":cur_party_index", 0, ":num_attached_parties"),
+                (party_get_attached_party_with_rank, ":cur_party", ":party_group_no", ":cur_party_index"),
+                (party_get_num_companions, ":num_companions", ":cur_party"),
+                (val_add, ":num_companions", 10),
+
+                (store_mul, ":share", ":num_companions", 100),
+                (val_div, ":share", ":total_army_size"),
+                (val_max, ":share", 1),
+
+                (store_mul, ":gold_share", ":share", ":total_gold"),
+                (val_div, ":gold_share", 100),
+                (val_add, ":total_gold_shared", ":gold_share"),
+                (call_script, "script_party_loot_gold", ":cur_party", ":gold_share"),
+            (try_end),
+
+            (try_begin),
+                (call_script, "script_cf_debug", debug_economy),
+                (store_sub, ":surplus", ":total_gold", ":total_gold_shared"),
+                (neq, ":surplus", 0),
+                (assign, reg10, ":surplus"),
+                (display_message, "@Fight generated {reg10} unclaimed surplus gold"),
+            (try_end),
+        ]),
+
+    # script_party_loot_gold
+    # input:
+    #   arg1: party_no
+    #   arg2: gold_amount
+    # output: none
+    ("party_loot_gold",
+        [
+            (store_script_param, ":party_no", 1),
+            (store_script_param, ":gold_amount", 2),
+            
+            (party_get_skill_level, ":looting_skill", ":party_no", skl_looting),
+            (store_mul, ":looting_mult", ":looting_skill", 10),
+            (val_add, ":looting_mult", 100),
+            (val_mul, ":gold_amount", ":looting_mult"),
+            (val_div, ":gold_amount", 100),
+
+            (try_begin),
+                (call_script, "script_cf_debug", debug_economy),
+                (str_store_party_name, s10, ":party_no"),
+                (assign, reg10, ":gold_amount"),
+                (assign, reg11, ":looting_mult"),
+                (display_message, "@{s10} receives {reg10} denars (looting, {reg11}%)"),
+            (try_end),
+
+            (call_script, "script_party_receive_gold", ":party_no", ":gold_amount"),
+        ]),
+
+    # script_party_receive_gold
+    # input:
+    #   arg1: party_no
+    #   arg2: gold_amount
+    # output: none
+    ("party_receive_gold",
+        [
+            (store_script_param, ":party_no", 1),
+            (store_script_param, ":gold_amount", 2),
+
+            (party_get_slot, ":leader", ":party_no", slot_party_leader),
             (try_begin),
                 (ge, ":leader", 0),
-                (troop_add_gold, ":leader", ":total_gold"),
+                (troop_is_hero, ":leader"),
+                (troop_add_gold, ":leader", ":gold_amount"),
+            (else_try),
+                (party_get_slot, ":party_wealth", ":party_no", slot_party_wealth),
+                (val_add, ":party_wealth", ":gold_amount"),
+                (party_set_slot, ":party_no", slot_party_wealth, ":party_wealth"),
             (try_end),
         ]),
 
@@ -1825,6 +1947,9 @@ scripts = [
         # OUTPUT: trigger_result = modifier_value
     ("game_get_skill_modifier_for_troop",
         [
+            # (store_script_param, ":troop_no", 1),
+            # (store_script_param, ":skill_no", 2),
+            (set_trigger_result, 0),
         ]),
   
     # script_game_check_party_sees_party
@@ -3070,6 +3195,10 @@ scripts = [
             #(call_script, "script_center_init_productions", ":party_no"),
             
             (party_set_slot, ":party_no", slot_party_population, 0),
+            (party_set_slot, ":party_no", slot_party_population_noble, 0),
+            (party_set_slot, ":party_no", slot_party_population_artisan, 0),
+            (party_set_slot, ":party_no", slot_party_population_slave, 0),
+
             (party_set_slot, ":party_no", slot_party_wealth, 0),
             (party_set_slot, ":party_no", slot_party_prosperity, 50),
             
@@ -3081,11 +3210,26 @@ scripts = [
             (try_begin),
                 (eq, ":party_type", spt_village),
                 (party_set_slot, ":party_no", slot_party_population, 200),
+            
+                (party_set_slot, ":party_no", slot_party_population_max, population_max_town),
+                (party_set_slot, ":party_no", slot_party_population_noble_max, population_noble_max_town),
+                (party_set_slot, ":party_no", slot_party_population_artisan_max, population_artisan_max_town),
+                (party_set_slot, ":party_no", slot_party_population_slave_max, population_slave_max_town),
             (else_try),
                 (eq, ":party_type", spt_castle),
                 (party_set_slot, ":party_no", slot_party_population, 100),
+            
+                (party_set_slot, ":party_no", slot_party_population_max, population_max_castle),
+                (party_set_slot, ":party_no", slot_party_population_noble_max, population_noble_max_castle),
+                (party_set_slot, ":party_no", slot_party_population_artisan_max, population_artisan_max_castle),
+                (party_set_slot, ":party_no", slot_party_population_slave_max, population_slave_max_castle),
             (else_try),
                 (party_set_slot, ":party_no", slot_party_population, 1000),
+            
+                (party_set_slot, ":party_no", slot_party_population_max, population_max_village),
+                (party_set_slot, ":party_no", slot_party_population_noble_max, population_noble_max_village),
+                (party_set_slot, ":party_no", slot_party_population_artisan_max, population_artisan_max_village),
+                (party_set_slot, ":party_no", slot_party_population_slave_max, population_slave_max_village),
             (try_end),
 
             (try_for_range, ":unused", 0, 10),
@@ -4284,7 +4428,7 @@ scripts = [
             
             (party_get_slot, ":party_population", ":party_no", slot_party_population),
             # (party_get_slot, ":party_wealth", ":party_no", slot_party_wealth),
-            (call_script, "script_get_max_population", ":party_no"),
+            (call_script, "script_get_max_population", ":party_no", slot_party_population),
             (assign, ":max_population", reg0),
             (store_sub, ":max_growth", ":max_population", ":party_population"),
             (store_sqrt, ":max_growth", ":max_growth"),
@@ -4322,25 +4466,20 @@ scripts = [
     # script_get_max_population
         # input:
         #   arg1: party_no
+        #   arg2: population_slot
         # output:
         #   reg0: max_population
     ("get_max_population",
         [
             (store_script_param, ":party_no", 1),
+            (store_script_param, ":population_slot", 2),
             
             (party_get_slot, ":party_type", ":party_no", slot_party_type),
+
+            (store_sub, ":offset", slot_party_population_max, slot_party_population),
+            (store_add, ":max_pop_slot", ":population_slot", ":offset"),
             
-            (assign, ":max", 0),
-            (try_begin),
-                (eq, ":party_type", spt_town),
-                (assign, ":max", population_max_town),
-            (else_try),
-                (eq, ":party_type", spt_castle),
-                (assign, ":max", population_max_castle),
-            (else_try),
-                (eq, ":party_type", spt_village),
-                (assign, ":max", population_max_village),
-            (try_end),
+            (party_get_slot, ":max", ":party_no", ":max_pop_slot"),
             
             (assign, reg0, ":max"),
         ]),
@@ -4451,6 +4590,7 @@ scripts = [
             (assign, ":spawned_party", reg0),
 
             (party_set_slot, ":spawned_party", slot_party_origin_center, ":party_no"),
+            (party_set_slot, ":spawned_party", slot_party_leader, -1),
             
             (assign, reg0, ":spawned_party"),
         ]),
@@ -7583,12 +7723,12 @@ scripts = [
             (assign, reg0, ":follow"),
         ]),
     
-    # script_party_does_center_buisness
+    # script_party_does_center_business
     # input:
     #   arg1: party_no
     #   arg2: cur_town
     # output: none
-    ("party_does_center_buisness",
+    ("party_does_center_business",
         [
             (store_script_param, ":party_no", 1),
             (store_script_param, ":cur_town", 2),
@@ -7616,25 +7756,6 @@ scripts = [
                         (troop_is_hero, ":prisoner_troop_id"),
                         (troop_set_slot, ":prisoner_troop_id", slot_troop_prisoner_of, ":cur_town"),
                     (try_end),
-                (try_end),
-
-                # Transfer gold to/from the center
-                (call_script, "script_party_get_gold", ":cur_town"),
-                (assign, ":center_wealth", reg0),
-
-                (call_script, "script_party_get_gold", ":party_no"),
-                (assign, ":total_party_wealth", reg0),
-
-                (try_begin),
-                    (gt, ":center_wealth", ":total_party_wealth"),
-                    (store_mul, ":ratio", ":total_party_wealth", 100),
-                    (val_div, ":ratio", ":center_wealth"),
-                    (call_script, "script_move_gold_from_party_to_party", ":center_wealth", ":party_no", ":ratio"),
-                (else_try),
-                    (gt, ":total_party_wealth", ":center_wealth"),
-                    (store_mul, ":ratio", ":center_wealth", 100),
-                    (val_div, ":ratio", ":total_party_wealth"),
-                    (call_script, "script_move_gold_from_party_to_party", ":party_no", ":center_wealth", ":ratio"),
                 (try_end),
             (try_end),
             
@@ -7688,49 +7809,88 @@ scripts = [
                 # (assign, ":num_added", reg0),
                 # ToDo: remove gold
             (try_end),
-        ]),
-
-    # script_party_get_gold
-    # input:
-    #   arg1: party_no
-    # output:
-    #   reg0: total_gold
-    ("party_get_gold",
-        [
-            (store_script_param, ":party_no", 1),
-
-            (party_get_slot, ":party_type", ":party_no", slot_party_type),
-            (assign, ":total_gold", 0),
 
             (try_begin),
-                (is_between, ":party_type", spt_civilian, spt_village),
-                (party_get_slot, ":leader", ":party_no", slot_party_leader),
-                (try_begin),
-                    (ge, ":leader", "$g_player_troop"),
-                    (store_troop_gold, ":leader_gold", ":leader"),
-                    (val_add, ":total_gold", ":leader_gold"),
-                (try_end),
-                (party_get_slot, ":party_wealth", ":party_no"),
-                (val_add, ":total_gold", ":party_wealth"),
-            (else_try),
-                (party_get_slot, ":total_gold", ":party_no", slot_party_wealth),
-            (try_end),
+                (eq, ":party_faction", ":center_faction"),
+                (party_slot_eq, ":cur_town", slot_party_leader, ":leader"),
 
-            (assign, reg0, ":total_gold"),
+                # Transfer gold to/from the center
+                (call_script, "script_party_get_total_wealth", ":cur_town", 1),
+                (assign, ":center_wealth", reg0),
+
+                (call_script, "script_party_get_total_wealth", ":party_no", 1),
+                (assign, ":total_party_wealth", reg0),
+
+                (call_script, "script_party_get_wages", ":party_no"),
+                (assign, ":party_wage", reg0),
+
+                (store_mul, ":min_wealth", ":party_wage", 2),
+                (store_mul, ":max_wealth", ":party_wage", 5),
+
+                (try_begin),
+                    (lt, ":total_party_wealth", ":min_wealth"),
+                    (store_mul, ":amount", ":min_wealth", 3),
+                    (try_begin),
+                        (lt, ":total_party_wealth", 0),
+                        (val_sub, ":amount", ":total_party_wealth"),
+                    (try_end),
+                    (store_div, ":max_transfer", ":center_wealth", 3), # We try to keep some gold inside center
+                    (val_min, ":amount", ":max_transfer"),
+
+                    (try_begin),
+                        (call_script, "script_cf_debug", debug_economy),
+                        (str_store_party_name, s10, ":cur_town"),
+                        (str_store_party_name, s11, ":party_no"),
+                        (assign, reg10, ":center_wealth"),
+                        (assign, reg11, ":total_party_wealth"),
+                        (display_message, "@{s10} (wealth: {reg10}) tranfering gold to {s11} (wealth: {reg11})"),
+                    (try_end),
+
+                    (call_script, "script_move_gold_from_party_to_party", ":cur_town", ":party_no", ":amount"),
+                (else_try),
+                    (gt, ":total_party_wealth", ":max_wealth"),
+                    (store_sub, ":amount", ":total_party_wealth", ":max_wealth"),
+                    (val_add, ":amount", ":party_wage"),
+
+                    (try_begin),
+                        (call_script, "script_cf_debug", debug_economy),
+                        (str_store_party_name, s10, ":party_no"),
+                        (str_store_party_name, s11, ":cur_town"),
+                        (assign, reg10, ":total_party_wealth"),
+                        (assign, reg11, ":center_wealth"),
+                        (display_message, "@{s10} (wealth: {reg10}) tranfering gold to {s11} (wealth: {reg11})"),
+                    (try_end),
+
+                    (call_script, "script_move_gold_from_party_to_party", ":party_no", ":cur_town", ":amount"),
+                (try_end),
+            (try_end),
         ]),
 
     # script_move_gold_from_party_to_party
     # input:
     #   arg1: party_from
     #   arg2: party_to
-    #   arg3: ratio
+    #   arg3: amount
     # output:
     #   reg0: gold_moved
     ("move_gold_from_party_to_party",
         [
-            # (store_script_param, ":party_from", 1),
-            # (store_script_param, ":party_to", 2),
-            # (store_script_param, ":ratio", 3),
+            (store_script_param, ":party_from", 1),
+            (store_script_param, ":party_to", 2),
+            (store_script_param, ":amount", 3),
+
+            (call_script, "script_party_remove_gold", ":party_from", ":amount"),
+            (assign, ":removed", reg0),
+            (call_script, "script_party_receive_gold", ":party_to", ":removed"),
+
+            (try_begin),
+                (call_script, "script_cf_debug", debug_economy),
+                (str_store_party_name, s10, ":party_from"),
+                (str_store_party_name, s11, ":party_to"),
+                (assign, reg10, ":amount"),
+                (assign, reg11, ":removed"),
+                (display_message, "@{s10} tranfering gold to {s11} (amount: {reg10} - real amount {reg11})"),
+            (try_end),
 
             (assign, reg0, 0),
         ]),
@@ -11899,7 +12059,7 @@ scripts = [
             (str_store_troop_name_link, s10, ":leader"),
             (str_store_party_name_link, s11, ":center_no"),
             
-            (display_log_message, "@{s11} has been captured by {s10}"),
+            (display_log_message, "@{s11} has been captured by {s10}", text_color_capture),
             
             (party_get_slot, ":leader", ":center_no", slot_party_leader),
             (try_begin),
@@ -12711,6 +12871,7 @@ scripts = [
                     (assign, ":bandit_party", reg0),
                     (party_set_faction, ":bandit_party", ":bandit_faction"),
 
+                    (party_set_slot, ":bandit_party", slot_party_type, spt_bandit),
                     (party_set_ai_behavior, ":bandit_party", ai_bhvr_patrol_location),
 
                     (store_random_in_range, ":chance_leader", 0, 100),
@@ -13189,23 +13350,69 @@ scripts = [
         #   arg1: party_no
         # output:
         #   reg0: paid_wages
-    ("party_pay_wages", 
+    ("party_pay_wages",
         [
             (store_script_param, ":party_no", 1),
 
-            (call_script, "script_party_get_wages", ":party_no"),
-            (assign, ":party_wages", reg0),
-
-            (call_script, "script_party_remove_gold", ":party_no", ":party_wages"),
-            (assign, ":paid_wages", reg0),
+            (assign, ":paid_wages", 0),
+            (party_get_slot, ":party_type", ":party_no", slot_party_type),
 
             (try_begin),
-                (neq, ":paid_wages", ":party_wages"),
-                (store_sub, ":unpaid_wages", ":party_wages", ":paid_wages"),
-                (call_script, "script_party_unpaid_wages_penalties", ":party_no", ":unpaid_wages", ":party_wages"),
+                (is_between, ":party_type", spt_bandit, spt_fort + 1),
+
+
+                (call_script, "script_party_get_wages", ":party_no"),
+                (assign, ":party_wages", reg0),
+
+                (call_script, "script_party_remove_gold", ":party_no", ":party_wages"),
+                (assign, ":paid_wages", reg0),
+
+                (try_begin),
+                    (call_script, "script_cf_debug", debug_economy),
+                    (eq, ":party_type", spt_war_party),
+                    (str_store_party_name, s10, ":party_no"),
+                    (assign, reg10, ":party_wages"),
+                    (assign, reg11, ":paid_wages"),
+                    (display_message, "@{s10} paying wages: {reg10} - total paid: {reg11}"),
+                (try_end),
+
+                (try_begin),
+                    (neq, ":paid_wages", ":party_wages"),
+                    (store_sub, ":unpaid_wages", ":party_wages", ":paid_wages"),
+                    (call_script, "script_party_unpaid_wages_penalties", ":party_no", ":unpaid_wages", ":party_wages"),
+                (try_end),
             (try_end),
 
             (assign, reg0, ":paid_wages"),
+        ]),
+
+    # script_party_pay_debts
+        # input:
+        #   arg1: party_no
+        # output:
+        #   reg0: paid_debts
+    ("party_pay_debts",
+        [
+            (store_script_param, ":party_no", 1),
+
+            (assign, ":paid_debts", 0),
+
+            (party_get_slot, ":unpaid_wages", ":party_no", slot_party_unpaid_wages),
+            (try_begin),
+                (gt, ":unpaid_wages", 0),
+                (call_script, "script_party_get_total_wealth", ":party_no", 1),
+                (assign, ":wealth", reg0),
+                (try_begin),
+                    (gt, ":wealth", 0),
+                    (store_div, ":max_payment", ":wealth", 5),
+                    (val_min, ":max_payment", ":unpaid_wages"),
+                    (call_script, "script_party_remove_gold", ":party_no", ":max_payment"),
+                    (store_sub, ":unpaid_wages_left", ":unpaid_wages", ":max_payment"),
+                    (party_set_slot, ":party_no", slot_party_unpaid_wages, ":unpaid_wages_left"),
+                (try_end),
+            (try_end),
+
+            (assign, reg0, ":paid_debts"),
         ]),
 
     # script_party_get_total_wealth
@@ -13236,6 +13443,7 @@ scripts = [
                 (gt, ":leader", 0),
 
                 (troop_get_slot, ":leader_party", ":leader", slot_troop_leaded_party),
+                (ge, ":leader_party", 0),
                 (party_get_attached_to, ":attached_to", ":leader_party"),
 
                 # Leader is either leading the party or is waiting inside
@@ -13264,9 +13472,14 @@ scripts = [
                 (val_add, ":total_wealth", ":center_wealth"),
             (try_end),
 
+            (try_begin),
+                (eq, ":ignore_debts", 0),
+                (party_get_slot, ":debts", ":party_no", slot_party_unpaid_wages),
+                (val_sub, ":total_wealth", ":debts"),
+            (try_end),
+
             (assign, reg0, ":total_wealth"),
         ]),
-
 
     # script_party_remove_gold
         # input:
@@ -13354,6 +13567,14 @@ scripts = [
             # Lose morale equals to 1/10th of the percentage of unpaid wages
             (store_mul, ":morale_penalties", ":unpaid_wages", 10),
             (val_div, ":morale_penalties", ":total_wages"),
+            (val_mul, ":morale_penalties", -1),
+            (try_begin),
+                (call_script, "script_cf_debug", debug_economy),
+                (str_store_party_name, s10, ":party_no"),
+                (assign, reg10, ":unpaid_wages"),
+                (assign, reg11, ":old_debts"),
+                (display_message, "@{s10} has unpaid wages: {reg10} (old debts: {reg11})"),
+            (try_end),
             (call_script, "script_party_change_morale", ":party_no", ":morale_penalties"),
             
             (val_add, ":old_debts", ":unpaid_wages"),
@@ -13385,9 +13606,6 @@ scripts = [
             (val_mul, ":party_wages", ":modifier"),
             (val_div, ":party_wages", 100),
 
-            (party_get_slot, ":unpaid_wages", ":party_no", slot_party_unpaid_wages),
-            (val_add, ":party_wages", ":unpaid_wages"),
-            
             (assign, reg0, ":party_wages"),
         ]),
 

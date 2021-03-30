@@ -360,21 +360,41 @@ game_menus = [
 		[
 			("debug_garrison_size_stats",
 				[],"Garrison size stats",
-				[]),
+				[
+					(jump_to_menu, "mnu_test_stats"),
+				]),
 			("debug_garrison_wages_stats",
 				[],"Garrison wages stats",
-				[]),
+				[
+					(jump_to_menu, "mnu_test_stats"),
+				]),
 
 			("debug_center_taxes_stats",
 				[],"Center taxes stats",
-				[]),
+				[
+					(jump_to_menu, "mnu_test_stats"),
+				]),
 			("debug_center_trade_stats",
 				[],"Center trade stats",
-				[]),
+				[
+					(jump_to_menu, "mnu_test_stats"),
+				]),
 			("debug_center_population_stats",
 				[],"Center population stats",
-				[]),
-			
+				[
+					(jump_to_menu, "mnu_test_stats"),
+				]),
+			("debug_center_wealth_stats",
+				[],"Center wealth stats",
+				[
+					(jump_to_menu, "mnu_test_stats"),
+				]),
+
+			("debug_lord_wealth_stats",
+				[],"Lord wealth stats",
+				[
+					(jump_to_menu, "mnu_test_stats"),
+				]),
 
 			("debug_return",
 				[], "Go back",
