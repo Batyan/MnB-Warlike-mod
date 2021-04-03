@@ -3211,10 +3211,10 @@ scripts = [
                 (eq, ":party_type", spt_village),
                 (party_set_slot, ":party_no", slot_party_population, 200),
             
-                (party_set_slot, ":party_no", slot_party_population_max, population_max_town),
-                (party_set_slot, ":party_no", slot_party_population_noble_max, population_noble_max_town),
-                (party_set_slot, ":party_no", slot_party_population_artisan_max, population_artisan_max_town),
-                (party_set_slot, ":party_no", slot_party_population_slave_max, population_slave_max_town),
+                (party_set_slot, ":party_no", slot_party_population_max, population_max_village),
+                (party_set_slot, ":party_no", slot_party_population_noble_max, population_noble_max_village),
+                (party_set_slot, ":party_no", slot_party_population_artisan_max, population_artisan_max_village),
+                (party_set_slot, ":party_no", slot_party_population_slave_max, population_slave_max_village),
             (else_try),
                 (eq, ":party_type", spt_castle),
                 (party_set_slot, ":party_no", slot_party_population, 100),
@@ -3226,10 +3226,10 @@ scripts = [
             (else_try),
                 (party_set_slot, ":party_no", slot_party_population, 1000),
             
-                (party_set_slot, ":party_no", slot_party_population_max, population_max_village),
-                (party_set_slot, ":party_no", slot_party_population_noble_max, population_noble_max_village),
-                (party_set_slot, ":party_no", slot_party_population_artisan_max, population_artisan_max_village),
-                (party_set_slot, ":party_no", slot_party_population_slave_max, population_slave_max_village),
+                (party_set_slot, ":party_no", slot_party_population_max, population_max_town),
+                (party_set_slot, ":party_no", slot_party_population_noble_max, population_noble_max_town),
+                (party_set_slot, ":party_no", slot_party_population_artisan_max, population_artisan_max_town),
+                (party_set_slot, ":party_no", slot_party_population_slave_max, population_slave_max_town),
             (try_end),
 
             (try_for_range, ":unused", 0, 10),
@@ -4427,32 +4427,42 @@ scripts = [
             (party_get_slot, ":party_type", ":party_no", slot_party_type),
             
             (party_get_slot, ":party_population", ":party_no", slot_party_population),
+
             # (party_get_slot, ":party_wealth", ":party_no", slot_party_wealth),
             (call_script, "script_get_max_population", ":party_no", slot_party_population),
             (assign, ":max_population", reg0),
             (store_sub, ":max_growth", ":max_population", ":party_population"),
-            (store_sqrt, ":max_growth", ":max_growth"),
             
             (store_random_in_range, ":population_growth", 0, 5),
             
             (try_begin),
                 (eq, ":party_type", spt_village),
-                (store_div, ":bonus_population", ":max_growth", 10),
+                (store_div, ":bonus_population", ":max_growth", 100),
             (else_try),
                 (eq, ":party_type", spt_castle),
-                (store_div, ":bonus_population", ":max_growth", 3),
+                (store_div, ":bonus_population", ":max_growth", 90),
             (else_try),
-                (store_div, ":bonus_population", ":max_growth", 40),
+                (store_div, ":bonus_population", ":max_growth", 400),
             (try_end),
             (val_add, ":population_growth", ":bonus_population"),
-            
+
             (store_add, ":new_population", ":party_population", ":population_growth"),
+
+            # We estimate the number of natural deaths in the settlement
+            # With an average of 80 year per person (probably way higher than realistic)
+            (store_div, ":num_dead", ":party_population", 12 * 80),
+            (val_sub, ":new_population", ":num_dead"),
+            # With this, the higher the population, the higher the number of dead
+            # Creates a soft cap to population
+
             (try_begin),
-                (gt, ":new_population", ":max_population"),
-                (val_min, ":new_population", ":max_population"),
-                # TEMPORARY
-                # (val_mul, ":max_population", 10),
-                # (store_div, ":max_population", ":new_population"),
+                (call_script, "script_cf_debug", debug_economy),
+                (str_store_party_name, s10, ":party_no"),
+                (assign, reg10, ":party_population"),
+                (assign, reg11, ":population_growth"),
+                (assign, reg12, ":num_dead"),
+                (assign, reg13, ":new_population"),
+                (display_message, "@Process {s10} population: {reg10} + {reg11} - {reg12} = {reg13}"),
             (try_end),
             
             (party_set_slot, ":party_no", slot_party_population, ":new_population"),
@@ -4474,8 +4484,6 @@ scripts = [
             (store_script_param, ":party_no", 1),
             (store_script_param, ":population_slot", 2),
             
-            (party_get_slot, ":party_type", ":party_no", slot_party_type),
-
             (store_sub, ":offset", slot_party_population_max, slot_party_population),
             (store_add, ":max_pop_slot", ":population_slot", ":offset"),
             
