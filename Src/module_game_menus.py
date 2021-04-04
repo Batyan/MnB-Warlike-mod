@@ -1563,7 +1563,6 @@ game_menus = [
 					(call_script, "script_get_party_looted_gold", "p_enemy_casualties"),
 					(assign, ":gold", reg0),
 					(call_script, "script_party_group_distribute_gold", "$g_player_party", ":gold"),
-					(call_script, "script_party_group_defeat_party_group", "$g_player_party", "$g_enemy"),
 
 					(call_script, "script_party_get_loot", "p_enemy_casualties", 1, -1),
 					(assign, ":loot_troop", reg0),

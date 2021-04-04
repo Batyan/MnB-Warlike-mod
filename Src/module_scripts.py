@@ -377,21 +377,42 @@ scripts = [
                     (val_min, ":defender_strength", 45),
                 (try_end),
             (try_end),
-            (try_begin),
-                (assign, reg12, ":stage"),
-                (str_store_party_name, s10, ":attacker"),
-                (str_store_party_name, s11, ":defender"),
-                (assign, reg10, ":attacker_strength"),
-                (assign, reg11, ":defender_strength"),
-                # (display_message, "@Stage {reg12}^{s10}'s strength: {reg10}.^{s11}'s strength: {reg11}."),
-            (try_end),
+            # (try_begin),
+            #     (assign, reg12, ":stage"),
+            #     (str_store_party_name, s10, ":attacker"),
+            #     (str_store_party_name, s11, ":defender"),
+            #     (assign, reg10, ":attacker_strength"),
+            #     (assign, reg11, ":defender_strength"),
+            #     (display_message, "@Stage {reg12}^{s10}'s strength: {reg10}.^{s11}'s strength: {reg11}."),
+            # (try_end),
             (try_begin),
                 (gt, ":attacker_strength", 0),
+                (party_clear, "p_temp_casualties"),
                 (inflict_casualties_to_party_group, ":defender", ":attacker_strength", "p_temp_casualties"),
+
+                (call_script, "script_party_group_get_looted_gold", "p_temp_casualties"),
+                (assign, ":total_gold", reg0),
+                (party_get_slot, ":current_casulaties_gold", ":defender", slot_party_recent_casualties_loot),
+                (val_add, ":current_casulaties_gold", ":total_gold"),
+                (party_set_slot, ":defender", slot_party_recent_casualties_loot, ":current_casulaties_gold"),
             (try_end),
+
+            (party_collect_attachments_to_party, ":defender", "p_collective_defender"),
+            
+            (call_script, "script_party_count_fit_for_battle", "p_collective_defender", 0),
+            (assign, ":num_defenders", reg0),
+
             (try_begin),
                 (gt, ":defender_strength", 0),
+                (gt, ":num_defenders", 0),
+                (party_clear, "p_temp_casualties"),
                 (inflict_casualties_to_party_group, ":attacker", ":defender_strength", "p_temp_casualties"),
+
+                (call_script, "script_party_group_get_looted_gold", "p_temp_casualties"),
+                (assign, ":total_gold", reg0),
+                (party_get_slot, ":current_casulaties_gold", ":attacker", slot_party_recent_casualties_loot),
+                (val_add, ":current_casulaties_gold", ":total_gold"),
+                (party_set_slot, ":attacker", slot_party_recent_casualties_loot, ":current_casulaties_gold"),
             (try_end),
         ]),
     
@@ -432,7 +453,7 @@ scripts = [
             (val_sub, ":defender_strength", ":defender_reduce"),
 
             # Defenders have a small bonus during the approach phase
-            (val_mul, ":defender_strength", 125),
+            (val_mul, ":defender_strength", 150),
             (val_div, ":defender_strength", 100),
             
             (assign, reg0, ":attacker_strength"),
@@ -886,6 +907,9 @@ scripts = [
 
             (party_get_slot, ":party_wealth", ":party_group_no", slot_party_wealth),
             (val_add, ":total_gold", ":party_wealth"),
+
+            (party_get_slot, ":casulaties_gold", ":party_group_no", slot_party_recent_casualties_loot),
+            (val_add, ":total_gold", ":casulaties_gold"),
 
             (party_get_num_attached_parties, ":num_attached_parties", ":party_group_no"),
             (try_for_range, ":cur_party_index", 0, ":num_attached_parties"),

@@ -44,6 +44,10 @@
 		Civilian parties
 		Prisoner transfer
 		Gold movements
+	0.350: Player trading
+		All trader types for centers
+		Goods produced based on local productions
+		Equipment based on culture
 0.400: Faction ai
 	Elect leader
 	Declare war/peace

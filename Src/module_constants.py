@@ -649,6 +649,8 @@ slot_party_num_patrols		= 148
 slot_party_num_scouts		= 149
 slot_party_num_others 		= 150 # Contains every other non fighting party (should include hunters too?)
 
+slot_party_recent_casualties_loot = 151 # Contains gold looted during simulated battle
+
 slot_party_item_consumed_begin 	= 200 # Number of items consumed per 100 citizens
 slot_party_item_consumed_end	= slot_party_item_consumed_begin + goods_end - goods_begin
 
