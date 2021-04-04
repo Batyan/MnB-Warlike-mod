@@ -7839,8 +7839,8 @@ scripts = [
                 (call_script, "script_party_get_wages", ":party_no"),
                 (assign, ":party_wage", reg0),
 
-                (store_mul, ":min_wealth", ":party_wage", 2),
-                (store_mul, ":max_wealth", ":party_wage", 5),
+                (store_div, ":min_wealth", ":party_wage", 2),
+                (assign, ":max_wealth", ":party_wage"),
 
                 (try_begin),
                     (lt, ":total_party_wealth", ":min_wealth"),
@@ -11077,16 +11077,10 @@ scripts = [
                     (val_add, ":total_gold", ":removed_gold"),
                 (else_try),
                     # ToDo: refine regular troop gold cost
-                    (assign, ":max_gold", 0),
                     (store_character_level, ":troop_level", ":cur_troop"),
-                    (val_mul, ":troop_level", 5),
                     (party_stack_get_size, ":stack_size", ":looted_party", ":stack_no"),
                     (val_mul, ":troop_level", ":stack_size"),
                     (val_add, ":total_gold", ":troop_level"),
-
-                    (store_div, ":max_gold_div_2", ":max_gold", 2),
-                    (store_random_in_range, ":max_gold", ":max_gold_div_2", ":max_gold"),
-                    (val_add, ":total_gold", ":max_gold"),
                 (try_end),
             (try_end),
 
@@ -13367,20 +13361,26 @@ scripts = [
             (try_begin),
                 (is_between, ":party_type", spt_bandit, spt_fort + 1),
 
-
+                (assign, ":paid_wages", 0),
                 (call_script, "script_party_get_wages", ":party_no"),
                 (assign, ":party_wages", reg0),
 
-                (call_script, "script_party_remove_gold", ":party_no", ":party_wages"),
-                (assign, ":paid_wages", reg0),
-
                 (try_begin),
-                    (call_script, "script_cf_debug", debug_economy),
-                    (eq, ":party_type", spt_war_party),
-                    (str_store_party_name, s10, ":party_no"),
-                    (assign, reg10, ":party_wages"),
-                    (assign, reg11, ":paid_wages"),
-                    (display_message, "@{s10} paying wages: {reg10} - total paid: {reg11}"),
+                    (is_between, ":party_type", spt_village, spt_fort + 1),
+                    # Only centers pay wages directly
+                    # The rest is accumulated in debts
+
+                    (call_script, "script_party_remove_gold", ":party_no", ":party_wages"),
+                    (assign, ":paid_wages", reg0),
+
+                    (try_begin),
+                        (call_script, "script_cf_debug", debug_economy),
+                        (eq, ":party_type", spt_war_party),
+                        (str_store_party_name, s10, ":party_no"),
+                        (assign, reg10, ":party_wages"),
+                        (assign, reg11, ":paid_wages"),
+                        (display_message, "@{s10} paying wages: {reg10} - total paid: {reg11}"),
+                    (try_end),
                 (try_end),
 
                 (try_begin),
