@@ -884,7 +884,7 @@ scripts = [
     ("party_group_get_looted_gold",
         [
             (store_script_param, ":party_group_no", 1),
-            
+
             (call_script, "script_party_get_looted_gold", ":party_group_no"),
             (assign, ":total_gold", reg0),
 
@@ -7844,7 +7844,7 @@ scripts = [
 
                 (try_begin),
                     (lt, ":total_party_wealth", ":min_wealth"),
-                    (store_mul, ":amount", ":min_wealth", 3),
+                    (store_div, ":amount", ":min_wealth", 2),
                     (try_begin),
                         (lt, ":total_party_wealth", 0),
                         (val_sub, ":amount", ":total_party_wealth"),
@@ -7865,7 +7865,8 @@ scripts = [
                 (else_try),
                     (gt, ":total_party_wealth", ":max_wealth"),
                     (store_sub, ":amount", ":total_party_wealth", ":max_wealth"),
-                    (val_add, ":amount", ":party_wage"),
+                    (store_mul, ":transfer", ":party_wage", 3),
+                    (val_add, ":amount", ":transfer"),
 
                     (try_begin),
                         (call_script, "script_cf_debug", debug_economy),
