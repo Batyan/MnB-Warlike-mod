@@ -884,26 +884,9 @@ scripts = [
     ("party_group_get_looted_gold",
         [
             (store_script_param, ":party_group_no", 1),
-
-            (assign, ":total_gold", 0),
-
-            (party_get_num_companion_stacks, ":num_stacks", ":party_group_no"),
-            (try_for_range_backwards, ":cur_stack", 0, ":num_stacks"),
-                (party_stack_get_troop_id, ":troop_id", ":party_group_no", ":cur_stack"),
-                (try_begin),
-                    (troop_is_hero, ":troop_id"),
-                    (store_troop_gold, ":current_gold", ":troop_id"),
-                    # ToDo: percent gold removed global difficulty parameter
-                    (store_div, ":removed_gold", ":current_gold", 20),
-                    (troop_remove_gold, ":troop_id", ":removed_gold"),
-                    (val_add, ":total_gold", ":removed_gold"),
-                (else_try),
-                    # ToDo: refine regular troop gold cost
-                    (store_character_level, ":troop_level", ":troop_id"),
-                    (val_mul, ":troop_level", 20),
-                    (val_add, ":total_gold", ":troop_level"),
-                (try_end),
-            (try_end),
+            
+            (call_script, "script_party_get_looted_gold", ":party_group_no"),
+            (assign, ":total_gold", reg0),
 
             (party_get_slot, ":party_wealth", ":party_group_no", slot_party_wealth),
             (val_add, ":total_gold", ":party_wealth"),
@@ -11070,12 +11053,12 @@ scripts = [
             (assign, reg0, ":continue"),
         ]),
     
-    # script_get_party_looted_gold
+    # script_party_get_looted_gold
         # input:
         #   arg1: looted_party
         # output:
         #   reg0: gold_amount
-    ("get_party_looted_gold",
+    ("party_get_looted_gold",
         [
             (store_script_param, ":looted_party", 1),
             
@@ -11084,22 +11067,28 @@ scripts = [
             (assign, ":total_gold", 0),
             (try_for_range, ":stack_no", 0, ":num_stack"),
                 (party_stack_get_troop_id, ":cur_troop", ":looted_party", ":stack_no"),
-                (assign, ":max_gold", 0),
-                (try_begin),
-                    (neg|troop_is_hero, ":cur_troop"),
-                    (party_stack_get_size, ":stack_size", ":looted_party", ":stack_no"),
-                    (troop_get_slot, ":troop_quality", ":cur_troop", slot_troop_quality),
-                    (store_mul, ":max_gold", ":troop_quality", 60),
-                    (val_add, ":max_gold", 60),
-                    (val_mul, ":max_gold", ":stack_size"),
-                (try_end),
-                (store_div, ":max_gold_div_2", ":max_gold", 2),
-                (store_random_in_range, ":max_gold", ":max_gold_div_2", ":max_gold"),
-                (val_add, ":total_gold", ":max_gold"),
-            (try_end),
 
-            (party_get_slot, ":party_wealth", ":looted_party", slot_party_wealth),
-            (val_add, ":total_gold", ":party_wealth"),
+                (try_begin),
+                    (troop_is_hero, ":cur_troop"),
+                    (store_troop_gold, ":current_gold", ":cur_troop"),
+                    # ToDo: percent gold removed global difficulty parameter
+                    (store_div, ":removed_gold", ":current_gold", 20),
+                    (troop_remove_gold, ":cur_troop", ":removed_gold"),
+                    (val_add, ":total_gold", ":removed_gold"),
+                (else_try),
+                    # ToDo: refine regular troop gold cost
+                    (assign, ":max_gold", 0),
+                    (store_character_level, ":troop_level", ":cur_troop"),
+                    (val_mul, ":troop_level", 5),
+                    (party_stack_get_size, ":stack_size", ":looted_party", ":stack_no"),
+                    (val_mul, ":troop_level", ":stack_size"),
+                    (val_add, ":total_gold", ":troop_level"),
+
+                    (store_div, ":max_gold_div_2", ":max_gold", 2),
+                    (store_random_in_range, ":max_gold", ":max_gold_div_2", ":max_gold"),
+                    (val_add, ":total_gold", ":max_gold"),
+                (try_end),
+            (try_end),
 
             (assign, reg0, ":total_gold"),
         ]),
@@ -13322,20 +13311,6 @@ scripts = [
             (try_end),
 
             (assign, reg0, ":new"),
-        ]),
-
-    # script_party_group_distribute_gold
-        # input: 
-        #   arg1: party_group
-        #   arg2: gold
-        #   arg3: player_receive
-        # output: none
-    ("party_group_distribute_gold",
-        [
-            # (store_script_param, ":party_group", 1),
-            (store_script_param, ":gold", 2),
-            # (store_script_param, ":player_allowed", 3),
-            (troop_add_gold, "$g_player_troop", ":gold"),
         ]),
 
     # script_agent_init_morale_values
