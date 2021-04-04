@@ -1560,9 +1560,9 @@ game_menus = [
 
 			("loot_enemies", [(eq, "$g_battle_result", 1),(neq, "$g_looted_enemies", 1),], "Loot the fallen enemies",
 				[
-					(call_script, "script_get_party_looted_gold", "p_enemy_casualties"),
+					(call_script, "script_party_get_looted_gold", "p_enemy_casualties"),
 					(assign, ":gold", reg0),
-					(call_script, "script_party_group_distribute_gold", "$g_player_party", ":gold"),
+					(call_script, "script_party_group_share_gold", "$g_player_party", ":gold"),
 
 					(call_script, "script_party_get_loot", "p_enemy_casualties", 1, -1),
 					(assign, ":loot_troop", reg0),
@@ -1574,7 +1574,7 @@ game_menus = [
 			
 			("loot_enemies_no_player", [(eq, "$g_battle_result", 1),(neq, "$g_looted_enemies", 1),], "Allow your men to loot the fallen enemies",
 				[
-					(call_script, "script_get_party_looted_gold", "p_enemy_casualties"),
+					(call_script, "script_party_get_looted_gold", "p_enemy_casualties"),
 					(assign, ":gold", reg0),
 					(store_sqrt, ":morale", ":gold"),
 					(val_div, ":morale", 50),
@@ -1589,13 +1589,13 @@ game_menus = [
 			
 			("loot_all", [(eq, "$g_battle_result", 1),(neq, "$g_looted_enemies", 1),], "Loot every fallen soldier",
 				[
-					(call_script, "script_get_party_looted_gold", "p_enemy_casualties"),
+					(call_script, "script_party_get_looted_gold", "p_enemy_casualties"),
 					(assign, ":gold", reg0),
-					(call_script, "script_get_party_looted_gold", "p_ally_casualties"),
+					(call_script, "script_party_get_looted_gold", "p_ally_casualties"),
 					(val_add, ":gold", reg0),
-					(call_script, "script_get_party_looted_gold", "p_player_casualties"),
+					(call_script, "script_party_get_looted_gold", "p_player_casualties"),
 					(val_add, ":gold", reg0),
-					(call_script, "script_party_group_distribute_gold", "$g_player_party", ":gold"),
+					(call_script, "script_party_group_share_gold", "$g_player_party", ":gold"),
 
 					(call_script, "script_troop_change_honor", "$g_player_troop", -1),
 					(call_script, "script_party_change_morale", "$g_player_party", -5),
@@ -1614,7 +1614,7 @@ game_menus = [
 			
 			("leave_no_loot", [(eq, "$g_battle_result", 1),(neq, "$g_looted_enemies", 1),], "Leave the battlefield without looting",
 				[
-					(call_script, "script_get_party_looted_gold", "p_enemy_casualties"),
+					(call_script, "script_party_get_looted_gold", "p_enemy_casualties"),
 					(assign, ":gold", reg0),
 					(troop_add_gold, "$g_player_troop", ":gold"),
 					(call_script, "script_troop_change_honor", "$g_player_troop", 1),
