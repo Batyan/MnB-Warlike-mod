@@ -1,8 +1,8 @@
 ToDo:
-- Debug ais not using reserves
 - Add debug mode for ais
     Enable/Disable ai
     Reset ai
+- Fix siege assault battle result
 - Add troop wages
     Add wages presentation
 - Add info pages to give general informations about the mod
@@ -34,7 +34,7 @@ ToDo:
                 Well defended caravans yield greater profits
                 Some buildings increase caravan protections
         Villages
-            Usualy not well dedfended (~30 militias max)
+            Usualy not well defended (~30 militias max)
             Can yield great gains if village is prosperous
             Can greatly deteriorate relations with village / owner / faction
         Outlaws can now have bounties placed on them
@@ -291,6 +291,7 @@ ToDo:
         Berserker:  +5 ironflesh, +3 power strike, +1 athletics, +3 indimidation, -2 power draw, -2 riding, -2 persuasion
             Needs to win a certain number of battle using only melee/throwing weapons while having no horse and very light/no armor
         Left Handed: +2 weapon master, +1 trainer, +1 shield, -3 cha, -1 power strike
+        One hidden trait for each skill, goes from -2 to +5 ? (increase with use of said skill)
     Abilities:
         War Cry:    decrease morale for surrounding enemies, range and strength determined by str (strength = str/2) (range = str)
         Rally:      increase morale for surrounding allies, range and strength determined by cha (strength = cha/2) (range = cha)
@@ -385,7 +386,7 @@ ToDo:
                 Allowed/not allowed to be leading parties
                 Allowed/not allowed to own land
             Not allowing male/female to own land/lead party only applies if married
-                Still leads to seen badly
+                Still leads to be seen badly
         Slavery:
             Slavery allowed
                 Nobles are allowed to own slaves
@@ -398,6 +399,11 @@ ToDo:
             Slavery outlawed
                 Slaves are not allowed
                 Slave buildings are not allowed
+        Mercenary:
+            Vassals allowed to be mercenary of other kingdoms
+                Only during peace / allowed anytime
+            Vassals can hire their own mercenaries
+                Only for faction leader / allow marshall / allow high rank lords (city owner)
     Foreign Relations
         Trading with an enemy may decrease relation
         Attacking a party will decrease relation
@@ -537,6 +543,10 @@ ToDo:
         during times of war, goods generation will most likely decrease (raids, trade blocked...)
             it will increase the price of all items, and may benefit peaceful factions and merchants
     ressources have a base price of 100, slots will determine the amount of this type of ressource (global and faction level ?)
+- process population
+    max pop limits to ~2-3% military ?
+        village -> ~50 -> 1600-2500
+        town -> 600 -> 20000-30000
 - process production
     productions are goods transformed into another
     produced goods are very rare in the nature, some are not found at all
@@ -644,14 +654,14 @@ ToDo:
         patrol may come back to center to give out prisoners or refill its troops
         only wealthy centers will have patrols
         party size 50-80 ?
-        start with a month worth of wages
-        party stays until party size is too low, morale is too low, or prisoner are too many
+        start with 5 months worth of wages
+        party stays until party size is too low, morale is too low, or prisoner are too many, or not enough money left for next wages
     - add scout
         acts like a smaller patrol
         may follow nearby peasants / caravans until they get too far from the center
         act as a bandit hunter (only against small parties)
         party size 10-30 ?
-        start with a month worth of wages (need that much wealth in the center to be able to spawn)
+        start with 3 months worth of wages (need that much wealth in the center to be able to spawn)
     - add caravans
         add escorts (only if trade post)
             follows caravans out of the town (or joins party)
@@ -988,3 +998,53 @@ ToDo:
         take all of rhodok territory
         reunite all of sarranid territory
         take dhirim
+- add debug stats page
+    garrison size
+    garrison wage
+    center taxes
+    center trade
+- add battle tactics
+    battle tactics are subset of tactics used by specific divisions
+    divisions are assigned a tactic after making sure it is possible to create a division with enough units
+
+    main infantry (++heavy infantry, +light infantry, -shock infantry)
+        all
+    support (++crossbow, +archer, +skirmisher)
+        all
+    skirmish (++archer, +crossbow, -skirmisher)
+        all
+    skirmish close (++skirmisher, +horse skirmisher, -crossbow)
+        nord
+        sarranid
+    flank (++shock infantry, +light infantry)
+        all
+    main cavalry (++heavy cavalry, -light cavalry, +heavy lancer)
+        all
+    shock (++heavy lancer, +light lancer, -heavy cavalry)
+        swadia
+        vaegir
+        khergit
+        rhodok
+        sarranid
+    fast skirmish (++horse skirmisher, +horse archer)
+        vaegir
+        khergit
+        nord
+        sarranid
+    fast circle (++horse archer, +horse skirmisher)
+        khergit
+        sarranid
+    fast flank (++light cavalry, +light lancer, +light cavalry)
+        vaegir
+        khergit
+        rhodok
+        sarranid
+    skirmish flank (++skirmisher, +archer, -crossbow)
+        swadia
+        vaegir
+        sarranid
+    fast skirmish flank (++horse skirmisher, -horse archer)
+        vaegir
+        sarranid
+    protect cavalry (++light cavalry, +light lancer, -horse skirmisher)
+        all

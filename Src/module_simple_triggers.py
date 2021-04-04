@@ -35,7 +35,7 @@ simple_triggers = [
                     # Generate bandits
                     (store_random_in_range, ":rand", 0, 50),
                     (try_begin), # Generate bandits more often if center prosperity is low
-                        (le, ":rand", 4),
+                        (le, ":rand", 3),
                         (call_script, "script_party_spawn_bandits", ":party_no"),
                     (try_end),
                 (try_end),
@@ -78,7 +78,7 @@ simple_triggers = [
                     (party_get_cur_town, ":cur_town", ":party_no"),
                     (try_begin),
                         (ge, ":cur_town", centers_begin),
-                        (call_script, "script_party_does_center_buisness", ":party_no", ":cur_town"),
+                        (call_script, "script_party_does_center_business", ":party_no", ":cur_town"),
                     (try_end),
                 (try_end),
             (try_end),
@@ -289,11 +289,14 @@ simple_triggers = [
                     (jump_to_menu, "mnu_player_prisoner_take_action"),
                 (try_end),
                 (set_camera_follow_party, ":player_prisoner"),
+            (else_try),
+                # ToDo: free player
             (try_end),
         ]),
     
-    (monthly, # Lord mission
+    (weekly, # Lord mission
         [
+            (call_script, "script_prepare_troop_followers"),
             (try_for_range, ":lord_no", lords_begin, lords_end),
                 (troop_get_slot, ":occupation", ":lord_no", slot_troop_kingdom_occupation),
                 (neg|troop_slot_ge, ":lord_no", slot_troop_prisoner_of, 0), # Do not process prisoners
@@ -302,7 +305,7 @@ simple_triggers = [
                     (troop_get_slot, ":leaded_party", ":lord_no", slot_troop_leaded_party),
                     (gt, ":leaded_party", 0),
                     (party_is_active, ":leaded_party"),
-                    (call_script, "script_party_process_mission", ":leaded_party"),
+                    (call_script, "script_party_process_mission", ":leaded_party", 0),
                 (try_end),
             (try_end),
         ]),
@@ -408,6 +411,7 @@ simple_triggers = [
             (try_for_parties, ":party_no"),
                 # Every party must pay wages
                 (call_script, "script_party_pay_wages", ":party_no"),
+                (call_script, "script_party_pay_debts", ":party_no"),
             (try_end),
         ]),
     

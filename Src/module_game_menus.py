@@ -180,6 +180,11 @@ game_menus = [
 					(change_screen_map),
 				]),
 			
+			("camp_test_stats", [(call_script, "script_cf_debug", debug_all),], "Display stats",
+				[
+					(jump_to_menu, "mnu_test_stats"),
+				]),
+			
 			("camp_test_faction_relations", [(call_script, "script_cf_debug", debug_all),], "Modify faction relations",
 				[
 					(jump_to_menu, "mnu_test_faction_relations"),
@@ -343,6 +348,54 @@ game_menus = [
 					(display_message, "@Global cloud: {reg10}"),
 					(jump_to_menu, "mnu_debug_menu"),
 				]),
+			("debug_return",
+				[], "Go back",
+				[(jump_to_menu, "mnu_camp"),]),
+		]),
+
+	("test_stats", 0,
+		"Display stats",
+		"none",
+		[],
+		[
+			("debug_garrison_size_stats",
+				[],"Garrison size stats",
+				[
+					(jump_to_menu, "mnu_test_stats"),
+				]),
+			("debug_garrison_wages_stats",
+				[],"Garrison wages stats",
+				[
+					(jump_to_menu, "mnu_test_stats"),
+				]),
+
+			("debug_center_taxes_stats",
+				[],"Center taxes stats",
+				[
+					(jump_to_menu, "mnu_test_stats"),
+				]),
+			("debug_center_trade_stats",
+				[],"Center trade stats",
+				[
+					(jump_to_menu, "mnu_test_stats"),
+				]),
+			("debug_center_population_stats",
+				[],"Center population stats",
+				[
+					(jump_to_menu, "mnu_test_stats"),
+				]),
+			("debug_center_wealth_stats",
+				[],"Center wealth stats",
+				[
+					(jump_to_menu, "mnu_test_stats"),
+				]),
+
+			("debug_lord_wealth_stats",
+				[],"Lord wealth stats",
+				[
+					(jump_to_menu, "mnu_test_stats"),
+				]),
+
 			("debug_return",
 				[], "Go back",
 				[(jump_to_menu, "mnu_camp"),]),
@@ -573,6 +626,12 @@ game_menus = [
 				]),
 			("join_accept", [], "Join",
 				[
+					(party_get_num_prisoner_stacks, ":prisoner_stacks", "$g_player_party"),
+					(try_for_range, ":stack_no", 0, ":prisoner_stacks"),
+						(party_prisoner_stack_get_troop_id, ":troop_id", "$g_player_party", ":stack_no"),
+						(troop_is_hero, ":troop_id"),
+            			(call_script, "script_troop_released", ":troop_id"),
+					(try_end),
 					(party_clear, "$g_player_party"),
 					(party_add_leader, "$g_player_party", "$g_player_troop"),
 					(call_script, "script_troop_use_template_troop", "$g_player_troop", "$g_test_player_troop"),
@@ -1501,10 +1560,9 @@ game_menus = [
 
 			("loot_enemies", [(eq, "$g_battle_result", 1),(neq, "$g_looted_enemies", 1),], "Loot the fallen enemies",
 				[
-					(call_script, "script_get_party_looted_gold", "p_enemy_casualties"),
+					(call_script, "script_party_get_looted_gold", "p_enemy_casualties"),
 					(assign, ":gold", reg0),
-					(call_script, "script_party_group_distribute_gold", "$g_player_party", ":gold"),
-					(call_script, "script_party_group_defeat_party_group", "$g_player_party", "$g_enemy"),
+					(call_script, "script_party_group_share_gold", "$g_player_party", ":gold"),
 
 					(call_script, "script_party_get_loot", "p_enemy_casualties", 1, -1),
 					(assign, ":loot_troop", reg0),
@@ -1516,7 +1574,7 @@ game_menus = [
 			
 			("loot_enemies_no_player", [(eq, "$g_battle_result", 1),(neq, "$g_looted_enemies", 1),], "Allow your men to loot the fallen enemies",
 				[
-					(call_script, "script_get_party_looted_gold", "p_enemy_casualties"),
+					(call_script, "script_party_get_looted_gold", "p_enemy_casualties"),
 					(assign, ":gold", reg0),
 					(store_sqrt, ":morale", ":gold"),
 					(val_div, ":morale", 50),
@@ -1531,13 +1589,13 @@ game_menus = [
 			
 			("loot_all", [(eq, "$g_battle_result", 1),(neq, "$g_looted_enemies", 1),], "Loot every fallen soldier",
 				[
-					(call_script, "script_get_party_looted_gold", "p_enemy_casualties"),
+					(call_script, "script_party_get_looted_gold", "p_enemy_casualties"),
 					(assign, ":gold", reg0),
-					(call_script, "script_get_party_looted_gold", "p_ally_casualties"),
+					(call_script, "script_party_get_looted_gold", "p_ally_casualties"),
 					(val_add, ":gold", reg0),
-					(call_script, "script_get_party_looted_gold", "p_player_casualties"),
+					(call_script, "script_party_get_looted_gold", "p_player_casualties"),
 					(val_add, ":gold", reg0),
-					(call_script, "script_party_group_distribute_gold", "$g_player_party", ":gold"),
+					(call_script, "script_party_group_share_gold", "$g_player_party", ":gold"),
 
 					(call_script, "script_troop_change_honor", "$g_player_troop", -1),
 					(call_script, "script_party_change_morale", "$g_player_party", -5),
@@ -1556,7 +1614,7 @@ game_menus = [
 			
 			("leave_no_loot", [(eq, "$g_battle_result", 1),(neq, "$g_looted_enemies", 1),], "Leave the battlefield without looting",
 				[
-					(call_script, "script_get_party_looted_gold", "p_enemy_casualties"),
+					(call_script, "script_party_get_looted_gold", "p_enemy_casualties"),
 					(assign, ":gold", reg0),
 					(troop_add_gold, "$g_player_troop", ":gold"),
 					(call_script, "script_troop_change_honor", "$g_player_troop", 1),
