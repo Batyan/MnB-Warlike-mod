@@ -30,7 +30,7 @@
 	0.310: Population
 		Population types
 		Balanced tax generation
-		Population growth / migration
+		Population growth
 	0.320: Party upkeep
 		Money management
 			Weekly/Monthly finances presentation

@@ -33,6 +33,7 @@ scripts = [
             
             (assign, "$g_cur_free_lord", lords_begin),
 
+            (set_show_messages, 0),
             (call_script, "script_init_centers"),
             (call_script, "script_init_factions"),
             (call_script, "script_init_cultures"),
@@ -95,7 +96,6 @@ scripts = [
                 (call_script, "script_troop_change_level", ":lord_no", ":rank"),
             (try_end),
             
-            (set_show_messages, 0),
             (try_for_range, ":party_no", centers_begin, centers_end),
                 (party_get_slot, ":party_type", ":party_no", slot_party_type),
                 (try_begin),
@@ -3201,11 +3201,6 @@ scripts = [
             (call_script, "script_party_update_nearby_resources", ":party_no"),
             #(call_script, "script_center_init_productions", ":party_no"),
             
-            (party_set_slot, ":party_no", slot_party_population, 0),
-            (party_set_slot, ":party_no", slot_party_population_noble, 0),
-            (party_set_slot, ":party_no", slot_party_population_artisan, 0),
-            (party_set_slot, ":party_no", slot_party_population_slave, 0),
-
             (party_set_slot, ":party_no", slot_party_wealth, 0),
             (party_set_slot, ":party_no", slot_party_prosperity, 50),
             
@@ -3216,32 +3211,34 @@ scripts = [
             (party_get_slot, ":party_type", ":party_no", slot_party_type),
             (try_begin),
                 (eq, ":party_type", spt_village),
-                (party_set_slot, ":party_no", slot_party_population, 200),
+                (party_set_slot, ":party_no", slot_party_population_noble, 10),
+                (party_set_slot, ":party_no", slot_party_population_artisan, 100),
+                (party_set_slot, ":party_no", slot_party_population, 3000),
+                (party_set_slot, ":party_no", slot_party_population_slave, 0),
             
                 (party_set_slot, ":party_no", slot_party_population_max, population_max_village),
-                (party_set_slot, ":party_no", slot_party_population_noble_max, population_noble_max_village),
-                (party_set_slot, ":party_no", slot_party_population_artisan_max, population_artisan_max_village),
-                (party_set_slot, ":party_no", slot_party_population_slave_max, population_slave_max_village),
             (else_try),
                 (eq, ":party_type", spt_castle),
-                (party_set_slot, ":party_no", slot_party_population, 100),
+                (party_set_slot, ":party_no", slot_party_population_noble, 75),
+                (party_set_slot, ":party_no", slot_party_population_artisan, 50),
+                (party_set_slot, ":party_no", slot_party_population, 200),
+                (party_set_slot, ":party_no", slot_party_population_slave, 0),
             
                 (party_set_slot, ":party_no", slot_party_population_max, population_max_castle),
-                (party_set_slot, ":party_no", slot_party_population_noble_max, population_noble_max_castle),
-                (party_set_slot, ":party_no", slot_party_population_artisan_max, population_artisan_max_castle),
-                (party_set_slot, ":party_no", slot_party_population_slave_max, population_slave_max_castle),
             (else_try),
-                (party_set_slot, ":party_no", slot_party_population, 1000),
+                (party_set_slot, ":party_no", slot_party_population_noble, 25),
+                (party_set_slot, ":party_no", slot_party_population_artisan, 450),
+                (party_set_slot, ":party_no", slot_party_population, 10000),
+                (party_set_slot, ":party_no", slot_party_population_slave, 0),
             
                 (party_set_slot, ":party_no", slot_party_population_max, population_max_town),
-                (party_set_slot, ":party_no", slot_party_population_noble_max, population_noble_max_town),
-                (party_set_slot, ":party_no", slot_party_population_artisan_max, population_artisan_max_town),
-                (party_set_slot, ":party_no", slot_party_population_slave_max, population_slave_max_town),
             (try_end),
 
             (try_for_range, ":unused", 0, 10),
                 (call_script, "script_party_process_ressources", ":party_no"),
                 (call_script, "script_party_process_production", ":party_no"),
+                (call_script, "script_party_process_population", ":party_no"),
+                (call_script, "script_party_process_taxes", ":party_no"),
             (try_end),
 
             (call_script, "script_party_init_consumption", ":party_no"),
@@ -4433,70 +4430,138 @@ scripts = [
             
             (party_get_slot, ":party_type", ":party_no", slot_party_type),
             
-            (party_get_slot, ":party_population", ":party_no", slot_party_population),
+            (party_get_slot, ":serf_population", ":party_no", slot_party_population),
+            (party_get_slot, ":artisan_population", ":party_no", slot_party_population_artisan),
+            (party_get_slot, ":noble_population", ":party_no", slot_party_population_noble),
+            (party_get_slot, ":slave_population", ":party_no", slot_party_population_slave),
 
-            # (party_get_slot, ":party_wealth", ":party_no", slot_party_wealth),
-            (call_script, "script_get_max_population", ":party_no", slot_party_population),
+            (store_add, ":party_population", ":serf_population", ":artisan_population"),
+            (val_add, ":party_population", ":noble_population"),
+            # Slaves do not count towards max center population
+
+            (call_script, "script_get_max_population", ":party_no"),
             (assign, ":max_population", reg0),
-            (store_sub, ":max_growth", ":max_population", ":party_population"),
+            (store_mul, ":offset", ":party_population", 100),
+            (val_div, ":offset", ":max_population"),
+            (val_sub, ":offset", 50), # We consider 50% to be the baseline population with highest growth
+            (val_abs, ":offset", ":offset"),
+            (store_sub, ":offset", 100, ":offset"),
+            (val_abs, ":offset", ":offset"),
             
-            (store_random_in_range, ":population_growth", 0, 5),
             
             (try_begin),
                 (eq, ":party_type", spt_village),
-                (store_div, ":bonus_population", ":max_growth", 100),
+                (assign, ":noble_growth", population_growth_village_noble),
+                (assign, ":artisan_growth", population_growth_village_artisan),
+                (assign, ":serf_growth", population_growth_village_serf),
+                (assign, ":slave_growth", population_growth_village_slave),
+                (assign, ":base_population_growth", 10),
             (else_try),
                 (eq, ":party_type", spt_castle),
-                (store_div, ":bonus_population", ":max_growth", 90),
+                (assign, ":noble_growth", population_growth_castle_noble),
+                (assign, ":artisan_growth", population_growth_castle_artisan),
+                (assign, ":serf_growth", population_growth_castle_serf),
+                (assign, ":slave_growth", population_growth_castle_slave),
+                (assign, ":base_population_growth", 5),
             (else_try),
-                (store_div, ":bonus_population", ":max_growth", 400),
+                (assign, ":noble_growth", population_growth_town_noble),
+                (assign, ":artisan_growth", population_growth_town_artisan),
+                (assign, ":serf_growth", population_growth_town_serf),
+                (assign, ":slave_growth", population_growth_town_slave),
+                (assign, ":base_population_growth", 15),
             (try_end),
-            (val_add, ":population_growth", ":bonus_population"),
+            (assign, ":noble_threshold", ":noble_growth"),
+            (store_add, ":artisan_threshold", ":noble_threshold", ":artisan_growth"),
+            (store_add, ":serf_threshold", ":artisan_threshold", ":serf_growth"),
+            (store_add, ":slave_threshold", ":serf_threshold", ":slave_growth"),
 
-            (store_add, ":new_population", ":party_population", ":population_growth"),
+            (store_mul, ":population_growth", ":base_population_growth", ":offset"),
+            (val_div, ":population_growth", 100),
+            (store_random_in_range, ":bonus_population_growth", 0, 5),
 
-            # We estimate the number of natural deaths in the settlement
-            # With an average of 80 year per person (probably way higher than realistic)
-            (store_div, ":num_dead", ":party_population", 12 * 80),
-            (val_sub, ":new_population", ":num_dead"),
-            # With this, the higher the population, the higher the number of dead
-            # Creates a soft cap to population
+            (assign, ":new_noble", 0),
+            (assign, ":new_artisan", 0),
+            (assign, ":new_serf", 0),
+            (assign, ":new_slave", 0),
+            (store_add, ":num_tries", ":population_growth", ":bonus_population_growth"),
+            (try_for_range, ":unused", 0, ":num_tries"),
+                (store_random_in_range, ":value", 0, ":slave_threshold"),
+                (try_begin),
+                    (lt, ":value", ":noble_threshold"),
+                    (val_add, ":new_noble", 1),
+                (else_try),
+                    (lt, ":value", ":artisan_threshold"),
+                    (val_add, ":new_artisan", 1),
+                (else_try),
+                    (lt, ":value", ":serf_threshold"),
+                    (val_add, ":new_serf", 1),
+                (try_end),
+            (try_end),
 
             (try_begin),
                 (call_script, "script_cf_debug", debug_economy),
                 (str_store_party_name, s10, ":party_no"),
-                (assign, reg10, ":party_population"),
-                (assign, reg11, ":population_growth"),
-                (assign, reg12, ":num_dead"),
-                (assign, reg13, ":new_population"),
-                (display_message, "@Process {s10} population: {reg10} + {reg11} - {reg12} = {reg13}"),
+                (assign, reg10, ":noble_population"),
+                (assign, reg11, ":artisan_population"),
+                (assign, reg12, ":serf_population"),
+                (assign, reg13, ":slave_population"),
+                (assign, reg14, ":new_noble"),
+                (assign, reg15, ":new_artisan"),
+                (assign, reg16, ":new_serf"),
+                (assign, reg17, ":new_slave"),
+                (display_message, "@{s10} pop: nobles {reg10}+{reg14}, artisan {reg11}+{reg15}, serf {reg12}+{reg16}, slave {reg13}+{reg17}"),
             (try_end),
+
+            (val_add, ":noble_population", ":new_noble"),
+            (val_add, ":artisan_population", ":new_artisan"),
+            (val_add, ":serf_population", ":new_serf"),
+            (val_add, ":slave_population", ":new_slave"),
+
+            (party_set_slot, ":party_no", slot_party_population, ":serf_population"),
+            (party_set_slot, ":party_no", slot_party_population_noble, ":noble_population"),
+            (party_set_slot, ":party_no", slot_party_population_artisan, ":artisan_population"),
+            (party_set_slot, ":party_no", slot_party_population_slave, ":slave_population"),
             
-            (party_set_slot, ":party_no", slot_party_population, ":new_population"),
-            
-            # (str_store_party_name, s10, ":party_no"),
-            # (assign, reg10, ":party_population"),
-            # (assign, reg11, ":new_population"),
-            # (display_message, "@Center {s10}'s population: {reg11} (from {reg10})."),
         ]),
     
     # script_get_max_population
         # input:
         #   arg1: party_no
-        #   arg2: population_slot
         # output:
         #   reg0: max_population
     ("get_max_population",
         [
             (store_script_param, ":party_no", 1),
-            (store_script_param, ":population_slot", 2),
             
-            (store_sub, ":offset", slot_party_population_max, slot_party_population),
-            (store_add, ":max_pop_slot", ":population_slot", ":offset"),
-            
-            (party_get_slot, ":max", ":party_no", ":max_pop_slot"),
+            (party_get_slot, ":max", ":party_no", slot_party_population_max),
             
             (assign, reg0, ":max"),
+        ]),
+
+    # script_party_get_expected_taxes
+        # input:
+        #   arg1: party_no
+        # output:
+        #   reg0: expected_taxes
+    ("party_get_expected_taxes",
+        [
+            (store_script_param, ":party_no", 1),
+
+            (party_get_slot, ":population_serf", ":party_no", slot_party_population),
+            (party_get_slot, ":population_noble", ":party_no", slot_party_population_noble),
+            (party_get_slot, ":population_artisan", ":party_no", slot_party_population_artisan),
+            # (party_get_slot, ":population_slave", ":party_no", slot_party_population_slave),
+            
+            (store_mul, ":taxes_serf", ":population_serf", taxes_serf_amount),
+            (store_mul, ":taxes_artisan", ":population_artisan", taxes_artisan_amount),
+            (store_mul, ":taxes_noble", ":population_noble", taxes_noble_amount),
+
+            (store_add, ":taxes", ":taxes_serf", ":taxes_artisan"),
+            (val_add, ":taxes", ":taxes_noble"),
+
+            (val_div, ":taxes", 12), # We are doing taxes in a monthly basis
+
+            (assign, reg0, ":taxes"),
         ]),
     
     # script_party_process_taxes
@@ -4507,14 +4572,29 @@ scripts = [
         [
             (store_script_param, ":party_no", 1),
             
-            (party_get_slot, ":population", ":party_no", slot_party_population),
             (party_get_slot, ":wealth", ":party_no", slot_party_wealth),
-            
-            (store_div, ":taxes", ":population", 5),
-            (store_div, ":random_max", ":taxes", 10),
-            
-            (store_random_in_range, ":rand", 0, ":random_max"),
-            (val_add, ":taxes", ":rand"),
+
+            (call_script, "script_party_get_expected_taxes", ":party_no"),
+            (assign, ":taxes", reg0),
+
+            (party_get_slot, ":party_type", ":party_no", slot_party_type),
+            (try_begin),
+                (eq, ":party_type", spt_village),
+                (party_get_slot, ":linked_party", ":party_no", slot_party_linked_party),
+                (is_between, ":linked_party", centers_begin, centers_end),
+                (val_div, ":wealth", 2),
+                # TODO: remove instant teleportation of money
+                (party_get_slot, ":linked_center_wealth", ":linked_party", slot_party_wealth),
+                (val_add, ":linked_center_wealth", ":wealth"),
+                (party_set_slot, ":linked_party", slot_party_wealth, ":linked_center_wealth"),
+            (try_end),
+
+            (try_begin),
+                (call_script, "script_cf_debug", debug_economy),
+                (str_store_party_name, s10, ":party_no"),
+                (assign, reg10, ":taxes"),
+                (display_message, "@{s10} taxes: {reg10}"),
+            (try_end),
             
             (val_add, ":wealth", ":taxes"),
             (party_set_slot, ":party_no", slot_party_wealth, ":wealth"),
@@ -7758,7 +7838,7 @@ scripts = [
                 (eq, ":party_faction", ":center_faction"),
                 (party_slot_eq, ":cur_town", slot_party_leader, ":leader"),
                 (party_get_num_prisoner_stacks, ":num_prisoner_stacks", ":party_no"),
-                (try_for_range, ":cur_stack", 0, ":num_prisoner_stacks"),
+                (try_for_range_backwards, ":cur_stack", 0, ":num_prisoner_stacks"),
                     (party_prisoner_stack_get_troop_id, ":prisoner_troop_id", ":party_no", ":cur_stack"),
 
                     (party_prisoner_stack_get_size, ":stack_size", ":party_no", ":cur_stack"),
@@ -7853,7 +7933,7 @@ scripts = [
                     (val_min, ":amount", ":max_transfer"),
 
                     (try_begin),
-                        (call_script, "script_cf_debug", debug_economy),
+                        (call_script, "script_cf_debug", debug_all),
                         (str_store_party_name, s10, ":cur_town"),
                         (str_store_party_name, s11, ":party_no"),
                         (assign, reg10, ":center_wealth"),
@@ -7865,7 +7945,7 @@ scripts = [
                 (else_try),
                     (gt, ":total_party_wealth", ":max_wealth"),
                     (store_sub, ":amount", ":total_party_wealth", ":max_wealth"),
-                    (store_mul, ":transfer", ":party_wage", 3),
+                    (store_div, ":transfer", ":party_wage", 4),
                     (val_add, ":amount", ":transfer"),
 
                     (try_begin),

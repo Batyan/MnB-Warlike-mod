@@ -690,9 +690,21 @@ game_menus = [
 
 			(try_begin),
                 (call_script, "script_cf_debug", debug_economy|debug_simple),
-				(party_get_slot, reg1, "$g_encountered_party", slot_party_population),
-				(party_get_slot, reg2, "$g_encountered_party", slot_party_wealth),
-				(display_message, "@Town population : {reg1}^Town wealth : {reg2}."),
+				(party_get_slot, reg10, "$g_encountered_party", slot_party_wealth),
+				(display_message, "@Town wealth : {reg10}"),
+				(party_get_slot, reg10, "$g_encountered_party", slot_party_population),
+				(party_get_slot, reg12, "$g_encountered_party", slot_party_population_noble),
+				(party_get_slot, reg13, "$g_encountered_party", slot_party_population_artisan),
+				(party_get_slot, reg14, "$g_encountered_party", slot_party_population_slave),
+				(display_message, "@Town population {reg12} noble - {reg13} artisan - {reg10} common - {reg14} slave"),
+
+				(call_script, "script_party_get_wages", "$g_encountered_party"),
+				(assign, reg15, reg0),
+				(display_message, "@Garrison wages: {reg15}"),
+
+				(call_script, "script_party_get_expected_taxes", "$g_encountered_party"),
+				(assign, reg16, reg0),
+				(display_message, "@Expected taxes: {reg16}"),
 
 				(party_get_slot, ":total_res", "$g_encountered_party", slot_party_total_resources),
 	            (str_store_party_name, s12, "$g_encountered_party"),
@@ -702,11 +714,11 @@ game_menus = [
 		                (party_get_slot, reg10, "$g_encountered_party", ":ressource"),
 		                (gt, reg10, 0),
 		                (str_store_item_name, s11, ":ressource"),
-		                (display_log_message, "@Center {s12} has ressource {s11}: {reg10}."),
+		                (display_log_message, "@{s12} has ressource {s11}: {reg10}"),
 		            (try_end),
 	            (try_end),
 	            (assign, reg11, ":total_res"),
-	            (display_log_message, "@{s12} has {reg11} resources."),
+	            (display_log_message, "@{s12} has {reg11} resources"),
 			(try_end),
 		],
 		[

@@ -513,26 +513,33 @@ slot_party_mission_object	= 6
 
 slot_party_wealth 			= 7
 slot_party_population 		= 8   # Does not include slave population
-population_max_town = 25000
-population_max_castle = 500
-population_max_village = 1500
 slot_party_population_noble = 9
-population_noble_max_town = 25000
-population_noble_max_castle = 500
-population_noble_max_village = 1500
 slot_party_population_artisan = 10
-population_artisan_max_town = 25000
-population_artisan_max_castle = 500
-population_artisan_max_village = 1500
 slot_party_population_slave = 11
-population_slave_max_town = 25000
-population_slave_max_castle = 500
-population_slave_max_village = 1500
 
+population_max_town = 34000
+population_max_castle = 16500
+population_max_village = 10000
 slot_party_population_max 	= 12
-slot_party_population_noble_max = 13
-slot_party_population_artisan_max = 14
-slot_party_population_slave_max = 15
+
+population_growth_castle_noble = 150
+population_growth_castle_artisan = 100
+population_growth_castle_serf = 500
+population_growth_castle_slave = 10
+
+population_growth_town_noble = 50
+population_growth_town_artisan = 900
+population_growth_town_serf = 20000
+population_growth_town_slave = 10
+
+population_growth_village_noble = 20
+population_growth_village_artisan = 200
+population_growth_village_serf = 6000
+population_growth_village_slave = 10
+
+taxes_noble_amount = 100
+taxes_artisan_amount = 10
+taxes_serf_amount = 1
 
 slot_party_ressource_radius = 16
 
