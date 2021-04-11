@@ -1,3 +1,9 @@
+v 0.310:
+-Add shields khergit_militia
+-Add population types
+-Add population growth
+-Fix parties not storing all prisoners in owned center
+
 v 0.300:
 -Lords at peace deposit troops in their home center
 -Reduce wages for garrisoned troops to 1/5th

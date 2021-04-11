@@ -2357,8 +2357,8 @@ troops = [
    str_9|agi_9|int_6|cha_5|level(6), wpex(60,50,80,50,20,40), knows_common|knows_ironflesh_2|knows_power_strike_3|knows_power_draw_1|knows_athletics_3|knows_riding_2, khergit_face_young_1, khergit_face_old_2 ],
   
   # Basic ranged, maces, bows
-  ["khergit_militia", "Khergit Tribesman", "Khergit Tribesmen", tf_guarantee_recruit_armor, no_scene, reserved, fac_kingdom_3,
-   [itm_club, itm_butchering_knife, itm_knife, itm_hunting_bow, itm_arrows_b, itm_arrows_b,
+  ["khergit_militia", "Khergit Tribesman", "Khergit Tribesmen", tf_guarantee_recruit_armor|tf_guarantee_shield, no_scene, reserved, fac_kingdom_3,
+   [itm_club, itm_butchering_knife, itm_knife, itm_hunting_bow, itm_arrows_b, itm_arrows_b, itm_tab_shield_small_round_a,itm_tab_shield_small_round_a_plain_1,itm_tab_shield_small_round_a_plain_2,
     itm_nomad_boots, itm_hide_boots,
     itm_leather_vest, itm_coarse_tunic,
     itm_nomad_cap_b, itm_nomad_cap, itm_leather_steppe_cap_a, itm_leather_steppe_cap_c,
