@@ -38,7 +38,7 @@
 		Defensive party (scout / patrol)
 	0.330: Trading
 		Good production
-		Buying and selling (player)
+		Goods taxes
 		Caravans
 	0.340: Living economy
 		Civilian parties
@@ -52,17 +52,17 @@
 	Elect leader
 	Declare war/peace
 	Elect Marshall
-	0.410: Keep lord count up
+	0.410: Faction manpower
 		Escape captivity
 		Pay ransom
 		Free prisoners
+		Hire new lords
 	0.420: Victory
 		Faction defeating
 		Faction vassalage
 0.500: Party ai
 	Better party ai
-	Marshall ai
-	0.510:
+	0.510: Cooperation
 		Cooperation (ai)
 			Transfer troops (center to center)
 			Transfer prisoners
@@ -71,6 +71,13 @@
 		Hire/Sell mercenaries
 		Lending money
 		Lord debts
+	0.530: Peace
+		Lords rest if wounded
+		Peacetime activities
+			Hunt bandit lairs
+	0.540: Marshall
+		Marshall ai
+		Marshall election
 0.600: City Management
 	Buildings
 	Bank
@@ -80,24 +87,36 @@
 	0.620: Goods
 		Good transformation
 		Good consumption
+	0.630: Npcs
+		Lords build buildings
 0.700: Kingdom Management
 	Possible for player to lead a kingdom
-	0.710:
+	0.710: Policies
 		Kingdom policies
+	0.720: Strength
+		Give out fiefs
+		Hire lords
 0.800: NPCs
 	Add kingdom women
-	Dialogs
+	Basic dialogs
 		Lords
 		Ladies
-	0.810:
+	0.810: Relations
 		Heroes relations
 			Families
 			Friends
 		Heroes randomisation
 			Faces
 			Names
-	0.820:
+	0.820: Personalities
 		NPCs personalities
+	0.830: Rest
+		Npcs Visiting friends / family
+	0.840: Influence
+		Npc actions change relations
+	0.850: Dialogs
+		Contextual dialogs
+		Memorize important events with player
 0.900: Politics
 	Politics
 	Kingdom government types
@@ -107,25 +126,27 @@
 		Add faction notes
 		Add info pages
 	0.920: Schemes
-		Relation changes with events
+		Influence npcs relations
 		Rivalries
 		Supporting neutral party
 	0.930: Civil war
 		Faction splitting (civil war)
 1.000: Companions - Personalities
 	Player Companions
-	Personalities
-	1.010:
-		Lord Companions
+	1.010: Personalities
+		Companions have personalities
+		Matching dialogs
+	1.020: Npc heroes
+		Npc Companions
 1.100: Taverns
 	Taverns
-	Mercenaries
+	1.110: Mercenaries
 		Mercenary leaders
 		Mercenary bands
 		Tavern mercenaries
-	1.110: Bandits
+	1.120: Bandits
 		Refined bandit groups
-		Bandits ambush (center)
+		Bandit ambush (center)
 		Roaming bandits
 		Deserters
 1.200: Time
@@ -184,7 +205,7 @@
 		Add info pages
 		Flesh out note pages
 1.600: Difficulty
-	Add difficulty modifiers for faction AI
+	Add difficulty modifiers for faction AI / parameters
 1.700: Custom Battles
 	More personalisation than native
 		Battle size

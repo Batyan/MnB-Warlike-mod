@@ -413,11 +413,6 @@ test_battle_siege_spawn_troops = (
 			(val_mul, ":num_men_threshold", ":faction_strength_bonus"),
 			(val_div, ":num_men_threshold", 10),
 			
-			(team_get_slot, ":faction", ":cur_team", slot_team_test_faction),
-			(call_script, "script_faction_get_party_size_modifier", ":faction"),
-			(val_mul, ":num_men_threshold", reg0),
-			(val_div, ":num_men_threshold", 100),
-			
 			(try_begin),
 				(lt, ":num_alive", ":num_men_threshold"),
 				

@@ -2,7 +2,6 @@ ToDo:
 - Add debug mode for ais
     Enable/Disable ai
     Reset ai
-- Fix siege assault battle result
 - Add troop wages
     Add wages presentation
 - Add info pages to give general informations about the mod
@@ -408,6 +407,14 @@ ToDo:
         Trading with an enemy may decrease relation
         Attacking a party will decrease relation
         Other factions relation changes may change relation
+- Wars:
+    capturing centers
+        when capturing centers, keep original owner of the center
+        when declaring peace, negociations are done with the current state of the war -> captured centers
+        allows for declaring wars to gain a single center
+        allows for declaring wars for vassalisation
+        allows for declaring wars to gain money
+        flip back all centers to original owner after peace negociations end (except those in negociation terms)
 - Main Kingdom policies:
     Swadia
         Vassals: Moderate / High Taxes
@@ -569,6 +576,9 @@ ToDo:
         besieged centers produce 1/3 of points
         when a center doesn't need recruitement points accumulate in the center
         if the center has a pool of points, gets up to 2 times more troops, depleting the pool by the amount of those troops
+    prevents recruitment if kingdom is at war (unless of same faction / ally)
+    prolonged peace time increase militia recruitment weight, war time decrease militia weight
+        simulates population more ready for war -> creates better armmies as warlike kingdom
 - faction_get_best_candidate_for_center
 - remove low tier troops from full centers (only peasants?)
 - add retextured horses for variety
@@ -1048,3 +1058,6 @@ ToDo:
         sarranid
     protect cavalry (++light cavalry, +light lancer, -horse skirmisher)
         all
+- add rumor system
+    able to gather rumors from tavern menu / scene
+    rumors inform of events

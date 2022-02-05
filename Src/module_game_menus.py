@@ -122,8 +122,6 @@ game_menus = [
 			("report_personal", [(disable_menu_option),], "Personal report", []),
 
 			## Detailed reports - displays specific informations about a particular topic
-			# Displays informations about party size
-			("report_party_size",[],"Party size report",[(jump_to_menu, "mnu_report_party_size"),]),
 			# Displays morale report
 			("report_morale",[(disable_menu_option),],"Morale report",[]),
 			# Displays wages for the current party (not fiefs)
@@ -636,11 +634,7 @@ game_menus = [
 					(party_add_leader, "$g_player_party", "$g_player_troop"),
 					(call_script, "script_troop_use_template_troop", "$g_player_troop", "$g_test_player_troop"),
 					(party_set_faction, "$g_player_party", "$g_test_player_faction"),
-					(try_for_range, ":unused", 0, 50),
-						(call_script, "script_party_get_companion_limit", "$g_player_party"),
-						(assign, ":limit", reg0),
-						(party_get_num_companions, ":num_troops", "$g_player_party"),
-						(lt, ":num_troops", ":limit"),
+					(try_for_range, ":unused", 0, 10),
 						(call_script, "script_party_add_reinforcements", "$g_player_party"),
 					(try_end),
 					(troop_set_faction, "$g_player_troop", "$g_test_player_faction"),
@@ -702,9 +696,13 @@ game_menus = [
 				(assign, reg15, reg0),
 				(display_message, "@Garrison wages: {reg15}"),
 
-				(call_script, "script_party_get_expected_taxes", "$g_encountered_party"),
+				(call_script, "script_party_get_prefered_wages_limit", "$g_encountered_party"),
 				(assign, reg16, reg0),
-				(display_message, "@Expected taxes: {reg16}"),
+				(display_message, "@Wanted wages: {reg16}"),
+
+				(call_script, "script_party_get_expected_taxes", "$g_encountered_party"),
+				(assign, reg17, reg0),
+				(display_message, "@Expected taxes: {reg17}"),
 
 				(party_get_slot, ":total_res", "$g_encountered_party", slot_party_total_resources),
 	            (str_store_party_name, s12, "$g_encountered_party"),
@@ -1673,79 +1671,6 @@ game_menus = [
 				# (change_screen_return),
 			# ]),
 		# ]),
-
-	("report_party_size", mnf_scale_picture,
-		"Party size report :^^Current max party size: {reg10}^Modifiers:^  - Base party size: {reg11}^  - Charisma bonus: +{reg12}^  - Leadership multiplier: {reg13}% = +{reg14}^  - Faction modifiers: {s10}{reg15}% = {s10}{reg16}",
-		"none",
-		[
-			(call_script, "script_party_get_companion_limit", "$g_player_party"),
-			(assign, ":companion_limit", reg0),
-
-			(troop_get_slot, ":rank", "$g_player_troop", slot_troop_rank),
-			(store_faction_of_party, ":player_faction", "$g_player_party"),
-
-            (try_begin),
-                (assign, ":base_limit", base_party_size_rank_7),
-            (else_try),
-                (eq, ":rank", 0),
-                (assign, ":base_limit", base_party_size_rank_0),
-            (else_try),
-                (eq, ":rank", 1),
-                (assign, ":base_limit", base_party_size_rank_1),
-            (else_try),
-                (eq, ":rank", 2),
-                (assign, ":base_limit", base_party_size_rank_2),
-            (else_try),
-                (eq, ":rank", 3),
-                (assign, ":base_limit", base_party_size_rank_3),
-            (else_try),
-                (eq, ":rank", 4),
-                (assign, ":base_limit", base_party_size_rank_4),
-            (else_try),
-                (eq, ":rank", 5),
-                (assign, ":base_limit", base_party_size_rank_5),
-            (else_try),
-                (eq, ":rank", 6),
-                (assign, ":base_limit", base_party_size_rank_6),
-            (else_try),
-                (eq, ":rank", 7),
-                (assign, ":base_limit", base_party_size_rank_7),
-            (try_end),
-
-            (store_attribute_level, ":charisma_bonus", "$g_player_troop", ca_charisma),
-
-            (store_add, ":party_limit", ":base_limit", ":charisma_bonus"),
-
-            (store_skill_level, ":leadership", skl_leadership, "$g_player_troop"),
-            (val_mul, ":leadership", 5),
-            
-            (store_mul, ":leadership_bonus", ":party_limit", ":leadership"),
-            (val_div, ":leadership_bonus", 100),
-
-            (call_script, "script_faction_get_party_size_modifier", ":player_faction"),
-            (assign, ":modifier", reg0),
-
-            (val_add, ":party_limit", ":leadership_bonus"),
-            (store_sub, ":faction_bonus", ":companion_limit", ":party_limit"),
-
-            (try_begin),
-            	(gt, ":faction_bonus", 0),
-            	(str_store_string, s10, "@+"),
-            (else_try),
-            	(str_clear, s10),
-            (try_end),
-
-            (assign, reg10, ":companion_limit"),
-            (assign, reg11, ":base_limit"),
-            (assign, reg12, ":charisma_bonus"),
-            (assign, reg13, ":leadership"),
-            (assign, reg14, ":leadership_bonus"),
-            (assign, reg15, ":modifier"),
-            (assign, reg16, ":faction_bonus"),
-		],
-		[
-			("report_go_back", [], "Go back", [(change_screen_return),]),
-		]),
 
 	("player_prisoner_take_action", mnf_scale_picture, 
 		"{s10} holds you prisoner, chains holding your arms and legs in place.^^You can see two guards playing cards glancing at you from time to time.^You guess that they are your jailers.",

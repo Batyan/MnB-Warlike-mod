@@ -1,5 +1,12 @@
+v 0.320:
+-Reduce sarranid_levy Powerstrike (5 -> 4)
+-Reduce sarranid_levy Ironflesh (2 -> 1)
+-Increase troop costs by a factor of 10
+-Increase troop wages by a factor of 10
+-Increase center taxes by a factor of 10
+
 v 0.310:
--Add shields khergit_militia
+-Add shields to khergit_militia
 -Add population types
 -Add population growth
 -Fix parties not storing all prisoners in owned center
