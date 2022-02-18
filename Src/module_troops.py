@@ -2358,7 +2358,7 @@ troops = [
   
   # Basic ranged, maces, bows
   ["khergit_militia", "Khergit Tribesman", "Khergit Tribesmen", tf_guarantee_recruit_armor|tf_guarantee_shield, no_scene, reserved, fac_kingdom_3,
-   [itm_club, itm_butchering_knife, itm_knife, itm_hunting_bow, itm_arrows_b, itm_arrows_b, itm_tab_shield_small_round_a,itm_tab_shield_small_round_a_plain_1,itm_tab_shield_small_round_a_plain_2,
+   [itm_club, itm_butchering_knife, itm_knife, itm_hunting_bow, itm_arrows_b, itm_tab_shield_small_round_a,itm_tab_shield_small_round_a_plain_1,itm_tab_shield_small_round_a_plain_2,
     itm_nomad_boots, itm_hide_boots,
     itm_leather_vest, itm_coarse_tunic,
     itm_nomad_cap_b, itm_nomad_cap, itm_leather_steppe_cap_a, itm_leather_steppe_cap_c,
@@ -2373,7 +2373,7 @@ troops = [
     itm_leather_vest, itm_coarse_tunic,
     itm_nomad_cap_b, itm_nomad_cap, itm_leather_steppe_cap_a, itm_leather_steppe_cap_c,
     itm_steppe_horse],
-   str_8|agi_11|int_7|cha_8|level(11), wpex(55,50,70,60,30,45), knows_common|knows_power_strike_3|knows_power_draw_4|knows_athletics_2|knows_riding_5|knows_horse_archery_2, khergit_face_young_1, khergit_face_old_2 ],
+   str_9|agi_11|int_7|cha_8|level(12), wpex(55,50,70,60,30,45), knows_common|knows_power_strike_3|knows_power_draw_4|knows_athletics_2|knows_riding_5|knows_horse_archery_2, khergit_face_young_1, khergit_face_old_2 ],
   
   # Basic infantry, swords, shields
   # SPECIAL
@@ -2383,7 +2383,7 @@ troops = [
     itm_leather_vest, itm_coarse_tunic,
     itm_nomad_cap_b, itm_nomad_cap, itm_leather_steppe_cap_a, itm_leather_steppe_cap_c,
     ],
-   str_8|agi_11|int_5|cha_6|level(7), wpex(55,45,60,50,20,40), knows_common|knows_power_strike_3|knows_athletics_4|knows_riding_2, khergit_face_young_1, khergit_face_old_2 ],
+   str_8|agi_11|int_5|cha_6|level(7), wpex(65,55,70,50,20,40), knows_common|knows_power_strike_3|knows_athletics_4|knows_riding_2, khergit_face_young_1, khergit_face_old_2 ],
 
   # Common
   # Light infantry, sabres, maces, javelins, shields
@@ -2699,21 +2699,30 @@ troops = [
    str_12|agi_9|int_5|cha_6|level(9), wpex(60,60,80,30,15,25), knows_common|knows_ironflesh_2|knows_power_strike_3|knows_athletics_1, nord_face_young_1, nord_face_old_2 ],
   
   # Basic infantry, axes, shields
-  ["nord_militia", "Nord Raider", "Nord Raiders", tf_guarantee_recruit_armor|tf_guarantee_shield, no_scene, reserved, fac_kingdom_4,
+  ["nord_raider", "Nord Raider", "Nord Raiders", tf_guarantee_recruit_armor|tf_guarantee_shield, no_scene, reserved, fac_kingdom_4,
    [itm_one_handed_war_axe_a, itm_tab_shield_round_b,itm_tab_shield_round_b_plain_1,itm_tab_shield_round_b_plain_2,
     itm_nomad_boots, itm_hide_boots,
     itm_blue_tunic, itm_coarse_tunic, itm_fur_coat,
     itm_leather_cap, itm_nordic_archer_helmet, itm_skullcap,
     ],
    str_12|agi_11|int_5|cha_6|level(11), wpex(85,70,70,30,15,30), knows_common|knows_ironflesh_1|knows_power_strike_4|knows_power_throw_1|knows_athletics_3, nord_face_young_1, nord_face_old_2 ],
+
+  # Basic ranged, daggers, axes, bows
+  ["nord_militia", "Nord Militia", "Nord Militias", tf_guarantee_recruit_armor|tf_guarantee_ranged, no_scene, reserved, fac_kingdom_4,
+   [itm_knife, itm_hatchet, itm_hunting_bow2, itm_arrows_b,
+    itm_nomad_boots, itm_hide_boots,
+    itm_blue_tunic, itm_coarse_tunic,
+    itm_leather_cap, itm_skullcap,
+    ],
+   str_10|agi_11|int_6|cha_6|level(10), wpex(65,60,60,60,30,30), knows_common|knows_power_strike_3|knows_power_draw_4|knows_athletics_2, nord_face_young_1, nord_face_old_2 ],
   
-  # Basic ranged, daggers, crossbows
+  # Basic ranged, daggers, axes, crossbows
   # SPECIAL
   ["nord_hunter", "Nord Hunter", "Nord Hunter", tf_guarantee_recruit_armor|tf_guarantee_ranged, no_scene, reserved, fac_small_kingdom_44,
-   [itm_knife, itm_hunting_crossbow, itm_bolts,
+   [itm_knife, itm_hatchet, itm_hunting_crossbow, itm_bolts,
     itm_nomad_boots, itm_hide_boots,
-    itm_blue_tunic, itm_coarse_tunic, itm_fur_coat,
-    itm_leather_cap, itm_nordic_archer_helmet, itm_skullcap,
+    itm_blue_tunic, itm_coarse_tunic,
+    itm_leather_cap, itm_skullcap,
     ],
    str_10|agi_10|int_6|cha_6|level(9), wpex(65,60,60,30,55,30), knows_common|knows_power_strike_3|knows_athletics_1, nord_face_young_1, nord_face_old_2 ],
   
@@ -3025,32 +3034,31 @@ troops = [
   ###########
   # Peasant
   # Basic infantry, spears, shields
-  ["rhodok_levy", "Rhodok Levy", "Rhodok Levies", tf_guarantee_recruit_armor|tf_guarantee_shield, no_scene, reserved, fac_kingdom_5,
+  ["rhodok_levy_spearman", "Rhodok Levy Spearman", "Rhodok Levy Spearmen", tf_guarantee_recruit_armor|tf_guarantee_shield, no_scene, reserved, fac_kingdom_5,
    [itm_spear, itm_tab_shield_pavise_a,itm_tab_shield_pavise_a_plain_1,itm_tab_shield_pavise_a_plain_2,
     itm_wrapping_boots, itm_nomad_boots, itm_hide_boots,
     itm_green_tunic, itm_tunic_with_green_cape, itm_coarse_tunic,
     itm_common_hood, itm_hood_b, itm_hood_c, itm_hood_d, itm_head_wrappings,
     ],
-   str_12|agi_7|int_5|cha_6|level(7), wpex(60,55,95,15,35,30), knows_common|knows_ironflesh_4|knows_power_strike_3, rhodok_face_young_1, rhodok_face_old_2 ],
+   str_10|agi_7|int_5|cha_6|level(5), wpex(60,55,95,15,35,30), knows_common|knows_ironflesh_4|knows_power_strike_3, rhodok_face_young_1, rhodok_face_old_2 ],
   
   # Basic infantry, swords, picks, shields
-  ["rhodok_militia", "Rhodok Militia", "Rhodok Militias", tf_guarantee_recruit_armor|tf_guarantee_shield, no_scene, reserved, fac_kingdom_5,
+  ["rhodok_levy", "Rhodok Levy", "Rhodok Levy", tf_guarantee_recruit_armor|tf_guarantee_shield, no_scene, reserved, fac_kingdom_5,
    [itm_falchion, itm_fighting_pick, itm_tab_shield_pavise_a,itm_tab_shield_pavise_a_plain_1,itm_tab_shield_pavise_a_plain_2,
     itm_wrapping_boots, itm_nomad_boots, itm_hide_boots,
     itm_green_tunic, itm_tunic_with_green_cape, itm_coarse_tunic,
     itm_common_hood, itm_hood_b, itm_hood_c, itm_hood_d, itm_head_wrappings,
     ],
-   str_10|agi_7|int_5|cha_6|level(5), wpex(65,60,75,15,30,30), knows_common|knows_ironflesh_4|knows_power_strike_3|knows_athletics_2, rhodok_face_young_1, rhodok_face_old_2 ],
+   str_11|agi_7|int_6|cha_6|level(7), wpex(65,60,75,15,30,30), knows_common|knows_ironflesh_4|knows_power_strike_3|knows_athletics_2, rhodok_face_young_1, rhodok_face_old_2 ],
   
   # Basic ranged, swords, picks, bows
-  # SPECIAL
-  ["rhodok_hunter", "Rhodok Hunter", "Rhodok Hunters", tf_guarantee_recruit_armor|tf_guarantee_ranged, no_scene, reserved, fac_small_kingdom_51,
+  ["rhodok_militia", "Rhodok Militia", "Rhodok Militias", tf_guarantee_recruit_armor|tf_guarantee_ranged, no_scene, reserved, fac_kingdom_5,
    [itm_falchion, itm_fighting_pick, itm_hunting_bow2, itm_arrows_b,
     itm_wrapping_boots, itm_nomad_boots, itm_hide_boots,
     itm_green_tunic, itm_tunic_with_green_cape, itm_coarse_tunic,
     itm_common_hood, itm_hood_b, itm_hood_c, itm_hood_d, itm_head_wrappings,
     ],
-   str_9|agi_9|int_5|cha_6|level(7), wpex(50,40,45,70,35,30), knows_common|knows_power_strike_2|knows_power_draw_4|knows_athletics_3, man_face_young_1, man_face_old_2 ],
+   str_9|agi_9|int_6|cha_6|level(7), wpex(50,40,45,70,35,30), knows_common|knows_ironflesh_2|knows_power_strike_2|knows_power_draw_4|knows_athletics_3, man_face_young_1, man_face_old_2 ],
   
   # Basic infantry, pikes
   # SPECIAL
@@ -3431,7 +3439,7 @@ troops = [
     itm_sarranid_cloth_robe, itm_sarranid_cloth_robe_b, itm_skirmisher_armor,
     itm_sarranid_felt_hat, itm_turban, itm_desert_turban,
     ],
-   str_9|agi_10|int_5|cha_5|level(6), wpex(75,65,70,25,15,40), knows_common|knows_ironflesh_1|knows_power_strike_4|knows_athletics_4|knows_riding_1, sarranid_face_young_1, sarranid_face_old_2 ],
+   str_9|agi_10|int_5|cha_6|level(7), wpex(70,60,65,25,15,40), knows_common|knows_ironflesh_1|knows_power_strike_4|knows_athletics_4|knows_riding_1, sarranid_face_young_1, sarranid_face_old_2 ],
   
   # Basic ranged, daggers, maces, bows
   ["sarranid_militia", "Sarranid Militia", "Sarranid Militias", tf_guarantee_recruit_armor|tf_guarantee_ranged, no_scene, reserved, fac_kingdom_6,
@@ -3460,16 +3468,6 @@ troops = [
     itm_sarranid_felt_hat, itm_turban, itm_desert_turban,
     itm_arabian_horse_a],
    str_8|agi_12|int_5|cha_6|level(8), wpex(65,55,60,25,15,40), knows_common|knows_ironflesh_1|knows_power_strike_3|knows_athletics_3|knows_riding_5, sarranid_face_young_1, sarranid_face_old_2 ],
-  
-  # Basic infantry, swords, maces, shields
-  # SPECIAL
-  ["sarranid_levy_infantry", "Sarranid Levy Infantry", "Sarranid Levy Infantries", tf_guarantee_recruit_armor|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_63,
-   [itm_arabian_sword_a, itm_mace_2, itm_tab_shield_kite_a,itm_tab_shield_kite_a_plain_1,itm_tab_shield_kite_a_plain_2,
-    itm_sarranid_boots_a, itm_sarranid_boots_b,
-    itm_sarranid_cloth_robe, itm_sarranid_cloth_robe_b,
-    itm_sarranid_felt_hat, itm_turban, itm_desert_turban,
-    ],
-   str_9|agi_12|int_5|cha_6|level(9), wpex(70,60,65,25,15,40), knows_common|knows_ironflesh_1|knows_power_strike_4|knows_athletics_4|knows_riding_1, sarranid_face_young_1, sarranid_face_old_2 ],
   
   # Basic infantry, spears, shields
   # SPECIAL

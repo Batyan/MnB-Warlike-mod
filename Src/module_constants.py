@@ -120,7 +120,7 @@ kingdom_1_troops_begin	= "trp_swadian_levy"
 kingdom_2_troops_begin	= "trp_vaegir_levy"
 kingdom_3_troops_begin	= "trp_khergit_levy"
 kingdom_4_troops_begin	= "trp_nord_levy"
-kingdom_5_troops_begin	= "trp_rhodok_levy"
+kingdom_5_troops_begin	= "trp_rhodok_levy_spearman"
 kingdom_6_troops_begin	= "trp_sarranid_levy"
 
 mercenaries_begin		= "trp_mercenary_levy_infantry"

@@ -9790,6 +9790,7 @@ scripts = [
             (troop_set_slot, "trp_khergit_lancer", slot_troop_faction_not_1, "fac_small_kingdom_35"), # Has Heavy Horseman instead
             (troop_set_slot, "trp_khergit_guard", slot_troop_faction_not_2, "fac_small_kingdom_36"), # Has Blade-Master instead
             
+            (troop_set_slot, "trp_nord_militia", slot_troop_faction_not_1, "fac_small_kingdom_44"), # Has Levy Crossbowman instead
             (troop_set_slot, "trp_nord_light_bowman", slot_troop_faction_not_1, "fac_small_kingdom_42"), # Has Light Longbowman instead
             (troop_set_slot, "trp_nord_heavy_bowman", slot_troop_faction_not_1, "fac_small_kingdom_42"), # Has Heavy Longbowman instead
             (troop_set_slot, "trp_nord_light_infantry", slot_troop_faction_not_1, "fac_small_kingdom_42"), # Has Footman instead
@@ -9810,6 +9811,8 @@ scripts = [
             (troop_set_slot, "trp_nord_heavy_spear_cavalry", slot_troop_faction_reserved_2, "fac_small_kingdom_44"), # 
             (troop_set_slot, "trp_nord_infantry", slot_troop_faction_reserved_2, "fac_small_kingdom_43"),
             
+            (troop_set_slot, "trp_rhodok_militia", slot_troop_faction_not_1, "fac_small_kingdom_54"), # Has Levy Crossbowman instead
+            (troop_set_slot, "trp_rhodok_militia", slot_troop_faction_not_2, "fac_small_kingdom_55"), # Has Levy Crossbowman instead
             (troop_set_slot, "trp_rhodok_light_crossbowman", slot_troop_faction_not_1, "fac_small_kingdom_51"), # 
             (troop_set_slot, "trp_rhodok_light_horse_archer", slot_troop_faction_not_1, "fac_small_kingdom_51"), # Has Mounted Archer instead
             (troop_set_slot, "trp_rhodok_medium_crossbowman", slot_troop_faction_not_1, "fac_small_kingdom_51"), # Has Bowman instead
@@ -9825,7 +9828,6 @@ scripts = [
             (troop_set_slot, "trp_sarranid_light_bowman", slot_troop_faction_not_1, "fac_small_kingdom_61"), # Has Light Crossbowman instead
             (troop_set_slot, "trp_sarranid_bowman", slot_troop_faction_not_1, "fac_small_kingdom_61"), # Has Crossbowman instead
             (troop_set_slot, "trp_sarranid_noble_horse_archer", slot_troop_faction_not_2, "fac_small_kingdom_62"), # Has Noble Spearman and Noble Infantry
-            (troop_set_slot, "trp_sarranid_levy", slot_troop_faction_not_1, "fac_small_kingdom_63"), # Has Levy Infantry instead
             (troop_set_slot, "trp_sarranid_light_infantry", slot_troop_faction_not_1, "fac_small_kingdom_63"), # Has Levy Infantry instead
             (troop_set_slot, "trp_sarranid_medium_infantry", slot_troop_faction_not_1, "fac_small_kingdom_63"), # Has Footman instead
             (troop_set_slot, "trp_sarranid_light_skirmisher", slot_troop_faction_not_1, "fac_small_kingdom_63"), # 
