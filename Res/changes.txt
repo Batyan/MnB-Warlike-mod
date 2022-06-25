@@ -1,3 +1,20 @@
+v 0.330:
+-New features:
+* add defensive parties
+	Scout: small parties of fast troops (priority to cavalry units) to engage bandits and spot enemy parties
+	Partol: average/large parties to defend against large bandit parties and help in defensive battles
+* handle party unpaid wages
+* add vassal taxation
+	Vassals have to give a small amount of their revenue to their liege
+	All kingdom members have to pay a smaller percentage to the kingdom leader
+
+-Balance changes:
+* increase swadian_militia strength (8 -> 9)
+* decrease swadian_militia intelligence (7 -> 6)
+* decrease swadian_militia ironflesh (1 -> 0)
+* increase all throwing axes stack size (3 -> 6)
+* decrease all throwing axes damage by 6
+
 v 0.320:
 -Reduce sarranid_levy Powerstrike (5 -> 4)
 -Reduce sarranid_levy Ironflesh (2 -> 1)

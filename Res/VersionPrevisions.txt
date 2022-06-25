@@ -34,17 +34,18 @@
 	0.320: Party upkeep
 		Money management
 			Weekly/Monthly finances presentation
+	0.330: Additional party
 		Party unpaid wages
 		Defensive party (scout / patrol)
-	0.330: Trading
+	0.340: Trading
 		Good production
 		Goods taxes
 		Caravans
-	0.340: Living economy
+	0.350: Living economy
 		Civilian parties
 		Prisoner transfer
 		Gold movements
-	0.350: Player trading
+	0.360: Player trading
 		All trader types for centers
 		Goods produced based on local productions
 		Equipment based on culture

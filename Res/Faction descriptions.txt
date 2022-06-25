@@ -17,6 +17,7 @@ Swadia:
 		Position: hard
 		Troops: easy
 		Goals: hard
+		Party size: average
 
 Vaegir:
 	Average infantry
@@ -37,6 +38,7 @@ Vaegir:
 		Position: hard
 		Troops: average
 		Goals: easy
+		Party size: high
 
 Khergit:
 	Weak infantry
@@ -55,6 +57,7 @@ Khergit:
 		Position: average
 		Troops: hard
 		Goals: average
+		Party size: low
 
 Nord:
 	Good infantry
@@ -70,7 +73,8 @@ Nord:
 	Difficulty
 		Position: average
 		Troops: easy
-		Goals: hard
+		Goals: average
+		Party size: average
 
 Rhodok:
 	Average infantry
@@ -89,6 +93,7 @@ Rhodok:
 		Position: easy
 		Troops: hard
 		Goals: average
+		Party size: high
 
 Sarranid:
 	Good infantry
@@ -106,6 +111,7 @@ Sarranid:
 		Position: easy
 		Troops: average
 		Goals: hard
+		Party size: average
 
 Swadian Minors:
 	County of Tevarin

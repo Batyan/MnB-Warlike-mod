@@ -463,6 +463,28 @@ slot_faction_status = 58
 sfst_default = 0
 sfst_disabled = -1
 
+# slots used for faction focus in ai decision
+slot_faction_mission_focus_1 = 59
+slot_faction_mission_focus_2 = 60
+slot_faction_mission_focus_3 = 61
+slot_faction_mission_focus_4 = 62
+slot_faction_mission_focus_5 = 63
+slot_faction_mission_focus_6 = 64
+slot_faction_mission_focus_7 = 65
+slot_faction_mission_focus_8 = 66
+slot_faction_mission_focus_9 = 67
+slot_faction_mission_focus_10 = 68
+slot_faction_mission_focus_11 = 69
+slot_faction_mission_focus_12 = 70
+slot_faction_mission_focus_13 = 71
+slot_faction_mission_focus_14 = 72
+slot_faction_mission_focus_15 = 73
+slot_faction_mission_focus_16 = 74
+slot_faction_mission_focus_17 = 75
+slot_faction_mission_focus_18 = 76
+slot_faction_mission_focus_19 = 77
+slot_faction_mission_focus_20 = 78
+
 #################
 ## Party Slots ##
 #################

@@ -1590,7 +1590,7 @@ troops = [
     itm_padded_cloth, itm_leather_armor,
     itm_padded_coif, itm_arming_cap,
     ],
-   str_8|agi_11|int_7|cha_7|level(10), wpex(70,50,60,70,60,45), knows_common|knows_ironflesh_1|knows_power_strike_2|knows_power_draw_4|knows_athletics_2|knows_riding_1, swadian_face_young_1, swadian_face_old_2 ],
+   str_9|agi_11|int_6|cha_7|level(10), wpex(70,50,60,70,60,45), knows_common|knows_power_strike_2|knows_power_draw_4|knows_athletics_2|knows_riding_1, swadian_face_young_1, swadian_face_old_2 ],
   
   # Basic infantry, spears, shields
   # SPECIAL

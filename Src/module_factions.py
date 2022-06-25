@@ -64,7 +64,7 @@ factions = [
 	
 	("small_kingdom_51", "Highlanders", 0, 0.9, [("outlaws",-0.5),], [], 0x4F5868), # Hunter + Bowman + Heavy Bowman + Sergeant + Highlander
 	("small_kingdom_52", "Bezan", 0, 0.9, [("outlaws",-0.5),], [], 0x4F6C99), # Heroic Horseman + Levy Pikeman + Heavy Horseman + Light Horseman? + Heroic Pikeman
-	("small_kingdom_53", "Veluca", 0, 0.9, [("outlaws",-0.5),], [], 0x2280F9), # Light Cavalry + Heavy Cavalry + Heroic Cavalry
+	("small_kingdom_53", "Veluca", 0, 0.9, [("outlaws",-0.5),], [], 0x005566), # Light Cavalry + Heavy Cavalry + Heroic Cavalry
 	("small_kingdom_54", "Jamiche", 0, 0.9, [("outlaws",-0.5),], [], 0xBE9EFF), # Light Spearman + Light Skirmisher + Heavy Spearman + Mounted Crossbow + Heavy Mounted Crossbow + Heroic Mounted Crossbow + Levy Crossbow
 	("small_kingdom_55", "Saren", 0, 0.9, [("outlaws",-0.5),], [], 0x74DBD2), # Mounted Crossbow + Heavy Lancer + Heroic Lancer + Scout + Levy Crossbow
 	
