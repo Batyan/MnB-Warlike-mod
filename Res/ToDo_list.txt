@@ -310,9 +310,9 @@ ToDo:
                 6%: High taxes
             Faction leader:
                 0%: No taxes
-                2%: Low taxes
-                4%: Medium taxes
-                6%: High taxes
+                1%: Low taxes
+                2%: Medium taxes
+                3%: High taxes
         Leader:
             Elected by population (elders of villages/cities/castles), can be lifelong rule or a certain period
                 High relation with centers is important
