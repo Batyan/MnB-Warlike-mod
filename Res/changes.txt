@@ -1,5 +1,28 @@
+v 0.320:
+-Reduce sarranid_levy Powerstrike (5 -> 4)
+-Reduce sarranid_levy Ironflesh (2 -> 1)
+-Increase troop costs by a factor of 10
+-Increase troop wages by a factor of 10
+-Increase center taxes by a factor of 10
+-Remove sarranid_levy_infantry (duplicate of sarranid_levy)
+-Increase sarranid_levy charisma (5 -> 6)
+-Increase sarranid_levy level (6 -> 7)
+-Decrease sarranid_levy melee proficiencies (75,65,70 -> 70,60,65)
+-Increase khergit_levy_infantry melee proficiencies (55,45,60 -> 65,55,70)
+-Increase khergit_clansman strength (8 -> 9)
+-Increase khergit_clansman level (11 -> 12)
+-Change rhodok_levy name to rhodok_levy_spearman
+-Decrease rhodok_levy_spearman strength (12 -> 10)
+-Decrease rhodok_levy_spearman level (7 -> 5)
+-Change rhodok_militia name to rhodock_levy
+-Increase rhodok_levy strength (10 -> 11)
+-Increase rhodok_levy interlligence (5 -> 6)
+-Increase rhodok_levy level (5 -> 7)
+-Change rhodok_hunter to rhodok_militia
+-Allow rhodok culture to use rhodok_militia 
+
 v 0.310:
--Add shields khergit_militia
+-Add shields to khergit_militia
 -Add population types
 -Add population growth
 -Fix parties not storing all prisoners in owned center

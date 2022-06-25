@@ -120,7 +120,7 @@ kingdom_1_troops_begin	= "trp_swadian_levy"
 kingdom_2_troops_begin	= "trp_vaegir_levy"
 kingdom_3_troops_begin	= "trp_khergit_levy"
 kingdom_4_troops_begin	= "trp_nord_levy"
-kingdom_5_troops_begin	= "trp_rhodok_levy"
+kingdom_5_troops_begin	= "trp_rhodok_levy_spearman"
 kingdom_6_troops_begin	= "trp_sarranid_levy"
 
 mercenaries_begin		= "trp_mercenary_levy_infantry"
@@ -173,22 +173,6 @@ castle_scene_desert_wood_end = castle_scene_end
 
 
 # OTHER
-garrison_size_town = 750
-garrison_size_castle = 400
-garrison_size_village = 50
-garrison_size_fort = 50
-
-base_party_size_rank_0 = 10
-base_party_size_rank_1 = 15
-base_party_size_rank_2 = 35
-base_party_size_rank_3 = 60
-base_party_size_rank_4 = 100
-base_party_size_rank_5 = 150
-base_party_size_rank_6 = 160
-base_party_size_rank_7 = 200
-
-party_size_div_peace = 3
-
 siege_attack_spawn_begin = 2
 siege_defend_points_begin = 10
 siege_archer_points_begin = 20
@@ -253,6 +237,10 @@ text_color_impossible = 0xc01010
 text_color_gold = 0x55eeee
 text_color_valid = 0x00ee55
 text_color_capture = 0xDD2200
+
+text_color_budget_positive = 0x00dd00
+text_color_budget_negative = 0xdd0000
+text_color_budget_neutral = 0x222222
 
 era_minimum_duration = 1
 
@@ -518,28 +506,31 @@ slot_party_population_artisan = 10
 slot_party_population_slave = 11
 
 population_max_town = 34000
-population_max_castle = 16500
+population_max_castle = 8000
 population_max_village = 10000
 slot_party_population_max 	= 12
 
-population_growth_castle_noble = 150
-population_growth_castle_artisan = 100
-population_growth_castle_serf = 500
-population_growth_castle_slave = 10
+population_growth_castle_noble = 15
+population_growth_castle_artisan = 25
+population_growth_castle_serf = 60
+population_growth_castle_slave = 0
 
-population_growth_town_noble = 50
-population_growth_town_artisan = 900
-population_growth_town_serf = 20000
-population_growth_town_slave = 10
+population_growth_town_noble = 10
+population_growth_town_artisan = 20
+population_growth_town_serf = 70
+population_growth_town_slave = 0
 
-population_growth_village_noble = 20
-population_growth_village_artisan = 200
-population_growth_village_serf = 6000
-population_growth_village_slave = 10
+population_growth_village_noble = 5
+population_growth_village_artisan = 5
+population_growth_village_serf = 90
+population_growth_village_slave = 0
 
-taxes_noble_amount = 100
-taxes_artisan_amount = 10
-taxes_serf_amount = 1
+taxes_noble_amount = 16
+taxes_artisan_amount = 4
+taxes_serf_amount = 2
+
+slot_party_wanted_party_wages = 13 # Only centers / non hero parties
+slot_party_accumulated_taxes = 14
 
 slot_party_ressource_radius = 16
 
@@ -657,6 +648,10 @@ slot_party_num_scouts		= 149
 slot_party_num_others 		= 150 # Contains every other non fighting party (should include hunters too?)
 
 slot_party_recent_casualties_loot = 151 # Contains gold looted during simulated battle
+
+slot_party_budget_last_wealth = 152
+slot_party_budget_taxes = 153
+slot_party_budget_protection_taxes = 154
 
 slot_party_item_consumed_begin 	= 200 # Number of items consumed per 100 citizens
 slot_party_item_consumed_end	= slot_party_item_consumed_begin + goods_end - goods_begin
@@ -856,6 +851,9 @@ slot_troop_companion_of = 59 # Used for companions -- Stores the leader it is fo
 
 slot_troop_num_followers = 60 # Stores number of parties trying to follow
 slot_troop_num_followers_ready = 61 # Stores number of parties currently nearby and following
+
+slot_troop_wanted_party_wages = 62
+slot_troop_accumulated_taxes = 63
 
 slot_troop_relations_begin = 400
 

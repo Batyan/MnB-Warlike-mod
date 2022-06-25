@@ -127,6 +127,8 @@ dialogs = [
 	[anyone|plyr, "player_lord_main",
 		[], "How about we have a duel ?", "duel_ask", []],
 	[anyone|plyr, "player_lord_main",
+		[(call_script, "script_cf_debug", debug_all),], "[DEBUG] Debug dialog menu", "lord_debug", []],
+	[anyone|plyr, "player_lord_main",
 		[], "I must take my leave.", "close_window", []],
 
 	[anyone, "lord_ask",
@@ -196,6 +198,19 @@ dialogs = [
 		[], "Ha! Surely you are stupid if you think I will surrender without a fight.", "close_window", 
 		[(party_set_slot, "$g_talk_party", slot_party_speak_allowed, 0),
 		 (encounter_attack),]],
+
+	[anyone, "lord_debug",
+		[], "DEBUG MENU", "player_lord_debug", []],
+
+	[anyone|plyr, "player_lord_debug",
+		[], "Debug party variables", "lord_debug", [
+			(call_script, "script_party_get_prefered_wages_limit", "$g_encountered_party"),
+			(display_message, "@Wanted wages: {reg0}; Min wages: {reg1}; Max wages: {reg2}"),
+            (call_script, "script_party_get_wages", "$g_encountered_party"),
+			(display_message, "@Current wages: {reg0}"),
+		]],
+	[anyone|plyr, "player_lord_debug",
+		[], "Go back", "lord_main_return", []],
 
 	###############
 	# Bandit talk #

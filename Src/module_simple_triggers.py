@@ -17,33 +17,36 @@ simple_triggers = [
 
     (monthly*2, # Parties trigger
         [
-            (try_for_parties, ":party_no"),
-                (party_is_active, ":party_no"),
+            (try_for_range, ":party_no", centers_begin, centers_end),
+                (call_script, "script_party_recruit_troops", ":party_no"),
+                (assign, ":num_recruited", reg0),
+                (val_mul, ":num_recruited", -1),
+                (call_script, "script_party_modify_population", ":party_no", ":num_recruited"),
                 (party_get_slot, ":party_type", ":party_no", slot_party_type),
+                
                 (try_begin),
-                    (is_between, ":party_type", spt_village, spt_fort),
-                    (call_script, "script_party_recruit_troops", ":party_no"),
-                    (assign, ":num_recruited", reg0),
-                    (val_mul, ":num_recruited", -1),
-                    (call_script, "script_party_modify_population", ":party_no", ":num_recruited"),
-                    
-                    (try_begin),
-                        (eq, ":party_type", spt_town),
-                        (call_script, "script_party_update_merchants_gold", ":party_no"),
-                    (try_end),
+                    (eq, ":party_type", spt_town),
+                    (call_script, "script_party_update_merchants_gold", ":party_no"),
+                (try_end),
 
-                    # Generate bandits
-                    (store_random_in_range, ":rand", 0, 50),
-                    (try_begin), # Generate bandits more often if center prosperity is low
-                        (le, ":rand", 3),
-                        (call_script, "script_party_spawn_bandits", ":party_no"),
-                    (try_end),
+                # Generate bandits
+                (store_random_in_range, ":rand", 0, 50),
+                (try_begin), # Generate bandits more often if center prosperity is low
+                    (le, ":rand", 3),
+                    (call_script, "script_party_spawn_bandits", ":party_no"),
                 (try_end),
             (try_end),
         ]),
     
     (monthly, # Parties trigger
         [
+            (try_for_range, ":lord", lords_begin, lords_end),
+                (troop_set_slot, ":lord", slot_troop_accumulated_taxes, 0),
+            (try_end),
+            (try_for_range, ":center", centers_begin, centers_end),
+                (party_set_slot, ":center", slot_party_accumulated_taxes, 0),
+            (try_end),
+
             (try_for_parties, ":party_no"),
                 (party_is_active, ":party_no"),
                 (party_get_slot, ":party_type", ":party_no", slot_party_type),
@@ -82,6 +85,16 @@ simple_triggers = [
                     (try_end),
                 (try_end),
             (try_end),
+
+            (try_for_range, ":lord", lords_begin, lords_end),
+                (troop_get_slot, ":occupation", ":lord", slot_troop_kingdom_occupation),
+                (eq, ":occupation", tko_kingdom_hero),
+                (call_script, "script_troop_process_ideal_party_wages", ":lord"),
+            (try_end),
+            (try_for_range, ":center", centers_begin, centers_end),
+                (call_script, "script_party_process_ideal_party_wages", ":center"),
+            (try_end),
+
             (store_random_in_range, "$g_daily_random", 0, 10000),
         ]),
     
@@ -409,10 +422,15 @@ simple_triggers = [
     (yearly, # Yearly wages for parties
         [
             (try_for_parties, ":party_no"),
+                (neq, ":party_no", "$g_player_party"),
                 # Every party must pay wages
                 (call_script, "script_party_pay_wages", ":party_no"),
                 (call_script, "script_party_pay_debts", ":party_no"),
             (try_end),
+
+            # For player we call the budget menu
+            (assign, reg10, 1),
+            (start_presentation, "prsnt_budget_report"),
         ]),
     
     (yearly, # Weapon proficiency decay
