@@ -238,6 +238,10 @@ text_color_gold = 0x55eeee
 text_color_valid = 0x00ee55
 text_color_capture = 0xDD2200
 
+text_color_budget_positive = 0x00dd00
+text_color_budget_negative = 0xdd0000
+text_color_budget_neutral = 0x222222
+
 era_minimum_duration = 1
 
 merchants_begin = "trp_merchant_town_11_general"
@@ -644,6 +648,10 @@ slot_party_num_scouts		= 149
 slot_party_num_others 		= 150 # Contains every other non fighting party (should include hunters too?)
 
 slot_party_recent_casualties_loot = 151 # Contains gold looted during simulated battle
+
+slot_party_budget_last_wealth = 152
+slot_party_budget_taxes = 153
+slot_party_budget_protection_taxes = 154
 
 slot_party_item_consumed_begin 	= 200 # Number of items consumed per 100 citizens
 slot_party_item_consumed_end	= slot_party_item_consumed_begin + goods_end - goods_begin

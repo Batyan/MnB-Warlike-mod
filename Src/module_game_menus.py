@@ -125,7 +125,11 @@ game_menus = [
 			# Displays morale report
 			("report_morale",[(disable_menu_option),],"Morale report",[]),
 			# Displays wages for the current party (not fiefs)
-			("report_wages",[(disable_menu_option),],"Party wages report",[]),
+			("report_budget",[],"Budget report",
+				[
+					(assign, reg10, 0),
+					(start_presentation, "prsnt_budget_report"),
+				]),
 
 			("resume_travelling",[],"Resume travelling",
 				[
@@ -1014,7 +1018,7 @@ game_menus = [
 					(party_set_faction, "p_temp_party", ":faction"),
 
 					(call_script, "script_party_add_troops", "p_temp_party", ":peasant_begin", ":common_begin", "$g_num_levies"),
-					(store_div, ":cost", reg1, 2),
+					(store_div, ":cost", reg1, 5),
 					(call_script, "script_game_get_money_text", ":cost"),
 					(str_store_string_reg, s10, s0),
 

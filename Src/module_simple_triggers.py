@@ -422,10 +422,15 @@ simple_triggers = [
     (yearly, # Yearly wages for parties
         [
             (try_for_parties, ":party_no"),
+                (neq, ":party_no", "$g_player_party"),
                 # Every party must pay wages
                 (call_script, "script_party_pay_wages", ":party_no"),
                 (call_script, "script_party_pay_debts", ":party_no"),
             (try_end),
+
+            # For player we call the budget menu
+            (assign, reg10, 1),
+            (start_presentation, "prsnt_budget_report"),
         ]),
     
     (yearly, # Weapon proficiency decay

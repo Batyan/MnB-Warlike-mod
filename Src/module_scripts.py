@@ -4620,13 +4620,13 @@ scripts = [
         # input:
         #   arg1: party_no
         #   arg2: amount
-        #   arg3: remove_garrison
+        #   arg3: own_tax
         # output: none
     ("party_add_accumulated_taxes",
         [
             (store_script_param, ":party_no", 1),
             (store_script_param, ":amount", 2),
-            (store_script_param, ":remove_garrison", 3),
+            (store_script_param, ":own_tax", 3),
 
             (party_get_slot, ":accumulated_taxes", ":party_no", slot_party_accumulated_taxes),
             (val_add, ":accumulated_taxes", ":amount"),
@@ -4639,13 +4639,24 @@ scripts = [
                 (val_add, ":accumulated_taxes", ":amount"),
 
                 (try_begin),
-                    (eq, ":remove_garrison", 1),
+                    (eq, ":own_tax", 1),
                     (call_script, "script_party_get_wages", ":party_no"),
                     (assign, ":wages", reg0),
                     (val_sub, ":accumulated_taxes", ":wages"),
                 (try_end),
 
                 (troop_set_slot, ":leader", slot_troop_accumulated_taxes, ":accumulated_taxes"),
+            (try_end),
+
+            (try_begin),
+                (eq, ":own_tax", 1),
+                (party_get_slot, ":budget", ":party_no", slot_party_budget_taxes),
+                (val_add, ":budget", ":amount"),
+                (party_set_slot, ":party_no", slot_party_budget_taxes, ":budget"),
+            (else_try),
+                (party_get_slot, ":budget", ":party_no", slot_party_budget_protection_taxes),
+                (val_add, ":budget", ":amount"),
+                (party_set_slot, ":party_no", slot_party_budget_protection_taxes, ":budget"),
             (try_end),
         ]),
 
@@ -8201,6 +8212,10 @@ scripts = [
                 
                 (call_script, "script_party_add_reinforcements", ":party_no"),
 
+                (store_mul, ":gold_cost", reg1, -1),
+
+                (call_script, "script_party_modify_wealth", ":party_no", ":gold_cost"),
+
                 (try_begin),
                     # We do not want to buy expensive troops from other centers when we don't need it
                     (neg|party_slot_eq, ":party_no", slot_party_type, spt_village),
@@ -8853,6 +8868,8 @@ scripts = [
                 
                 (val_add, ":num_sent", reg0),
                 (val_add, ":total_cost", reg1),
+
+                (call_script, "script_party_create_debt", ":linked_center", ":party_no", ":total_cost"),
                 
                 (party_set_slot, ":spawned_party", slot_party_type, spt_convoy),
                 (party_set_slot, ":spawned_party", slot_party_mission, spm_reinforce),
@@ -14440,5 +14457,34 @@ scripts = [
                     (display_message, "@Lord {s10} has {reg10} followers ({reg11} ready)"),
                 (try_end),
             (try_end),
+        ]),
+
+    # script_party_create_debt
+        # input:
+        #   arg1: debtor
+        #   arg2: creditor
+        #   arg3: amount
+        # output: none
+    ("party_create_debt",
+        [
+            (store_script_param, ":debtor", 1),
+            (store_script_param, ":creditor", 2),
+            (store_script_param, ":amount", 3),
+
+            (store_mul, ":debtor_amount", ":amount", -1),
+
+            (try_begin),
+                (call_script, "script_cf_debug", debug_economy),
+
+                (str_store_party_name, s10, ":debtor"),
+                (str_store_party_name, s11, ":creditor"),
+                (assign, reg10, ":amount"),
+                
+                (display_message, "@{s10} creating debt for {s11} ({reg10})"),
+            (try_end),
+
+            # TODO: for now we transfer the gold directly
+            (call_script, "script_party_modify_wealth", ":debtor", ":debtor_amount"),
+            (call_script, "script_party_modify_wealth", ":creditor", ":amount"),
         ]),
 ]

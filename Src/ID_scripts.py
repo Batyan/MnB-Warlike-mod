@@ -290,5 +290,6 @@ script_party_take_player_party_prisoner = 288
 script_player_party_free = 289
 script_troop_escape_chance = 290
 script_prepare_troop_followers = 291
+script_party_create_debt = 292
 
 
