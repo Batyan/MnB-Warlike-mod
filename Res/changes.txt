@@ -14,6 +14,14 @@ v 0.330:
 * decrease swadian_militia ironflesh (1 -> 0)
 * increase all throwing axes stack size (3 -> 6)
 * decrease all throwing axes damage by 6
+* increase khergit_noble_cavalry strength (16 -> 17)
+* increase khergit_noble_cavalry agility (20 -> 21)
+* increase khergit_noble_cavalry charisma (18 -> 19)
+* increase khergit_noble_cavalry level (42 -> 45)
+* replace khergit_noble_cavalry horse (hunter -> steppe horse)
+* add khergit_elite_armor to khergit_noble_lancer
+* add swadian_levy_spearman to small_kingdom_15
+* add swadian_foot_knight to small_kingdom_15
 
 v 0.320:
 -Reduce sarranid_levy Powerstrike (5 -> 4)

@@ -4587,6 +4587,64 @@ scripts = [
             (call_script, "script_party_get_expected_taxes", ":party_no"),
             (assign, ":taxes", reg0),
 
+            (assign, ":member_tax", 0),
+            (assign, ":vassal_tax", 0),
+
+            (store_faction_of_party, ":party_faction", ":party_no"),
+            (try_begin),
+                (gt, ":party_faction", 0),
+                (faction_get_slot, ":member_tax_rate", ":party_faction", slot_faction_member_tax_rate),
+                (faction_get_slot, ":vassal_tax_rate", ":party_faction", slot_faction_vassal_tax_rate),
+
+                (try_begin),
+                    (gt, ":member_tax_rate", 0),
+
+                    (faction_get_slot, ":faction_leader", ":party_faction", slot_faction_leader),
+                    (ge, ":faction_leader", 0),
+
+                    (store_mul, ":member_tax", ":member_tax_rate", ":taxes"),
+                    (val_div, ":member_tax", 100),
+
+                    (call_script, "script_troop_add_accumulated_taxes", ":faction_leader", ":member_tax", tax_type_member),
+
+                    (store_mul, ":member_tax_pay", ":member_tax", -1),
+                    (call_script, "script_party_add_accumulated_taxes", ":party_no", ":member_tax_pay", tax_type_member_pay),
+
+                    (try_begin),
+                        (call_script, "script_cf_debug", debug_economy),
+                        (str_store_party_name, s10, ":party_no"),
+                        (str_store_troop_name, s11, ":faction_leader"),
+                        (assign, reg10, ":member_tax"),
+                        (display_message, "@{s10} member taxes: {reg10} to {s11}"),
+                    (try_end),
+                (try_end),
+                (try_begin),
+                    (gt, ":vassal_tax_rate", 0),
+
+                    (party_get_slot, ":party_leader", ":party_no", slot_party_leader),
+                    (ge, ":party_leader", 0),
+                    (troop_get_slot, ":party_leader_lord", ":party_leader", slot_troop_vassal_of),
+                    (ge, ":party_leader_lord", 0),
+
+                    (store_mul, ":vassal_tax", ":vassal_tax_rate", ":taxes"),
+                    (val_div, ":vassal_tax", 100),
+
+                    (call_script, "script_troop_add_accumulated_taxes", ":party_leader_lord", ":vassal_tax", tax_type_vassal),
+
+                    (store_mul, ":vassal_tax_pay", ":member_tax", -1),
+                    (call_script, "script_party_add_accumulated_taxes", ":party_no", ":vassal_tax_pay", tax_type_vassal_pay),
+
+                    (try_begin),
+                        (call_script, "script_cf_debug", debug_economy),
+                        (str_store_troop_name, s10, ":party_leader"),
+                        (str_store_troop_name, s11, ":party_leader_lord"),
+                        (assign, reg10, ":vassal_tax"),
+                        (display_message, "@{s10} vassal taxes: {reg10} to {s11}"),
+                    (try_end),
+                (try_end),
+            (try_end),
+
+
             (party_get_slot, ":party_type", ":party_no", slot_party_type),
             (try_begin),
                 (eq, ":party_type", spt_village),
@@ -4594,13 +4652,14 @@ scripts = [
                 (is_between, ":linked_party", centers_begin, centers_end),
                 (store_mul, ":linked_taxes", 3),
                 (val_div, ":linked_taxes", 10),
+                # TODO: separate protection taxes
                 (val_sub, ":taxes", ":linked_taxes"),
                 # TODO: remove instant teleportation of money
                 (party_get_slot, ":linked_center_wealth", ":linked_party", slot_party_wealth),
                 (val_add, ":linked_center_wealth", ":linked_taxes"),
                 (party_set_slot, ":linked_party", slot_party_wealth, ":linked_center_wealth"),
 
-                (call_script, "script_party_add_accumulated_taxes", ":linked_party", ":linked_taxes", 0),
+                (call_script, "script_party_add_accumulated_taxes", ":linked_party", ":linked_taxes", tax_type_protection),
 
             (try_end),
 
@@ -4611,22 +4670,55 @@ scripts = [
                 (display_message, "@{s10} taxes: {reg10}"),
             (try_end),
             
+            (val_sub, ":taxes", ":member_tax"),
+            (val_sub, ":taxes", ":vassal_tax"),
             (val_add, ":wealth", ":taxes"),
             (party_set_slot, ":party_no", slot_party_wealth, ":wealth"),
-            (call_script, "script_party_add_accumulated_taxes", ":party_no", ":taxes", 1),
+            (call_script, "script_party_add_accumulated_taxes", ":party_no", ":taxes", tax_type_population),
+        ]),
+
+    # script_troop_add_accumulated_taxes
+        # input:
+        #   arg1: troop_no
+        #   arg2: amount
+        #   arg3: tax_type
+        # output: none
+    ("troop_add_accumulated_taxes",
+        [
+            (store_script_param, ":troop_no", 1),
+            (store_script_param, ":amount", 2),
+            (store_script_param, ":tax_type", 3),
+
+            (troop_get_slot, ":accumulated_taxes", ":troop_no", slot_troop_accumulated_taxes),
+            (val_add, ":accumulated_taxes", ":amount"),
+            (troop_set_slot, ":troop_no", slot_troop_accumulated_taxes, ":accumulated_taxes"),
+
+            (try_begin),
+                (eq, ":tax_type", tax_type_vassal),
+                (troop_get_slot, ":budget", ":troop_no", slot_party_budget_vassal_taxes),
+                (val_add, ":budget", ":amount"),
+                (troop_set_slot, ":troop_no", slot_party_budget_vassal_taxes, ":budget"),
+            (else_try),
+                (eq, ":tax_type", tax_type_member),
+                (troop_get_slot, ":budget", ":troop_no", slot_party_budget_faction_member_taxes),
+                (val_add, ":budget", ":amount"),
+                (troop_set_slot, ":troop_no", slot_party_budget_faction_member_taxes, ":budget"),
+            (try_end),
+
+            (call_script, "script_troop_change_wealth", ":troop_no", ":amount"),
         ]),
 
     # script_party_add_accumulated_taxes
         # input:
         #   arg1: party_no
         #   arg2: amount
-        #   arg3: own_tax
+        #   arg3: tax_type
         # output: none
     ("party_add_accumulated_taxes",
         [
             (store_script_param, ":party_no", 1),
             (store_script_param, ":amount", 2),
-            (store_script_param, ":own_tax", 3),
+            (store_script_param, ":tax_type", 3),
 
             (party_get_slot, ":accumulated_taxes", ":party_no", slot_party_accumulated_taxes),
             (val_add, ":accumulated_taxes", ":amount"),
@@ -4639,7 +4731,7 @@ scripts = [
                 (val_add, ":accumulated_taxes", ":amount"),
 
                 (try_begin),
-                    (eq, ":own_tax", 1),
+                    (eq, ":tax_type", tax_type_population),
                     (call_script, "script_party_get_wages", ":party_no"),
                     (assign, ":wages", reg0),
                     (val_sub, ":accumulated_taxes", ":wages"),
@@ -4649,14 +4741,25 @@ scripts = [
             (try_end),
 
             (try_begin),
-                (eq, ":own_tax", 1),
+                (eq, ":tax_type", tax_type_population),
                 (party_get_slot, ":budget", ":party_no", slot_party_budget_taxes),
                 (val_add, ":budget", ":amount"),
                 (party_set_slot, ":party_no", slot_party_budget_taxes, ":budget"),
             (else_try),
+                (eq, ":tax_type", tax_type_protection),
                 (party_get_slot, ":budget", ":party_no", slot_party_budget_protection_taxes),
                 (val_add, ":budget", ":amount"),
                 (party_set_slot, ":party_no", slot_party_budget_protection_taxes, ":budget"),
+            (else_try),
+                (eq, ":tax_type", tax_type_vassal_pay),
+                (party_get_slot, ":budget", ":party_no", slot_party_budget_vassal_taxes),
+                (val_add, ":budget", ":amount"),
+                (party_set_slot, ":party_no", slot_party_budget_vassal_taxes, ":budget"),
+            (else_try),
+                (eq, ":tax_type", tax_type_member_pay),
+                (party_get_slot, ":budget", ":party_no", slot_party_budget_faction_member_taxes),
+                (val_add, ":budget", ":amount"),
+                (party_set_slot, ":party_no", slot_party_budget_faction_member_taxes, ":budget"),
             (try_end),
         ]),
 
@@ -5225,6 +5328,9 @@ scripts = [
             (try_for_range, ":fac_1", kingdoms_begin, kingdoms_end),
                 (faction_set_slot, ":fac_1", slot_faction_lord_gathering, -1),
                 (faction_set_slot, ":fac_1", slot_faction_size, -1),
+
+                (faction_set_slot, ":fac_1", slot_faction_vassal_tax_rate, 5),
+                (faction_set_slot, ":fac_1", slot_faction_member_tax_rate, 2),
 
                 (try_begin),
                     (spawn_around_party, "p_centers_end", "pt_name_holders_template"),
@@ -9782,6 +9888,9 @@ scripts = [
             (troop_set_slot, "trp_swadian_pikeman", slot_troop_faction_not_1, "fac_small_kingdom_15"), # Has Spearman instead
             (troop_set_slot, "trp_swadian_champion", slot_troop_faction_not_2, "fac_small_kingdom_17"), # 
             (troop_set_slot, "trp_swadian_heavy_cavalry", slot_troop_faction_not_1, "fac_small_kingdom_17"), # Has Squire instead
+
+            (troop_set_slot, "trp_swadian_levy_spearman", slot_troop_faction_reserved_2, "fac_small_kingdom_15"),
+            (troop_set_slot, "trp_swadian_foot_knight", slot_troop_faction_reserved_2, "fac_small_kingdom_15"),
             
             (troop_set_slot, "trp_vaegir_light_cavalry", slot_troop_faction_not_1, "fac_small_kingdom_22"), # Has Scout instead
             (troop_set_slot, "trp_vaegir_heavy_cavalry", slot_troop_faction_not_1, "fac_small_kingdom_22"), # Has Horseman instead
@@ -13454,6 +13563,21 @@ scripts = [
             (try_end),
 
             (assign, reg0, ":new"),
+        ]),
+
+    # script_troop_change_wealth
+        # input:
+        #   arg1: troop_no
+        #   arg2: amount
+        # output:
+        #   reg0: new_wealth
+    ("troop_change_wealth",
+        [
+            (store_script_param, ":troop_no", 1),
+            (store_script_param, ":amount", 2),
+
+            (troop_add_gold, ":troop_no", ":amount"),
+            (store_troop_gold, reg0, ":troop_no"),
         ]),
 
     # script_party_change_morale

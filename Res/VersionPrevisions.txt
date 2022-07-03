@@ -37,6 +37,7 @@
 	0.330: Additional party
 		Party unpaid wages
 		Defensive party (scout / patrol)
+		Vassal taxes
 	0.340: Trading
 		Good production
 		Goods taxes

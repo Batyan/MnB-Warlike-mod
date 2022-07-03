@@ -722,7 +722,7 @@ presentations = [
 
                 ## TODO: Future state
 
-                (store_sub, ":player_party_remaining", ":player_gold", ":player_party_wages"),
+                (store_add, ":player_party_remaining", ":player_gold", ":player_party_wages"),
                 (call_script, "script_game_get_money_text", ":player_party_remaining"),
 
                 (create_text_overlay, reg0, "@Remaining gold: {s0}", tf_left_align),
