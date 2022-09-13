@@ -114,10 +114,10 @@ script_party_get_expected_taxes = 112
 script_party_process_taxes = 113
 script_troop_add_accumulated_taxes = 114
 script_party_add_accumulated_taxes = 115
-script_troop_process_ideal_party_wages = 116
-script_party_process_ideal_party_wages = 117
-script_cf_party_send_surplus_population = 118
-script_cf_spawn_hunter_from_party = 119
+script_troop_get_allocated_budget = 116
+script_party_get_allocated_budget = 117
+script_troop_process_ideal_party_wages = 118
+script_party_process_ideal_party_wages = 119
 script_spawn_party_around_party = 120
 script_cf_faction_need_party_nearby_resources = 121
 script_spawn_new_center_marker_with_party_resources = 122
@@ -293,5 +293,10 @@ script_player_party_free = 291
 script_troop_escape_chance = 292
 script_prepare_troop_followers = 293
 script_party_create_debt = 294
+script_party_process_attached_parties = 295
+script_cf_party_create_patrol = 296
+script_cf_center_can_give_troops = 297
+script_party_give_prisoners_to_party = 298
+script_party_patrol_process = 299
 
 

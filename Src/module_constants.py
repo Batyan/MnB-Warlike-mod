@@ -672,12 +672,11 @@ slot_party_prepared_for_war = 143
 
 slot_party_process_mission_iteration = 144
 
-slot_party_num_hunters 		= 145
 slot_party_num_peasants		= 146
 slot_party_num_caravans		= 147
 slot_party_num_patrols		= 148
 slot_party_num_scouts		= 149
-slot_party_num_others 		= 150 # Contains every other non fighting party (should include hunters too?)
+slot_party_num_others 		= 150 # Contains every other non fighting party
 
 slot_party_recent_casualties_loot = 151 # Contains gold looted during simulated battle
 
@@ -689,6 +688,17 @@ slot_party_budget_faction_member_taxes = 156
 slot_party_budget_pay_protection_taxes = 157
 slot_party_budget_pay_vassal_taxes = 158
 slot_party_budget_pay_faction_member_taxes = 159
+
+slot_party_budget_reserved_party = 160
+slot_party_budget_reserved_auxiliaries = 161
+slot_party_budget_reserved_expenses = 162
+slot_party_budget_reserved_other = 163
+
+slot_party_attached_party_1 = 164
+slot_party_attached_party_2 = 165
+slot_party_attached_party_3 = 166
+
+slot_party_last_rest = 167 # for small parties
 
 slot_party_item_consumed_begin 	= 200 # Number of items consumed per 100 citizens
 slot_party_item_consumed_end	= slot_party_item_consumed_begin + goods_end - goods_begin
@@ -894,6 +904,12 @@ slot_troop_accumulated_taxes = 63
 
 slot_troop_budget_vassal_taxes = 64
 slot_troop_budget_faction_member_taxes = 65
+
+slot_troop_budget_reserved_party = 66
+slot_troop_budget_reserved_other = 67
+
+slot_troop_budget_debt = 68
+slot_troop_budget_perceived_debt = 69
 
 slot_troop_relations_begin = 400
 

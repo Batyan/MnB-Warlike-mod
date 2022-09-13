@@ -554,7 +554,6 @@ presentations = [
             (ti_on_presentation_load,
             [
                 (set_fixed_point_multiplier, 1000),
-                (assign, "$g_process_effects", reg10),
 
                 # Current state panel
                 (create_text_overlay, reg0, "@Current state", tf_left_align),
@@ -613,7 +612,7 @@ presentations = [
                     (try_end),
                     
                     (party_get_slot, ":leader", ":center", slot_party_leader),
-                    # (eq, ":leader", "$g_player_troop"),
+                    (eq, ":leader", "$g_player_troop"),
                     (is_between, ":center", towns_begin, towns_end),
 
                     (str_store_party_name, s10, ":center"),
@@ -646,7 +645,7 @@ presentations = [
                     (try_end),
 
                     (party_get_slot, ":leader", ":center", slot_party_leader),
-                    # (eq, ":leader", "$g_player_troop"),
+                    (eq, ":leader", "$g_player_troop"),
                     (is_between, ":center", towns_begin, towns_end),
 
                     (str_store_party_name, s10, ":center"),
@@ -755,6 +754,7 @@ presentations = [
                     (try_begin),
                         (eq, "$g_process_effects", 1),
                         (call_script, "script_party_pay_wages", "$g_player_party"),
+                        (assign, "$g_process_effects", 0),
                     (try_end),
                     (presentation_set_duration, 0),
                 (try_end),

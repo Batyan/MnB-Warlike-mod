@@ -22,6 +22,11 @@ v 0.330:
 * add khergit_elite_armor to khergit_noble_lancer
 * add swadian_levy_spearman to small_kingdom_15
 * add swadian_foot_knight to small_kingdom_15
+* increase swadian_lancer armor tier to heavy
+* increase swadian_lancer intelligence (7 -> 9)
+* increase swadian_lancer charisma (9 -> 10)
+* increase swadian_lancer level (24 -> 27)
+* reduce swadian_lancer athletics (3 -> 2)
 
 v 0.320:
 -Reduce sarranid_levy Powerstrike (5 -> 4)
