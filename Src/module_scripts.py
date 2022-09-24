@@ -4557,10 +4557,10 @@ scripts = [
             (val_add, ":taxes", ":taxes_noble"),
 
             (party_get_slot, ":party_type", ":party_no", slot_party_type),
-            (assign, ":mult", 100),
+            (assign, ":mult", 120),
             (try_begin),
                 (eq, ":party_type", spt_village),
-                (assign, ":mult", 40),
+                (assign, ":mult", 60),
             (else_try),
                 (eq, ":party_type", spt_town),
                 (assign, ":mult", 60),
@@ -4844,7 +4844,7 @@ scripts = [
             (try_begin),
                 (store_troop_faction, ":troop_faction", ":troop_no"),
                 (gt, ":troop_faction", 0),
-                (party_get_slot, ":at_war", ":troop_faction", slot_faction_is_at_war),
+                (faction_get_slot, ":at_war", ":troop_faction", slot_faction_is_at_war),
             (try_end),
 
             (assign, ":min_value", 60),
@@ -4909,12 +4909,12 @@ scripts = [
             (store_faction_of_party, ":party_faction", ":party_no"),
             (try_begin),
                 (gt, ":party_faction", 0),
-                (party_get_slot, ":at_war", ":party_faction", slot_faction_is_at_war),
+                (faction_get_slot, ":at_war", ":party_faction", slot_faction_is_at_war),
             (try_end),
 
             (assign, ":ratio_party", 40),
             (assign, ":ratio_auxiliaries", 10),
-            (assign, ":ratio_spendings", 30),
+            (assign, ":ratio_spendings", 25),
             (try_begin),
                 (eq, ":at_war", 0),
 
@@ -4922,12 +4922,12 @@ scripts = [
                     (eq, ":party_type", spt_town),
                 (else_try),
                     (eq, ":party_type", spt_castle),
-                    (assign, ":ratio_spendings", 25),
+                    (assign, ":ratio_spendings", 20),
                 (else_try),
                     (eq, ":party_type", spt_village),
-                    (assign, ":ratio_party", 15),
+                    (assign, ":ratio_party", 20),
                     (assign, ":ratio_auxiliaries", 0),
-                    (assign, ":ratio_spendings", 20),
+                    (assign, ":ratio_spendings", 10),
                 (try_end),
             (else_try),
                 (try_begin),
@@ -5421,6 +5421,8 @@ scripts = [
 
                 (faction_set_slot, ":fac_1", slot_faction_vassal_tax_rate, 5),
                 (faction_set_slot, ":fac_1", slot_faction_member_tax_rate, 2),
+
+                (faction_set_slot, ":fac_1", slot_faction_is_at_war, 0),
 
                 (try_begin),
                     (spawn_around_party, "p_centers_end", "pt_name_holders_template"),
@@ -14860,7 +14862,8 @@ scripts = [
                         (assign, ":go_home", 1),
 
                         (call_script, "script_cf_center_can_give_troops", ":cur_town"),
-                        (call_script, "script_party_give_troops_to_party", ":cur_town", ":party_no", 5),
+                        (store_random_in_range, ":num_troops", 3, 7),
+                        (call_script, "script_party_give_troops_to_party", ":cur_town", ":party_no", ":num_troops"),
                     (try_end),
                 (try_end),
             (try_end),
