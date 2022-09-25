@@ -1590,7 +1590,7 @@ troops = [
     itm_padded_cloth, itm_leather_armor,
     itm_padded_coif, itm_arming_cap,
     ],
-   str_8|agi_11|int_7|cha_7|level(10), wpex(70,50,60,70,60,45), knows_common|knows_ironflesh_1|knows_power_strike_2|knows_power_draw_4|knows_athletics_2|knows_riding_1, swadian_face_young_1, swadian_face_old_2 ],
+   str_9|agi_11|int_6|cha_7|level(10), wpex(70,50,60,70,60,45), knows_common|knows_power_strike_2|knows_power_draw_4|knows_athletics_2|knows_riding_1, swadian_face_young_1, swadian_face_old_2 ],
   
   # Basic infantry, spears, shields
   # SPECIAL
@@ -1822,15 +1822,15 @@ troops = [
     ],
    str_18|agi_11|int_10|cha_9|level(25), wpex(95,100,115,60,50,45), knows_common|knows_ironflesh_5|knows_power_strike_4|knows_power_throw_1|knows_power_draw_1|knows_athletics_4|knows_riding_2, swadian_face_young_1, swadian_face_old_2 ],
   
-  # Medium cavalry, lances, shields
+  # Heavy cavalry, lances, shields
   # SPECIAL
   ["swadian_lancer", "Swadian Lancer", "Swadian Lancers", tf_guarantee_trained_armor|tf_guarantee_horseman|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_13,
-   [itm_lance, itm_tab_shield_heater_cav_a,itm_tab_shield_heater_cav_a_plain_1,itm_tab_shield_heater_cav_a_plain_2,
+   [itm_lance, itm_tab_shield_heater_cav_b,itm_tab_shield_heater_cav_b_plain_1,itm_tab_shield_heater_cav_b_plain_2,
     itm_leather_boots, itm_leather_gloves,
-    itm_padded_cloth, itm_padded_leather, itm_red_gambeson, itm_leather_jerkin,
-    itm_footman_helmet, itm_mail_coif, itm_helmet_with_neckguard,
+    itm_haubergeon, itm_mail_with_surcoat,
+    itm_mail_coif, itm_helmet_with_neckguard, itm_kettle_hat,
     itm_hunter],
-   str_14|agi_17|int_7|cha_9|level(24), wpex(90,75,140,55,45,45), knows_common|knows_ironflesh_4|knows_power_strike_3|knows_power_draw_1|knows_athletics_3|knows_riding_5|knows_horse_archery_1, swadian_face_young_1, swadian_face_old_2 ],
+   str_14|agi_17|int_9|cha_10|level(27), wpex(90,75,140,55,45,45), knows_common|knows_ironflesh_4|knows_power_strike_3|knows_power_draw_1|knows_athletics_2|knows_riding_5|knows_horse_archery_1, swadian_face_young_1, swadian_face_old_2 ],
   
   # Heavy cavalry, swords, picks, maces, bows, crossbows, shields
   # SPECIAL
@@ -2662,15 +2662,15 @@ troops = [
     itm_splinted_greaves, itm_leather_gloves, itm_scale_gauntlets,
     itm_lamellar_armor,
     itm_khergit_cavalry_helmet, itm_khergit_guard_helmet,
-    itm_hunter],
-   str_16|agi_20|int_11|cha_18|level(42), wpex(115,100,130,90,45,85), knows_common|knows_ironflesh_4|knows_power_strike_4|knows_power_throw_2|knows_power_draw_3|knows_athletics_4|knows_riding_7|knows_shield_1|knows_horse_archery_2, khergit_face_young_1, khergit_face_old_2 ],
+    itm_warhorse_steppe],
+   str_17|agi_21|int_11|cha_19|level(45), wpex(115,100,130,90,45,85), knows_common|knows_ironflesh_4|knows_power_strike_4|knows_power_throw_2|knows_power_draw_3|knows_athletics_4|knows_riding_7|knows_shield_1|knows_horse_archery_2, khergit_face_young_1, khergit_face_old_2 ],
   
   # Heavy cavalry, lances, shields
   # SPECIAL
   ["khergit_noble_lancer", "Khergit Noble Lancer", "Khergit Noble Lancer", tf_guarantee_trained_armor|tf_guarantee_horseman|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_34,
    [itm_heavy_lance, itm_tab_shield_small_round_c,itm_tab_shield_small_round_c_plain_1,itm_tab_shield_small_round_c_plain_2,
     itm_splinted_greaves, itm_leather_gloves, itm_scale_gauntlets,
-    itm_lamellar_armor,
+    itm_khergit_elite_armor, itm_lamellar_armor,
     itm_khergit_cavalry_helmet, itm_khergit_guard_helmet,
     itm_warhorse_steppe],
    str_19|agi_21|int_11|cha_22|level(50), wpex(100,90,175,90,45,85), knows_common|knows_ironflesh_9|knows_power_strike_6|knows_power_throw_2|knows_power_draw_3|knows_athletics_3|knows_riding_7|knows_shield_1|knows_horse_archery_2, khergit_face_young_1, khergit_face_old_2 ],

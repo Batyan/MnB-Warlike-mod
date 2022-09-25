@@ -39,7 +39,7 @@ factions = [
 	("small_kingdom_12", "Elberl", 0, 0.9, [("outlaws",-0.5),], [], 0xDD8888), # Guard + Levy Infantry + Heavy Infantry
 	("small_kingdom_13", "Dhirim", 0, 0.9, [("outlaws",-0.5),], [], 0xFF8C00), # Heavy Lancer + Levy Spearman + Lancer + Light Horseman + Horseman + Heavy Bowman?
 	("small_kingdom_14", "Gisim", 0, 0.9, [("outlaws",-0.5),], [], 0xD35DB2), # Light Longbowman + Longbowman + Hunter
-	("small_kingdom_15", "Ivenn", 0, 0.9, [("outlaws",-0.5),], [], 0xDD0055), # Scout + Light Spearman + Spearman
+	("small_kingdom_15", "Ivenn", 0, 0.9, [("outlaws",-0.5),], [], 0xDD0055), # Scout + Light Spearman + Spearman + Levy Spearman + Foot Knight
 	("small_kingdom_16", "Tilbaut", 0, 0.9, [("outlaws",-0.5),], [], 0xBB5500), # Mounted Skirmisher + Levy Skirmisher
 	("small_kingdom_17", "Burglen", 0, 0.9, [("outlaws",-0.5),], [], 0xB57963), # Squire + Foot Knight
 	
@@ -64,7 +64,7 @@ factions = [
 	
 	("small_kingdom_51", "Highlanders", 0, 0.9, [("outlaws",-0.5),], [], 0x4F5868), # Hunter + Bowman + Heavy Bowman + Sergeant + Highlander
 	("small_kingdom_52", "Bezan", 0, 0.9, [("outlaws",-0.5),], [], 0x4F6C99), # Heroic Horseman + Levy Pikeman + Heavy Horseman + Light Horseman? + Heroic Pikeman
-	("small_kingdom_53", "Veluca", 0, 0.9, [("outlaws",-0.5),], [], 0x2280F9), # Light Cavalry + Heavy Cavalry + Heroic Cavalry
+	("small_kingdom_53", "Veluca", 0, 0.9, [("outlaws",-0.5),], [], 0x005566), # Light Cavalry + Heavy Cavalry + Heroic Cavalry
 	("small_kingdom_54", "Jamiche", 0, 0.9, [("outlaws",-0.5),], [], 0xBE9EFF), # Light Spearman + Light Skirmisher + Heavy Spearman + Mounted Crossbow + Heavy Mounted Crossbow + Heroic Mounted Crossbow + Levy Crossbow
 	("small_kingdom_55", "Saren", 0, 0.9, [("outlaws",-0.5),], [], 0x74DBD2), # Mounted Crossbow + Heavy Lancer + Heroic Lancer + Scout + Levy Crossbow
 	

@@ -316,6 +316,13 @@ type_moderate = 2
 type_slight = 1
 type_none = 0
 
+tax_type_population = 1
+tax_type_protection = 2
+tax_type_vassal = 3
+tax_type_member = 4
+tax_type_vassal_pay = 3
+tax_type_member_pay = 4
+
 ################
 ## Item Slots ##
 ################
@@ -462,6 +469,31 @@ slot_faction_has_fixed_name = 57
 slot_faction_status = 58
 sfst_default = 0
 sfst_disabled = -1
+
+# slots used for faction focus in ai decision
+slot_faction_mission_focus_1 = 59
+slot_faction_mission_focus_2 = 60
+slot_faction_mission_focus_3 = 61
+slot_faction_mission_focus_4 = 62
+slot_faction_mission_focus_5 = 63
+slot_faction_mission_focus_6 = 64
+slot_faction_mission_focus_7 = 65
+slot_faction_mission_focus_8 = 66
+slot_faction_mission_focus_9 = 67
+slot_faction_mission_focus_10 = 68
+slot_faction_mission_focus_11 = 69
+slot_faction_mission_focus_12 = 70
+slot_faction_mission_focus_13 = 71
+slot_faction_mission_focus_14 = 72
+slot_faction_mission_focus_15 = 73
+slot_faction_mission_focus_16 = 74
+slot_faction_mission_focus_17 = 75
+slot_faction_mission_focus_18 = 76
+slot_faction_mission_focus_19 = 77
+slot_faction_mission_focus_20 = 78
+
+slot_faction_vassal_tax_rate = 79
+slot_faction_member_tax_rate = 80
 
 #################
 ## Party Slots ##
@@ -640,18 +672,33 @@ slot_party_prepared_for_war = 143
 
 slot_party_process_mission_iteration = 144
 
-slot_party_num_hunters 		= 145
 slot_party_num_peasants		= 146
 slot_party_num_caravans		= 147
 slot_party_num_patrols		= 148
 slot_party_num_scouts		= 149
-slot_party_num_others 		= 150 # Contains every other non fighting party (should include hunters too?)
+slot_party_num_others 		= 150 # Contains every other non fighting party
 
 slot_party_recent_casualties_loot = 151 # Contains gold looted during simulated battle
 
 slot_party_budget_last_wealth = 152
 slot_party_budget_taxes = 153
 slot_party_budget_protection_taxes = 154
+slot_party_budget_vassal_taxes = 155
+slot_party_budget_faction_member_taxes = 156
+slot_party_budget_pay_protection_taxes = 157
+slot_party_budget_pay_vassal_taxes = 158
+slot_party_budget_pay_faction_member_taxes = 159
+
+slot_party_budget_reserved_party = 160
+slot_party_budget_reserved_auxiliaries = 161
+slot_party_budget_reserved_expenses = 162
+slot_party_budget_reserved_other = 163
+
+slot_party_attached_party_1 = 164
+slot_party_attached_party_2 = 165
+slot_party_attached_party_3 = 166
+
+slot_party_last_rest = 167 # for small parties
 
 slot_party_item_consumed_begin 	= 200 # Number of items consumed per 100 citizens
 slot_party_item_consumed_end	= slot_party_item_consumed_begin + goods_end - goods_begin
@@ -854,6 +901,15 @@ slot_troop_num_followers_ready = 61 # Stores number of parties currently nearby 
 
 slot_troop_wanted_party_wages = 62
 slot_troop_accumulated_taxes = 63
+
+slot_troop_budget_vassal_taxes = 64
+slot_troop_budget_faction_member_taxes = 65
+
+slot_troop_budget_reserved_party = 66
+slot_troop_budget_reserved_other = 67
+
+slot_troop_budget_debt = 68
+slot_troop_budget_perceived_debt = 69
 
 slot_troop_relations_begin = 400
 

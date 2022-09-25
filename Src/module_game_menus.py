@@ -127,7 +127,7 @@ game_menus = [
 			# Displays wages for the current party (not fiefs)
 			("report_budget",[],"Budget report",
 				[
-					(assign, reg10, 0),
+					(assign, "$g_process_effects", 0),
 					(start_presentation, "prsnt_budget_report"),
 				]),
 

@@ -1063,15 +1063,15 @@ items = [
      # 610 , weight(6)|difficulty(3)|spd_rtng(91) | swing_damage(12, blunt) | thrust_damage(23, pierce)|weapon_length(80),imodbits_thrown ],
     
     ["light_throwing_axes", "Light Throwing Axes", [("francisca",0)], itp_type_thrown |itp_merchandise|itp_primary|itp_bonus_against_shield, itcf_throw_axe,
-     320, weight(3)|difficulty(1)|spd_rtng(99) | shoot_speed(26) | accuracy(84) | thrust_damage(48, cut)|max_ammo(3)|weapon_length(55),imodbits_thrown_minus_heavy , [], [fac_kingdom_4] ],
+     320, weight(3)|difficulty(1)|spd_rtng(99) | shoot_speed(26) | accuracy(84) | thrust_damage(42, cut)|max_ammo(6)|weapon_length(55),imodbits_thrown_minus_heavy , [], [fac_kingdom_4] ],
     # ["light_throwing_axes_melee", "Light Throwing Axe", [("francisca",0)], itp_type_one_handed_wpn |itp_primary|itp_bonus_against_shield, itc_scimitar,
      # 320, weight(3)|difficulty(1)|spd_rtng(96)|weapon_length(55)| swing_damage(26,pierce),imodbits_thrown_minus_heavy ],
     ["throwing_axes", "Throwing Axes", [("throwing_axe_a",0)], itp_type_thrown |itp_merchandise|itp_primary|itp_bonus_against_shield, itcf_throw_axe,
-     490, weight(3.4)|difficulty(2)|spd_rtng(98) | shoot_speed(27) | accuracy(82) | thrust_damage(53, cut)|max_ammo(3)|weapon_length(53),imodbits_thrown_minus_heavy , [], [fac_kingdom_4] ],
+     490, weight(3.4)|difficulty(2)|spd_rtng(98) | shoot_speed(27) | accuracy(82) | thrust_damage(47, cut)|max_ammo(6)|weapon_length(53),imodbits_thrown_minus_heavy , [], [fac_kingdom_4] ],
     # ["throwing_axes_melee", "Throwing Axe", [("throwing_axe_a",0)], itp_type_one_handed_wpn |itp_primary|itp_bonus_against_shield, itc_scimitar,
      # 490, weight(3.4)|difficulty(2)|spd_rtng(95) | swing_damage(28,pierce)|weapon_length(53),imodbits_thrown_minus_heavy ],
     ["heavy_throwing_axes", "Heavy Throwing Axes", [("throwing_axe_b",0)], itp_type_thrown |itp_merchandise|itp_primary|itp_bonus_against_shield, itcf_throw_axe,
-     660, weight(3.8)|difficulty(3)|spd_rtng(97) | shoot_speed(28) | accuracy(80) | thrust_damage(58, cut)|max_ammo(3)|weapon_length(57),imodbits_thrown_minus_heavy , [], [fac_kingdom_4] ],
+     660, weight(3.8)|difficulty(3)|spd_rtng(97) | shoot_speed(28) | accuracy(80) | thrust_damage(52, cut)|max_ammo(6)|weapon_length(57),imodbits_thrown_minus_heavy , [], [fac_kingdom_4] ],
     # ["heavy_throwing_axes_melee", "Heavy Throwing Axe", [("throwing_axe_b",0)], itp_type_one_handed_wpn |itp_primary|itp_bonus_against_shield, itc_scimitar,
      # 660, weight(3.8)|difficulty(3)|spd_rtng(94) | swing_damage(30,pierce)|weapon_length(57),imodbits_thrown_minus_heavy ],
     
@@ -1134,7 +1134,7 @@ items = [
     ["building_farm", "Farm", [("shield_round_a",0)], 0, 0, 1, 0, 0 ],                          # Increases most food type produced (cabbages, grain, apples, grapes, olives)
     
     # Village, Town
-    ["building_slaver", "Slaver", [("shield_round_a",0)], 0, 0, 1, 0, 0 ],                      # Allows slaves to work (2-4 gold per slave)
+    ["building_slaver", "Slaver", [("shield_round_a",0)], 0, 0, 1, 0, 0 ],                      # Allows taxing working slaves (2-4 gold per slave ?)
     ["building_market", "Market", [("shield_round_a",0)], 0, 0, 1, 0, 0 ],                      # Increases trade gain by 5%
     ["building_market_2", "Market (2)", [("shield_round_a",0)], 0, 0, 1, 0, 0 ],                # Increases trade gain by 10%
     ["building_fields", "Fields", [("shield_round_a",0)], 0, 0, 1, 0, 0 ],                      # Increases grain produced
