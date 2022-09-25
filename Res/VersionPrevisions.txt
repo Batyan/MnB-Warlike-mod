@@ -51,15 +51,16 @@
 		Goods produced based on local productions
 		Equipment based on culture
 0.400: Faction ai
-	Elect leader
-	Declare war/peace
-	Elect Marshall
-	0.410: Faction manpower
+	0.410: Faction leaders
+		Elect/select leader
+		Declare war/peace
+		Elect Marshall
+	0.420: Faction manpower
 		Escape captivity
 		Pay ransom
 		Free prisoners
 		Hire new lords
-	0.420: Victory
+	0.430: Victory
 		Faction defeating
 		Faction vassalage
 0.500: Party ai
@@ -77,6 +78,7 @@
 		Lords rest if wounded
 		Peacetime activities
 			Hunt bandit lairs
+			Visit other npcs
 	0.540: Marshall
 		Marshall ai
 		Marshall election
@@ -92,12 +94,13 @@
 	0.630: Npcs
 		Lords build buildings
 0.700: Kingdom Management
-	Possible for player to lead a kingdom
 	0.710: Policies
 		Kingdom policies
 	0.720: Strength
 		Give out fiefs
 		Hire lords
+	0.730: 
+		Possible for player to lead a kingdom
 0.800: NPCs
 	Add kingdom women
 	Basic dialogs
