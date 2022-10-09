@@ -104,8 +104,16 @@ items = [
      400,   weight(40)|   max_ammo(40),                       imodbits_none ],
     ["refined_wood",    "Refined Wood", [("wooden_stick",0)], itp_merchandise|itp_type_goods|itp_consumable, 0, 
      240,   weight(40)|   max_ammo(40),                       imodbits_none ],
+
+    #DOMESTICATED
     ["cattle",          "Cattle", [("wooden_stick",0)], itp_merchandise|itp_type_goods|itp_consumable, 0, 
      350,   weight(40)|   max_ammo(10),                       imodbits_none ],
+    ["poultry",          "Poultry", [("wooden_stick",0)], itp_merchandise|itp_type_goods|itp_consumable, 0, 
+     110,   weight(40)|   max_ammo(10),                       imodbits_none ],
+    ["pig",          "Pig", [("wooden_stick",0)], itp_merchandise|itp_type_goods|itp_consumable, 0, 
+     180,   weight(40)|   max_ammo(10),                       imodbits_none ],
+    ["goat",          "Goat", [("wooden_stick",0)], itp_merchandise|itp_type_goods|itp_consumable, 0, 
+     220,   weight(40)|   max_ammo(10),                       imodbits_none ],
     
     #DRINKS
     ["wine",            "Wine", [("amphora_slim",0)], itp_merchandise|itp_type_goods|itp_consumable, 0, 
@@ -114,7 +122,7 @@ items = [
      120,   weight(30)|   max_ammo(20),                       imodbits_none ],
     #FOOD
     ["smoked_fish",     "Smoked Fish", [("smoked_fish",0)], itp_merchandise|itp_type_goods|itp_consumable|itp_food, 0, 
-     65,    weight(20)|  max_ammo(20)|   food_quality(50),   imodbits_none ],
+     70,    weight(20)|  max_ammo(20)|   food_quality(50),   imodbits_none ],
     ["cheese",          "Cheese", [("cheese_b",0)], itp_merchandise|itp_type_goods|itp_consumable|itp_food, 0, 
      75,    weight(30)|  max_ammo(20)|   food_quality(40),   imodbits_none ],
     ["honey",           "Honey", [("honey_pot",0)], itp_merchandise|itp_type_goods|itp_consumable|itp_food, 0, 
@@ -125,6 +133,8 @@ items = [
      37,    weight(10)|  max_ammo(20)|   food_quality(40),   imodbits_none ],
     ["dried_meat",      "Dried Meat", [("smoked_meat",0)], itp_merchandise|itp_type_goods|itp_consumable|itp_food, 0, 
      85,    weight(20)|  max_ammo(20)|   food_quality(70),   imodbits_none ],
+    ["chicken",         "Chicken", [("chicken",0)], itp_merchandise|itp_type_goods|itp_consumable|itp_food, 0, 
+     65,    weight(20)|  max_ammo(20)|   food_quality(110),  imodbits_none ],
     ["apples",          "Fruit", [("apple_basket",0)], itp_merchandise|itp_type_goods|itp_consumable|itp_food, 0, 
      45,    weight(20)|  max_ammo(20)|   food_quality(50),   imodbits_none ],
     ["raw_grapes",      "Grapes", [("grapes_inventory",0)], itp_merchandise|itp_consumable|itp_type_goods, 0, 
@@ -141,13 +151,15 @@ items = [
      35,    weight(30)|  max_ammo(20)|   food_quality(30),   imodbits_none ],
     #PERISHABLES
     ["raw_fish",     "Raw Fish", [("smoked_fish",0)], itp_merchandise|itp_type_goods|itp_consumable|itp_food, 0, 
-     45,    weight(20)|  max_ammo(20)|   food_quality(50),   imodbits_none ],
+     35,    weight(20)|  max_ammo(20)|   food_quality(50),   imodbits_none ],
     ["cattle_meat",     "Beef", [("raw_meat",0)], itp_merchandise|itp_type_goods|itp_consumable|itp_food, 0, 
-     80,    weight(20)|  max_ammo(20)|   food_quality(110),  imodbits_none ],
-    ["chicken",         "Chicken", [("chicken",0)], itp_merchandise|itp_type_goods|itp_consumable|itp_food, 0, 
-     95,    weight(20)|  max_ammo(20)|   food_quality(110),  imodbits_none ],
+     50,    weight(20)|  max_ammo(20)|   food_quality(110),  imodbits_none ],
+    ["venison",     "Venison", [("raw_meat",0)], itp_merchandise|itp_type_goods|itp_consumable|itp_food, 0, 
+     40,    weight(20)|  max_ammo(20)|   food_quality(110),  imodbits_none ],
+    ["raw_chicken",         "Raw Chicken", [("chicken",0)], itp_merchandise|itp_type_goods|itp_consumable|itp_food, 0, 
+     30,    weight(20)|  max_ammo(20)|   food_quality(110),  imodbits_none ],
     ["pork",            "Pork", [("pork",0)], itp_merchandise|itp_type_goods|itp_consumable|itp_food, 0, 
-     75,    weight(25)|  max_ammo(20)|   food_quality(110),  imodbits_none ],
+     40,    weight(25)|  max_ammo(20)|   food_quality(110),  imodbits_none ],
     
     #HORSES
     ["saddle_horse","Saddle Horse", [("saddle_horse",0)],         itp_merchandise|itp_type_horse, 0, 

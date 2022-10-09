@@ -3337,6 +3337,8 @@ scripts = [
                     (try_end),
                 (try_end),
             (try_end),
+            (call_script, "script_party_update_resources_slot_with_weather", ":party_no"),
+
             (assign, ":total_res", 0),
             (try_for_range, ":slot", slot_party_ressources_begin, slot_party_ressources_end),
                 (party_get_slot, ":num_res", ":party_no", ":slot"),
@@ -3396,7 +3398,7 @@ scripts = [
             
             (try_begin),
                 (eq, ":terrain_type", rt_water),
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_smoked_fish", 10),
+                (call_script, "script_party_update_resources_slot", ":party_no", "itm_raw_fish", 10),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_salt", 10),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_oil", 1),
                 
@@ -3413,15 +3415,14 @@ scripts = [
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_raw_leather", 1),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_furs", 1),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_wood", 1),
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_cheese", 1),
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_sausages", 2),
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_dried_meat", 2),
+
+                (call_script, "script_party_update_resources_slot", ":party_no", "itm_goat", 4),
+                (call_script, "script_party_update_resources_slot", ":party_no", "itm_pig", 1),
+                (call_script, "script_party_update_resources_slot", ":party_no", "itm_venison", 2),
+
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_apples", 1),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_raw_grapes", 6),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_raw_olives", 1),
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_butter", 1),
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_cattle_meat", 1),
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_pork", 2),
                 # (call_script, "script_party_update_resources_slot", ":party_no", "itm_", 1),
                 
                 (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_wet, -2),
@@ -3435,11 +3436,13 @@ scripts = [
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_raw_flax", 1),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_wool", 1),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_wood", 1),
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_cheese", 1),
+
+                (call_script, "script_party_update_resources_slot", ":party_no", "itm_goat", 1),
+                (call_script, "script_party_update_resources_slot", ":party_no", "itm_cattle", 1),
+                (call_script, "script_party_update_resources_slot", ":party_no", "itm_poultry", 1),
+
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_cabbages", 2),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_grain", 2),
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_cattle_meat", 1),
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_chicken", 2),
                 # (call_script, "script_party_update_resources_slot", ":party_no", "itm_", 1),
                 
                 (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_wet, -5),
@@ -3452,17 +3455,15 @@ scripts = [
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_raw_leather", 1),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_stone", 1),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_wood", 2),
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_cheese", 2),
+
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_honey", 1),
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_sausages", 1),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_cabbages", 3),
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_dried_meat", 1),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_apples", 5),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_grain", 6),
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_butter", 1),
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_cattle_meat", 2),
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_chicken", 4),
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_pork", 1),
+
+                (call_script, "script_party_update_resources_slot", ":party_no", "itm_cattle", 5),
+                (call_script, "script_party_update_resources_slot", ":party_no", "itm_poultry", 1),
+                (call_script, "script_party_update_resources_slot", ":party_no", "itm_pig", 1),
                 # (call_script, "script_party_update_resources_slot", ":party_no", "itm_", 1),
                 
                 # (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_wet, 0),
@@ -3474,11 +3475,13 @@ scripts = [
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_furs", 5),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_stone", 1),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_wood", 1),
+
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_cabbages", 1),
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_dried_meat", 5),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_grain", 1),
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_butter", 2),
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_chicken", 1),
+
+                (call_script, "script_party_update_resources_slot", ":party_no", "itm_pig", 1),
+                (call_script, "script_party_update_resources_slot", ":party_no", "itm_goat", 1),
+                (call_script, "script_party_update_resources_slot", ":party_no", "itm_venison", 2),
                 # (call_script, "script_party_update_resources_slot", ":party_no", "itm_", 1),
                 
                 (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_wet, -2),
@@ -3488,10 +3491,12 @@ scripts = [
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_pottery", 1),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_raw_dyes", 3),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_iron", 1),
+                (call_script, "script_party_update_resources_slot", ":party_no", "itm_raw_leather", 1),
+
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_raw_date_fruit", 6),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_raw_olives", 1),
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_chicken", 1),
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_raw_leather", 1),
+
+                (call_script, "script_party_update_resources_slot", ":party_no", "itm_poultry", 2),
                 # (call_script, "script_party_update_resources_slot", ":party_no", "itm_", 1),
                 
                 (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_wet, -10),
@@ -3499,7 +3504,7 @@ scripts = [
             (else_try),
                 (this_or_next|eq, ":terrain_type", rt_bridge),
                 (eq, ":terrain_type", rt_river),
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_smoked_fish", 4),
+                (call_script, "script_party_update_resources_slot", ":party_no", "itm_raw_fish", 4),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_cabbages", 1),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_apples", 1),
                 # (call_script, "script_party_update_resources_slot", ":party_no", "itm_", 1),
@@ -3517,11 +3522,13 @@ scripts = [
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_raw_leather", 1),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_furs", 2),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_wood", 3),
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_sausages", 2),
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_dried_meat", 3),
+
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_raw_grapes", 1),
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_butter", 1),
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_pork", 2),
+
+                (call_script, "script_party_update_resources_slot", ":party_no", "itm_goat", 5),
+                (call_script, "script_party_update_resources_slot", ":party_no", "itm_venison", 1),
+                (call_script, "script_party_update_resources_slot", ":party_no", "itm_pig", 1),
+
                 # (call_script, "script_party_update_resources_slot", ":party_no", "itm_", 1),
                 
                 (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_wet, -5),
@@ -3535,10 +3542,12 @@ scripts = [
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_raw_leather", 2),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_furs", 1),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_wood", 4),
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_sausages", 1),
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_dried_meat", 3),
+
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_apples", 1),
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_pork", 1),
+
+                (call_script, "script_party_update_resources_slot", ":party_no", "itm_goat", 2),
+                (call_script, "script_party_update_resources_slot", ":party_no", "itm_venison", 1),
+                (call_script, "script_party_update_resources_slot", ":party_no", "itm_pig", 1),
                 # (call_script, "script_party_update_resources_slot", ":party_no", "itm_", 1),
                 
                 (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_wet, -3),
@@ -3552,11 +3561,12 @@ scripts = [
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_raw_leather", 3),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_furs", 2),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_wood", 6),
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_sausages", 4),
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_dried_meat", 5),
+
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_apples", 2),
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_butter", 1),
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_pork", 4),
+
+                (call_script, "script_party_update_resources_slot", ":party_no", "itm_goat", 1),
+                (call_script, "script_party_update_resources_slot", ":party_no", "itm_venison", 2),
+                (call_script, "script_party_update_resources_slot", ":party_no", "itm_pig", 3),
                 # (call_script, "script_party_update_resources_slot", ":party_no", "itm_", 1),
                 
                 (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_wet, 1),
@@ -3568,8 +3578,10 @@ scripts = [
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_raw_leather", 3),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_furs", 8),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_wood", 8),
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_dried_meat", 11),
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_butter", 5),
+
+                (call_script, "script_party_update_resources_slot", ":party_no", "itm_pig", 1),
+                (call_script, "script_party_update_resources_slot", ":party_no", "itm_goat", 1),
+                (call_script, "script_party_update_resources_slot", ":party_no", "itm_venison", 6),
                 # (call_script, "script_party_update_resources_slot", ":party_no", "itm_", 1),
                 
                 # (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_wet, 0),
@@ -3581,14 +3593,34 @@ scripts = [
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_raw_leather", 1),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_raw_date_fruit", 10),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_wood", 2),
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_dried_meat", 1),
+
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_raw_grapes", 2),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_raw_olives", 2),
+
+                (call_script, "script_party_update_resources_slot", ":party_no", "itm_venison", 2),
                 # (call_script, "script_party_update_resources_slot", ":party_no", "itm_", 1),
                 
                 (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_wet, 2),
                 (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_heat, 8),
             (try_end),
+        ]),
+
+    # script_party_update_resources_slot_with_weather
+    # input:
+    #   arg1: party_no
+    # output: none
+    ("party_update_resources_slot_with_weather",
+        [
+            (store_script_param, ":party_no", 1),
+
+            # (party_get_slot, ":weather_heat", ":party_no", slot_party_weather_heat),
+            # (party_get_slot, ":weather_wet", ":party_no", slot_party_weather_wet),
+
+            # (store_sub, ":offset", slot_party_ressources_current_amount_begin, slot_party_ressources_begin),
+            # (try_begin),
+            #     (store_add, ":slot", "itm_apples", ":offset"),
+            #     (party_slot_ge, ":party_no", ":slot", 1),
+            # (try_end),
         ]),
     
     # script_party_update_resources_slot
@@ -4384,22 +4416,30 @@ scripts = [
                 (gt, ":num_prod", 0),
                 (store_sub, ":amount_slot", ":slot", slot_party_ressources_begin),
                 (val_add, ":amount_slot", slot_party_ressources_current_amount_begin),
-                (party_get_slot, ":current_amount", ":party_no", ":amount_slot"),
-                (val_add, ":current_amount", ":num_prod"),
+
+                (store_div, ":produced", ":num_prod", 100),
+                (store_mod, ":produced_rest", ":num_prod", 100),
+                (try_begin),
+                    (gt, ":produced_rest", 0),
+                    (store_random_in_range, ":rand", 0, 100),
+                    (lt, ":rand", ":produced_rest"),
+                    (val_add, ":produced", 1),
+                (try_end),
 
                 (try_begin),
-                    (ge, ":current_amount", 100),
+                    (gt, ":produced", 0),
                     (try_begin),
                         (call_script, "script_cf_debug", debug_economy|debug_trade),
                         (str_store_party_name, s10, ":party_no"),
                         (str_store_item_name, s11, ":slot"),
-                        (display_message, "@{s10} : produced 100 {s11}."),
-                        (display_message, "@{s10} : reducing stocks of {s11}."),
+                        (assign, reg10, ":produced"),
+                        (display_message, "@{s10} : produced {reg10} {s11}."),
                     (try_end),
-                    (val_sub, ":current_amount", 100),
-                (try_end),
 
-                (party_set_slot, ":party_no", ":amount_slot", ":current_amount"),
+                    (party_get_slot, ":current_amount", ":party_no", ":amount_slot"),
+                    (val_add, ":current_amount", ":produced"),
+                    (party_set_slot, ":party_no", ":amount_slot", ":current_amount"),
+                (try_end),
             (try_end),
         ]),
 
@@ -9477,7 +9517,7 @@ scripts = [
             
             (assign, ":has_building", -1),
             
-            (store_add, ":end", slot_party_building_slot_end, 1),
+            (assign, ":end", slot_party_building_slot_end),
             (try_for_range, ":building_slot", slot_party_building_slot_1, ":end"),
                 (party_get_slot, ":cur_building", ":party_no", ":building_slot"),
                 (try_begin),

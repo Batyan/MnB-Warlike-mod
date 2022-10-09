@@ -570,42 +570,11 @@ slot_party_ressource_radius = 16
 slot_party_total_resources = 17
 
 slot_party_ressources_begin = itm_spice # 18
-slot_party_ressources_end = itm_saddle_horse # 58
-slot_party_ressources_count = slot_party_ressources_end - slot_party_ressources_begin # 40
+slot_party_ressources_end = itm_saddle_horse # 63
+slot_party_ressources_count = slot_party_ressources_end - slot_party_ressources_begin # 45
 
-slot_party_ressources_current_amount_begin = slot_party_ressources_end # 58
-slot_party_ressources_current_amount_end = slot_party_ressources_current_amount_begin + slot_party_ressources_count # 98
-
-slot_party_building_slot_1	= 101
-slot_party_building_slot_2	= 102
-slot_party_building_slot_3	= 103
-slot_party_building_slot_4	= 104
-slot_party_building_slot_5	= 105
-slot_party_building_slot_6	= 106
-slot_party_building_slot_7	= 107
-slot_party_building_slot_8	= 108
-slot_party_building_slot_9	= 109
-slot_party_building_slot_10	= 110
-
-slot_party_building_slot_end = slot_party_building_slot_10
-num_building_slots = slot_party_building_slot_end - slot_party_building_slot_1 + 1
-
-# Tells the current state of the building
-# Some buildings only function at full stat (100)
-# Negative values indicate that the building is not yet constructed or has been damaged
-# No building does anything positive when state is negative
-# Values between 0 and 100 are for damaged buildings or buildings just built
-# During this time they function at a reduced rate
-slot_party_building_state_1 = 111
-slot_party_building_state_2 = 112
-slot_party_building_state_3 = 113
-slot_party_building_state_4 = 114
-slot_party_building_state_5 = 115
-slot_party_building_state_6 = 116
-slot_party_building_state_7 = 117
-slot_party_building_state_8 = 118
-slot_party_building_state_9 = 119
-slot_party_building_state_10 = 120
+slot_party_ressources_current_amount_begin = slot_party_ressources_end # 63
+slot_party_ressources_current_amount_end = slot_party_ressources_current_amount_begin + slot_party_ressources_count # 108
 
 slot_party_original_faction = 121
 
@@ -699,6 +668,37 @@ slot_party_attached_party_2 = 165
 slot_party_attached_party_3 = 166
 
 slot_party_last_rest = 167 # for small parties
+
+slot_party_building_slot_1	= 168
+slot_party_building_slot_2	= slot_party_building_slot_1 + 1
+slot_party_building_slot_3	= slot_party_building_slot_2 + 1
+slot_party_building_slot_4	= slot_party_building_slot_3 + 1
+slot_party_building_slot_5	= slot_party_building_slot_4 + 1
+slot_party_building_slot_6	= slot_party_building_slot_5 + 1
+slot_party_building_slot_7	= slot_party_building_slot_6 + 1
+slot_party_building_slot_8	= slot_party_building_slot_7 + 1
+slot_party_building_slot_9	= slot_party_building_slot_8 + 1
+slot_party_building_slot_10	= slot_party_building_slot_9 + 1
+
+slot_party_building_slot_end = slot_party_building_slot_10 + 1
+num_building_slots = slot_party_building_slot_end - slot_party_building_slot_1
+
+# Tells the current state of the building
+# Some buildings only function at full stat (100)
+# Negative values indicate that the building is not yet constructed or has been damaged
+# No building does anything positive when state is negative
+# Values between 0 and 100 are for damaged buildings or buildings just built
+# During this time they function at a reduced rate
+slot_party_building_state_1 = slot_party_building_slot_10 + 1
+slot_party_building_state_2 = slot_party_building_state_1 + 1
+slot_party_building_state_3 = slot_party_building_state_2 + 1
+slot_party_building_state_4 = slot_party_building_state_3 + 1
+slot_party_building_state_5 = slot_party_building_state_4 + 1
+slot_party_building_state_6 = slot_party_building_state_5 + 1
+slot_party_building_state_7 = slot_party_building_state_6 + 1
+slot_party_building_state_8 = slot_party_building_state_7 + 1
+slot_party_building_state_9 = slot_party_building_state_8 + 1
+slot_party_building_state_10 = slot_party_building_state_9 + 1
 
 slot_party_item_consumed_begin 	= 200 # Number of items consumed per 100 citizens
 slot_party_item_consumed_end	= slot_party_item_consumed_begin + goods_end - goods_begin
