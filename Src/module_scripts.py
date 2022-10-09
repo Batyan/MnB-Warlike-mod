@@ -3333,7 +3333,7 @@ scripts = [
                         (party_get_position, pos11, "p_resources_party"),
                         (position_get_z, ":height", pos11),
                         
-                        (call_script, "script_party_update_resources_slot_with_terrain_and_height", ":party_no", ":terrain_type", ":height"),
+                        (call_script, "script_party_update_resources_slot_with_terrain_and_height", ":party_no", ":terrain_type", ":height", ":radius"),
                     (try_end),
                 (try_end),
             (try_end),
@@ -3389,12 +3389,16 @@ scripts = [
     #   arg1: party_no
     #   arg2: terrain_type
     #   arg3: height
+    #   arg4: radius
     # output: none
     ("party_update_resources_slot_with_terrain_and_height",
         [
             (store_script_param, ":party_no", 1),
             (store_script_param, ":terrain_type", 2),
             # (store_script_param, ":height", 3),
+            (store_script_param, ":radius", 4),
+
+            (val_mul, ":radius", 9),
             
             (try_begin),
                 (eq, ":terrain_type", rt_water),
@@ -3402,8 +3406,8 @@ scripts = [
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_salt", 10),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_oil", 1),
                 
-                (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_wet, 5),
-                (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_heat, -1),
+                (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_wet, 1000, ":radius"),
+                (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_heat, 0, ":radius"),
             (else_try),
                 (eq, ":terrain_type", rt_mountain),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_iron", 10),
@@ -3425,8 +3429,8 @@ scripts = [
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_raw_olives", 1),
                 # (call_script, "script_party_update_resources_slot", ":party_no", "itm_", 1),
                 
-                (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_wet, -2),
-                (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_heat, -3),
+                (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_wet, -500, ":radius"),
+                (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_heat, -1000, ":radius"),
             (else_try),
                 (eq, ":terrain_type", rt_steppe),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_spice", 2),
@@ -3445,8 +3449,8 @@ scripts = [
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_grain", 2),
                 # (call_script, "script_party_update_resources_slot", ":party_no", "itm_", 1),
                 
-                (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_wet, -5),
-                (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_heat, -2),
+                (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_wet, -1000, ":radius"),
+                (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_heat, -200, ":radius"),
             (else_try),
                 (eq, ":terrain_type", rt_plain),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_raw_flax", 3),
@@ -3466,8 +3470,8 @@ scripts = [
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_pig", 1),
                 # (call_script, "script_party_update_resources_slot", ":party_no", "itm_", 1),
                 
-                # (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_wet, 0),
-                # (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_heat, 0),
+                # (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_wet, 0, ":radius"),
+                # (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_heat, 0, ":radius"),
             (else_try),
                 (eq, ":terrain_type", rt_snow),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_pottery", 1),
@@ -3484,8 +3488,8 @@ scripts = [
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_venison", 2),
                 # (call_script, "script_party_update_resources_slot", ":party_no", "itm_", 1),
                 
-                (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_wet, -2),
-                (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_heat, -10),
+                # (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_wet, 0, ":radius"),
+                (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_heat, -1800, ":radius"),
             (else_try),
                 (eq, ":terrain_type", rt_desert),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_pottery", 1),
@@ -3499,8 +3503,8 @@ scripts = [
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_poultry", 2),
                 # (call_script, "script_party_update_resources_slot", ":party_no", "itm_", 1),
                 
-                (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_wet, -10),
-                (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_heat, 10),
+                (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_wet, -2000, ":radius"),
+                (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_heat, 2000, ":radius"),
             (else_try),
                 (this_or_next|eq, ":terrain_type", rt_bridge),
                 (eq, ":terrain_type", rt_river),
@@ -3509,8 +3513,8 @@ scripts = [
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_apples", 1),
                 # (call_script, "script_party_update_resources_slot", ":party_no", "itm_", 1),
                 
-                (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_wet, 10),
-                (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_heat, -1),
+                (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_wet, 2000, ":radius"),
+                (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_heat, -200, ":radius"),
             (else_try),
                 (eq, ":terrain_type", rt_mountain_forest),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_iron", 2),
@@ -3531,8 +3535,8 @@ scripts = [
 
                 # (call_script, "script_party_update_resources_slot", ":party_no", "itm_", 1),
                 
-                (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_wet, -5),
-                (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_heat, -5),
+                (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_wet, 0, ":radius"),
+                (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_heat, -1200, ":radius"),
             (else_try),
                 (eq, ":terrain_type", rt_steppe_forest),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_spice", 1),
@@ -3550,8 +3554,8 @@ scripts = [
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_pig", 1),
                 # (call_script, "script_party_update_resources_slot", ":party_no", "itm_", 1),
                 
-                (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_wet, -3),
-                (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_heat, -1),
+                (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_wet, -500, ":radius"),
+                (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_heat, -400, ":radius"),
             (else_try),
                 (eq, ":terrain_type", rt_forest),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_raw_flax", 2),
@@ -3569,8 +3573,8 @@ scripts = [
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_pig", 3),
                 # (call_script, "script_party_update_resources_slot", ":party_no", "itm_", 1),
                 
-                (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_wet, 1),
-                (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_heat, 1),
+                (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_wet, 500, ":radius"),
+                (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_heat, -200, ":radius"),
             (else_try),
                 (eq, ":terrain_type", rt_snow_forest),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_wool", 1),
@@ -3584,8 +3588,8 @@ scripts = [
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_venison", 6),
                 # (call_script, "script_party_update_resources_slot", ":party_no", "itm_", 1),
                 
-                # (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_wet, 0),
-                (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_heat, -8),
+                (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_wet, 500, ":radius"),
+                (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_heat, -2000, ":radius"),
             (else_try),
                 (eq, ":terrain_type", rt_desert_forest),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_raw_dyes", 1),
@@ -3600,8 +3604,22 @@ scripts = [
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_venison", 2),
                 # (call_script, "script_party_update_resources_slot", ":party_no", "itm_", 1),
                 
-                (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_wet, 2),
-                (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_heat, 8),
+                (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_wet, -1000, ":radius"),
+                (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_heat, 1500, ":radius"),
+            (try_end),
+
+            (try_begin),
+                (party_get_position, pos1, ":party_no"),
+                (position_get_y, ":y", pos1),
+                (val_div, ":y", -100),
+                (position_get_x, ":x", pos1),
+                (val_div, ":x", 1000),
+                (val_add, ":x", 300),
+                (val_div, ":x", 5),
+                (val_max, ":x", 30),
+                (store_mul, ":position_heat", ":y", ":x"),
+                (val_div, ":position_heat", 100),
+                (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_heat, ":position_heat", 1),
             (try_end),
         ]),
 
@@ -3611,7 +3629,7 @@ scripts = [
     # output: none
     ("party_update_resources_slot_with_weather",
         [
-            (store_script_param, ":party_no", 1),
+            # (store_script_param, ":party_no", 1),
 
             # (party_get_slot, ":weather_heat", ":party_no", slot_party_weather_heat),
             # (party_get_slot, ":weather_wet", ":party_no", slot_party_weather_wet),
@@ -3652,9 +3670,11 @@ scripts = [
             (store_script_param, ":party_no", 1),
             (store_script_param, ":slot", 2),
             (store_script_param, ":value", 3),
+            (store_script_param, ":radius", 4),
             
             (party_get_slot, ":current_weather", ":party_no", ":slot"),
-            (val_add, ":current_weather", ":value"),
+            (store_div, ":modified_value", ":value", ":radius"),
+            (val_add, ":current_weather", ":modified_value"),
             (party_set_slot, ":party_no", ":slot", ":current_weather"),
         ]),
 
@@ -4941,7 +4961,7 @@ scripts = [
     ("party_get_allocated_budget",
         [
             (store_script_param, ":party_no", 1),
-            (store_script_param, ":amount", 2),
+            # (store_script_param, ":amount", 2),
 
             (party_get_slot, ":party_type", ":party_no", slot_party_type),
 
