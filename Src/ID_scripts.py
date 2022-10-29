@@ -299,5 +299,7 @@ script_cf_party_create_patrol = 297
 script_cf_center_can_give_troops = 298
 script_party_give_prisoners_to_party = 299
 script_party_patrol_process = 300
+script_item_get_buy_price_factor_from_party = 301
+script_item_get_sell_price_factor_from_party = 302
 
 

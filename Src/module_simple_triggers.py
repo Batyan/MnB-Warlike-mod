@@ -60,6 +60,7 @@ simple_triggers = [
                 (party_set_slot, ":center", slot_party_budget_pay_protection_taxes, 0),
                 (party_set_slot, ":center", slot_party_budget_pay_vassal_taxes, 0),
                 (party_set_slot, ":center", slot_party_budget_pay_faction_member_taxes, 0),
+                (party_set_slot, ":center", slot_party_budget_trade, 0),
             (try_end),
 
             (try_for_parties, ":party_no"),

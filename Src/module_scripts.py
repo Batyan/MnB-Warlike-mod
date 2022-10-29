@@ -1192,32 +1192,10 @@ scripts = [
     ("game_get_item_buy_price_factor",
         [
             (store_script_param, ":item", 1),
-            (assign, ":price", 300),
             
-            (try_begin),
-                (is_between, "$g_encountered_party", centers_begin, centers_end),
-                (is_between, ":item", goods_begin, goods_end),
-                (party_get_slot, ":own_production", "$g_encountered_party", ":item"),
-                (store_sub, ":production_modifier", 20, ":own_production"),
-                (try_begin),
-                    # We reduce the effect of own production the more we produce
-                    # It is to avoid buying for ridiculous prices in highly productive places
-                    (lt, ":production_modifier", 0), 
-                    (store_mul, ":inv_prod", ":production_modifier", -1),
-                    (val_div, ":inv_prod", 15),
-                    (val_add, ":inv_prod", 1),
-                    (val_div, ":production_modifier", ":inv_prod"),
-                (try_end),
-                (val_sub, ":price", ":production_modifier"),
-            (try_end),
+            (call_script, "script_item_get_buy_price_factor_from_party", ":item", "$g_player_party", "$g_encountered_party"),
             
-            (party_get_skill_level, ":trade_skill", "$g_player_party", skl_trade),
-            (val_mul, ":trade_skill", 5),
-            (val_sub, ":price", ":trade_skill"),
-            
-            (val_max, ":price", 105),
-            
-            (assign, reg0, ":price"),
+            (assign, ":price", reg0),
             (set_trigger_result, ":price"),
         ]),
   
@@ -1230,33 +1208,10 @@ scripts = [
     ("game_get_item_sell_price_factor",
         [
             (store_script_param, ":item", 1),
-            (assign, ":price", 25),
+
+            (call_script, "script_item_get_sell_price_factor_from_party", ":item", "$g_player_party", "$g_encountered_party"),
             
-            (try_begin),
-                (is_between, "$g_encountered_party", centers_begin, centers_end),
-                (is_between, ":item", goods_begin, goods_end),
-                (party_get_slot, ":own_production", "$g_encountered_party", ":item"),
-                (store_add, ":production_modifier", -20, ":own_production"),
-                (try_begin),
-                    # We reduce the effect of own production the more we produce
-                    # It is to avoid selling for ridiculous prices in highly productive places
-                    (gt, ":production_modifier", 0),
-                    (store_div, ":prod", ":production_modifier", 30),
-                    (val_add, ":prod", 1),
-                    (val_div, ":production_modifier", ":prod"),
-                (try_end),
-                (val_sub, ":price", ":production_modifier"),
-            (try_end),
-            
-            (party_get_skill_level, ":trade_skill", "$g_player_party", skl_trade),
-            (val_mul, ":trade_skill", 4),
-            (val_add, ":price", ":trade_skill"),
-            
-            # (val_min, ":price", 95),
-            
-            (val_max, ":price", 5),
-            
-            (assign, reg0, ":price"),
+            (assign, ":price", reg0),
             (set_trigger_result, ":price"),
         ]),
   
@@ -1266,31 +1221,26 @@ scripts = [
         # param1: item_kind_id
     ("game_event_buy_item",
         [
-            (try_begin),
-                # Should be set before every call to trade with an npc
-                # And unset after (unless the trader is not taxed)
-                (ge, "$g_trading", 1),
-                (is_between, "$g_encountered_party", centers_begin, centers_end),
-                (store_script_param, ":item_no", 1),
-                (call_script, "script_game_get_item_buy_price_factor", ":item_no"),
-                (assign, ":price_factor", reg0),
-                (store_item_value, ":value", ":item_no"),
+            # This event is called not on the final purchase of an item but when moving the item from one inventory to the other
+            # This means that the transaction is not finalized yet !
+            # For now player taxes are not taken into account for center prosperity (could be abused anyways)
 
-                (party_get_slot, ":tax_rate", "$g_encountered_party", slot_party_taxes_buy),
-                (gt, ":tax_rate", 0),
-                (val_add, ":tax_rate", 100),
-                (val_mul, ":value", ":price_factor"),
-                (val_div, ":value", 100),
+            # (try_begin),
+            #     # Should be set before every call to trade with an npc
+            #     # And unset after (unless the trader is not taxed)
+            #     (ge, "$g_trading", 1),
+            #     (is_between, "$g_encountered_party", centers_begin, centers_end),
+            #     (store_script_param, ":item_no", 1),
 
-                (store_mul, ":tax_free", ":value", 100),
-                (val_div, ":tax_free", ":tax_rate"),
+            #     (store_item_value, ":value", ":item_no"),
 
-                (val_sub, ":value", ":tax_free"),
+            #     (party_get_slot, ":tax_rate", "$g_encountered_party", slot_party_taxes_buy),
+            #     (gt, ":tax_rate", 0),
+            #     (val_mul, ":value", ":tax_rate"),
+            #     (val_div, ":value", 100),
 
-                (party_get_slot, ":wealth", "$g_encountered_party", slot_party_wealth),
-                (val_add, ":wealth", ":value"),
-                (party_set_slot, "$g_encountered_party", slot_party_wealth, ":wealth"),
-            (try_end),
+            #     (call_script, "script_party_add_accumulated_taxes", "$g_encountered_party", ":value", tax_type_trade),
+            # (try_end),
         ]),
   
     #script_game_event_sell_item:
@@ -1299,31 +1249,26 @@ scripts = [
         # param1: item_kind_id
     ("game_event_sell_item",
         [
-            (try_begin),
-                # Should be set before every call to trade with an npc
-                # And unset after (unless the trader is not taxed)
-                (ge, "$g_trading", 1),
-                (is_between, "$g_encountered_party", centers_begin, centers_end),
-                (store_script_param, ":item_no", 1),
-                (call_script, "script_game_get_item_sell_price_factor", ":item_no"),
-                (assign, ":price_factor", reg0),
-                (store_item_value, ":value", ":item_no"),
+            # This event is called not on the final purchase of an item but when moving the item from one inventory to the other
+            # This means that the transaction is not finalized yet !
+            # For now player taxes are not taken into account for center prosperity (could be abused anyways)
 
-                (party_get_slot, ":tax_rate", "$g_encountered_party", slot_party_taxes_sell),
-                (gt, ":tax_rate", 0),
-                (val_add, ":tax_rate", 100),
-                (val_mul, ":value", ":price_factor"),
-                (val_div, ":value", 100),
+            # (try_begin),
+            #     # Should be set before every call to trade with an npc
+            #     # And unset after (unless the trader is not taxed)
+            #     (ge, "$g_trading", 1),
+            #     (is_between, "$g_encountered_party", centers_begin, centers_end),
+            #     (store_script_param, ":item_no", 1),
 
-                (store_mul, ":tax_free", ":value", 100),
-                (val_div, ":tax_free", ":tax_rate"),
+            #     (store_item_value, ":value", ":item_no"),
 
-                (val_sub, ":value", ":tax_free"),
+            #     (party_get_slot, ":tax_rate", "$g_encountered_party", slot_party_taxes_sell),
+            #     (gt, ":tax_rate", 0),
+            #     (val_mul, ":value", ":tax_rate"),
+            #     (val_div, ":value", 100),
 
-                (party_get_slot, ":wealth", "$g_encountered_party", slot_party_wealth),
-                (val_add, ":wealth", ":value"),
-                (party_set_slot, "$g_encountered_party", slot_party_wealth, ":wealth"),
-            (try_end),
+            #     (call_script, "script_party_add_accumulated_taxes", "$g_encountered_party", ":value", tax_type_trade),
+            # (try_end),
         ]), 
   
     # script_game_get_troop_wage
@@ -1900,23 +1845,14 @@ scripts = [
                     (eq, ":extra_text_id", 6),
                     (party_get_slot, ":tax_rate", "$g_encountered_party", slot_party_taxes_buy),
                     (assign, ":string", "str_item_taxes_buy"),
-                    (store_item_value, ":value", ":item_no"),
-                    (call_script, "script_game_get_item_buy_price_factor", ":item_no"),
-                    (val_mul, ":value", reg0),
-                    (val_div, ":value", 100),
-                    (store_mul, reg10, ":value", ":tax_rate"),
+                    (assign, reg10, ":tax_rate"),
                 (else_try),
                     (eq, ":extra_text_id", 7),
                     (party_get_slot, ":tax_rate", "$g_encountered_party", slot_party_taxes_sell),
                     (assign, ":string", "str_item_taxes_sell"),
-                    (store_item_value, ":value", ":item_no"),
-                    (call_script, "script_game_get_item_sell_price_factor", ":item_no"),
-                    (val_mul, ":value", reg0),
-                    (val_div, ":value", 100),
-                    (store_mul, reg10, ":value", ":tax_rate"),
+                    (assign, reg10, ":tax_rate"),
                 (try_end),
                 (gt, ":string", 0),
-                (val_div, reg10, 100),
                 (str_store_string, s0, ":string"),
                 (set_result_string, s0),
                 (set_trigger_result, 0x87CAD1),
@@ -3231,6 +3167,9 @@ scripts = [
                 (party_set_slot, ":party_no", slot_party_population_max, population_max_town),
             (try_end),
 
+            (party_set_slot, ":party_no", slot_party_taxes_buy, 5),
+            (party_set_slot, ":party_no", slot_party_taxes_sell, 2),
+
             (try_for_range, ":unused", 0, 10),
                 (call_script, "script_party_process_ressources", ":party_no"),
                 (call_script, "script_party_process_production", ":party_no"),
@@ -3413,7 +3352,7 @@ scripts = [
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_iron", 10),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_stone", 10),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_salt", 1),
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_pottery", 1),
+                (call_script, "script_party_update_resources_slot", ":party_no", "itm_clay", 1),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_wool", 2),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_raw_dyes", 1),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_raw_leather", 1),
@@ -3435,7 +3374,7 @@ scripts = [
                 (eq, ":terrain_type", rt_steppe),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_spice", 2),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_stone", 1),
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_pottery", 1),
+                (call_script, "script_party_update_resources_slot", ":party_no", "itm_clay", 1),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_oil", 1),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_raw_flax", 1),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_wool", 1),
@@ -3474,7 +3413,7 @@ scripts = [
                 # (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_heat, 0, ":radius"),
             (else_try),
                 (eq, ":terrain_type", rt_snow),
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_pottery", 1),
+                (call_script, "script_party_update_resources_slot", ":party_no", "itm_clay", 1),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_wool", 1),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_furs", 5),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_stone", 1),
@@ -3492,7 +3431,7 @@ scripts = [
                 (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_heat, -1800, ":radius"),
             (else_try),
                 (eq, ":terrain_type", rt_desert),
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_pottery", 1),
+                (call_script, "script_party_update_resources_slot", ":party_no", "itm_clay", 1),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_raw_dyes", 3),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_iron", 1),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_raw_leather", 1),
@@ -4885,6 +4824,11 @@ scripts = [
                 (party_get_slot, ":budget", ":party_no", slot_party_budget_faction_member_taxes),
                 (val_add, ":budget", ":amount"),
                 (party_set_slot, ":party_no", slot_party_budget_faction_member_taxes, ":budget"),
+            (else_try),
+                (eq, ":tax_type", tax_type_trade),
+                (party_get_slot, ":budget", ":party_no", slot_party_budget_trade),
+                (val_add, ":budget", ":amount"),
+                (party_set_slot, ":party_no", slot_party_budget_trade, ":budget"),
             (try_end),
         ]),
 
@@ -14938,5 +14882,93 @@ scripts = [
                 (party_get_slot, ":home", ":party_no", slot_party_linked_party),
                 (call_script, "script_party_set_behavior", ":party_no", tai_patroling_center, ":home"),
             (try_end),
+        ]),
+
+    # script_item_get_buy_price_factor_from_party
+        # input:
+        #   arg1: item_no
+        #   arg2: party_buyer
+        #   arg3: party_no
+        # output:
+        #   reg0: price_factor
+    ("item_get_buy_price_factor_from_party",
+        [
+            (store_script_param, ":item_no", 1),
+            (store_script_param, ":party_buyer", 2),
+            (store_script_param, ":party_no", 3),
+
+            (assign, ":price", 300),
+            
+            (try_begin),
+                (is_between, ":party_no", centers_begin, centers_end),
+                (is_between, ":item_no", goods_begin, goods_end),
+                (party_get_slot, ":own_production", ":party_no", ":item_no"),
+                (store_sub, ":production_modifier", 20, ":own_production"),
+                (try_begin),
+                    # We reduce the effect of own production the more we produce
+                    # It is to avoid buying for ridiculous prices in highly productive places
+                    (lt, ":production_modifier", 0), 
+                    (store_mul, ":inv_prod", ":production_modifier", -1),
+                    (val_div, ":inv_prod", 15),
+                    (val_add, ":inv_prod", 1),
+                    (val_div, ":production_modifier", ":inv_prod"),
+                (try_end),
+                (val_sub, ":price", ":production_modifier"),
+            (try_end),
+            
+            (party_get_skill_level, ":trade_skill", ":party_buyer", skl_trade),
+            (val_mul, ":trade_skill", 5),
+            (val_sub, ":price", ":trade_skill"),
+
+            (party_get_slot, ":tax_rate", ":party_no", slot_party_taxes_buy),
+            (val_add, ":price", ":tax_rate"),
+
+            (assign, reg0, ":price"),
+        ]),
+
+    # script_item_get_sell_price_factor_from_party
+        # input:
+        #   arg1: item_no
+        #   arg2: party_seller
+        #   arg3: party_no
+        # output:
+        #   reg0: price_factor
+    ("item_get_sell_price_factor_from_party",
+        [
+            (store_script_param, ":item_no", 1),
+            (store_script_param, ":party_seller", 2),
+            (store_script_param, ":party_no", 3),
+
+            (assign, ":price", 25),
+            
+            (try_begin),
+                (is_between, ":party_no", centers_begin, centers_end),
+                (is_between, ":item_no", goods_begin, goods_end),
+                (party_get_slot, ":own_production", ":party_no", ":item_no"),
+                (store_add, ":production_modifier", -20, ":own_production"),
+                (try_begin),
+                    # We reduce the effect of own production the more we produce
+                    # It is to avoid selling for ridiculous prices in highly productive places
+                    (gt, ":production_modifier", 0),
+                    (store_div, ":prod", ":production_modifier", 30),
+                    (val_add, ":prod", 1),
+                    (val_div, ":production_modifier", ":prod"),
+                (try_end),
+                (val_sub, ":price", ":production_modifier"),
+            (try_end),
+            
+            (party_get_skill_level, ":trade_skill", ":party_seller", skl_trade),
+            (val_mul, ":trade_skill", 4),
+            (val_add, ":price", ":trade_skill"),
+            
+            # (val_min, ":price", 95),
+            (val_max, ":price", 5),
+
+            (val_max, ":price", 105),
+            
+            (party_get_slot, ":tax_rate", ":party_no", slot_party_taxes_sell),
+            (val_sub, ":price", ":tax_rate"),
+
+            (assign, reg0, ":price"),
         ]),
 ]

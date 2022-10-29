@@ -322,6 +322,7 @@ tax_type_vassal = 3
 tax_type_member = 4
 tax_type_vassal_pay = 3
 tax_type_member_pay = 4
+tax_type_trade = 5
 
 ################
 ## Item Slots ##
@@ -657,19 +658,20 @@ slot_party_budget_faction_member_taxes = 156
 slot_party_budget_pay_protection_taxes = 157
 slot_party_budget_pay_vassal_taxes = 158
 slot_party_budget_pay_faction_member_taxes = 159
+slot_party_budget_trade = 160
 
-slot_party_budget_reserved_party = 160
-slot_party_budget_reserved_auxiliaries = 161
-slot_party_budget_reserved_expenses = 162
-slot_party_budget_reserved_other = 163
+slot_party_budget_reserved_party = 161
+slot_party_budget_reserved_auxiliaries = 162
+slot_party_budget_reserved_expenses = 163
+slot_party_budget_reserved_other = 164
 
-slot_party_attached_party_1 = 164
-slot_party_attached_party_2 = 165
-slot_party_attached_party_3 = 166
+slot_party_attached_party_1 = 165
+slot_party_attached_party_2 = 166
+slot_party_attached_party_3 = 167
 
-slot_party_last_rest = 167 # for small parties
+slot_party_last_rest = 168 # for small parties
 
-slot_party_building_slot_1	= 168
+slot_party_building_slot_1	= 169
 slot_party_building_slot_2	= slot_party_building_slot_1 + 1
 slot_party_building_slot_3	= slot_party_building_slot_2 + 1
 slot_party_building_slot_4	= slot_party_building_slot_3 + 1

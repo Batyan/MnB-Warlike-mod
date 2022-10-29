@@ -841,8 +841,8 @@ strings = [
   ("building_tavern_2",         "The improved tavern is one of, if not the most important building in a center. It increases prosperity by 10%% and has more room for people to rent."),
   ("building_trading_post_2",   "The improved trading post increases profits from trade by 10%% and gives caravans a big escort."),
 
-  ("item_taxes_sell", "Town selling taxes: {reg10} denars"),
-  ("item_taxes_buy", "Town buying taxes: {reg10} denars"),
+  ("item_taxes_sell", "Town selling taxes: {reg10}%"),
+  ("item_taxes_buy", "Town buying taxes: {reg10}%"),
 
   ("dialog_error", "[ERROR] Incorrect dialog string."),
 

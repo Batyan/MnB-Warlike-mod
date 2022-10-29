@@ -863,13 +863,13 @@ game_menus = [
 		[
 			(set_background_mesh, "mesh_pic_camp"),
 			(call_script, "script_party_update_merchants", "$g_encountered_party"),
-			(assign, "$g_trading", 0),
+			# (assign, "$g_trading", 0),
 		],
 		[
 			("center_buy_goods", [(disable_menu_option),], "Buy goods",
 				[
 					#ToDo: buy goods
-					(assign, "$g_trading", 1),
+					# (assign, "$g_trading", 1),
 				]),
 			
 			("center_buy_weapons", 
@@ -889,7 +889,7 @@ game_menus = [
 					(store_sub, ":offset", "$g_encountered_party", towns_begin),
 					(store_add, ":merchant", merchants_weapons_begin, ":offset"),
 					# (assign, "$current_trader", ":merchant"),
-					(assign, "$g_trading", 1),
+					# (assign, "$g_trading", 1),
 					(change_screen_trade, ":merchant"),
 					# (assign, "$current_trader", -1),
 				]),
@@ -902,7 +902,7 @@ game_menus = [
 					(store_sub, ":offset", "$g_encountered_party", castles_begin),
 					(store_add, ":merchant", merchants_smiths_begin, ":offset"),
 					# (assign, "$current_trader", ":merchant"),
-					(assign, "$g_trading", 1),
+					# (assign, "$g_trading", 1),
 					(change_screen_trade, ":merchant"),
 					# (assign, "$current_trader", -1),
 				]),
@@ -922,7 +922,7 @@ game_menus = [
 					(store_sub, ":offset", "$g_encountered_party", towns_begin),
 					(store_add, ":merchant", merchants_armors_begin, ":offset"),
 					# (assign, "$current_trader", ":merchant"),
-					(assign, "$g_trading", 1),
+					# (assign, "$g_trading", 1),
 					(change_screen_trade, ":merchant"),
 					# (assign, "$current_trader", -1),
 				]),
@@ -938,7 +938,7 @@ game_menus = [
 				], "Buy horses",
 				[
 					#ToDo: buy horses
-					(assign, "$g_trading", 1),
+					# (assign, "$g_trading", 1),
 				]),
 			
 			("center_buy_general", 
@@ -952,7 +952,7 @@ game_menus = [
 					(store_sub, ":offset", "$g_encountered_party", towns_begin),
 					(store_add, ":merchant", merchants_general_begin, ":offset"),
 					# (assign, "$current_trader", ":merchant"),
-					(assign, "$g_trading", 1),
+					# (assign, "$g_trading", 1),
 					(change_screen_trade, ":merchant"),
 					# (assign, "$current_trader", -1),
 				]),
