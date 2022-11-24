@@ -296,10 +296,15 @@ script_prepare_troop_followers = 294
 script_party_create_debt = 295
 script_party_process_attached_parties = 296
 script_cf_party_create_patrol = 297
-script_cf_center_can_give_troops = 298
-script_party_give_prisoners_to_party = 299
-script_party_patrol_process = 300
-script_item_get_buy_price_factor_from_party = 301
-script_item_get_sell_price_factor_from_party = 302
+script_cf_party_create_caravan = 298
+script_cf_center_can_give_troops = 299
+script_party_give_prisoners_to_party = 300
+script_party_patrol_process = 301
+script_party_caravan_process = 302
+script_party_caravan_select_destination = 303
+script_party_caravan_set_destination = 304
+script_party_caravan_clear_destination = 305
+script_item_get_buy_price_factor_from_party = 306
+script_item_get_sell_price_factor_from_party = 307
 
 

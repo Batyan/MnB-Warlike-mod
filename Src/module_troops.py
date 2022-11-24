@@ -4296,6 +4296,69 @@ troops = [
    # [],
   # ]
 
+  #################
+  # Special units #
+  #################
+  ["swadian_caravan_master", "Caravan Master", "Caravan Masters", tf_guarantee_recruit_armor|tf_guarantee_horseman, no_scene, reserved, fac_faction_1,
+   [itm_sword_medieval_b, itm_bastard_sword_a,
+    itm_leather_boots, itm_wrapping_boots, itm_leather_gloves,
+    itm_leather_armor, itm_leather_jerkin, itm_fur_coat,
+    itm_hunter],
+  str_10|agi_14|int_7|cha_6|level(14), wpex(60,55,60,55,45,40), knows_common|knows_ironflesh_1|knows_power_strike_3|knows_power_draw_4|knows_athletics_4|knows_riding_5, swadian_face_young_1, swadian_face_old_2],
+  ["swadian_caravan_guard", "Caravan Guard", "Caravan Guards", tf_guarantee_recruit_armor|tf_guarantee_horseman, no_scene, reserved, fac_faction_1,
+   [],
+  str_10|agi_14|int_7|cha_6|level(14), wpex(60,55,60,55,45,40), knows_common|knows_ironflesh_1|knows_power_strike_3|knows_power_draw_4|knows_athletics_4|knows_riding_5, swadian_face_young_1, swadian_face_old_2],
+
+  ["vaegir_caravan_master", "Caravan Master", "Caravan Masters", tf_guarantee_recruit_armor|tf_guarantee_horseman, no_scene, reserved, fac_faction_1,
+   [itm_scimitar,
+    itm_leather_boots, itm_nomad_boots, itm_leather_gloves,
+    itm_leather_vest, itm_leather_jerkin, itm_fur_coat,
+    itm_hunter],
+  str_10|agi_14|int_7|cha_6|level(14), wpex(60,55,60,55,45,40), knows_common|knows_ironflesh_1|knows_power_strike_3|knows_power_draw_4|knows_athletics_4|knows_riding_5, vaegir_face_young_1, vaegir_face_old_2],
+  ["vaegir_caravan_guard", "Caravan Guard", "Caravan Guards", tf_guarantee_recruit_armor|tf_guarantee_horseman, no_scene, reserved, fac_faction_1,
+   [],
+  str_10|agi_14|int_7|cha_6|level(14), wpex(60,55,60,55,45,40), knows_common|knows_ironflesh_1|knows_power_strike_3|knows_power_draw_4|knows_athletics_4|knows_riding_5, vaegir_face_young_1, vaegir_face_old_2],
+
+  ["khergit_caravan_master", "Caravan Master", "Caravan Masters", tf_guarantee_recruit_armor|tf_guarantee_horseman, no_scene, reserved, fac_faction_1,
+   [itm_sword_khergit_2,
+    itm_leather_boots, itm_nomad_boots, itm_leather_gloves,
+    itm_leather_vest, itm_tribal_warrior_outfit, itm_fur_coat,
+    itm_hunter],
+  str_10|agi_14|int_7|cha_6|level(14), wpex(60,55,60,55,45,40), knows_common|knows_ironflesh_1|knows_power_strike_3|knows_power_draw_4|knows_athletics_4|knows_riding_5, khergit_face_young_1, khergit_face_old_2],
+  ["khergit_caravan_guard", "Caravan Guard", "Caravan Guards", tf_guarantee_recruit_armor|tf_guarantee_horseman, no_scene, reserved, fac_faction_1,
+   [],
+  str_10|agi_14|int_7|cha_6|level(14), wpex(60,55,60,55,45,40), knows_common|knows_ironflesh_1|knows_power_strike_3|knows_power_draw_4|knows_athletics_4|knows_riding_5, khergit_face_young_1, khergit_face_old_2],
+
+  ["nord_caravan_master", "Caravan Master", "Caravan Masters", tf_guarantee_recruit_armor|tf_guarantee_horseman, no_scene, reserved, fac_faction_1,
+   [itm_sword_viking_2,
+    itm_leather_boots, itm_nomad_boots, itm_leather_gloves,
+    itm_leather_jerkin, itm_fur_coat,
+    itm_hunter],
+  str_10|agi_14|int_7|cha_6|level(14), wpex(60,55,60,55,45,40), knows_common|knows_ironflesh_1|knows_power_strike_3|knows_power_draw_4|knows_athletics_4|knows_riding_5, nord_face_young_1, nord_face_old_2],
+  ["nord_caravan_guard", "Caravan Guard", "Caravan Guards", tf_guarantee_recruit_armor|tf_guarantee_horseman, no_scene, reserved, fac_faction_1,
+   [],
+  str_10|agi_14|int_7|cha_6|level(14), wpex(60,55,60,55,45,40), knows_common|knows_ironflesh_1|knows_power_strike_3|knows_power_draw_4|knows_athletics_4|knows_riding_5, nord_face_young_1, nord_face_old_2],
+
+  ["rhodok_caravan_master", "Caravan Master", "Caravan Masters", tf_guarantee_recruit_armor|tf_guarantee_horseman, no_scene, reserved, fac_faction_1,
+   [itm_sword_medieval_b,
+    itm_leather_boots, itm_wrapping_boots, itm_leather_gloves,
+    itm_ragged_outfit, itm_leather_jerkin, itm_fur_coat,
+    itm_hunter],
+  str_10|agi_14|int_7|cha_6|level(14), wpex(60,55,60,55,45,40), knows_common|knows_ironflesh_1|knows_power_strike_3|knows_power_draw_4|knows_athletics_4|knows_riding_5, rhodok_face_young_1, rhodok_face_old_2],
+  ["rhodok_caravan_guard", "Caravan Guard", "Caravan Guards", tf_guarantee_recruit_armor|tf_guarantee_horseman, no_scene, reserved, fac_faction_1,
+   [],
+  str_10|agi_14|int_7|cha_6|level(14), wpex(60,55,60,55,45,40), knows_common|knows_ironflesh_1|knows_power_strike_3|knows_power_draw_4|knows_athletics_4|knows_riding_5, rhodok_face_young_1, rhodok_face_old_2],
+
+  ["sarranid_caravan_master", "Caravan Master", "Caravan Masters", tf_guarantee_recruit_armor|tf_guarantee_horseman, no_scene, reserved, fac_faction_1,
+   [itm_arabian_sword_b,
+    itm_sarranid_boots_b, itm_leather_gloves,
+    itm_archers_vest, itm_fur_coat,
+    itm_arabian_horse_b],
+  str_10|agi_14|int_7|cha_6|level(14), wpex(60,55,60,55,45,40), knows_common|knows_ironflesh_1|knows_power_strike_3|knows_power_draw_4|knows_athletics_4|knows_riding_5, sarranid_face_young_1, sarranid_face_old_2],
+  ["sarranid_caravan_guard", "Caravan Guard", "Caravan Guards", tf_guarantee_recruit_armor|tf_guarantee_horseman, no_scene, reserved, fac_faction_1,
+   [],
+  str_10|agi_14|int_7|cha_6|level(14), wpex(60,55,60,55,45,40), knows_common|knows_ironflesh_1|knows_power_strike_3|knows_power_draw_4|knows_athletics_4|knows_riding_5, sarranid_face_young_1, sarranid_face_old_2],
+
   ###########
   # Bandits #
   ###########

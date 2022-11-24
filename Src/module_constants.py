@@ -411,6 +411,9 @@ slot_faction_veteran_begin			= 21
 slot_faction_elite_begin			= 22
 slot_faction_noble_begin			= 23
 
+slot_faction_caravan_master			= 24
+slot_faction_caravan_guard			= 25
+
 # slot_faction_peasant_template_begin = 24
 # slot_faction_common_template_begin = 25
 # slot_faction_veteran_template_begin = 26
@@ -529,6 +532,7 @@ spm_courier		= 2
 spm_trade		= 3
 spm_gather		= 4
 spm_reinforce	= 5
+spm_waiting		= 6
 
 slot_party_mission_object	= 6
 
@@ -642,11 +646,12 @@ slot_party_prepared_for_war = 143
 
 slot_party_process_mission_iteration = 144
 
-slot_party_num_peasants		= 146
-slot_party_num_caravans		= 147
-slot_party_num_patrols		= 148
-slot_party_num_scouts		= 149
-slot_party_num_others 		= 150 # Contains every other non fighting party
+# slot_party_num_peasants		= 146
+# slot_party_num_caravans		= 147
+# slot_party_num_patrols		= 148
+# slot_party_num_scouts		= 149
+# slot_party_num_others 		= 150 # Contains every other non fighting party
+
 
 slot_party_recent_casualties_loot = 151 # Contains gold looted during simulated battle
 
@@ -671,7 +676,14 @@ slot_party_attached_party_3 = 167
 
 slot_party_last_rest = 168 # for small parties
 
-slot_party_building_slot_1	= 169
+slot_party_mission_target_1 = 169
+slot_party_mission_target_2 = 170
+slot_party_mission_target_3 = 171
+slot_party_mission_objective_1 = 172
+slot_party_mission_objective_2 = 173
+slot_party_mission_objective_3 = 174
+
+slot_party_building_slot_1	= 175
 slot_party_building_slot_2	= slot_party_building_slot_1 + 1
 slot_party_building_slot_3	= slot_party_building_slot_2 + 1
 slot_party_building_slot_4	= slot_party_building_slot_3 + 1
@@ -702,9 +714,12 @@ slot_party_building_state_8 = slot_party_building_state_7 + 1
 slot_party_building_state_9 = slot_party_building_state_8 + 1
 slot_party_building_state_10 = slot_party_building_state_9 + 1
 
+# For centers
 slot_party_item_consumed_begin 	= 200 # Number of items consumed per 100 citizens
 slot_party_item_consumed_end	= slot_party_item_consumed_begin + goods_end - goods_begin
-
+# For parties (caravans)
+slot_party_item_stored_price_begin 	= slot_party_item_consumed_begin
+slot_party_item_stored_price_end 	= slot_party_item_consumed_end
 
 
 #################

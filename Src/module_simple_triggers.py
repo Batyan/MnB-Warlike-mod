@@ -76,8 +76,8 @@ simple_triggers = [
                     (call_script, "script_party_process_attached_parties", ":party_no"),
                     
                     (try_begin),
-                        (party_get_slot, ":population", ":party_no", slot_party_population),
-                        (gt, ":population", 20),
+                        # (party_get_slot, ":population", ":party_no", slot_party_population),
+                        # (gt, ":population", 20),
                         
                         (try_begin),
                             (eq, ":party_type", spt_village),
@@ -103,6 +103,9 @@ simple_triggers = [
                 (else_try),
                     (eq, ":party_type", spt_patrol),
                     (call_script, "script_party_patrol_process", ":party_no"),
+                (else_try),
+                    (eq, ":party_type", spt_caravan),
+                    (call_script, "script_party_caravan_process", ":party_no"),
                 (try_end),
             (try_end),
 

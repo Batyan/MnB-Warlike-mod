@@ -5824,6 +5824,20 @@ scripts = [
             (faction_set_slot, "fac_culture_6", slot_faction_veteran_begin, "trp_sarranid_guard"),
             (faction_set_slot, "fac_culture_6", slot_faction_elite_begin, "trp_sarranid_heavy_infantry"),
             (faction_set_slot, "fac_culture_6", slot_faction_noble_begin, "trp_sarranid_noble_horse_archer"),
+
+            (faction_set_slot, "fac_culture_1", slot_faction_caravan_master, "trp_swadian_caravan_master"),
+            (faction_set_slot, "fac_culture_2", slot_faction_caravan_master, "trp_vaegir_caravan_master"),
+            (faction_set_slot, "fac_culture_3", slot_faction_caravan_master, "trp_khergit_caravan_master"),
+            (faction_set_slot, "fac_culture_4", slot_faction_caravan_master, "trp_nord_caravan_master"),
+            (faction_set_slot, "fac_culture_5", slot_faction_caravan_master, "trp_rhodok_caravan_master"),
+            (faction_set_slot, "fac_culture_6", slot_faction_caravan_master, "trp_sarranid_caravan_master"),
+
+            (faction_set_slot, "fac_culture_1", slot_faction_caravan_guard, "trp_swadian_caravan_guard"),
+            (faction_set_slot, "fac_culture_2", slot_faction_caravan_guard, "trp_vaegir_caravan_guard"),
+            (faction_set_slot, "fac_culture_3", slot_faction_caravan_guard, "trp_khergit_caravan_guard"),
+            (faction_set_slot, "fac_culture_4", slot_faction_caravan_guard, "trp_nord_caravan_guard"),
+            (faction_set_slot, "fac_culture_5", slot_faction_caravan_guard, "trp_rhodok_caravan_guard"),
+            (faction_set_slot, "fac_culture_6", slot_faction_caravan_guard, "trp_sarranid_caravan_guard"),
             
             (faction_set_slot, "fac_culture_1", slot_faction_lord_name_begin, "str_kingdom_rank_0"),
             (faction_set_slot, "fac_culture_2", slot_faction_lord_name_begin, "str_kingdom_rank_0"),
@@ -14699,13 +14713,14 @@ scripts = [
 
             (party_get_slot, ":party_type", ":party_no", slot_party_type),
             (party_get_slot, ":attached_party_1", ":party_no", slot_party_attached_party_1),
+            (party_get_slot, ":attached_party_2", ":party_no", slot_party_attached_party_2),
 
             (try_begin),
                 (eq, ":party_type", spt_town),
                 # patrols
                 (try_begin),
                     (le, ":attached_party_1", 0),
-                    (call_script, "script_cf_party_create_patrol", ":party_no"),
+                    (call_script, "script_cf_party_create_patrol", ":party_no", slot_party_attached_party_1),
                 (else_try),
                     (neg|party_is_active, ":attached_party_1"),
                     (party_set_slot, ":party_no", slot_party_attached_party_1, -1),
@@ -14716,6 +14731,18 @@ scripts = [
                     (try_end),
                 (try_end),
                 # caravans
+                (try_begin),
+                    (le, ":attached_party_2", 0),
+                    (call_script, "script_cf_party_create_caravan", ":party_no", slot_party_attached_party_2),
+                (else_try),
+                    (neg|party_is_active, ":attached_party_2"),
+                    (party_set_slot, ":party_no", slot_party_attached_party_2, -1),
+                    (try_begin),
+                        (call_script, "script_cf_debug", debug_war),
+                        (str_store_party_name, s10, ":party_no"),
+                        (display_message, "@{s10} releasing inactive attached party 2"),
+                    (try_end),
+                (try_end),
             (else_try),
                 (eq, ":party_type", spt_castle),
                 # patrols
@@ -14729,10 +14756,14 @@ scripts = [
     # script_cf_party_create_patrol
         # input:
         #   arg1: party_no
+        #   arg2: store_slot
         # output: none
     ("cf_party_create_patrol",
         [
             (store_script_param, ":party_no", 1),
+            (store_script_param, ":slot", 2),
+
+            (call_script, "script_cf_center_can_give_troops", ":party_no"),
 
             (store_faction_of_party, ":party_faction", ":party_no"),
             (party_get_slot, ":attached_party_reserved_wages", ":party_no", slot_party_budget_reserved_auxiliaries),
@@ -14749,12 +14780,55 @@ scripts = [
             (store_current_hours, ":hours"),
             (party_set_slot, ":spawned_party", slot_party_last_rest, ":hours"),
 
-            (party_set_slot, ":party_no", slot_party_attached_party_1, ":spawned_party"),
+            (party_set_slot, ":party_no", ":slot", ":spawned_party"),
             (call_script, "script_party_give_troops_to_party", ":party_no", ":spawned_party", 5),
             (try_begin),
                 (call_script, "script_cf_debug", debug_war|debug_ai),
                 (str_store_party_name, s10, ":party_no"),
-                (display_message, "@{s10} generating attached party"),
+                (display_message, "@{s10} generating attached party patrol"),
+            (try_end),
+        ]),
+
+    # script_cf_party_create_caravan
+        # input:
+        #   arg1: party_no
+        #   arg2: store_slot
+        # output: none
+    ("cf_party_create_caravan",
+        [
+            (store_script_param, ":party_no", 1),
+            (store_script_param, ":slot", 2),
+            
+            (call_script, "script_cf_center_can_give_troops", ":party_no"),
+
+            (store_faction_of_party, ":party_faction", ":party_no"),
+            # (party_get_slot, ":attached_party_reserved_wages", ":party_no", slot_party_budget_reserved_auxiliaries),
+            # (val_div, ":attached_party_reserved_wages", 2),
+
+            (call_script, "script_spawn_party_around_party", ":party_no", "pt_caravan"),
+            (assign, ":spawned_party", reg0),
+
+            (party_set_faction, ":spawned_party", ":party_faction"),
+            (party_set_slot, ":spawned_party", slot_party_budget_reserved_party, 5000),
+            (party_set_slot, ":spawned_party", slot_party_wanted_party_wages, 5000),
+            (party_set_slot, ":spawned_party", slot_party_type, spt_caravan),
+            (party_set_slot, ":spawned_party", slot_party_linked_party, ":party_no"),
+            (party_set_slot, ":spawned_party", slot_party_mission_object, -1),
+
+            (party_set_slot, ":party_no", ":slot", ":spawned_party"),
+
+            (faction_get_slot, ":culture", ":party_faction", slot_faction_culture),
+            (faction_get_slot, ":caravan_master", ":culture", slot_faction_caravan_master),
+            (try_begin),
+                (gt, ":caravan_master", 0),
+                (party_force_add_members, ":spawned_party", ":caravan_master", 1),
+            (else_try),
+                (party_force_add_members, ":spawned_party", "trp_swadian_caravan_master", 1),
+            (try_end),
+            (try_begin),
+                (call_script, "script_cf_debug", debug_economy|debug_ai),
+                (str_store_party_name, s10, ":party_no"),
+                (display_message, "@{s10} generating attached party caravan"),
             (try_end),
         ]),
 
@@ -14881,6 +14955,160 @@ scripts = [
                 # Patrol center
                 (party_get_slot, ":home", ":party_no", slot_party_linked_party),
                 (call_script, "script_party_set_behavior", ":party_no", tai_patroling_center, ":home"),
+            (try_end),
+        ]),
+
+    # script_party_caravan_process
+        # input:
+        #   arg1: party_no
+        # output: none
+    ("party_caravan_process",
+        [
+            (store_script_param, ":party_no", 1),
+
+            (party_get_slot, ":mission_object", ":party_no", slot_party_mission_object),
+            (party_get_slot, ":mission", ":party_no", slot_party_mission),
+            (party_get_cur_town, ":cur_town", ":party_no"),
+            (party_get_slot, ":home", ":party_no", slot_party_linked_party),
+
+            (try_begin),
+                (eq, ":cur_town", ":mission_object"),
+                (is_between, ":cur_town", centers_begin, centers_end),
+
+                (store_current_hours, ":hours"),
+                (try_begin),
+                    (eq, ":cur_town", ":home"),
+                    (call_script, "script_party_get_wages", ":party_no"),
+                    (assign, ":current_wages", reg0),
+                    (call_script, "script_party_get_prefered_wages_limit", ":party_no"),
+                    (assign, ":wanted_wages", reg0),
+
+                    (party_get_num_prisoners, ":num_prisoners", ":party_no"),
+                    (try_begin),
+                        (ge, ":num_prisoners", 1),
+                        (call_script, "script_party_give_prisoners_to_party", ":party_no", ":cur_town"),
+                    (try_end),
+
+                    (call_script, "script_party_caravan_select_destination", ":party_no"),
+                    (assign, ":new_destination", reg0),
+                    (try_begin),
+                        (le, ":current_wages", ":wanted_wages"),
+                        (eq, ":cur_town", ":home"),
+                        (try_begin),
+                            (call_script, "script_cf_center_can_give_troops", ":cur_town"),
+                            (store_random_in_range, ":num_troops", 3, 7),
+                            (call_script, "script_party_give_troops_to_party", ":cur_town", ":party_no", ":num_troops"),
+                        (try_end),
+                    (else_try),
+                        (eq, ":new_destination", ":home"),
+                        (call_script, "script_party_caravan_set_destination", ":party_no"),
+                    (else_try),
+                        (party_set_slot, ":party_no", slot_party_mission, spm_trade),
+                        (party_set_slot, ":party_no", slot_party_mission_object, ":new_destination"),
+                        (call_script, "script_party_set_behavior", ":party_no", tai_traveling_to_party, ":new_destination"),
+                    (try_end),
+
+                (else_try),
+                    (eq, ":mission", spm_trade),
+                    (party_set_slot, ":party_no", slot_party_mission, spm_waiting),
+                    (party_set_slot, ":party_no", slot_party_last_rest, ":hours"),
+                    (call_script, "script_party_caravan_clear_destination", ":party_no", ":cur_town"),
+                (else_try),
+                    (party_get_slot, ":last_rest", ":party_no", slot_party_last_rest),
+                    (store_sub, ":rest_time", ":hours", ":last_rest"),
+                    (gt, ":rest_time", 24),
+                    (call_script, "script_party_caravan_select_destination", ":party_no"),
+                    (assign, ":new_destination", reg0),
+                    (party_set_slot, ":party_no", slot_party_mission, spm_trade),
+                    (party_set_slot, ":party_no", slot_party_mission_object, ":new_destination"),
+                    (call_script, "script_party_set_behavior", ":party_no", tai_traveling_to_party, ":new_destination"),
+                (try_end),
+            (else_try),
+                (eq, ":mission_object", -1),
+                (call_script, "script_party_caravan_select_destination", ":party_no"),
+                (assign, ":new_destination", reg0),
+
+                (try_begin),
+                    (is_between, ":new_destination", centers_begin, centers_end),
+                    (neq, ":cur_town", ":new_destination"),
+                    (party_set_slot, ":party_no", slot_party_mission, spm_trade),
+                    (party_set_slot, ":party_no", slot_party_mission_object, ":new_destination"),
+                    (call_script, "script_party_set_behavior", ":party_no", tai_traveling_to_party, ":new_destination"),
+                (try_end),
+            (try_end),
+        ]),
+
+    # script_party_caravan_select_destination
+        # input:
+        #   arg1: party_no
+        # output:
+        #   reg0: destination
+    ("party_caravan_select_destination",
+        [
+            (store_script_param, ":party_no", 1),
+
+            (party_get_slot, ":current_destination", ":party_no", slot_party_mission_object),
+            (try_begin),
+                (party_get_slot, ":option_1", ":party_no", slot_party_mission_target_1),
+                (is_between, ":option_1", centers_begin, centers_end),
+                (neq, ":option_1", ":current_destination"),
+                (assign, reg0, ":option_1"),
+            (else_try),
+                (party_get_slot, ":option_2", ":party_no", slot_party_mission_target_2),
+                (is_between, ":option_2", centers_begin, centers_end),
+                (neq, ":option_2", ":current_destination"),
+                (assign, reg0, ":option_2"),
+            (else_try),
+                (party_get_slot, ":option_3", ":party_no", slot_party_mission_target_3),
+                (is_between, ":option_3", centers_begin, centers_end),
+                (neq, ":option_3", ":current_destination"),
+                (assign, reg0, ":option_3"),
+            (else_try),
+                (party_get_slot, ":linked_party", ":party_no", slot_party_linked_party),
+                (is_between, ":linked_party", centers_begin, centers_end),
+                (assign, reg0, ":linked_party"),
+            (else_try),
+                (assign, reg0, -1),
+            (try_end),
+        ]),
+
+
+    # script_party_caravan_set_destination
+        # input:
+        #   arg1: party_no
+        # output: none
+    ("party_caravan_set_destination",
+        [
+            (store_script_param, ":party_no", 1),
+
+            (try_for_range, ":slot", slot_party_mission_target_1, slot_party_mission_target_3 + 1),
+                (store_random_in_range, ":center", towns_begin, towns_end),
+                (party_set_slot, ":party_no", ":slot", ":center"),
+            (try_end),
+        ]),
+
+    # script_party_caravan_clear_destination
+        # input:
+        #   arg1: party_no
+        #   arg2: clear_destination
+        # output: none
+    ("party_caravan_clear_destination",
+        [
+            (store_script_param, ":party_no", 1),
+            (store_script_param, ":clear_destination", 2),
+
+            (try_begin),
+                (party_get_slot, ":option", ":party_no", slot_party_mission_target_1),
+                (eq, ":option", ":clear_destination"),
+                (party_set_slot, ":party_no", slot_party_mission_target_1, -1),
+            (else_try),
+                (party_get_slot, ":option", ":party_no", slot_party_mission_target_2),
+                (eq, ":option", ":clear_destination"),
+                (party_set_slot, ":party_no", slot_party_mission_target_2, -1),
+            (else_try),
+                (party_get_slot, ":option", ":party_no", slot_party_mission_target_3),
+                (eq, ":option", ":clear_destination"),
+                (party_set_slot, ":party_no", slot_party_mission_target_3, -1),
             (try_end),
         ]),
 
