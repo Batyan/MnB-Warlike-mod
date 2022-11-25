@@ -467,16 +467,115 @@ dialogs = [
 		], "{s0}", "close_window", [
 			(leave_encounter),
 		]],
+
+
+	################
+	# Patrol talks #
+	################
+	[anyone, "start", 
+		[
+			(party_get_template_id, ":party_type", "$g_talk_party"),
+			(eq, ":party_type", spt_patrol),
+			(encountered_party_is_attacker),
+			(party_get_slot, ":linked_center", "$g_talk_party", slot_party_linked_party),
+			(store_faction_of_party, ":party_faction", "$g_talk_party"),
+			(try_begin),
+				(is_between, ":linked_center", centers_begin, centers_end),
+				(party_get_slot, ":lord", ":linked_center", slot_party_lord),
+				(is_between, ":lord", lords_begin, lords_end),
+				(str_store_troop_name, s10, ":lord"),
+			(else_try),
+				(is_between, ":party_faction", kingdoms_begin, kingdoms_end),
+				(faction_get_slot, ":faction_leader", "$g_talk_party", slot_faction_leader),
+				(is_between, ":faction_leader", lords_begin, lords_end),
+				(str_store_troop_name, s10, ":faction_leader"),
+			(else_try),
+				(str_store_faction_name, s11, ":party_faction"),
+				(str_store_string, s10, "@the {s11}"),
+			(try_end),
+		], "Stop, in the name of {s10} ! Surrender your weapons and we won't have to take your life.", "patrol_player_attacked", 
+		[]],
+
+	[anyone|plyr, "patrol_player_attacked",
+		[
+		], "We won't go down without a fight", "close_window",
+		[
+			(encounter_attack),
+		]],
+
+	[anyone, "start", 
+		[
+			(party_get_template_id, ":party_type", "$g_talk_party"),
+			(eq, ":party_type", spt_patrol),
+			# (party_get_slot, ":linked_center", "$g_talk_party", slot_party_linked_party),
+			(store_faction_of_party, ":party_faction", "$g_talk_party"),
+			(store_faction_of_party, ":player_faction", "p_main_party"),
+			(eq, ":player_faction", ":party_faction"),
+			(str_store_troop_name, s10, "trp_player"),
+		], "Greetings {s10}, what brings you here ?", "patrol_player_friendly", 
+		[]],
+
+	[anyone|plyr, "patrol_player_friendly",
+		[
+		], "Just passing through.", "close_window",
+		[
+			(leave_encounter),
+		]],
+
+	[anyone, "start", 
+		[
+			(party_get_template_id, ":party_type", "$g_talk_party"),
+			(eq, ":party_type", spt_patrol),
+			(party_get_slot, ":linked_center", "$g_talk_party", slot_party_linked_party),
+			(store_faction_of_party, ":party_faction", "$g_talk_party"),
+			(try_begin),
+				(is_between, ":linked_center", centers_begin, centers_end),
+				(party_get_slot, ":lord", ":linked_center", slot_party_lord),
+				(is_between, ":lord", lords_begin, lords_end),
+				(str_store_troop_name, s10, ":lord"),
+			(else_try),
+				(is_between, ":party_faction", kingdoms_begin, kingdoms_end),
+				(faction_get_slot, ":faction_leader", "$g_talk_party", slot_faction_leader),
+				(is_between, ":faction_leader", lords_begin, lords_end),
+				(str_store_troop_name, s10, ":faction_leader"),
+			(else_try),
+				(str_store_faction_name, s11, ":party_faction"),
+				(str_store_string, s10, "@the {s11}"),
+			(try_end),
+		], "These men are under the protection of {s10}. State your business traveller.", "patrol_player_neutral", 
+		[]],
+
+	[anyone|plyr, "patrol_player_neutral",
+		[
+		], "Nevermind. You may go.", "close_window",
+		[
+			(leave_encounter),
+		]],
+
+	#################
+	# Caravan talks #
+	#################
+	[anyone, "start", 
+		[
+			(party_get_template_id, ":party_type", "$g_talk_party"),
+			(eq, ":party_type", spt_caravan),
+		], "Hail traveller. What brings you here ?", "caravan_player_neutral", 
+		[]],
+
+	[anyone|plyr, "caravan_player_neutral",
+		[
+		], "Nevermind. You may go.", "close_window",
+		[
+			(leave_encounter),
+		]],
+
 	#################
 	# Error dialogs #
 	#################
-    [anyone|plyr, "start", [], "Dialog Error. No dialog found.", "close_window", []],
-	
 	[anyone, "start",
-		[
-		], "Hello there traveller! [WARNING: INCORRECT DIALOG]", "close_window",
-		[
-		]],
+		[], "Hello there traveller! [WARNING: MISSING DIALOG]", "error_dialog", []],
+
+    [anyone|plyr, "error_dialog", [], "Dialog Error. No dialog found.", "close_window", []],
 	
 	# [anyone, "event_triggered",
 		# [(display_debug_message, "@Event triggered"),], "Hail traveller. It's a pleasure to meet you, what is your name?.", "player_greeting", []],
