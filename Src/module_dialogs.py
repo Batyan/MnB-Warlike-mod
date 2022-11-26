@@ -474,7 +474,7 @@ dialogs = [
 	################
 	[anyone, "start", 
 		[
-			(party_get_template_id, ":party_type", "$g_talk_party"),
+			(party_get_slot, ":party_type", "$g_talk_party", slot_party_type),
 			(eq, ":party_type", spt_patrol),
 			(encountered_party_is_attacker),
 			(party_get_slot, ":linked_center", "$g_talk_party", slot_party_linked_party),
@@ -505,7 +505,7 @@ dialogs = [
 
 	[anyone, "start", 
 		[
-			(party_get_template_id, ":party_type", "$g_talk_party"),
+			(party_get_slot, ":party_type", "$g_talk_party", slot_party_type),
 			(eq, ":party_type", spt_patrol),
 			# (party_get_slot, ":linked_center", "$g_talk_party", slot_party_linked_party),
 			(store_faction_of_party, ":party_faction", "$g_talk_party"),
@@ -524,7 +524,7 @@ dialogs = [
 
 	[anyone, "start", 
 		[
-			(party_get_template_id, ":party_type", "$g_talk_party"),
+			(party_get_slot, ":party_type", "$g_talk_party", slot_party_type),
 			(eq, ":party_type", spt_patrol),
 			(party_get_slot, ":linked_center", "$g_talk_party", slot_party_linked_party),
 			(store_faction_of_party, ":party_faction", "$g_talk_party"),
@@ -557,7 +557,7 @@ dialogs = [
 	#################
 	[anyone, "start", 
 		[
-			(party_get_template_id, ":party_type", "$g_talk_party"),
+			(party_get_slot, ":party_type", "$g_talk_party", slot_party_type),
 			(eq, ":party_type", spt_caravan),
 		], "Hail traveller. What brings you here ?", "caravan_player_neutral", 
 		[]],
