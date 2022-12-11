@@ -472,7 +472,7 @@ dialogs = [
 	################
 	# Patrol talks #
 	################
-	[anyone, "start", 
+	[anyone, "start",
 		[
 			(party_get_slot, ":party_type", "$g_talk_party", slot_party_type),
 			(eq, ":party_type", spt_patrol),
@@ -522,7 +522,7 @@ dialogs = [
 			(leave_encounter),
 		]],
 
-	[anyone, "start", 
+	[anyone, "start",
 		[
 			(party_get_slot, ":party_type", "$g_talk_party", slot_party_type),
 			(eq, ":party_type", spt_patrol),
@@ -542,7 +542,7 @@ dialogs = [
 				(str_store_faction_name, s11, ":party_faction"),
 				(str_store_string, s10, "@the {s11}"),
 			(try_end),
-		], "These men are under the protection of {s10}. State your business traveller.", "patrol_player_neutral", 
+		], "These men are under the protection of {s10}. State your business traveller.", "patrol_player_neutral",
 		[]],
 
 	[anyone|plyr, "patrol_player_neutral",
@@ -555,11 +555,11 @@ dialogs = [
 	#################
 	# Caravan talks #
 	#################
-	[anyone, "start", 
+	[anyone, "start",
 		[
 			(party_get_slot, ":party_type", "$g_talk_party", slot_party_type),
 			(eq, ":party_type", spt_caravan),
-		], "Hail traveller. What brings you here ?", "caravan_player_neutral", 
+		], "Hail traveller. What brings you here ?", "caravan_player_neutral",
 		[]],
 
 	[anyone|plyr, "caravan_player_neutral",

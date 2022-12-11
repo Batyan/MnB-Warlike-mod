@@ -324,6 +324,13 @@ tax_type_vassal_pay = 3
 tax_type_member_pay = 4
 tax_type_trade = 5
 
+caravan_max_cargo_size = 5000
+
+caravan_score_distance_ratio = 200
+caravan_score_resource_production_ratio = 50
+caravan_score_resource_need_ratio = 100
+caravan_score_resource_amount_ratio = 10
+
 ################
 ## Item Slots ##
 ################

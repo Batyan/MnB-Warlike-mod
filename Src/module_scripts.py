@@ -4999,7 +4999,7 @@ scripts = [
                 (assign, reg10, ":wanted_wages"),
                 (assign, reg11, ":old_wanted_wages"),
                 (assign, reg12, ":new_wanted_wages"),
-                (display_message, "@{s10} wanted wages - current: {reg10}, old: {reg11}, new: {reg12}"),
+                # (display_message, "@{s10} wanted wages - current: {reg10}, old: {reg11}, new: {reg12}"),
             (try_end),
 
             (troop_set_slot, ":troop_no", slot_troop_wanted_party_wages, ":new_wanted_wages"),
@@ -5041,7 +5041,7 @@ scripts = [
                 (assign, reg10, ":wanted_wages"),
                 (assign, reg11, ":old_wanted_wages"),
                 (assign, reg12, ":new_wanted_wages"),
-                (display_message, "@{s10} wanted wages - current: {reg10}, old: {reg11}, new: {reg12}"),
+                # (display_message, "@{s10} wanted wages - current: {reg10}, old: {reg11}, new: {reg12}"),
             (try_end),
 
             (party_set_slot, ":party_no", slot_party_wanted_party_wages, ":new_wanted_wages"),
@@ -13259,7 +13259,7 @@ scripts = [
                 (try_begin),
                     (neq, ":bandit_faction", -1),
                     (try_begin),
-                        (call_script, "script_cf_debug", debug_trade),
+                        (call_script, "script_cf_debug", debug_ai),
                         (str_store_party_name, s10, ":center_no"),
                         (display_message, "@Spawning bandit party at {s10}."),
                     (try_end),
@@ -15001,6 +15001,7 @@ scripts = [
                         (try_end),
                     (else_try),
                         (eq, ":new_destination", ":home"),
+                        (call_script, "script_party_caravan_set_objectives", ":party_no"),
                         (call_script, "script_party_caravan_set_destination", ":party_no"),
                     (else_try),
                         (party_set_slot, ":party_no", slot_party_mission, spm_trade),
@@ -15016,7 +15017,7 @@ scripts = [
                 (else_try),
                     (party_get_slot, ":last_rest", ":party_no", slot_party_last_rest),
                     (store_sub, ":rest_time", ":hours", ":last_rest"),
-                    (gt, ":rest_time", 24),
+                    (gt, ":rest_time", 18),
                     (call_script, "script_party_caravan_select_destination", ":party_no"),
                     (assign, ":new_destination", reg0),
                     (party_set_slot, ":party_no", slot_party_mission, spm_trade),
@@ -15036,6 +15037,15 @@ scripts = [
                     (call_script, "script_party_set_behavior", ":party_no", tai_traveling_to_party, ":new_destination"),
                 (try_end),
             (try_end),
+        ]),
+
+    # script_party_caravan_set_objectives
+        # input:
+        #   arg1: party_no
+        # output: none
+    ("party_caravan_set_objectives",
+        [
+            (store_script_param, ":party_no", 1),
         ]),
 
     # script_party_caravan_select_destination
@@ -15080,11 +15090,117 @@ scripts = [
     ("party_caravan_set_destination",
         [
             (store_script_param, ":party_no", 1),
+            (party_get_slot, ":home", ":party_no", slot_party_linked_party),
 
-            (try_for_range, ":slot", slot_party_mission_target_1, slot_party_mission_target_3 + 1),
-                (store_random_in_range, ":center", towns_begin, towns_end),
-                (party_set_slot, ":party_no", ":slot", ":center"),
+            (assign, ":end_loop", slot_party_mission_target_3 + 1),
+            (try_for_range, ":slot", slot_party_mission_target_1, ":end_loop"),
+
+                (assign, ":chosen_center", 0),
+                (assign, ":chosen_center_score", 9999),
+                (try_for_range, ":center", towns_begin, towns_end),
+
+                    (assign, ":exists", 0),
+                    (try_for_range, ":other_slot", slot_party_mission_target_1, slot_party_mission_target_3 + 1),
+                        (party_get_slot, ":other_value", ":party_no", ":other_slot"),
+                        (eq, ":other_value", ":center"),
+                        (assign, ":exists", 1),
+                    (try_end),
+                    (try_begin),
+                        (eq, ":exists", 0),
+                        (neq, ":center", ":home"),
+                        (call_script, "script_party_center_get_caravan_score", ":center", ":party_no", ":home"),
+                        (assign, ":score", reg0),
+                        (lt, ":score", ":chosen_center_score"),
+                        (assign, ":chosen_center", ":center"),
+                        (assign, ":chosen_center_score", ":score"),
+                    (try_end),
+                (try_end),
+
+                (try_begin),
+                    (lt, ":chosen_center_score", 9999),
+                    (gt, ":chosen_center", towns_begin),
+                    (party_set_slot, ":party_no", ":slot", ":chosen_center"),
+                (else_try),
+                    (assign, ":end_loop", 0),
+                (try_end),
             (try_end),
+        ]),
+
+    # script_party_center_get_caravan_score
+        # input:
+        #   arg1: center
+        #   arg2: caravan
+        #   arg3: caravan_home
+        # output:
+        #   reg0: score
+    ("party_center_get_caravan_score",
+        [
+            (store_script_param, ":center", 1),
+            (store_script_param, ":caravan", 2),
+            (store_script_param, ":caravan_home", 3),
+
+            (store_distance_to_party_from_party, ":distance", ":center", ":caravan_home"),
+            (store_mul, ":distance_score", ":distance", caravan_score_distance_ratio),
+            (val_div, ":distance_score", 100),
+
+            (assign, ":resource_need_score", 0),
+            (assign, ":resource_amount_score", 0),
+
+            (try_for_range, ":resource", goods_begin, goods_end),
+                (store_sub, ":offset", ":resource", goods_begin),
+                (store_add, ":resource_production_slot", slot_party_ressources_begin, ":offset"),
+                (store_add, ":resource_amount_slot", slot_party_ressources_current_amount_begin, ":offset"),
+                (store_add, ":resource_consumption_slot", slot_party_item_consumed_begin, ":offset"),
+
+                (party_get_slot, ":center_production", ":center", ":resource_production_slot"),
+                (party_get_slot, ":center_consumption", ":center", ":resource_consumption_slot"),
+                (party_get_slot, ":center_amount", ":center", ":resource_amount_slot"),
+                (val_mul, ":center_amount", caravan_score_resource_amount_ratio),
+                (val_div, ":center_amount", 100),
+                (store_sub, ":center_offset", ":center_production", ":center_consumption"),
+
+                (party_get_slot, ":caravan_home_production", ":caravan_home", ":resource_production_slot"),
+                (party_get_slot, ":caravan_home_consumption", ":caravan_home", ":resource_consumption_slot"),
+                (store_sub, ":caravan_home_offset", ":caravan_home_production", ":caravan_home_consumption"),
+
+                (try_begin),
+                    (ge, ":caravan_home_offset", 0),
+                    # We want to sell
+                    (store_mul, ":current_resource_amount_score", ":center_offset", 1),
+                    (store_mul, ":current_resource_need_score", ":caravan_home_offset", 1),
+
+                    (val_add, ":resource_amount_score", ":current_resource_amount_score"),
+                    (val_add, ":resource_need_score", ":current_resource_need_score"),
+                (else_try),
+                    # We want to buy
+                    (store_mul, ":current_resource_amount_score", ":center_offset", -1),
+                    (store_mul, ":current_resource_need_score", ":caravan_home_offset", -1),
+
+                    (val_add, ":resource_amount_score", ":current_resource_amount_score"),
+                    (val_add, ":resource_need_score", ":current_resource_need_score"),
+                (try_end),
+            (try_end),
+
+            (val_mul, ":resource_amount_score", caravan_score_resource_production_ratio),
+            (val_div, ":resource_amount_score", 100),
+            (val_mul, ":resource_need_score", caravan_score_resource_need_ratio),
+            (val_div, ":resource_need_score", 100),
+
+            (store_add, ":total", ":distance_score", ":resource_need_score"),
+            (val_add, ":total", ":resource_amount_score"),
+
+            (try_begin),
+                (call_script, "script_cf_debug", debug_trade),
+                (str_store_party_name, s10, ":caravan_home"),
+                (str_store_party_name, s11, ":center"),
+                (assign, reg10, ":resource_amount_score"),
+                (assign, reg11, ":resource_need_score"),
+                (assign, reg12, ":distance_score"),
+                (assign, reg13, ":total"),
+                (display_message, "@Caravan from {s10} score for {s11} : {reg10} {reg11} {reg12} = {reg13}"),
+            (try_end),
+
+            (assign, reg0, ":total"),
         ]),
 
     # script_party_caravan_clear_destination

@@ -301,10 +301,12 @@ script_cf_center_can_give_troops = 299
 script_party_give_prisoners_to_party = 300
 script_party_patrol_process = 301
 script_party_caravan_process = 302
-script_party_caravan_select_destination = 303
-script_party_caravan_set_destination = 304
-script_party_caravan_clear_destination = 305
-script_item_get_buy_price_factor_from_party = 306
-script_item_get_sell_price_factor_from_party = 307
+script_party_caravan_set_objectives = 303
+script_party_caravan_select_destination = 304
+script_party_caravan_set_destination = 305
+script_party_center_get_caravan_score = 306
+script_party_caravan_clear_destination = 307
+script_item_get_buy_price_factor_from_party = 308
+script_item_get_sell_price_factor_from_party = 309
 
 

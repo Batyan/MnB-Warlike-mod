@@ -42,14 +42,6 @@
 		Good production
 		Goods taxes
 		Caravans
-	0.350: Living economy
-		Civilian parties
-		Prisoner transfer
-		Gold movements
-	0.360: Player trading
-		All trader types for centers
-		Goods produced based on local productions
-		Equipment based on culture
 0.400: Faction ai
 	Rework center capture
 	0.410: Faction leaders
@@ -94,6 +86,14 @@
 		Good consumption
 	0.630: Npcs
 		Lords build buildings
+	0.640: Living economy
+		Civilian parties
+		Prisoner transfer
+		Gold movements
+	0.650: Player trading
+		All trader types for centers
+		Goods produced based on local productions
+		Equipment based on culture
 0.700: Kingdom Management
 	0.710: Policies
 		Kingdom policies
