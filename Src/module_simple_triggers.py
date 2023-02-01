@@ -69,7 +69,10 @@ simple_triggers = [
                 (try_begin),
                     (is_between, ":party_type", spt_village, spt_fort), # Need to move this part in a trigger for centers
                     (call_script, "script_party_process_ressources", ":party_no"), # Made in the same way as faction political calculations
+
+
                     (call_script, "script_party_process_production", ":party_no"),
+                    (call_script, "script_party_process_consumption", ":party_no"),
                     (call_script, "script_party_process_population", ":party_no"),
                     (call_script, "script_party_process_taxes", ":party_no"),
                     (call_script, "script_party_process_buildings", ":party_no", monthly),
@@ -303,17 +306,19 @@ simple_triggers = [
                 (lt, ":cur_attached_town", 1),
                 (party_get_cur_town, ":cur_town", ":party_no"),
                 (is_between, ":cur_town", centers_begin, centers_end),
-                (party_attach_to_party, ":party_no", ":cur_town"),
+                (party_get_num_companions, ":num_troops", ":party_no"),
+                (gt, ":num_troops", 0),
+                (call_script, "script_party_enter_center", ":party_no", ":cur_town"),
             (try_end),
 
             (get_global_haze_amount, ":haze"),
             (get_global_cloud_amount, ":cloud"),
-            (val_mul, ":haze", 2),
-            (val_mul, ":cloud", 2),
+            (val_mul, ":haze", 9),
+            (val_mul, ":cloud", 9),
             (val_add, ":haze", "$g_global_haze_amount"),
-            (val_div, ":haze", 3),
+            (val_div, ":haze", 10),
             (val_add, ":cloud", "$g_global_cloud_amount"),
-            (val_div, ":cloud", 3),
+            (val_div, ":cloud", 10),
             (set_global_haze_amount, ":haze"),
             (set_global_cloud_amount, ":cloud"),
         ]),

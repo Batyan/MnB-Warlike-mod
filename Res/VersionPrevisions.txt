@@ -137,7 +137,7 @@
 		Supporting neutral party
 	0.930: Civil war
 		Faction splitting (civil war)
-1.000: Companions - Personalities
+1.000: Companions
 	Player Companions
 	1.010: Personalities
 		Companions have personalities

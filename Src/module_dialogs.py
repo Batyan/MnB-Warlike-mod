@@ -31,7 +31,6 @@ dialogs = [
 		[
 			(store_conversation_troop, "$g_talk_troop"),
 
-			
 			(store_current_hours, ":date"),
 			(troop_get_slot, ":last_met", "$g_talk_troop", slot_troop_last_met),
 			(try_begin),
