@@ -328,9 +328,9 @@ tax_type_member_pay = 6
 tax_type_trade = 7
 tax_type_visitor = 8
 
-caravan_max_cargo_size = 30
+caravan_max_cargo_size = 60
 
-caravan_score_distance_ratio = 10
+caravan_score_distance_ratio = 3
 caravan_score_resource_production_ratio = 500
 caravan_score_resource_amount_ratio = 10
 

@@ -68,7 +68,7 @@ scripts = [
             (try_end),
 
             (try_for_range, ":good", goods_begin, goods_end),
-                (item_set_slot, ":good", slot_item_consumption_base, 150),
+                (item_set_slot, ":good", slot_item_consumption_base, 20),
                 (item_set_slot, ":good", slot_item_consumption_ratio, 3),
             (try_end),
 
@@ -4388,11 +4388,6 @@ scripts = [
                     (store_random_in_range, ":rand", 0, ":total_resources"),
                     (gt, ":rest", ":rand"),
                     (val_add, ":num_prod", 1),
-                #     (eq, ":num_prod", 0),
-                #     (val_mul, ":total_resources", 100),
-                #     (store_random_in_range, ":rand", 0, ":total_resources"),
-                #     (lt, ":rand", ":prod"),
-                #     (assign, ":num_prod", 1),
                 (try_end),
                 (store_add, ":last_production_slot", ":offset", slot_party_item_last_produced_begin),
                 (party_set_slot, ":party_no", ":last_production_slot", ":num_prod"),
@@ -4401,15 +4396,6 @@ scripts = [
                 (store_add, ":amount_slot", ":offset", slot_party_ressources_current_amount_begin),
 
                 (assign, ":produced", ":num_prod"),
-
-                # (store_div, ":produced", ":num_prod", 100),
-                # (store_mod, ":produced_rest", ":num_prod", 100),
-                # (try_begin),
-                #     (gt, ":produced_rest", 0),
-                #     (store_random_in_range, ":rand", 0, 100),
-                #     (lt, ":rand", ":produced_rest"),
-                #     (val_add, ":produced", 1),
-                # (try_end),
 
                 (try_begin),
                     (gt, ":produced", 0),
@@ -4427,17 +4413,11 @@ scripts = [
                     (party_set_slot, ":party_no", ":amount_slot", ":current_amount"),
 
                     (val_add, ":total_production", ":produced"),
-
-                    # (store_sub, ":offset", ":slot", slot_party_ressources_begin),
-                    # (store_add, ":item", ":offset", goods_begin),
-
-                    # (item_get_slot, ":item_produced", ":item", slot_item_number_produced),
-                    # (val_add, ":item_produced", ":produced"),
-                    # (item_set_slot, ":item", slot_item_number_produced, ":item_produced"),
                 (try_end),
             (try_end),
             (try_begin),
                 (call_script, "script_cf_debug", debug_economy|debug_trade),
+                (is_between, ":party_no", towns_begin, towns_end),
                 (str_store_party_name, s10, ":party_no"),
                 (assign, reg10, ":total_production"),
                 (display_message, "@{s10} : produced {reg10} resources in total."),
@@ -4490,7 +4470,7 @@ scripts = [
                 (try_begin),
                     (gt, ":consumption_base", 0),
                     (store_mul, ":consumption_power", ":total_population", ":consumption_base"),
-                    (store_div, ":pop_consumption", ":pop_consumption", consumption_ratio_base),
+                    (store_div, ":pop_consumption", ":consumption_power", consumption_ratio_base),
                     (store_mod, ":consumption_rest", ":consumption_power", consumption_ratio_base),
                     (try_begin),
                         (gt, ":consumption_rest", 0),
@@ -4514,11 +4494,13 @@ scripts = [
 
                     (party_get_slot, ":amount", ":party_no", ":amount_slot"),
                     (val_min, ":consumption", ":amount"),
-                    (gt, ":consumption", 0),
+                    (try_begin),
+                        (gt, ":consumption", 0),
 
-                    (val_sub, ":amount", ":consumption"),
-                    (val_max, ":amount", 0),
-                    (party_set_slot, ":party_no", ":amount_slot", ":amount"),
+                        (val_sub, ":amount", ":consumption"),
+                        (val_max, ":amount", 0),
+                        (party_set_slot, ":party_no", ":amount_slot", ":amount"),
+                    (try_end),
                     (party_set_slot, ":party_no", ":consumption_slot", ":pop_consumption"),
                     (try_begin),
                         (call_script, "script_cf_debug", debug_economy),
@@ -4561,7 +4543,6 @@ scripts = [
             (val_abs, ":offset", ":offset"),
             (store_sub, ":offset", 100, ":offset"),
             (val_abs, ":offset", ":offset"),
-            
             
             (try_begin),
                 (eq, ":party_type", spt_village),
@@ -14922,6 +14903,29 @@ scripts = [
             
             (call_script, "script_cf_center_can_give_troops", ":party_no"),
 
+            (assign, ":end", goods_end),
+            (assign, ":continue", 0),
+            (try_for_range, ":good", goods_begin, ":end"),
+                (store_sub, ":offset", ":good", goods_begin),
+                (store_add, ":amount_slot", ":offset", slot_party_ressources_current_amount_begin),
+                (store_add, ":production_slot", ":offset", slot_party_item_last_produced_begin),
+                (store_add, ":consumption_slot", ":offset", slot_party_item_consumed_begin),
+
+                (party_get_slot, ":amount", ":party_no", ":amount_slot"),
+                (party_get_slot, ":production", ":party_no", ":production_slot"),
+                (party_get_slot, ":consumption", ":party_no", ":consumption_slot"),
+
+                (store_sub, ":difference", ":production", ":consumption"),
+                (lt, ":difference", 0),
+                (store_div, ":ticks_left", ":amount", ":difference"),
+                # We don't want to send a caravan if we still have >10 ticks of storage
+                (gt, ":ticks_left", -10),
+
+                (assign, ":continue", 1),
+                (assign, ":end", goods_begin),
+            (try_end),
+            (eq, ":continue", 1),
+
             (store_faction_of_party, ":party_faction", ":party_no"),
             # (party_get_slot, ":attached_party_reserved_wages", ":party_no", slot_party_budget_reserved_auxiliaries),
             # (val_div, ":attached_party_reserved_wages", 2),
@@ -14947,7 +14951,7 @@ scripts = [
                 (party_force_add_members, ":spawned_party", "trp_swadian_caravan_master", 1),
             (try_end),
             (try_begin),
-                (call_script, "script_cf_debug", debug_economy|debug_ai),
+                (call_script, "script_cf_debug", debug_trade|debug_ai),
                 (str_store_party_name, s10, ":party_no"),
                 (display_message, "@{s10} generating attached party caravan"),
             (try_end),
@@ -15110,8 +15114,8 @@ scripts = [
                         (call_script, "script_party_give_prisoners_to_party", ":party_no", ":cur_town"),
                     (try_end),
 
-                    (call_script, "script_party_caravan_select_destination", ":party_no"),
                     (call_script, "script_party_empty_goods", ":party_no", ":home"),
+                    (call_script, "script_party_caravan_select_destination", ":party_no"),
                     (assign, ":new_destination", reg0),
                     (try_begin),
                         (le, ":current_wages", ":wanted_wages"),
@@ -15124,7 +15128,15 @@ scripts = [
                     (else_try),
                         (eq, ":new_destination", ":home"),
                         (call_script, "script_party_caravan_set_objectives", ":party_no"),
-                        (call_script, "script_party_caravan_set_destination", ":party_no"),
+                        (try_begin),
+                            (party_slot_ge, ":party_no", slot_party_mission_objective_1, goods_begin),
+                            (call_script, "script_party_caravan_set_destination", ":party_no"),
+                        (else_try),
+                            (call_script, "script_cf_debug", debug_trade),
+                            (str_store_party_name, s10, ":party_no"),
+                            (str_store_party_name, s11, ":home"),
+                            (display_message, "@{s10} from {s11} has no objective and stays put"),
+                        (try_end),
                     (else_try),
                         (party_set_slot, ":party_no", slot_party_mission, spm_trade),
                         (party_set_slot, ":party_no", slot_party_mission_object, ":new_destination"),
@@ -15842,6 +15854,15 @@ scripts = [
                 (party_get_slot, ":container_good_amount", ":party_container", ":amount_slot"),
                 (val_add, ":container_good_amount", ":good_amount"),
                 (party_set_slot, ":party_container", ":amount_slot", ":container_good_amount"),
+
+                (try_begin),
+                    (call_script, "script_cf_debug", debug_trade|debug_economy),
+                    (str_store_party_name, s10, ":party"),
+                    (str_store_party_name, s11, ":party_container"),
+                    (str_store_item_name, s12, ":item"),
+                    (assign, reg10, ":good_amount"),
+                    (display_message, "@{s10} move {reg10} {s12} to {s11}"),
+                (try_end),
             (try_end),
         ]),
 ]
