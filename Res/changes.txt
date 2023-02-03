@@ -1,3 +1,9 @@
+v 0.340:
+-New features:
+* caravans
+* good production
+* good trading taxes
+
 v 0.330:
 -New features:
 * add defensive parties

@@ -16,6 +16,7 @@ debug_ai = 0x04 					# Displays informations about party ais
 debug_faction = 0x08 				# Displays informations about factions (politics)
 debug_war = debug_ai|debug_faction 	# Activates both faction and ai
 debug_trade = 0x10 					# Displays informations about trading
+debug_current = 0x20 				# Displays informations about the current feature beeing worked on (temporary debug state)
 debug_all = 0xFF 					# Displays every debug line available (most likely spams the screen)
 
 banner_meshes_begin = "mesh_banner_a01"
@@ -316,12 +317,26 @@ type_moderate = 2
 type_slight = 1
 type_none = 0
 
-tax_type_population = 1
-tax_type_protection = 2
+tax_type_none = -1
+tax_type_population = 0
+tax_type_protection = 1
+tax_type_protection_pay = 2
 tax_type_vassal = 3
 tax_type_member = 4
-tax_type_vassal_pay = 3
-tax_type_member_pay = 4
+tax_type_vassal_pay = 5
+tax_type_member_pay = 6
+tax_type_trade = 7
+tax_type_visitor = 8
+
+caravan_max_cargo_size = 60
+
+caravan_score_distance_ratio = 3
+caravan_score_resource_production_ratio = 500
+caravan_score_resource_amount_ratio = 10
+
+caravan_score_type_selling = 1
+caravan_score_type_buying = 2
+caravan_score_type_all = 0
 
 ################
 ## Item Slots ##
@@ -343,6 +358,16 @@ slot_item_produced_from_3	= 4 # Third item needed to produce this good (if any)
 slot_item_produced_need_1	= 5 # Number of items required to make a batch
 slot_item_produced_need_2	= 6 # Number of items required to make a batch
 slot_item_produced_need_3	= 7 # Number of items required to make a batch
+
+# slot_item_number_produced = 8
+# slot_item_number_ticks = 9
+
+# Amount of items consumed per 1000000 pop
+slot_item_consumption_base = 9
+# Amount of surplus item consumed bacause there are too many in stock
+slot_item_consumption_ratio = 10
+
+consumption_ratio_base = 1000000
 
 #################
 ## Agent Slots ##
@@ -409,6 +434,9 @@ slot_faction_common_begin			= 20
 slot_faction_veteran_begin			= 21
 slot_faction_elite_begin			= 22
 slot_faction_noble_begin			= 23
+
+slot_faction_caravan_master			= 24
+slot_faction_caravan_guard			= 25
 
 # slot_faction_peasant_template_begin = 24
 # slot_faction_common_template_begin = 25
@@ -528,6 +556,7 @@ spm_courier		= 2
 spm_trade		= 3
 spm_gather		= 4
 spm_reinforce	= 5
+spm_waiting		= 6
 
 slot_party_mission_object	= 6
 
@@ -548,8 +577,8 @@ population_growth_castle_serf = 60
 population_growth_castle_slave = 0
 
 population_growth_town_noble = 10
-population_growth_town_artisan = 20
-population_growth_town_serf = 70
+population_growth_town_artisan = 30
+population_growth_town_serf = 60
 population_growth_town_slave = 0
 
 population_growth_village_noble = 5
@@ -570,42 +599,11 @@ slot_party_ressource_radius = 16
 slot_party_total_resources = 17
 
 slot_party_ressources_begin = itm_spice # 18
-slot_party_ressources_end = itm_saddle_horse # 58
-slot_party_ressources_count = slot_party_ressources_end - slot_party_ressources_begin # 40
+slot_party_ressources_end = itm_saddle_horse # 63
+slot_party_ressources_count = slot_party_ressources_end - slot_party_ressources_begin # 45
 
-slot_party_ressources_current_amount_begin = slot_party_ressources_end # 58
-slot_party_ressources_current_amount_end = slot_party_ressources_current_amount_begin + slot_party_ressources_count # 98
-
-slot_party_building_slot_1	= 101
-slot_party_building_slot_2	= 102
-slot_party_building_slot_3	= 103
-slot_party_building_slot_4	= 104
-slot_party_building_slot_5	= 105
-slot_party_building_slot_6	= 106
-slot_party_building_slot_7	= 107
-slot_party_building_slot_8	= 108
-slot_party_building_slot_9	= 109
-slot_party_building_slot_10	= 110
-
-slot_party_building_slot_end = slot_party_building_slot_10
-num_building_slots = slot_party_building_slot_end - slot_party_building_slot_1 + 1
-
-# Tells the current state of the building
-# Some buildings only function at full stat (100)
-# Negative values indicate that the building is not yet constructed or has been damaged
-# No building does anything positive when state is negative
-# Values between 0 and 100 are for damaged buildings or buildings just built
-# During this time they function at a reduced rate
-slot_party_building_state_1 = 111
-slot_party_building_state_2 = 112
-slot_party_building_state_3 = 113
-slot_party_building_state_4 = 114
-slot_party_building_state_5 = 115
-slot_party_building_state_6 = 116
-slot_party_building_state_7 = 117
-slot_party_building_state_8 = 118
-slot_party_building_state_9 = 119
-slot_party_building_state_10 = 120
+slot_party_ressources_current_amount_begin = slot_party_ressources_end # 63
+slot_party_ressources_current_amount_end = slot_party_ressources_current_amount_begin + slot_party_ressources_count # 108
 
 slot_party_original_faction = 121
 
@@ -672,37 +670,87 @@ slot_party_prepared_for_war = 143
 
 slot_party_process_mission_iteration = 144
 
-slot_party_num_peasants		= 146
-slot_party_num_caravans		= 147
-slot_party_num_patrols		= 148
-slot_party_num_scouts		= 149
-slot_party_num_others 		= 150 # Contains every other non fighting party
+# slot_party_num_peasants		= 146
+# slot_party_num_caravans		= 147
+# slot_party_num_patrols		= 148
+# slot_party_num_scouts		= 149
+# slot_party_num_others 		= 150 # Contains every other non fighting party
+
 
 slot_party_recent_casualties_loot = 151 # Contains gold looted during simulated battle
 
 slot_party_budget_last_wealth = 152
+
 slot_party_budget_taxes = 153
 slot_party_budget_protection_taxes = 154
-slot_party_budget_vassal_taxes = 155
-slot_party_budget_faction_member_taxes = 156
-slot_party_budget_pay_protection_taxes = 157
+slot_party_budget_pay_protection_taxes = 155
+slot_party_budget_vassal_taxes = 156
+slot_party_budget_faction_member_taxes = 157
 slot_party_budget_pay_vassal_taxes = 158
 slot_party_budget_pay_faction_member_taxes = 159
+slot_party_budget_trade = 160
+slot_party_budget_visitor = 161
 
-slot_party_budget_reserved_party = 160
-slot_party_budget_reserved_auxiliaries = 161
-slot_party_budget_reserved_expenses = 162
-slot_party_budget_reserved_other = 163
+slot_party_buget_taxes_begin = slot_party_budget_taxes
+slot_party_buget_taxes_end = slot_party_budget_visitor + 1
 
-slot_party_attached_party_1 = 164
-slot_party_attached_party_2 = 165
-slot_party_attached_party_3 = 166
+slot_party_budget_reserved_party = 162
+slot_party_budget_reserved_auxiliaries = 163
+slot_party_budget_reserved_expenses = 164
+slot_party_budget_reserved_other = 165
 
-slot_party_last_rest = 167 # for small parties
+slot_party_attached_party_1 = 166
+slot_party_attached_party_2 = 167
+slot_party_attached_party_3 = 168
 
-slot_party_item_consumed_begin 	= 200 # Number of items consumed per 100 citizens
+slot_party_last_rest = 169 # for small parties
+
+slot_party_mission_target_1 = 170
+slot_party_mission_target_2 = 171
+slot_party_mission_target_3 = 172
+slot_party_mission_objective_1 = 173
+slot_party_mission_objective_2 = 174
+slot_party_mission_objective_3 = 175
+
+slot_party_building_slot_1	= 176
+slot_party_building_slot_2	= slot_party_building_slot_1 + 1
+slot_party_building_slot_3	= slot_party_building_slot_2 + 1
+slot_party_building_slot_4	= slot_party_building_slot_3 + 1
+slot_party_building_slot_5	= slot_party_building_slot_4 + 1
+slot_party_building_slot_6	= slot_party_building_slot_5 + 1
+slot_party_building_slot_7	= slot_party_building_slot_6 + 1
+slot_party_building_slot_8	= slot_party_building_slot_7 + 1
+slot_party_building_slot_9	= slot_party_building_slot_8 + 1
+slot_party_building_slot_10	= slot_party_building_slot_9 + 1
+
+slot_party_building_slot_end = slot_party_building_slot_10 + 1
+num_building_slots = slot_party_building_slot_end - slot_party_building_slot_1
+
+# Tells the current state of the building
+# Some buildings only function at full stat (100)
+# Negative values indicate that the building is not yet constructed or has been damaged
+# No building does anything positive when state is negative
+# Values between 0 and 100 are for damaged buildings or buildings just built
+# During this time they function at a reduced rate
+slot_party_building_state_1 = slot_party_building_slot_10 + 1
+slot_party_building_state_2 = slot_party_building_state_1 + 1
+slot_party_building_state_3 = slot_party_building_state_2 + 1
+slot_party_building_state_4 = slot_party_building_state_3 + 1
+slot_party_building_state_5 = slot_party_building_state_4 + 1
+slot_party_building_state_6 = slot_party_building_state_5 + 1
+slot_party_building_state_7 = slot_party_building_state_6 + 1
+slot_party_building_state_8 = slot_party_building_state_7 + 1
+slot_party_building_state_9 = slot_party_building_state_8 + 1
+slot_party_building_state_10 = slot_party_building_state_9 + 1
+
+# For centers
+slot_party_item_consumed_begin 	= 200 # Number of items consumed
 slot_party_item_consumed_end	= slot_party_item_consumed_begin + goods_end - goods_begin
-
+slot_party_item_last_produced_begin 	= slot_party_item_consumed_end # Number of items produced
+slot_party_item_last_produced_end	= slot_party_item_last_produced_begin + goods_end - goods_begin
+# For parties (caravans)
+slot_party_item_stored_price_begin 	= slot_party_item_consumed_begin
+slot_party_item_stored_price_end 	= slot_party_item_consumed_end
 
 
 #################

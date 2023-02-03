@@ -67,10 +67,15 @@ scripts = [
                 (faction_set_slot, ":small_kingdom", slot_faction_leader, -1),
             (try_end),
 
+            (try_for_range, ":good", goods_begin, goods_end),
+                (item_set_slot, ":good", slot_item_consumption_base, 20),
+                (item_set_slot, ":good", slot_item_consumption_ratio, 3),
+            (try_end),
+
             (try_for_range, ":party_no", centers_begin, centers_end),
                 (call_script, "script_party_init_center", ":party_no"),
             (try_end),
-            
+
             (try_for_range, ":lord_no", lords_begin, lords_end),
                 (call_script, "script_init_lord", ":lord_no"),
             (try_end),
@@ -1114,7 +1119,9 @@ scripts = [
             (store_script_param, ":party_no", 1),
             (store_script_param, ":gold_amount", 2),
             
-            (party_get_skill_level, ":looting_skill", ":party_no", skl_looting),
+            (call_script, "script_party_get_skill_level", ":party_no", skl_looting),
+            (assign, ":looting_skill", reg0),
+
             (store_mul, ":looting_mult", ":looting_skill", 10),
             (val_add, ":looting_mult", 100),
             (val_mul, ":gold_amount", ":looting_mult"),
@@ -1192,32 +1199,10 @@ scripts = [
     ("game_get_item_buy_price_factor",
         [
             (store_script_param, ":item", 1),
-            (assign, ":price", 300),
             
-            (try_begin),
-                (is_between, "$g_encountered_party", centers_begin, centers_end),
-                (is_between, ":item", goods_begin, goods_end),
-                (party_get_slot, ":own_production", "$g_encountered_party", ":item"),
-                (store_sub, ":production_modifier", 20, ":own_production"),
-                (try_begin),
-                    # We reduce the effect of own production the more we produce
-                    # It is to avoid buying for ridiculous prices in highly productive places
-                    (lt, ":production_modifier", 0), 
-                    (store_mul, ":inv_prod", ":production_modifier", -1),
-                    (val_div, ":inv_prod", 15),
-                    (val_add, ":inv_prod", 1),
-                    (val_div, ":production_modifier", ":inv_prod"),
-                (try_end),
-                (val_sub, ":price", ":production_modifier"),
-            (try_end),
+            (call_script, "script_item_get_buy_price_factor_from_party", ":item", "$g_player_party", "$g_encountered_party"),
             
-            (party_get_skill_level, ":trade_skill", "$g_player_party", skl_trade),
-            (val_mul, ":trade_skill", 5),
-            (val_sub, ":price", ":trade_skill"),
-            
-            (val_max, ":price", 105),
-            
-            (assign, reg0, ":price"),
+            (assign, ":price", reg0),
             (set_trigger_result, ":price"),
         ]),
   
@@ -1230,33 +1215,10 @@ scripts = [
     ("game_get_item_sell_price_factor",
         [
             (store_script_param, ":item", 1),
-            (assign, ":price", 25),
+
+            (call_script, "script_item_get_sell_price_factor_from_party", ":item", "$g_player_party", "$g_encountered_party"),
             
-            (try_begin),
-                (is_between, "$g_encountered_party", centers_begin, centers_end),
-                (is_between, ":item", goods_begin, goods_end),
-                (party_get_slot, ":own_production", "$g_encountered_party", ":item"),
-                (store_add, ":production_modifier", -20, ":own_production"),
-                (try_begin),
-                    # We reduce the effect of own production the more we produce
-                    # It is to avoid selling for ridiculous prices in highly productive places
-                    (gt, ":production_modifier", 0),
-                    (store_div, ":prod", ":production_modifier", 30),
-                    (val_add, ":prod", 1),
-                    (val_div, ":production_modifier", ":prod"),
-                (try_end),
-                (val_sub, ":price", ":production_modifier"),
-            (try_end),
-            
-            (party_get_skill_level, ":trade_skill", "$g_player_party", skl_trade),
-            (val_mul, ":trade_skill", 4),
-            (val_add, ":price", ":trade_skill"),
-            
-            # (val_min, ":price", 95),
-            
-            (val_max, ":price", 5),
-            
-            (assign, reg0, ":price"),
+            (assign, ":price", reg0),
             (set_trigger_result, ":price"),
         ]),
   
@@ -1266,31 +1228,26 @@ scripts = [
         # param1: item_kind_id
     ("game_event_buy_item",
         [
-            (try_begin),
-                # Should be set before every call to trade with an npc
-                # And unset after (unless the trader is not taxed)
-                (ge, "$g_trading", 1),
-                (is_between, "$g_encountered_party", centers_begin, centers_end),
-                (store_script_param, ":item_no", 1),
-                (call_script, "script_game_get_item_buy_price_factor", ":item_no"),
-                (assign, ":price_factor", reg0),
-                (store_item_value, ":value", ":item_no"),
+            # This event is called not on the final purchase of an item but when moving the item from one inventory to the other
+            # This means that the transaction is not finalized yet !
+            # For now player taxes are not taken into account for center prosperity (could be abused anyways)
 
-                (party_get_slot, ":tax_rate", "$g_encountered_party", slot_party_taxes_buy),
-                (gt, ":tax_rate", 0),
-                (val_add, ":tax_rate", 100),
-                (val_mul, ":value", ":price_factor"),
-                (val_div, ":value", 100),
+            # (try_begin),
+            #     # Should be set before every call to trade with an npc
+            #     # And unset after (unless the trader is not taxed)
+            #     (ge, "$g_trading", 1),
+            #     (is_between, "$g_encountered_party", centers_begin, centers_end),
+            #     (store_script_param, ":item_no", 1),
 
-                (store_mul, ":tax_free", ":value", 100),
-                (val_div, ":tax_free", ":tax_rate"),
+            #     (store_item_value, ":value", ":item_no"),
 
-                (val_sub, ":value", ":tax_free"),
+            #     (party_get_slot, ":tax_rate", "$g_encountered_party", slot_party_taxes_buy),
+            #     (gt, ":tax_rate", 0),
+            #     (val_mul, ":value", ":tax_rate"),
+            #     (val_div, ":value", 100),
 
-                (party_get_slot, ":wealth", "$g_encountered_party", slot_party_wealth),
-                (val_add, ":wealth", ":value"),
-                (party_set_slot, "$g_encountered_party", slot_party_wealth, ":wealth"),
-            (try_end),
+            #     (call_script, "script_party_add_accumulated_taxes", "$g_encountered_party", ":value", tax_type_trade),
+            # (try_end),
         ]),
   
     #script_game_event_sell_item:
@@ -1299,31 +1256,26 @@ scripts = [
         # param1: item_kind_id
     ("game_event_sell_item",
         [
-            (try_begin),
-                # Should be set before every call to trade with an npc
-                # And unset after (unless the trader is not taxed)
-                (ge, "$g_trading", 1),
-                (is_between, "$g_encountered_party", centers_begin, centers_end),
-                (store_script_param, ":item_no", 1),
-                (call_script, "script_game_get_item_sell_price_factor", ":item_no"),
-                (assign, ":price_factor", reg0),
-                (store_item_value, ":value", ":item_no"),
+            # This event is called not on the final purchase of an item but when moving the item from one inventory to the other
+            # This means that the transaction is not finalized yet !
+            # For now player taxes are not taken into account for center prosperity (could be abused anyways)
 
-                (party_get_slot, ":tax_rate", "$g_encountered_party", slot_party_taxes_sell),
-                (gt, ":tax_rate", 0),
-                (val_add, ":tax_rate", 100),
-                (val_mul, ":value", ":price_factor"),
-                (val_div, ":value", 100),
+            # (try_begin),
+            #     # Should be set before every call to trade with an npc
+            #     # And unset after (unless the trader is not taxed)
+            #     (ge, "$g_trading", 1),
+            #     (is_between, "$g_encountered_party", centers_begin, centers_end),
+            #     (store_script_param, ":item_no", 1),
 
-                (store_mul, ":tax_free", ":value", 100),
-                (val_div, ":tax_free", ":tax_rate"),
+            #     (store_item_value, ":value", ":item_no"),
 
-                (val_sub, ":value", ":tax_free"),
+            #     (party_get_slot, ":tax_rate", "$g_encountered_party", slot_party_taxes_sell),
+            #     (gt, ":tax_rate", 0),
+            #     (val_mul, ":value", ":tax_rate"),
+            #     (val_div, ":value", 100),
 
-                (party_get_slot, ":wealth", "$g_encountered_party", slot_party_wealth),
-                (val_add, ":wealth", ":value"),
-                (party_set_slot, "$g_encountered_party", slot_party_wealth, ":wealth"),
-            (try_end),
+            #     (call_script, "script_party_add_accumulated_taxes", "$g_encountered_party", ":value", tax_type_trade),
+            # (try_end),
         ]), 
   
     # script_game_get_troop_wage
@@ -1900,23 +1852,14 @@ scripts = [
                     (eq, ":extra_text_id", 6),
                     (party_get_slot, ":tax_rate", "$g_encountered_party", slot_party_taxes_buy),
                     (assign, ":string", "str_item_taxes_buy"),
-                    (store_item_value, ":value", ":item_no"),
-                    (call_script, "script_game_get_item_buy_price_factor", ":item_no"),
-                    (val_mul, ":value", reg0),
-                    (val_div, ":value", 100),
-                    (store_mul, reg10, ":value", ":tax_rate"),
+                    (assign, reg10, ":tax_rate"),
                 (else_try),
                     (eq, ":extra_text_id", 7),
                     (party_get_slot, ":tax_rate", "$g_encountered_party", slot_party_taxes_sell),
                     (assign, ":string", "str_item_taxes_sell"),
-                    (store_item_value, ":value", ":item_no"),
-                    (call_script, "script_game_get_item_sell_price_factor", ":item_no"),
-                    (val_mul, ":value", reg0),
-                    (val_div, ":value", 100),
-                    (store_mul, reg10, ":value", ":tax_rate"),
+                    (assign, reg10, ":tax_rate"),
                 (try_end),
                 (gt, ":string", 0),
-                (val_div, reg10, 100),
                 (str_store_string, s0, ":string"),
                 (set_result_string, s0),
                 (set_trigger_result, 0x87CAD1),
@@ -1970,14 +1913,19 @@ scripts = [
             
             (try_begin),
                 (eq, ":party_no_seer", "$g_player_party"),
-                (party_get_slot, ":party_type", ":party_no_seen", slot_party_type),
-                (is_between, ":party_type", spt_village, spt_fort + 1),
-                (party_set_flags, ":party_no_seen", pf_always_visible, 1),
 
                 (try_begin),
                     (store_faction_of_party, ":seen_faction", ":party_no_seen"),
+                    (is_between, ":seen_faction", kingdoms_begin, kingdoms_end),
                     (faction_set_note_available, ":seen_faction", 1),
                 (try_end),
+
+                (party_get_slot, ":party_type", ":party_no_seen", slot_party_type),
+                (is_between, ":party_type", spt_village, spt_fort + 1),
+
+                (party_set_flags, ":party_no_seen", pf_always_visible, 1),
+                (party_set_note_available, ":party_no_seen", 1),
+
             (try_end),
             (set_trigger_result, 1),
         ]),
@@ -3231,6 +3179,11 @@ scripts = [
                 (party_set_slot, ":party_no", slot_party_population_max, population_max_town),
             (try_end),
 
+            (party_set_slot, ":party_no", slot_party_taxes_buy, 5),
+            (party_set_slot, ":party_no", slot_party_taxes_sell, 2),
+
+            (party_set_slot, ":party_no", slot_party_taxes_visit, 20),
+
             (try_for_range, ":unused", 0, 10),
                 (call_script, "script_party_process_ressources", ":party_no"),
                 (call_script, "script_party_process_production", ":party_no"),
@@ -3333,10 +3286,12 @@ scripts = [
                         (party_get_position, pos11, "p_resources_party"),
                         (position_get_z, ":height", pos11),
                         
-                        (call_script, "script_party_update_resources_slot_with_terrain_and_height", ":party_no", ":terrain_type", ":height"),
+                        (call_script, "script_party_update_resources_slot_with_terrain_and_height", ":party_no", ":terrain_type", ":height", ":radius"),
                     (try_end),
                 (try_end),
             (try_end),
+            (call_script, "script_party_update_resources_slot_with_weather", ":party_no"),
+
             (assign, ":total_res", 0),
             (try_for_range, ":slot", slot_party_ressources_begin, slot_party_ressources_end),
                 (party_get_slot, ":num_res", ":party_no", ":slot"),
@@ -3387,63 +3342,68 @@ scripts = [
     #   arg1: party_no
     #   arg2: terrain_type
     #   arg3: height
+    #   arg4: radius
     # output: none
     ("party_update_resources_slot_with_terrain_and_height",
         [
             (store_script_param, ":party_no", 1),
             (store_script_param, ":terrain_type", 2),
             # (store_script_param, ":height", 3),
+            (store_script_param, ":radius", 4),
+
+            (val_mul, ":radius", 9),
             
             (try_begin),
                 (eq, ":terrain_type", rt_water),
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_smoked_fish", 10),
+                (call_script, "script_party_update_resources_slot", ":party_no", "itm_raw_fish", 10),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_salt", 10),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_oil", 1),
                 
-                (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_wet, 5),
-                (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_heat, -1),
+                (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_wet, 1000, ":radius"),
+                (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_heat, 0, ":radius"),
             (else_try),
                 (eq, ":terrain_type", rt_mountain),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_iron", 10),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_stone", 10),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_salt", 1),
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_pottery", 1),
+                (call_script, "script_party_update_resources_slot", ":party_no", "itm_clay", 1),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_wool", 2),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_raw_dyes", 1),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_raw_leather", 1),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_furs", 1),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_wood", 1),
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_cheese", 1),
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_sausages", 2),
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_dried_meat", 2),
+
+                (call_script, "script_party_update_resources_slot", ":party_no", "itm_goat", 4),
+                (call_script, "script_party_update_resources_slot", ":party_no", "itm_pig", 1),
+                (call_script, "script_party_update_resources_slot", ":party_no", "itm_venison", 2),
+
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_apples", 1),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_raw_grapes", 6),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_raw_olives", 1),
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_butter", 1),
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_cattle_meat", 1),
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_pork", 2),
                 # (call_script, "script_party_update_resources_slot", ":party_no", "itm_", 1),
                 
-                (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_wet, -2),
-                (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_heat, -3),
+                (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_wet, -500, ":radius"),
+                (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_heat, -1000, ":radius"),
             (else_try),
                 (eq, ":terrain_type", rt_steppe),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_spice", 2),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_stone", 1),
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_pottery", 1),
+                (call_script, "script_party_update_resources_slot", ":party_no", "itm_clay", 1),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_oil", 1),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_raw_flax", 1),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_wool", 1),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_wood", 1),
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_cheese", 1),
+
+                (call_script, "script_party_update_resources_slot", ":party_no", "itm_goat", 1),
+                (call_script, "script_party_update_resources_slot", ":party_no", "itm_cattle", 1),
+                (call_script, "script_party_update_resources_slot", ":party_no", "itm_poultry", 1),
+
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_cabbages", 2),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_grain", 2),
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_cattle_meat", 1),
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_chicken", 2),
                 # (call_script, "script_party_update_resources_slot", ":party_no", "itm_", 1),
                 
-                (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_wet, -5),
-                (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_heat, -2),
+                (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_wet, -1000, ":radius"),
+                (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_heat, -200, ":radius"),
             (else_try),
                 (eq, ":terrain_type", rt_plain),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_raw_flax", 3),
@@ -3452,60 +3412,62 @@ scripts = [
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_raw_leather", 1),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_stone", 1),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_wood", 2),
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_cheese", 2),
+
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_honey", 1),
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_sausages", 1),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_cabbages", 3),
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_dried_meat", 1),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_apples", 5),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_grain", 6),
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_butter", 1),
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_cattle_meat", 2),
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_chicken", 4),
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_pork", 1),
+
+                (call_script, "script_party_update_resources_slot", ":party_no", "itm_cattle", 5),
+                (call_script, "script_party_update_resources_slot", ":party_no", "itm_poultry", 1),
+                (call_script, "script_party_update_resources_slot", ":party_no", "itm_pig", 1),
                 # (call_script, "script_party_update_resources_slot", ":party_no", "itm_", 1),
                 
-                # (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_wet, 0),
-                # (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_heat, 0),
+                # (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_wet, 0, ":radius"),
+                # (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_heat, 0, ":radius"),
             (else_try),
                 (eq, ":terrain_type", rt_snow),
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_pottery", 1),
+                (call_script, "script_party_update_resources_slot", ":party_no", "itm_clay", 1),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_wool", 1),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_furs", 5),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_stone", 1),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_wood", 1),
+
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_cabbages", 1),
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_dried_meat", 5),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_grain", 1),
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_butter", 2),
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_chicken", 1),
+
+                (call_script, "script_party_update_resources_slot", ":party_no", "itm_pig", 1),
+                (call_script, "script_party_update_resources_slot", ":party_no", "itm_goat", 1),
+                (call_script, "script_party_update_resources_slot", ":party_no", "itm_venison", 2),
                 # (call_script, "script_party_update_resources_slot", ":party_no", "itm_", 1),
                 
-                (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_wet, -2),
-                (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_heat, -10),
+                # (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_wet, 0, ":radius"),
+                (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_heat, -1800, ":radius"),
             (else_try),
                 (eq, ":terrain_type", rt_desert),
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_pottery", 1),
+                (call_script, "script_party_update_resources_slot", ":party_no", "itm_clay", 1),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_raw_dyes", 3),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_iron", 1),
+                (call_script, "script_party_update_resources_slot", ":party_no", "itm_raw_leather", 1),
+
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_raw_date_fruit", 6),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_raw_olives", 1),
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_chicken", 1),
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_raw_leather", 1),
+
+                (call_script, "script_party_update_resources_slot", ":party_no", "itm_poultry", 2),
                 # (call_script, "script_party_update_resources_slot", ":party_no", "itm_", 1),
                 
-                (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_wet, -10),
-                (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_heat, 10),
+                (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_wet, -2000, ":radius"),
+                (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_heat, 2000, ":radius"),
             (else_try),
                 (this_or_next|eq, ":terrain_type", rt_bridge),
                 (eq, ":terrain_type", rt_river),
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_smoked_fish", 4),
+                (call_script, "script_party_update_resources_slot", ":party_no", "itm_raw_fish", 4),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_cabbages", 1),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_apples", 1),
                 # (call_script, "script_party_update_resources_slot", ":party_no", "itm_", 1),
                 
-                (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_wet, 10),
-                (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_heat, -1),
+                (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_wet, 2000, ":radius"),
+                (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_heat, -200, ":radius"),
             (else_try),
                 (eq, ":terrain_type", rt_mountain_forest),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_iron", 2),
@@ -3517,15 +3479,17 @@ scripts = [
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_raw_leather", 1),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_furs", 2),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_wood", 3),
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_sausages", 2),
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_dried_meat", 3),
+
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_raw_grapes", 1),
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_butter", 1),
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_pork", 2),
+
+                (call_script, "script_party_update_resources_slot", ":party_no", "itm_goat", 5),
+                (call_script, "script_party_update_resources_slot", ":party_no", "itm_venison", 1),
+                (call_script, "script_party_update_resources_slot", ":party_no", "itm_pig", 1),
+
                 # (call_script, "script_party_update_resources_slot", ":party_no", "itm_", 1),
                 
-                (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_wet, -5),
-                (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_heat, -5),
+                (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_wet, 0, ":radius"),
+                (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_heat, -1200, ":radius"),
             (else_try),
                 (eq, ":terrain_type", rt_steppe_forest),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_spice", 1),
@@ -3535,14 +3499,16 @@ scripts = [
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_raw_leather", 2),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_furs", 1),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_wood", 4),
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_sausages", 1),
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_dried_meat", 3),
+
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_apples", 1),
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_pork", 1),
+
+                (call_script, "script_party_update_resources_slot", ":party_no", "itm_goat", 2),
+                (call_script, "script_party_update_resources_slot", ":party_no", "itm_venison", 1),
+                (call_script, "script_party_update_resources_slot", ":party_no", "itm_pig", 1),
                 # (call_script, "script_party_update_resources_slot", ":party_no", "itm_", 1),
                 
-                (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_wet, -3),
-                (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_heat, -1),
+                (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_wet, -500, ":radius"),
+                (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_heat, -400, ":radius"),
             (else_try),
                 (eq, ":terrain_type", rt_forest),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_raw_flax", 2),
@@ -3552,15 +3518,16 @@ scripts = [
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_raw_leather", 3),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_furs", 2),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_wood", 6),
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_sausages", 4),
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_dried_meat", 5),
+
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_apples", 2),
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_butter", 1),
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_pork", 4),
+
+                (call_script, "script_party_update_resources_slot", ":party_no", "itm_goat", 1),
+                (call_script, "script_party_update_resources_slot", ":party_no", "itm_venison", 2),
+                (call_script, "script_party_update_resources_slot", ":party_no", "itm_pig", 3),
                 # (call_script, "script_party_update_resources_slot", ":party_no", "itm_", 1),
                 
-                (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_wet, 1),
-                (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_heat, 1),
+                (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_wet, 500, ":radius"),
+                (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_heat, -200, ":radius"),
             (else_try),
                 (eq, ":terrain_type", rt_snow_forest),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_wool", 1),
@@ -3568,12 +3535,14 @@ scripts = [
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_raw_leather", 3),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_furs", 8),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_wood", 8),
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_dried_meat", 11),
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_butter", 5),
+
+                (call_script, "script_party_update_resources_slot", ":party_no", "itm_pig", 1),
+                (call_script, "script_party_update_resources_slot", ":party_no", "itm_goat", 1),
+                (call_script, "script_party_update_resources_slot", ":party_no", "itm_venison", 6),
                 # (call_script, "script_party_update_resources_slot", ":party_no", "itm_", 1),
                 
-                # (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_wet, 0),
-                (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_heat, -8),
+                (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_wet, 500, ":radius"),
+                (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_heat, -2000, ":radius"),
             (else_try),
                 (eq, ":terrain_type", rt_desert_forest),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_raw_dyes", 1),
@@ -3581,14 +3550,48 @@ scripts = [
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_raw_leather", 1),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_raw_date_fruit", 10),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_wood", 2),
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_dried_meat", 1),
+
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_raw_grapes", 2),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_raw_olives", 2),
+
+                (call_script, "script_party_update_resources_slot", ":party_no", "itm_venison", 2),
                 # (call_script, "script_party_update_resources_slot", ":party_no", "itm_", 1),
                 
-                (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_wet, 2),
-                (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_heat, 8),
+                (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_wet, -1000, ":radius"),
+                (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_heat, 1500, ":radius"),
             (try_end),
+
+            (try_begin),
+                (party_get_position, pos1, ":party_no"),
+                (position_get_y, ":y", pos1),
+                (val_div, ":y", -100),
+                (position_get_x, ":x", pos1),
+                (val_div, ":x", 1000),
+                (val_add, ":x", 300),
+                (val_div, ":x", 5),
+                (val_max, ":x", 30),
+                (store_mul, ":position_heat", ":y", ":x"),
+                (val_div, ":position_heat", 100),
+                (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_heat, ":position_heat", 1),
+            (try_end),
+        ]),
+
+    # script_party_update_resources_slot_with_weather
+    # input:
+    #   arg1: party_no
+    # output: none
+    ("party_update_resources_slot_with_weather",
+        [
+            # (store_script_param, ":party_no", 1),
+
+            # (party_get_slot, ":weather_heat", ":party_no", slot_party_weather_heat),
+            # (party_get_slot, ":weather_wet", ":party_no", slot_party_weather_wet),
+
+            # (store_sub, ":offset", slot_party_ressources_current_amount_begin, slot_party_ressources_begin),
+            # (try_begin),
+            #     (store_add, ":slot", "itm_apples", ":offset"),
+            #     (party_slot_ge, ":party_no", ":slot", 1),
+            # (try_end),
         ]),
     
     # script_party_update_resources_slot
@@ -3620,9 +3623,11 @@ scripts = [
             (store_script_param, ":party_no", 1),
             (store_script_param, ":slot", 2),
             (store_script_param, ":value", 3),
+            (store_script_param, ":radius", 4),
             
             (party_get_slot, ":current_weather", ":party_no", ":slot"),
-            (val_add, ":current_weather", ":value"),
+            (store_div, ":modified_value", ":value", ":radius"),
+            (val_add, ":current_weather", ":modified_value"),
             (party_set_slot, ":party_no", ":slot", ":current_weather"),
         ]),
 
@@ -4355,7 +4360,7 @@ scripts = [
             
             (party_get_slot, ":population", ":party_no", slot_party_population),
             (party_get_slot, ":total_resources", ":party_no", slot_party_total_resources),
-            (party_get_slot, ":party_type", ":party_no"),
+            (party_get_slot, ":party_type", ":party_no", slot_party_type),
 
             (try_begin),
                 (eq, ":party_type", spt_village),
@@ -4367,39 +4372,55 @@ scripts = [
                 (val_div, ":population", 3),
             (try_end),
 
-            (try_for_range, ":slot", slot_party_ressources_begin, slot_party_ressources_end),
-                (party_get_slot, ":prod", ":party_no", ":slot"),
-                (gt, ":prod", 0),
-                (store_mul, ":num_prod", ":prod", ":population"),
-                (val_div, ":num_prod", ":total_resources"),
+            (assign, ":total_production", 0),
+            (try_for_range, ":good", goods_begin, goods_end),
+                (store_sub, ":offset", ":good", goods_begin),
+                (store_add, ":production_slot", ":offset", slot_party_ressources_begin),
+
+                (party_get_slot, ":raw_production", ":party_no", ":production_slot"),
+                (gt, ":raw_production", 0),
+                (val_mul, ":raw_production", ":population"),
+                (store_div, ":num_prod", ":raw_production", ":total_resources"),
                 (val_div, ":num_prod", 100),
 
                 (try_begin),
-                    (eq, ":num_prod", 0),
-                    (val_mul, ":total_resources", 100),
+                    (store_mod, ":rest", ":raw_production", ":total_resources"),
                     (store_random_in_range, ":rand", 0, ":total_resources"),
-                    (lt, ":rand", ":prod"),
-                    (assign, ":num_prod", 1),
+                    (gt, ":rest", ":rand"),
+                    (val_add, ":num_prod", 1),
                 (try_end),
+                (store_add, ":last_production_slot", ":offset", slot_party_item_last_produced_begin),
+                (party_set_slot, ":party_no", ":last_production_slot", ":num_prod"),
+
                 (gt, ":num_prod", 0),
-                (store_sub, ":amount_slot", ":slot", slot_party_ressources_begin),
-                (val_add, ":amount_slot", slot_party_ressources_current_amount_begin),
-                (party_get_slot, ":current_amount", ":party_no", ":amount_slot"),
-                (val_add, ":current_amount", ":num_prod"),
+                (store_add, ":amount_slot", ":offset", slot_party_ressources_current_amount_begin),
+
+                (assign, ":produced", ":num_prod"),
 
                 (try_begin),
-                    (ge, ":current_amount", 100),
+                    (gt, ":produced", 0),
                     (try_begin),
-                        (call_script, "script_cf_debug", debug_economy|debug_trade),
+                        (call_script, "script_cf_debug", debug_economy),
+                        (eq, ":party_type", spt_town),
                         (str_store_party_name, s10, ":party_no"),
-                        (str_store_item_name, s11, ":slot"),
-                        (display_message, "@{s10} : produced 100 {s11}."),
-                        (display_message, "@{s10} : reducing stocks of {s11}."),
+                        (str_store_item_name, s11, ":good"),
+                        (assign, reg10, ":produced"),
+                        (display_message, "@{s10} : produced {reg10} {s11}."),
                     (try_end),
-                    (val_sub, ":current_amount", 100),
-                (try_end),
 
-                (party_set_slot, ":party_no", ":amount_slot", ":current_amount"),
+                    (party_get_slot, ":current_amount", ":party_no", ":amount_slot"),
+                    (val_add, ":current_amount", ":produced"),
+                    (party_set_slot, ":party_no", ":amount_slot", ":current_amount"),
+
+                    (val_add, ":total_production", ":produced"),
+                (try_end),
+            (try_end),
+            (try_begin),
+                (call_script, "script_cf_debug", debug_economy|debug_trade),
+                (is_between, ":party_no", towns_begin, towns_end),
+                (str_store_party_name, s10, ":party_no"),
+                (assign, reg10, ":total_production"),
+                (display_message, "@{s10} : produced {reg10} resources in total."),
             (try_end),
         ]),
 
@@ -4414,7 +4435,85 @@ scripts = [
             # (party_get_slot, ":population", ":party_no", slot_party_population),
             # (party_get_slot, ":total_resources", ":party_no", slot_party_number_resources),
             # (party_get_slot, ":party_type", ":party_no"),
+        ]),
 
+    # script_party_process_consumption
+        # input:
+        #   arg1: party_no
+        # output: none
+    ("party_process_consumption",
+        [
+            (store_script_param, ":party_no", 1),
+
+            (assign, ":total_population", 0),
+
+            (party_get_slot, ":center_population", ":party_no", slot_party_population),
+            (party_get_slot, ":center_population_noble", ":party_no", slot_party_population_noble),
+            (party_get_slot, ":center_population_artisan", ":party_no", slot_party_population_artisan),
+            (party_get_slot, ":center_population_slave", ":party_no", slot_party_population_slave),
+
+            (val_add, ":total_population", ":center_population"),
+            (val_add, ":total_population", ":center_population_noble"),
+            (val_add, ":total_population", ":center_population_artisan"),
+            (val_add, ":total_population", ":center_population_slave"),
+
+            (try_for_range, ":item", goods_begin, goods_end),
+                (store_sub, ":offset", ":item", goods_begin),
+
+                (store_add, ":amount_slot", ":offset", slot_party_ressources_current_amount_begin),
+                (store_add, ":consumption_slot", ":offset", slot_party_item_consumed_begin),
+
+                (item_get_slot, ":consumption_base", ":item", slot_item_consumption_base),
+                (item_get_slot, ":consumption_ratio", ":item", slot_item_consumption_ratio),
+                (assign, ":pop_consumption", 0),
+                (assign, ":surplus_consumption", 0),
+                (try_begin),
+                    (gt, ":consumption_base", 0),
+                    (store_mul, ":consumption_power", ":total_population", ":consumption_base"),
+                    (store_div, ":pop_consumption", ":consumption_power", consumption_ratio_base),
+                    (store_mod, ":consumption_rest", ":consumption_power", consumption_ratio_base),
+                    (try_begin),
+                        (gt, ":consumption_rest", 0),
+                        (store_random_in_range, ":rand", 0, consumption_ratio_base),
+                        (lt, ":rand", ":consumption_rest"),
+                        (val_add, ":pop_consumption", 1),
+                    (try_end),
+                (try_end),
+                (try_begin),
+                    (gt, ":consumption_ratio", 0),
+
+                    (party_get_slot, ":current_amount", ":party_no", ":amount_slot"),
+                    (store_mul, ":surplus_consumption", ":current_amount", ":consumption_ratio"),
+                    (val_div, ":surplus_consumption", 100),
+                (try_end),
+
+                (store_add, ":consumption", ":pop_consumption", ":surplus_consumption"),
+
+                (try_begin),
+                    (gt, ":consumption", 0),
+
+                    (party_get_slot, ":amount", ":party_no", ":amount_slot"),
+                    (val_min, ":consumption", ":amount"),
+                    (try_begin),
+                        (gt, ":consumption", 0),
+
+                        (val_sub, ":amount", ":consumption"),
+                        (val_max, ":amount", 0),
+                        (party_set_slot, ":party_no", ":amount_slot", ":amount"),
+                    (try_end),
+                    (party_set_slot, ":party_no", ":consumption_slot", ":pop_consumption"),
+                    (try_begin),
+                        (call_script, "script_cf_debug", debug_economy),
+                        (is_between, ":party_no", towns_begin, towns_end),
+                        (str_store_party_name, s10, ":party_no"),
+                        (str_store_item_name, s11, ":item"),
+                        (assign, reg10, ":consumption"),
+                        (assign, reg11, ":pop_consumption"),
+                        (assign, reg12, ":surplus_consumption"),
+                        (display_message, "@{s10} consummed {reg10} {s11} ({reg11}+{reg12})"),
+                    (try_end),
+                (try_end),
+            (try_end),
         ]),
     
     # script_party_process_population
@@ -4444,7 +4543,6 @@ scripts = [
             (val_abs, ":offset", ":offset"),
             (store_sub, ":offset", 100, ":offset"),
             (val_abs, ":offset", ":offset"),
-            
             
             (try_begin),
                 (eq, ":party_type", spt_village),
@@ -4806,25 +4904,12 @@ scripts = [
             (party_set_slot, ":party_no", slot_party_wealth, ":wealth"),
 
             (try_begin),
-                (eq, ":tax_type", tax_type_population),
-                (party_get_slot, ":budget", ":party_no", slot_party_budget_taxes),
+                (store_add, ":budget_slot", ":tax_type", slot_party_buget_taxes_begin),
+                (is_between, ":budget_slot", slot_party_buget_taxes_begin, slot_party_buget_taxes_end),
+
+                (party_get_slot, ":budget", ":party_no", ":budget_slot"),
                 (val_add, ":budget", ":amount"),
-                (party_set_slot, ":party_no", slot_party_budget_taxes, ":budget"),
-            (else_try),
-                (eq, ":tax_type", tax_type_protection),
-                (party_get_slot, ":budget", ":party_no", slot_party_budget_protection_taxes),
-                (val_add, ":budget", ":amount"),
-                (party_set_slot, ":party_no", slot_party_budget_protection_taxes, ":budget"),
-            (else_try),
-                (eq, ":tax_type", tax_type_vassal_pay),
-                (party_get_slot, ":budget", ":party_no", slot_party_budget_vassal_taxes),
-                (val_add, ":budget", ":amount"),
-                (party_set_slot, ":party_no", slot_party_budget_vassal_taxes, ":budget"),
-            (else_try),
-                (eq, ":tax_type", tax_type_member_pay),
-                (party_get_slot, ":budget", ":party_no", slot_party_budget_faction_member_taxes),
-                (val_add, ":budget", ":amount"),
-                (party_set_slot, ":party_no", slot_party_budget_faction_member_taxes, ":budget"),
+                (party_set_slot, ":party_no", ":budget_slot", ":budget"),
             (try_end),
         ]),
 
@@ -4901,7 +4986,7 @@ scripts = [
     ("party_get_allocated_budget",
         [
             (store_script_param, ":party_no", 1),
-            (store_script_param, ":amount", 2),
+            # (store_script_param, ":amount", 2),
 
             (party_get_slot, ":party_type", ":party_no", slot_party_type),
 
@@ -4995,7 +5080,7 @@ scripts = [
                 (assign, reg10, ":wanted_wages"),
                 (assign, reg11, ":old_wanted_wages"),
                 (assign, reg12, ":new_wanted_wages"),
-                (display_message, "@{s10} wanted wages - current: {reg10}, old: {reg11}, new: {reg12}"),
+                # (display_message, "@{s10} wanted wages - current: {reg10}, old: {reg11}, new: {reg12}"),
             (try_end),
 
             (troop_set_slot, ":troop_no", slot_troop_wanted_party_wages, ":new_wanted_wages"),
@@ -5037,7 +5122,7 @@ scripts = [
                 (assign, reg10, ":wanted_wages"),
                 (assign, reg11, ":old_wanted_wages"),
                 (assign, reg12, ":new_wanted_wages"),
-                (display_message, "@{s10} wanted wages - current: {reg10}, old: {reg11}, new: {reg12}"),
+                # (display_message, "@{s10} wanted wages - current: {reg10}, old: {reg11}, new: {reg12}"),
             (try_end),
 
             (party_set_slot, ":party_no", slot_party_wanted_party_wages, ":new_wanted_wages"),
@@ -5820,6 +5905,20 @@ scripts = [
             (faction_set_slot, "fac_culture_6", slot_faction_veteran_begin, "trp_sarranid_guard"),
             (faction_set_slot, "fac_culture_6", slot_faction_elite_begin, "trp_sarranid_heavy_infantry"),
             (faction_set_slot, "fac_culture_6", slot_faction_noble_begin, "trp_sarranid_noble_horse_archer"),
+
+            (faction_set_slot, "fac_culture_1", slot_faction_caravan_master, "trp_swadian_caravan_master"),
+            (faction_set_slot, "fac_culture_2", slot_faction_caravan_master, "trp_vaegir_caravan_master"),
+            (faction_set_slot, "fac_culture_3", slot_faction_caravan_master, "trp_khergit_caravan_master"),
+            (faction_set_slot, "fac_culture_4", slot_faction_caravan_master, "trp_nord_caravan_master"),
+            (faction_set_slot, "fac_culture_5", slot_faction_caravan_master, "trp_rhodok_caravan_master"),
+            (faction_set_slot, "fac_culture_6", slot_faction_caravan_master, "trp_sarranid_caravan_master"),
+
+            (faction_set_slot, "fac_culture_1", slot_faction_caravan_guard, "trp_swadian_caravan_guard"),
+            (faction_set_slot, "fac_culture_2", slot_faction_caravan_guard, "trp_vaegir_caravan_guard"),
+            (faction_set_slot, "fac_culture_3", slot_faction_caravan_guard, "trp_khergit_caravan_guard"),
+            (faction_set_slot, "fac_culture_4", slot_faction_caravan_guard, "trp_nord_caravan_guard"),
+            (faction_set_slot, "fac_culture_5", slot_faction_caravan_guard, "trp_rhodok_caravan_guard"),
+            (faction_set_slot, "fac_culture_6", slot_faction_caravan_guard, "trp_sarranid_caravan_guard"),
             
             (faction_set_slot, "fac_culture_1", slot_faction_lord_name_begin, "str_kingdom_rank_0"),
             (faction_set_slot, "fac_culture_2", slot_faction_lord_name_begin, "str_kingdom_rank_0"),
@@ -8210,30 +8309,12 @@ scripts = [
                     (store_div, ":max_transfer", ":center_wealth", 3), # We try to keep some gold inside center
                     (val_min, ":amount", ":max_transfer"),
 
-                    (try_begin),
-                        (call_script, "script_cf_debug", debug_economy),
-                        (str_store_party_name, s10, ":cur_town"),
-                        (str_store_party_name, s11, ":party_no"),
-                        (assign, reg10, ":center_wealth"),
-                        (assign, reg11, ":total_party_wealth"),
-                        (display_message, "@{s10} (wealth: {reg10}) transfering gold to {s11} (wealth: {reg11})"),
-                    (try_end),
-
                     (call_script, "script_move_gold_from_party_to_party", ":cur_town", ":party_no", ":amount"),
                 (else_try),
                     (gt, ":total_party_wealth", ":max_wealth"),
                     (store_sub, ":amount", ":total_party_wealth", ":max_wealth"),
                     (store_div, ":transfer", ":party_wage", 4),
                     (val_add, ":amount", ":transfer"),
-
-                    (try_begin),
-                        (call_script, "script_cf_debug", debug_economy),
-                        (str_store_party_name, s10, ":party_no"),
-                        (str_store_party_name, s11, ":cur_town"),
-                        (assign, reg10, ":total_party_wealth"),
-                        (assign, reg11, ":center_wealth"),
-                        (display_message, "@{s10} (wealth: {reg10}) transfering gold to {s11} (wealth: {reg11})"),
-                    (try_end),
 
                     (call_script, "script_move_gold_from_party_to_party", ":party_no", ":cur_town", ":amount"),
                 (try_end),
@@ -8263,7 +8344,7 @@ scripts = [
                 (str_store_party_name, s11, ":party_to"),
                 (assign, reg10, ":amount"),
                 (assign, reg11, ":removed"),
-                (display_message, "@{s10} transfering gold to {s11} (amount: {reg10} - real amount {reg11})"),
+                (display_message, "@{s10} move gold to {s11} (wanted: {reg10} - real {reg11})"),
             (try_end),
 
             (assign, reg0, 0),
@@ -8381,6 +8462,7 @@ scripts = [
             
             (call_script, "script_party_get_prefered_wages_limit", ":party_no"),
             (assign, ":limit", reg0),
+            (assign, ":lower_limit", reg1),
 
             (call_script, "script_party_get_wages", ":party_no"),
             (assign, ":wages", reg0),
@@ -8399,9 +8481,7 @@ scripts = [
                 (try_begin),
                     # We do not want to buy expensive troops from other centers when we don't need it
                     (neg|party_slot_eq, ":party_no", slot_party_type, spt_village),
-                    (val_mul, ":limit", 2),
-                    (val_div, ":limit", 3),
-                    (lt, ":wages", ":limit"),
+                    (lt, ":wages", ":lower_limit"),
                     (call_script, "script_party_ask_reinforcements", ":party_no"),
                 (try_end),
                 # (call_script, "script_party_add_troops_with_buildings", ":party_no"),
@@ -9477,7 +9557,7 @@ scripts = [
             
             (assign, ":has_building", -1),
             
-            (store_add, ":end", slot_party_building_slot_end, 1),
+            (assign, ":end", slot_party_building_slot_end),
             (try_for_range, ":building_slot", slot_party_building_slot_1, ":end"),
                 (party_get_slot, ":cur_building", ":party_no", ":building_slot"),
                 (try_begin),
@@ -13241,7 +13321,7 @@ scripts = [
                 (try_begin),
                     (neq, ":bandit_faction", -1),
                     (try_begin),
-                        (call_script, "script_cf_debug", debug_trade),
+                        (call_script, "script_cf_debug", debug_ai),
                         (str_store_party_name, s10, ":center_no"),
                         (display_message, "@Spawning bandit party at {s10}."),
                     (try_end),
@@ -14140,19 +14220,59 @@ scripts = [
         ]),
 
     # script_item_get_sell_price
+        # input:
+        #   arg1: item_no
+        #   arg2: selling_party
+        #   arg3: buying_party
+        # output:
+        #   reg0: sell_price
     ("item_get_sell_price",
         [
-            # (store_script_param, ":item_no", 1),
-            # (store_script_param, ":selling_troop", 2),
-            # (store_script_param, ":buying_troop", 3),
+            (store_script_param, ":item_no", 1),
+            (store_script_param, ":selling_party", 2),
+            (store_script_param, ":buying_party", 3),
+
+            (store_item_value, ":price", ":item_no"),
+            (call_script, "script_item_get_sell_price_factor_from_party", ":item_no", ":selling_party", ":buying_party"),
+            (assign, ":price_factor", reg0),
+            (assign, ":tax_factor", reg1),
+
+            (store_mul, ":final_price", ":price", ":price_factor"),
+            (val_div, ":final_price", 100),
+
+            (store_mul, ":tax_amount", ":price", ":tax_factor"),
+            (val_div, ":tax_amount", 100),
+
+            (assign, reg0, ":final_price"),
+            (assign, reg1, ":tax_amount"),
         ]),
 
     # script_item_get_buy_price
+        # input:
+        #   arg1: item_no
+        #   arg2: buying_party
+        #   arg3: selling_party
+        # output:
+        #   reg0: buy_price
     ("item_get_buy_price",
         [
-            # (store_script_param, ":item_no", 1),
-            # (store_script_param, ":buying_troop", 2),
-            # (store_script_param, ":selling_troop", 3),
+            (store_script_param, ":item_no", 1),
+            (store_script_param, ":buying_party", 2),
+            (store_script_param, ":selling_party", 3),
+
+            (store_item_value, ":price", ":item_no"),
+            (call_script, "script_item_get_buy_price_factor_from_party", ":item_no", ":buying_party", ":selling_party"),
+            (assign, ":price_factor", reg0),
+            (assign, ":tax_factor", reg1),
+
+            (store_mul, ":final_price", ":price", ":price_factor"),
+            (val_div, ":final_price", 100),
+
+            (store_mul, ":tax_amount", ":price", ":tax_factor"),
+            (val_div, ":tax_amount", 100),
+
+            (assign, reg0, ":final_price"),
+            (assign, reg1, ":tax_amount"),
         ]),
 
     # script_troop_prisoner
@@ -14695,13 +14815,14 @@ scripts = [
 
             (party_get_slot, ":party_type", ":party_no", slot_party_type),
             (party_get_slot, ":attached_party_1", ":party_no", slot_party_attached_party_1),
+            (party_get_slot, ":attached_party_2", ":party_no", slot_party_attached_party_2),
 
             (try_begin),
                 (eq, ":party_type", spt_town),
                 # patrols
                 (try_begin),
                     (le, ":attached_party_1", 0),
-                    (call_script, "script_cf_party_create_patrol", ":party_no"),
+                    (call_script, "script_cf_party_create_patrol", ":party_no", slot_party_attached_party_1),
                 (else_try),
                     (neg|party_is_active, ":attached_party_1"),
                     (party_set_slot, ":party_no", slot_party_attached_party_1, -1),
@@ -14712,6 +14833,18 @@ scripts = [
                     (try_end),
                 (try_end),
                 # caravans
+                (try_begin),
+                    (le, ":attached_party_2", 0),
+                    (call_script, "script_cf_party_create_caravan", ":party_no", slot_party_attached_party_2),
+                (else_try),
+                    (neg|party_is_active, ":attached_party_2"),
+                    (party_set_slot, ":party_no", slot_party_attached_party_2, -1),
+                    (try_begin),
+                        (call_script, "script_cf_debug", debug_war),
+                        (str_store_party_name, s10, ":party_no"),
+                        (display_message, "@{s10} releasing inactive attached party 2"),
+                    (try_end),
+                (try_end),
             (else_try),
                 (eq, ":party_type", spt_castle),
                 # patrols
@@ -14725,10 +14858,14 @@ scripts = [
     # script_cf_party_create_patrol
         # input:
         #   arg1: party_no
+        #   arg2: store_slot
         # output: none
     ("cf_party_create_patrol",
         [
             (store_script_param, ":party_no", 1),
+            (store_script_param, ":slot", 2),
+
+            (call_script, "script_cf_center_can_give_troops", ":party_no"),
 
             (store_faction_of_party, ":party_faction", ":party_no"),
             (party_get_slot, ":attached_party_reserved_wages", ":party_no", slot_party_budget_reserved_auxiliaries),
@@ -14745,12 +14882,78 @@ scripts = [
             (store_current_hours, ":hours"),
             (party_set_slot, ":spawned_party", slot_party_last_rest, ":hours"),
 
-            (party_set_slot, ":party_no", slot_party_attached_party_1, ":spawned_party"),
+            (party_set_slot, ":party_no", ":slot", ":spawned_party"),
             (call_script, "script_party_give_troops_to_party", ":party_no", ":spawned_party", 5),
             (try_begin),
                 (call_script, "script_cf_debug", debug_war|debug_ai),
                 (str_store_party_name, s10, ":party_no"),
-                (display_message, "@{s10} generating attached party"),
+                (display_message, "@{s10} generating attached party patrol"),
+            (try_end),
+        ]),
+
+    # script_cf_party_create_caravan
+        # input:
+        #   arg1: party_no
+        #   arg2: store_slot
+        # output: none
+    ("cf_party_create_caravan",
+        [
+            (store_script_param, ":party_no", 1),
+            (store_script_param, ":slot", 2),
+            
+            (call_script, "script_cf_center_can_give_troops", ":party_no"),
+
+            (assign, ":end", goods_end),
+            (assign, ":continue", 0),
+            (try_for_range, ":good", goods_begin, ":end"),
+                (store_sub, ":offset", ":good", goods_begin),
+                (store_add, ":amount_slot", ":offset", slot_party_ressources_current_amount_begin),
+                (store_add, ":production_slot", ":offset", slot_party_item_last_produced_begin),
+                (store_add, ":consumption_slot", ":offset", slot_party_item_consumed_begin),
+
+                (party_get_slot, ":amount", ":party_no", ":amount_slot"),
+                (party_get_slot, ":production", ":party_no", ":production_slot"),
+                (party_get_slot, ":consumption", ":party_no", ":consumption_slot"),
+
+                (store_sub, ":difference", ":production", ":consumption"),
+                (lt, ":difference", 0),
+                (store_div, ":ticks_left", ":amount", ":difference"),
+                # We don't want to send a caravan if we still have >10 ticks of storage
+                (gt, ":ticks_left", -10),
+
+                (assign, ":continue", 1),
+                (assign, ":end", goods_begin),
+            (try_end),
+            (eq, ":continue", 1),
+
+            (store_faction_of_party, ":party_faction", ":party_no"),
+            # (party_get_slot, ":attached_party_reserved_wages", ":party_no", slot_party_budget_reserved_auxiliaries),
+            # (val_div, ":attached_party_reserved_wages", 2),
+
+            (call_script, "script_spawn_party_around_party", ":party_no", "pt_caravan"),
+            (assign, ":spawned_party", reg0),
+
+            (party_set_faction, ":spawned_party", ":party_faction"),
+            (party_set_slot, ":spawned_party", slot_party_budget_reserved_party, 5000),
+            (party_set_slot, ":spawned_party", slot_party_wanted_party_wages, 5000),
+            (party_set_slot, ":spawned_party", slot_party_type, spt_caravan),
+            (party_set_slot, ":spawned_party", slot_party_linked_party, ":party_no"),
+            (party_set_slot, ":spawned_party", slot_party_mission_object, -1),
+
+            (party_set_slot, ":party_no", ":slot", ":spawned_party"),
+
+            (faction_get_slot, ":culture", ":party_faction", slot_faction_culture),
+            (faction_get_slot, ":caravan_master", ":culture", slot_faction_caravan_master),
+            (try_begin),
+                (gt, ":caravan_master", 0),
+                (party_force_add_members, ":spawned_party", ":caravan_master", 1),
+            (else_try),
+                (party_force_add_members, ":spawned_party", "trp_swadian_caravan_master", 1),
+            (try_end),
+            (try_begin),
+                (call_script, "script_cf_debug", debug_trade|debug_ai),
+                (str_store_party_name, s10, ":party_no"),
+                (display_message, "@{s10} generating attached party caravan"),
             (try_end),
         ]),
 
@@ -14877,6 +15080,789 @@ scripts = [
                 # Patrol center
                 (party_get_slot, ":home", ":party_no", slot_party_linked_party),
                 (call_script, "script_party_set_behavior", ":party_no", tai_patroling_center, ":home"),
+            (try_end),
+        ]),
+
+    # script_party_caravan_process
+        # input:
+        #   arg1: party_no
+        # output: none
+    ("party_caravan_process",
+        [
+            (store_script_param, ":party_no", 1),
+
+            (party_get_slot, ":mission_object", ":party_no", slot_party_mission_object),
+            (party_get_slot, ":mission", ":party_no", slot_party_mission),
+            (party_get_cur_town, ":cur_town", ":party_no"),
+            (party_get_slot, ":home", ":party_no", slot_party_linked_party),
+
+            (try_begin),
+                (eq, ":cur_town", ":mission_object"),
+                (is_between, ":cur_town", centers_begin, centers_end),
+
+                (store_current_hours, ":hours"),
+                (try_begin),
+                    (eq, ":cur_town", ":home"),
+                    (call_script, "script_party_get_wages", ":party_no"),
+                    (assign, ":current_wages", reg0),
+                    (call_script, "script_party_get_prefered_wages_limit", ":party_no"),
+                    (assign, ":wanted_wages", reg0),
+
+                    (party_get_num_prisoners, ":num_prisoners", ":party_no"),
+                    (try_begin),
+                        (ge, ":num_prisoners", 1),
+                        (call_script, "script_party_give_prisoners_to_party", ":party_no", ":cur_town"),
+                    (try_end),
+
+                    (call_script, "script_party_empty_goods", ":party_no", ":home"),
+                    (call_script, "script_party_caravan_select_destination", ":party_no"),
+                    (assign, ":new_destination", reg0),
+                    (try_begin),
+                        (le, ":current_wages", ":wanted_wages"),
+                        (eq, ":cur_town", ":home"),
+                        (try_begin),
+                            (call_script, "script_cf_center_can_give_troops", ":cur_town"),
+                            (store_random_in_range, ":num_troops", 3, 7),
+                            (call_script, "script_party_give_troops_to_party", ":cur_town", ":party_no", ":num_troops"),
+                        (try_end),
+                    (else_try),
+                        (eq, ":new_destination", ":home"),
+                        (call_script, "script_party_caravan_set_objectives", ":party_no"),
+                        (try_begin),
+                            (party_slot_ge, ":party_no", slot_party_mission_objective_1, goods_begin),
+                            (call_script, "script_party_caravan_set_destination", ":party_no"),
+                        (else_try),
+                            (call_script, "script_cf_debug", debug_trade),
+                            (str_store_party_name, s10, ":party_no"),
+                            (str_store_party_name, s11, ":home"),
+                            (display_message, "@{s10} from {s11} has no objective and stays put"),
+                        (try_end),
+                    (else_try),
+                        (party_set_slot, ":party_no", slot_party_mission, spm_trade),
+                        (party_set_slot, ":party_no", slot_party_mission_object, ":new_destination"),
+                        (call_script, "script_party_set_behavior", ":party_no", tai_traveling_to_party, ":new_destination"),
+                    (try_end),
+
+                (else_try),
+                    (eq, ":mission", spm_trade),
+                    (party_set_slot, ":party_no", slot_party_mission, spm_waiting),
+                    (party_set_slot, ":party_no", slot_party_last_rest, ":hours"),
+                    (call_script, "script_party_caravan_clear_destination", ":party_no", ":cur_town"),
+                (else_try),
+                    (party_get_slot, ":last_rest", ":party_no", slot_party_last_rest),
+                    (store_sub, ":rest_time", ":hours", ":last_rest"),
+                    (gt, ":rest_time", 18),
+                    (call_script, "script_party_caravan_select_destination", ":party_no"),
+                    (assign, ":new_destination", reg0),
+                    (call_script, "script_party_caravan_prepare_trading_run", ":party_no", ":new_destination", ":cur_town"),
+                    (party_set_slot, ":party_no", slot_party_mission, spm_trade),
+                    (party_set_slot, ":party_no", slot_party_mission_object, ":new_destination"),
+                    (call_script, "script_party_set_behavior", ":party_no", tai_traveling_to_party, ":new_destination"),
+                (try_end),
+            (else_try),
+                (eq, ":mission_object", -1),
+                (call_script, "script_party_caravan_select_destination", ":party_no"),
+                (assign, ":new_destination", reg0),
+
+                (try_begin),
+                    (is_between, ":new_destination", centers_begin, centers_end),
+                    (neq, ":cur_town", ":new_destination"),
+                    (party_set_slot, ":party_no", slot_party_mission, spm_trade),
+                    (party_set_slot, ":party_no", slot_party_mission_object, ":new_destination"),
+                    (call_script, "script_party_set_behavior", ":party_no", tai_traveling_to_party, ":new_destination"),
+                (try_end),
+            (try_end),
+        ]),
+
+    # script_party_caravan_set_objectives
+        # input:
+        #   arg1: party_no
+        # output: none
+    ("party_caravan_set_objectives",
+        [
+            (store_script_param, ":party_no", 1),
+            (party_get_slot, ":home", ":party_no", slot_party_linked_party),
+
+            (assign, ":end_loop", slot_party_mission_objective_3 + 1),
+            (try_for_range, ":slot", slot_party_mission_objective_1, ":end_loop"),
+                (assign, ":chosen_item", 0),
+                (assign, ":chosen_item_score", 9999),
+                (try_for_range, ":item", goods_begin, goods_end),
+
+                    (assign, ":exists", 0),
+                    (try_for_range, ":other_slot", slot_party_mission_objective_1, slot_party_mission_objective_3 + 1),
+                        (party_get_slot, ":other_value", ":party_no", ":other_slot"),
+                        (eq, ":other_value", ":item"),
+                        (assign, ":exists", 1),
+                    (try_end),
+                    (try_begin),
+                        (eq, ":exists", 0),
+                        (call_script, "script_party_item_get_caravan_score", ":home", ":item"),
+                        (assign, ":score", reg0),
+                        (lt, ":score", ":chosen_item_score"),
+                        (assign, ":chosen_item", ":item"),
+                        (assign, ":chosen_item_score", ":score"),
+                    (try_end),
+                (try_end),
+
+                (try_begin),
+                    (lt, ":chosen_item_score", 9999),
+                    (gt, ":chosen_item", goods_begin),
+                    (party_set_slot, ":party_no", ":slot", ":chosen_item"),
+
+                    (try_begin),
+                        (call_script, "script_cf_debug", debug_trade),
+                        (str_store_party_name, s10, ":home"),
+                        (str_store_item_name, s11, ":chosen_item"),
+                        (assign, reg10, ":chosen_item_score"),
+                        (display_message, "@Caravan from {s10} targets {s11} : {reg10}"),
+                    (try_end),
+                (else_try),
+                    (assign, ":end_loop", 0),
+                (try_end),
+            (try_end),
+
+        ]),
+
+    # script_party_caravan_select_destination
+        # input:
+        #   arg1: party_no
+        # output:
+        #   reg0: destination
+    ("party_caravan_select_destination",
+        [
+            (store_script_param, ":party_no", 1),
+
+            (party_get_slot, ":current_destination", ":party_no", slot_party_mission_object),
+            (try_begin),
+                (party_get_slot, ":option_1", ":party_no", slot_party_mission_target_1),
+                (is_between, ":option_1", centers_begin, centers_end),
+                (neq, ":option_1", ":current_destination"),
+                (assign, reg0, ":option_1"),
+            (else_try),
+                (party_get_slot, ":option_2", ":party_no", slot_party_mission_target_2),
+                (is_between, ":option_2", centers_begin, centers_end),
+                (neq, ":option_2", ":current_destination"),
+                (assign, reg0, ":option_2"),
+            (else_try),
+                (party_get_slot, ":option_3", ":party_no", slot_party_mission_target_3),
+                (is_between, ":option_3", centers_begin, centers_end),
+                (neq, ":option_3", ":current_destination"),
+                (assign, reg0, ":option_3"),
+            (else_try),
+                (party_get_slot, ":linked_party", ":party_no", slot_party_linked_party),
+                (is_between, ":linked_party", centers_begin, centers_end),
+                (assign, reg0, ":linked_party"),
+            (else_try),
+                (assign, reg0, -1),
+            (try_end),
+        ]),
+
+
+    # script_party_caravan_set_destination
+        # input:
+        #   arg1: party_no
+        # output: none
+    ("party_caravan_set_destination",
+        [
+            (store_script_param, ":party_no", 1),
+            (party_get_slot, ":home", ":party_no", slot_party_linked_party),
+
+            (store_faction_of_party, ":party_faction", ":party_no"),
+            (assign, ":end_loop", slot_party_mission_target_3 + 1),
+            (try_for_range, ":slot", slot_party_mission_target_1, ":end_loop"),
+
+                (assign, ":chosen_center", 0),
+                (assign, ":chosen_center_score", 9999),
+                (try_for_range, ":center", towns_begin, towns_end),
+
+                    (try_begin),
+                        (store_faction_of_party, ":center_faction", ":center"),
+                        (store_relation, ":relation", ":center_faction", ":party_faction"),
+                        (lt, ":relation", 0),
+                    (else_try),
+                        (assign, ":exists", 0),
+                        (try_for_range, ":other_slot", slot_party_mission_target_1, slot_party_mission_target_3 + 1),
+                            (party_get_slot, ":other_value", ":party_no", ":other_slot"),
+                            (eq, ":other_value", ":center"),
+                            (assign, ":exists", 1),
+                        (try_end),
+                        (try_begin),
+                            (eq, ":exists", 0),
+                            (neq, ":center", ":home"),
+                            (call_script, "script_party_center_get_caravan_score", ":center", ":party_no", ":home", caravan_score_type_buying),
+                            (assign, ":score", reg0),
+                            (lt, ":score", ":chosen_center_score"),
+                            (assign, ":chosen_center", ":center"),
+                            (assign, ":chosen_center_score", ":score"),
+                        (try_end),
+                    (try_end),
+                (try_end),
+
+                (try_begin),
+                    (lt, ":chosen_center_score", 9999),
+                    (ge, ":chosen_center", towns_begin),
+                    (party_set_slot, ":party_no", ":slot", ":chosen_center"),
+
+                    (try_begin),
+                        (call_script, "script_cf_debug", debug_trade),
+                        (str_store_party_name, s10, ":home"),
+                        (str_store_party_name, s11, ":chosen_center"),
+                        (assign, reg10, ":chosen_center_score"),
+                        (display_message, "@Caravan from {s10} targets {s11} : {reg10}"),
+                    (try_end),
+                (else_try),
+                    (assign, ":end_loop", 0),
+                (try_end),
+            (try_end),
+        ]),
+
+    # script_party_center_get_caravan_score
+        # input:
+        #   arg1: center
+        #   arg2: caravan
+        #   arg3: caravan_home
+        #   arg4: score_type: caravan_score_type_buying / caravan_score_type_selling / caravan_score_type_all
+        # output:
+        #   reg0: score
+    ("party_center_get_caravan_score",
+        [
+            (store_script_param, ":center", 1),
+            (store_script_param, ":caravan", 2),
+            (store_script_param, ":caravan_home", 3),
+            (store_script_param, ":score_type", 4),
+
+            (store_distance_to_party_from_party, ":distance", ":center", ":caravan_home"),
+            (store_mul, ":distance_score", ":distance", caravan_score_distance_ratio),
+            (val_div, ":distance_score", 100),
+
+            (assign, ":resource_score", 0),
+
+            (assign, ":has_objective", 0),
+            (store_add, ":end", slot_party_mission_objective_3, 1),
+            (try_for_range, ":objective_slot", slot_party_mission_objective_1, ":end"),
+                (party_get_slot, ":objective", ":caravan", ":objective_slot"),
+                (is_between, ":objective", goods_begin, goods_end),
+                (assign, ":has_objective", 1),
+            (try_end),
+
+            (try_for_range, ":resource", goods_begin, goods_end),
+                (assign, ":continue", 0),
+                (try_begin),
+                    (eq, ":has_objective", 1),
+                    (assign, ":is_objective", 0),
+                    (store_add, ":end", slot_party_mission_objective_3, 1),
+                    (try_for_range, ":objective_slot", slot_party_mission_objective_1, ":end"),
+                        (party_slot_eq, ":caravan", ":objective_slot", ":resource"),
+                        (assign, ":is_objective", 1),
+                    (try_end),
+                    (try_begin),
+                        (eq, ":is_objective", 1),
+                        (assign, ":continue", 1),
+                    (try_end),
+                (else_try),
+                    (assign, ":continue", 1),
+                (try_end),
+
+                (eq, ":continue", 1),
+                (call_script, "script_party_item_get_caravan_score", ":center", ":resource"),
+                (assign, ":score", reg0),
+                (try_begin),
+                    (eq, ":score_type", caravan_score_type_buying),
+                    (val_sub, ":resource_score", ":score"),
+                (else_try),
+                    (eq, ":score_type", caravan_score_type_selling),
+                    (val_add, ":resource_score", ":score"),
+                (else_try),
+                    (val_abs, ":score"),
+                    (val_sub, ":resource_score", ":score"),
+                (try_end),
+            (try_end),
+
+            (store_add, ":total", ":distance_score", ":resource_score"),
+
+            # (try_begin),
+            #     (call_script, "script_cf_debug", debug_trade),
+            #     (str_store_party_name, s10, ":caravan_home"),
+            #     (str_store_party_name, s11, ":center"),
+            #     (assign, reg10, ":resource_score"),
+            #     (assign, reg12, ":distance_score"),
+            #     (assign, reg13, ":total"),
+            #     (display_message, "@Caravan from {s10} score for {s11} : {reg10} + distance {reg12} = {reg13}"),
+            # (try_end),
+
+            (assign, reg0, ":total"),
+        ]),
+
+    # script_party_item_get_caravan_score
+        # input:
+        #   arg1: center
+        #   arg2: item
+        # output:
+        #   reg0: score : <0 => center wants to buy - >0 => center wants to sell
+    ("party_item_get_caravan_score",
+        [
+            (store_script_param, ":center", 1),
+            (store_script_param, ":item", 2),
+
+            (store_sub, ":offset", ":item", goods_begin),
+            (store_add, ":production_slot", slot_party_item_last_produced_begin, ":offset"),
+            (store_add, ":consumption_slot", slot_party_item_consumed_begin, ":offset"),
+            (store_add, ":amount_slot", slot_party_ressources_current_amount_begin, ":offset"),
+            (party_get_slot, ":center_production", ":center", ":production_slot"),
+            (party_get_slot, ":center_consumption", ":center", ":consumption_slot"),
+            (party_get_slot, ":center_amount", ":center", ":amount_slot"),
+
+            # (assign, ":resource_need_score", 0),
+            # (assign, ":resource_amount_score", 0),
+
+            (store_mul, ":center_score", ":center_amount", caravan_score_resource_amount_ratio),
+            (val_div, ":center_score", 100),
+
+            (store_sub, ":center_offset", ":center_production", ":center_consumption"),
+            (store_mul, ":center_offset_score", ":center_offset", caravan_score_resource_production_ratio),
+            (val_div, ":center_offset_score", 100),
+
+            (assign, ":score", 0),
+
+            (try_begin),
+                (eq, ":center_offset_score", 0),
+                # We are uncertain on if we want to buy or sell
+
+                (store_sub, ":score", ":center_score", 50),
+                # (val_div, ":score", 10),
+            (else_try),
+                (gt, ":center_offset_score", 0),
+                # We might want to sell this item -> positive score
+
+                (store_sub, ":score", ":center_offset_score", ":center_score"),
+                (val_max, ":score", 0),
+            (else_try),
+                # We might want to buy this item -> negative score
+
+                (store_add, ":score", ":center_offset_score", ":center_score"),
+                (val_min, ":score", 0),
+            (try_end),
+
+            # (party_get_slot, ":caravan_home", ":caravan", slot_party_linked_party),
+
+            # (party_get_slot, ":caravan_home_production", ":caravan_home", ":production_slot"),
+            # (party_get_slot, ":caravan_home_consumption", ":caravan_home", ":consumption_slot"),
+            # (store_sub, ":caravan_home_offset", ":caravan_home_production", ":caravan_home_consumption"),
+
+            # (try_begin),
+            #     # (ge, ":caravan_home_offset", 0),
+            #     (try_begin),
+            #         (neq, ":score_type", caravan_score_type_buying),
+            #         # We want to buy
+            #         (store_mul, ":current_resource_amount_score", ":center_offset", 1),
+            #         # (store_mul, ":current_resource_need_score", ":caravan_home_offset", -1),
+
+            #         (val_add, ":resource_amount_score", ":current_resource_amount_score"),
+            #         # (val_add, ":resource_need_score", ":current_resource_need_score"),
+            #     (try_end),
+            # (else_try),
+            #     # (lt, ":caravan_home_offset", 0),
+            #     (try_begin),
+            #         (neq, ":score_type", caravan_score_type_selling),
+            #         # We want to sell
+            #         (store_mul, ":current_resource_amount_score", ":center_offset", -1),
+            #         # (store_mul, ":current_resource_need_score", ":caravan_home_offset", 1),
+
+            #         (val_add, ":resource_amount_score", ":current_resource_amount_score"),
+            #         # (val_add, ":resource_need_score", ":current_resource_need_score"),
+            #     (try_end),
+            # (try_end),
+
+            # (val_mul, ":resource_amount_score", caravan_score_resource_production_ratio),
+            # (val_div, ":resource_amount_score", 100),
+            # (val_mul, ":resource_need_score", caravan_score_resource_need_ratio),
+            # (val_div, ":resource_need_score", 100),
+
+            # (store_add, ":score", ":resource_amount_score", ":resource_need_score"),
+            (assign, reg0, ":score"),
+        ]),
+
+    # script_party_caravan_clear_destination
+        # input:
+        #   arg1: party_no
+        #   arg2: clear_destination
+        # output: none
+    ("party_caravan_clear_destination",
+        [
+            (store_script_param, ":party_no", 1),
+            (store_script_param, ":clear_destination", 2),
+
+            (try_begin),
+                (party_get_slot, ":option", ":party_no", slot_party_mission_target_1),
+                (eq, ":option", ":clear_destination"),
+                (party_set_slot, ":party_no", slot_party_mission_target_1, -1),
+            (else_try),
+                (party_get_slot, ":option", ":party_no", slot_party_mission_target_2),
+                (eq, ":option", ":clear_destination"),
+                (party_set_slot, ":party_no", slot_party_mission_target_2, -1),
+            (else_try),
+                (party_get_slot, ":option", ":party_no", slot_party_mission_target_3),
+                (eq, ":option", ":clear_destination"),
+                (party_set_slot, ":party_no", slot_party_mission_target_3, -1),
+            (try_end),
+        ]),
+
+    # script_party_caravan_prepare_trading_run
+        # input:
+        #   arg1: party_caravan
+        #   arg2: destination
+        #   arg3: origin
+        # output: none
+    ("party_caravan_prepare_trading_run",
+        [
+            (store_script_param, ":party_caravan", 1),
+            (store_script_param, ":destination", 2),
+            (store_script_param, ":origin", 3),
+
+            (assign, ":number_objectives", 0),
+            (try_for_range, ":slot", slot_party_mission_objective_1, slot_party_mission_objective_3 + 1),
+                (party_slot_ge, ":party_caravan", ":slot", goods_begin),
+                (val_add, ":number_objectives", 1),
+            (try_end),
+
+            (assign, ":total_amount", 0),
+            (try_for_range, ":item", goods_begin, goods_end),
+                (store_sub, ":offset", ":item", goods_begin),
+                (store_add, ":slot_amount", slot_party_ressources_current_amount_begin, ":offset"),
+                (party_get_slot, ":amount", ":party_caravan", ":slot_amount"),
+                (val_add, ":total_amount", ":amount"),
+            (try_end),
+            (store_sub, ":remaining_cargo", caravan_max_cargo_size, ":total_amount"),
+
+            (try_begin),
+                (gt, ":number_objectives", 0),
+                (store_div, ":amount_goal", caravan_max_cargo_size, ":number_objectives"),
+                (try_for_range, ":item", goods_begin, goods_end),
+                    (assign, ":is_objective", 0),
+                    (try_begin),
+                        (store_sub, ":offset", ":item", goods_begin),
+                        (store_add, ":slot_amount", slot_party_ressources_current_amount_begin, ":offset"),
+                        (party_get_slot, ":amount", ":party_caravan", ":slot_amount"),
+                        (lt, ":amount", ":amount_goal"),
+                        (try_for_range, ":slot", slot_party_mission_objective_1, slot_party_mission_objective_3 + 1),
+                            (party_slot_eq, ":party_caravan", ":slot", ":item"),
+                            (assign, ":is_objective", 1),
+                        (try_end),
+                    (try_end),
+                    (try_begin),
+                        (eq, ":is_objective", 1),
+                        (store_sub, ":offset", ":item", goods_begin),
+                        (store_add, ":slot_amount", slot_party_ressources_current_amount_begin, ":offset"),
+                        (party_get_slot, ":amount", ":party_caravan", ":slot_amount"),
+                        (le, ":amount", ":amount_goal"),
+                        (store_sub, ":amount_to_buy", ":amount_goal", ":amount"),
+                        (call_script, "script_party_buy_item_from_party", ":party_caravan", ":item", ":origin", ":amount_to_buy"),
+                        (val_sub, ":remaining_cargo", reg0),
+                    (try_end),
+                (try_end),
+            (try_end),
+
+            (try_begin),
+                (gt, ":remaining_cargo", 0),
+                # TODO: buy goods to sell to next destination
+            (try_end),
+            (try_begin),
+                (call_script, "script_cf_debug", debug_trade),
+                (assign, reg10, ":remaining_cargo"),
+                (str_store_party_name, s10, ":party_caravan"),
+                (str_store_party_name, s11, ":origin"),
+                (str_store_party_name, s12, ":destination"),
+                (display_message, "@Caravan {s10} from {s11} has {reg10} cargo space heading for {s12}"),
+            (try_end),
+        ]),
+
+    # script_item_get_buy_price_factor_from_party
+        # input:
+        #   arg1: item_no
+        #   arg2: party_buyer
+        #   arg3: party_no
+        # output:
+        #   reg0: price_factor
+        #   reg0: tax_factor
+    ("item_get_buy_price_factor_from_party",
+        [
+            (store_script_param, ":item_no", 1),
+            (store_script_param, ":party_buyer", 2),
+            (store_script_param, ":party_no", 3),
+
+            (assign, ":price", 300),
+            
+            (try_begin),
+                (is_between, ":party_no", centers_begin, centers_end),
+                (is_between, ":item_no", goods_begin, goods_end),
+                (party_get_slot, ":own_production", ":party_no", ":item_no"),
+                (store_sub, ":production_modifier", 20, ":own_production"),
+                (try_begin),
+                    # We reduce the effect of own production the more we produce
+                    # It is to avoid buying for ridiculous prices in highly productive places
+                    (lt, ":production_modifier", 0), 
+                    (store_mul, ":inv_prod", ":production_modifier", -1),
+                    (val_div, ":inv_prod", 15),
+                    (val_add, ":inv_prod", 1),
+                    (val_div, ":production_modifier", ":inv_prod"),
+                (try_end),
+                (val_sub, ":price", ":production_modifier"),
+            (try_end),
+            
+            (call_script, "script_party_get_skill_level", ":party_buyer", skl_trade),
+            (assign, ":trade_skill", reg0),
+
+            (val_mul, ":trade_skill", 5),
+            (val_sub, ":price", ":trade_skill"),
+
+            (party_get_slot, ":tax_rate", ":party_no", slot_party_taxes_buy),
+            (val_add, ":price", ":tax_rate"),
+
+            (assign, reg0, ":price"),
+            (assign, reg1, ":tax_rate"),
+        ]),
+
+    # script_item_get_sell_price_factor_from_party
+        # input:
+        #   arg1: item_no
+        #   arg2: party_seller
+        #   arg3: party_no
+        # output:
+        #   reg0: price_factor
+        #   reg0: tax_factor
+    ("item_get_sell_price_factor_from_party",
+        [
+            (store_script_param, ":item_no", 1),
+            (store_script_param, ":party_seller", 2),
+            (store_script_param, ":party_no", 3),
+
+            (assign, ":price", 25),
+            
+            (try_begin),
+                (is_between, ":party_no", centers_begin, centers_end),
+                (is_between, ":item_no", goods_begin, goods_end),
+                (party_get_slot, ":own_production", ":party_no", ":item_no"),
+                (store_add, ":production_modifier", -20, ":own_production"),
+                (try_begin),
+                    # We reduce the effect of own production the more we produce
+                    # It is to avoid selling for ridiculous prices in highly productive places
+                    (gt, ":production_modifier", 0),
+                    (store_div, ":prod", ":production_modifier", 30),
+                    (val_add, ":prod", 1),
+                    (val_div, ":production_modifier", ":prod"),
+                (try_end),
+                (val_sub, ":price", ":production_modifier"),
+            (try_end),
+            
+            (call_script, "script_party_get_skill_level", ":party_seller", skl_trade),
+            (assign, ":trade_skill", reg0),
+
+            (val_mul, ":trade_skill", 4),
+            (val_add, ":price", ":trade_skill"),
+            
+            # (val_min, ":price", 95),
+            (val_max, ":price", 5),
+
+            (val_max, ":price", 105),
+            
+            (party_get_slot, ":tax_rate", ":party_no", slot_party_taxes_sell),
+            (val_sub, ":price", ":tax_rate"),
+
+            (assign, reg0, ":price"),
+            (assign, reg1, ":tax_rate"),
+        ]),
+
+    # script_party_buy_item_from_party
+        # input:
+        #   arg1: party_buyer
+        #   arg2: item
+        #   arg3: party_seller
+        #   arg4: amount_wanted
+        # output:
+        #   reg0: amount_bought
+    ("party_buy_item_from_party",
+        [
+            (store_script_param, ":party_buyer", 1),
+            (store_script_param, ":item", 2),
+            (store_script_param, ":party_seller", 3),
+            (store_script_param, ":amount_wanted", 4),
+
+            (assign, ":amount_bought", 0),
+            (try_begin),
+                (call_script, "script_cf_party_can_sell_item", ":party_seller", ":item"),
+
+                (store_sub, ":offset", ":item", goods_begin),
+                (store_add, ":amount_slot", slot_party_ressources_current_amount_begin, ":offset"),
+                (party_get_slot, ":seller_amount", ":party_seller", ":amount_slot"),
+
+                # We don't want to buy everything
+                (store_div, ":max_amount", ":seller_amount", 2),
+
+                (val_min, ":amount_wanted", ":max_amount"),
+
+                (call_script, "script_item_get_buy_price", ":item", ":party_buyer", ":party_seller"),
+                (assign, ":price", reg0),
+                (assign, ":tax", reg1),
+
+                (store_mul, ":total_price", ":price", ":amount_wanted"),
+                (store_mul, ":total_cost", ":total_price", -1),
+                (store_mul, ":total_tax", ":tax", ":amount_wanted"),
+                (val_add, ":total_cost", ":total_tax"),
+
+                (store_sub, ":new_seller_amount", ":seller_amount", ":amount_wanted"),
+                (party_set_slot, ":party_seller", ":amount_slot", ":new_seller_amount"),
+
+                (party_get_slot, ":buyer_amount", ":party_buyer", ":amount_slot"),
+                (val_add, ":buyer_amount", ":amount_wanted"),
+                (party_set_slot, ":party_buyer", ":amount_slot", ":buyer_amount"),
+
+                (call_script, "script_party_modify_wealth", ":party_buyer", ":total_cost"),
+                (call_script, "script_party_transfer_wealth", ":party_buyer", ":party_seller", ":total_tax", tax_type_trade),
+
+                (val_add, ":amount_bought", ":amount_wanted"),
+
+                (try_begin),
+                    (call_script, "script_cf_debug", debug_trade),
+                    (str_store_party_name, s10, ":party_buyer"),
+                    (str_store_item_name, s11, ":item"),
+                    (str_store_party_name, s12, ":party_seller"),
+                    (assign, reg10, ":amount_bought"),
+                    (display_message, "@{s10} buying {reg10} {s11} from {s12}"),
+                (try_end),
+
+            (try_end),
+
+            (assign, reg0, ":amount_bought"),
+        ]),
+
+    # script_cf_party_can_sell_item
+        # input:
+        #   arg1: party_seller
+        #   arg2: item
+        # output: none
+    ("cf_party_can_sell_item",
+        [
+            # (store_script_param, ":party_seller", 1),
+            # (store_script_param, ":item", 2),
+
+            # TODO: refine, for now we always sell items
+
+            (eq, 1, 1),
+        ]),
+
+    # script_party_enter_center
+        # input:
+        #   arg1: party_no
+        #   arg2: center_no
+        # output: none
+    ("party_enter_center",
+        [
+            (store_script_param, ":party_no", 1),
+            (store_script_param, ":center_no", 2),
+
+            (party_attach_to_party, ":party_no", ":center_no"),
+
+            (try_begin),
+                (is_between, ":center_no", centers_begin, centers_end),
+                (party_get_slot, ":taxes", ":center_no", slot_party_taxes_visit),
+                (gt, ":taxes", 0),
+
+                # The party is not a party created by the center
+                (party_get_slot, ":linked_party", ":party_no", slot_party_linked_party),
+                (neq, ":linked_party", ":center_no"),
+
+                # The party is not the leader of the center
+                (assign, ":is_leader", 0),
+                (try_begin),
+                    (party_slot_eq, ":party_no", slot_party_type, spt_war_party),
+                    
+                    (party_get_slot, ":center_leader", ":center_no", slot_party_leader),
+                    (party_get_slot, ":party_leader", ":party_no", slot_party_leader),
+                    (eq, ":center_leader", ":party_leader"),
+                    (ge, ":center_leader", 0),
+                    (ge, ":party_leader", 0),
+
+                    (assign, ":is_leader", 1),
+                (try_end),
+
+                (eq, ":is_leader", 0),
+
+                (call_script, "script_party_transfer_wealth", ":party_no", ":center_no", ":taxes", tax_type_visitor),
+            (try_end),
+        ]),
+
+    # script_party_transfer_wealth
+        # input:
+        #   arg1: party_giver
+        #   arg2: party_receiver
+        #   arg3: amount
+        #   arg4: tax_type - optional if transfer is not part of a tax
+        # output: none
+    ("party_transfer_wealth",
+        [
+            (store_script_param, ":party_giver", 1),
+            (store_script_param, ":party_receiver", 2),
+            (store_script_param, ":amount", 3),
+            (store_script_param, ":tax_type", 4),
+
+
+            (try_begin),
+                (is_between, ":party_receiver", centers_begin, centers_end),
+                (gt, ":tax_type", tax_type_none),
+                (call_script, "script_party_add_accumulated_taxes", ":party_receiver", ":amount", ":tax_type"),
+            (else_try),
+                (call_script, "script_party_modify_wealth", ":party_receiver", ":amount"),
+            (try_end),
+            (store_mul, ":payment", ":amount", -1),
+            (call_script, "script_party_modify_wealth", ":party_giver", ":payment"),
+        ]),
+
+    # script_party_get_skill_level
+        # input:
+        #   arg1: party_no
+        #   arg2: skill
+        # output:
+        #   reg0: skill_value
+    ("party_get_skill_level",
+        [
+            (store_script_param, ":party_no", 1),
+            (store_script_param, ":skill", 2),
+
+            # TODO: maybe to refine ? parties without leader seem to have random stat returned ?
+
+            (party_get_skill_level, reg0, ":party_no", ":skill"),
+        ]),
+
+    # script_party_empty_goods
+        # input:
+        #   arg1: party_no
+        #   arg2: party_container
+        # output: none
+    ("party_empty_goods",
+        [
+            (store_script_param, ":party", 1),
+            (store_script_param, ":party_container", 2),
+
+            (try_for_range, ":item", goods_begin, goods_end),
+                (store_sub, ":offset", ":item", goods_begin),
+                (store_add, ":amount_slot", ":offset", slot_party_ressources_current_amount_begin),
+
+                (party_get_slot, ":good_amount", ":party", ":amount_slot"),
+                (party_set_slot, ":party", ":amount_slot", 0),
+
+                (party_get_slot, ":container_good_amount", ":party_container", ":amount_slot"),
+                (val_add, ":container_good_amount", ":good_amount"),
+                (party_set_slot, ":party_container", ":amount_slot", ":container_good_amount"),
+
+                (try_begin),
+                    (call_script, "script_cf_debug", debug_trade|debug_economy),
+                    (str_store_party_name, s10, ":party"),
+                    (str_store_party_name, s11, ":party_container"),
+                    (str_store_item_name, s12, ":item"),
+                    (assign, reg10, ":good_amount"),
+                    (display_message, "@{s10} move {reg10} {s12} to {s11}"),
+                (try_end),
             (try_end),
         ]),
 ]

@@ -556,8 +556,8 @@ strings = [
   ("khergit_name_37", "Hulai"),
   ("khergit_name_38", "Karduk"),
   ("khergit_name_39", "Genshir"),
-  # ("khergit_name_40", ""),
-  # ("khergit_name_41", ""),
+  ("khergit_name_40", "Shinghis"),
+  ("khergit_name_41", "Dunghis"),
   # ("khergit_name_42", ""),
   # ("khergit_name_43", ""),
   # ("khergit_name_44", ""),
@@ -841,8 +841,8 @@ strings = [
   ("building_tavern_2",         "The improved tavern is one of, if not the most important building in a center. It increases prosperity by 10%% and has more room for people to rent."),
   ("building_trading_post_2",   "The improved trading post increases profits from trade by 10%% and gives caravans a big escort."),
 
-  ("item_taxes_sell", "Town selling taxes: {reg10} denars"),
-  ("item_taxes_buy", "Town buying taxes: {reg10} denars"),
+  ("item_taxes_sell", "Town selling taxes: {reg10}%"),
+  ("item_taxes_buy", "Town buying taxes: {reg10}%"),
 
   ("dialog_error", "[ERROR] Incorrect dialog string."),
 
