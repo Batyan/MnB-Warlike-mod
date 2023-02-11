@@ -621,7 +621,9 @@ bs_melee = 7
 
 slot_party_siege_scene = 124
 
-slot_party_linked_party		= 126
+slot_party_linked_party = 126
+
+slot_party_faction = 127
 
 # Taxes are a way for land owners to earn money
 # It is possible to customise what your citizens are taxed on
