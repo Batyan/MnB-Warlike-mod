@@ -866,10 +866,10 @@ scripts = [
         ]),
 
     # script_party_group_loot_party_group
-    # input:
-    #   arg1: party_group_looting
-    #   arg2: party_group_looted
-    # output: none
+        # input:
+        #   arg1: party_group_looting
+        #   arg2: party_group_looted
+        # output: none
     ("party_group_loot_party_group",
         [
             (store_script_param, ":party_group_no", 1),
@@ -882,10 +882,10 @@ scripts = [
         ]),
 
     # script_party_group_get_looted_gold
-    # input:
-    #   arg1: party_group_no
-    # output:
-    #   reg0: total_looted_gold
+        # input:
+        #   arg1: party_group_no
+        # output:
+        #   reg0: total_looted_gold
     ("party_group_get_looted_gold",
         [
             (store_script_param, ":party_group_no", 1),
@@ -912,9 +912,9 @@ scripts = [
         ]),
     
     # script_party_group_defeated
-    # input:
-    #   arg1: defeated_party
-    # output: none
+        # input:
+        #   arg1: defeated_party
+        # output: none
     ("party_group_defeated",
         [
             (store_script_param, ":defeated_party", 1),
@@ -939,10 +939,10 @@ scripts = [
         ]),
     
     # script_party_group_take_party_group_prisoner
-    # input:
-    #   arg1: party_group_no
-    #   arg2: prisoner_party
-    # output: none
+        # input:
+        #   arg1: party_group_no
+        #   arg2: prisoner_party
+        # output: none
     ("party_group_take_party_group_prisoner",
         [
             (store_script_param, ":party_group_no", 1),
@@ -997,10 +997,10 @@ scripts = [
         ]),
 
     # script_party_group_take_party_prisoner
-    # input:
-    #   arg1: party_group_no
-    #   arg2: party_to_take_prisoner
-    # output: none
+        # input:
+        #   arg1: party_group_no
+        #   arg2: party_to_take_prisoner
+        # output: none
     ("party_group_take_party_prisoner",
         [
             (store_script_param, ":party_group_no", 1),
@@ -1048,10 +1048,10 @@ scripts = [
         ]),
 
     # script_party_group_share_gold
-    # input:
-    #   arg1: party_group_no
-    #   arg2: total_gold
-    # output: none
+        # input:
+        #   arg1: party_group_no
+        #   arg2: total_gold
+        # output: none
     ("party_group_share_gold",
         [
             (store_script_param, ":party_group_no", 1),
@@ -1110,10 +1110,10 @@ scripts = [
         ]),
 
     # script_party_loot_gold
-    # input:
-    #   arg1: party_no
-    #   arg2: gold_amount
-    # output: none
+        # input:
+        #   arg1: party_no
+        #   arg2: gold_amount
+        # output: none
     ("party_loot_gold",
         [
             (store_script_param, ":party_no", 1),
@@ -1139,10 +1139,10 @@ scripts = [
         ]),
 
     # script_party_receive_gold
-    # input:
-    #   arg1: party_no
-    #   arg2: gold_amount
-    # output: none
+        # input:
+        #   arg1: party_no
+        #   arg2: gold_amount
+        # output: none
     ("party_receive_gold",
         [
             (store_script_param, ":party_no", 1),
@@ -1161,10 +1161,10 @@ scripts = [
         ]),
 
     # script_party_group_free_party
-    # input:
-    #   arg1: party_group_no
-    #   arg2: freed_party
-    # output: none
+        # input:
+        #   arg1: party_group_no
+        #   arg2: freed_party
+        # output: none
     ("party_group_free_party",
         [
             (store_script_param, ":party_group_no", 1),
@@ -1182,10 +1182,10 @@ scripts = [
         ]),
 
     # script_game_event_battle_end:
-    # This script is called whenever the game ends the battle between two parties on the map.
-    # INPUT:
-    # param1: Defender Party
-    # param2: Attacker Party
+        # This script is called whenever the game ends the battle between two parties on the map.
+        # INPUT:
+        # param1: Defender Party
+        # param2: Attacker Party
     ("game_event_battle_end",
         [
         ]), 
@@ -1351,7 +1351,6 @@ scripts = [
     ("game_get_prisoner_price",
         [
         ]),
-
 
     # script_game_check_prisoner_can_be_sold
         # This script is called from the game engine for checking if a given troop can be sold.
