@@ -848,7 +848,7 @@ scripts = [
             (try_begin),
                 (is_between, ":party_type", spt_village, spt_fort + 1),
                 
-                (call_script, "script_party_capture_center", ":winner_party", ":defeated_party"),
+                (call_script, "script_party_defeat_center", ":winner_party", ":defeated_party"),
                 
                 # (party_get_slot, ":leader", ":winner_party", slot_party_leader),
                 # (troop_set_slot, ":leader", slot_troop_mission, -1),
@@ -6871,11 +6871,11 @@ scripts = [
         ]),
     
     # script_troop_take_random_troop_equipement
-    # input:
-    #   arg1: troop_no
-    #   arg2: template_troop
-    # output:
-    #   reg0: item_added
+        # input:
+        #   arg1: troop_no
+        #   arg2: template_troop
+        # output:
+        #   reg0: item_added
     ("troop_take_random_troop_equipement",
         [
             (store_script_param, ":troop_no", 1),
@@ -6909,12 +6909,12 @@ scripts = [
         ]),
     
     # script_troop_take_first_troop_equipement_of_type
-    # input:
-    #   arg1: troop_no
-    #   arg2: template_troop
-    #   arg3: item_type
-    # output:
-    #   reg0: item_added
+        # input:
+        #   arg1: troop_no
+        #   arg2: template_troop
+        #   arg3: item_type
+        # output:
+        #   reg0: item_added
     ("troop_take_first_troop_equipement_of_type",
         [
             (store_script_param, ":troop_no", 1),
@@ -6937,12 +6937,12 @@ scripts = [
         ]),
     
     # script_troop_take_random_troop_equipement_of_type
-    # input:
-    #   arg1: troop_no
-    #   arg2: template_troop
-    #   arg3: item_type
-    # output:
-    #   reg0: item_added
+        # input:
+        #   arg1: troop_no
+        #   arg2: template_troop
+        #   arg3: item_type
+        # output:
+        #   reg0: item_added
     ("troop_take_random_troop_equipement_of_type",
         [
             (store_script_param, ":troop_no", 1),
@@ -6984,12 +6984,12 @@ scripts = [
         ]),
 
     # script_party_get_prefered_wages_limit
-    # input:
-    #   arg1: party_no
-    # output:
-    #   reg0: wanted_wages
-    #   reg1: min_prefered_wages
-    #   reg2: max_prefered_wages
+        # input:
+        #   arg1: party_no
+        # output:
+        #   reg0: wanted_wages
+        #   reg1: min_prefered_wages
+        #   reg2: max_prefered_wages
     ("party_get_prefered_wages_limit",
         [
             (store_script_param, ":party_no", 1),
@@ -7030,10 +7030,10 @@ scripts = [
         ]),
     
     # script_troop_get_lord_horse_slot
-    # input:
-    #   arg1: troop_no
-    # output:
-    #   reg0: horse
+        # input:
+        #   arg1: troop_no
+        # output:
+        #   reg0: horse
     ("troop_get_lord_horse_slot",
         [
             (store_script_param, ":troop_no", 1),
@@ -7382,30 +7382,38 @@ scripts = [
                 # (call_script, "script_troop_update_home", ":troop_no"),
             # (try_end),
             
+
             (try_begin),
                 (is_between, ":home", centers_begin, centers_end),
-                (call_script, "script_spawn_party_around_party", ":home", "pt_war_party"),
-                (assign, ":party", reg0),
-                
-                (store_troop_faction, ":faction", ":troop_no"),
-                (party_set_faction, ":party", ":faction"),
-                
-                (party_set_flags, ":party", pf_show_faction, 1),
-                
-                (party_add_leader, ":party", ":troop_no"),
-                
-                (party_set_slot, ":party", slot_party_leader, ":troop_no"),
-                (troop_set_slot, ":troop_no", slot_troop_leaded_party, ":party"),
-                
-                (party_set_slot, ":party", slot_party_type, spt_war_party),
-                
-                (call_script, "script_party_set_behavior", ":party", tai_traveling_to_party, ":home"),
-                
-                (call_script, "script_party_process_mission", ":party", 1),
-                
-                # ToDo: special name for parties
-                (str_store_troop_name, s10, ":troop_no"),
-                (party_set_name, ":party", "@{s10}'s Party"),
+                (store_faction_of_party, ":center_faction", ":home"),
+                (store_troop_faction, ":troop_faction", ":troop_no"),
+                (try_begin),
+                    (neq, ":center_faction", ":troop_faction"),
+                    (call_script, "script_cf_debug", debug_simple),
+                (else_try),
+                    (call_script, "script_spawn_party_around_party", ":home", "pt_war_party"),
+                    (assign, ":party", reg0),
+                    
+                    (store_troop_faction, ":faction", ":troop_no"),
+                    (party_set_faction, ":party", ":faction"),
+                    
+                    (party_set_flags, ":party", pf_show_faction, 1),
+                    
+                    (party_add_leader, ":party", ":troop_no"),
+                    
+                    (party_set_slot, ":party", slot_party_leader, ":troop_no"),
+                    (troop_set_slot, ":troop_no", slot_troop_leaded_party, ":party"),
+                    
+                    (party_set_slot, ":party", slot_party_type, spt_war_party),
+                    
+                    (call_script, "script_party_set_behavior", ":party", tai_traveling_to_party, ":home"),
+                    
+                    (call_script, "script_party_process_mission", ":party", 1),
+                    
+                    # ToDo: special name for parties
+                    (str_store_troop_name, s10, ":troop_no"),
+                    (party_set_name, ":party", "@{s10}'s Party"),
+                (try_end),
             (try_end),
         ]),
     
@@ -8667,7 +8675,7 @@ scripts = [
                     (assign, reg10, ":best_score"),
                     (display_message, "@{s10} is the best center for {s11} : {reg10}."),
                 (try_end),
-                # Best center has a grater number of troops sent
+                # Best center has a greater number of troops sent
                 (store_div, ":num_men", ":total_score", 10),
                 (ge, ":num_men", 5),
 
@@ -8685,11 +8693,11 @@ scripts = [
         ]),
 
     # script_cf_party_get_reinforcement_price_modifier
-    # input:
-    #   arg1: party_no
-    # output:
-    #   reg0: price_modifier
-    # fails if center cannot send troops
+        # input:
+        #   arg1: party_no
+        # output:
+        #   reg0: price_modifier
+        # fails if center cannot send troops
     ("cf_party_get_reinforcement_price_modifier",
         [
             (store_script_param, ":party_no", 1),
@@ -8710,14 +8718,14 @@ scripts = [
         ]),
     
     # script_era_get_troops_multiplier
-    # input:
-    #   arg1: era_no
-    # output:
-    #   reg0: peasant_mult
-    #   reg1: common_mult
-    #   reg2: veteran_mult
-    #   reg3: elite_mult
-    #   reg4: noble_mult
+        # input:
+        #   arg1: era_no
+        # output:
+        #   reg0: peasant_mult
+        #   reg1: common_mult
+        #   reg2: veteran_mult
+        #   reg3: elite_mult
+        #   reg4: noble_mult
     ("era_get_troops_multiplier",
         [
             (store_script_param, ":era", 1),
@@ -8810,14 +8818,14 @@ scripts = [
         ]),
         
     # script_faction_get_troops_modifier
-    # input:
-    #   arg1: faction_no
-    # output:
-    #   reg0: peasant_mult
-    #   reg1: common_mult
-    #   reg2: veteran_mult
-    #   reg3: elite_mult
-    #   reg4: noble_mult
+        # input:
+        #   arg1: faction_no
+        # output:
+        #   reg0: peasant_mult
+        #   reg1: common_mult
+        #   reg2: veteran_mult
+        #   reg3: elite_mult
+        #   reg4: noble_mult
     ("faction_get_troops_modifier",
         [
             (store_script_param, ":faction_no", 1),
@@ -8887,11 +8895,11 @@ scripts = [
         ]),
     
     # script_party_add_reinforcements
-    # input:
-    #   arg1: party_no
-    # output:
-    #   reg0: num_added
-    #   reg1: total_cost
+        # input:
+        #   arg1: party_no
+        # output:
+        #   reg0: num_added
+        #   reg1: total_cost
     ("party_add_reinforcements",
         [
             (store_script_param, ":party_no", 1),
@@ -9029,14 +9037,14 @@ scripts = [
         ]),
     
     # script_party_add_troops
-    # input:
-    #   arg1: party_no
-    #   arg2: begin of troops to add
-    #   arg3: end of troops to add
-    #   arg4: number of troops to add
-    # output:
-    #   reg0: num_added
-    #   reg1: total_cost
+        # input:
+        #   arg1: party_no
+        #   arg2: begin of troops to add
+        #   arg3: end of troops to add
+        #   arg4: number of troops to add
+        # output:
+        #   reg0: num_added
+        #   reg1: total_cost
     ("party_add_troops",
         [
             (store_script_param, ":party_no", 1),
@@ -12072,11 +12080,11 @@ scripts = [
         ]),
     
     # script_troop_add_merchant_items_armors
-    # input:
-    #   arg1: troop_no
-    #   arg2: culture
-    #   arg3: num_items
-    # output: none
+        # input:
+        #   arg1: troop_no
+        #   arg2: culture
+        #   arg3: num_items
+        # output: none
     ("troop_add_merchant_items_armors",
         [
             (store_script_param, ":merchant", 1),
@@ -12124,11 +12132,11 @@ scripts = [
         ]),
     
     # script_troop_add_merchant_items_horses
-    # input: 
-    #   arg1: troop_no
-    #   arg2: culture
-    #   arg3: num_items
-    #output: none
+        # input: 
+        #   arg1: troop_no
+        #   arg2: culture
+        #   arg3: num_items
+        # output: none
     ("troop_add_merchant_items_horses",
         [
             (store_script_param, ":merchant", 1),
@@ -12504,6 +12512,80 @@ scripts = [
             (try_end),
         ]),
     
+    # script_party_defeat_center
+    # inout:
+    #   arg1: party_no
+    #   arg2: center_captured
+    # output: none
+    ("party_defeat_center",
+        [
+            (store_script_param, ":party_no", 1),
+            (store_script_param, ":center_no", 2),
+            
+            (store_faction_of_party, ":party_faction", ":party_no"),
+            # (store_faction_of_party, ":old_center_faction", ":center_no"),
+            (party_get_slot, ":center_owner_faction", ":center_no", slot_party_faction),
+            
+            # Does not capture attached parties
+            (party_get_num_attached_parties, ":num_attached", ":center_no"),
+            (try_for_range, ":rank_no", 0, ":num_attached"),
+                (party_get_attached_party_with_rank, ":attached_party", ":center_no", ":rank_no"),
+                (party_detach, ":attached_party"),
+            (try_end),
+            
+            (try_begin),
+                (party_slot_ge, ":center_no", slot_party_besieged_by, 0),
+                (call_script, "script_party_lift_siege", ":center_no"),
+            (try_end),
+
+            (try_begin),
+                (store_relation, ":relation", ":party_faction", ":center_owner_faction"),
+                (ge, ":relation", 0),
+                (call_script, "script_party_free_center", ":party_no", ":center_no"),
+            (else_try),
+                (call_script, "script_party_capture_center", ":party_no", ":center_no"),
+            (try_end),
+        ]),
+    
+    # script_party_free_center
+    # inout:
+    #   arg1: party_no
+    #   arg2: center_freed
+    # output: none
+    ("party_free_center",
+        [
+            (store_script_param, ":party_no", 1),
+            (store_script_param, ":center_no", 2),
+
+            (party_get_slot, ":center_owner_faction", ":center_no", slot_party_faction),
+            (store_faction_of_party, ":old_center_faction", ":center_no"),
+            
+            (party_get_slot, ":center_type", ":center_no", slot_party_type),
+            (assign, ":damage", 0),
+            # We want to reduce our damage if we free an occupied center
+            (try_begin),
+                (eq, ":center_type", spt_town),
+                (store_div, ":damage", war_damage_base_town_taken, -2),
+            (else_try),
+                (eq,":center_type", spt_castle),
+                (store_div, ":damage", war_damage_base_castle_taken, -2),
+            (else_try),
+                (eq, ":center_type", spt_village),
+                (store_div, ":damage", war_damage_base_village_taken, -2),
+            (try_end),
+            
+            # Political consequences
+            (call_script, "script_faction_damage_faction", ":center_owner_faction", ":old_center_faction", ":damage", 0),
+            
+            (party_get_slot, ":leader", ":party_no", slot_party_leader),
+            (str_store_troop_name_link, s10, ":leader"),
+            (str_store_party_name_link, s11, ":center_no"),
+            
+            (display_log_message, "@{s11} has been freed by {s10}", text_color_freed),
+            
+            (call_script, "script_center_change_current_faction", ":center_no", ":center_owner_faction", ":old_center_faction"),
+        ]),
+    
     # script_party_capture_center
     # inout:
     #   arg1: party_no
@@ -12535,18 +12617,6 @@ scripts = [
                 (assign, ":damage", war_damage_base_village_taken),
             (try_end),
             
-            # Does not capture attached parties
-            (party_get_num_attached_parties, ":num_attached", ":center_no"),
-            (try_for_range, ":rank_no", 0, ":num_attached"),
-                (party_get_attached_party_with_rank, ":attached_party", ":center_no", ":rank_no"),
-                (party_detach, ":attached_party"),
-            (try_end),
-            
-            (try_begin),
-                (party_slot_ge, ":center_no", slot_party_besieged_by, 0),
-                (call_script, "script_party_lift_siege", ":center_no"),
-            (try_end),
-            
             # Political consequences
             (call_script, "script_faction_damage_faction", ":party_faction", ":old_center_faction", ":damage", 0),
             
@@ -12556,7 +12626,6 @@ scripts = [
             
             (display_log_message, "@{s11} has been captured by {s10}", text_color_capture),
             
-
             (call_script, "script_center_change_current_faction", ":center_no", ":party_faction", ":old_center_faction"),
         ]),
 

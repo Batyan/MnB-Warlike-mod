@@ -238,6 +238,7 @@ text_color_impossible = 0xc01010
 text_color_gold = 0x55eeee
 text_color_valid = 0x00ee55
 text_color_capture = 0xDD2200
+text_color_freed = 0xDD2200
 
 text_color_budget_positive = 0x00dd00
 text_color_budget_negative = 0xdd0000

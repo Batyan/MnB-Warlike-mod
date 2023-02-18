@@ -70,7 +70,6 @@ simple_triggers = [
                     (is_between, ":party_type", spt_village, spt_fort), # Need to move this part in a trigger for centers
                     (call_script, "script_party_process_ressources", ":party_no"), # Made in the same way as faction political calculations
 
-
                     (call_script, "script_party_process_production", ":party_no"),
                     (call_script, "script_party_process_consumption", ":party_no"),
                     (call_script, "script_party_process_population", ":party_no"),
