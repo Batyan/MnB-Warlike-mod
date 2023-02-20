@@ -76,24 +76,6 @@ simple_triggers = [
                     (call_script, "script_party_process_taxes", ":party_no"),
                     (call_script, "script_party_process_buildings", ":party_no", monthly),
                     (call_script, "script_party_process_attached_parties", ":party_no"),
-                    
-                    (try_begin),
-                        # (party_get_slot, ":population", ":party_no", slot_party_population),
-                        # (gt, ":population", 20),
-                        
-                        (try_begin),
-                            (eq, ":party_type", spt_village),
-
-                            (party_get_num_companions, ":num_troops", ":party_no"),
-                            (val_div, ":num_troops", 3),
-                            
-                            (party_get_slot, ":linked_center", ":party_no", slot_party_linked_party),
-                            (call_script, "script_cf_party_need_troops", ":linked_center"),
-                            (call_script, "script_party_send_reinforcements", ":party_no", ":linked_center", ":num_troops"),
-                            # (assign, ":num_recruited", reg0),
-                            # (assign, ":total_cost", reg1),
-                        (try_end),
-                    (try_end),
                 (else_try),
                     (eq, ":party_type", spt_war_party),
                     # (get_party_ai_object, ":object", ":party_no"),
