@@ -12701,6 +12701,7 @@ scripts = [
                 (ge, ":leader", 0),
                 (store_troop_faction, ":leader_faction", ":leader"),
                 (neq, ":leader_faction", ":new_faction"),
+                (party_set_slot, ":center_no", slot_party_leader, -1),
                 
                 (call_script, "script_troop_get_rank", ":leader"),
                 (assign, ":rank", reg0),
