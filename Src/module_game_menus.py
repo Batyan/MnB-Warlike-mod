@@ -753,6 +753,20 @@ game_menus = [
 					(jump_to_menu, "mnu_town_siege"),
 				]),
 			
+			("center_cheat_switch_faction",
+				[
+					(call_script, "script_cf_debug", debug_all),
+					(party_get_slot, ":faction", "$g_encountered_party", slot_party_faction),
+					(store_faction_of_party, ":current_faction", "$g_encountered_party"),
+					(neq, ":faction", ":current_faction"),
+				], "|Cheat| Switch center faction to occupier",
+				[
+					(party_get_slot, ":faction", "$g_encountered_party", slot_party_faction),
+					(store_faction_of_party, ":current_faction", "$g_encountered_party"),
+					(call_script, "script_center_change_faction", "$g_encountered_party", ":current_faction", ":faction"),
+					(jump_to_menu, "mnu_town"),
+				]),
+			
 			#ToDo: attack the guards (if villages)
 			
 			("center_leave", [], "Leave center",
