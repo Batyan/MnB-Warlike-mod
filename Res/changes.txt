@@ -2,6 +2,9 @@ v 0.400:
 -New features
 * capture center mechanic
 
+-Fixes
+* fix villages not sending reinforcements to linked centers
+
 v 0.340:
 -New features:
 * caravans
