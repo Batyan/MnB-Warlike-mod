@@ -1983,14 +1983,18 @@ scripts = [
     ("clear_party_group",
         [
             (store_script_param_1, ":root_party"),
-        
+
             (party_get_num_attached_parties, ":num_attached_parties", ":root_party"),
             (try_for_range, ":attached_party_rank", 0, ":num_attached_parties"),
                 (party_get_attached_party_with_rank, ":attached_party", ":root_party", ":attached_party_rank"),
                 (call_script, "script_clear_party_group", ":attached_party"),
             (try_end),
+
             (party_clear, ":root_party"),
-            # (remove_party, ":root_party"),
+            (try_begin),
+                (neg|is_between, ":root_party", centers_begin, centers_end),
+                (remove_party, ":root_party"),
+            (try_end),
         ]),
     
     #script_add_troop_to_cur_tableau
@@ -7389,7 +7393,13 @@ scripts = [
                 (store_troop_faction, ":troop_faction", ":troop_no"),
                 (try_begin),
                     (neq, ":center_faction", ":troop_faction"),
-                    (call_script, "script_cf_debug", debug_simple),
+                    (try_begin),
+                        (call_script, "script_cf_debug", debug_simple),
+                        (str_store_troop_name, s10, ":troop_no"),
+                        (str_store_party_name, s11, ":home"),
+                        (str_store_faction_name, s12, ":center_faction"),
+                        (display_message, "@Trying to spawn {s10} in {s11} with faction {s12}", text_color_impossible),
+                    (try_end),
                 (else_try),
                     (call_script, "script_spawn_party_around_party", ":home", "pt_war_party"),
                     (assign, ":party", reg0),
@@ -12688,12 +12698,6 @@ scripts = [
             (party_get_slot, ":leader", ":center_no", slot_party_leader),
             (try_begin),
                 (ge, ":leader", 0),
-                
-                # (call_script, "script_troop_get_rank", ":leader"),
-                # (assign, ":rank", reg0),
-                # (troop_set_slot, ":leader", slot_troop_rank, ":rank"),
-                
-                # (call_script, "script_troop_update_name", ":leader"),
                 (call_script, "script_troop_update_home", ":leader"),
             (try_end),
         ]),
