@@ -65,6 +65,7 @@ scripts = [
             
             (try_for_range, ":small_kingdom", kingdoms_begin, small_kingdoms_end),
                 (faction_set_slot, ":small_kingdom", slot_faction_leader, -1),
+                (faction_set_slot, ":small_kingdom", slot_faction_marshall, -1),
             (try_end),
 
             (try_for_range, ":good", goods_begin, goods_end),
