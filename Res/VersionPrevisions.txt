@@ -56,12 +56,17 @@
 	0.430: Faction transformations
 		Faction defeating
 		Faction vassalage
+	0.440: Faction funds
+		Faction taxes
+		Faction support funds
+		Faction tributes
 0.500: Party ai
 	Better party ai
 	0.510: Cooperation
 		Cooperation (ai)
 			Transfer troops (center to center)
 			Transfer prisoners
+		Improve vassal following behavior
 	0.520: Money changers
 		Lords need to pay to upgrade gear
 		Hire/Sell mercenaries
