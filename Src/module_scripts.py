@@ -12302,6 +12302,38 @@ scripts = [
             (try_end),
 
             # Elect leader
+            (call_script, "script_faction_process_leader_selection", ":faction_no"),
+
+            # Elect marshall
+            (call_script, "script_faction_process_marshall_selection", ":faction_no"),
+            
+            # Recruit mercenary bands
+            
+            # Handle foreign diplomacy
+            (call_script, "script_faction_process_foreign_politics", ":faction_no"),
+            
+            # Organize feasts if needed
+            
+            # Reduce war damage
+            (faction_get_slot, ":war_damage", ":faction_no", slot_faction_war_damage),
+            # (assign, ":vassals_score", ":num_vassals"),
+            # (store_mul, ":fiefs_score", ":num_fiefs", 5),
+            (try_begin),
+                (gt, ":war_damage", 0),
+                (store_div, ":damage_reduce", ":war_damage", 100),
+                (val_sub, ":war_damage", ":damage_reduce"),
+                (faction_set_slot, ":faction_no", slot_faction_war_damage, ":war_damage"),
+            (try_end),
+        ]),
+
+    # script_faction_process_leader_selection
+        # input:
+        #   arg1: faction_no
+        # output: none
+    ("faction_process_leader_selection",
+        [
+            (store_script_param, ":faction_no", 1),
+
             (faction_get_slot, ":leader", ":faction_no", slot_faction_leader),
             (try_begin),
                 # No leader
@@ -12346,32 +12378,101 @@ scripts = [
                     (display_message, "@{s10} is the best candidate to lead {s11}."),
                 (try_end),
             (try_end),
-            
-            # Recruit mercenary bands
-            
-            # Handle foreign diplomacy
-            (call_script, "script_faction_process_foreign_politics", ":faction_no"),
-            
-            # Organize patrols and caravans
-            
-            # Organize feasts if needed
-            
-            # Reduce war damage
-            (faction_get_slot, ":war_damage", ":faction_no", slot_faction_war_damage),
-            # (assign, ":vassals_score", ":num_vassals"),
-            # (store_mul, ":fiefs_score", ":num_fiefs", 5),
-            (try_begin),
-                (gt, ":war_damage", 0),
-                (store_div, ":damage_reduce", ":war_damage", 100),
-                (val_sub, ":war_damage", ":damage_reduce"),
-                (faction_set_slot, ":faction_no", slot_faction_war_damage, ":war_damage"),
-            (try_end),
         ]),
     
+    # script_faction_process_marshall_selection
+        # input:
+        #   arg1: faction_no
+        # output: none
+    ("faction_process_marshall_selection",
+        [
+            (store_script_param, ":faction_no", 1),
+
+            (faction_get_slot, ":leader", ":faction_no", slot_faction_leader),
+            (faction_get_slot, ":marshall", ":faction_no", slot_faction_marshall),
+            (try_begin),
+                # No marshall
+                # At war or preparing war
+                (lt, ":marshall", 0),
+                (faction_get_slot, ":at_war", ":faction_no", slot_faction_is_at_war),
+                (faction_get_slot, ":preparing_for_war", ":faction_no", slot_party_preparing_for_war),
+
+                (try_begin),
+                    (this_or_next|gt, ":at_war", 0),
+                    (is_between, ":preparing_for_war", kingdoms_begin, kingdoms_end),
+
+                    (assign, ":best_candidate", -1),
+                    (assign, ":best_candidate_score", 0),
+                    (try_for_range, ":cur_lord", lords_begin, lords_end),
+                        (store_troop_faction, ":lord_faction", ":cur_lord"),
+                        (eq, ":lord_faction", ":faction_no"),
+                        (troop_slot_eq, ":cur_lord", slot_troop_kingdom_occupation, tko_kingdom_hero),
+
+                        (neg|troop_slot_ge, ":cur_lord", slot_troop_prisoner_of, 0),
+                        (troop_get_slot, ":rank", ":cur_lord", slot_troop_rank),
+                        (ge, ":rank", rank_castle),
+
+                        (assign, ":score", 0),
+                        # (troop_get_slot, ":renown", ":cur_lord", slot_troop_renown),
+                        # (val_add, ":score", ":renown"),
+
+                        (val_mul, ":rank", ":rank"),
+                        (val_mul, ":rank", 90),
+                        (val_add, ":score", ":rank"),
+
+                        (troop_get_slot, ":num_vassals", ":cur_lord", slot_troop_num_vassal),
+                        (val_mul, ":num_vassals", 30),
+                        (val_add, ":score", ":num_vassals"),
+
+                        (try_begin),
+                            (eq, ":cur_lord", ":leader"),
+                            (val_sub, ":score", 100),
+                        (try_end),
+
+                        (gt, ":score", ":best_candidate_score"),
+                        (assign, ":best_candidate", ":cur_lord"),
+                        (assign, ":best_candidate_score", ":score"),
+                    (try_end),
+
+                    (ge, ":best_candidate", 0),
+                    (faction_set_slot, ":faction_no", slot_faction_marshall, ":best_candidate"),
+                    (try_begin),
+                        (call_script, "script_cf_debug", debug_simple|debug_faction),
+                        (str_store_troop_name, s10, ":best_candidate"),
+                        (str_store_faction_name, s11, ":faction_no"),
+                        (display_message, "@{s10} is the best candidate for marshall of {s11}."),
+                    (try_end),
+                (try_end),
+            (else_try),
+                (faction_get_slot, ":at_war", ":faction_no", slot_faction_is_at_war),
+                (faction_get_slot, ":preparing_for_war", ":faction_no", slot_party_preparing_for_war),
+                (try_begin),
+                    (this_or_next|gt, ":at_war", 0),
+                    (is_between, ":preparing_for_war", kingdoms_begin, kingdoms_end),
+
+                    (troop_slot_ge, ":marshall", slot_troop_prisoner_of, 0),
+                    (try_begin),
+                        (call_script, "script_cf_debug", debug_simple|debug_faction),
+                        (str_store_troop_name, s10, ":marshall"),
+                        (str_store_faction_name, s11, ":faction_no"),
+                        (display_message, "@{s10} removed of marshallship from {s11} for being prisoner."),
+                    (try_end),
+                (else_try),
+                    (faction_set_slot, ":faction_no", slot_faction_marshall, -1),
+                    (try_begin),
+                        (call_script, "script_cf_debug", debug_simple|debug_faction),
+                        (str_store_troop_name, s10, ":marshall"),
+                        (str_store_faction_name, s11, ":faction_no"),
+                        (display_message, "@{s10} removed of marshallship from {s11} for peace time."),
+                    (try_end),
+                (try_end),
+            (try_end),
+        ]),
+
     # script_faction_process_foreign_politics
-    # input:
-    #   arg1: faction_no
-    # output: none
+        # input:
+        #   arg1: faction_no
+        # output: none
     ("faction_process_foreign_politics",
         [
             (store_script_param, ":faction_no", 1),
