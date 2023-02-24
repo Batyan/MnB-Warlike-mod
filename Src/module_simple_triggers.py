@@ -470,7 +470,7 @@ simple_triggers = [
             (try_end),
         ]),
     
-    (monthly*6/(kingdoms_end - kingdoms_begin), # Faction politics processing
+    (monthly*5/(kingdoms_end - kingdoms_begin), # Faction politics processing
         [
             (try_begin),
                 (neg|is_between, "$g_politics_cur_faction", kingdoms_begin, kingdoms_end),
@@ -494,6 +494,45 @@ simple_triggers = [
                 (lt, ":lord", 0),
                 (store_faction_of_party, ":center_faction", ":cur_center"),
                 (faction_set_slot, ":center_faction", slot_faction_current_free_center, ":cur_center"),
+            (try_end),
+        ]),
+
+    (weekly, # Process kingdom strength
+        [
+            (try_for_range, ":cur_kingdom", kingdoms_begin, kingdoms_end),
+                (faction_set_slot, ":cur_kingdom", slot_faction_active_strength, 0),
+            (try_end),
+
+            (try_for_range, ":lord_no", lords_begin, lords_end),
+                (troop_get_slot, ":occupation", ":lord_no", slot_troop_kingdom_occupation),
+                (try_begin),
+                    # (this_or_next|eq, ":occupation", tko_),
+                    (eq, ":occupation", tko_kingdom_hero),
+                    (troop_get_slot, ":leaded_party", ":lord_no", slot_troop_leaded_party),
+                    (gt, ":leaded_party", 0),
+                    (party_is_active, ":leaded_party"),
+
+                    (store_faction_of_party, ":lord_kingdom", ":lord_no"),
+                    (faction_get_slot, ":current_strength", ":lord_kingdom", slot_faction_active_strength),
+
+                    (troop_get_slot, ":rank", ":lord_no", slot_troop_rank),
+                    (try_begin),
+                        (ge, ":rank", rank_marshall),
+                        (val_add, ":current_strength", 9),
+                    (else_try),
+                        (ge, ":rank", rank_city),
+                        (val_add, ":current_strength", 8),
+                    (else_try),
+                        (ge, ":rank", rank_castle),
+                        (val_add, ":current_strength", 5),
+                    (else_try),
+                        (ge, ":rank", rank_village),
+                        (val_add, ":current_strength", 3),
+                    (else_try),
+                        (val_add, ":current_strength", 1),
+                    (try_end),
+                    (faction_set_slot, ":lord_kingdom", slot_faction_active_strength, ":current_strength"),
+                (try_end),
             (try_end),
         ]),
 ]

@@ -448,7 +448,7 @@ game_menus = [
 						(disable_menu_option),
 					(else_try),
 						(store_relation, ":relation", "$test_faction_1", "$test_faction_2"),
-						(lt, ":relation", relation_war),
+						(lt, ":relation", relation_state_war),
 						(str_store_string, s12, "@Factions are already at war"),
 						(disable_menu_option),
 					(else_try),
@@ -485,12 +485,12 @@ game_menus = [
 						(disable_menu_option),
 					(else_try),
 						(store_relation, ":relation", "$test_faction_1", "$test_faction_2"),
-						(le, ":relation", relation_war),
+						(le, ":relation", relation_state_war),
 						(str_store_string, s14, "@Cannot make allies out of enemies"),
 						(disable_menu_option),
 					(else_try),
 						(store_relation, ":relation", "$test_faction_1", "$test_faction_2"),
-						(ge, ":relation", relation_allies),
+						(ge, ":relation", relation_state_friendly),
 						(str_store_string, s14, "@Factions are already allies"),
 						(disable_menu_option),
 					(else_try),
@@ -498,7 +498,7 @@ game_menus = [
 					(try_end),
 				], "{s14}", 
 				[
-					(call_script, "script_faction_set_random_relation_with_faction", "$test_faction_1", "$test_faction_2", 4), # Make allies
+					(call_script, "script_faction_create_treaty", "$test_faction_1", "$test_faction_2", sfkt_alliance), # Make allies
 				]),
 			
 			("back",[], "Back to camp",

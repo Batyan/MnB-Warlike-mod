@@ -216,13 +216,18 @@ nordic_names_end = rhodok_names_begin
 rhodok_names_end = sarranid_names_begin
 sarranid_names_end = names_end
 
-relation_war = -20
-relation_bad = -10
+relation_state_war = -40
+relation_state_conflict = -20
+relation_state_neutral = 0
+relation_state_friendly = 20
+
+relation_terrible = -80
+relation_bad = -40
+relation_tense = -20
 relation_neutral = 0
-relation_friendly = 10
-relation_economic = 20
-relation_defensive = 40
-relation_allies = 60
+relation_positive = 20
+relation_friendly = 40
+relation_excellent = 80
 
 center_buildings_begin = "itm_building_hunter_camp"
 center_buildings_end = "itm_buildings_end"
@@ -339,6 +344,21 @@ caravan_score_type_selling = 1
 caravan_score_type_buying = 2
 caravan_score_type_all = 0
 
+political_event_relation_change = 1
+political_event_war_declared = 2
+political_event_treaty_signed = 3
+political_event_center_captured = 4
+political_event_center_looted = 5
+political_event_center_freed = 6
+political_event_vassal_captured = 7
+political_event_vassal_freed = 8
+political_event_helped = 9
+political_event_fulfil_treaty = 10
+political_event_break_treaty = 11
+
+political_event_helped_join_defensive_war = 1
+political_event_helped_join_offensive_war = 1
+
 ################
 ## Item Slots ##
 ################
@@ -423,14 +443,14 @@ slot_faction_names_begin			= 14
 slot_faction_names_end				= 15
 
 slot_faction_lord_name_begin		= 16
-slot_faction_lady_name_begin		= 51
+slot_faction_lady_name_begin		= 17
 
-slot_faction_troops_begin			= 17
-slot_faction_troops_end				= 18
+slot_faction_troops_begin			= 18
+slot_faction_troops_end				= 19
 
 # slot_faction_base_reinforcements	= 13
 
-slot_faction_peasant_begin			= 17
+slot_faction_peasant_begin			= slot_faction_troops_begin
 slot_faction_common_begin			= 20
 slot_faction_veteran_begin			= 21
 slot_faction_elite_begin			= 22
@@ -480,6 +500,8 @@ slot_faction_era_time = 48	# Time at which the faction has attained this era
 slot_faction_num_vassals = 49
 slot_faction_num_fiefs = 50
 
+slot_faction_active_strength = 51
+
 slot_faction_war_damage = 52
 
 # Last time the faction was at peace
@@ -523,6 +545,57 @@ slot_faction_mission_focus_20 = 78
 
 slot_faction_vassal_tax_rate = 79
 slot_faction_member_tax_rate = 80
+
+slot_faction_policy_assimilation = 81
+
+# Assimilation is forced on captured centers
+sfpa_total = 0
+# Assimilation is forced on captured centers only if culture is different
+sfpa_partial = 1
+# No assimilation on captured centers
+sfpa_none = 2
+
+slot_faction_vassal_type = 82
+
+# Vassal treaties
+sfvt_tributary = 0x01 # pays tribute
+sfvt_vassal = 0x02 # foreign policy is limited
+sfvt_sattrapy = 0x10 # joins offensive wars of overlord
+sfvt_bulwark = 0x40 # joins defensive wars of overlord
+sfvt_protectorate = 0x80 # joins defensive wars of vassal
+
+slot_faction_kingdom_relation_begin = 83
+slot_faction_kingdom_relation_end = slot_faction_kingdom_relation_begin - kingdoms_begin + kingdoms_end
+
+slot_faction_kingdom_treaties_begin = slot_faction_kingdom_relation_end
+slot_faction_kingdom_treaties_end = slot_faction_kingdom_treaties_begin - kingdoms_begin + kingdoms_end
+
+sfkt_none = 0x0000
+
+sfkt_none_treaty_clear = 0xFFFF
+
+# Military treaties
+sfkt_truce = 0x0001
+sfkt_non_agression = 0x0002
+sfkt_defensive_alliance = 0x0004
+sfkt_alliance = 0x0008
+
+sfkt_military_treaty_clear = 0xFFF0
+
+# Economic treaties
+sfkt_open_trade = 0x0010
+sfkt_trade_preference = 0x0020
+sfkt_trade_exclusivity = 0x0040
+
+sfkt_economic_treaty_clear = 0xFF0F
+
+# Vassal treaties
+sfkt_vassal = 0x1000
+sfkt_overlord = 0x2000
+
+sfkt_vassal_treaty_clear = 0x0FFF
+
+sfkt_all_treaty_clear = 0x0000
 
 #################
 ## Party Slots ##
