@@ -500,26 +500,24 @@ slot_faction_era_time = 48	# Time at which the faction has attained this era
 slot_faction_num_vassals = 49
 slot_faction_num_fiefs = 50
 
-slot_faction_active_strength = 51
+slot_faction_strength_active = 51
+slot_faction_strength_ready = 52
 
-slot_faction_war_damage = 52
+slot_faction_war_damage = 53
 
 # Last time the faction was at peace
-slot_faction_last_peace = 53
+slot_faction_last_peace = 54
 
-slot_faction_preparing_war = 54
+slot_faction_preparing_war = 55
 
-slot_faction_size = 55
+slot_faction_size = 56
 sfs_small = 0
 sfs_medium = 1
 sfs_large = 2
 
-slot_faction_name_holder = 56
-slot_faction_has_fixed_name = 57
+slot_faction_name_holder = 57
+slot_faction_has_fixed_name = 58
 
-slot_faction_status = 58
-sfst_default = 0
-sfst_disabled = -1
 
 # slots used for faction focus in ai decision
 slot_faction_mission_focus_1 = 59
@@ -546,7 +544,11 @@ slot_faction_mission_focus_20 = 78
 slot_faction_vassal_tax_rate = 79
 slot_faction_member_tax_rate = 80
 
-slot_faction_policy_assimilation = 81
+slot_faction_status = 81
+sfst_default = 0
+sfst_disabled = -1
+
+slot_faction_policy_assimilation = 82
 
 # Assimilation is forced on captured centers
 sfpa_total = 0
@@ -555,7 +557,7 @@ sfpa_partial = 1
 # No assimilation on captured centers
 sfpa_none = 2
 
-slot_faction_vassal_type = 82
+slot_faction_vassal_type = 83
 
 # Vassal treaties
 sfvt_tributary = 0x01 # pays tribute
@@ -564,7 +566,8 @@ sfvt_sattrapy = 0x10 # joins offensive wars of overlord
 sfvt_bulwark = 0x40 # joins defensive wars of overlord
 sfvt_protectorate = 0x80 # joins defensive wars of vassal
 
-slot_faction_kingdom_relation_begin = 83
+
+slot_faction_kingdom_relation_begin = 84
 slot_faction_kingdom_relation_end = slot_faction_kingdom_relation_begin - kingdoms_begin + kingdoms_end
 
 slot_faction_kingdom_treaties_begin = slot_faction_kingdom_relation_end
@@ -596,6 +599,34 @@ sfkt_overlord = 0x2000
 sfkt_vassal_treaty_clear = 0x0FFF
 
 sfkt_all_treaty_clear = 0x0000
+
+slot_faction_kingdom_distance_begin = slot_faction_kingdom_treaties_end
+slot_faction_kingdom_distance_end = slot_faction_kingdom_distance_begin - kingdoms_begin + kingdoms_end
+
+#######################
+## War Storage Slots ##
+## ####################
+
+war_storages_begin = "fac_war_storage_1"
+war_storages_end = "fac_war_storage_end"
+
+slot_war_active = 9
+
+slot_war_kingdom_participant_begin = 10
+slot_war_kingdom_participant_end = slot_war_kingdom_participant_begin - kingdoms_begin + kingdoms_end
+
+swkp_main_defender = -2
+swkp_defender = -1
+swkp_bystander = 0
+swkp_aggressor = 1
+swkp_main_aggressor = 2
+
+slot_war_kingdom_willingness_begin = slot_war_kingdom_participant_end
+slot_war_kingdom_willingness_end = slot_war_kingdom_willingness_begin - kingdoms_begin + kingdoms_end
+
+kw_failling = -1
+kw_neutral = 0
+kw_eager = 1
 
 #################
 ## Party Slots ##
@@ -788,7 +819,12 @@ slot_party_mission_objective_1 = 173
 slot_party_mission_objective_2 = 174
 slot_party_mission_objective_3 = 175
 
-slot_party_building_slot_1	= 176
+slot_party_readiness = 176
+
+sfsr_unavailable = 0
+sfsr_ready = 0 # For now those are the same until we implement party readiness
+
+slot_party_building_slot_1	= 177
 slot_party_building_slot_2	= slot_party_building_slot_1 + 1
 slot_party_building_slot_3	= slot_party_building_slot_2 + 1
 slot_party_building_slot_4	= slot_party_building_slot_3 + 1
