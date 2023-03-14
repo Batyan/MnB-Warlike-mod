@@ -10311,7 +10311,6 @@ scripts = [
             
             # Troops not added to factions
             (troop_set_slot, "trp_swadian_champion", slot_troop_faction_not_1, "fac_small_kingdom_12"), # Has Heavy Infantry instead
-            (troop_set_slot, "trp_swadian_ranger", slot_troop_faction_not_1, "fac_small_kingdom_13"), # Has Horseman instead
             (troop_set_slot, "trp_swadian_light_lancer", slot_troop_faction_not_1, "fac_small_kingdom_13"), # Has Lancer instead
             (troop_set_slot, "trp_swadian_light_cavalry", slot_troop_faction_not_1, "fac_small_kingdom_13"), # Has Horseman instead
             (troop_set_slot, "trp_swadian_militia", slot_troop_faction_not_1, "fac_small_kingdom_14"), # Has Hunter instead
