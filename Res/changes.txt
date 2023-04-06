@@ -1,8 +1,58 @@
+v 0.410:
+-New features:
+* add kingdom relations
+* add kingdom war declaration
+* add kingdom treaties
+	alliance
+	defensive pact
+	non aggression
+	truce
+* improve leader selection
+* add marshall selection
+* decrease autoresolve combat damage at night by 50%
+* reworked autoresolve troops strength to match more closely troops wages
+
+-Balance changes:
+* add 3 new castle and associated village for minor khergit, nord and rhodok
+* change swadian_light_horseman to use lances instead of ranged weapons
+* change swadian_horseman to use lances instead of ranged weapons
+* increase swadian_light_horseman charisma (8 -> 9)
+* decrease swadian_light_horseman intelligence (9 -> 8)
+* increase swadian_light_horseman powerstrike (2 -> 4)
+* increase swadian_light_horseman ironflesh (2 -> 3)
+* set swadian_light_horseman proficiencies (1h: 85 -> 100, pole: 80 -> 110)
+* increase swadian_horseman charisma (11 -> 12)
+* decrease swadian_horseman intelligence (10 -> 9)
+* increase swadian_horseman strength (15 -> 14)
+* decrease swadian_horseman agility (15 -> 16)
+* increase swadian_horseman powerstrike (2 -> 3)
+* increase swadian_horseman ironflesh (4 -> 6)
+* set swadian_horseman proficiencies (1h: 100 -> 95, pole: 90 -> 120)
+* add swadian_ranger to small_kingdom_13
+* changed khergit_clansman and khergit_levy_infantry shield from shield_round_a to shield_small_round_a
+* reduce sarranid_crossbowman powerstrike (3 -> 2)
+* add shield to sarranid_levy_horseman
+* reduce sarranid_levy_horseman ironflesh (1 -> 0)
+* change damage calculation
+	Reduce overall cut effectiveness (base damage and penetration)
+	cut soak 1.2 -> 1.25
+	cut reduction 0.25 -> 0.3
+	Reduce pierce penetration against armor
+	pierce reduction 0.7 -> 0.75
+	Reduce blunt base damage
+	blunt reduction 1.15 -> 1.2
+* reduce speed damage factor 1.5 -> 1.4
+
+-Fixes:
+* fix battles being joined by parties that were already engaged in a battle
+* fix villages not applying protection taxes properly
+* fix noble ranks being affected by captured centers
+
 v 0.400:
--New features
+-New features:
 * capture center mechanic
 
--Fixes
+-Fixes:
 * fix villages not sending reinforcements to linked centers
 
 v 0.340:
