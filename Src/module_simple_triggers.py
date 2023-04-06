@@ -525,6 +525,7 @@ simple_triggers = [
         [
             (try_for_range, ":cur_kingdom", kingdoms_begin, kingdoms_end),
                 (faction_set_slot, ":cur_kingdom", slot_faction_strength_active, 0),
+                (faction_set_slot, ":cur_kingdom", slot_faction_strength_ready, 0),
             (try_end),
 
             (try_for_range, ":lord_no", lords_begin, lords_end),
