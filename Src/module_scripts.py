@@ -308,7 +308,14 @@ scripts = [
         [
             (store_script_param, ":required_level", 1),
 
-            (store_and, ":continue", ":required_level", "$debug"),
+            (assign, ":continue", 0),
+            (try_begin),
+                (store_and, ":continue", ":required_level", "$debug"),
+                (gt, ":continue", 0),
+            (else_try),
+                (gt, "$debug", 0),
+                (store_and, ":continue", ":required_level", debug_current),
+            (try_end),
             (gt, ":continue", 0),
         ]),
     
