@@ -365,8 +365,6 @@ political_event_helped_join_offensive_war = 1
 
 item_slots = 0
 
-
-
 slot_building_cost_wood		= 1
 slot_building_cost_stone	= 2
 slot_building_cost_gold		= 3
@@ -385,7 +383,7 @@ slot_item_produced_need_3	= 7 # Number of items required to make a batch
 
 # Amount of items consumed per 1000000 pop
 slot_item_consumption_base = 9
-# Amount of surplus item consumed bacause there are too many in stock
+# Amount of surplus item consumed because there are too many in stock
 slot_item_consumption_ratio = 10
 
 consumption_ratio_base = 1000000
@@ -603,6 +601,9 @@ sfkt_all_treaty_clear = 0x0000
 slot_faction_kingdom_distance_begin = slot_faction_kingdom_treaties_end
 slot_faction_kingdom_distance_end = slot_faction_kingdom_distance_begin - kingdoms_begin + kingdoms_end
 
+# slot_faction_kingdom_treaty_expiration_begin = slot_faction_kingdom_distance_end
+# slot_faction_kingdom_treaty_expiration_end = slot_faction_kingdom_treaty_expiration_begin - kingdoms_begin + kingdoms_end
+
 #######################
 ## War Storage Slots ##
 ## ####################
@@ -624,6 +625,7 @@ swkp_main_aggressor = 2
 slot_war_kingdom_willingness_begin = slot_war_kingdom_participant_end
 slot_war_kingdom_willingness_end = slot_war_kingdom_willingness_begin - kingdoms_begin + kingdoms_end
 
+kw_desperate = -2
 kw_failling = -1
 kw_neutral = 0
 kw_eager = 1
