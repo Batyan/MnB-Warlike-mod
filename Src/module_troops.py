@@ -1717,7 +1717,7 @@ troops = [
     itm_padded_cloth, itm_red_gambeson, itm_leather_jerkin,
     itm_padded_coif, itm_mail_coif, itm_footman_helmet,
     itm_pack_horse],
-   str_13|agi_16|int_8|cha_9|level(23), wpex(100,80,110,60,50,50), knows_common|knows_ironflesh_3|knows_power_strike_4|knows_athletics_3|knows_riding_6, swadian_face_young_1, swadian_face_old_2 ],
+   str_13|agi_16|int_8|cha_9|level(23), wpex(90,80,110,60,50,50), knows_common|knows_ironflesh_3|knows_power_strike_4|knows_athletics_3|knows_riding_6, swadian_face_young_1, swadian_face_old_2 ],
   
   # Veteran
   # Heavy infantry, spears, shields
@@ -1840,7 +1840,7 @@ troops = [
     itm_haubergeon, itm_mail_with_surcoat,
     itm_mail_coif, itm_helmet_with_neckguard, itm_kettle_hat,
     itm_hunter],
-   str_14|agi_16|int_9|cha_12|level(28), wpex(100,60,90,60,50,55), knows_common|knows_ironflesh_6|knows_power_strike_3|knows_power_draw_1|knows_athletics_3|knows_riding_5|knows_horse_archery_1, swadian_face_young_1, swadian_face_old_2 ],
+   str_14|agi_16|int_9|cha_12|level(28), wpex(95,95,120,60,50,55), knows_common|knows_ironflesh_6|knows_power_strike_3|knows_power_draw_1|knows_athletics_3|knows_riding_5|knows_horse_archery_1, swadian_face_young_1, swadian_face_old_2 ],
   
   # Elite
   # Heavy infantry, bastard swords, morningstars, shields
@@ -2368,7 +2368,7 @@ troops = [
   # Basic cavalry ranged, spears, bows
   # SPECIAL
   ["khergit_clansman", "Khergit Clansman", "Khergit Clansman", tf_guarantee_recruit_armor|tf_guarantee_horseman, no_scene, reserved, fac_small_kingdom_35,
-   [itm_light_lance, itm_hunting_bow, itm_arrows_b, itm_tab_shield_round_a,itm_tab_shield_round_a_plain_1,itm_tab_shield_round_a_plain_2,
+   [itm_light_lance, itm_hunting_bow, itm_arrows_b, itm_tab_shield_small_round_a,itm_tab_shield_small_round_a_plain_1,itm_tab_shield_small_round_a_plain_2,
     itm_nomad_boots, itm_hide_boots,
     itm_leather_vest, itm_coarse_tunic,
     itm_nomad_cap_b, itm_nomad_cap, itm_leather_steppe_cap_a, itm_leather_steppe_cap_c,
@@ -2378,7 +2378,7 @@ troops = [
   # Basic infantry, swords, shields
   # SPECIAL
   ["khergit_levy_infantry", "Khergit Levy Infantry", "Khergit Levy Infantries", tf_guarantee_recruit_armor|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_36,
-   [itm_sword_khergit_1, itm_tab_shield_small_round_a,itm_tab_shield_small_round_a_plain_1,itm_tab_shield_small_round_a_plain_2, itm_tab_shield_round_a,itm_tab_shield_round_a_plain_1,itm_tab_shield_round_a_plain_2,
+   [itm_sword_khergit_1, itm_tab_shield_small_round_a,itm_tab_shield_small_round_a_plain_1,itm_tab_shield_small_round_a_plain_2,
     itm_nomad_boots, itm_hide_boots,
     itm_leather_vest, itm_coarse_tunic,
     itm_nomad_cap_b, itm_nomad_cap, itm_leather_steppe_cap_a, itm_leather_steppe_cap_c,
@@ -3461,13 +3461,13 @@ troops = [
   
   # Basic cavalry, swords, maces
   # SPECIAL
-  ["sarranid_levy_horse", "Sarranid Levy Horseman", "Sarranid Levy Horsemen", tf_guarantee_recruit_armor|tf_guarantee_horseman, no_scene, reserved, fac_small_kingdom_61,
-   [itm_arabian_sword_a, itm_mace_2,
+  ["sarranid_levy_horse", "Sarranid Levy Horseman", "Sarranid Levy Horsemen", tf_guarantee_recruit_armor|tf_guarantee_horseman|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_61,
+   [itm_arabian_sword_a, itm_mace_2, itm_tab_shield_small_round_a,itm_tab_shield_small_round_a_plain_1,itm_tab_shield_small_round_a_plain_2,
     itm_sarranid_boots_a, itm_sarranid_boots_b,
     itm_sarranid_cloth_robe, itm_sarranid_cloth_robe_b, itm_skirmisher_armor,
     itm_sarranid_felt_hat, itm_turban, itm_desert_turban,
     itm_arabian_horse_a],
-   str_8|agi_12|int_5|cha_6|level(8), wpex(65,55,60,25,15,40), knows_common|knows_ironflesh_1|knows_power_strike_3|knows_athletics_3|knows_riding_5, sarranid_face_young_1, sarranid_face_old_2 ],
+   str_8|agi_12|int_5|cha_6|level(8), wpex(65,55,60,25,15,40), knows_common|knows_power_strike_3|knows_athletics_3|knows_riding_5, sarranid_face_young_1, sarranid_face_old_2 ],
   
   # Basic infantry, spears, shields
   # SPECIAL
@@ -3669,7 +3669,7 @@ troops = [
     itm_arabian_armor_b, itm_sarranid_cavalry_robe,
     itm_sarranid_warrior_cap, itm_sarranid_helmet1, itm_sarranid_mail_coif,
     ],
-   str_15|agi_15|int_7|cha_8|level(22), wpex(90,75,75,40,90,50), knows_common|knows_ironflesh_3|knows_power_strike_3|knows_power_throw_1|knows_athletics_3|knows_riding_2, sarranid_face_young_1, sarranid_face_old_2 ],
+   str_15|agi_15|int_7|cha_8|level(22), wpex(90,75,75,40,90,50), knows_common|knows_ironflesh_3|knows_power_strike_2|knows_power_throw_1|knows_athletics_3|knows_riding_2, sarranid_face_young_1, sarranid_face_old_2 ],
   
   # Medium infantry, swords, maces, axes, shields
   # SPECIAL
