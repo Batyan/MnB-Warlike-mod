@@ -42,6 +42,19 @@ v 0.410:
 	Reduce blunt base damage
 	blunt reduction 1.15 -> 1.2
 * reduce speed damage factor 1.5 -> 1.4
+* increase nord_heavy_cavalry strength (13 -> 14)
+* increase nord_heavy_cavalry powerstrike (2 -> 3)
+* increase nord_heavy_cavalry ironflesh (3 -> 4)
+* decrease nord_light_mounted_skirmisher strength (14 -> 12)
+* decrease nord_light_mounted_skirmisher intelligence (7 -> 6)
+* increase nord_light_mounted_skirmisher powerstrike (2 -> 3)
+* increase nord_light_cavalry powerstrike (2 -> 3)
+* increase khergit_noble powerstrike (3 -> 4)
+* increase khergit_noble ironflesh (4 -> 5)
+* increase khergit_heavy_horse_archer ironflesh (3 -> 4)
+* increase khergit_horse_archer ironflesh (1 -> 2)
+* increase khergit_light_horse_archer ironflesh (0 -> 1)
+* give warhorse to rhodok_noble_lancer
 
 -Fixes:
 * fix battles being joined by parties that were already engaged in a battle
