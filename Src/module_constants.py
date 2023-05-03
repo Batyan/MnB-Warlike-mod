@@ -289,17 +289,25 @@ starting_year = 733
 
 archer_score_shield_malus = 60
 
-war_damage_base_lord_defeated = 6
-war_damage_base_lord_killed = 12
+war_damage_base_lord_defeated = 20
+war_damage_base_lord_killed = 100
 
-war_damage_base_village_taken = 24
-war_damage_base_castle_taken = 48
-war_damage_base_town_taken = 96
+war_damage_base_village_taken = 80
+war_damage_base_castle_taken = 200
+war_damage_base_town_taken = 500
 
 war_damage_raid_divider = 2
 war_damage_siege_divider = 20
 
-war_damage_inflicted_bonus_divider = 3
+war_damage_inflicted_bonus_divider = 5
+
+war_damage_natural_decline_base = 2
+war_damage_natural_decline_divider = 100
+
+war_damage_penalties_begin = 200
+war_damage_penalties_offset_begin = 10
+
+war_damage_casualties_divider = 10 # Each set of casualties generates a single point of war damage
 
 faction_size_names_begin = str_swadian_faction_small
 faction_size_names_end = str_sarranid_faction_large + 1
@@ -339,6 +347,7 @@ caravan_max_cargo_size = 60
 caravan_score_distance_ratio = 3
 caravan_score_resource_production_ratio = 500
 caravan_score_resource_amount_ratio = 10
+caravan_score_war_penatly = 100
 
 caravan_score_type_selling = 1
 caravan_score_type_buying = 2
@@ -355,9 +364,25 @@ political_event_vassal_freed = 8
 political_event_helped = 9
 political_event_fulfil_treaty = 10
 political_event_break_treaty = 11
+political_event_war_party_defeated = 12
+political_event_caravan_defeated = 13
 
-political_event_helped_join_defensive_war = 1
-political_event_helped_join_offensive_war = 1
+political_event_helped_join_defensive_war = 14
+political_event_helped_join_offensive_war = 15
+
+center_size_village = 1
+center_size_castle = 3
+center_size_town = 10
+
+party_size_leader = 12
+party_size_town = 10
+party_size_castle = 6
+party_size_village = 3
+party_size_none = 1
+
+attitude_negative = -1
+attitude_neutral = 0
+attitude_positive = 1
 
 ################
 ## Item Slots ##
@@ -509,44 +534,45 @@ slot_faction_last_peace = 54
 slot_faction_preparing_war = 55
 
 slot_faction_size = 56
+slot_faction_size_category = 57
 sfs_small = 0
 sfs_medium = 1
 sfs_large = 2
 
-slot_faction_name_holder = 57
-slot_faction_has_fixed_name = 58
+slot_faction_name_holder = 58
+slot_faction_has_fixed_name = 59
 
 
 # slots used for faction focus in ai decision
-slot_faction_mission_focus_1 = 59
-slot_faction_mission_focus_2 = 60
-slot_faction_mission_focus_3 = 61
-slot_faction_mission_focus_4 = 62
-slot_faction_mission_focus_5 = 63
-slot_faction_mission_focus_6 = 64
-slot_faction_mission_focus_7 = 65
-slot_faction_mission_focus_8 = 66
-slot_faction_mission_focus_9 = 67
-slot_faction_mission_focus_10 = 68
-slot_faction_mission_focus_11 = 69
-slot_faction_mission_focus_12 = 70
-slot_faction_mission_focus_13 = 71
-slot_faction_mission_focus_14 = 72
-slot_faction_mission_focus_15 = 73
-slot_faction_mission_focus_16 = 74
-slot_faction_mission_focus_17 = 75
-slot_faction_mission_focus_18 = 76
-slot_faction_mission_focus_19 = 77
-slot_faction_mission_focus_20 = 78
+slot_faction_mission_focus_1 = 60
+slot_faction_mission_focus_2 = 61
+slot_faction_mission_focus_3 = 62
+slot_faction_mission_focus_4 = 63
+slot_faction_mission_focus_5 = 64
+slot_faction_mission_focus_6 = 65
+slot_faction_mission_focus_7 = 66
+slot_faction_mission_focus_8 = 67
+slot_faction_mission_focus_9 = 68
+slot_faction_mission_focus_10 = 69
+slot_faction_mission_focus_11 = 70
+slot_faction_mission_focus_12 = 71
+slot_faction_mission_focus_13 = 72
+slot_faction_mission_focus_14 = 73
+slot_faction_mission_focus_15 = 74
+slot_faction_mission_focus_16 = 75
+slot_faction_mission_focus_17 = 76
+slot_faction_mission_focus_18 = 77
+slot_faction_mission_focus_19 = 78
+slot_faction_mission_focus_20 = 79
 
-slot_faction_vassal_tax_rate = 79
-slot_faction_member_tax_rate = 80
+slot_faction_vassal_tax_rate = 80
+slot_faction_member_tax_rate = 81
 
-slot_faction_status = 81
+slot_faction_status = 82
 sfst_default = 0
 sfst_disabled = -1
 
-slot_faction_policy_assimilation = 82
+slot_faction_policy_assimilation = 83
 
 # Assimilation is forced on captured centers
 sfpa_total = 0
@@ -555,7 +581,7 @@ sfpa_partial = 1
 # No assimilation on captured centers
 sfpa_none = 2
 
-slot_faction_vassal_type = 83
+slot_faction_vassal_type = 84
 
 # Vassal treaties
 sfvt_tributary = 0x01 # pays tribute
@@ -565,7 +591,7 @@ sfvt_bulwark = 0x40 # joins defensive wars of overlord
 sfvt_protectorate = 0x80 # joins defensive wars of vassal
 
 
-slot_faction_kingdom_relation_begin = 84
+slot_faction_kingdom_relation_begin = 85
 slot_faction_kingdom_relation_end = slot_faction_kingdom_relation_begin - kingdoms_begin + kingdoms_end
 
 slot_faction_kingdom_treaties_begin = slot_faction_kingdom_relation_end
@@ -612,8 +638,9 @@ war_storages_begin = "fac_war_storage_1"
 war_storages_end = "fac_war_storage_end"
 
 slot_war_active = 9
+slot_war_start_date = 10
 
-slot_war_kingdom_participant_begin = 10
+slot_war_kingdom_participant_begin = 11
 slot_war_kingdom_participant_end = slot_war_kingdom_participant_begin - kingdoms_begin + kingdoms_end
 
 swkp_main_defender = -2
@@ -629,6 +656,7 @@ kw_desperate = -2
 kw_failling = -1
 kw_neutral = 0
 kw_eager = 1
+
 
 #################
 ## Party Slots ##
