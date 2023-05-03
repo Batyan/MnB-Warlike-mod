@@ -424,7 +424,7 @@ presentations = [
         		
         		(store_add, reg0, "$g_culture_choice", 6),
         		(overlay_set_display, reg0, 1),
-        		(overlay_set_val, "$g_culture_choice", 5),
+        		(overlay_set_val, "$g_culture_choice", 6),
         		
         		(str_store_string, s0, "@Select the faction you wish to join"),
         		(create_text_overlay, reg0, s0, tf_left_align),
