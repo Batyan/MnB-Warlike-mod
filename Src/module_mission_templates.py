@@ -1668,6 +1668,7 @@ mission_templates = [
 					(party_clear, "p_player_casualties"),
 					(party_clear, "p_ally_casualties"),
 					(party_clear, "p_enemy_casualties"),
+					(call_script, "script_clear_faction_casualties"),
 					
 					(try_for_agents, ":cur_agent"),
 						(neg|agent_is_alive, ":cur_agent"),
@@ -1695,7 +1696,19 @@ mission_templates = [
 								(party_wound_members, "p_enemy_casualties", ":agent_troop_id", 1),
 							(try_end),
 						(try_end),
+
+						(try_begin),
+							(ge, ":agent_party", 0),
+							(store_faction_of_party, ":party_faction", ":agent_party"),
+							(is_between, ":party_faction", kingdoms_begin, kingdoms_end),
+							(faction_get_slot, ":num_casualties", ":party_faction", slot_faction_battle_casualties),
+							(val_add, ":num_casualties", 1),
+							(faction_set_slot, ":party_faction", slot_faction_battle_casualties, ":num_casualties"),
+						(try_end),
 					(try_end),
+
+					(call_script, "script_apply_faction_casualties"),
+
 					(try_begin),
 						(eq, ":team_1", 0),
 						(assign, "$g_battle_result", 1),
@@ -1775,6 +1788,7 @@ mission_templates = [
 					(party_clear, "p_player_casualties"),
 					(party_clear, "p_ally_casualties"),
 					(party_clear, "p_enemy_casualties"),
+					(call_script, "script_clear_faction_casualties"),
 					
 					(try_for_agents, ":cur_agent"),
 						(neg|agent_is_alive, ":cur_agent"),
@@ -1802,7 +1816,19 @@ mission_templates = [
 								(party_wound_members, "p_enemy_casualties", ":agent_troop_id", 1),
 							(try_end),
 						(try_end),
+
+						(try_begin),
+							(ge, ":agent_party", 0),
+							(store_faction_of_party, ":party_faction", ":agent_party"),
+							(is_between, ":party_faction", kingdoms_begin, kingdoms_end),
+							(faction_get_slot, ":num_casualties", ":party_faction", slot_faction_battle_casualties),
+							(val_add, ":num_casualties", 1),
+							(faction_set_slot, ":party_faction", slot_faction_battle_casualties, ":num_casualties"),
+						(try_end),
 					(try_end),
+
+					(call_script, "script_apply_faction_casualties"),
+					
 					(try_begin),
 						(eq, ":team_1", 0),
 						(assign, "$g_battle_result", 1),

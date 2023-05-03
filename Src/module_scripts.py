@@ -458,7 +458,7 @@ scripts = [
                 (val_add, ":current_casulaties_gold", ":total_gold"),
                 (party_set_slot, ":defender", slot_party_recent_casualties_loot, ":current_casulaties_gold"),
 
-                (call_script, "script_faction_generate_war_damage_from_casualties", "p_temp_casualties"),
+                (call_script, "script_party_generate_war_damage_from_casualties", "p_temp_casualties"),
                 (assign, ":damage", reg0),
                 (try_begin),
                     (gt, ":damage", 0),
@@ -483,7 +483,7 @@ scripts = [
                 (val_add, ":current_casulaties_gold", ":total_gold"),
                 (party_set_slot, ":attacker", slot_party_recent_casualties_loot, ":current_casulaties_gold"),
 
-                (call_script, "script_faction_generate_war_damage_from_casualties", "p_temp_casualties"),
+                (call_script, "script_party_generate_war_damage_from_casualties", "p_temp_casualties"),
                 (assign, ":damage", reg0),
                 (try_begin),
                     (gt, ":damage", 0),
@@ -492,16 +492,28 @@ scripts = [
             (try_end),
         ]),
 
-    # script_generate_war_damage_from_casualties
+    # script_party_generate_war_damage_from_casualties
         # input:
         #   arg1: casualties_party
         # output:
         #   reg0: war_damage_amount
-    ("faction_generate_war_damage_from_casualties",
+    ("party_generate_war_damage_from_casualties",
         [
             (store_script_param, ":casualties_party", 1),
 
             (party_get_num_companions, ":num_casualties", ":casualties_party"),
+            (call_script, "script_generate_war_damage_from_casualties", ":num_casualties"),
+        ]),
+
+    # script_generate_war_damage_from_casualties
+        # input:
+        #   arg1: num_casualties
+        # output:
+        #   reg0: damage
+    ("generate_war_damage_from_casualties",
+        [
+            (store_script_param, ":num_casualties", 1),
+
             (store_div, ":value", ":num_casualties", war_damage_casualties_divider),
             (store_mod, ":rest", ":num_casualties", war_damage_casualties_divider),
             (try_begin),
@@ -511,7 +523,6 @@ scripts = [
             (try_end),
             (assign, reg0, ":value"),
         ]),
-
     
     # script_party_groups_simulate_battle_approach
         # input:
@@ -1258,6 +1269,31 @@ scripts = [
                 (assign, reg0, attitude_negative),
             (else_try),
                 (assign, reg0, attitude_neutral),
+            (try_end),
+        ]),
+
+    # script_clear_faction_casualties
+        # input: none
+        # output: none
+    ("clear_faction_casualties",
+        [
+            (try_for_range, ":faction_no", kingdoms_begin, kingdoms_end),
+                (faction_set_slot, ":faction_no", slot_faction_battle_casualties, 0),
+            (try_end),
+        ]),
+
+    # script_apply_faction_casualties
+        # input: none
+        # output: none
+    ("apply_faction_casualties",
+        [
+            (try_for_range, ":faction_no", kingdoms_begin, kingdoms_end),
+                (faction_get_slot, ":casualties", ":faction_no", slot_faction_battle_casualties),
+                (gt, ":casualties", 0),
+                (call_script, "script_generate_war_damage_from_casualties", ":casualties"),
+                (assign, ":damage", reg0),
+                (gt, ":damage", 0),
+                (call_script, "script_faction_damage_faction", -1, ":faction_no", ":damage", 1),
             (try_end),
         ]),
 
@@ -14102,6 +14138,7 @@ scripts = [
             
             (try_begin),
                 (eq, ":forced", 0),
+                (is_between, ":dealing_faction", kingdoms_begin, kingdoms_end),
                 # Decrease dealing faction's war damage
                 (faction_get_slot, ":current_damage", ":dealing_faction", slot_faction_war_damage),
                 (store_div, ":damage_reduced", ":damage_amount", war_damage_inflicted_bonus_divider),

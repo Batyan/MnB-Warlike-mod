@@ -590,8 +590,9 @@ sfvt_sattrapy = 0x10 # joins offensive wars of overlord
 sfvt_bulwark = 0x40 # joins defensive wars of overlord
 sfvt_protectorate = 0x80 # joins defensive wars of vassal
 
+slot_faction_battle_casualties = 85
 
-slot_faction_kingdom_relation_begin = 85
+slot_faction_kingdom_relation_begin = 86
 slot_faction_kingdom_relation_end = slot_faction_kingdom_relation_begin - kingdoms_begin + kingdoms_end
 
 slot_faction_kingdom_treaties_begin = slot_faction_kingdom_relation_end
