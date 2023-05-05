@@ -462,7 +462,8 @@ scripts = [
                 (assign, ":damage", reg0),
                 (try_begin),
                     (gt, ":damage", 0),
-                    (call_script, "script_faction_damage_faction", ":attacker_faction", ":defender_faction", ":damage", 1),
+                    (call_script, "script_party_group_spread_war_damage", ":defender", ":damage", ":attacker_faction")
+                    # (call_script, "script_faction_damage_faction", ":attacker_faction", ":defender_faction", ":damage", 1),
                 (try_end),
             (try_end),
 
@@ -487,9 +488,36 @@ scripts = [
                 (assign, ":damage", reg0),
                 (try_begin),
                     (gt, ":damage", 0),
-                    (call_script, "script_faction_damage_faction", ":defender_faction", ":attacker_faction", ":damage", 1),
+                    (call_script, "script_party_group_spread_war_damage", ":attacker", ":damage", ":defender_faction")
+                    # (call_script, "script_faction_damage_faction", ":defender_faction", ":attacker_faction", ":damage", 1),
                 (try_end),
             (try_end),
+        ]),
+
+    # script_party_group_spread_war_damage
+        # input:
+        #   arg1: party_group_no
+        #   arg2: damage_amount
+        #   arg3: damage_dealer_faction
+        # output: none
+    ("party_group_spread_war_damage",
+        [
+            (store_script_param, ":party_group_no", 1),
+            (store_script_param, ":damage_amount", 2),
+            (store_script_param, ":damage_dealer_faction", 3),
+
+            (party_get_num_attached_parties, ":num_attached_parties", ":party_group_no"),
+            (store_add, ":total_parties", ":num_attached_parties", 1),
+
+            (store_div, ":divided_damage", ":total_parties"),
+            (try_for_range, ":cur_party_index", 0, ":num_attached_parties"),
+                (party_get_attached_party_with_rank, ":cur_party", ":party_group_no", ":cur_party_index"),
+                (call_script, "script_party_group_spread_war_damage", ":cur_party", ":divided_damage", ":damage_dealer_faction"),
+            (try_end),
+
+            (store_faction_of_party, ":party_faction", ":party_group_no"),
+
+            (call_script, "script_faction_damage_faction", ":damage_dealer_faction", ":party_faction", ":divided_damage", 1),
         ]),
 
     # script_party_generate_war_damage_from_casualties
@@ -10991,11 +11019,11 @@ scripts = [
 
     
     # script_faction_get_best_candidate_for_center
-    # input:
-    #   arg1: faction_no
-    #   arg2: center_no
-    # output:
-    #   reg0: best_candidate
+        # input:
+        #   arg1: faction_no
+        #   arg2: center_no
+        # output:
+        #   reg0: best_candidate
     ("faction_get_best_candidate_for_center",
         [
             (store_script_param, ":faction_no", 1),
@@ -11075,11 +11103,11 @@ scripts = [
         ]),
     
     # script_party_count_fit_for_battle
-    # Returns the number of unwounded companions in a party
-    # input:
-    #   arg1: party_id
-    # output: 
-    #   reg0: result
+        # Returns the number of unwounded companions in a party
+        # input:
+        #   arg1: party_id
+        # output: 
+        #   reg0: result
     ("party_count_fit_for_battle",
         [
             (store_script_param_1, ":party"),
