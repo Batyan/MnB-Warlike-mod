@@ -652,6 +652,10 @@ game_menus = [
 				[
 					(party_set_faction, "$g_player_party", "$g_test_player_faction"),
 					(troop_set_faction, "$g_player_troop", "$g_test_player_faction"),
+					
+					(try_for_range, ":unused", 0, 10),
+						(call_script, "script_party_add_reinforcements", "$g_player_party"),
+					(try_end),
 			
 					(display_message, "@Joined!"),
 					(jump_to_menu, "mnu_test_faction_join"),
