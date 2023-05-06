@@ -462,7 +462,7 @@ scripts = [
                 (assign, ":damage", reg0),
                 (try_begin),
                     (gt, ":damage", 0),
-                    (call_script, "script_party_group_spread_war_damage", ":defender", ":damage", ":attacker_faction")
+                    (call_script, "script_party_group_spread_war_damage", ":defender", ":damage", ":attacker_faction"),
                     # (call_script, "script_faction_damage_faction", ":attacker_faction", ":defender_faction", ":damage", 1),
                 (try_end),
             (try_end),
@@ -488,7 +488,7 @@ scripts = [
                 (assign, ":damage", reg0),
                 (try_begin),
                     (gt, ":damage", 0),
-                    (call_script, "script_party_group_spread_war_damage", ":attacker", ":damage", ":defender_faction")
+                    (call_script, "script_party_group_spread_war_damage", ":attacker", ":damage", ":defender_faction"),
                     # (call_script, "script_faction_damage_faction", ":defender_faction", ":attacker_faction", ":damage", 1),
                 (try_end),
             (try_end),
@@ -509,7 +509,7 @@ scripts = [
             (party_get_num_attached_parties, ":num_attached_parties", ":party_group_no"),
             (store_add, ":total_parties", ":num_attached_parties", 1),
 
-            (store_div, ":divided_damage", ":total_parties"),
+            (store_div, ":divided_damage", ":damage_amount", ":total_parties"),
             (try_for_range, ":cur_party_index", 0, ":num_attached_parties"),
                 (party_get_attached_party_with_rank, ":cur_party", ":party_group_no", ":cur_party_index"),
                 (call_script, "script_party_group_spread_war_damage", ":cur_party", ":divided_damage", ":damage_dealer_faction"),
