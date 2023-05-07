@@ -4771,12 +4771,12 @@ scripts = [
             (assign, reg0, ":max"),
         ]),
 
-    # script_party_get_expected_taxes
+    # script_party_get_expected_taxes_base
         # input:
         #   arg1: party_no
         # output:
-        #   reg0: expected_taxes
-    ("party_get_expected_taxes",
+        #   reg0: expected_taxes_base
+    ("party_get_expected_taxes_base",
         [
             (store_script_param, ":party_no", 1),
 
@@ -4808,6 +4808,84 @@ scripts = [
             (val_div, ":taxes", 12), # We are doing taxes in a monthly basis
 
             (assign, reg0, ":taxes"),
+        ]),        
+
+    # script_party_get_expected_taxes
+        # input:
+        #   arg1: party_no
+        # output:
+        #   reg0: expected_taxes
+    ("party_get_expected_taxes",
+        [
+            (store_script_param, ":party_no", 1),
+
+            (call_script, "script_party_get_expected_taxes_base", ":party_no"),
+
+            (assign, ":base_taxes", reg0),
+
+            (call_script, "script_party_get_tax_penalties", ":party_no"),
+            (assign, ":penalty", reg0),
+            (store_sub, ":tax_percent", 100, ":penalty"),
+            (val_clamp, ":tax_percent", 0, 101),
+
+            (store_mul, ":total", ":base_taxes", ":tax_percent"),
+            (store_div, reg0, ":total", 100),
+        ]),
+
+
+    # script_party_get_tax_penalties
+        # input:
+        #   arg1: party_no
+        # output:
+        #   reg0: total_penalties_percentage
+        #   reg1: detail_war_damage
+        #   reg2: detail_crime
+        #   reg3: detail_reconstruction
+    ("party_get_tax_penalties",
+        [
+            (store_script_param, ":party_no", 1),
+
+            (party_get_slot, ":party_faction", ":party_no", slot_party_faction),
+            (try_begin),
+                (neg|is_between, ":party_faction", kingdoms_begin, kingdoms_end),
+                (store_faction_of_party, ":party_faction", ":party_no"),
+            (try_end),
+
+            (assign, ":result", 0),
+
+            (call_script, "script_faction_get_war_damage_penalty_score", ":party_faction"),
+            (assign, ":war_damage", reg0),
+            (try_begin),
+                (gt, ":war_damage", 0),
+                (store_div, ":result", ":war_damage", 3),
+                # (store_sqrt, ":result", ":war_damage"),
+            (try_end),
+
+            (val_clamp, ":result", 0, 100),
+            (assign, reg0, ":result"),
+        ]),
+
+    # script_faction_get_war_damage_penalty_score
+        # input:
+        #   arg1: faction_no
+        # output:
+        #   reg0: penalty_score
+    ("faction_get_war_damage_penalty_score",
+        [
+            (store_script_param, ":faction_no", 1),
+
+            (faction_get_slot, ":war_damage", ":faction_no", slot_faction_war_damage),
+
+            (val_div, ":war_damage", war_damage_penalties_begin),
+            (store_div, ":war_damage_offset", ":war_damage", war_damage_penalties_offset_begin),
+            (try_begin),
+                (gt, ":war_damage_offset", 0),
+                (val_mul, ":war_damage_offset", ":war_damage_offset"),
+            (else_try),
+                (assign, ":war_damage_offset", 0),
+            (try_end),
+
+            (store_add, reg0, ":war_damage", ":war_damage_offset"),
         ]),
     
     # script_party_process_taxes
@@ -13196,12 +13274,12 @@ scripts = [
             (try_end),
 
             (store_sub, ":unoccupied_centers", ":total_centers", ":occupied_centers"),
-            (store_mul, ":ratio", ":unoccupied_centers", 120),
+            (store_mul, ":ratio", ":unoccupied_centers", 100),
 
             (faction_get_slot, ":strength", ":faction_no", slot_faction_strength_active),
             (faction_get_slot, ":strength_ready", ":faction_no", slot_faction_strength_ready),
             (val_add, ":strength", ":strength_ready"),
-            # (val_mul, ":strength", 10),
+            (val_mul, ":strength", 10),
             (try_begin),
                 (gt, ":unoccupied_centers", 0),
                 (val_div, ":strength", ":unoccupied_centers"),
@@ -13218,22 +13296,25 @@ scripts = [
 
             (val_min, ":strength", 100),
 
-            # score goes from -100 to 20
+            # score goes from -100 to 0
             (val_sub, ":ratio", 100),
 
-            (val_div, ":war_damage", war_damage_penalties_begin),
-            (store_div, ":war_damage_offset", ":war_damage", war_damage_penalties_offset_begin),
-            (try_begin),
-                (gt, ":war_damage_offset", 0),
-                (val_mul, ":war_damage_offset", ":war_damage_offset"),
-            (else_try),
-                (assign, ":war_damage_offset", 0),
-            (try_end),
+            (call_script, "script_faction_get_war_damage_penalty_score", ":faction_no"),
+            (assign, ":war_damage", reg0),
+
+            # (val_div, ":war_damage", war_damage_penalties_begin),
+            # (store_div, ":war_damage_offset", ":war_damage", war_damage_penalties_offset_begin),
+            # (try_begin),
+            #     (gt, ":war_damage_offset", 0),
+            #     (val_mul, ":war_damage_offset", ":war_damage_offset"),
+            # (else_try),
+            #     (assign, ":war_damage_offset", 0),
+            # (try_end),
 
             (store_add, ":final_ratio", ":ratio"),
             (val_add, ":final_ratio", ":strength"),
             (val_sub, ":final_ratio", ":war_damage"),
-            (val_sub, ":final_ratio", ":war_damage_offset"),
+            # (val_sub, ":final_ratio", ":war_damage_offset"),
 
             (val_max, ":final_ratio", -100),
             (val_min, ":final_ratio", 100),
@@ -13247,9 +13328,9 @@ scripts = [
                 (assign, reg11, ":ratio"),
                 (assign, reg12, ":strength"),
                 (assign, reg13, ":war_damage"),
-                (assign, reg14, ":war_damage_offset"),
+                # (assign, reg14, ":war_damage_offset"),
 
-                (display_message, "@{s10} war score: {s11} - {reg10} = {reg11} + {reg12} - {reg13} - {reg14}"),
+                (display_message, "@{s10} war score: {s11} / {reg10} = {reg11} + {reg12} - {reg13}"),
             (try_end),
 
             (assign, reg0, ":final_ratio"),

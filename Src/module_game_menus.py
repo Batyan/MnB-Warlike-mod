@@ -652,7 +652,7 @@ game_menus = [
 				[
 					(party_set_faction, "$g_player_party", "$g_test_player_faction"),
 					(troop_set_faction, "$g_player_troop", "$g_test_player_faction"),
-					
+
 					(try_for_range, ":unused", 0, 10),
 						(call_script, "script_party_add_reinforcements", "$g_player_party"),
 					(try_end),
@@ -710,6 +710,10 @@ game_menus = [
 				(call_script, "script_party_get_expected_taxes", "$g_encountered_party"),
 				(assign, reg17, reg0),
 				(display_message, "@Expected taxes: {reg17}"),
+
+				(call_script, "script_party_get_tax_penalties", "$g_encountered_party"),
+				(assign, reg18, reg0),
+				(display_message, "@Tax penalties: {reg18}"),
 
 				(party_get_slot, ":total_res", "$g_encountered_party", slot_party_total_resources),
 	            (str_store_party_name, s12, "$g_encountered_party"),

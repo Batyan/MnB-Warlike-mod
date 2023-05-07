@@ -377,7 +377,7 @@ center_size_town = 10
 party_size_leader = 12
 party_size_town = 10
 party_size_castle = 6
-party_size_village = 3
+party_size_village = 2
 party_size_none = 1
 
 attitude_negative = -1
