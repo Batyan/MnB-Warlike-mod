@@ -537,7 +537,7 @@ simple_triggers = [
                     (gt, ":leaded_party", 0),
                     (party_is_active, ":leaded_party"),
 
-                    (store_faction_of_party, ":lord_kingdom", ":lord_no"),
+                    (store_troop_faction, ":lord_kingdom", ":lord_no"),
                     (faction_get_slot, ":current_strength", ":lord_kingdom", slot_faction_strength_active),
 
                     (assign, ":value", 0),
