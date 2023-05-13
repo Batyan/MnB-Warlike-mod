@@ -11,6 +11,7 @@ v 0.410:
 * add marshall selection
 * decrease autoresolve combat damage at night by 50%
 * reworked autoresolve troops strength to match more closely troops wages
+* defenders are given 20 seconds to prepare before attacker spawns during siege
 
 -Balance changes:
 * add 3 new castle and associated village for minor khergit, nord and rhodok

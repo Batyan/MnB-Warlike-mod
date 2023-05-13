@@ -540,6 +540,9 @@ battle_reinforcements_siege = (
 			(assign, ":num_men_threshold", 12),
 			(try_begin),
 				(lt, ":num_alive", ":num_men_threshold"),
+
+				(this_or_next|eq, ":cur_team", 0),
+				(gt, "$g_attacker_reinforcements_delay", 1),
 				
 				(call_script, "script_scene_get_spawn_range", ":cur_team"),
 				(assign, ":spawn_begin", reg0),
@@ -552,6 +555,9 @@ battle_reinforcements_siege = (
 				(add_reinforcements_to_entry, ":spawn_point", 2),
 			(try_end),
 		(try_end),
+
+		(val_max, "$g_attacker_reinforcements_delay", 0),
+		(val_add, "$g_attacker_reinforcements_delay", 1),
 	])
 
 battle_reinforcements = (
@@ -1728,7 +1734,7 @@ mission_templates = [
 			
 		]),
 		
-		("battle_siege", mtf_battle_mode, charge,
+	("battle_siege", mtf_battle_mode, charge,
 		"Lead charge",
 		[
 			(0, mtef_defenders|mtef_team_0, af_override_horse, aif_start_alarmed, 0, []),
@@ -1765,6 +1771,8 @@ mission_templates = [
 						
 					(team_set_slot, 1, slot_team_formation, stf_default),
 					(call_script, "script_team_set_division_slots_for_formation", 1, stf_default),
+
+					(assign, "$g_attacker_reinforcements_delay", 0),
 				]),
 			
 			(ti_tab_pressed, 0, 0, [],
