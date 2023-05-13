@@ -540,24 +540,7 @@ simple_triggers = [
                     (store_troop_faction, ":lord_kingdom", ":lord_no"),
                     (faction_get_slot, ":current_strength", ":lord_kingdom", slot_faction_strength_active),
 
-                    (assign, ":value", 0),
-
-                    (troop_get_slot, ":rank", ":lord_no", slot_troop_rank),
-                    (try_begin),
-                        (ge, ":rank", rank_marshall),
-                        (assign, ":value", party_size_leader),
-                    (else_try),
-                        (ge, ":rank", rank_city),
-                        (assign, ":value", party_size_town),
-                    (else_try),
-                        (ge, ":rank", rank_castle),
-                        (assign, ":value", party_size_castle),
-                    (else_try),
-                        (ge, ":rank", rank_village),
-                        (assign, ":value", party_size_village),
-                    (else_try),
-                        (assign, ":value", party_size_none),
-                    (try_end),
+                    (party_get_slot, ":value", ":leaded_party", slot_party_wages_cache),
 
                     (val_add, ":current_strength", ":value"),
                     (faction_set_slot, ":lord_kingdom", slot_faction_strength_active, ":current_strength"),
@@ -570,6 +553,36 @@ simple_triggers = [
                         (party_set_slot, ":lord_kingdom", slot_faction_strength_ready, ":current_strength_ready"),
                     (try_end),
                 (try_end),
+            (try_end),
+
+            (try_for_range, ":war_storage", war_storages_begin, war_storages_end),
+                (faction_set_slot, ":war_storage", slot_war_defender_strength, 0),
+                (faction_set_slot, ":war_storage", slot_war_attacker_strength, 0),
+            (try_end),
+
+            (try_for_range, ":war_storage", war_storages_begin, war_storages_end),
+                (faction_slot_eq, ":war_storage", slot_war_active, 1),
+
+                (faction_get_slot, ":defender_strength", ":war_storage", slot_war_defender_strength),
+                (faction_get_slot, ":attacker_strength", ":war_storage", slot_war_attacker_strength),
+
+                (try_for_range, ":participant", slot_war_kingdom_participant_begin, slot_war_kingdom_participant_end),
+                    (neq, ":participant", swkp_bystander),
+                    (store_sub, ":offset", ":participant", slot_war_kingdom_participant_begin),
+                    (store_add, ":faction", ":offset", kingdoms_begin),
+                    (faction_get_slot, ":faction_strength", ":faction", slot_faction_strength_active),
+
+                    (try_begin),
+                        (lt, ":participant", swkp_bystander), # defender
+                        (val_add, ":defender_strength", ":faction_strength"),
+                    (else_try),
+                        (gt, ":participant", swkp_bystander), # attacker
+                        (val_add, ":attacker_strength", ":faction_strength"),
+                    (try_end),
+                (try_end),
+
+                (faction_set_slot, ":war_storage", slot_war_defender_strength, ":defender_strength"),
+                (faction_set_slot, ":war_storage", slot_war_attacker_strength, ":attacker_strength"),
             (try_end),
         ]),
 ]

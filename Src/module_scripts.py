@@ -7416,8 +7416,8 @@ scripts = [
                 (try_end),
 
                 (try_begin),
-                    (is_between, ":party_type", spt_village, spt_fort + 1),
-                    (assign, ":tolerance_min", 90),
+                    (eq, ":party_type", spt_village),
+                    (assign, ":tolerance_min", 80),
                     (assign, ":tolerance_max", 150),
                 (try_end),
             (try_end),
@@ -7815,6 +7815,7 @@ scripts = [
                     (troop_set_slot, ":troop_no", slot_troop_leaded_party, ":party"),
                     
                     (party_set_slot, ":party", slot_party_type, spt_war_party),
+                    (party_set_slot, ":party", slot_party_wages_cache, 0),
                     
                     (call_script, "script_party_set_behavior", ":party", tai_traveling_to_party, ":home"),
                     
@@ -9049,14 +9050,6 @@ scripts = [
                 (try_end),
 
                 (eq, ":continue", 1),
-
-                (try_begin),
-                    (call_script, "script_party_get_prefered_wages_limit", ":center_no"),
-                    (assign, ":center_limit", reg1),
-                    (call_script, "script_party_get_wages", ":center_no"),
-                    (assign, ":center_wages", reg0),
-                    (gt, ":center_wages", ":center_limit"),
-                (try_end),
 
                 # Nearby centers are more likely to send troops at a lower price
                 (store_distance_to_party_from_party, ":dist", ":party_no", ":center_no"),
@@ -13263,13 +13256,10 @@ scripts = [
                 (eq, ":center_faction", ":faction_no"),
                 (store_faction_of_party, ":current_faction", ":center_no"),
 
-                (call_script, "script_party_get_size", ":center_no"),
-                (assign, ":size", reg0),
-
-                (val_add, ":total_centers", ":size"),
+                (val_add, ":total_centers", 1),
                 (try_begin),
                     (neq, ":center_faction", ":current_faction"),
-                    (val_add, ":occupied_centers", ":size"),
+                    (val_add, ":occupied_centers", 1),
                 (try_end),
             (try_end),
 
@@ -13279,19 +13269,13 @@ scripts = [
             (faction_get_slot, ":strength", ":faction_no", slot_faction_strength_active),
             (faction_get_slot, ":strength_ready", ":faction_no", slot_faction_strength_ready),
             (val_add, ":strength", ":strength_ready"),
-            (val_mul, ":strength", 10),
-            (try_begin),
-                (gt, ":unoccupied_centers", 0),
-                (val_div, ":strength", ":unoccupied_centers"),
-            (try_end),
+            (val_div, ":strength", 2200),
 
             (faction_get_slot, ":war_damage", ":faction_no", slot_faction_war_damage),
 
             (try_begin),
                 (gt, ":total_centers", 0),
                 (val_div, ":ratio", ":total_centers"),
-                # (val_div, ":strength", ":total_centers"),
-                # (val_div, ":war_damage", ":total_centers"),
             (try_end),
 
             (val_min, ":strength", 100),
@@ -13302,19 +13286,9 @@ scripts = [
             (call_script, "script_faction_get_war_damage_penalty_score", ":faction_no"),
             (assign, ":war_damage", reg0),
 
-            # (val_div, ":war_damage", war_damage_penalties_begin),
-            # (store_div, ":war_damage_offset", ":war_damage", war_damage_penalties_offset_begin),
-            # (try_begin),
-            #     (gt, ":war_damage_offset", 0),
-            #     (val_mul, ":war_damage_offset", ":war_damage_offset"),
-            # (else_try),
-            #     (assign, ":war_damage_offset", 0),
-            # (try_end),
-
             (store_add, ":final_ratio", ":ratio"),
             (val_add, ":final_ratio", ":strength"),
             (val_sub, ":final_ratio", ":war_damage"),
-            # (val_sub, ":final_ratio", ":war_damage_offset"),
 
             (val_max, ":final_ratio", -100),
             (val_min, ":final_ratio", 100),
@@ -13328,7 +13302,6 @@ scripts = [
                 (assign, reg11, ":ratio"),
                 (assign, reg12, ":strength"),
                 (assign, reg13, ":war_damage"),
-                # (assign, reg14, ":war_damage_offset"),
 
                 (display_message, "@{s10} war score: {s11} / {reg10} = {reg11} + {reg12} - {reg13}"),
             (try_end),
@@ -15722,6 +15695,8 @@ scripts = [
 
             (val_mul, ":party_wages", ":modifier"),
             (val_div, ":party_wages", 100),
+
+            (party_set_slot, ":party_no", slot_party_wages_cache, ":party_wages"),
 
             (assign, reg0, ":party_wages"),
         ]),

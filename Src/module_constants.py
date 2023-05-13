@@ -292,9 +292,9 @@ archer_score_shield_malus = 60
 war_damage_base_lord_defeated = 20
 war_damage_base_lord_killed = 100
 
-war_damage_base_village_taken = 80
-war_damage_base_castle_taken = 200
-war_damage_base_town_taken = 500
+war_damage_base_village_taken = 40
+war_damage_base_castle_taken = 120
+war_damage_base_town_taken = 300
 
 war_damage_raid_divider = 2
 war_damage_siege_divider = 20
@@ -304,10 +304,10 @@ war_damage_inflicted_bonus_divider = 5
 war_damage_natural_decline_base = 2
 war_damage_natural_decline_divider = 100
 
-war_damage_penalties_begin = 200
+war_damage_penalties_begin = 150
 war_damage_penalties_offset_begin = 10
 
-war_damage_casualties_divider = 5 # Each set of casualties generates a single point of war damage
+war_damage_casualties_divider = 3 # Each set of casualties generates a single point of war damage
 
 faction_size_names_begin = str_swadian_faction_small
 faction_size_names_end = str_sarranid_faction_large + 1
@@ -641,7 +641,10 @@ war_storages_end = "fac_war_storage_end"
 slot_war_active = 9
 slot_war_start_date = 10
 
-slot_war_kingdom_participant_begin = 11
+slot_war_defender_strength = 11
+slot_war_attacker_strength = 12
+
+slot_war_kingdom_participant_begin = 13
 slot_war_kingdom_participant_end = slot_war_kingdom_participant_begin - kingdoms_begin + kingdoms_end
 
 swkp_main_defender = -2
@@ -726,11 +729,12 @@ taxes_noble_amount = 16
 taxes_artisan_amount = 4
 taxes_serf_amount = 2
 
-slot_party_wanted_party_wages = 13 # Only centers / non hero parties
+slot_party_wanted_party_wages = 13
 slot_party_accumulated_taxes = 14
 
-slot_party_ressource_radius = 16
+slot_party_wages_cache = 15 # Used to get non accurate wages
 
+slot_party_ressource_radius = 16
 
 slot_party_total_resources = 17
 
