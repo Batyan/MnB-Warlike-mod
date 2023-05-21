@@ -1951,7 +1951,7 @@ troops = [
     itm_rawhide_coat, itm_leather_vest, itm_linen_tunic, itm_fur_coat,
     itm_vaegir_fur_cap, itm_leather_cap, itm_leather_warrior_cap,
     ],
-   str_9|agi_8|int_6|cha_6|level(7), wpex(60,60,40,85,30,30), knows_common|knows_ironflesh_3|knows_power_strike_3|knows_power_draw_4|knows_athletics_2|knows_riding_2|knows_horse_archery_1, vaegir_face_young_1, vaegir_face_old_2 ],
+   str_9|agi_8|int_6|cha_7|level(7), wpex(60,60,40,85,30,30), knows_common|knows_ironflesh_3|knows_power_strike_3|knows_power_draw_4|knows_athletics_2|knows_riding_2|knows_horse_archery_1, vaegir_face_young_1, vaegir_face_old_2 ],
   
   # Basic infantry, clubs, shields
   # SPECIAL
@@ -2354,7 +2354,7 @@ troops = [
     itm_leather_vest, itm_coarse_tunic,
     itm_nomad_cap_b, itm_nomad_cap, itm_leather_steppe_cap_a, itm_leather_steppe_cap_c,
     ],
-   str_9|agi_9|int_6|cha_5|level(6), wpex(60,50,80,50,20,40), knows_common|knows_ironflesh_2|knows_power_strike_3|knows_power_draw_1|knows_athletics_3|knows_riding_2, khergit_face_young_1, khergit_face_old_2 ],
+   str_9|agi_9|int_5|cha_5|level(5), wpex(60,50,80,50,20,40), knows_common|knows_ironflesh_2|knows_power_strike_3|knows_power_draw_1|knows_athletics_3|knows_riding_2, khergit_face_young_1, khergit_face_old_2 ],
   
   # Basic ranged, maces, bows
   ["khergit_militia", "Khergit Tribesman", "Khergit Tribesmen", tf_guarantee_recruit_armor|tf_guarantee_shield, no_scene, reserved, fac_kingdom_3,
@@ -2363,7 +2363,7 @@ troops = [
     itm_leather_vest, itm_coarse_tunic,
     itm_nomad_cap_b, itm_nomad_cap, itm_leather_steppe_cap_a, itm_leather_steppe_cap_c,
     ],
-   str_9|agi_9|int_6|cha_7|level(8), wpex(65,50,50,75,30,45), knows_common|knows_power_strike_2|knows_power_draw_4|knows_athletics_3|knows_riding_2|knows_horse_archery_1, khergit_face_young_1, khergit_face_old_2 ],
+   str_9|agi_9|int_6|cha_6|level(7), wpex(65,50,50,75,30,45), knows_common|knows_power_strike_2|knows_power_draw_4|knows_athletics_3|knows_riding_2|knows_horse_archery_1, khergit_face_young_1, khergit_face_old_2 ],
   
   # Basic cavalry ranged, spears, bows
   # SPECIAL
@@ -2373,7 +2373,7 @@ troops = [
     itm_leather_vest, itm_coarse_tunic,
     itm_nomad_cap_b, itm_nomad_cap, itm_leather_steppe_cap_a, itm_leather_steppe_cap_c,
     itm_steppe_horse],
-   str_9|agi_11|int_7|cha_8|level(12), wpex(55,50,70,60,30,45), knows_common|knows_power_strike_3|knows_power_draw_4|knows_athletics_2|knows_riding_5|knows_horse_archery_2, khergit_face_young_1, khergit_face_old_2 ],
+   str_9|agi_11|int_5|cha_7|level(9), wpex(55,50,70,60,30,45), knows_common|knows_power_strike_3|knows_power_draw_4|knows_athletics_2|knows_riding_5|knows_horse_archery_2, khergit_face_young_1, khergit_face_old_2 ],
   
   # Basic infantry, swords, shields
   # SPECIAL
@@ -2383,7 +2383,7 @@ troops = [
     itm_leather_vest, itm_coarse_tunic,
     itm_nomad_cap_b, itm_nomad_cap, itm_leather_steppe_cap_a, itm_leather_steppe_cap_c,
     ],
-   str_8|agi_11|int_5|cha_6|level(7), wpex(65,55,70,50,20,40), knows_common|knows_power_strike_3|knows_athletics_4|knows_riding_2, khergit_face_young_1, khergit_face_old_2 ],
+   str_8|agi_10|int_5|cha_6|level(6), wpex(65,55,70,50,20,40), knows_common|knows_ironflesh_1|knows_power_strike_3|knows_athletics_4|knows_riding_2, khergit_face_young_1, khergit_face_old_2 ],
 
   # Common
   # Light infantry, sabres, maces, javelins, shields
@@ -2393,7 +2393,7 @@ troops = [
     itm_leather_vest, itm_steppe_armor,
     itm_leather_steppe_cap_b, itm_leather_steppe_cap_c, itm_steppe_cap,
     ],
-   str_10|agi_15|int_7|cha_6|level(15), wpex(100,80,95,60,20,80), knows_common|knows_ironflesh_1|knows_power_strike_4|knows_power_throw_2|knows_power_draw_2|knows_athletics_4|knows_riding_3|knows_shield_1|knows_horse_archery_1, khergit_face_young_1, khergit_face_old_2 ],
+   str_10|agi_15|int_7|cha_6|level(15), wpex(100,80,95,60,20,80), knows_common|knows_ironflesh_2|knows_power_strike_4|knows_power_throw_2|knows_power_draw_2|knows_athletics_4|knows_riding_3|knows_shield_1|knows_horse_archery_1, khergit_face_young_1, khergit_face_old_2 ],
   
   # Light infantry skirmisher, sabres, maces, javelins, bows, shields
   ["khergit_skirmisher", "Khergit Skirmisher", "Khergit Skirmishers", tf_guarantee_recruit_armor|tf_guarantee_ranged, no_scene, reserved, fac_kingdom_3,
@@ -2402,7 +2402,7 @@ troops = [
     itm_leather_vest, itm_steppe_armor,
     itm_leather_steppe_cap_b, itm_leather_steppe_cap_c, itm_steppe_cap,
     ],
-   str_11|agi_16|int_7|cha_8|level(19), wpex(90,75,85,120,30,100), knows_common|knows_power_strike_2|knows_power_throw_3|knows_power_draw_4|knows_athletics_5|knows_riding_3|knows_horse_archery_2, khergit_face_young_1, khergit_face_old_2 ],
+   str_10|agi_15|int_7|cha_7|level(16), wpex(90,75,85,120,30,100), knows_common|knows_power_strike_2|knows_power_throw_3|knows_power_draw_4|knows_athletics_5|knows_riding_3|knows_horse_archery_2, khergit_face_young_1, khergit_face_old_2 ],
   
   # Light cavalry, sabres, maces, javelins, shields
   ["khergit_light_cavalry", "Khergit Light Cavalry", "Khergit Light Cavalries", tf_guarantee_common_armor|tf_guarantee_horseman|tf_guarantee_shield, no_scene, reserved, fac_kingdom_3,
@@ -2411,7 +2411,7 @@ troops = [
     itm_leather_vest, itm_steppe_armor,
     itm_leather_steppe_cap_b, itm_steppe_cap,
     itm_steppe_horse],
-   str_10|agi_15|int_7|cha_9|level(18), wpex(110,80,100,60,20,70), knows_common|knows_ironflesh_1|knows_power_strike_4|knows_power_throw_2|knows_power_draw_2|knows_athletics_3|knows_riding_6|knows_horse_archery_3, khergit_face_young_1, khergit_face_old_2 ],
+   str_10|agi_15|int_7|cha_8|level(17), wpex(110,80,100,60,20,70), knows_common|knows_ironflesh_1|knows_power_strike_4|knows_power_throw_2|knows_power_draw_2|knows_athletics_3|knows_riding_6|knows_horse_archery_3, khergit_face_young_1, khergit_face_old_2 ],
   
   # Light cavalry skirmisher, lances, bows, shields
   ["khergit_mounted_skirmisher", "Khergit Mounted Skirmisher", "Khergit Mounted Skirmishers", tf_guarantee_recruit_armor|tf_guarantee_horseman|tf_guarantee_ranged, no_scene, reserved, fac_kingdom_3,
@@ -2420,7 +2420,7 @@ troops = [
     itm_leather_vest, itm_steppe_armor,
     itm_leather_steppe_cap_b, itm_leather_steppe_cap_c, itm_steppe_cap,
     itm_steppe_horse, itm_courser],
-   str_9|agi_17|int_8|cha_9|level(20), wpex(85,75,115,120,25,65), knows_common|knows_power_strike_2|knows_power_throw_1|knows_power_draw_4|knows_athletics_3|knows_riding_6|knows_horse_archery_5, khergit_face_young_1, khergit_face_old_2 ],
+   str_9|agi_16|int_7|cha_9|level(18), wpex(85,75,115,120,25,65), knows_common|knows_power_strike_2|knows_power_throw_1|knows_power_draw_4|knows_athletics_3|knows_riding_6|knows_horse_archery_5, khergit_face_young_1, khergit_face_old_2 ],
   
   # Light cavalry, lances, shields
   ["khergit_light_lancer", "Khergit Light Lancer", "Khergit Light Lancers", tf_guarantee_common_armor|tf_guarantee_horseman|tf_guarantee_shield, no_scene, reserved, fac_kingdom_3,
@@ -2429,7 +2429,7 @@ troops = [
     itm_nomad_robe, itm_tribal_warrior_outfit,
     itm_leather_steppe_cap_b,
     itm_courser],
-   str_12|agi_16|int_7|cha_10|level(22), wpex(90,80,160,60,20,65), knows_common|knows_ironflesh_4|knows_power_strike_5|knows_power_throw_1|knows_power_draw_2|knows_athletics_4|knows_riding_6|knows_horse_archery_2, khergit_face_young_1, khergit_face_old_2 ],
+   str_12|agi_16|int_7|cha_9|level(21), wpex(90,80,160,60,20,65), knows_common|knows_ironflesh_4|knows_power_strike_5|knows_power_throw_1|knows_power_draw_2|knows_athletics_4|knows_riding_6|knows_horse_archery_2, khergit_face_young_1, khergit_face_old_2 ],
   
   # Light infantry, spears, shields
   ["khergit_light_spearman", "Khergit Light Spearman", "Khergit Light Spearmen", tf_guarantee_common_armor|tf_guarantee_shield, no_scene, reserved, fac_kingdom_3,
@@ -2438,7 +2438,7 @@ troops = [
     itm_steppe_armor,
     itm_leather_steppe_cap_b,
     ],
-   str_11|agi_14|int_7|cha_6|level(15), wpex(85,70,135,60,20,55), knows_common|knows_ironflesh_2|knows_power_strike_5|knows_power_throw_1|knows_power_draw_2|knows_athletics_3|knows_riding_3|knows_horse_archery_1, khergit_face_young_1, khergit_face_old_2 ],
+   str_11|agi_14|int_6|cha_6|level(14), wpex(85,70,135,60,20,55), knows_common|knows_ironflesh_2|knows_power_strike_5|knows_power_throw_1|knows_power_draw_2|knows_athletics_3|knows_riding_3|knows_horse_archery_1, khergit_face_young_1, khergit_face_old_2 ],
   
   # Light cavalry ranged, sabres, maces, bows
   # SPECIAL
@@ -2448,7 +2448,7 @@ troops = [
     itm_leather_vest, itm_steppe_armor,
     itm_leather_steppe_cap_b, itm_steppe_cap,
     itm_steppe_horse, itm_courser],
-   str_9|agi_17|int_9|cha_9|level(21), wpex(75,65,75,140,25,65), knows_common|knows_ironflesh_1|knows_power_strike_2|knows_power_throw_1|knows_power_draw_4|knows_athletics_3|knows_riding_6|knows_horse_archery_5, khergit_face_young_1, khergit_face_old_2 ],
+   str_9|agi_17|int_8|cha_8|level(19), wpex(75,65,75,140,25,65), knows_common|knows_ironflesh_1|knows_power_strike_2|knows_power_throw_1|knows_power_draw_4|knows_athletics_3|knows_riding_6|knows_horse_archery_5, khergit_face_young_1, khergit_face_old_2 ],
   
   # Medium infantry, spears
   # SPECIAL
@@ -2468,7 +2468,7 @@ troops = [
     itm_leather_vest, itm_steppe_armor,
     itm_leather_steppe_cap_b, itm_steppe_cap,
     itm_steppe_horse],
-   str_9|agi_17|int_8|cha_9|level(20), wpex(95,80,100,60,20,105), knows_common|knows_power_strike_4|knows_power_throw_3|knows_power_draw_2|knows_athletics_3|knows_riding_6|knows_horse_archery_5, khergit_face_young_1, khergit_face_old_2 ],
+   str_9|agi_15|int_7|cha_8|level(16), wpex(95,80,100,60,20,105), knows_common|knows_power_strike_4|knows_power_throw_3|knows_power_draw_2|knows_athletics_3|knows_riding_6|knows_horse_archery_5, khergit_face_young_1, khergit_face_old_2 ],
   
   # Light infantry skirmisher, sabres, maces, javelins, shields
   # SPECIAL
@@ -2488,7 +2488,7 @@ troops = [
     itm_nomad_robe, itm_tribal_warrior_outfit,
     itm_leather_steppe_cap_b,
     itm_courser],
-   str_13|agi_16|int_7|cha_9|level(22), wpex(90,80,150,130,20,70), knows_common|knows_ironflesh_2|knows_power_strike_4|knows_power_throw_1|knows_power_draw_4|knows_athletics_3|knows_riding_6|knows_horse_archery_5, khergit_face_young_1, khergit_face_old_2 ],
+   str_13|agi_15|int_7|cha_8|level(20), wpex(90,80,150,130,20,70), knows_common|knows_ironflesh_2|knows_power_strike_4|knows_power_throw_1|knows_power_draw_4|knows_athletics_3|knows_riding_6|knows_horse_archery_5, khergit_face_young_1, khergit_face_old_2 ],
   
   # Veteran
   # Light ranged, sabres, bows
@@ -2584,7 +2584,7 @@ troops = [
     itm_lamellar_vest_khergit,
     itm_khergit_cavalry_helmet, itm_khergit_guard_helmet,
     ],
-   str_16|agi_15|int_10|cha_9|level(27), wpex(100,85,150,70,25,75), knows_common|knows_ironflesh_4|knows_power_strike_5|knows_power_throw_1|knows_power_draw_3|knows_athletics_4|knows_riding_3|knows_horse_archery_1, khergit_face_young_1, khergit_face_old_2 ],
+   str_16|agi_15|int_10|cha_9|level(27), wpex(100,85,150,70,25,75), knows_common|knows_ironflesh_6|knows_power_strike_5|knows_power_throw_1|knows_power_draw_3|knows_athletics_5|knows_riding_3|knows_horse_archery_1, khergit_face_young_1, khergit_face_old_2 ],
   
   # Medium cavalry ranged, sabres, maces, bows
   ["khergit_heavy_horse_archer", "Khergit Heavy Horse Archer", "Khergit Heavy Horse Archers", tf_guarantee_trained_armor|tf_guarantee_horseman|tf_guarantee_ranged|tf_guarantee_shield, no_scene, reserved, fac_kingdom_3,
@@ -2593,7 +2593,7 @@ troops = [
     itm_lamellar_vest_khergit,
     itm_leather_steppe_cap_b, itm_khergit_war_helmet,
     itm_courser, itm_steppe_horse],
-   str_13|agi_17|int_9|cha_12|level(28), wpex(95,75,85,125,40,90), knows_common|knows_ironflesh_4|knows_power_strike_2|knows_power_throw_2|knows_power_draw_5|knows_athletics_3|knows_riding_6|knows_horse_archery_6, khergit_face_young_1, khergit_face_old_2 ],
+   str_13|agi_17|int_9|cha_12|level(28), wpex(95,75,85,125,40,90), knows_common|knows_ironflesh_4|knows_power_strike_3|knows_power_throw_2|knows_power_draw_5|knows_athletics_3|knows_riding_6|knows_horse_archery_7, khergit_face_young_1, khergit_face_old_2 ],
   
   # Heavy cavalry, lances, shields
   # SPECIAL
@@ -2640,7 +2640,7 @@ troops = [
   ["khergit_noble", "Khergit Noble Horse Archer", "Khergit Noble Horse Archers", tf_guarantee_trained_armor|tf_guarantee_horseman|tf_guarantee_shield|tf_guarantee_ranged, no_scene, reserved, fac_kingdom_3,
    [itm_sword_khergit_4, itm_spiked_mace, itm_khergit_bow, itm_khergit_arrows, itm_tab_shield_small_round_c,itm_tab_shield_small_round_c_plain_1,itm_tab_shield_small_round_c_plain_2,
     itm_splinted_greaves, itm_leather_gloves, itm_scale_gauntlets,
-    itm_lamellar_armor, itm_lamellar_vest_khergit,
+    itm_lamellar_armor,
     itm_khergit_cavalry_helmet, itm_khergit_guard_helmet,
     itm_hunter],
    str_16|agi_22|int_11|cha_21|level(47), wpex(115,100,125,145,45,95), knows_common|knows_ironflesh_5|knows_power_strike_4|knows_power_throw_2|knows_power_draw_5|knows_athletics_5|knows_riding_7|knows_shield_1|knows_horse_archery_7, khergit_face_young_1, khergit_face_old_2 ],
@@ -2653,7 +2653,7 @@ troops = [
     itm_lamellar_vest_khergit,
     itm_khergit_cavalry_helmet, itm_khergit_guard_helmet,
     itm_hunter],
-   str_17|agi_19|int_11|cha_19|level(43), wpex(105,100,150,90,45,85), knows_common|knows_ironflesh_5|knows_power_strike_5|knows_power_throw_2|knows_power_draw_3|knows_athletics_4|knows_riding_7|knows_shield_1|knows_horse_archery_2, khergit_face_young_1, khergit_face_old_2 ],
+   str_17|agi_19|int_11|cha_19|level(43), wpex(105,100,150,90,45,85), knows_common|knows_ironflesh_6|knows_power_strike_5|knows_power_throw_2|knows_power_draw_3|knows_athletics_4|knows_riding_7|knows_shield_1|knows_horse_archery_2, khergit_face_young_1, khergit_face_old_2 ],
   
   # Heavy cavalry, sabres, maces, shields
   # SPECIAL
@@ -2663,7 +2663,7 @@ troops = [
     itm_lamellar_armor,
     itm_khergit_cavalry_helmet, itm_khergit_guard_helmet,
     itm_warhorse_steppe],
-   str_17|agi_21|int_11|cha_19|level(45), wpex(115,100,130,90,45,85), knows_common|knows_ironflesh_4|knows_power_strike_4|knows_power_throw_2|knows_power_draw_3|knows_athletics_4|knows_riding_7|knows_shield_1|knows_horse_archery_2, khergit_face_young_1, khergit_face_old_2 ],
+   str_17|agi_21|int_11|cha_19|level(45), wpex(115,100,130,90,45,85), knows_common|knows_ironflesh_6|knows_power_strike_4|knows_power_throw_2|knows_power_draw_3|knows_athletics_4|knows_riding_7|knows_shield_1|knows_horse_archery_2, khergit_face_young_1, khergit_face_old_2 ],
   
   # Heavy cavalry, lances, shields
   # SPECIAL
@@ -2683,7 +2683,7 @@ troops = [
     itm_lamellar_armor,
     itm_khergit_cavalry_helmet, itm_khergit_guard_helmet,
     itm_warhorse_steppe],
-   str_18|agi_22|int_11|cha_19|level(47), wpex(100,90,160,120,45,85), knows_common|knows_ironflesh_6|knows_power_strike_5|knows_power_throw_2|knows_power_draw_5|knows_athletics_4|knows_riding_7|knows_shield_1|knows_horse_archery_6, khergit_face_young_1, khergit_face_old_2 ],
+   str_18|agi_22|int_11|cha_19|level(47), wpex(100,90,160,120,45,85), knows_common|knows_ironflesh_7|knows_power_strike_5|knows_power_throw_2|knows_power_draw_5|knows_athletics_4|knows_riding_7|knows_shield_1|knows_horse_archery_6, khergit_face_young_1, khergit_face_old_2 ],
   
   #########
   # Nords #
