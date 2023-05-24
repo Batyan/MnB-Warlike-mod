@@ -5498,11 +5498,11 @@ scripts = [
             (faction_set_slot, "fac_kingdom_2", slot_faction_elite_num_tries, 0),
             (faction_set_slot, "fac_kingdom_2", slot_faction_noble_num_tries, 0),
             
-            (faction_set_slot, "fac_kingdom_3", slot_faction_peasant_num_tries, 25),
-            (faction_set_slot, "fac_kingdom_3", slot_faction_common_num_tries, 50),
-            (faction_set_slot, "fac_kingdom_3", slot_faction_veteran_num_tries, 0),
-            (faction_set_slot, "fac_kingdom_3", slot_faction_elite_num_tries, 0),
-            (faction_set_slot, "fac_kingdom_3", slot_faction_noble_num_tries, 20),
+            (faction_set_slot, "fac_kingdom_3", slot_faction_peasant_num_tries, 0),
+            (faction_set_slot, "fac_kingdom_3", slot_faction_common_num_tries, 30),
+            (faction_set_slot, "fac_kingdom_3", slot_faction_veteran_num_tries, 40),
+            (faction_set_slot, "fac_kingdom_3", slot_faction_elite_num_tries, 50),
+            (faction_set_slot, "fac_kingdom_3", slot_faction_noble_num_tries, 0),
             
             (faction_set_slot, "fac_kingdom_4", slot_faction_peasant_num_tries, 0),
             (faction_set_slot, "fac_kingdom_4", slot_faction_common_num_tries, 20),
@@ -5990,9 +5990,9 @@ scripts = [
             (call_script, "script_faction_change_slot", "fac_small_kingdom_55", slot_faction_troop_ratio_spearman, -10),
             (call_script, "script_faction_change_slot", "fac_small_kingdom_55", slot_faction_troop_ratio_infantry, -5),
             
-            (call_script, "script_faction_change_slot", "fac_small_kingdom_61", slot_faction_troop_ratio_crossbow, 40),
+            (call_script, "script_faction_change_slot", "fac_small_kingdom_61", slot_faction_troop_ratio_crossbow, 65),
             (call_script, "script_faction_change_slot", "fac_small_kingdom_61", slot_faction_troop_ratio_archer, -15),
-            (call_script, "script_faction_change_slot", "fac_small_kingdom_61", slot_faction_troop_ratio_skirmisher, -15),
+            (call_script, "script_faction_change_slot", "fac_small_kingdom_61", slot_faction_troop_ratio_skirmisher, -80),
             
             (call_script, "script_faction_change_slot", "fac_small_kingdom_62", slot_faction_troop_ratio_archer, 25),
             (call_script, "script_faction_change_slot", "fac_small_kingdom_62", slot_faction_troop_ratio_skirmisher, -50),
@@ -10679,7 +10679,7 @@ scripts = [
             (troop_set_slot, "trp_sarranid_light_infantry", slot_troop_faction_not_1, "fac_small_kingdom_63"), # Has Levy Infantry instead
             (troop_set_slot, "trp_sarranid_medium_infantry", slot_troop_faction_not_1, "fac_small_kingdom_63"), # Has Footman instead
             (troop_set_slot, "trp_sarranid_light_skirmisher", slot_troop_faction_not_1, "fac_small_kingdom_63"), # 
-            (troop_set_slot, "trp_sarranid_guard", slot_troop_faction_not_1, "fac_small_kingdom_63"), # Has Warrior instead
+            # (troop_set_slot, "trp_sarranid_guard", slot_troop_faction_not_1, "fac_small_kingdom_63"), # Has Warrior instead
             (troop_set_slot, "trp_sarranid_heavy_skirmisher", slot_troop_faction_not_1, "fac_small_kingdom_63"), # Has Skirmisher instead
             (troop_set_slot, "trp_sarranid_heavy_infantry", slot_troop_faction_not_1, "fac_small_kingdom_63"), # Has Sergeant instead
             (troop_set_slot, "trp_sarranid_noble_horse_archer", slot_troop_faction_not_1, "fac_small_kingdom_63"), # Has Cataphract instead
