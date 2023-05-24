@@ -84,12 +84,24 @@ Elite troops are stronger
 * reduce khergit_light_horseman charisma (9 -> 8)
 * increase khergit_guard ironflesh (4 -> 6)
 * increase khergit_guard athletics (4 -> 5)
+* increase khergit_blademaster ironflesh (3 -> 5)
 * increase khergit_heavy_horse_archer power_strike (2 -> 3)
 * increase khergit_heavy_horse_archer horse_archery (6 -> 7)
+* increase khergit_heavy_archer power_strike (2 -> 3)
+* increase khergit_heavy_archer ironflesh (2 -> 4)
+* increase khergit_heavy_archer charisma (10 -> 11)
 * increase khergit_noble horse_archery (7 -> 8)
 * increase khergit_noble_rider ironflesh (5 -> 6)
 * increase khergit_noble_cavalry ironflesh (4 -> 6)
 * increase khergit_noble_horseman ironflesh (6 -> 7)
+* increase nord_medium_infantry ironflesh (4 -> 5)
+* increase nord_medium_infantry athletics (4 -> 5)
+* increase nord_noble_infantry ironflesh (6 -> 8)
+* increase nord_noble_infantry athletics (5 -> 6)
+* increase nord_noble_infantry one_handed (130 -> 145)
+* rebalance khergit faction to have focus on elite, veteran and common troops
+* add two handed weapons to sarranid_sergeant
+* removed sarranid_warrior and give sarranid_guard to small_kingdom_63
 
 -Fixes:
 * fix battles being joined by parties that were already engaged in a battle
