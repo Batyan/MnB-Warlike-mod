@@ -517,6 +517,10 @@ scripts = [
 
             (store_faction_of_party, ":party_faction", ":party_group_no"),
 
+            # We have the main party take more damage to compensate for damage being lost with many attached parties
+            (store_mod, ":mod", ":damage_amount", ":total_parties"),
+            (val_add, ":divided_damage", ":mod"),
+
             (call_script, "script_faction_damage_faction", ":damage_dealer_faction", ":party_faction", ":divided_damage", 1),
         ]),
 
@@ -4875,6 +4879,7 @@ scripts = [
             (store_script_param, ":faction_no", 1),
 
             (faction_get_slot, ":war_damage", ":faction_no", slot_faction_war_damage),
+            (faction_get_slot, ":size", ":faction_no", slot_faction_num_fiefs),
 
             (val_div, ":war_damage", war_damage_penalties_begin),
             (store_div, ":war_damage_offset", ":war_damage", war_damage_penalties_offset_begin),
@@ -4885,7 +4890,14 @@ scripts = [
                 (assign, ":war_damage_offset", 0),
             (try_end),
 
-            (store_add, reg0, ":war_damage", ":war_damage_offset"),
+            (store_add, ":total_damage", ":war_damage", ":war_damage_offset"),
+
+            (try_begin),
+                (gt, ":size", 0),
+                (val_div, ":total_damage", ":size"),
+            (try_end),
+
+            (assign, reg0, ":total_damage"),
         ]),
     
     # script_party_process_taxes
@@ -6701,8 +6713,10 @@ scripts = [
         [
             (store_script_param, ":war_storage", 1),
 
-            (faction_set_slot, ":war_storage", slot_war_active, 0),
-            (faction_set_slot, ":war_storage", slot_war_start_date, 0),
+            (try_for_range, ":slot", slot_war_clear_slots_begin, slot_war_clear_slots_end),
+                (faction_set_slot, ":war_storage", ":slot", 0),
+            (try_end),
+
             (try_for_range, ":slot", slot_war_kingdom_participant_begin, slot_war_kingdom_participant_end),
                 (faction_set_slot, ":war_storage", ":slot", swkp_bystander),
             (try_end),
@@ -12799,7 +12813,7 @@ scripts = [
                 (faction_set_slot, ":faction_no", slot_faction_war_damage, ":new_damage"),
 
                 (try_begin),
-                    (call_script, "script_cf_debug", debug_current|debug_war),
+                    (call_script, "script_cf_debug", debug_war),
                     (str_store_faction_name, s10, ":faction_no"),
                     (assign, reg10, ":war_damage"),
                     (assign, reg11, ":new_damage"),
@@ -13061,10 +13075,11 @@ scripts = [
                     (faction_get_slot, ":faction_status", ":other_faction", slot_faction_status),
                     (neq, ":faction_status", sfst_disabled),
 
+                    (call_script, "script_faction_get_relation_with_faction", ":faction_no", ":other_faction"),
+                    (assign, ":relation", reg0),
+
                     (store_sub, ":offset", ":other_faction", kingdoms_begin),
-                    (store_add, ":relation_slot", ":offset", slot_faction_kingdom_relation_begin),
                     (store_add, ":distance_slot", ":offset", slot_faction_kingdom_distance_begin),
-                    (faction_get_slot, ":relation", ":faction_no", ":relation_slot"),
                     (faction_get_slot, ":distance", ":faction_no", ":distance_slot"),
 
                     (store_relation, ":rel", ":faction_no", ":other_faction"),
@@ -13210,13 +13225,21 @@ scripts = [
                 (val_add, ":num_participants", ":faction_size"),
             (try_end),
 
-
+            (assign, ":willingness", ":total_willingness"),
             (try_begin),
                 (gt, ":num_participants", 1),
-                (store_div, reg0, ":total_willingness", ":num_participants"),
-            (else_try),
-                (assign, reg0, ":total_willingness"),
+                (val_div, ":willingness", ":num_participants"),
             (try_end),
+
+            (try_begin),
+                (eq, ":faction_side", swkp_defender),
+                (faction_set_slot, ":war_storage", slot_war_defender_willingness_score, ":willingness"),
+            (else_try),
+                (eq, ":faction_side", swkp_aggressor),
+                (faction_set_slot, ":war_storage", slot_war_attacker_willingness_score, ":willingness"),
+            (try_end),
+
+            (assign, reg0, ":willingness"),
         ]),
 
     # script_faction_get_treaty_score
@@ -13269,13 +13292,14 @@ scripts = [
             (faction_get_slot, ":strength", ":faction_no", slot_faction_strength_active),
             (faction_get_slot, ":strength_ready", ":faction_no", slot_faction_strength_ready),
             (val_add, ":strength", ":strength_ready"),
-            (val_div, ":strength", 2200),
+            (val_div, ":strength", 2000),
 
             (faction_get_slot, ":war_damage", ":faction_no", slot_faction_war_damage),
 
             (try_begin),
                 (gt, ":total_centers", 0),
                 (val_div, ":ratio", ":total_centers"),
+                (val_div, ":strength", ":total_centers"),
             (try_end),
 
             (val_min, ":strength", 100),
@@ -13307,6 +13331,45 @@ scripts = [
             (try_end),
 
             (assign, reg0, ":final_ratio"),
+        ]),
+
+    # script_faction_get_relation_with_faction
+        # input:
+        #   arg1: faction_no
+        #   arg2: target_faction
+        # output:
+        #   reg0: relation
+    ("faction_get_relation_with_faction",
+        [
+            (store_script_param, ":faction_no", 1),
+            (store_script_param, ":target_faction", 2),
+
+            # (store_relation, ":base_relation", ":faction_no", ":target_faction"),
+            (store_sub, ":target_faction_offset", ":target_faction", kingdoms_begin),
+            (store_add, ":faction_relation_slot", ":target_faction_offset", slot_faction_kingdom_relation_begin),
+            (faction_get_slot, ":base_relation", ":faction_no", ":faction_relation_slot"),
+            (assign, ":base_relation_weight", relation_weight_faction),
+
+            (faction_get_slot, ":faction_leader", ":faction_no", slot_faction_leader),
+            (faction_get_slot, ":target_faction_leader", ":target_faction", slot_faction_leader),
+
+            (assign, ":relation", ":base_relation"),
+            (assign, ":relation_weight", ":base_relation_weight"),
+            (try_begin),
+                (ge, ":faction_leader", 0),
+                (ge, ":target_faction_leader", 0),
+
+                (troop_slot_eq, ":faction_leader", slot_troop_kingdom_occupation, tko_kingdom_hero),
+                (troop_slot_eq, ":target_faction_leader", slot_troop_kingdom_occupation, tko_kingdom_hero),
+
+                (call_script, "script_troop_get_relation_with_troop", ":faction_leader", ":target_faction_leader"),
+                (assign, ":leader_relation", reg0),
+
+                (val_add, ":relation", ":leader_relation"),
+                (assign, ":relation_weight", relation_weight_leader),
+            (try_end),
+            (val_div, ":relation", ":relation_weight"),
+            (assign, reg0, ":relation"),
         ]),
 
     # script_party_get_size
@@ -14226,6 +14289,15 @@ scripts = [
                 (store_div, ":damage_reduced", ":damage_amount", war_damage_inflicted_bonus_divider),
                 (val_sub, ":current_damage", ":damage_reduced"),
                 (faction_set_slot, ":dealing_faction", slot_faction_war_damage, ":current_damage"),
+            (try_end),
+
+            (try_begin),
+                (call_script, "script_cf_debug", debug_current),
+                (str_store_faction_name, s10, ":dealing_faction"),
+                (str_store_faction_name, s11, ":receiving_faction"),
+                (assign, reg10, ":damage_amount"),
+                (assign, reg11, ":total_damage"),
+                (display_message, "@{s10} deals {reg10} damage to {s11} (total {reg11})"),
             (try_end),
             
             (assign, reg0, ":total_damage"),
@@ -15780,6 +15852,24 @@ scripts = [
             (try_end),
 
             (assign, reg0, ":troop_level"),
+        ]),
+
+    # script_troop_get_relation_with_troop
+        # input:
+        #   arg1: troop_no
+        #   arg2: target_troop
+        # output:
+        #   reg0: relation
+    ("troop_get_relation_with_troop",
+        [
+            (store_script_param, ":troop_no", 1),
+            (store_script_param, ":target_troop", 2),
+
+            (store_sub, ":target_troop_offset", ":target_troop", npc_heroes_begin),
+            (store_add, ":relation_slot", ":target_troop_offset", slot_troop_relations_begin),
+
+            (troop_get_slot, ":relation", ":troop_no", ":relation_slot"),
+            (assign, reg0, ":relation"),
         ]),
 
     # script_troop_change_relation_with_troop

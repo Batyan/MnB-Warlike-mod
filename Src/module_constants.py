@@ -307,7 +307,7 @@ war_damage_natural_decline_divider = 100
 war_damage_penalties_begin = 150
 war_damage_penalties_offset_begin = 10
 
-war_damage_casualties_divider = 3 # Each set of casualties generates a single point of war damage
+war_damage_casualties_divider = 2 # Each set of casualties generates a single point of war damage
 
 faction_size_names_begin = str_swadian_faction_small
 faction_size_names_end = str_sarranid_faction_large + 1
@@ -383,6 +383,9 @@ party_size_none = 1
 attitude_negative = -1
 attitude_neutral = 0
 attitude_positive = 1
+
+relation_weight_faction = 1
+relation_weight_leader = 1
 
 ################
 ## Item Slots ##
@@ -638,13 +641,17 @@ slot_faction_kingdom_distance_end = slot_faction_kingdom_distance_begin - kingdo
 war_storages_begin = "fac_war_storage_1"
 war_storages_end = "fac_war_storage_end"
 
+
 slot_war_active = 9
 slot_war_start_date = 10
 
 slot_war_defender_strength = 11
 slot_war_attacker_strength = 12
 
-slot_war_kingdom_participant_begin = 13
+slot_war_defender_willingness_score = 13
+slot_war_attacker_willingness_score = 14
+
+slot_war_kingdom_participant_begin = 15
 slot_war_kingdom_participant_end = slot_war_kingdom_participant_begin - kingdoms_begin + kingdoms_end
 
 swkp_main_defender = -2
@@ -660,6 +667,11 @@ kw_desperate = -2
 kw_failling = -1
 kw_neutral = 0
 kw_eager = 1
+
+### Slots included between these two will be reset to 0 when the war storage is reset
+slot_war_clear_slots_begin = slot_war_active
+slot_war_clear_slots_end = slot_war_kingdom_participant_begin
+###
 
 
 #################
@@ -971,7 +983,7 @@ slot_troop_mercenary_captain_2		= slot_troop_equipement_level	# Only troops
 slot_troop_kingdom_occupation 		= 12
 tko_dead = -1 	# Dead people are not the same as not living ones
 				# Dead people are still shown in character notes
-				# And may be mentionned in conversations
+				# And can be mentionned in conversations
 tko_none = 0
 tko_kingdom_hero = 1
 tko_mercenary = 2
