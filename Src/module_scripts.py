@@ -4880,6 +4880,11 @@ scripts = [
 
             (faction_get_slot, ":war_damage", ":faction_no", slot_faction_war_damage),
             (faction_get_slot, ":size", ":faction_no", slot_faction_num_fiefs),
+            
+            (try_begin),
+                (gt, ":size", 0),
+                (val_div, ":war_damage", ":size"),
+            (try_end),
 
             (val_div, ":war_damage", war_damage_penalties_begin),
             (store_div, ":war_damage_offset", ":war_damage", war_damage_penalties_offset_begin),
@@ -4891,11 +4896,6 @@ scripts = [
             (try_end),
 
             (store_add, ":total_damage", ":war_damage", ":war_damage_offset"),
-
-            (try_begin),
-                (gt, ":size", 0),
-                (val_div, ":total_damage", ":size"),
-            (try_end),
 
             (assign, reg0, ":total_damage"),
         ]),
@@ -14276,28 +14276,34 @@ scripts = [
             (store_script_param, ":receiving_faction", 2),
             (store_script_param, ":damage_amount", 3),
             (store_script_param, ":forced", 4),
-            
-            (faction_get_slot, ":current_damage", ":receiving_faction", slot_faction_war_damage),
-            (store_add, ":total_damage", ":current_damage", ":damage_amount"),
-            (faction_set_slot, ":receiving_faction", slot_faction_war_damage, ":total_damage"),
-            
-            (try_begin),
-                (eq, ":forced", 0),
-                (is_between, ":dealing_faction", kingdoms_begin, kingdoms_end),
-                # Decrease dealing faction's war damage
-                (faction_get_slot, ":current_damage", ":dealing_faction", slot_faction_war_damage),
-                (store_div, ":damage_reduced", ":damage_amount", war_damage_inflicted_bonus_divider),
-                (val_sub, ":current_damage", ":damage_reduced"),
-                (faction_set_slot, ":dealing_faction", slot_faction_war_damage, ":current_damage"),
-            (try_end),
 
             (try_begin),
-                (call_script, "script_cf_debug", debug_current),
-                (str_store_faction_name, s10, ":dealing_faction"),
-                (str_store_faction_name, s11, ":receiving_faction"),
-                (assign, reg10, ":damage_amount"),
-                (assign, reg11, ":total_damage"),
-                (display_message, "@{s10} deals {reg10} damage to {s11} (total {reg11})"),
+                (is_between ":receiving_faction", kingdoms_begin, kingdoms_end),
+            
+                (faction_get_slot, ":current_damage", ":receiving_faction", slot_faction_war_damage),
+                (store_add, ":total_damage", ":current_damage", ":damage_amount"),
+                (faction_set_slot, ":receiving_faction", slot_faction_war_damage, ":total_damage"),
+                
+                (try_begin),
+                    (eq, ":forced", 0),
+                    (is_between, ":dealing_faction", kingdoms_begin, kingdoms_end),
+                    # Decrease dealing faction's war damage
+                    (faction_get_slot, ":current_damage", ":dealing_faction", slot_faction_war_damage),
+                    (store_div, ":damage_reduced", ":damage_amount", war_damage_inflicted_bonus_divider),
+                    (val_sub, ":current_damage", ":damage_reduced"),
+                    (faction_set_slot, ":dealing_faction", slot_faction_war_damage, ":current_damage"),
+                (try_end),
+
+                (try_begin),
+                    (call_script, "script_cf_debug", debug_current),
+                    (str_store_faction_name, s10, ":dealing_faction"),
+                    (str_store_faction_name, s11, ":receiving_faction"),
+                    (assign, reg10, ":damage_amount"),
+                    (assign, reg11, ":total_damage"),
+                    (display_message, "@{s10} deals {reg10} damage to {s11} (total {reg11})"),
+                (try_end),
+            (else_try),
+                (assign, ":total_damage", 0),
             (try_end),
             
             (assign, reg0, ":total_damage"),

@@ -307,7 +307,7 @@ war_damage_natural_decline_divider = 100
 war_damage_penalties_begin = 150
 war_damage_penalties_offset_begin = 10
 
-war_damage_casualties_divider = 2 # Each set of casualties generates a single point of war damage
+war_damage_casualties_divider = 1 # Each set of casualties generates a single point of war damage
 
 faction_size_names_begin = str_swadian_faction_small
 faction_size_names_end = str_sarranid_faction_large + 1
