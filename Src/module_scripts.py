@@ -14278,7 +14278,7 @@ scripts = [
             (store_script_param, ":forced", 4),
 
             (try_begin),
-                (is_between ":receiving_faction", kingdoms_begin, kingdoms_end),
+                (is_between, ":receiving_faction", kingdoms_begin, kingdoms_end),
             
                 (faction_get_slot, ":current_damage", ":receiving_faction", slot_faction_war_damage),
                 (store_add, ":total_damage", ":current_damage", ":damage_amount"),
