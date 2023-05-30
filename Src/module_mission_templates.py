@@ -1059,7 +1059,7 @@ test_battle_siege_refill_ammo = (
 		[],
 		[
 			(try_begin),
-				(gt, "$g_attacker_reinforcements_delay", 3),
+				(gt, "$g_attacker_reinforcements_delay", 10),
 				(try_for_agents, ":agent_no"),
 					(agent_is_alive, ":agent_no"),
 					(agent_get_team, ":team", ":agent_no"),
