@@ -985,7 +985,6 @@ battle_siege_move_archer_to_archer_position = (
 		],
 		[
 			(try_begin),
-				(gt, "$g_attacker_reinforcements_delay", 3),
 				(try_for_agents, ":agent_no"),
 					(agent_is_alive, ":agent_no"),
 					(agent_get_team, ":team", ":agent_no"),
@@ -1059,38 +1058,41 @@ test_battle_siege_refill_ammo = (
 	60, 0, 0,
 		[],
 		[
-			(try_for_agents, ":agent_no"),
-				(agent_is_alive, ":agent_no"),
-				(agent_get_team, ":team", ":agent_no"),
-				(try_begin),
-					(eq, ":team", 0),
-					# (this_or_next|eq, ":team", 0),
-					# (eq, ":team", 1),
-					# only change positions of defending bots
+			(try_begin),
+				(gt, "$g_attacker_reinforcements_delay", 3),
+				(try_for_agents, ":agent_no"),
+					(agent_is_alive, ":agent_no"),
+					(agent_get_team, ":team", ":agent_no"),
 					(try_begin),
-						(agent_slot_eq, ":agent_no", slot_agent_is_in_scripted_mode, 0), # is not moving to another place
-						
-						(agent_get_division, ":division", ":agent_no"),
-						(agent_get_ammo, ":old_ammo", ":agent_no", 0),
-						(ge, ":old_ammo", 0),
-					
-						(agent_refill_ammo, ":agent_no"),
-
-						(eq, ":division", grc_archers),
-						(agent_get_ammo, ":new_ammo", ":agent_no", 1),
-
-						(store_sub, ":diff", ":new_ammo", ":old_ammo"),
+						(eq, ":team", 0),
+						# (this_or_next|eq, ":team", 0),
+						# (eq, ":team", 1),
+						# only change positions of defending bots
 						(try_begin),
-							(le, ":diff", 1),
+							(agent_slot_eq, ":agent_no", slot_agent_is_in_scripted_mode, 0), # is not moving to another place
 							
-							(agent_set_slot, ":agent_no", slot_agent_is_reinforcement, 1),
-							(agent_set_slot, ":agent_no", slot_agent_target_entry_point, 0),
+							(agent_get_division, ":division", ":agent_no"),
+							(agent_get_ammo, ":old_ammo", ":agent_no", 0),
+							(ge, ":old_ammo", 0),
+						
+							(agent_refill_ammo, ":agent_no"),
+
+							(eq, ":division", grc_archers),
+							(agent_get_ammo, ":new_ammo", ":agent_no", 1),
+
+							(store_sub, ":diff", ":new_ammo", ":old_ammo"),
+							(try_begin),
+								(le, ":diff", 1),
+								
+								(agent_set_slot, ":agent_no", slot_agent_is_reinforcement, 1),
+								(agent_set_slot, ":agent_no", slot_agent_target_entry_point, 0),
+							(try_end),
+						(else_try),
+							(agent_refill_ammo, ":agent_no"),
 						(try_end),
-					(else_try),
-						(agent_refill_ammo, ":agent_no"),
+					# (else_try),
+						# (agent_refill_ammo, ":agent_no"),
 					(try_end),
-				# (else_try),
-					# (agent_refill_ammo, ":agent_no"),
 				(try_end),
 			(try_end),
 		])
