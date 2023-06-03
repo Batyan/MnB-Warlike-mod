@@ -3800,15 +3800,15 @@ troops = [
     ],
    str_19|agi_19|int_10|cha_17|level(42), wpex(110,130,105,125,25,70), knows_common|knows_ironflesh_4|knows_power_strike_5|knows_power_throw_1|knows_power_draw_5|knows_athletics_6|knows_riding_5|knows_shield_1|knows_horse_archery_4, sarranid_face_young_1, sarranid_face_old_2 ],
   
-  # Heavy infantry, spears, shields
+  # Heavy infantry, polearm
   # SPECIAL
-  ["sarranid_noble_spearman", "Sarranid Noble Spearman", "Sarranid Noble Spearmen", tf_guarantee_trained_armor|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_62,
-   [itm_war_spear, itm_tab_shield_kite_d,itm_tab_shield_kite_d_plain_1,itm_tab_shield_kite_d_plain_2,
+  ["sarranid_noble_guard", "Sarranid Noble Guard", "Sarranid Noble Guards", tf_guarantee_trained_armor, no_scene, reserved, fac_small_kingdom_62,
+   [itm_military_scythe,
     itm_sarranid_boots_d, itm_mail_mittens, itm_scale_gauntlets,
     itm_mamluke_mail,
     itm_sarranid_veiled_helmet,
     ],
-   str_21|agi_18|int_10|cha_16|level(42), wpex(100,100,150,55,25,70), knows_common|knows_ironflesh_8|knows_power_strike_6|knows_power_throw_1|knows_athletics_5|knows_riding_5|knows_shield_1, sarranid_face_young_1, sarranid_face_old_2 ],
+   str_21|agi_18|int_10|cha_16|level(42), wpex(100,100,150,55,25,70), knows_common|knows_ironflesh_8|knows_power_strike_6|knows_power_throw_1|knows_athletics_5|knows_riding_5, sarranid_face_young_1, sarranid_face_old_2 ],
   
   ###############
   # Mercenaries #
@@ -3988,7 +3988,7 @@ troops = [
 
   # Heavy infantry, polearms
   ["mercenary_guard", "Mercenary Guard", "Mercenary Guards", tf_guarantee_trained_armor, no_scene, reserved, fac_commoners,
-   [itm_military_scythe,
+   [itm_glaive,
     itm_mail_boots, itm_mail_mittens,
     itm_heraldic_mail_with_surcoat, itm_heraldic_mail_with_surcoat_plain, itm_heraldic_mail_with_tabard, itm_heraldic_mail_with_tabard_plain,
     itm_guard_helmet, itm_bascinet, itm_bascinet_b, itm_bascinet_c,
@@ -5122,7 +5122,7 @@ troops = [
     itm_hunter],
    def_lord_4_str|level(4), wp_rhodok(wp_template_4), knows_lord_rhodok_4, 0, 0 ],
   ["rhodok_lord_template_5", "Warden", "Warden", tf_is_merchant, no_scene, reserved, fac_culture_5,
-   [itm_military_cleaver_b, itm_military_pick, itm_morningstar, itm_warhammer, itm_two_handed_cleaver, itm_military_scythe,
+   [itm_military_cleaver_b, itm_military_pick, itm_morningstar, itm_warhammer, itm_two_handed_cleaver, itm_glaive,
     itm_siege_crossbow, itm_light_crossbow, itm_steel_bolts, itm_lance, itm_javelin, itm_short_bow2, itm_bodkin_arrows,
     itm_tab_shield_pavise_c, itm_tab_shield_heater_cav_b,
     itm_iron_greaves, itm_mail_boots, itm_mail_mittens, itm_gauntlets,

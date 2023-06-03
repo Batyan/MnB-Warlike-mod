@@ -102,6 +102,9 @@ Elite troops are stronger
 * rebalance khergit faction to have focus on elite, veteran and common troops
 * add two handed weapons to sarranid_sergeant
 * removed sarranid_warrior and give sarranid_guard to small_kingdom_63
+* change sarranid_noble_spearman to sarranid_noble_guard
+	* removed shields and war_spear
+	* added military_scythe
 
 -Fixes:
 * fix battles being joined by parties that were already engaged in a battle
