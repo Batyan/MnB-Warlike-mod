@@ -14,7 +14,7 @@ v 0.410:
 * defenders are given 20 seconds to prepare before attacker spawns during siege
 
 -Balance changes:
-* add 3 new castle and associated village for minor khergit, nord and rhodok
+* add 4 new castle and associated village for minor khergit, nord, rhodok and sarranid
 * change swadian_light_horseman to use lances instead of ranged weapons
 * change swadian_horseman to use lances instead of ranged weapons
 * increase swadian_light_horseman charisma (8 -> 9)
@@ -109,7 +109,7 @@ Elite troops are stronger
 -Fixes:
 * fix battles being joined by parties that were already engaged in a battle
 * fix villages not applying protection taxes properly
-* fix noble ranks being affected by captured centers
+* fix noble ranks being affected by occupied centers
 
 v 0.400:
 -New features:
