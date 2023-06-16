@@ -199,6 +199,7 @@ parties = [
 	("castle_62a","Sharwa Castle", icon_castle_a|pf_castle, 0, pt_none, fac_small_kingdom_62,0,ai_bhvr_hold,0,(168.4, -63.5),[], 170),
 	("castle_63a","Bardaq Castle", icon_castle_a|pf_castle, 0, pt_none, fac_small_kingdom_63,0,ai_bhvr_hold,0,(159.8, -86.7),[], 170),
 	("castle_63b","Durin Castle", icon_castle_a|pf_castle, 0, pt_none, fac_small_kingdom_63,0,ai_bhvr_hold,0,(115.5, -70.4),[], 170),
+	("castle_63c","Sayn Castle", icon_castle_a|pf_castle, 0, pt_none, fac_small_kingdom_63,0,ai_bhvr_hold,0,(101.1, -111.4),[], 170),
 	("castle_64a","Samarra Castle", icon_castle_a|pf_castle, 0, pt_none, fac_small_kingdom_64,0,ai_bhvr_hold,0,(139.1, -75.3),[], 170),
 	("castle_65a","Habba Castle", icon_castle_a|pf_castle, 0, pt_none, fac_small_kingdom_65,0,ai_bhvr_hold,0,(98.0, -78.3),[], 170),
 	("castle_65b","Druquba Castle", icon_castle_a|pf_castle, 0, pt_none, fac_small_kingdom_65,0,ai_bhvr_hold,0,(104.8, -90.2),[], 170),
@@ -429,6 +430,7 @@ parties = [
 	("village_63a3","Abl Nun", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_63,0,ai_bhvr_hold,0,(133.4, -91.7),[], 170),
 	("village_63b1","Unriya", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_63,0,ai_bhvr_hold,0,(156.5, -83.9),[], 170),
 	("village_63c1","Aab", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_63,0,ai_bhvr_hold,0,(115.4, -63.0),[], 170),
+	("village_63d1","Sayn", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_63,0,ai_bhvr_hold,0,(94.1, -118.3),[], 170),
 	
 	("village_64a1","Uzgha", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_64,0,ai_bhvr_hold,0,(138.6, -69.0),[], 170),
 	
