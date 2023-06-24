@@ -118,6 +118,8 @@ items = [
      180,   weight(40)|   max_ammo(10),                       imodbits_none ],
     ["goat",          "Goat", [("wooden_stick",0)], itp_merchandise|itp_type_goods|itp_consumable, 0, 
      220,   weight(40)|   max_ammo(10),                       imodbits_none ],
+    ["sheep",          "Sheep", [("wooden_stick",0)], itp_merchandise|itp_type_goods|itp_consumable, 0, 
+     250,   weight(40)|   max_ammo(10),                       imodbits_none ],
     
     #DRINKS
     ["wine",            "Wine", [("amphora_slim",0)], itp_merchandise|itp_type_goods|itp_consumable, 0, 

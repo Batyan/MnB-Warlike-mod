@@ -398,21 +398,55 @@ slot_building_cost_stone	= 2
 slot_building_cost_gold		= 3
 slot_building_build_time	= 4
 
-slot_item_produced_quantity	= 1 # Number of items produced per batch
-slot_item_produced_from_1 	= 2 # First item needed to produce this good
-slot_item_produced_from_2	= 3 # Second item needed to produce this good (if any)
-slot_item_produced_from_3	= 4 # Third item needed to produce this good (if any)
-slot_item_produced_need_1	= 5 # Number of items required to make a batch
-slot_item_produced_need_2	= 6 # Number of items required to make a batch
-slot_item_produced_need_3	= 7 # Number of items required to make a batch
+slot_item_produced_1_required				= 1 # Number of items required per batch
+slot_item_produced_1_to_1 					= 2 # First item produced by this good
+slot_item_produced_1_to_2					= 3 # Second item produced by this good (if any)
+slot_item_produced_1_to_3					= 4 # Third item produced by this good (if any)
+slot_item_produced_1_quantity_1				= 5 # Number of items produced in a batch
+slot_item_produced_1_quantity_2				= 6 # Number of items produced in a batch
+slot_item_produced_1_quantity_3				= 7 # Number of items produced in a batch
+slot_item_produced_1_requires_1 			= 8 # Additional item required to create the item
+slot_item_produced_1_requires_2				= 9 # Additional item required to create the item
+slot_item_produced_1_requires_3				= 10 # Additional item required to create the item
+slot_item_produced_1_reauires_quantity_1	= 11 # Additional item quantity required to create the item
+slot_item_produced_1_reauires_quantity_2	= 12 # Additional item quantity required to create the item
+slot_item_produced_1_reauires_quantity_3	= 13 # Additional item quantity required to create the item
+
+slot_item_produced_2_required				= 14 # Number of items required per batch
+slot_item_produced_2_to_1 					= 15 # First item produced by this good
+slot_item_produced_2_to_2					= 16 # Second item produced by this good (if any)
+slot_item_produced_2_to_3					= 17 # Third item produced by this good (if any)
+slot_item_produced_2_quantity_1				= 18 # Number of items produced in a batch
+slot_item_produced_2_quantity_2				= 19 # Number of items produced in a batch
+slot_item_produced_2_quantity_3				= 20 # Number of items produced in a batch
+slot_item_produced_2_requires_1 			= 21 # Additional item required to create the item
+slot_item_produced_2_requires_2				= 22 # Additional item required to create the item
+slot_item_produced_2_requires_3				= 23 # Additional item required to create the item
+slot_item_produced_2_reauires_quantity_1	= 24 # Additional item quantity required to create the item
+slot_item_produced_2_reauires_quantity_2	= 25 # Additional item quantity required to create the item
+slot_item_produced_2_reauires_quantity_3	= 26 # Additional item quantity required to create the item
+
+slot_item_produced_3_required				= 27 # Number of items required per batch
+slot_item_produced_3_to_1 					= 28 # First item produced by this good
+slot_item_produced_3_to_2					= 29 # Second item produced by this good (if any)
+slot_item_produced_3_to_3					= 30 # Third item produced by this good (if any)
+slot_item_produced_3_quantity_1				= 31 # Number of items produced in a batch
+slot_item_produced_3_quantity_2				= 32 # Number of items produced in a batch
+slot_item_produced_3_quantity_3				= 33 # Number of items produced in a batch
+slot_item_produced_3_requires_1 			= 34 # Additional item required to create the item
+slot_item_produced_3_requires_2				= 35 # Additional item required to create the item
+slot_item_produced_3_requires_3				= 36 # Additional item required to create the item
+slot_item_produced_3_reauires_quantity_1	= 37 # Additional item quantity required to create the item
+slot_item_produced_3_reauires_quantity_2	= 38 # Additional item quantity required to create the item
+slot_item_produced_3_reauires_quantity_3	= 39 # Additional item quantity required to create the item
 
 # slot_item_number_produced = 8
 # slot_item_number_ticks = 9
 
 # Amount of items consumed per 1000000 pop
-slot_item_consumption_base = 9
+slot_item_consumption_base = 40
 # Amount of surplus item consumed because there are too many in stock
-slot_item_consumption_ratio = 10
+slot_item_consumption_ratio = 41
 
 consumption_ratio_base = 1000000
 

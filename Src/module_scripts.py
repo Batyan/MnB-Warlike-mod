@@ -3515,9 +3515,8 @@ scripts = [
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_furs", 1),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_wood", 1),
 
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_goat", 4),
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_pig", 1),
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_venison", 2),
+                (call_script, "script_party_update_resources_slot", ":party_no", "itm_goat", 5),
+                (call_script, "script_party_update_resources_slot", ":party_no", "itm_sheep", 3),
 
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_apples", 1),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_raw_grapes", 6),
@@ -3553,7 +3552,7 @@ scripts = [
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_wool", 3),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_raw_leather", 1),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_stone", 1),
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_wood", 2),
+                (call_script, "script_party_update_resources_slot", ":party_no", "itm_wood", 1),
 
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_honey", 1),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_cabbages", 3),
@@ -3563,6 +3562,7 @@ scripts = [
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_cattle", 5),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_poultry", 1),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_pig", 1),
+                (call_script, "script_party_update_resources_slot", ":party_no", "itm_sheep", 1),
                 # (call_script, "script_party_update_resources_slot", ":party_no", "itm_", 1),
                 
                 # (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_wet, 0, ":radius"),
@@ -3659,7 +3659,7 @@ scripts = [
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_raw_silk", 1),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_raw_leather", 3),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_furs", 2),
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_wood", 6),
+                (call_script, "script_party_update_resources_slot", ":party_no", "itm_wood", 10),
 
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_apples", 2),
 
@@ -3676,7 +3676,7 @@ scripts = [
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_raw_silk", 1),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_raw_leather", 3),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_furs", 8),
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_wood", 8),
+                (call_script, "script_party_update_resources_slot", ":party_no", "itm_wood", 12),
 
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_pig", 1),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_goat", 1),
@@ -3691,7 +3691,7 @@ scripts = [
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_raw_silk", 1),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_raw_leather", 1),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_raw_date_fruit", 10),
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_wood", 2),
+                (call_script, "script_party_update_resources_slot", ":party_no", "itm_wood", 3),
 
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_raw_grapes", 2),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_raw_olives", 2),
@@ -3806,13 +3806,13 @@ scripts = [
             # Pig -> sausages
             # Chicken -> chicken meat
 
-            (item_set_slot, "itm_refined_wood", slot_item_produced_from_1, "itm_wood"),
-            (item_set_slot, "itm_refined_wood", slot_item_produced_need_1, 20),
-            (item_set_slot, "itm_refined_wood", slot_item_produced_quantity, 10),
+            (item_set_slot, "itm_wood", slot_item_produced_1_to_1, "itm_refined_wood"),
+            (item_set_slot, "itm_wood", slot_item_produced_1_quantity_1, 5),
+            (item_set_slot, "itm_wood", slot_item_produced_1_required, 10),
 
-            (item_set_slot, "itm_refined_stone", slot_item_produced_from_1, "itm_stone"),
-            (item_set_slot, "itm_refined_stone", slot_item_produced_need_1, 20),
-            (item_set_slot, "itm_refined_stone", slot_item_produced_quantity, 10),
+            (item_set_slot, "itm_stone", slot_item_produced_1_to_1, "itm_refined_stone"),
+            (item_set_slot, "itm_stone", slot_item_produced_1_quantity_1, 5),
+            (item_set_slot, "itm_stone", slot_item_produced_1_required, 10),
         ]),
     
     # script_party_transfer_to_party
