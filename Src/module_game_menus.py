@@ -522,7 +522,8 @@ game_menus = [
 				(neg|is_between, "$g_cur_selected", castle_scene_begin, castle_scene_end),
 				(assign, "$g_cur_selected", castle_scene_begin),
 			(try_end),
-			(store_sub, reg10, "$g_cur_selected", castle_scene_begin),],
+			(store_sub, reg10, "$g_cur_selected", castle_scene_begin),
+		],
 		[
 			("scene_select_plus", [], "Select next scene",
 				[

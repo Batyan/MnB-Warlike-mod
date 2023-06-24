@@ -244,6 +244,8 @@ text_color_gold = 0x55eeee
 text_color_valid = 0x00ee55
 text_color_capture = 0xDD2200
 text_color_freed = 0xDD2200
+text_color_debug = 0xCCCCCC
+text_color_war = 0xBB0101
 
 text_color_budget_positive = 0x00dd00
 text_color_budget_negative = 0xdd0000
@@ -563,21 +565,21 @@ slot_faction_num_fiefs = 50
 slot_faction_strength_active = 51
 slot_faction_strength_ready = 52
 
-slot_faction_war_damage = 53
+slot_faction_strength_defensive_allies = 53
+slot_faction_strength_offensive_allies = 54
+
+slot_faction_war_damage = 55
 
 # Last time the faction was at peace
-slot_faction_last_peace = 54
+slot_faction_last_peace = 56
 
-slot_faction_preparing_war = 55
+slot_faction_preparing_war = 57
 
-slot_faction_size = 56
-slot_faction_size_category = 57
+slot_faction_size = 58
+slot_faction_size_category = 59
 sfs_small = 0
 sfs_medium = 1
 sfs_large = 2
-
-slot_faction_name_holder = 58
-slot_faction_has_fixed_name = 59
 
 
 # slots used for faction focus in ai decision
@@ -629,7 +631,10 @@ sfvt_protectorate = 0x80 # joins defensive wars of vassal
 
 slot_faction_battle_casualties = 85
 
-slot_faction_kingdom_relation_begin = 86
+slot_faction_name_holder = slot_faction_battle_casualties + 1
+slot_faction_has_fixed_name = slot_faction_name_holder + 1
+
+slot_faction_kingdom_relation_begin = slot_faction_has_fixed_name + 1
 slot_faction_kingdom_relation_end = slot_faction_kingdom_relation_begin - kingdoms_begin + kingdoms_end
 
 slot_faction_kingdom_treaties_begin = slot_faction_kingdom_relation_end
@@ -662,11 +667,18 @@ sfkt_vassal_treaty_clear = 0x0FFF
 
 sfkt_all_treaty_clear = 0x0000
 
+# For reference distance between:
+#   Suno - Burglen: 30
+#	Sargoth - Praven: 95
+# 	Shariz - Praven: 174
 slot_faction_kingdom_distance_begin = slot_faction_kingdom_treaties_end
 slot_faction_kingdom_distance_end = slot_faction_kingdom_distance_begin - kingdoms_begin + kingdoms_end
 
 # slot_faction_kingdom_treaty_expiration_begin = slot_faction_kingdom_distance_end
 # slot_faction_kingdom_treaty_expiration_end = slot_faction_kingdom_treaty_expiration_begin - kingdoms_begin + kingdoms_end
+
+faction_distance_close = 60
+faction_distance_far = 150
 
 #######################
 ## War Storage Slots ##
@@ -701,6 +713,9 @@ kw_desperate = -2
 kw_failling = -1
 kw_neutral = 0
 kw_eager = 1
+
+# slot_war_kingdom_participation_score_begin = slot_war_kingdom_willingness_end
+# slot_war_kingdom_participation_score_end = slot_war_kingdom_participation_score_begin - kingdoms_begin + kingdoms_end
 
 ### Slots included between these two will be reset to 0 when the war storage is reset
 slot_war_clear_slots_begin = slot_war_active

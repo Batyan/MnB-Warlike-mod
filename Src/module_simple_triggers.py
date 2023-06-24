@@ -515,6 +515,7 @@ simple_triggers = [
                     (store_add, ":slot", ":offset", slot_faction_kingdom_distance_begin),
                     (faction_get_slot, ":min_distance", ":center_faction", ":slot"),
                     (store_distance_to_party_from_party, ":distance", ":center", ":other_center"),
+
                     (lt, ":distance", ":min_distance"),
                     (faction_set_slot, ":center_faction", ":slot", ":distance"),
                 (try_end),
