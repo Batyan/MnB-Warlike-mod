@@ -2696,7 +2696,7 @@ troops = [
     itm_blue_tunic, itm_coarse_tunic, itm_fur_coat,
     itm_leather_cap, itm_nordic_archer_helmet, itm_skullcap,
     ],
-   str_12|agi_9|int_5|cha_6|level(9), wpex(60,60,80,30,15,25), knows_common|knows_ironflesh_2|knows_power_strike_3|knows_athletics_1, nord_face_young_1, nord_face_old_2 ],
+   str_11|agi_8|int_5|cha_6|level(7), wpex(60,60,80,30,15,25), knows_common|knows_ironflesh_2|knows_power_strike_3|knows_athletics_1, nord_face_young_1, nord_face_old_2 ],
   
   # Basic infantry, axes, shields
   ["nord_raider", "Nord Raider", "Nord Raiders", tf_guarantee_recruit_armor|tf_guarantee_shield, no_scene, reserved, fac_kingdom_4,
@@ -2714,7 +2714,7 @@ troops = [
     itm_blue_tunic, itm_coarse_tunic,
     itm_leather_cap, itm_skullcap,
     ],
-   str_10|agi_11|int_6|cha_6|level(10), wpex(65,60,60,60,30,30), knows_common|knows_power_strike_3|knows_power_draw_4|knows_athletics_2, nord_face_young_1, nord_face_old_2 ],
+   str_10|agi_9|int_6|cha_6|level(8), wpex(65,60,60,60,30,30), knows_common|knows_power_strike_3|knows_power_draw_4|knows_athletics_2, nord_face_young_1, nord_face_old_2 ],
   
   # Basic ranged, daggers, axes, crossbows
   # SPECIAL
@@ -2724,7 +2724,7 @@ troops = [
     itm_blue_tunic, itm_coarse_tunic,
     itm_leather_cap, itm_skullcap,
     ],
-   str_10|agi_10|int_6|cha_6|level(9), wpex(65,60,60,30,55,30), knows_common|knows_power_strike_3|knows_athletics_1, nord_face_young_1, nord_face_old_2 ],
+   str_10|agi_9|int_6|cha_6|level(8), wpex(65,60,60,30,55,30), knows_common|knows_power_strike_3|knows_athletics_1, nord_face_young_1, nord_face_old_2 ],
   
   # Common
   # Light infantry, swords, axes, javelin, shields
@@ -3798,7 +3798,7 @@ troops = [
     itm_mamluke_mail,
     itm_sarranid_veiled_helmet,
     ],
-   str_19|agi_19|int_10|cha_17|level(42), wpex(110,130,105,125,25,70), knows_common|knows_ironflesh_4|knows_power_strike_5|knows_power_throw_1|knows_power_draw_5|knows_athletics_6|knows_riding_5|knows_shield_1|knows_horse_archery_4, sarranid_face_young_1, sarranid_face_old_2 ],
+   str_19|agi_19|int_10|cha_17|level(42), wpex(110,130,105,125,25,70), knows_common|knows_ironflesh_4|knows_power_strike_4|knows_power_throw_1|knows_power_draw_5|knows_athletics_6|knows_riding_5|knows_shield_1|knows_horse_archery_4, sarranid_face_young_1, sarranid_face_old_2 ],
   
   # Heavy infantry, polearm
   # SPECIAL

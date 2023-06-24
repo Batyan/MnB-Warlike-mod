@@ -105,6 +105,11 @@ Elite troops are stronger
 * change sarranid_noble_spearman to sarranid_noble_guard
 	* removed shields and war_spear
 	* added military_scythe
+* reduce nord_militia agility (11 -> 9)
+* reduce nord_hunter agility (10 -> 9)
+* reduce nord_levy agility (9 -> 8)
+* reduce nord_levy strength (12 -> 11)
+* reduce sarranid_noble_infantry powerstrike (5 -> 4)
 
 -Fixes:
 * fix battles being joined by parties that were already engaged in a battle
