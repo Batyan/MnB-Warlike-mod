@@ -115,6 +115,7 @@ Elite troops are stronger
 * fix battles being joined by parties that were already engaged in a battle
 * fix villages not applying protection taxes properly
 * fix noble ranks being affected by occupied centers
+* fix scene castle_plain_02_outside where defenders would fall off the walls
 
 v 0.400:
 -New features:
