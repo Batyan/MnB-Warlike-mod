@@ -1,7 +1,7 @@
 v 0.410:
 -New features:
 * add kingdom relations
-* add kingdom war declaration
+* add kingdom war and peace declaration
 * add kingdom treaties
 	alliance
 	defensive pact
@@ -12,6 +12,7 @@ v 0.410:
 * decrease autoresolve combat damage at night by 50%
 * reworked autoresolve troops strength to match more closely troops wages
 * defenders are given 20 seconds to prepare before attacker spawns during siege
+* besieged and occupied centers have a tax penalty of 30% applied
 
 -Balance changes:
 * add 4 new castle and associated village for minor khergit, nord, rhodok and sarranid
@@ -116,6 +117,7 @@ Elite troops are stronger
 * fix villages not applying protection taxes properly
 * fix noble ranks being affected by occupied centers
 * fix scene castle_plain_02_outside where defenders would fall off the walls
+* fix name for faction marshall
 
 v 0.400:
 -New features:

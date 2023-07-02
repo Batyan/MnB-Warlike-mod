@@ -13006,6 +13006,7 @@ scripts = [
 
                     (ge, ":best_candidate", 0),
                     (faction_set_slot, ":faction_no", slot_faction_marshall, ":best_candidate"),
+                    (call_script, "script_troop_update_name", ":best_candidate"),
                     (try_begin),
                         (call_script, "script_cf_debug", debug_simple|debug_faction),
                         (str_store_troop_name, s10, ":best_candidate"),
@@ -13026,6 +13027,7 @@ scripts = [
                         (display_message, "@{s10} removed of marshallship from {s11} for peace time."),
                     (try_end),
                     (faction_set_slot, ":faction_no", slot_faction_marshall, -1),
+                    (call_script, "script_troop_update_name", ":marshall"),
                 (else_try),
                     (troop_slot_ge, ":marshall", slot_troop_prisoner_of, 0),
                     (try_begin),
@@ -13034,6 +13036,7 @@ scripts = [
                         (str_store_faction_name, s11, ":faction_no"),
                         (display_message, "@{s10} removed of marshallship from {s11} for being prisoner."),
                     (faction_set_slot, ":faction_no", slot_faction_marshall, -1),
+                    (call_script, "script_troop_update_name", ":marshall"),
                     (try_end),
                 (try_end),
             (try_end),
