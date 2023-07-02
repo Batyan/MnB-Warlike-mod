@@ -640,6 +640,15 @@ slot_faction_kingdom_relation_end = slot_faction_kingdom_relation_begin - kingdo
 slot_faction_kingdom_treaties_begin = slot_faction_kingdom_relation_end
 slot_faction_kingdom_treaties_end = slot_faction_kingdom_treaties_begin - kingdoms_begin + kingdoms_end
 
+slot_faction_kingdom_temporary_treaties_begin = slot_faction_kingdom_treaties_end
+slot_faction_kingdom_temporary_treaties_end = slot_faction_kingdom_temporary_treaties_begin - kingdoms_begin + kingdoms_end
+
+slot_faction_kingdom_temporary_treaties_duration_begin = slot_faction_kingdom_temporary_treaties_end
+slot_faction_kingdom_temporary_treaties_duration_end = slot_faction_kingdom_temporary_treaties_duration_begin - kingdoms_begin + kingdoms_end
+
+slot_faction_kingdom_temporary_treaties_object_begin = slot_faction_kingdom_temporary_treaties_duration_end
+slot_faction_kingdom_temporary_treaties_object_end = slot_faction_kingdom_temporary_treaties_object_begin - kingdoms_begin + kingdoms_end
+
 sfkt_none = 0x0000
 
 sfkt_none_treaty_clear = 0xFFFF
@@ -658,6 +667,9 @@ sfkt_trade_preference = 0x0020
 sfkt_trade_exclusivity = 0x0040
 
 sfkt_economic_treaty_clear = 0xFF0F
+
+# Temporary treaties
+sfkt_tribute = 0x0100
 
 # Vassal treaties
 sfkt_vassal = 0x1000

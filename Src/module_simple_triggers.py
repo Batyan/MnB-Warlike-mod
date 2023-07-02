@@ -199,7 +199,8 @@ simple_triggers = [
     
     # (0.5,
         # [
-            # (store_current_hours, ":day"),
+            # (call_script, "script_get_current_day"),
+            # (assign, ":day", reg0),
             # (store_div, ":long_years", 1461), # 1461 = 365.25*4 (4 whole years)
             # (val_sub, ":day_of_year", ":long_year"), # Remove excess days from years with 366 days
             # (store_mod, ":day_of_year", ":day", 365),
