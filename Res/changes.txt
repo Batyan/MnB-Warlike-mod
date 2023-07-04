@@ -1,8 +1,129 @@
+v 0.410:
+-New features:
+* add kingdom relations
+* add kingdom war and peace declaration
+* add kingdom treaties
+	alliance
+	defensive pact
+	non aggression
+	truce
+* improve leader selection
+* add marshall selection
+* decrease autoresolve combat damage at night by 50%
+* reworked autoresolve troops strength to match more closely troops wages
+* defenders are given 20 seconds to prepare before attacker spawns during siege
+* besieged and occupied centers have a tax penalty of 30% applied
+
+-Balance changes:
+* add 4 new castle and associated village for minor khergit, nord, rhodok and sarranid
+* change swadian_light_horseman to use lances instead of ranged weapons
+* change swadian_horseman to use lances instead of ranged weapons
+* increase swadian_light_horseman charisma (8 -> 9)
+* decrease swadian_light_horseman intelligence (9 -> 8)
+* increase swadian_light_horseman powerstrike (2 -> 4)
+* increase swadian_light_horseman ironflesh (2 -> 3)
+* set swadian_light_horseman proficiencies (1h: 85 -> 100, pole: 80 -> 110)
+* increase swadian_horseman charisma (11 -> 12)
+* decrease swadian_horseman intelligence (10 -> 9)
+* increase swadian_horseman strength (15 -> 14)
+* decrease swadian_horseman agility (15 -> 16)
+* increase swadian_horseman powerstrike (2 -> 3)
+* increase swadian_horseman ironflesh (4 -> 6)
+* set swadian_horseman proficiencies (1h: 100 -> 95, pole: 90 -> 120)
+* add swadian_ranger to small_kingdom_13
+* changed khergit_clansman and khergit_levy_infantry shield from shield_round_a to shield_small_round_a
+* reduce sarranid_crossbowman powerstrike (3 -> 2)
+* add shield to sarranid_levy_horseman
+* reduce sarranid_levy_horseman ironflesh (1 -> 0)
+* change damage calculation
+	Reduce overall cut effectiveness (base damage and penetration)
+	cut soak 1.2 -> 1.25
+	cut reduction 0.25 -> 0.3
+	Reduce pierce penetration against armor
+	pierce reduction 0.7 -> 0.75
+	Reduce blunt base damage
+	blunt reduction 1.15 -> 1.2
+* reduce speed damage factor 1.5 -> 1.4
+* increase nord_heavy_cavalry strength (13 -> 14)
+* increase nord_heavy_cavalry powerstrike (2 -> 3)
+* increase nord_heavy_cavalry ironflesh (3 -> 4)
+* decrease nord_light_mounted_skirmisher strength (14 -> 12)
+* decrease nord_light_mounted_skirmisher intelligence (7 -> 6)
+* increase nord_light_mounted_skirmisher powerstrike (2 -> 3)
+* increase nord_light_cavalry powerstrike (2 -> 3)
+* increase khergit_noble powerstrike (3 -> 4)
+* increase khergit_noble ironflesh (4 -> 5)
+* increase khergit_heavy_horse_archer ironflesh (3 -> 4)
+* increase khergit_horse_archer ironflesh (1 -> 2)
+* increase khergit_light_horse_archer ironflesh (0 -> 1)
+* give warhorse to rhodok_noble_lancer
+* increase vaegir_militia charisma (6 -> 7)
+The following changes aim to improve the khergit's ability to fight battles
+Levy and common troops have reduced level (thus reduced wages)
+Elite troops are stronger
+* reduce khergit_levy intelligence (6 -> 5)
+* reduce khergit_militia charisma (7 -> 6)
+* reduce khergit_clansman charisma (8 -> 7)
+* reduce khergit_clansman intelligence (7 -> 5)
+* reduce khergit_levy_infantry agility (11 -> 10)
+* increase khergit_levy_infantry ironflesh (0 -> 1)
+* increase khergit_light_infantry ironflesh (1 -> 2)
+* reduce khergit_skirmisher strength (11 -> 10)
+* reduce khergit_skirmisher agility (16 -> 15)
+* reduce khergit_skirmisher charisma (8 -> 7)
+* reduce khergit_light_cavalry charisma (9 -> 8)
+* reduce khergit_mounted_skirmisher agility (17 -> 16)
+* reduce khergit_mounted_skirmisher intelligence (8 -> 7)
+* reduce khergit_light_lancer charisma (10 -> 9)
+* reduce khergit_light_spearman intelligence (7 -> 6)
+* reduce khergit_light_horse_archer charisma (9 -> 8)
+* reduce khergit_light_horse_archer intelligence (9 -> 8)
+* reduce khergit_light_steppe_cavalry agility (17 -> 15)
+* reduce khergit_light_steppe_cavalry intelligence (8 -> 7)
+* reduce khergit_light_steppe_cavalry charisma (9 -> 8)
+* reduce khergit_light_horseman agility (16 -> 15)
+* reduce khergit_light_horseman charisma (9 -> 8)
+* increase khergit_guard ironflesh (4 -> 6)
+* increase khergit_guard athletics (4 -> 5)
+* increase khergit_blademaster ironflesh (3 -> 5)
+* increase khergit_heavy_horse_archer power_strike (2 -> 3)
+* increase khergit_heavy_horse_archer horse_archery (6 -> 7)
+* increase khergit_heavy_archer power_strike (2 -> 3)
+* increase khergit_heavy_archer ironflesh (2 -> 4)
+* increase khergit_heavy_archer charisma (10 -> 11)
+* increase khergit_noble horse_archery (7 -> 8)
+* increase khergit_noble_rider ironflesh (5 -> 6)
+* increase khergit_noble_cavalry ironflesh (4 -> 6)
+* increase khergit_noble_horseman ironflesh (6 -> 7)
+* increase nord_medium_infantry ironflesh (4 -> 5)
+* increase nord_medium_infantry athletics (4 -> 5)
+* increase nord_noble_infantry ironflesh (6 -> 8)
+* increase nord_noble_infantry athletics (5 -> 6)
+* increase nord_noble_infantry one_handed (130 -> 145)
+* rebalance khergit faction to have focus on elite, veteran and common troops
+* add two handed weapons to sarranid_sergeant
+* removed sarranid_warrior and give sarranid_guard to small_kingdom_63
+* change sarranid_noble_spearman to sarranid_noble_guard
+	* removed shields and war_spear
+	* added military_scythe
+* reduce nord_militia agility (11 -> 9)
+* reduce nord_hunter agility (10 -> 9)
+* reduce nord_levy agility (9 -> 8)
+* reduce nord_levy strength (12 -> 11)
+* reduce sarranid_noble_infantry powerstrike (5 -> 4)
+
+-Fixes:
+* fix battles being joined by parties that were already engaged in a battle
+* fix villages not applying protection taxes properly
+* fix noble ranks being affected by occupied centers
+* fix scene castle_plain_02_outside where defenders would fall off the walls
+* fix name for faction marshall
+
 v 0.400:
--New features
+-New features:
 * capture center mechanic
 
--Fixes
+-Fixes:
 * fix villages not sending reinforcements to linked centers
 
 v 0.340:

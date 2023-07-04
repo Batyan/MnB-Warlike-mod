@@ -216,13 +216,18 @@ nordic_names_end = rhodok_names_begin
 rhodok_names_end = sarranid_names_begin
 sarranid_names_end = names_end
 
-relation_war = -20
-relation_bad = -10
+relation_state_war = -40
+relation_state_conflict = -20
+relation_state_neutral = 0
+relation_state_friendly = 20
+
+relation_terrible = -80
+relation_bad = -40
+relation_tense = -20
 relation_neutral = 0
-relation_friendly = 10
-relation_economic = 20
-relation_defensive = 40
-relation_allies = 60
+relation_positive = 20
+relation_friendly = 40
+relation_excellent = 80
 
 center_buildings_begin = "itm_building_hunter_camp"
 center_buildings_end = "itm_buildings_end"
@@ -239,6 +244,8 @@ text_color_gold = 0x55eeee
 text_color_valid = 0x00ee55
 text_color_capture = 0xDD2200
 text_color_freed = 0xDD2200
+text_color_debug = 0xCCCCCC
+text_color_war = 0xBB0101
 
 text_color_budget_positive = 0x00dd00
 text_color_budget_negative = 0xdd0000
@@ -284,17 +291,25 @@ starting_year = 733
 
 archer_score_shield_malus = 60
 
-war_damage_base_lord_defeated = 6
-war_damage_base_lord_killed = 12
+war_damage_base_lord_defeated = 20
+war_damage_base_lord_killed = 100
 
-war_damage_base_village_taken = 24
-war_damage_base_castle_taken = 48
-war_damage_base_town_taken = 96
+war_damage_base_village_taken = 40
+war_damage_base_castle_taken = 120
+war_damage_base_town_taken = 300
 
 war_damage_raid_divider = 2
 war_damage_siege_divider = 20
 
-war_damage_inflicted_bonus_divider = 3
+war_damage_inflicted_bonus_divider = 5
+
+war_damage_natural_decline_base = 2
+war_damage_natural_decline_divider = 100
+
+war_damage_penalties_begin = 150
+war_damage_penalties_offset_begin = 10
+
+war_damage_casualties_divider = 1 # Each set of casualties generates a single point of war damage
 
 faction_size_names_begin = str_swadian_faction_small
 faction_size_names_end = str_sarranid_faction_large + 1
@@ -334,10 +349,47 @@ caravan_max_cargo_size = 60
 caravan_score_distance_ratio = 3
 caravan_score_resource_production_ratio = 500
 caravan_score_resource_amount_ratio = 10
+caravan_score_war_penatly = 100
 
 caravan_score_type_selling = 1
 caravan_score_type_buying = 2
 caravan_score_type_all = 0
+
+political_event_relation_change = 1
+political_event_war_declared = 2
+political_event_treaty_signed = 3
+political_event_center_captured = 4
+political_event_center_looted = 5
+political_event_center_freed = 6
+political_event_vassal_captured = 7
+political_event_vassal_freed = 8
+political_event_helped = 9
+political_event_fulfil_treaty = 10
+political_event_break_treaty = 11
+political_event_war_party_defeated = 12
+political_event_caravan_defeated = 13
+
+political_event_helped_join_defensive_war = 14
+political_event_helped_join_offensive_war = 15
+
+center_size_village = 1
+center_size_castle = 3
+center_size_town = 10
+
+party_size_leader = 12
+party_size_town = 10
+party_size_castle = 6
+party_size_village = 2
+party_size_none = 1
+
+attitude_negative = -1
+attitude_neutral = 0
+attitude_positive = 1
+
+relation_weight_faction = 1
+relation_weight_leader = 1
+
+max_bandit_party = 75
 
 ################
 ## Item Slots ##
@@ -345,28 +397,60 @@ caravan_score_type_all = 0
 
 item_slots = 0
 
-
-
 slot_building_cost_wood		= 1
 slot_building_cost_stone	= 2
 slot_building_cost_gold		= 3
 slot_building_build_time	= 4
 
-slot_item_produced_quantity	= 1 # Number of items produced per batch
-slot_item_produced_from_1 	= 2 # First item needed to produce this good
-slot_item_produced_from_2	= 3 # Second item needed to produce this good (if any)
-slot_item_produced_from_3	= 4 # Third item needed to produce this good (if any)
-slot_item_produced_need_1	= 5 # Number of items required to make a batch
-slot_item_produced_need_2	= 6 # Number of items required to make a batch
-slot_item_produced_need_3	= 7 # Number of items required to make a batch
+slot_item_produced_1_required				= 1 # Number of items required per batch
+slot_item_produced_1_to_1 					= 2 # First item produced by this good
+slot_item_produced_1_to_2					= 3 # Second item produced by this good (if any)
+slot_item_produced_1_to_3					= 4 # Third item produced by this good (if any)
+slot_item_produced_1_quantity_1				= 5 # Number of items produced in a batch
+slot_item_produced_1_quantity_2				= 6 # Number of items produced in a batch
+slot_item_produced_1_quantity_3				= 7 # Number of items produced in a batch
+slot_item_produced_1_requires_1 			= 8 # Additional item required to create the item
+slot_item_produced_1_requires_2				= 9 # Additional item required to create the item
+slot_item_produced_1_requires_3				= 10 # Additional item required to create the item
+slot_item_produced_1_reauires_quantity_1	= 11 # Additional item quantity required to create the item
+slot_item_produced_1_reauires_quantity_2	= 12 # Additional item quantity required to create the item
+slot_item_produced_1_reauires_quantity_3	= 13 # Additional item quantity required to create the item
+
+slot_item_produced_2_required				= 14 # Number of items required per batch
+slot_item_produced_2_to_1 					= 15 # First item produced by this good
+slot_item_produced_2_to_2					= 16 # Second item produced by this good (if any)
+slot_item_produced_2_to_3					= 17 # Third item produced by this good (if any)
+slot_item_produced_2_quantity_1				= 18 # Number of items produced in a batch
+slot_item_produced_2_quantity_2				= 19 # Number of items produced in a batch
+slot_item_produced_2_quantity_3				= 20 # Number of items produced in a batch
+slot_item_produced_2_requires_1 			= 21 # Additional item required to create the item
+slot_item_produced_2_requires_2				= 22 # Additional item required to create the item
+slot_item_produced_2_requires_3				= 23 # Additional item required to create the item
+slot_item_produced_2_reauires_quantity_1	= 24 # Additional item quantity required to create the item
+slot_item_produced_2_reauires_quantity_2	= 25 # Additional item quantity required to create the item
+slot_item_produced_2_reauires_quantity_3	= 26 # Additional item quantity required to create the item
+
+slot_item_produced_3_required				= 27 # Number of items required per batch
+slot_item_produced_3_to_1 					= 28 # First item produced by this good
+slot_item_produced_3_to_2					= 29 # Second item produced by this good (if any)
+slot_item_produced_3_to_3					= 30 # Third item produced by this good (if any)
+slot_item_produced_3_quantity_1				= 31 # Number of items produced in a batch
+slot_item_produced_3_quantity_2				= 32 # Number of items produced in a batch
+slot_item_produced_3_quantity_3				= 33 # Number of items produced in a batch
+slot_item_produced_3_requires_1 			= 34 # Additional item required to create the item
+slot_item_produced_3_requires_2				= 35 # Additional item required to create the item
+slot_item_produced_3_requires_3				= 36 # Additional item required to create the item
+slot_item_produced_3_reauires_quantity_1	= 37 # Additional item quantity required to create the item
+slot_item_produced_3_reauires_quantity_2	= 38 # Additional item quantity required to create the item
+slot_item_produced_3_reauires_quantity_3	= 39 # Additional item quantity required to create the item
 
 # slot_item_number_produced = 8
 # slot_item_number_ticks = 9
 
 # Amount of items consumed per 1000000 pop
-slot_item_consumption_base = 9
-# Amount of surplus item consumed bacause there are too many in stock
-slot_item_consumption_ratio = 10
+slot_item_consumption_base = 40
+# Amount of surplus item consumed because there are too many in stock
+slot_item_consumption_ratio = 41
 
 consumption_ratio_base = 1000000
 
@@ -423,14 +507,14 @@ slot_faction_names_begin			= 14
 slot_faction_names_end				= 15
 
 slot_faction_lord_name_begin		= 16
-slot_faction_lady_name_begin		= 51
+slot_faction_lady_name_begin		= 17
 
-slot_faction_troops_begin			= 17
-slot_faction_troops_end				= 18
+slot_faction_troops_begin			= 18
+slot_faction_troops_end				= 19
 
 # slot_faction_base_reinforcements	= 13
 
-slot_faction_peasant_begin			= 17
+slot_faction_peasant_begin			= slot_faction_troops_begin
 slot_faction_common_begin			= 20
 slot_faction_veteran_begin			= 21
 slot_faction_elite_begin			= 22
@@ -477,52 +561,183 @@ slot_faction_master_culture = 46
 slot_faction_era = 47		# Current era the faction is at
 slot_faction_era_time = 48	# Time at which the faction has attained this era
 
-slot_faction_num_vassals = 49
-slot_faction_num_fiefs = 50
+slot_faction_num_vassals = slot_faction_era_time + 1
+slot_faction_num_vassals_active = slot_faction_num_vassals + 1
+slot_faction_num_fiefs = slot_faction_num_vassals_active + 1
+slot_faction_num_walled_fiefs = slot_faction_num_fiefs + 1
 
-slot_faction_war_damage = 52
+slot_faction_strength_active = slot_faction_num_walled_fiefs + 1
+slot_faction_strength_ready = slot_faction_strength_active + 1
+
+slot_faction_strength_defensive_allies = slot_faction_strength_ready + 1
+slot_faction_strength_offensive_allies = slot_faction_strength_defensive_allies + 1
+
+slot_faction_war_damage = slot_faction_strength_offensive_allies + 1
 
 # Last time the faction was at peace
-slot_faction_last_peace = 53
+slot_faction_last_peace = slot_faction_war_damage + 1
 
-slot_faction_preparing_war = 54
+slot_faction_preparing_war = slot_faction_last_peace + 1
 
-slot_faction_size = 55
+slot_faction_size = slot_faction_preparing_war + 1
+slot_faction_size_category = slot_faction_size + 1
 sfs_small = 0
 sfs_medium = 1
 sfs_large = 2
 
-slot_faction_name_holder = 56
-slot_faction_has_fixed_name = 57
 
-slot_faction_status = 58
+# slots used for faction focus in ai decision
+slot_faction_mission_focus_1 = slot_faction_size_category + 1
+slot_faction_mission_focus_2 = slot_faction_mission_focus_1 + 1
+slot_faction_mission_focus_3 = slot_faction_mission_focus_2 + 1
+slot_faction_mission_focus_4 = slot_faction_mission_focus_3 + 1
+slot_faction_mission_focus_5 = slot_faction_mission_focus_4 + 1
+slot_faction_mission_focus_6 = slot_faction_mission_focus_5 + 1
+slot_faction_mission_focus_7 = slot_faction_mission_focus_6 + 1
+slot_faction_mission_focus_8 = slot_faction_mission_focus_7 + 1
+slot_faction_mission_focus_9 = slot_faction_mission_focus_8 + 1
+slot_faction_mission_focus_10 = slot_faction_mission_focus_9 + 1
+slot_faction_mission_focus_11 = slot_faction_mission_focus_10 + 1
+slot_faction_mission_focus_12 = slot_faction_mission_focus_11 + 1
+slot_faction_mission_focus_13 = slot_faction_mission_focus_12 + 1
+slot_faction_mission_focus_14 = slot_faction_mission_focus_13 + 1
+slot_faction_mission_focus_15 = slot_faction_mission_focus_14 + 1
+slot_faction_mission_focus_16 = slot_faction_mission_focus_15 + 1
+slot_faction_mission_focus_17 = slot_faction_mission_focus_16 + 1
+slot_faction_mission_focus_18 = slot_faction_mission_focus_17 + 1
+slot_faction_mission_focus_19 = slot_faction_mission_focus_18 + 1
+slot_faction_mission_focus_20 = slot_faction_mission_focus_19 + 1
+
+slot_faction_vassal_tax_rate = slot_faction_mission_focus_20 + 1
+slot_faction_member_tax_rate = slot_faction_vassal_tax_rate + 1
+
+slot_faction_status = slot_faction_member_tax_rate + 1
 sfst_default = 0
 sfst_disabled = -1
 
-# slots used for faction focus in ai decision
-slot_faction_mission_focus_1 = 59
-slot_faction_mission_focus_2 = 60
-slot_faction_mission_focus_3 = 61
-slot_faction_mission_focus_4 = 62
-slot_faction_mission_focus_5 = 63
-slot_faction_mission_focus_6 = 64
-slot_faction_mission_focus_7 = 65
-slot_faction_mission_focus_8 = 66
-slot_faction_mission_focus_9 = 67
-slot_faction_mission_focus_10 = 68
-slot_faction_mission_focus_11 = 69
-slot_faction_mission_focus_12 = 70
-slot_faction_mission_focus_13 = 71
-slot_faction_mission_focus_14 = 72
-slot_faction_mission_focus_15 = 73
-slot_faction_mission_focus_16 = 74
-slot_faction_mission_focus_17 = 75
-slot_faction_mission_focus_18 = 76
-slot_faction_mission_focus_19 = 77
-slot_faction_mission_focus_20 = 78
+slot_faction_policy_assimilation = slot_faction_status + 1
 
-slot_faction_vassal_tax_rate = 79
-slot_faction_member_tax_rate = 80
+# Assimilation is forced on captured centers
+sfpa_total = 0
+# Assimilation is forced on captured centers only if culture is different
+sfpa_partial = 1
+# No assimilation on captured centers
+sfpa_none = 2
+
+slot_faction_vassal_type = slot_faction_policy_assimilation + 1
+
+# Vassal treaties
+sfvt_tributary = 0x01 # pays tribute
+sfvt_vassal = 0x02 # foreign policy is limited
+sfvt_sattrapy = 0x10 # joins offensive wars of overlord
+sfvt_bulwark = 0x40 # joins defensive wars of overlord
+sfvt_protectorate = 0x80 # joins defensive wars of vassal
+
+slot_faction_battle_casualties = slot_faction_vassal_type + 1
+
+slot_faction_name_holder = slot_faction_battle_casualties + 1
+slot_faction_has_fixed_name = slot_faction_name_holder + 1
+
+slot_faction_kingdom_relation_begin = slot_faction_has_fixed_name + 1
+slot_faction_kingdom_relation_end = slot_faction_kingdom_relation_begin - kingdoms_begin + kingdoms_end
+
+slot_faction_kingdom_treaties_begin = slot_faction_kingdom_relation_end
+slot_faction_kingdom_treaties_end = slot_faction_kingdom_treaties_begin - kingdoms_begin + kingdoms_end
+
+slot_faction_kingdom_temporary_treaties_begin = slot_faction_kingdom_treaties_end
+slot_faction_kingdom_temporary_treaties_end = slot_faction_kingdom_temporary_treaties_begin - kingdoms_begin + kingdoms_end
+
+slot_faction_kingdom_temporary_treaties_duration_begin = slot_faction_kingdom_temporary_treaties_end
+slot_faction_kingdom_temporary_treaties_duration_end = slot_faction_kingdom_temporary_treaties_duration_begin - kingdoms_begin + kingdoms_end
+
+slot_faction_kingdom_temporary_treaties_object_begin = slot_faction_kingdom_temporary_treaties_duration_end
+slot_faction_kingdom_temporary_treaties_object_end = slot_faction_kingdom_temporary_treaties_object_begin - kingdoms_begin + kingdoms_end
+
+sfkt_none = 0x0000
+
+sfkt_none_treaty_clear = 0xFFFF
+
+# Military treaties
+sfkt_truce = 0x0001
+sfkt_non_agression = 0x0002
+sfkt_defensive_alliance = 0x0004
+sfkt_alliance = 0x0008
+
+sfkt_military_treaty_clear = 0xFFF0
+
+# Economic treaties
+sfkt_open_trade = 0x0010
+sfkt_trade_preference = 0x0020
+sfkt_trade_exclusivity = 0x0040
+
+sfkt_economic_treaty_clear = 0xFF0F
+
+# Temporary treaties
+sfkt_tribute = 0x0100
+
+# Vassal treaties
+sfkt_vassal = 0x1000
+sfkt_overlord = 0x2000
+
+sfkt_vassal_treaty_clear = 0x0FFF
+
+sfkt_all_treaty_clear = 0x0000
+
+# For reference distance between:
+#   Suno - Burglen: 30
+#	Sargoth - Praven: 95
+# 	Shariz - Praven: 174
+slot_faction_kingdom_distance_begin = slot_faction_kingdom_treaties_end
+slot_faction_kingdom_distance_end = slot_faction_kingdom_distance_begin - kingdoms_begin + kingdoms_end
+
+# slot_faction_kingdom_treaty_expiration_begin = slot_faction_kingdom_distance_end
+# slot_faction_kingdom_treaty_expiration_end = slot_faction_kingdom_treaty_expiration_begin - kingdoms_begin + kingdoms_end
+
+faction_distance_close = 60
+faction_distance_far = 150
+
+#######################
+## War Storage Slots ##
+## ####################
+
+war_storages_begin = "fac_war_storage_1"
+war_storages_end = "fac_war_storage_end"
+
+
+slot_war_active = 9
+slot_war_start_date = 10
+
+slot_war_defender_strength = 11
+slot_war_attacker_strength = 12
+
+slot_war_defender_willingness_score = 13
+slot_war_attacker_willingness_score = 14
+
+slot_war_kingdom_participant_begin = 15
+slot_war_kingdom_participant_end = slot_war_kingdom_participant_begin - kingdoms_begin + kingdoms_end
+
+swkp_main_defender = -2
+swkp_defender = -1
+swkp_bystander = 0
+swkp_aggressor = 1
+swkp_main_aggressor = 2
+
+slot_war_kingdom_willingness_begin = slot_war_kingdom_participant_end
+slot_war_kingdom_willingness_end = slot_war_kingdom_willingness_begin - kingdoms_begin + kingdoms_end
+
+kw_desperate = -2
+kw_failling = -1
+kw_neutral = 0
+kw_eager = 1
+
+# slot_war_kingdom_participation_score_begin = slot_war_kingdom_willingness_end
+# slot_war_kingdom_participation_score_end = slot_war_kingdom_participation_score_begin - kingdoms_begin + kingdoms_end
+
+### Slots included between these two will be reset to 0 when the war storage is reset
+slot_war_clear_slots_begin = slot_war_active
+slot_war_clear_slots_end = slot_war_kingdom_participant_begin
+###
+
 
 #################
 ## Party Slots ##
@@ -591,11 +806,12 @@ taxes_noble_amount = 16
 taxes_artisan_amount = 4
 taxes_serf_amount = 2
 
-slot_party_wanted_party_wages = 13 # Only centers / non hero parties
+slot_party_wanted_party_wages = 13
 slot_party_accumulated_taxes = 14
 
-slot_party_ressource_radius = 16
+slot_party_wages_cache = 15 # Used to get non accurate wages
 
+slot_party_ressource_radius = 16
 
 slot_party_total_resources = 17
 
@@ -715,7 +931,12 @@ slot_party_mission_objective_1 = 173
 slot_party_mission_objective_2 = 174
 slot_party_mission_objective_3 = 175
 
-slot_party_building_slot_1	= 176
+slot_party_readiness = 176
+
+sfsr_unavailable = 0
+sfsr_ready = 0 # For now those are the same until we implement party readiness
+
+slot_party_building_slot_1	= 177
 slot_party_building_slot_2	= slot_party_building_slot_1 + 1
 slot_party_building_slot_3	= slot_party_building_slot_2 + 1
 slot_party_building_slot_4	= slot_party_building_slot_3 + 1
@@ -827,7 +1048,7 @@ slot_troop_mercenary_captain_2		= slot_troop_equipement_level	# Only troops
 slot_troop_kingdom_occupation 		= 12
 tko_dead = -1 	# Dead people are not the same as not living ones
 				# Dead people are still shown in character notes
-				# And may be mentionned in conversations
+				# And can be mentionned in conversations
 tko_none = 0
 tko_kingdom_hero = 1
 tko_mercenary = 2

@@ -540,6 +540,9 @@ battle_reinforcements_siege = (
 			(assign, ":num_men_threshold", 12),
 			(try_begin),
 				(lt, ":num_alive", ":num_men_threshold"),
+
+				(this_or_next|eq, ":cur_team", 0),
+				(gt, "$g_attacker_reinforcements_delay", 2),
 				
 				(call_script, "script_scene_get_spawn_range", ":cur_team"),
 				(assign, ":spawn_begin", reg0),
@@ -552,6 +555,9 @@ battle_reinforcements_siege = (
 				(add_reinforcements_to_entry, ":spawn_point", 2),
 			(try_end),
 		(try_end),
+
+		(val_max, "$g_attacker_reinforcements_delay", 0),
+		(val_add, "$g_attacker_reinforcements_delay", 1),
 	])
 
 battle_reinforcements = (
@@ -978,70 +984,72 @@ battle_siege_move_archer_to_archer_position = (
 			(try_end),
 		],
 		[
-			(try_for_agents, ":agent_no"),
-				(agent_is_alive, ":agent_no"),
-				(agent_get_team, ":team", ":agent_no"),
-				##
-				(eq, ":team", 0),
-				# (this_or_next|eq, ":team", 0),
-				# (eq, ":team", 1),
-				##
-				(agent_get_division, ":division", ":agent_no"),
-				(store_add, ":slot", slot_team_division_1_number, ":division"),
-				(team_get_slot, ":num_troop", ":team", ":slot"),
-				(val_add, ":num_troop", 1),
-				(team_set_slot, ":team", ":slot", ":num_troop"),
-				
-				(try_begin),
-					(eq, ":division", grc_archers),
-
-					(team_get_movement_order, ":order", ":team", ":division"),
-
-					(agent_slot_eq, ":agent_no", slot_agent_is_reinforcement, 1),
-					
-					(agent_get_slot, ":entry_point", ":agent_no", slot_agent_target_entry_point),
-					(try_begin),
-						(call_script, "script_scene_get_archer_points_range"),
-						(assign, ":archer_point_begin", reg0),
-						(assign, ":archer_point_end", reg1),
-						
-						(lt, ":entry_point", ":archer_point_begin"),
-						
-						(store_random_in_range, ":entry_point", ":archer_point_begin", ":archer_point_end"),
-						(agent_set_slot, ":agent_no", slot_agent_target_entry_point, ":entry_point"),
-					(try_end),
+			(try_begin),
+				(try_for_agents, ":agent_no"),
+					(agent_is_alive, ":agent_no"),
+					(agent_get_team, ":team", ":agent_no"),
+					##
+					(eq, ":team", 0),
+					# (this_or_next|eq, ":team", 0),
+					# (eq, ":team", 1),
+					##
+					(agent_get_division, ":division", ":agent_no"),
+					(store_add, ":slot", slot_team_division_1_number, ":division"),
+					(team_get_slot, ":num_troop", ":team", ":slot"),
+					(val_add, ":num_troop", 1),
+					(team_set_slot, ":team", ":slot", ":num_troop"),
 					
 					(try_begin),
-						(agent_slot_eq, ":agent_no", slot_agent_is_in_scripted_mode, 1),
-						(agent_get_position, pos0, ":agent_no"),
-						(entry_point_get_position, pos1, ":entry_point"),
-						(get_distance_between_positions, ":dist", pos0, pos1),
+						(eq, ":division", grc_archers),
+
+						(team_get_movement_order, ":order", ":team", ":division"),
+
+						(agent_slot_eq, ":agent_no", slot_agent_is_reinforcement, 1),
+						
+						(agent_get_slot, ":entry_point", ":agent_no", slot_agent_target_entry_point),
 						(try_begin),
-							(lt, ":dist", 150),
+							(call_script, "script_scene_get_archer_points_range"),
+							(assign, ":archer_point_begin", reg0),
+							(assign, ":archer_point_end", reg1),
+							
+							(lt, ":entry_point", ":archer_point_begin"),
+							
+							(store_random_in_range, ":entry_point", ":archer_point_begin", ":archer_point_end"),
+							(agent_set_slot, ":agent_no", slot_agent_target_entry_point, ":entry_point"),
+						(try_end),
+						
+						(try_begin),
+							(agent_slot_eq, ":agent_no", slot_agent_is_in_scripted_mode, 1),
+							(agent_get_position, pos0, ":agent_no"),
+							(entry_point_get_position, pos1, ":entry_point"),
+							(get_distance_between_positions, ":dist", pos0, pos1),
+							(try_begin),
+								(lt, ":dist", 150),
+								(agent_clear_scripted_mode, ":agent_no"),
+								(agent_set_slot, ":agent_no", slot_agent_is_in_scripted_mode, 0),
+								(agent_set_slot, ":agent_no", slot_agent_is_reinforcement, 0),
+							(else_try),
+								(agent_set_scripted_destination, ":agent_no", pos1, 0),
+							(try_end),
+						(else_try),
+							(agent_slot_eq, ":agent_no", slot_agent_is_in_scripted_mode, 0),
+							(eq, ":order", mordr_stand_ground),
+							(agent_get_slot, ":entry_point", ":agent_no", slot_agent_target_entry_point),
+							(entry_point_get_position, pos1, ":entry_point"),
+							(agent_set_scripted_destination, ":agent_no", pos1, 0),
+							(agent_set_slot, ":agent_no", slot_agent_is_in_scripted_mode, 1),
+						(else_try),
+							(agent_get_simple_behavior, ":agent_sb", ":agent_no"),
+							(neq, ":agent_sb", aisb_go_to_pos),#scripted mode
+							(agent_slot_eq, ":agent_no", slot_agent_is_in_scripted_mode, 1),
 							(agent_clear_scripted_mode, ":agent_no"),
 							(agent_set_slot, ":agent_no", slot_agent_is_in_scripted_mode, 0),
-							(agent_set_slot, ":agent_no", slot_agent_is_reinforcement, 0),
-						(else_try),
-							(agent_set_scripted_destination, ":agent_no", pos1, 0),
 						(try_end),
 					(else_try),
-						(agent_slot_eq, ":agent_no", slot_agent_is_in_scripted_mode, 0),
-						(eq, ":order", mordr_stand_ground),
-						(agent_get_slot, ":entry_point", ":agent_no", slot_agent_target_entry_point),
-						(entry_point_get_position, pos1, ":entry_point"),
-						(agent_set_scripted_destination, ":agent_no", pos1, 0),
-						(agent_set_slot, ":agent_no", slot_agent_is_in_scripted_mode, 1),
-					(else_try),
-						(agent_get_simple_behavior, ":agent_sb", ":agent_no"),
-						(neq, ":agent_sb", aisb_go_to_pos),#scripted mode
 						(agent_slot_eq, ":agent_no", slot_agent_is_in_scripted_mode, 1),
 						(agent_clear_scripted_mode, ":agent_no"),
 						(agent_set_slot, ":agent_no", slot_agent_is_in_scripted_mode, 0),
 					(try_end),
-				(else_try),
-					(agent_slot_eq, ":agent_no", slot_agent_is_in_scripted_mode, 1),
-					(agent_clear_scripted_mode, ":agent_no"),
-					(agent_set_slot, ":agent_no", slot_agent_is_in_scripted_mode, 0),
 				(try_end),
 			(try_end),
 		])
@@ -1050,38 +1058,41 @@ test_battle_siege_refill_ammo = (
 	60, 0, 0,
 		[],
 		[
-			(try_for_agents, ":agent_no"),
-				(agent_is_alive, ":agent_no"),
-				(agent_get_team, ":team", ":agent_no"),
-				(try_begin),
-					(eq, ":team", 0),
-					# (this_or_next|eq, ":team", 0),
-					# (eq, ":team", 1),
-					# only change positions of defending bots
+			(try_begin),
+				(gt, "$g_attacker_reinforcements_delay", 10),
+				(try_for_agents, ":agent_no"),
+					(agent_is_alive, ":agent_no"),
+					(agent_get_team, ":team", ":agent_no"),
 					(try_begin),
-						(agent_slot_eq, ":agent_no", slot_agent_is_in_scripted_mode, 0), # is not moving to another place
-						
-						(agent_get_division, ":division", ":agent_no"),
-						(agent_get_ammo, ":old_ammo", ":agent_no", 0),
-						(ge, ":old_ammo", 0),
-					
-						(agent_refill_ammo, ":agent_no"),
-
-						(eq, ":division", grc_archers),
-						(agent_get_ammo, ":new_ammo", ":agent_no", 1),
-
-						(store_sub, ":diff", ":new_ammo", ":old_ammo"),
+						(eq, ":team", 0),
+						# (this_or_next|eq, ":team", 0),
+						# (eq, ":team", 1),
+						# only change positions of defending bots
 						(try_begin),
-							(le, ":diff", 1),
+							(agent_slot_eq, ":agent_no", slot_agent_is_in_scripted_mode, 0), # is not moving to another place
 							
-							(agent_set_slot, ":agent_no", slot_agent_is_reinforcement, 1),
-							(agent_set_slot, ":agent_no", slot_agent_target_entry_point, 0),
+							(agent_get_division, ":division", ":agent_no"),
+							(agent_get_ammo, ":old_ammo", ":agent_no", 0),
+							(ge, ":old_ammo", 0),
+						
+							(agent_refill_ammo, ":agent_no"),
+
+							(eq, ":division", grc_archers),
+							(agent_get_ammo, ":new_ammo", ":agent_no", 1),
+
+							(store_sub, ":diff", ":new_ammo", ":old_ammo"),
+							(try_begin),
+								(le, ":diff", 1),
+								
+								(agent_set_slot, ":agent_no", slot_agent_is_reinforcement, 1),
+								(agent_set_slot, ":agent_no", slot_agent_target_entry_point, 0),
+							(try_end),
+						(else_try),
+							(agent_refill_ammo, ":agent_no"),
 						(try_end),
-					(else_try),
-						(agent_refill_ammo, ":agent_no"),
+					# (else_try),
+						# (agent_refill_ammo, ":agent_no"),
 					(try_end),
-				# (else_try),
-					# (agent_refill_ammo, ":agent_no"),
 				(try_end),
 			(try_end),
 		])
@@ -1668,6 +1679,7 @@ mission_templates = [
 					(party_clear, "p_player_casualties"),
 					(party_clear, "p_ally_casualties"),
 					(party_clear, "p_enemy_casualties"),
+					(call_script, "script_clear_faction_casualties"),
 					
 					(try_for_agents, ":cur_agent"),
 						(neg|agent_is_alive, ":cur_agent"),
@@ -1695,7 +1707,19 @@ mission_templates = [
 								(party_wound_members, "p_enemy_casualties", ":agent_troop_id", 1),
 							(try_end),
 						(try_end),
+
+						(try_begin),
+							(ge, ":agent_party", 0),
+							(store_faction_of_party, ":party_faction", ":agent_party"),
+							(is_between, ":party_faction", kingdoms_begin, kingdoms_end),
+							(faction_get_slot, ":num_casualties", ":party_faction", slot_faction_battle_casualties),
+							(val_add, ":num_casualties", 1),
+							(faction_set_slot, ":party_faction", slot_faction_battle_casualties, ":num_casualties"),
+						(try_end),
 					(try_end),
+
+					(call_script, "script_apply_faction_casualties"),
+
 					(try_begin),
 						(eq, ":team_1", 0),
 						(assign, "$g_battle_result", 1),
@@ -1715,7 +1739,7 @@ mission_templates = [
 			
 		]),
 		
-		("battle_siege", mtf_battle_mode, charge,
+	("battle_siege", mtf_battle_mode, charge,
 		"Lead charge",
 		[
 			(0, mtef_defenders|mtef_team_0, af_override_horse, aif_start_alarmed, 0, []),
@@ -1752,6 +1776,8 @@ mission_templates = [
 						
 					(team_set_slot, 1, slot_team_formation, stf_default),
 					(call_script, "script_team_set_division_slots_for_formation", 1, stf_default),
+
+					(assign, "$g_attacker_reinforcements_delay", 0),
 				]),
 			
 			(ti_tab_pressed, 0, 0, [],
@@ -1775,6 +1801,7 @@ mission_templates = [
 					(party_clear, "p_player_casualties"),
 					(party_clear, "p_ally_casualties"),
 					(party_clear, "p_enemy_casualties"),
+					(call_script, "script_clear_faction_casualties"),
 					
 					(try_for_agents, ":cur_agent"),
 						(neg|agent_is_alive, ":cur_agent"),
@@ -1802,7 +1829,19 @@ mission_templates = [
 								(party_wound_members, "p_enemy_casualties", ":agent_troop_id", 1),
 							(try_end),
 						(try_end),
+
+						(try_begin),
+							(ge, ":agent_party", 0),
+							(store_faction_of_party, ":party_faction", ":agent_party"),
+							(is_between, ":party_faction", kingdoms_begin, kingdoms_end),
+							(faction_get_slot, ":num_casualties", ":party_faction", slot_faction_battle_casualties),
+							(val_add, ":num_casualties", 1),
+							(faction_set_slot, ":party_faction", slot_faction_battle_casualties, ":num_casualties"),
+						(try_end),
 					(try_end),
+
+					(call_script, "script_apply_faction_casualties"),
+					
 					(try_begin),
 						(eq, ":team_1", 0),
 						(assign, "$g_battle_result", 1),

@@ -31,7 +31,8 @@ dialogs = [
 		[
 			(store_conversation_troop, "$g_talk_troop"),
 
-			(store_current_hours, ":date"),
+			(call_script, "script_get_current_day"),
+			(assign, ":date", reg0),
 			(troop_get_slot, ":last_met", "$g_talk_troop", slot_troop_last_met),
 			(try_begin),
 				(neq, ":last_met", -1),
@@ -61,7 +62,8 @@ dialogs = [
 			(str_store_troop_name, s10, "$g_talk_troop"),
 		], "I am {s10}, {s11}. I wish to know the name I will carve on your grave.", "player_lord_greeting_attacked", 
 		[
-			(store_current_hours, ":date"),
+			(call_script, "script_get_current_day"),
+			(assign, ":date", reg0),
 			(troop_set_slot, "$g_talk_troop", slot_troop_last_met, ":date"),
 		]],
 	[anyone, "start",
@@ -82,7 +84,8 @@ dialogs = [
 			(str_store_troop_name, s10, "$g_talk_troop"),
 		], "Hail traveller. It's a pleasure to meet you, I am {s10}, {s11}. What is your name?", "player_lord_greeting", 
 		[
-			(store_current_hours, ":date"),
+			(call_script, "script_get_current_day"),
+			(assign, ":date", reg0),
 			(troop_set_slot, "$g_talk_troop", slot_troop_last_met, ":date"),
 		]],
 	

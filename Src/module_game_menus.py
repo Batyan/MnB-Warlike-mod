@@ -313,6 +313,13 @@ game_menus = [
 				[(eq, "$g_disable_ai", 1)],"Enable ais",
 				[(assign, "$g_disable_ai", 0),(jump_to_menu, "mnu_debug_menu"),]),
 
+			("debug_disable_faction_ai",
+				[(neq, "$g_disable_faction_ai", 1)],"Disable faction ais",
+				[(assign, "$g_disable_faction_ai", 1),(jump_to_menu, "mnu_debug_menu"),]),
+			("debug_enable_faction_ai",
+				[(eq, "$g_disable_faction_ai", 1)],"Enable faction ais",
+				[(assign, "$g_disable_faction_ai", 0),(jump_to_menu, "mnu_debug_menu"),]),
+
 
 			("debug_increase_haze",
 				[(assign, reg10, "$g_global_haze_amount"),],"Increase Haze ({reg10})",
@@ -431,7 +438,7 @@ game_menus = [
 						(assign, "$test_faction_2", kingdoms_begin),
 					(try_end),
 					(str_store_faction_name, s11, "$test_faction_2"),
-				], "Faction 1: {s11}",
+				], "Faction 2: {s11}",
 				[
 					(val_add, "$test_faction_2", 1),
 					(try_begin),
@@ -448,7 +455,7 @@ game_menus = [
 						(disable_menu_option),
 					(else_try),
 						(store_relation, ":relation", "$test_faction_1", "$test_faction_2"),
-						(lt, ":relation", relation_war),
+						(lt, ":relation", relation_state_war),
 						(str_store_string, s12, "@Factions are already at war"),
 						(disable_menu_option),
 					(else_try),
@@ -456,7 +463,7 @@ game_menus = [
 					(try_end),
 				], "{s12}", 
 				[
-					(call_script, "script_faction_declare_war_to_faction", "$test_faction_1", "$test_faction_2"),
+					(call_script, "script_faction_declare_war_to_faction", "$test_faction_1", "$test_faction_2", -1),
 				]),
 			("make_peace", 
 				[
@@ -466,9 +473,16 @@ game_menus = [
 						(disable_menu_option),
 					(else_try),
 						(store_relation, ":relation", "$test_faction_1", "$test_faction_2"),
-						(lt, ":relation", relation_friendly),
-						(gt, ":relation", relation_bad),
+						# (lt, ":relation", relation_state_friendly),
+						(gt, ":relation", relation_state_war),
 						(str_store_string, s13, "@Factions are already at peace"),
+						(disable_menu_option),
+					(else_try),
+						(store_relation, ":relation", "$test_faction_1", "$test_faction_2"),
+						(lt, ":relation", relation_state_war),
+						(call_script, "script_war_find_from_participants", "$test_faction_1", "$test_faction_2"),
+						(eq, reg0, -1),
+						(str_store_string, s13, "@Factions are not the main war participants"),
 						(disable_menu_option),
 					(else_try),
 						(str_store_string, s13, "@Make peace"),
@@ -485,12 +499,12 @@ game_menus = [
 						(disable_menu_option),
 					(else_try),
 						(store_relation, ":relation", "$test_faction_1", "$test_faction_2"),
-						(le, ":relation", relation_war),
+						(le, ":relation", relation_state_war),
 						(str_store_string, s14, "@Cannot make allies out of enemies"),
 						(disable_menu_option),
 					(else_try),
 						(store_relation, ":relation", "$test_faction_1", "$test_faction_2"),
-						(ge, ":relation", relation_allies),
+						(ge, ":relation", relation_state_friendly),
 						(str_store_string, s14, "@Factions are already allies"),
 						(disable_menu_option),
 					(else_try),
@@ -498,7 +512,7 @@ game_menus = [
 					(try_end),
 				], "{s14}", 
 				[
-					(call_script, "script_faction_set_random_relation_with_faction", "$test_faction_1", "$test_faction_2", 4), # Make allies
+					(call_script, "script_faction_create_treaty", "$test_faction_1", "$test_faction_2", sfkt_alliance), # Make allies
 				]),
 			
 			("back",[], "Back to camp",
@@ -515,7 +529,8 @@ game_menus = [
 				(neg|is_between, "$g_cur_selected", castle_scene_begin, castle_scene_end),
 				(assign, "$g_cur_selected", castle_scene_begin),
 			(try_end),
-			(store_sub, reg10, "$g_cur_selected", castle_scene_begin),],
+			(store_sub, reg10, "$g_cur_selected", castle_scene_begin),
+		],
 		[
 			("scene_select_plus", [], "Select next scene",
 				[
@@ -628,14 +643,6 @@ game_menus = [
 				]),
 			("join_accept", [], "Join",
 				[
-					(party_get_num_prisoner_stacks, ":prisoner_stacks", "$g_player_party"),
-					(try_for_range, ":stack_no", 0, ":prisoner_stacks"),
-						(party_prisoner_stack_get_troop_id, ":troop_id", "$g_player_party", ":stack_no"),
-						(troop_is_hero, ":troop_id"),
-            			(call_script, "script_troop_released", ":troop_id"),
-					(try_end),
-					(party_clear, "$g_player_party"),
-					(party_add_leader, "$g_player_party", "$g_player_troop"),
 					(call_script, "script_troop_use_template_troop", "$g_player_troop", "$g_test_player_troop"),
 					(party_set_faction, "$g_player_party", "$g_test_player_faction"),
 					(try_for_range, ":unused", 0, 10),
@@ -653,6 +660,10 @@ game_menus = [
 				[
 					(party_set_faction, "$g_player_party", "$g_test_player_faction"),
 					(troop_set_faction, "$g_player_troop", "$g_test_player_faction"),
+
+					(try_for_range, ":unused", 0, 10),
+						(call_script, "script_party_add_reinforcements", "$g_player_party"),
+					(try_end),
 			
 					(display_message, "@Joined!"),
 					(jump_to_menu, "mnu_test_faction_join"),
@@ -707,6 +718,10 @@ game_menus = [
 				(call_script, "script_party_get_expected_taxes", "$g_encountered_party"),
 				(assign, reg17, reg0),
 				(display_message, "@Expected taxes: {reg17}"),
+
+				(call_script, "script_party_get_tax_penalties", "$g_encountered_party"),
+				(assign, reg18, reg0),
+				(display_message, "@Tax penalties: {reg18}"),
 
 				(party_get_slot, ":total_res", "$g_encountered_party", slot_party_total_resources),
 	            (str_store_party_name, s12, "$g_encountered_party"),
