@@ -313,6 +313,13 @@ game_menus = [
 				[(eq, "$g_disable_ai", 1)],"Enable ais",
 				[(assign, "$g_disable_ai", 0),(jump_to_menu, "mnu_debug_menu"),]),
 
+			("debug_disable_faction_ai",
+				[(neq, "$g_disable_faction_ai", 1)],"Disable faction ais",
+				[(assign, "$g_disable_faction_ai", 1),(jump_to_menu, "mnu_debug_menu"),]),
+			("debug_enable_faction_ai",
+				[(eq, "$g_disable_faction_ai", 1)],"Enable faction ais",
+				[(assign, "$g_disable_faction_ai", 0),(jump_to_menu, "mnu_debug_menu"),]),
+
 
 			("debug_increase_haze",
 				[(assign, reg10, "$g_global_haze_amount"),],"Increase Haze ({reg10})",

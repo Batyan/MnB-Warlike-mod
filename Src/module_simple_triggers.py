@@ -17,6 +17,8 @@ simple_triggers = [
 
     (monthly*2, # Parties trigger
         [
+            (store_num_parties_of_template, ":num_parties", "pt_outlaws"),
+
             (try_for_range, ":party_no", centers_begin, centers_end),
                 (call_script, "script_party_recruit_troops", ":party_no"),
                 (assign, ":num_recruited", reg0),
@@ -29,12 +31,21 @@ simple_triggers = [
                     (call_script, "script_party_update_merchants_gold", ":party_no"),
                 (try_end),
 
-                # Generate bandits
-                (store_random_in_range, ":rand", 0, 50),
-                (try_begin), # Generate bandits more often if center prosperity is low
-                    (le, ":rand", 3),
-                    (call_script, "script_party_spawn_bandits", ":party_no"),
+                (try_begin),
+                    (lt, ":num_parties", max_bandit_party),
+                    # Generate bandits
+                    (store_random_in_range, ":rand", 0, 50),
+                    (try_begin), # Generate bandits more often if center prosperity is low
+                        (le, ":rand", 3),
+                        (call_script, "script_party_spawn_bandits", ":party_no"),
+                    (try_end),
                 (try_end),
+            (try_end),
+
+            (try_begin),
+                (call_script, "script_cf_debug", debug_simple),
+                (gt, ":num_parties", max_bandit_party),
+                (display_message, "@Reached bandit party limit", text_color_debug),
             (try_end),
         ]),
     
@@ -528,6 +539,8 @@ simple_triggers = [
             (try_for_range, ":cur_kingdom", kingdoms_begin, kingdoms_end),
                 (faction_set_slot, ":cur_kingdom", slot_faction_strength_active, 0),
                 (faction_set_slot, ":cur_kingdom", slot_faction_strength_ready, 0),
+                (faction_set_slot, ":cur_kingdom", slot_faction_num_vassals, 0),
+                (faction_set_slot, ":cur_kingdom", slot_faction_num_vassals_active, 0),
             (try_end),
 
             (try_for_range, ":lord_no", lords_begin, lords_end),
@@ -535,24 +548,34 @@ simple_triggers = [
                 (try_begin),
                     # (this_or_next|eq, ":occupation", tko_),
                     (eq, ":occupation", tko_kingdom_hero),
-                    (troop_get_slot, ":leaded_party", ":lord_no", slot_troop_leaded_party),
-                    (gt, ":leaded_party", 0),
-                    (party_is_active, ":leaded_party"),
 
                     (store_troop_faction, ":lord_kingdom", ":lord_no"),
-                    (faction_get_slot, ":current_strength", ":lord_kingdom", slot_faction_strength_active),
 
-                    (party_get_slot, ":value", ":leaded_party", slot_party_wages_cache),
-
-                    (val_add, ":current_strength", ":value"),
-                    (faction_set_slot, ":lord_kingdom", slot_faction_strength_active, ":current_strength"),
+                    (faction_get_slot, ":num_vassals", ":lord_kingdom", slot_faction_num_vassals),
+                    (val_add, ":num_vassals", 1),
+                    (faction_set_slot, ":lord_kingdom", slot_faction_num_vassals, ":num_vassals"),
 
                     (try_begin),
-                        (party_get_slot, ":readiness", ":leaded_party", slot_party_readiness),
-                        (eq, ":readiness", sfsr_ready),
-                        (party_get_slot, ":current_strength_ready", ":lord_kingdom", slot_faction_strength_ready),
-                        (val_add, ":current_strength_ready", ":value"),
-                        (party_set_slot, ":lord_kingdom", slot_faction_strength_ready, ":current_strength_ready"),
+                        (troop_get_slot, ":leaded_party", ":lord_no", slot_troop_leaded_party),
+                        (gt, ":leaded_party", 0),
+                        (party_is_active, ":leaded_party"),
+
+                        (faction_get_slot, ":num_vassals", ":lord_kingdom", slot_faction_num_vassals_active),
+                        (val_add, ":num_vassals", 1),
+                        (faction_set_slot, ":lord_kingdom", slot_faction_num_vassals_active, ":num_vassals"),
+
+                        (faction_get_slot, ":current_strength", ":lord_kingdom", slot_faction_strength_active),
+                        (party_get_slot, ":value", ":leaded_party", slot_party_wages_cache),
+                        (val_add, ":current_strength", ":value"),
+                        (faction_set_slot, ":lord_kingdom", slot_faction_strength_active, ":current_strength"),
+
+                        (try_begin),
+                            (party_get_slot, ":readiness", ":leaded_party", slot_party_readiness),
+                            (eq, ":readiness", sfsr_ready),
+                            (party_get_slot, ":current_strength_ready", ":lord_kingdom", slot_faction_strength_ready),
+                            (val_add, ":current_strength_ready", ":value"),
+                            (party_set_slot, ":lord_kingdom", slot_faction_strength_ready, ":current_strength_ready"),
+                        (try_end),
                     (try_end),
                 (try_end),
             (try_end),

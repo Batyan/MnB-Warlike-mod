@@ -389,6 +389,8 @@ attitude_positive = 1
 relation_weight_faction = 1
 relation_weight_leader = 1
 
+max_bandit_party = 75
+
 ################
 ## Item Slots ##
 ################
@@ -559,59 +561,61 @@ slot_faction_master_culture = 46
 slot_faction_era = 47		# Current era the faction is at
 slot_faction_era_time = 48	# Time at which the faction has attained this era
 
-slot_faction_num_vassals = 49
-slot_faction_num_fiefs = 50
+slot_faction_num_vassals = slot_faction_era_time + 1
+slot_faction_num_vassals_active = slot_faction_num_vassals + 1
+slot_faction_num_fiefs = slot_faction_num_vassals_active + 1
+slot_faction_num_walled_fiefs = slot_faction_num_fiefs + 1
 
-slot_faction_strength_active = 51
-slot_faction_strength_ready = 52
+slot_faction_strength_active = slot_faction_num_walled_fiefs + 1
+slot_faction_strength_ready = slot_faction_strength_active + 1
 
-slot_faction_strength_defensive_allies = 53
-slot_faction_strength_offensive_allies = 54
+slot_faction_strength_defensive_allies = slot_faction_strength_ready + 1
+slot_faction_strength_offensive_allies = slot_faction_strength_defensive_allies + 1
 
-slot_faction_war_damage = 55
+slot_faction_war_damage = slot_faction_strength_offensive_allies + 1
 
 # Last time the faction was at peace
-slot_faction_last_peace = 56
+slot_faction_last_peace = slot_faction_war_damage + 1
 
-slot_faction_preparing_war = 57
+slot_faction_preparing_war = slot_faction_last_peace + 1
 
-slot_faction_size = 58
-slot_faction_size_category = 59
+slot_faction_size = slot_faction_preparing_war + 1
+slot_faction_size_category = slot_faction_size + 1
 sfs_small = 0
 sfs_medium = 1
 sfs_large = 2
 
 
 # slots used for faction focus in ai decision
-slot_faction_mission_focus_1 = 60
-slot_faction_mission_focus_2 = 61
-slot_faction_mission_focus_3 = 62
-slot_faction_mission_focus_4 = 63
-slot_faction_mission_focus_5 = 64
-slot_faction_mission_focus_6 = 65
-slot_faction_mission_focus_7 = 66
-slot_faction_mission_focus_8 = 67
-slot_faction_mission_focus_9 = 68
-slot_faction_mission_focus_10 = 69
-slot_faction_mission_focus_11 = 70
-slot_faction_mission_focus_12 = 71
-slot_faction_mission_focus_13 = 72
-slot_faction_mission_focus_14 = 73
-slot_faction_mission_focus_15 = 74
-slot_faction_mission_focus_16 = 75
-slot_faction_mission_focus_17 = 76
-slot_faction_mission_focus_18 = 77
-slot_faction_mission_focus_19 = 78
-slot_faction_mission_focus_20 = 79
+slot_faction_mission_focus_1 = slot_faction_size_category + 1
+slot_faction_mission_focus_2 = slot_faction_mission_focus_1 + 1
+slot_faction_mission_focus_3 = slot_faction_mission_focus_2 + 1
+slot_faction_mission_focus_4 = slot_faction_mission_focus_3 + 1
+slot_faction_mission_focus_5 = slot_faction_mission_focus_4 + 1
+slot_faction_mission_focus_6 = slot_faction_mission_focus_5 + 1
+slot_faction_mission_focus_7 = slot_faction_mission_focus_6 + 1
+slot_faction_mission_focus_8 = slot_faction_mission_focus_7 + 1
+slot_faction_mission_focus_9 = slot_faction_mission_focus_8 + 1
+slot_faction_mission_focus_10 = slot_faction_mission_focus_9 + 1
+slot_faction_mission_focus_11 = slot_faction_mission_focus_10 + 1
+slot_faction_mission_focus_12 = slot_faction_mission_focus_11 + 1
+slot_faction_mission_focus_13 = slot_faction_mission_focus_12 + 1
+slot_faction_mission_focus_14 = slot_faction_mission_focus_13 + 1
+slot_faction_mission_focus_15 = slot_faction_mission_focus_14 + 1
+slot_faction_mission_focus_16 = slot_faction_mission_focus_15 + 1
+slot_faction_mission_focus_17 = slot_faction_mission_focus_16 + 1
+slot_faction_mission_focus_18 = slot_faction_mission_focus_17 + 1
+slot_faction_mission_focus_19 = slot_faction_mission_focus_18 + 1
+slot_faction_mission_focus_20 = slot_faction_mission_focus_19 + 1
 
-slot_faction_vassal_tax_rate = 80
-slot_faction_member_tax_rate = 81
+slot_faction_vassal_tax_rate = slot_faction_mission_focus_20 + 1
+slot_faction_member_tax_rate = slot_faction_vassal_tax_rate + 1
 
-slot_faction_status = 82
+slot_faction_status = slot_faction_member_tax_rate + 1
 sfst_default = 0
 sfst_disabled = -1
 
-slot_faction_policy_assimilation = 83
+slot_faction_policy_assimilation = slot_faction_status + 1
 
 # Assimilation is forced on captured centers
 sfpa_total = 0
@@ -620,7 +624,7 @@ sfpa_partial = 1
 # No assimilation on captured centers
 sfpa_none = 2
 
-slot_faction_vassal_type = 84
+slot_faction_vassal_type = slot_faction_policy_assimilation + 1
 
 # Vassal treaties
 sfvt_tributary = 0x01 # pays tribute
@@ -629,7 +633,7 @@ sfvt_sattrapy = 0x10 # joins offensive wars of overlord
 sfvt_bulwark = 0x40 # joins defensive wars of overlord
 sfvt_protectorate = 0x80 # joins defensive wars of vassal
 
-slot_faction_battle_casualties = 85
+slot_faction_battle_casualties = slot_faction_vassal_type + 1
 
 slot_faction_name_holder = slot_faction_battle_casualties + 1
 slot_faction_has_fixed_name = slot_faction_name_holder + 1

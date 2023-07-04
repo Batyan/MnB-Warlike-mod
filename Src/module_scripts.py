@@ -4899,7 +4899,7 @@ scripts = [
             (store_script_param, ":faction_no", 1),
 
             (faction_get_slot, ":war_damage", ":faction_no", slot_faction_war_damage),
-            (faction_get_slot, ":size", ":faction_no", slot_faction_num_fiefs),
+            (faction_get_slot, ":size", ":faction_no", slot_faction_num_walled_fiefs),
             
             (try_begin),
                 (gt, ":size", 0),
@@ -6516,6 +6516,32 @@ scripts = [
             (neq, ":overlord", sfkt_overlord),
             (neq, ":truce", sfkt_truce),
             (neq, ":non_aggression", sfkt_non_agression),
+        ]),
+
+    # script_cf_faction_want_war
+        # input:
+        #   arg1: faction_no
+        # output: none
+        # fails if faction_no does not want to declare a war
+    ("cf_faction_want_war",
+        [
+            (store_script_param, ":faction_no", 1),
+
+            (faction_get_slot, ":num_fiefs", ":faction_no", slot_faction_num_fiefs),
+            (faction_get_slot, ":num_vassals_active", ":faction_no", slot_faction_num_vassals_active),
+
+            (store_mul, ":threshold", ":num_fiefs", 75),
+            (val_div, ":threshold", 100),
+
+            (try_begin),
+                (call_script, "script_cf_debug", debug_all|debug_current),
+                (str_store_faction_name, s10, ":faction_no"),
+                (assign, reg10, ":num_fiefs"),
+                (assign, reg11, ":num_vassals_active"),
+                (display_message, "@{s10} checks for want_war {reg11} {reg10}"),
+            (try_end),
+
+            (gt, ":num_vassals_active", ":threshold"),
         ]),
     
     # script_faction_declare_war_to_faction
@@ -12798,6 +12824,7 @@ scripts = [
             (store_script_param, ":faction_no", 1),
 
             (faction_get_slot, ":num_fiefs", ":faction_no", slot_faction_num_fiefs),
+            (faction_get_slot, ":num_walled_fiefs", ":faction_no", slot_faction_num_walled_fiefs),
             (faction_get_slot, ":num_vassals", ":faction_no", slot_faction_num_vassals),
 
             # Handle faction defeat
@@ -12839,7 +12866,7 @@ scripts = [
             (try_end),
             
             # Get new vassals
-            (store_sub, ":diff", ":num_fiefs", ":num_vassals"),
+            (store_sub, ":diff", ":num_walled_fiefs", ":num_vassals"),
             (try_for_range, ":unused", 0, 5),
                 (gt, ":diff", 0),
                 (store_random_in_range, ":add_vassal", ":diff", 6),
@@ -12865,8 +12892,11 @@ scripts = [
             
             # Recruit mercenary bands
             
-            # Handle foreign diplomacy
-            (call_script, "script_faction_process_foreign_politics", ":faction_no"),
+            (try_begin),
+                (neq, "$g_disable_faction_ai", 1),
+                # Handle foreign diplomacy
+                (call_script, "script_faction_process_foreign_politics", ":faction_no"),
+            (try_end),
             
             # Organize feasts if needed
             
@@ -13181,6 +13211,9 @@ scripts = [
 
             (try_begin),
                 (eq, ":own_wars", 0),
+
+                (call_script, "script_cf_faction_want_war", ":faction_no"),
+
                 (assign, ":ally_score", 0),
                 (assign, ":ally_faction", -1),
 
@@ -13312,9 +13345,11 @@ scripts = [
                     (faction_set_slot, ":faction_no", slot_faction_preparing_war, -1),
                 (try_end),
             (else_try),
+                (gt, ":own_wars", 0),
                 # Process current wars
                 (store_sub, ":offset", ":faction_no", kingdoms_begin),
                 (store_add, ":slot", ":offset", slot_war_kingdom_participant_begin),
+                (assign, ":outcome", )
                 (try_for_range, ":war_storage", war_storages_begin, war_storages_end),
                     (faction_get_slot, ":participant", ":war_storage", ":slot"),
                     (neq, ":participant", swkp_bystander),
@@ -13328,6 +13363,7 @@ scripts = [
                         # Here we process peace declaration as we are the main participant
                         (call_script, "script_faction_process_main_participant_war", ":faction_no", ":war_storage"),
                         (assign, ":global_willingness", reg0),
+
                         (try_begin),
                             (call_script, "script_cf_debug", debug_war),
                             (str_store_faction_name, s10, ":faction_no"),
@@ -14106,7 +14142,8 @@ scripts = [
 
             (assign, ":new_faction_weight", 0),
             (assign, ":new_faction_num_fiefs", 0),
-            (try_for_range, ":cur_center", walled_centers_begin, walled_centers_end),
+            (assign, ":new_faction_num_walled_fiefs", 0),
+            (try_for_range, ":cur_center", centers_begin, centers_end),
                 (party_get_slot, ":center_faction", ":cur_center", slot_party_faction),
                 (try_begin),
                     (eq, ":center_faction", ":new_faction"),
@@ -14114,7 +14151,7 @@ scripts = [
                     (assign, ":center_weight", 0),
                     (try_begin),
                         (eq, ":party_type", spt_village),
-                        (assign, ":center_weight", center_size_village),
+                        # (assign, ":center_weight", center_size_village),
                     (else_try),
                         (eq, ":party_type", spt_castle),
                         (assign, ":center_weight", center_size_castle),
@@ -14123,6 +14160,11 @@ scripts = [
                         (assign, ":center_weight", center_size_town),
                     (try_end),
 
+                    (try_begin),
+                        (this_or_next|eq, ":party_type", spt_castle),
+                        (eq, ":party_type", spt_town),
+                        (val_add, ":new_faction_num_walled_fiefs", 1),
+                    (try_end),
 
                     (val_add, ":new_faction_weight", ":center_weight"),
                     (val_add, ":new_faction_num_fiefs", 1),
@@ -14135,6 +14177,7 @@ scripts = [
             (assign, ":new_faction_new_size", reg0),
 
             (faction_set_slot, ":new_faction", slot_faction_num_fiefs, ":new_faction_num_fiefs"),
+            (faction_set_slot, ":new_faction", slot_faction_num_walled_fiefs, ":new_faction_num_walled_fiefs"),
             (faction_set_slot, ":new_faction", slot_faction_size, ":new_faction_weight"),
             (try_begin),
                 (neq, ":new_faction_old_size", ":new_faction_new_size"),
@@ -15019,7 +15062,7 @@ scripts = [
                 (set_relation, ":faction_1", ":faction_2", relation_state_neutral),
             (else_try),
                 (eq, ":treaty_type", sfkt_truce),
-                (set_relation, ":faction_1", ":faction_2", relation_state_conflict),
+                (set_relation, ":faction_1", ":faction_2", relation_state_neutral),
             (try_end),
 
             (call_script, "script_faction_set_treaty", ":faction_1", ":faction_2", ":treaty_type"),
@@ -15061,7 +15104,7 @@ scripts = [
                 (set_relation, ":faction_1", ":faction_2", relation_state_neutral),
             (else_try),
                 (eq, ":treaty_type", sfkt_truce),
-                (set_relation, ":faction_1", ":faction_2", relation_state_conflict),
+                (set_relation, ":faction_1", ":faction_2", relation_state_neutral),
             (try_end),
 
             (store_sub, ":offset", ":faction_2", kingdoms_begin),
