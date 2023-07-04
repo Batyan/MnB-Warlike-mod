@@ -13349,7 +13349,6 @@ scripts = [
                 # Process current wars
                 (store_sub, ":offset", ":faction_no", kingdoms_begin),
                 (store_add, ":slot", ":offset", slot_war_kingdom_participant_begin),
-                (assign, ":outcome", )
                 (try_for_range, ":war_storage", war_storages_begin, war_storages_end),
                     (faction_get_slot, ":participant", ":war_storage", ":slot"),
                     (neq, ":participant", swkp_bystander),
