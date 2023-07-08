@@ -359,16 +359,12 @@ simple_triggers = [
                         (troop_get_slot, ":leaded_party", ":lord_no", slot_troop_leaded_party),
                         (try_begin),
                             (gt, ":leaded_party", 0),
-                            # 
                         (else_try),
                             (call_script, "script_cf_lord_can_spawn", ":lord_no"),
                             (call_script, "script_spawn_lord", ":lord_no"),
-                        # (else_try),
                         (try_end),
                         
                         (troop_get_slot, ":lord_level", ":lord_no", slot_troop_level),
-                        # (call_script, "script_troop_get_rank", ":lord_no"),
-                        # (assign, ":real_rank", reg0),
                         (troop_get_slot, ":real_rank", ":lord_no", slot_troop_rank),
                         (troop_get_slot, ":equipement_rank", ":lord_no", slot_troop_equipement_level),
                         (call_script, "script_troop_get_equipement_level", ":lord_no"),
@@ -430,8 +426,6 @@ simple_triggers = [
                         (val_sub, ":days_left", 1),
                         (val_max, ":days_left", 0),
                         (troop_set_slot, ":lord_no", slot_troop_days_next_rethink, ":days_left"),
-                    # (else_try),
-                        
                     (try_end),
                 (else_try),
                     # Try to free lord
