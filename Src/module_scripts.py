@@ -1810,7 +1810,7 @@ scripts = [
                 (str_store_string, s0, "@Current territories: ^"),
                 (str_clear, s10),
                 (try_for_range, ":cur_center", centers_begin, centers_end),
-                    (store_faction_of_party, ":center_faction", ":cur_center"),
+                    (party_get_slot, ":center_faction", ":cur_center", slot_party_faction),
                     (eq, ":center_faction", ":faction_no"),
                     (str_store_party_name_link, s11, ":cur_center"),
                     (try_begin),
