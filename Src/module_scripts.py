@@ -16512,17 +16512,25 @@ scripts = [
                 (party_count_prisoners_of_type, ":prisoner", ":prisoner_of", ":troop_no"),
                 (gt, ":prisoner", 0),
 
-                # ToDo: refine chance
-                (store_random_in_range, ":rand", 0, 100),
                 (try_begin),
-                    (eq, ":rand", 0),
-                    (call_script, "script_troop_released", ":troop_no"),
+                    (store_faction_of_party, ":prison_faction", ":prisoner_of"),
+                    (store_troop_faction, ":troop_faction", ":troop_no"),
+                    (eq, ":prison_faction", ":troop_faction"),
+                    (assign, ":freed", 1),
+                (else_try),
+                    # Escape chance
+                    (store_random_in_range, ":rand", 0, 100),
+                    (lt, ":rand", prisoner_escape_chance),
                     (assign, ":freed", 1),
                 (try_end),
             (else_try),
                 # Captor no longer valid
-                (call_script, "script_troop_released", ":troop_no"),
                 (assign, ":freed", 1),
+            (try_end),
+
+            (try_begin),
+                (eq, ":freed", 1),
+                (call_script, "script_troop_released", ":troop_no"),
             (try_end),
 
             (assign, reg0, ":freed"),
