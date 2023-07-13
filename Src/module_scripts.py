@@ -15605,12 +15605,6 @@ scripts = [
 
             (troop_set_slot, ":troop_id", slot_troop_prisoner_of, ":party_no"),
             (troop_set_slot, ":troop_id", slot_troop_gathering, -1), # Stop gathering when defeated
-            (try_begin),
-                (call_script, "script_cf_debug", debug_simple|debug_war),
-                (str_store_troop_name, s10, ":troop_id"),
-                (str_store_party_name, s11, ":party_no"),
-                (display_message, "@{s10} has been taken prisoner by {s11}."),
-            (try_end),
         ]),
 
     # script_troop_freed
