@@ -391,6 +391,8 @@ relation_weight_leader = 1
 
 max_bandit_party = 75
 
+prisoner_escape_chance = 1
+
 ################
 ## Item Slots ##
 ################

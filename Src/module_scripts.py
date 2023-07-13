@@ -6763,9 +6763,109 @@ scripts = [
                 (neq, ":has_aggressor", 0),
                 (neq, ":has_defender", 0),
 
-                # TODO: evacuate center before switching side
+                (call_script, "script_center_evacuate", ":center_no"),
 
                 (call_script, "script_center_change_current_faction", ":center_no", ":has_defender", ":has_aggressor"),
+            (try_end),
+        ]),
+
+    # script_center_evacuate
+        # input:
+        #   arg1: center_no
+        # output: none
+    ("center_evacuate",
+        [
+            (store_script_param, ":party_no", 1),
+
+            (store_faction_of_party, ":party_faction", ":party_no"),
+            (faction_get_slot, ":leader", ":party_faction"),
+            (assign, ":capital", -1),
+            (try_begin),
+                (ge, ":leader", 0),
+                (call_script, "script_troop_get_home", ":leader", 1),
+                (assign, ":leader_home", reg0),
+                (is_between, ":leader_home", walled_centers_begin, walled_centers_end),
+                (store_faction_of_party, ":leader_home_faction", ":leader_home"),
+                (eq, ":leader_home_faction", ":party_faction"),
+                (assign, ":capital", ":leader_home"),
+            (try_end),
+
+            (assign, ":num_shares", 0),
+
+            (try_for_range, ":center", walled_centers_begin, walled_centers_end),
+                (party_get_slot, ":center_faction", ":center", slot_party_faction),
+                (store_faction_of_party, ":center_current_faction", ":center"),
+                (eq, ":center_faction", ":center_current_faction"),
+                (eq, ":party_faction", ":center_faction"),
+
+                (party_get_slot, ":center_type", ":center", slot_party_type),
+                (assign, ":center_shares", -1),
+                (try_begin),
+                    (eq, ":center_type", spt_town),
+                    (val_add, ":center_shares", 3),
+                (else_try),
+                    (eq, ":center_type", spt_castle),
+                    (val_add, ":center_shares", 1),
+                (try_end),
+
+                (store_distance_to_party_from_party, ":distance", ":party_no", ":center"),
+                (try_begin),
+                    (lt, ":distance", 30),
+                    (val_add, ":center_shares", 2),
+                (else_try),
+                    (lt, ":distance", 60),
+                    (val_add, ":center_shares", 1),
+                (try_end),
+
+                (try_begin),
+                    (eq, ":center", ":capital"),
+                    (val_add, ":center_shares", 1),
+                (try_end),
+
+                (gt, ":center_shares", 0),
+                (val_add, ":num_shares", ":center_shares"),
+            (try_end),
+
+            (try_begin),
+                (gt, ":num_shares", 0),
+                (party_get_num_companions, ":total_number", ":party_no"),
+                (store_div, ":share_part", ":total_number", ":num_shares"),
+                (val_add, ":share_part", 1), # We add 1 to make sure there are no remaining troops in the center
+
+                (try_for_range, ":center", walled_centers_begin, walled_centers_end),
+                    (party_get_slot, ":center_faction", ":center", slot_party_faction),
+                    (store_faction_of_party, ":center_current_faction", ":center"),
+                    (eq, ":center_faction", ":center_current_faction"),
+                    (eq, ":party_faction", ":center_faction"),
+
+                    (party_get_slot, ":center_type", ":center", slot_party_type),
+                    (assign, ":center_shares", -1),
+                    (try_begin),
+                        (eq, ":center_type", spt_town),
+                        (val_add, ":center_shares", 3),
+                    (else_try),
+                        (eq, ":center_type", spt_castle),
+                        (val_add, ":center_shares", 1),
+                    (try_end),
+
+                    (store_distance_to_party_from_party, ":distance", ":party_no", ":center"),
+                    (try_begin),
+                        (lt, ":distance", 30),
+                        (val_add, ":center_shares", 2),
+                    (else_try),
+                        (lt, ":distance", 60),
+                        (val_add, ":center_shares", 1),
+                    (try_end),
+
+                    (try_begin),
+                        (eq, ":center", ":capital"),
+                        (val_add, ":center_shares", 1),
+                    (try_end),
+
+                    (gt, ":center_shares", 0),
+                    (store_mul, ":num_troops", ":center_shares", ":share_part"),
+                    (call_script, "script_party_send_troops", ":party_no", ":center", ":num_troops"),
+                (try_end),
             (try_end),
         ]),
 
@@ -9820,38 +9920,65 @@ scripts = [
                 (store_faction_of_party, ":faction", ":party_no"),
                 (store_faction_of_party, ":linked_faction", ":linked_center"),
                 (eq, ":faction", ":linked_faction"),
-                
-                (call_script, "script_spawn_party_around_party", ":party_no", "pt_reinforcements"),
-                (assign, ":spawned_party", reg0),
-                
-                (party_set_faction, ":spawned_party", ":faction"),
-            
-                (call_script, "script_party_give_troops_to_party", ":party_no", ":spawned_party", ":num_troops"),
-                
-                (val_add, ":num_sent", reg0),
-                (val_add, ":total_cost", reg1),
 
+                (call_script, "script_party_send_troops", ":party_no", ":linked_center", ":num_troops"),
+                (assign, ":num_sent", reg0),
+                (assign, ":total_cost", reg1),
+                
                 (call_script, "script_party_create_debt", ":linked_center", ":party_no", ":total_cost"),
-                
-                (party_set_slot, ":spawned_party", slot_party_type, spt_convoy),
-                (party_set_slot, ":spawned_party", slot_party_mission, spm_reinforce),
-                (party_set_slot, ":spawned_party", slot_party_mission_object, ":linked_center"),
-                
-                (party_set_ai_behavior, ":spawned_party", ai_bhvr_travel_to_party),
-                (party_set_ai_object, ":spawned_party", ":linked_center"),
-                
-                (try_begin),
-                    (eq, ":num_sent", 0),
-                    (remove_party, ":spawned_party"),
-                # (else_try),
-                #     (call_script, "script_cf_debug", debug_faction),
-                #     (str_store_party_name, s10, ":party_no"),
-                #     (str_store_party_name, s11, ":linked_center"),
-                #     (assign, reg10, ":num_sent"),
-                #     (assign, reg11, ":total_cost"),
-                #     (call_script, "script_game_get_money_text", reg11),
-                #     (display_message, "@{s10} sends {reg10} men to {s11} ({s0})."),
-                (try_end),
+            (try_end),
+            
+            (assign, reg0, ":num_sent"),
+            (assign, reg1, ":total_cost"),
+        ]),
+
+    # script_party_send_troops
+    # input:
+    #   arg1: party_no
+    #   arg2: party_to_send_to
+    #   arg3: optimal_number_to_send
+    # output:
+    #   reg0: num_sent
+    #   reg1: base_troop_cost
+    ("party_send_troops",
+        [
+            (store_script_param, ":party_no", 1),
+            (store_script_param, ":linked_center", 2),
+            (store_script_param, ":num_troops", 3),
+            
+            (assign, ":num_sent", 0),
+            (assign, ":total_cost", 0),
+            
+            (store_faction_of_party, ":linked_faction", ":linked_center"),
+            
+            (call_script, "script_spawn_party_around_party", ":party_no", "pt_reinforcements"),
+            (assign, ":spawned_party", reg0),
+            
+            (party_set_faction, ":spawned_party", ":linked_faction"),
+        
+            (call_script, "script_party_give_troops_to_party", ":party_no", ":spawned_party", ":num_troops"),
+            
+            (val_add, ":num_sent", reg0),
+            (val_add, ":total_cost", reg1),
+
+            (party_set_slot, ":spawned_party", slot_party_type, spt_convoy),
+            (party_set_slot, ":spawned_party", slot_party_mission, spm_reinforce),
+            (party_set_slot, ":spawned_party", slot_party_mission_object, ":linked_center"),
+            
+            (party_set_ai_behavior, ":spawned_party", ai_bhvr_travel_to_party),
+            (party_set_ai_object, ":spawned_party", ":linked_center"),
+            
+            (try_begin),
+                (eq, ":num_sent", 0),
+                (remove_party, ":spawned_party"),
+            # (else_try),
+            #     (call_script, "script_cf_debug", debug_faction),
+            #     (str_store_party_name, s10, ":party_no"),
+            #     (str_store_party_name, s11, ":linked_center"),
+            #     (assign, reg10, ":num_sent"),
+            #     (assign, reg11, ":total_cost"),
+            #     (call_script, "script_game_get_money_text", reg11),
+            #     (display_message, "@{s10} sends {reg10} men to {s11} ({s0})."),
             (try_end),
             
             (assign, reg0, ":num_sent"),
