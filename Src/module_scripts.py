@@ -15273,7 +15273,7 @@ scripts = [
                 (str_store_faction_name, s10, ":faction_1"),
                 (str_store_faction_name, s11, ":faction_2"),
                 (assign, reg10, ":treaty_type"),
-                (display_message, "@{s10} creates treaty {reg10} with {s11}"),
+                (display_message, "@{s10} creates treaty {reg10} with {s11}", text_color_info),
             (try_end),
         ]),
 
@@ -15335,7 +15335,7 @@ scripts = [
                 (assign, reg10, ":treaty_type"),
                 (str_store_date, s12, ":expire_time"),
                 (assign, reg12, ":value"),
-                (display_message, "@{s10} creates temporary treaty {reg10} with {s11} until {s12} ({reg12})"),
+                (display_message, "@{s10} creates temporary treaty {reg10} with {s11} until {s12} ({reg12})", text_color_info),
             (try_end),
         ]),
 
@@ -16620,7 +16620,7 @@ scripts = [
         #   arg1: troop_no
         # output:
         #   reg0: troop_freed
-    ("troop_prisoner", 
+    ("troop_prisoner",
         [
             (store_script_param, ":troop_no", 1),
 
@@ -16638,6 +16638,11 @@ scripts = [
                     (store_troop_faction, ":troop_faction", ":troop_no"),
                     (eq, ":prison_faction", ":troop_faction"),
                     (assign, ":freed", 1),
+                (else_try),
+                    # Ransom chance
+                    (store_random_in_range, ":rand", 0, 100),
+                    (lt, ":rand", prisoner_ransom_chance),
+                    (call_script, "script_cf_troop_propose_ransom", ":troop_no"),
                 (else_try),
                     # Escape chance
                     (store_random_in_range, ":rand", 0, 100),
@@ -16657,6 +16662,129 @@ scripts = [
             (assign, reg0, ":freed"),
         ]),
 
+    # script_cf_troop_propose_ransom
+        # input:
+        #   arg1: troop_no
+        # output: none
+        # fails if troop is not ransomed
+    ("cf_troop_propose_ransom",
+        [
+            (store_script_param, ":troop_no", 1),
+
+            (troop_get_slot, ":prisoner_of", ":troop_no", slot_troop_prisoner_of),
+            (ge, ":prisoner_of", 0),
+
+            (store_faction_of_party, ":prison_party_faction", ":prisoner_of"),
+            (store_troop_faction, ":troop_faction", ":troop_no"),
+            (neq, ":prison_party_faction", ":troop_faction"),
+
+            (store_relation, ":relation", ":troop_faction", ":prison_party_faction"),
+            (ge, ":relation", relation_state_neutral),
+
+            (party_get_slot, ":prison_party_type", ":prisoner_of", slot_party_type),
+            (is_between, ":prison_party_type", spt_village, spt_fort + 1),
+
+            (call_script, "script_troop_get_value", ":troop_no"),
+            (assign, ":ransom_value", reg0),
+            (call_script, "script_troop_get_ransomer_party", ":troop_no", ":ransom_value"),
+            (assign, ":ransomer_party", reg0),
+            (gt, ":ransomer_party", 0),
+
+            (try_begin),
+                (call_script, "script_cf_debug", debug_current),
+                (str_store_party_name, s10, ":ransomer_party"),
+                (str_store_troop_name, s11, ":troop_no"),
+                (assign, reg10, ":ransom_value"),
+                (display_message, "@{s10} is party for ransom of {s11} - {reg10} denars", text_color_info),
+            (try_end),
+        ]),
+
+    # script_troop_get_value
+        # Get an estimate of the troop "worth"
+        # Used in negociation and ransom
+        # input:
+        #   arg1: troop_no
+        # output:
+        #   reg0: troop_value
+    ("troop_get_value",
+        [
+            (store_script_param, ":troop_no", 1),
+            (troop_get_slot, ":occupation", ":troop_no", slot_troop_kingdom_occupation),
+
+            (assign, ":value", 0),
+
+            (try_begin),
+                (eq, ":occupation", tko_kingdom_hero),
+                (troop_get_slot, ":rank", ":troop_no", slot_troop_rank),
+                (troop_get_slot, ":num_vassals", ":troop_no", slot_troop_num_vassal),
+                (troop_get_slot, ":renown", ":troop_no", slot_troop_renown),
+
+                (assign, ":rank_value", 0),
+
+                (try_begin),
+                    (eq, ":rank", rank_king),
+                    (assign, ":rank_value", base_hero_value_king),
+                (else_try),
+                    (eq, ":rank", rank_city),
+                    (assign, ":rank_value", base_hero_value_city),
+                (else_try),
+                    (eq, ":rank", rank_castle),
+                    (assign, ":rank_value", rank_castle),
+                (else_try),
+                    (eq, ":rank", rank_two_village),
+                    (assign, ":rank_value", base_hero_value_two_village),
+                (else_try),
+                    (eq, ":rank", rank_village),
+                    (assign, ":rank_value", base_hero_value_village),
+                (else_try),
+                    (assign, ":rank_value", base_hero_value_none),
+                (try_end),
+
+                (assign, ":vassals_percentage", ":num_vassals", base_hero_value_vassals_percentage),
+                (store_mul, ":vassals_value", ":rank_value", ":vassals_percentage"),
+                (val_div, ":vassals_value", 100),
+
+                (store_mul, ":renown_value", ":renown", base_hero_value_renown_multiplier),
+
+                (val_add, ":value", ":rank_value"),
+                (val_add, ":value", ":vassals_value"),
+                (val_add, ":value", ":renown_value"),
+            (try_end),
+
+            (assign, reg0, ":value"),
+        ]),
+
+    # script_troop_get_ransomer_party
+        # input:
+        #   arg1: troop_no
+        #   arg2: ransom_value
+        # output:
+        #   reg0: ransomer_party
+    ("troop_get_ransomer_party",
+        [
+            (store_script_param, ":troop_no", 1),
+            (store_script_param, ":ransom_value", 2),
+
+            (assign, ":party", -1),
+
+            (troop_get_slot, ":troop_home", ":troop_no", slot_troop_home),
+            (try_begin),
+                (is_between, ":troop_home", centers_begin, centers_end),
+
+                (party_get_slot, ":troop_home_leader", ":troop_home", slot_party_leader),
+                (eq, ":troop_home_leader", ":troop_no"),
+
+                (call_script, "script_party_get_total_wealth", ":troop_home", 1),
+                (assign, ":home_wealth", reg0),
+
+                (gt, ":home_wealth", ":ransom_value"),
+
+                (assign, ":party", ":troop_home"),
+            (try_end),
+
+            (assign, reg0, ":party"),
+        ]),
+
     # script_update_troop_notes
         # input:
         #   arg1: troop_no
@@ -16668,6 +16796,7 @@ scripts = [
             (str_store_troop_name_link, s10, ":troop_no"),
             (display_message, "@Notes updated ({s10})"),
         ]),
+
     # script_update_faction_notes
         # input:
         #   arg1: faction_no
@@ -17291,6 +17420,8 @@ scripts = [
             (party_set_slot, ":spawned_party", slot_party_type, spt_caravan),
             (party_set_slot, ":spawned_party", slot_party_linked_party, ":party_no"),
             (party_set_slot, ":spawned_party", slot_party_mission_object, -1),
+
+            (party_set_aggressiveness, ":spawned_party", 0),
 
             (party_set_slot, ":party_no", ":slot", ":spawned_party"),
 

@@ -242,6 +242,7 @@ center_town_buildings_end = center_buildings_end
 text_color_impossible = 0xc01010
 text_color_gold = 0x55eeee
 text_color_valid = 0x00ee55
+text_color_info = 0x5555ff
 text_color_capture = 0xDD2200
 text_color_freed = 0x22DD00
 text_color_debug = 0xCCCCCC
@@ -392,6 +393,17 @@ relation_weight_leader = 1
 max_bandit_party = 75
 
 prisoner_escape_chance = 1
+prisoner_ransom_chance = 25
+
+base_hero_value_king = 1000000
+base_hero_value_city = 500000
+base_hero_value_castle = 200000
+base_hero_value_village = 50000
+base_hero_value_two_village = base_hero_value_village * 150 / 100
+base_hero_value_none = 10000
+
+base_hero_value_vassals_percentage = 15
+base_hero_value_renown_multiplier = 10
 
 ################
 ## Item Slots ##
