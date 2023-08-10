@@ -13413,7 +13413,6 @@ scripts = [
                 (assign, ":enemy_score", 0),
                 (assign, ":enemy_faction", -1),
                 (try_for_range, ":other_faction", kingdoms_begin, kingdoms_end),
-
                     (call_script, "script_cf_faction_can_declare_war", ":faction_no", ":other_faction"),
 
                     (call_script, "script_faction_get_relation_with_faction", ":faction_no", ":other_faction"),
@@ -16729,7 +16728,7 @@ scripts = [
                     (assign, ":rank_value", base_hero_value_city),
                 (else_try),
                     (eq, ":rank", rank_castle),
-                    (assign, ":rank_value", rank_castle),
+                    (assign, ":rank_value", base_hero_value_castle),
                 (else_try),
                     (eq, ":rank", rank_two_village),
                     (assign, ":rank_value", base_hero_value_two_village),

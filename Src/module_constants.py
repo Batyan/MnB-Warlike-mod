@@ -701,7 +701,7 @@ sfkt_all_treaty_clear = 0x0000
 #   Suno - Burglen: 30
 #	Sargoth - Praven: 95
 # 	Shariz - Praven: 174
-slot_faction_kingdom_distance_begin = slot_faction_kingdom_treaties_end
+slot_faction_kingdom_distance_begin = slot_faction_kingdom_temporary_treaties_object_end
 slot_faction_kingdom_distance_end = slot_faction_kingdom_distance_begin - kingdoms_begin + kingdoms_end
 
 # slot_faction_kingdom_treaty_expiration_begin = slot_faction_kingdom_distance_end
