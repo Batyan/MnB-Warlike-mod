@@ -564,16 +564,18 @@ slot_faction_veteran_template_end = 41
 slot_faction_elite_template_end = 42
 slot_faction_noble_template_end = 43
 
-slot_faction_is_at_war = 44
+slot_faction_original_color = slot_faction_noble_template_end + 1
 
-slot_faction_lord_gathering = 45
+slot_faction_is_at_war = slot_faction_original_color + 1
 
-slot_faction_master_culture = 46
+slot_faction_lord_gathering = slot_faction_is_at_war + 1
+
+slot_faction_master_culture = slot_faction_lord_gathering + 1
 
 # slot_faction_troop_ratio_begin = slot_faction_troop_ratio_infantry
 
-slot_faction_era = 47		# Current era the faction is at
-slot_faction_era_time = 48	# Time at which the faction has attained this era
+slot_faction_era = slot_faction_master_culture + 1	# Current era the faction is at
+slot_faction_era_time = slot_faction_era + 1		# Time at which the faction has attained this era
 
 slot_faction_num_vassals = slot_faction_era_time + 1
 slot_faction_num_vassals_active = slot_faction_num_vassals + 1

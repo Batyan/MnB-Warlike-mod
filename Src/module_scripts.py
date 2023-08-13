@@ -5259,10 +5259,12 @@ scripts = [
             (party_get_slot, ":party_type", ":party_no", slot_party_type),
 
             (assign, ":at_war", 0),
+            (assign, ":preparing_for_war", 0),
             (store_faction_of_party, ":party_faction", ":party_no"),
             (try_begin),
                 (gt, ":party_faction", 0),
                 (faction_get_slot, ":at_war", ":party_faction", slot_faction_is_at_war),
+                (faction_get_slot, ":preparing_for_war", ":party_faction", slot_faction_preparing_war),
             (try_end),
 
             (assign, ":ratio_party", 40),
@@ -5270,6 +5272,7 @@ scripts = [
             (assign, ":ratio_spendings", 25),
             (try_begin),
                 (eq, ":at_war", 0),
+                (le, ":preparing_for_war", 0),
 
                 (try_begin),
                     (eq, ":party_type", spt_town),
@@ -5797,6 +5800,9 @@ scripts = [
                 (faction_set_slot, ":fac_1", slot_faction_member_tax_rate, 2),
 
                 (faction_set_slot, ":fac_1", slot_faction_is_at_war, 0),
+
+                (faction_get_color, ":color", ":fac_1"),
+                (faction_set_slot, ":fac_1", slot_faction_original_color, ":color"),
 
                 (try_begin),
                     (spawn_around_party, "p_centers_end", "pt_name_holders_template"),
@@ -13164,6 +13170,9 @@ scripts = [
 
                 (ge, ":best_candidate", 0),
                 (faction_set_slot, ":faction_no", slot_faction_leader, ":best_candidate"),
+
+                (call_script, "script_troop_update_name", ":best_candidate"),
+
                 (try_begin),
                     (call_script, "script_cf_debug", debug_simple|debug_faction),
                     (str_store_troop_name, s10, ":best_candidate"),
@@ -16642,6 +16651,11 @@ scripts = [
                     (store_random_in_range, ":rand", 0, 100),
                     (lt, ":rand", prisoner_ransom_chance),
                     (call_script, "script_cf_troop_propose_ransom", ":troop_no"),
+
+                    (assign, ":ransom_value", reg0),
+                    (assign, ":ransomer_party", reg1),
+
+                    (call_script, "script_party_ransom_troop", ":ransomer_party", ":troop_no", ":prisoner_of", ":ransom_value"),
                 (else_try),
                     # Escape chance
                     (store_random_in_range, ":rand", 0, 100),
@@ -16664,7 +16678,9 @@ scripts = [
     # script_cf_troop_propose_ransom
         # input:
         #   arg1: troop_no
-        # output: none
+        # output:
+        #   reg0: ransom_value
+        #   reg1: ransom_party
         # fails if troop is not ransomed
     ("cf_troop_propose_ransom",
         [
@@ -16696,6 +16712,9 @@ scripts = [
                 (assign, reg10, ":ransom_value"),
                 (display_message, "@{s10} is party for ransom of {s11} - {reg10} denars", text_color_info),
             (try_end),
+
+            (assign, reg0, ":ransom_value"),
+            (assign, reg1, ":ransomer_party"),
         ]),
 
     # script_troop_get_value
@@ -16782,6 +16801,25 @@ scripts = [
             (try_end),
 
             (assign, reg0, ":party"),
+        ]),
+
+    # script_party_ransom_troop
+        # input:
+        #   arg1: party_no
+        #   arg2: ransom_troop
+        #   arg3: ransom_from
+        #   arg4: ransom_value
+        # output: none
+    ("party_ransom_troop",
+        [
+            (store_script_param, ":party_no", 1),
+            (store_script_param, ":ransom_troop", 2),
+            (store_script_param, ":ransom_from", 3),
+            (store_script_param, ":ransom_value", 4),
+
+            # TODO: send convoy party
+            (call_script, "script_party_transfer_wealth", ":party_no", ":ransom_from", ":ransom_value", tax_type_none),
+            (call_script, "script_troop_released", ":ransom_troop"),
         ]),
 
     # script_update_troop_notes
