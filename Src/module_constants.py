@@ -252,7 +252,7 @@ text_color_budget_positive = 0x00dd00
 text_color_budget_negative = 0xdd0000
 text_color_budget_neutral = 0x222222
 
-era_minimum_duration = 1
+era_minimum_duration = 365
 
 merchants_begin = "trp_merchant_town_11_general"
 merchants_end = "trp_banner_background_color_array"
@@ -395,12 +395,12 @@ max_bandit_party = 75
 prisoner_escape_chance = 1
 prisoner_ransom_chance = 25
 
-base_hero_value_king = 1000000
-base_hero_value_city = 500000
-base_hero_value_castle = 200000
-base_hero_value_village = 50000
+base_hero_value_king = 10000000
+base_hero_value_city = 5000000
+base_hero_value_castle = 2000000
+base_hero_value_village = 500000
 base_hero_value_two_village = base_hero_value_village * 150 / 100
-base_hero_value_none = 10000
+base_hero_value_none = 100000
 
 base_hero_value_vassals_percentage = 15
 base_hero_value_renown_multiplier = 10

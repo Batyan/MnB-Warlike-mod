@@ -63,7 +63,7 @@ scripts = [
                 (faction_set_slot, ":faction", slot_faction_era, 0),
             (try_end),
             
-            (try_for_range, ":small_kingdom", kingdoms_begin, small_kingdoms_end),
+            (try_for_range, ":small_kingdom", kingdoms_begin, kingdoms_end),
                 (faction_set_slot, ":small_kingdom", slot_faction_leader, -1),
                 (faction_set_slot, ":small_kingdom", slot_faction_marshall, -1),
             (try_end),
@@ -9550,7 +9550,11 @@ scripts = [
                 (try_begin),
                     (lt, ":time_passed", era_minimum_duration),
                     (store_sub, ":old_era", ":era", 1),
-                    (store_sub, ":time_left", ":time_passed", era_minimum_duration),
+
+                    (store_mul, ":ratio", ":time_passed", 100),
+                    (val_div, ":ratio", era_minimum_duration),
+                    (store_sub, ":inverse", 100, ":ratio"),
+
                     (call_script, "script_era_get_troops_multiplier", ":old_era"),
                     (assign, ":peasant_old_mult", reg0),
                     (assign, ":common_old_mult", reg1),
@@ -9558,17 +9562,17 @@ scripts = [
                     (assign, ":elite_old_mult", reg3),
                     (assign, ":noble_old_mult", reg4),
                     
-                    (val_mul, ":peasant_mult", ":time_passed"),
-                    (val_mul, ":common_mult", ":time_passed"),
-                    (val_mul, ":veteran_mult", ":time_passed"),
-                    (val_mul, ":elite_mult", ":time_passed"),
-                    (val_mul, ":noble_mult", ":time_passed"),
+                    (val_mul, ":peasant_old_mult", ":ratio"),
+                    (val_mul, ":common_old_mult", ":ratio"),
+                    (val_mul, ":veteran_old_mult", ":ratio"),
+                    (val_mul, ":elite_old_mult", ":ratio"),
+                    (val_mul, ":noble_old_mult", ":ratio"),
                     
-                    (val_mul, ":peasant_old_mult", ":time_left"),
-                    (val_mul, ":common_old_mult", ":time_left"),
-                    (val_mul, ":veteran_old_mult", ":time_left"),
-                    (val_mul, ":elite_old_mult", ":time_left"),
-                    (val_mul, ":noble_old_mult", ":time_left"),
+                    (val_mul, ":peasant_mult", ":inverse"),
+                    (val_mul, ":common_mult", ":inverse"),
+                    (val_mul, ":veteran_mult", ":inverse"),
+                    (val_mul, ":elite_mult", ":inverse"),
+                    (val_mul, ":noble_mult", ":inverse"),
                     
                     (val_add, ":peasant_mult", ":peasant_old_mult"),
                     (val_add, ":common_mult", ":common_old_mult"),
@@ -9576,13 +9580,19 @@ scripts = [
                     (val_add, ":elite_mult", ":elite_old_mult"),
                     (val_add, ":noble_mult", ":noble_old_mult"),
                     
-                    (val_div, ":peasant_mult", era_minimum_duration),
-                    (val_div, ":common_mult", era_minimum_duration),
-                    (val_div, ":veteran_mult", era_minimum_duration),
-                    (val_div, ":elite_mult", era_minimum_duration),
-                    (val_div, ":noble_mult", era_minimum_duration),
+                    (val_div, ":peasant_mult", 2),
+                    (val_div, ":common_mult", 2),
+                    (val_div, ":veteran_mult", 2),
+                    (val_div, ":elite_mult", 2),
+                    (val_div, ":noble_mult", 2),
                 (try_end),
             (try_end),
+
+            (assign, reg0, ":peasant_mult"),
+            (assign, reg1, ":common_mult"),
+            (assign, reg2, ":veteran_mult"),
+            (assign, reg3, ":elite_mult"),
+            (assign, reg4, ":noble_mult"),
         ]),
 
     # script_faction_apply_assimilation
@@ -10689,6 +10699,12 @@ scripts = [
             (call_script, "script_get_current_day"),
             (assign, ":current_day", reg0),
 
+            (try_begin),
+                (call_script, "script_cf_debug", debug_simple|debug_current),
+                (str_store_troop_name_link, s10, ":troop_no"),
+                (display_log_message, "@{s10} has died", text_color_impossible),
+            (try_end),
+
             (troop_set_slot, ":troop_no", slot_troop_kingdom_occupation, tko_dead),
             (troop_set_slot, ":troop_no", slot_troop_died, ":current_day"),
 
@@ -10701,7 +10717,7 @@ scripts = [
                     (troop_get_slot, ":relative_dead", ":relative", slot_troop_kingdom_occupation),
                     (try_begin),
                         (eq, ":relative_dead", tko_dead),
-                        (assign, ":other_living_relative"),
+                        (assign, ":other_living_relative", 0),
                         # Reset relative if it has no living relative
                         (try_for_range, ":other_slot", slot_troop_married_to, slot_troop_child_10+1),
                             (troop_get_slot, ":other_relative", ":relative", ":other_slot"),
@@ -10711,6 +10727,13 @@ scripts = [
                         (try_end),
                         (try_begin),
                             (eq, ":other_living_relative", 0),
+
+                            (try_begin),
+                                (call_script, "script_cf_debug", debug_current),
+                                (str_store_troop_name_link, s10, ":relative"),
+                                (display_log_message, "@{s10} has no remaining relatives being reset", text_color_debug),
+                            (try_end),
+
                             (call_script, "script_init_lord", ":relative"),
                         (try_end),
                     (else_try),
@@ -10720,9 +10743,15 @@ scripts = [
             (try_end),
             (try_begin),
                 (eq, ":living_relative", 0),
+
+                (try_begin),
+                    (call_script, "script_cf_debug", debug_current),
+                    (str_store_troop_name_link, s10, ":troop_no"),
+                    (display_log_message, "@{s10} has no remaining relatives being reset", text_color_debug),
+                (try_end),
+
                 (call_script, "script_init_lord", ":troop_no"),
             (try_end),
-
         ]),
     
     # script_troop_set_name

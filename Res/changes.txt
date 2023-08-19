@@ -2,7 +2,11 @@ v 0.420:
 	-New features:
 		* improve vassal center granting system
 		* add vassals information in faction notes
+		* add prisoner ransom
+		* evacuate occupied centers after truce
 	-Balance changes:
+		* increase nord_light_infantry armor
+		* update center granting system to allow better hierarchy on vassals
 	-Fixes:
 		* fix incorrect affectation of linked center for some villages
 
