@@ -242,8 +242,9 @@ center_town_buildings_end = center_buildings_end
 text_color_impossible = 0xc01010
 text_color_gold = 0x55eeee
 text_color_valid = 0x00ee55
+text_color_info = 0x5555ff
 text_color_capture = 0xDD2200
-text_color_freed = 0xDD2200
+text_color_freed = 0x22DD00
 text_color_debug = 0xCCCCCC
 text_color_war = 0xBB0101
 
@@ -251,7 +252,7 @@ text_color_budget_positive = 0x00dd00
 text_color_budget_negative = 0xdd0000
 text_color_budget_neutral = 0x222222
 
-era_minimum_duration = 1
+era_minimum_duration = 365
 
 merchants_begin = "trp_merchant_town_11_general"
 merchants_end = "trp_banner_background_color_array"
@@ -390,6 +391,19 @@ relation_weight_faction = 1
 relation_weight_leader = 1
 
 max_bandit_party = 75
+
+prisoner_escape_chance = 1
+prisoner_ransom_chance = 25
+
+base_hero_value_king = 10000000
+base_hero_value_city = 5000000
+base_hero_value_castle = 2000000
+base_hero_value_village = 500000
+base_hero_value_two_village = base_hero_value_village * 150 / 100
+base_hero_value_none = 100000
+
+base_hero_value_vassals_percentage = 15
+base_hero_value_renown_multiplier = 10
 
 ################
 ## Item Slots ##
@@ -550,16 +564,18 @@ slot_faction_veteran_template_end = 41
 slot_faction_elite_template_end = 42
 slot_faction_noble_template_end = 43
 
-slot_faction_is_at_war = 44
+slot_faction_original_color = slot_faction_noble_template_end + 1
 
-slot_faction_lord_gathering = 45
+slot_faction_is_at_war = slot_faction_original_color + 1
 
-slot_faction_master_culture = 46
+slot_faction_lord_gathering = slot_faction_is_at_war + 1
+
+slot_faction_master_culture = slot_faction_lord_gathering + 1
 
 # slot_faction_troop_ratio_begin = slot_faction_troop_ratio_infantry
 
-slot_faction_era = 47		# Current era the faction is at
-slot_faction_era_time = 48	# Time at which the faction has attained this era
+slot_faction_era = slot_faction_master_culture + 1	# Current era the faction is at
+slot_faction_era_time = slot_faction_era + 1		# Time at which the faction has attained this era
 
 slot_faction_num_vassals = slot_faction_era_time + 1
 slot_faction_num_vassals_active = slot_faction_num_vassals + 1
@@ -687,7 +703,7 @@ sfkt_all_treaty_clear = 0x0000
 #   Suno - Burglen: 30
 #	Sargoth - Praven: 95
 # 	Shariz - Praven: 174
-slot_faction_kingdom_distance_begin = slot_faction_kingdom_treaties_end
+slot_faction_kingdom_distance_begin = slot_faction_kingdom_temporary_treaties_object_end
 slot_faction_kingdom_distance_end = slot_faction_kingdom_distance_begin - kingdoms_begin + kingdoms_end
 
 # slot_faction_kingdom_treaty_expiration_begin = slot_faction_kingdom_distance_end

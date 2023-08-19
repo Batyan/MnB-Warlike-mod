@@ -2731,7 +2731,7 @@ troops = [
   ["nord_light_infantry", "Nord Light Infantry", "Nord Light Infantries", tf_guarantee_common_armor|tf_guarantee_shield, no_scene, reserved, fac_kingdom_4,
    [itm_one_handed_battle_axe_a, itm_one_handed_battle_axe_a, itm_sword_viking_2, itm_sword_viking_2_small, itm_javelin, itm_light_throwing_axes, itm_tab_shield_round_c,itm_tab_shield_round_c_plain_1,itm_tab_shield_round_c_plain_2,
     itm_leather_boots, itm_leather_gloves,
-    itm_blue_tunic, itm_coarse_tunic,
+    itm_leather_jerkin,
     itm_nordic_veteran_archer_helmet, itm_nordic_footman_helmet, itm_nordic_fighter_helmet,
     ],
    str_14|agi_14|int_7|cha_9|level(21), wpex(115,105,100,55,20,80), knows_common|knows_ironflesh_3|knows_power_strike_5|knows_power_throw_3|knows_athletics_5, nord_face_young_1, nord_face_old_2 ],
