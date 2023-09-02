@@ -712,6 +712,8 @@ slot_faction_kingdom_distance_end = slot_faction_kingdom_distance_begin - kingdo
 faction_distance_close = 60
 faction_distance_far = 150
 
+slot_faction_wealth = slot_faction_kingdom_distance_end + 1
+
 #######################
 ## War Storage Slots ##
 ## ####################
@@ -1087,50 +1089,49 @@ tp_renega = 0x0080 # ToDO
 # tp_
 
 slot_troop_leaded_party				= 14
+slot_troop_garrisoned 				= slot_troop_leaded_party + 1
 
-slot_troop_building_one 			= 15
-slot_troop_building_end				= 16
+slot_troop_building_one 			= slot_troop_garrisoned + 1
+slot_troop_building_end				= slot_troop_building_one + 1
 
-slot_troop_days_next_rethink		= 17
+slot_troop_days_next_rethink		= slot_troop_building_end + 1
 
-slot_troop_num_vassal				= 18
-slot_troop_vassal_of				= 19
+slot_troop_num_vassal				= slot_troop_days_next_rethink + 1
+slot_troop_vassal_of				= slot_troop_num_vassal + 1
 
-slot_troop_home						= 20
+slot_troop_home						= slot_troop_vassal_of + 1
 
-slot_troop_mission 					= 21
+slot_troop_mission 					= slot_troop_home + 1
 tm_none					= 0
 tm_defending			= 1
 tm_attacking			= 2
 tm_escorting			= 3
 
-slot_troop_mission_object			= 22
+slot_troop_mission_object			= slot_troop_mission + 1
 
-slot_troop_behavior_object 			= 23
-slot_troop_behavior 				= 24
+slot_troop_behavior_object 			= slot_troop_mission_object + 1
+slot_troop_behavior 				= slot_troop_behavior_object + 1
 tb_none 				= 0
 tb_move 				= 1
 tb_follow 				= 2
 tb_patrol				= 3
 
-slot_troop_prisoner_of				= 25 # Only heroes
+slot_troop_prisoner_of				= slot_troop_behavior + 1 # Only heroes
 
-slot_troop_faction_reserved_1		= 25 # Only regulars
-slot_troop_faction_reserved_2		= 26 # Only regulars
-slot_troop_faction_not_1			= 27
-slot_troop_faction_not_2			= 28
+slot_troop_faction_reserved_1		= slot_troop_prisoner_of # Only regulars
+slot_troop_faction_reserved_2		= slot_troop_faction_reserved_1 + 1 # Only regulars
+slot_troop_faction_not_1			= slot_troop_faction_reserved_2 + 1
+slot_troop_faction_not_2			= slot_troop_faction_not_1 + 1
 
-slot_troop_armor_weight 			= 29
-slot_troop_horse_weight 			= 30
-slot_troop_ranged_weapon_weight 	= 31
+slot_troop_armor_weight 			= slot_troop_faction_not_2 + 1
+slot_troop_horse_weight 			= slot_troop_armor_weight + 1
+slot_troop_ranged_weapon_weight 	= slot_troop_horse_weight + 1
 
 weight_very_light = 0
 weight_light = 1
 weight_medium = 2
 weight_heavy = 3
 weight_very_heavy = 4
-
-slot_troop_last_met 				= 32
 
 slot_troop_surplus_center			= 33
 
@@ -1198,6 +1199,8 @@ slot_troop_budget_reserved_other = 67
 
 slot_troop_budget_debt = 68
 slot_troop_budget_perceived_debt = 69
+
+slot_troop_last_met 				= 70
 
 slot_troop_relations_begin = 400
 
