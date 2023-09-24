@@ -2669,8 +2669,8 @@ troops = [
   # SPECIAL
   ["khergit_noble_lancer", "Khergit Noble Lancer", "Khergit Noble Lancer", tf_guarantee_trained_armor|tf_guarantee_horseman|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_34,
    [itm_heavy_lance, itm_tab_shield_small_round_c,itm_tab_shield_small_round_c_plain_1,itm_tab_shield_small_round_c_plain_2,
-    itm_splinted_greaves, itm_leather_gloves, itm_scale_gauntlets,
-    itm_khergit_elite_armor, itm_lamellar_armor,
+    itm_splinted_greaves, itm_scale_gauntlets,
+    itm_lamellar_armor,
     itm_khergit_cavalry_helmet, itm_khergit_guard_helmet,
     itm_warhorse_steppe],
    str_19|agi_21|int_11|cha_22|level(50), wpex(100,90,175,90,45,85), knows_common|knows_ironflesh_9|knows_power_strike_6|knows_power_throw_2|knows_power_draw_3|knows_athletics_3|knows_riding_7|knows_shield_1|knows_horse_archery_2, khergit_face_young_1, khergit_face_old_2 ],
@@ -3780,15 +3780,15 @@ troops = [
     itm_warhorse_sarranid],
    str_19|agi_20|int_10|cha_20|level(46), wpex(115,105,135,50,20,70), knows_common|knows_ironflesh_7|knows_power_strike_4|knows_power_throw_1|knows_power_draw_2|knows_athletics_5|knows_riding_6|knows_shield_1|knows_horse_archery_2, sarranid_face_young_1, sarranid_face_old_2 ],
   
-  # Heavy cavalry skirmisher, swords, axes, maces, javelins, shields
+  # Heavy cavalry skirmisher, swords, axes, maces, javelins, lances
   # SPECIAL
-  ["sarranid_noble_skirmisher", "Sarranid Noble Skirmisher", "Sarranid Noble Skirmisher", tf_guarantee_trained_armor|tf_guarantee_ranged|tf_guarantee_shield|tf_guarantee_horseman, no_scene, reserved, fac_small_kingdom_65,
-   [itm_sarranid_cavalry_sword, itm_iron_mace, itm_sarranid_axe_b, itm_jarid, itm_jarid, itm_tab_shield_small_round_c,itm_tab_shield_small_round_c_plain_1,itm_tab_shield_small_round_c_plain_2,
+  ["sarranid_noble_skirmisher", "Sarranid Noble Skirmisher", "Sarranid Noble Skirmisher", tf_guarantee_trained_armor|tf_guarantee_ranged|tf_guarantee_horseman, no_scene, reserved, fac_small_kingdom_65,
+   [itm_sarranid_cavalry_sword, itm_iron_mace, itm_sarranid_axe_b, itm_jarid, itm_jarid, itm_heavy_lance,
     itm_sarranid_boots_d, itm_mail_mittens, itm_scale_gauntlets,
-    itm_mamluke_mail,
+    itm_mamluke_mail, itm_sarranid_mail_shirt,
     itm_sarranid_veiled_helmet, itm_sarranid_mail_coif,
-    itm_arabian_horse_b],
-   str_18|agi_21|int_10|cha_19|level(45), wpex(120,110,110,55,25,120), knows_common|knows_ironflesh_4|knows_power_strike_4|knows_power_throw_4|knows_power_draw_2|knows_athletics_6|knows_riding_7|knows_shield_1|knows_horse_archery_7, sarranid_face_young_1, sarranid_face_old_2 ],
+    itm_warhorse_sarranid],
+   str_18|agi_21|int_10|cha_19|level(45), wpex(120,110,140,55,25,120), knows_common|knows_ironflesh_6|knows_power_strike_4|knows_power_throw_4|knows_power_draw_2|knows_athletics_6|knows_riding_6|knows_shield_1|knows_horse_archery_7, sarranid_face_young_1, sarranid_face_old_2 ],
   
   # Heavy infantry ranged, 2h swords, bows
   # SPECIAL

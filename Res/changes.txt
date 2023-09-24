@@ -25,6 +25,13 @@ v 0.430:
 		* increase sarranid_noble_cavalry ironflesh 5 -> 7
 		* increase sarranid_light_cavalry ironflesh 0 -> 1
 		* increase sarranid_champion ironflesh 2 -> 3
+		* increase sarranid_noble_skirmisher ironflesh 4 -> 6
+		* replace sarranid_noble_skirmisher horse to warhorse
+		* add sarranid_mail_shirt to sarranid_noble_skirmisher (reduce overall armor value)
+		* add heavy_lance to sarranid_noble_skirmisher
+		* remove shields to sarranid_noble_skirmisher
+		* remove khergit_elite_armor from khergit_noble_lancer (reduce overall armor value)
+		* remove leather_gloves from khergit_noble_lancer (increase overall armor value)
 	-Fixes:
 
 v 0.420:
