@@ -580,6 +580,14 @@ simple_triggers = [
                 (try_end),
             (try_end),
 
+            (try_for_range, ":center_no", walled_centers_begin, walled_centers_end),
+                (store_faction_of_party, ":faction_no", ":center_no"),
+                (faction_get_slot, ":current_strength", ":faction_no", slot_faction_strength_active),
+                (party_get_slot, ":value", ":center_no", slot_party_wages_cache),
+                (val_add, ":current_strength", ":value"),
+                (faction_set_slot, ":faction_no", slot_faction_strength_active, ":current_strength"),
+            (try_end),
+
             (try_for_range, ":war_storage", war_storages_begin, war_storages_end),
                 (faction_set_slot, ":war_storage", slot_war_defender_strength, 0),
                 (faction_set_slot, ":war_storage", slot_war_attacker_strength, 0),

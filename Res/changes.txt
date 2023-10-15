@@ -1,6 +1,7 @@
 v 0.430:
 	-New features:
 		* lords now appear directly inside centers to prevent capture on spawn
+		* add player party sorting
 	-Balance changes:
 		The following changes aim to increase sarranid troops resilience
 		They still keep their high athletics / low hp focus
@@ -49,7 +50,9 @@ v 0.430:
 		* remove leather_gloves from khergit_noble_lancer (increase overall armor value)
 		* change vaegir_scout from light cavalry to horse archer
 		* change khergit_light_archer armor to tribal_warrior_outfit (increase overall armor value)
+		* reduce bandits wages by x0.5
 	-Fixes:
+		* fix garrisons creating and giving troops to auxiliary parties (patrols, caravans) when besieged
 
 v 0.420:
 	-New features:

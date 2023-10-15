@@ -217,6 +217,13 @@ game_menus = [
                     #   mounted skirmishing (throwing weapons)
                     # (jump_to_menu, "mnu_levy_train"),
                 ]),
+
+            ("camp_sort_troops", [], "Sort player party",
+                [
+                    (call_script, "script_party_sort_troops", "$g_player_party"),
+                    (display_message, "@Party sorted"),
+                    (jump_to_menu, "mnu_camp"),
+                ]),
             
             ("resume_travelling",[], "Dismantle camp",
                 [
@@ -489,7 +496,7 @@ game_menus = [
                     (try_end),
                 ], "{s13}", 
                 [
-                    (call_script, "script_faction_make_peace_to_faction", "$test_faction_1", "$test_faction_2"),
+                    (call_script, "script_faction_make_peace_to_faction", "$test_faction_1", "$test_faction_2", -1),
                 ]),
             ("make_alliance", 
                 [
