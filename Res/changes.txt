@@ -30,8 +30,25 @@ v 0.430:
 		* add sarranid_mail_shirt to sarranid_noble_skirmisher (reduce overall armor value)
 		* add heavy_lance to sarranid_noble_skirmisher
 		* remove shields to sarranid_noble_skirmisher
+		* add short_bow to sarranid_light_bowman
+		* reduce sarranid_light_bowman archery 150 -> 135
+		* add short_bow to sarranid_light_horse_archer
+		* reduce sarranid_light_horse_archer archery 145 -> 130
+		* add nomad_bow to sarranid_bowman
+		* reduce sarranid_bowman archery 140 -> 120
+		* increase sarranid_bowman power_draw 4 -> 5
+		* add nomad_bow to sarranid_horse_archer
+		* reduce sarranid_horse_archer archery 135 -> 115
+		* increase sarranid_horse_archer power_draw 4 -> 5
+		* add strong_bow to sarranid_heavy_bowman
+		* reduce sarranid_heavy_bowman archery 130 -> 110
+		* add strong_bow to sarranid_heavy_horse_archer
+		* reduce sarranid_heavy_horse_archer archery 125 -> 105
+		* add strong_bow to sarranid_noble_horse_archer
 		* remove khergit_elite_armor from khergit_noble_lancer (reduce overall armor value)
 		* remove leather_gloves from khergit_noble_lancer (increase overall armor value)
+		* change vaegir_scout from light cavalry to horse archer
+		* change khergit_light_archer armor to tribal_warrior_outfit (increase overall armor value)
 	-Fixes:
 
 v 0.420:
