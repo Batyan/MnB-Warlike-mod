@@ -7615,6 +7615,7 @@ scripts = [
                 (party_get_slot, ":debts", ":party_no", slot_party_unpaid_wages),
                 # (gt, ":debts", 0),
                 (store_mul, ":threshold", ":wanted_wages", 10),
+                (val_max, ":threshold", 1),
                 (gt, ":debts", ":threshold"),
                 (store_sub, ":penalty_target", ":debts", ":threshold"),
                 (val_max, ":penalty_target", 0),
@@ -13393,16 +13394,16 @@ scripts = [
             (try_end),
             (faction_set_slot, ":faction_no", slot_faction_safety, ":safety"),
 
+            (assign, ":ally_score", 0),
+            (assign, ":ally_faction", -1),
+
+            (assign, ":enemy_score", 0),
+            (assign, ":enemy_faction", -1),
+
             (try_begin),
                 (eq, ":own_wars", 0),
 
                 (call_script, "script_cf_faction_want_war", ":faction_no"),
-
-                (assign, ":ally_score", 0),
-                (assign, ":ally_faction", -1),
-
-                (assign, ":enemy_score", 0),
-                (assign, ":enemy_faction", -1),
                 (try_for_range, ":other_faction", kingdoms_begin, kingdoms_end),
                     (call_script, "script_cf_faction_can_declare_war", ":faction_no", ":other_faction"),
 
@@ -13489,6 +13490,7 @@ scripts = [
                 (try_begin),
                     (call_script, "script_cf_debug", debug_faction|debug_current),
                     (assign, reg10, ":ally_score"),
+                    (str_store_faction_name, s10, ":faction_no"),
                     (str_store_faction_name, s11, ":ally_faction"),
                     (display_message, "@{s10} seeks to improve relations with {s11} ({reg10})"),
                 (try_end),
@@ -13498,6 +13500,7 @@ scripts = [
                 (try_begin),
                     (call_script, "script_cf_debug", debug_faction|debug_current),
                     (assign, reg10, ":enemy_score"),
+                    (str_store_faction_name, s10, ":faction_no"),
                     (str_store_faction_name, s11, ":enemy_faction"),
                     (display_message, "@{s10} seeks to degrade relations with {s11} ({reg10})"),
                 (try_end),
@@ -13852,7 +13855,7 @@ scripts = [
                     (display_message, "@{s10} propose peace with {s11}"),
                 (try_end),
 
-                (call_script, "script_faction_prepare_peace_proposal", ":faction_no", ":war_storage"),
+                (call_script, "script_faction_prepare_peace_proposal", ":faction_no", ":war_storage", ":other_faction"),
                 (call_script, "script_faction_process_peace_proposal", ":other_faction", ":war_storage", ":faction_no"),
                 (assign, ":result", reg0),
                 (try_begin),
@@ -13881,6 +13884,7 @@ scripts = [
         [
             (store_script_param, ":faction_no", 1),
             (store_script_param, ":war_storage", 2),
+            (store_script_param, ":faction_proposed_to", 3),
 
             (assign, ":score", proposal_peace_base_score),
 
@@ -13910,7 +13914,6 @@ scripts = [
                     (assign, ":continue", 1),
                     (assign, ":score_multiplier", -1),
                 (try_end),
-                (eq, ":continue", 1),
 
                 (assign, ":base_score", 0),
                 (party_get_slot, ":party_type", ":center_no", slot_party_type),
@@ -13927,16 +13930,62 @@ scripts = [
 
                 (store_mul, ":center_score", ":base_score", ":score_multiplier"),
 
+                (eq, ":continue", 1),
+
                 (val_add, ":score", ":center_score"),
 
                 (call_script, "script_faction_get_center_interest", ":current_faction", ":center_no"),
                 (party_set_slot, ":center_no", slot_party_temp, reg0),
             (try_end),
+            (val_abs, ":score"),
+
+            (try_begin),
+                (call_script, "script_cf_debug", debug_war|debug_current),
+                (str_store_faction_name, s10, ":faction_no"),
+                (assign, reg10, ":score"),
+                (display_message, "@{s10} generates peace proposal for {reg10} score"),
+            (try_end),
+
+            (assign, ":offset_begin", 0),
+
+            (try_begin),
+                (call_script, "script_cf_faction_want_vassal", ":faction_proposed_to", ":faction_no"),
+
+                (faction_get_slot, ":num_fiefs", ":faction_no", slot_faction_num_walled_fiefs),
+                (faction_get_slot, ":vassal_score", ":faction_no", slot_faction_size),
+                (try_begin),
+                    (gt, ":num_fiefs", 0),
+                    (val_mul, ":vassal_score", ":num_fiefs"),
+                (try_end),
+                (val_mul, ":vassal_score", 10),
+                (try_begin),
+                    (call_script, "script_cf_debug", debug_current),
+                    (str_store_faction_name, s10, ":faction_no"),
+
+                    (assign, reg10, ":vassal_score"),
+                    (assign, reg11, ":num_fiefs"),
+                    (display_message, "@{s10} vassal score : {reg10} - num fiefs {reg11}"),
+                (try_end),
+                (ge, ":score", ":vassal_score"),
+
+                (val_sub, ":score", ":vassal_score"),
+
+                (store_add, ":slot_object", slot_war_peace_proposal_object_begin, ":offset_begin"),
+                (store_add, ":slot_type", slot_war_peace_proposal_type_begin, ":offset_begin"),
+                (store_add, ":slot_target", slot_war_peace_proposal_target_begin, ":offset_begin"),
+
+                (faction_set_slot, ":war_storage", ":slot_object", ":faction_no"),
+                (faction_set_slot, ":war_storage", ":slot_type", wppt_vassalize),
+                (faction_set_slot, ":war_storage", ":slot_target", ":faction_proposed_to"),
+
+                (val_add, ":offset_begin", 1),
+            (try_end),
 
             (assign, ":end", num_peace_proposal),
-            (assign, ":total_centers", 0),
-            (assign, ":centers_score", 0),
-            (try_for_range, ":offset", 0, ":end"),
+            (assign, ":total_centers", 1),
+            (assign, ":capture_score", 0),
+            (assign, ":begin", ":offset_begin"),
+            (try_for_range, ":offset", ":begin", ":end"),
                 (assign, ":best_score", 9999),
                 (assign, ":best_center", -1),
                 (try_for_range, ":center_no", walled_centers_begin, walled_centers_end),
@@ -13946,10 +13995,10 @@ scripts = [
                     (assign, ":best_center", ":center_no"),
                 (try_end),
                 (try_begin),
-                    (val_add, ":total_centers", 1),
+                    (gt, ":best_center", 0),
 
                     (assign, ":base_score", 0),
-                    (party_get_slot, ":party_type", ":center_no", slot_party_type),
+                    (party_get_slot, ":party_type", ":best_center", slot_party_type),
                     (try_begin),
                         (eq, ":party_type", spt_village),
                         (assign, ":base_score", proposal_peace_score_village_captured),
@@ -13961,14 +14010,14 @@ scripts = [
                         (assign, ":base_score", proposal_peace_score_town_captured),
                     (try_end),
 
-                    (store_add, ":total_score", ":centers_score", ":base_score"),
+                    (store_add, ":total_score", ":capture_score", ":base_score"),
 
                     (val_mul, ":total_score", ":total_centers"),
                     (try_begin),
                         (le, ":total_score", ":score"),
-                        (gt, ":best_center", 0),
 
-                        (val_add, ":centers_score", ":base_score"),
+                        (val_add, ":capture_score", ":base_score"),
+                        (val_add, ":total_centers", 1),
 
                         (store_add, ":slot_object", slot_war_peace_proposal_object_begin, ":offset"),
                         (store_add, ":slot_type", slot_war_peace_proposal_type_begin, ":offset"),
@@ -13981,17 +14030,28 @@ scripts = [
                         (faction_set_slot, ":war_storage", ":slot_target", ":center_current_faction"),
 
                         (party_set_slot, ":best_center", slot_party_temp, 9999),
+
+                        (val_add, ":offset", 1),
                     (else_try),
                         (assign, ":end", 0),
                     (try_end),
                 (try_end),
             (try_end),
+            (val_sub, ":total_centers", 1),
+            (store_mul, ":remove_score", ":capture_score", ":total_centers"),
+            (val_sub, ":score", ":remove_score"),
 
             (try_begin),
-                (call_script, "script_cf_debug", debug_war),
-                (str_store_faction_name, s10, ":faction_no"),
-                (assign, reg10, ":score"),
-                (display_message, "@{s10} generates peace proposal for {reg10} score"),
+                (gt, ":score", 0),
+                # (val_add, ":offset", 1),
+
+                (store_add, ":slot_object", slot_war_peace_proposal_object_begin, ":offset"),
+                (store_add, ":slot_type", slot_war_peace_proposal_type_begin, ":offset"),
+                (store_add, ":slot_target", slot_war_peace_proposal_target_begin, ":offset"),
+
+                (faction_set_slot, ":war_storage", ":slot_object", ":score"),
+                (faction_set_slot, ":war_storage", ":slot_type", wppt_tribute),
+                (faction_set_slot, ":war_storage", ":slot_target", ":faction_proposed_to"),
             (try_end),
         ]),
 
@@ -14042,11 +14102,32 @@ scripts = [
                 (else_try),
                     (try_begin),
                         (call_script, "script_cf_debug", debug_war|debug_current),
-                        (str_store_faction_name, s10, ":faction_no"),
-                        (str_store_party_name, s11, ":object"),
-                        (assign, reg10, ":type"),
-                        (str_store_faction_name, s12, ":target"),
-                        (display_message, "@{s10} process proposal for {s11} {reg10} {s12}"),
+                        (try_begin),
+                            (this_or_next|eq, ":type", wppt_transfer_center),
+                            (eq, ":type", wppt_liberate_center),
+
+                            (str_store_faction_name, s10, ":faction_no"),
+                            (str_store_party_name, s11, ":object"),
+                            (assign, reg10, ":type"),
+                            (str_store_faction_name, s12, ":target"),
+                            (display_message, "@{s10} process proposal transfer center for {s11} {reg10} {s12}"),
+                        (else_try),
+                            (eq, ":type", wppt_vassalize),
+
+                            (str_store_faction_name, s10, ":faction_no"),
+                            (str_store_faction_name, s11, ":object"),
+                            (assign, reg10, ":type"),
+                            (str_store_faction_name, s12, ":target"),
+                            (display_message, "@{s10} process proposal vassalize for {s11} {reg10} {s12}"),
+                        (else_try),
+                            (eq, ":type", wppt_tribute),
+
+                            (str_store_faction_name, s10, ":faction_no"),
+                            (assign, reg11, ":object"),
+                            (assign, reg10, ":type"),
+                            (str_store_faction_name, s12, ":target"),
+                            (display_message, "@{s10} process proposal tribute for {reg11} {reg10} {s12}"),
+                        (try_end),
                     (try_end),
                 (try_end),
             (try_end),
@@ -14054,6 +14135,35 @@ scripts = [
             # TODO: add peace proposal processing
             # For now we always accept
             (assign, reg0, 1),
+        ]),
+
+    # script_cf_faction_want_vassal
+        # input:
+        #   arg1: faction_no
+        #   arg2: vassalized_faction
+        # output: none
+        # fails if faction does not want vassal
+    ("cf_faction_want_vassal",
+        [
+            (store_script_param, ":faction_no", 1),
+            (store_script_param, ":vassalized_faction", 2),
+
+            (faction_get_slot, ":faction_size", ":faction_no", slot_faction_size),
+            (faction_get_slot, ":vassal_size", ":vassalized_faction", slot_faction_size),
+
+            (val_div, ":faction_size", 2),
+
+            (try_begin),
+                (call_script, "script_cf_debug", debug_war),
+                (str_store_faction_name, s10, ":faction_no"),
+                (str_store_faction_name, s11, ":vassalized_faction"),
+
+                (assign, reg10, ":faction_size"),
+                (assign, reg11, ":vassal_size"),
+                (display_message, "@{s10} wants {s11} as vassal : {reg10} {reg11}"),
+            (try_end),
+
+            (gt, ":faction_size", ":vassal_size"),
         ]),
 
     # script_faction_get_treaty_score
@@ -15658,7 +15768,7 @@ scripts = [
                 (str_store_faction_name, s10, ":faction_1"),
                 (str_store_faction_name, s11, ":faction_2"),
                 (assign, reg10, ":treaty_type"),
-                (display_message, "@{s10} creates treaty {reg10} with {s11}", text_color_info),
+                (display_message, "@{s10}: treaty {reg10} with {s11}", text_color_info),
             (try_end),
         ]),
 
@@ -15720,7 +15830,7 @@ scripts = [
                 (assign, reg10, ":treaty_type"),
                 (str_store_date, s12, ":expire_time"),
                 (assign, reg12, ":value"),
-                (display_message, "@{s10} creates temporary treaty {reg10} with {s11} until {s12} ({reg12})", text_color_info),
+                (display_message, "@{s10}: treaty {reg10} with {s11} until {s12} ({reg12})", text_color_info),
             (try_end),
         ]),
 

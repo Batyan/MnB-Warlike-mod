@@ -756,7 +756,7 @@ kw_failling = -1
 kw_neutral = 0
 kw_eager = 1
 
-proposal_peace_base_score = -50
+proposal_peace_base_score = 0
 proposal_peace_score_village_captured = 10
 proposal_peace_score_castle_captured = 100
 proposal_peace_score_town_captured = 300
