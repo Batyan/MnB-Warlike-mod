@@ -1222,7 +1222,7 @@ game_menus = [
                 [ ], "Launch the attack",
                 [
                     (assign, "$g_enemy", "$g_encountered_party"),
-                    (assign, "$g_player_team", 0),
+                    (assign, "$g_player_team", 1),
                     (try_for_parties, ":party_no"),
                         (call_script, "script_cf_party_join_battle", ":party_no", "$g_encountered_party", "$g_player_party"),
                         (assign, ":continue", reg0),
