@@ -51,6 +51,8 @@ v 0.430:
 		* change vaegir_scout from light cavalry to horse archer
 		* change khergit_light_archer armor to tribal_warrior_outfit (increase overall armor value)
 		* reduce bandits wages by x0.5
+		* reduce melee weapons damage by 10%
+		* reduce ranged weapons damage by 5%
 	-Fixes:
 		* fix garrisons creating and giving troops to auxiliary parties (patrols, caravans) when besieged
 
