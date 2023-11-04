@@ -496,7 +496,10 @@ game_menus = [
                     (try_end),
                 ], "{s13}", 
                 [
-                    (call_script, "script_faction_make_peace_to_faction", "$test_faction_1", "$test_faction_2", -1),
+                    (call_script, "script_war_find_from_participants", "$test_faction_1", "$test_faction_2"),
+                    (assign, ":storage", reg0),
+                    (call_script, "script_faction_make_peace_to_faction", "$test_faction_1", "$test_faction_2", ":storage"),
+                    (call_script, "script_war_clean", ":storage"),
                 ]),
             ("make_alliance", 
                 [
@@ -804,9 +807,8 @@ game_menus = [
                     (neq, ":faction", ":current_faction"),
                 ], "|Cheat| Switch center faction to occupier",
                 [
-                    (party_get_slot, ":faction", "$g_encountered_party", slot_party_faction),
                     (store_faction_of_party, ":current_faction", "$g_encountered_party"),
-                    (call_script, "script_center_change_faction", "$g_encountered_party", ":current_faction", ":faction"),
+                    (call_script, "script_center_change_faction", "$g_encountered_party", ":current_faction", 1),
                     (jump_to_menu, "mnu_town"),
                 ]),
             

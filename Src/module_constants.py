@@ -234,6 +234,7 @@ relation_change_factor = 20
 relation_change_center_freed = 32
 relation_change_vassal_freed = 8
 relation_change_war_declared = -500
+relation_change_joined_war = 100
 
 center_buildings_begin = "itm_building_hunter_camp"
 center_buildings_end = "itm_buildings_end"
@@ -657,6 +658,8 @@ sfvt_sattrapy = 0x10 # joins offensive wars of overlord
 sfvt_bulwark = 0x40 # joins defensive wars of overlord
 sfvt_protectorate = 0x80 # joins defensive wars of vassal
 
+sfvt_default_vassal_type = sfvt_tributary | sfvt_vassal | sfvt_sattrapy | sfvt_bulwark | sfvt_protectorate
+
 slot_faction_battle_casualties = slot_faction_vassal_type + 1
 
 slot_faction_name_holder = slot_faction_battle_casualties + 1
@@ -687,14 +690,14 @@ sfkt_non_agression = 0x0002
 sfkt_defensive_alliance = 0x0004
 sfkt_alliance = 0x0008
 
-sfkt_military_treaty_clear = 0xFFF0
+sfkt_military_treaty_clear = 0xF0F0
 
 # Economic treaties
 sfkt_open_trade = 0x0010
 sfkt_trade_preference = 0x0020
 sfkt_trade_exclusivity = 0x0040
 
-sfkt_economic_treaty_clear = 0xFF0F
+sfkt_economic_treaty_clear = 0xF00F
 
 # Temporary treaties
 sfkt_tribute = 0x0100
@@ -703,7 +706,7 @@ sfkt_tribute = 0x0100
 sfkt_vassal = 0x1000
 sfkt_overlord = 0x2000
 
-sfkt_vassal_treaty_clear = 0x0FFF
+sfkt_vassal_treaty_clear = 0x00FF
 
 sfkt_all_treaty_clear = 0x0000
 
@@ -1130,8 +1133,9 @@ slot_troop_num_vassal				= slot_troop_days_next_rethink + 1
 slot_troop_vassal_of				= slot_troop_num_vassal + 1
 
 slot_troop_home						= slot_troop_vassal_of + 1
+slot_troop_current_home				= slot_troop_home + 1
 
-slot_troop_mission 					= slot_troop_home + 1
+slot_troop_mission 					= slot_troop_current_home + 1
 tm_none					= 0
 tm_defending			= 1
 tm_attacking			= 2
