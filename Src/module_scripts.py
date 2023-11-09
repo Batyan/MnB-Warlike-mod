@@ -13836,7 +13836,7 @@ scripts = [
                     (val_add, ":num_alliances", 1),
                 (else_try),
                     (gt, ":vassal", 0),
-                    (faction_get_slot, ":vassal_type", ":other_faction", slot_faction_vassal_type),
+                    (faction_get_slot, ":vassal_type", ":faction_no", slot_faction_vassal_type),
 
                     (store_and, ":is_sattrapy", ":vassal_type", sfvt_sattrapy),
                     (store_and, ":is_bulwark", ":vassal_type", sfvt_bulwark),
@@ -13845,13 +13845,14 @@ scripts = [
                         (gt, ":is_sattrapy", 0),
                         (val_add, ":combined_offensive_strength", ":other_strength_active"),
                         (val_add, ":combined_offensive_ready_strength", ":other_strength_ready"),
-                    (else_try),
+                    (try_end),
+                    (try_begin),
                         (gt, ":is_bulwark", 0),
                         (val_add, ":combined_defensive_strength", ":other_strength_active"),
                     (try_end),
                 (else_try),
                     (gt, ":overlord", 0),
-                    (faction_get_slot, ":vassal_type", ":faction_no", slot_faction_vassal_type),
+                    (faction_get_slot, ":vassal_type", ":other_faction", slot_faction_vassal_type),
                     (store_and, ":is_protectorate", ":vassal_type", sfvt_protectorate),
 
                     (try_begin),
@@ -14268,7 +14269,7 @@ scripts = [
                     (else_try),
                         (eq, ":type", wppt_vassalize),
 
-                        (call_script, "script_faction_create_vassal", ":target", ":object", sfvt_default_vassal_type),
+                        (call_script, "script_faction_create_vassal", ":target", ":object", sfvt_default_vassal_type, ":war_storage"),
 
                         (try_begin),
                             (call_script, "script_cf_debug", debug_war|debug_current),
@@ -14930,6 +14931,13 @@ scripts = [
                     (eq, ":linked_party", ":center_no"),
                     (call_script, "script_center_change_faction", ":village", ":new_faction", 0),
                 (try_end),
+            (try_end),
+
+            (try_for_range, ":aux_party_slot", slot_party_attached_party_1, slot_party_attached_party_3 + 1),
+                (party_get_slot, ":aux_party", ":center_no", ":aux_party_slot"),
+                (gt, ":aux_party", 0),
+                (party_is_active, ":aux_party"),
+                (party_set_faction, ":aux_party", ":new_faction"),
             (try_end),
 
             (try_begin),
@@ -16042,16 +16050,18 @@ scripts = [
         #   arg1: overlord
         #   arg2: vassal
         #   arg3: vassal_type
+        #   arg4: war_storage
     ("faction_create_vassal",
         [
             (store_script_param, ":overlord", 1),
             (store_script_param, ":vassal", 2),
             (store_script_param, ":vassal_type", 3),
+            (store_script_param, ":war_storage", 4),
 
             (faction_set_slot, ":vassal", slot_faction_vassal_type, ":vassal_type"),
             (call_script, "script_faction_create_treaty", ":vassal", ":overlord", sfkt_vassal),
             
-            (call_script, "script_faction_remove_wars", ":vassal"),
+            (call_script, "script_faction_remove_wars", ":vassal", ":war_storage"),
             (call_script, "script_faction_update_color", ":vassal"),
         ]),
 
@@ -19236,7 +19246,7 @@ scripts = [
                 (neg|faction_slot_eq, ":faction_no", slot_faction_status, sfst_disabled),
                 (faction_set_slot, ":faction_no", slot_faction_status, sfst_disabled),
 
-                (call_script, "script_faction_remove_wars", ":faction_no"),
+                (call_script, "script_faction_remove_wars", ":faction_no", -1),
                 (try_begin),
                     (call_script, "script_cf_debug", debug_faction|debug_simple),
                     (str_store_faction_name, s11, ":faction_no"),
@@ -19253,10 +19263,12 @@ scripts = [
     ("faction_remove_wars",
         [
             (store_script_param, ":faction_no", 1),
+            (store_script_param, ":from_war", 2),
 
             (assign, ":num_wars", 0),
 
             (try_for_range, ":war_storage", war_storages_begin, war_storages_end),
+                (neq, ":war_storage", ":from_war"),
                 (call_script, "script_cf_war_remove_participant", ":war_storage", ":faction_no"),
                 (val_add, ":num_wars", 1),
             (try_end),
@@ -19292,6 +19304,20 @@ scripts = [
             (store_script_param, ":faction_1", 1),
             (store_script_param, ":faction_2", 2),
 
-            (set_relation, ":faction_1", ":faction_2", relation_neutral),
+            (store_sub, ":offset", ":faction_2", kingdoms_begin),
+            (store_add, ":slot", ":offset", slot_faction_kingdom_treaties_begin),
+
+            (faction_get_slot, ":treaty", ":faction_1", ":slot"),
+
+            (try_begin),
+                (gt, ":treaty", 0),
+                (neq, ":treaty", sfkt_truce),
+                (neq, ":treaty", sfkt_non_agression),
+
+                (set_relation, ":faction_1", ":faction_2", relation_state_friendly),
+            (else_try),
+                (set_relation, ":faction_1", ":faction_2", relation_state_neutral),
+            (try_end),
+
         ]),
 ]
