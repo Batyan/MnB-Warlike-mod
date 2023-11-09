@@ -130,6 +130,8 @@ scripts = [
             
             (assign, "$g_global_haze_amount", 0),
             (assign, "$g_global_cloud_amount", 0),
+
+            (assign, "$g_normalize_faction_color", 1),
             
             (set_show_messages, 1),
         ]),
@@ -6648,7 +6650,7 @@ scripts = [
                         (try_begin),
                             (lt, ":other_participant", swkp_bystander),
                             (gt, ":participant", swkp_bystander),
-                            (set_relation, ":faction_participant", ":other_faction_participant", relation_neutral),
+                            (call_script, "script_faction_reset_relations", ":faction_participant", ":other_faction_participant"),
 
                             (call_script, "script_faction_create_temporary_treaty", ":faction_participant", ":other_faction_participant", sfkt_truce, ":truce_duration", 0),
 
@@ -6661,7 +6663,7 @@ scripts = [
                         (else_try),
                             (gt, ":other_participant", swkp_bystander),
                             (lt, ":participant", swkp_bystander),
-                            (set_relation, ":faction_participant", ":other_faction_participant", relation_neutral),
+                            (call_script, "script_faction_reset_relations", ":faction_participant", ":other_faction_participant"),
                             
                             (call_script, "script_faction_create_temporary_treaty", ":faction_participant", ":other_faction_participant", sfkt_truce, ":truce_duration", 0),
 
@@ -6885,6 +6887,60 @@ scripts = [
                 (display_message, "@ERROR -- incorrect war participant", text_color_impossible),
             (try_end),
             (assign, reg0, ":added"),
+        ]),
+
+    # script_cf_war_remove_participant
+        # input:
+        #   arg1: war_storage
+        #   arg2: faction_no
+        # output: fails if not a participant
+    ("cf_war_remove_participant",
+        [
+            (store_script_param, ":war_storage", 1),
+            (store_script_param, ":faction_no", 2),
+
+            (store_sub, ":offset", ":faction_no", kingdoms_begin),
+            (store_add, ":slot", ":offset", slot_war_kingdom_participant_begin),
+
+            (faction_get_slot, ":current_side", ":war_storage", ":slot"),
+            (neq, ":current_side", swkp_bystander),
+            (faction_set_slot, ":war_storage", ":slot", swkp_bystander),
+
+            (assign, ":has_defender", 0),
+            (assign, ":has_attacker", 0),
+            (try_for_range, ":kingdom", kingdoms_begin, kingdoms_end),
+                (store_sub, ":offset", ":kingdom", kingdoms_begin),
+                (store_add, ":slot", ":offset", slot_war_kingdom_participant_begin),
+
+                (faction_get_slot, ":participant", ":war_storage", ":slot"),
+
+                (try_begin),
+                    (gt, ":current_side", swkp_bystander),
+                    (lt, ":participant", swkp_bystander),
+
+                    (call_script, "script_faction_reset_relations", ":faction_no", ":kingdom"),
+                (else_try),
+                    (lt, ":current_side", swkp_bystander),
+                    (gt, ":participant", swkp_bystander),
+
+                    (call_script, "script_faction_reset_relations", ":faction_no", ":kingdom"),
+                (try_end),
+
+                (try_begin),
+                    (gt, ":participant", swkp_bystander),
+                    (assign, ":has_attacker", 1),
+                (else_try),
+                    (lt, ":participant", swkp_bystander),
+                    (assign, ":has_defender", 1),
+                (try_end),
+            (try_end),
+            (try_begin),
+                (this_or_next|eq, ":has_attacker", 0),
+                (eq, ":has_defender", 0),
+
+                (call_script, "script_war_clean", ":war_storage"),
+                (call_script, "script_update_faction_war_count"),
+            (try_end),
         ]),
 
     # script_war_clean
@@ -13181,23 +13237,9 @@ scripts = [
             # ToDo: for now only deactivate factions with no parties (center/lord)
             (try_begin),
                 (eq, ":num_fiefs", 0),
-                (try_begin),
-                    (neg|faction_slot_eq, ":faction_no", slot_faction_status, sfst_disabled),
-                    (faction_set_slot, ":faction_no", slot_faction_status, sfst_disabled),
-                    (try_begin),
-                        (call_script, "script_cf_debug", debug_faction|debug_simple),
-                        (str_store_faction_name, s11, ":faction_no"),
-                        (display_message, "@{s11} disabled: no fief"),
-                    (try_end),
-                (try_end),
+                (call_script, "script_faction_disable", ":faction_no"),
             (else_try),
-                (faction_slot_eq, ":faction_no", slot_faction_status, sfst_disabled),
-                (faction_set_slot, ":faction_no", slot_faction_status, sfst_default),
-                (try_begin),
-                    (call_script, "script_cf_debug", debug_faction|debug_simple),
-                    (str_store_faction_name, s11, ":faction_no"),
-                    (display_message, "@{s11} enabled"),
-                (try_end),
+                (call_script, "script_faction_enable", ":faction_no"),
             (try_end),
 
             (try_begin),
@@ -14951,6 +14993,40 @@ scripts = [
             (try_end),
         ]),
 
+    # script_faction_update_color
+        # input:
+        #   arg1: faction_no
+        # output: none
+    ("faction_update_color",
+        [
+            (store_script_param, ":faction_no", 1),
+
+            (faction_get_slot, ":vassal_type", ":faction_no", slot_faction_vassal_type),
+            (try_begin),
+                (eq, "$g_normalize_faction_color", 1),
+                (gt, ":vassal_type", 0),
+                (assign, ":overlord", -1),
+                (assign, ":end", kingdoms_end),
+                (try_for_range, ":other_kingdom", kingdoms_begin, ":end"),
+                    (store_sub, ":offset", ":other_kingdom", kingdoms_begin),
+                    (store_add, ":treaty_slot", ":offset", slot_faction_kingdom_treaties_begin),
+
+                    (faction_get_slot, ":treaty", ":faction_no", ":treaty_slot"),
+                    (store_and, ":is_vassal", ":treaty", sfkt_vassal),
+                    (gt, ":is_vassal", 0),
+                    (assign, ":overlord", ":other_kingdom"),
+                    (assign, ":end", kingdoms_begin),
+                (try_end),
+                (gt, ":overlord", 0),
+                (faction_get_slot, ":overlord_color", ":overlord", slot_faction_original_color),
+                (faction_set_color, ":faction_no", ":overlord_color"),
+            (else_try),
+                (faction_get_slot, ":faction_color", ":faction_no", slot_faction_original_color),
+                (faction_set_color, ":faction_no", ":faction_color"),
+            (try_end),
+
+        ]),
+
     # script_faction_update_name
         # input: 
         #   arg1: faction_no
@@ -15596,8 +15672,10 @@ scripts = [
             (call_script, "script_faction_relation_change_event", ":faction_defender", ":faction_attacker", relation_change_war_declared),
 
             (try_for_range, ":faction_no", kingdoms_begin, kingdoms_end),
+                (neg|faction_slot_eq, ":faction_no", slot_faction_status, sfst_disabled),
                 (neq, ":faction_no", ":faction_attacker"),
                 (neq, ":faction_no", ":faction_defender"),
+
                 (store_relation, ":relation_attacker", ":faction_no", ":faction_attacker"),
                 (store_relation, ":relation_defender", ":faction_no", ":faction_defender"),
 
@@ -15972,6 +16050,9 @@ scripts = [
 
             (faction_set_slot, ":vassal", slot_faction_vassal_type, ":vassal_type"),
             (call_script, "script_faction_create_treaty", ":vassal", ":overlord", sfkt_vassal),
+            
+            (call_script, "script_faction_remove_wars", ":vassal"),
+            (call_script, "script_faction_update_color", ":vassal"),
         ]),
 
     # script_faction_revoke_treaty
@@ -19141,5 +19222,76 @@ scripts = [
                 (try_end),
             (try_end),
             (assign, reg0, ":surplus_center"),
+        ]),
+
+    # script_faction_disable
+        # input:
+        #   arg1: faction_no
+        # output: none
+    ("faction_disable",
+        [
+            (store_script_param, ":faction_no", 1),
+
+            (try_begin),
+                (neg|faction_slot_eq, ":faction_no", slot_faction_status, sfst_disabled),
+                (faction_set_slot, ":faction_no", slot_faction_status, sfst_disabled),
+
+                (call_script, "script_faction_remove_wars", ":faction_no"),
+                (try_begin),
+                    (call_script, "script_cf_debug", debug_faction|debug_simple),
+                    (str_store_faction_name, s11, ":faction_no"),
+                    (display_message, "@{s11} disabled: no fief"),
+                (try_end),
+            (try_end),
+        ]),
+
+    # script_faction_remove_wars
+        # input:
+        #   arg1: faction_no
+        # output:
+        #   reg0: num_wars_removed
+    ("faction_remove_wars",
+        [
+            (store_script_param, ":faction_no", 1),
+
+            (assign, ":num_wars", 0),
+
+            (try_for_range, ":war_storage", war_storages_begin, war_storages_end),
+                (call_script, "script_cf_war_remove_participant", ":war_storage", ":faction_no"),
+                (val_add, ":num_wars", 1),
+            (try_end),
+            (assign, reg0, ":num_wars"),
+        ]),
+
+    # script_faction_enable
+        # input:
+        #   arg1: faction_no
+        # output: none
+    ("faction_enable",
+        [
+            (store_script_param, ":faction_no", 1),
+
+            (try_begin),
+                (faction_slot_eq, ":faction_no", slot_faction_status, sfst_disabled),
+                (faction_set_slot, ":faction_no", slot_faction_status, sfst_default),
+                (try_begin),
+                    (call_script, "script_cf_debug", debug_faction|debug_simple),
+                    (str_store_faction_name, s11, ":faction_no"),
+                    (display_message, "@{s11} enabled"),
+                (try_end),
+            (try_end),
+        ]),
+
+    # script_faction_reset_relations
+        # input:
+        #   arg1: faction_1
+        #   arg2: faction_2
+        # output: none
+    ("faction_reset_relations",
+        [
+            (store_script_param, ":faction_1", 1),
+            (store_script_param, ":faction_2", 2),
+
+            (set_relation, ":faction_1", ":faction_2", relation_neutral),
         ]),
 ]
