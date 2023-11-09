@@ -240,6 +240,23 @@ game_menus = [
         "none",
         [],
         [
+            ("settings_faction_color",
+                [
+                    (try_begin),
+                        (eq, "$g_normalize_faction_color", 1),
+                        (str_store_string, s10, "@consolidated"),
+                    (else_try),
+                        (str_store_string, s10, "@unique"),
+                    (try_end),
+                ], "Faction color ({s10})",
+                [
+                    (val_add, "$g_normalize_faction_color", 1),
+                    (val_mod, "$g_normalize_faction_color", 2),
+                    (try_for_range, ":faction_no", kingdoms_begin, kingdoms_end),
+                        (call_script, "script_faction_update_color", ":faction_no"),
+                    (try_end),
+                    (jump_to_menu, "mnu_settings"),
+                ]),
             ("setting_shield",
                 [], "Shield painting",
                 [(start_presentation, "prsnt_setting_shield_painting"),]),
