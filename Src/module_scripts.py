@@ -5952,8 +5952,8 @@ scripts = [
             (call_script, "script_faction_change_slot", "fac_small_kingdom_36", slot_faction_troop_ratio_shock_infantry, 30),
             (call_script, "script_faction_change_slot", "fac_small_kingdom_36", slot_faction_troop_ratio_spearman, -10),
             
-            (call_script, "script_faction_change_slot", "fac_small_kingdom_41", slot_faction_troop_ratio_cavalry, 5),
-            (call_script, "script_faction_change_slot", "fac_small_kingdom_41", slot_faction_troop_ratio_lancer, 20),
+            (call_script, "script_faction_change_slot", "fac_small_kingdom_41", slot_faction_troop_ratio_cavalry, 20),
+            (call_script, "script_faction_change_slot", "fac_small_kingdom_41", slot_faction_troop_ratio_lancer, 30),
             (call_script, "script_faction_change_slot", "fac_small_kingdom_41", slot_faction_troop_ratio_horse_archer, 10),
             (call_script, "script_faction_change_slot", "fac_small_kingdom_41", slot_faction_troop_ratio_archer, -5),
             (call_script, "script_faction_change_slot", "fac_small_kingdom_41", slot_faction_troop_ratio_skirmisher, -10),
@@ -8029,6 +8029,10 @@ scripts = [
             (scene_set_slot, "scn_castle_plain_02_outside", slot_scene_num_attack_spawn, 2),
             (scene_set_slot, "scn_castle_plain_02_outside", slot_scene_num_archer_points, 9),
             
+            (scene_set_slot, "scn_castle_plain_03_outside", slot_scene_num_defend_points, 2),
+            (scene_set_slot, "scn_castle_plain_03_outside", slot_scene_num_attack_spawn, 2),
+            (scene_set_slot, "scn_castle_plain_03_outside", slot_scene_num_archer_points, 10),
+            
             (scene_set_slot, "scn_castle_plain_wood_01_outside", slot_scene_num_defend_points, 2),
             (scene_set_slot, "scn_castle_plain_wood_01_outside", slot_scene_num_attack_spawn, 2),
             (scene_set_slot, "scn_castle_plain_wood_01_outside", slot_scene_num_archer_points, 12),
@@ -10007,12 +10011,14 @@ scripts = [
                 (troop_get_slot, ":only_faction_2", ":cur_troop", slot_troop_faction_reserved_2),
                 (troop_get_slot, ":no_faction_1", ":cur_troop", slot_troop_faction_not_1),
                 (troop_get_slot, ":no_faction_2", ":cur_troop", slot_troop_faction_not_2),
+                (troop_get_slot, ":no_faction_3", ":cur_troop", slot_troop_faction_not_3),
                 (try_begin),
                     (this_or_next|eq, ":only_faction_1", -1),
                     (this_or_next|eq, ":only_faction_1", ":faction"),
                     (eq, ":only_faction_2", ":faction"),
                     (neq, ":no_faction_1", ":faction"),
                     (neq, ":no_faction_2", ":faction"),
+                    (neq, ":no_faction_3", ":faction"),
                     
                     (troop_get_slot, ":troop_type", ":cur_troop", slot_troop_type),
                     
@@ -11088,6 +11094,7 @@ scripts = [
                 (troop_set_slot, ":cur_troop", slot_troop_faction_reserved_2, -1),
                 (troop_set_slot, ":cur_troop", slot_troop_faction_not_1, -1),
                 (troop_set_slot, ":cur_troop", slot_troop_faction_not_2, -1),
+                (troop_set_slot, ":cur_troop", slot_troop_faction_not_3, -1),
             (try_end),
             
             # Troops not added to factions
@@ -11127,6 +11134,7 @@ scripts = [
             (troop_set_slot, "trp_khergit_lancer", slot_troop_faction_not_1, "fac_small_kingdom_35"), # Has Heavy Horseman instead
             (troop_set_slot, "trp_khergit_guard", slot_troop_faction_not_2, "fac_small_kingdom_36"), # Has Blade-Master instead
             
+            (troop_set_slot, "trp_nord_horseman", slot_troop_faction_not_3, "fac_small_kingdom_41"), # Has Cavalry instead
             (troop_set_slot, "trp_nord_militia", slot_troop_faction_not_1, "fac_small_kingdom_44"), # Has Levy Crossbowman instead
             (troop_set_slot, "trp_nord_light_bowman", slot_troop_faction_not_1, "fac_small_kingdom_42"), # Has Light Longbowman instead
             (troop_set_slot, "trp_nord_heavy_bowman", slot_troop_faction_not_1, "fac_small_kingdom_42"), # Has Heavy Longbowman instead
@@ -11136,12 +11144,12 @@ scripts = [
             (troop_set_slot, "trp_nord_light_infantry", slot_troop_faction_not_2, "fac_small_kingdom_43"), # Has Skirmisher instead
             (troop_set_slot, "trp_nord_light_cavalry", slot_troop_faction_not_1, "fac_small_kingdom_43"), # Has Light Mounted Skirmisher instead
             (troop_set_slot, "trp_nord_guard", slot_troop_faction_not_1, "fac_small_kingdom_43"), # Has Heavy Skirmisher instead
-            (troop_set_slot, "trp_nord_medium_cavalry", slot_troop_faction_not_1, "fac_small_kingdom_44"), # Has Spear Cavalry instead
+            (troop_set_slot, "trp_nord_horseman", slot_troop_faction_not_1, "fac_small_kingdom_44"), # Has Spear Cavalry instead
             (troop_set_slot, "trp_nord_heavy_cavalry", slot_troop_faction_not_1, "fac_small_kingdom_44"), # Has Heavy Spear Cavalry instead
             (troop_set_slot, "trp_nord_medium_longbowman", slot_troop_faction_not_2, "fac_small_kingdom_44"), # Has Crossbowman instead
             (troop_set_slot, "trp_nord_medium_longbowman", slot_troop_faction_not_1, "fac_small_kingdom_45"), # Has Bowman instead
             (troop_set_slot, "trp_nord_light_cavalry", slot_troop_faction_not_2, "fac_small_kingdom_45"), # Has Light Spear Cavalry instead
-            (troop_set_slot, "trp_nord_medium_cavalry", slot_troop_faction_not_2, "fac_small_kingdom_45"), # Has Spear Cavalry instead
+            (troop_set_slot, "trp_nord_horseman", slot_troop_faction_not_2, "fac_small_kingdom_45"), # Has Spear Cavalry instead
             (troop_set_slot, "trp_nord_heavy_cavalry", slot_troop_faction_not_2, "fac_small_kingdom_45"), # Has Heavy Spear Cavalry instead
             
             (troop_set_slot, "trp_nord_medium_spear_cavalry", slot_troop_faction_reserved_2, "fac_small_kingdom_44"), # 
