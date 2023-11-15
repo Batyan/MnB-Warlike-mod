@@ -57,6 +57,7 @@ v 0.430:
 		* add new castle scene
 	-Fixes:
 		* fix garrisons creating and giving troops to auxiliary parties (patrols, caravans) when besieged
+		* fix castle scene assignment
 		* prevents ais from falling from a few castle scenes
 
 v 0.420:

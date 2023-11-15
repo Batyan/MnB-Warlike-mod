@@ -3385,14 +3385,19 @@ scripts = [
             
             (party_get_current_terrain, ":terrain", ":party_no"),
             (assign, ":scene", -1),
+
+            (party_get_slot, ":original_faction", ":party_no", slot_party_original_faction),
+            (assign, ":culture", -1),
+            (try_begin),
+                (is_between, ":original_faction", kingdoms_begin, kingdoms_end),
+                (faction_get_slot, ":culture", ":original_faction", slot_faction_culture),
+            (try_end),
             
             (try_begin),
                 (eq, ":terrain", rt_plain),
-                (party_get_position, pos10, ":party_no"),
-                (position_get_z, ":z", pos10),
                 (try_begin),
-                    (gt, ":z", 50), # ToDo: Find right value
-                    (store_random_in_range, ":scene", castle_scene_plain_dark_begin, castle_scene_plain_dark_end),
+                    (eq, ":culture", "fac_culture_5"),
+                    (store_random_in_range, ":scene", castle_scene_plain_wood_begin, castle_scene_plain_dark_end),
                 (else_try),
                     (store_random_in_range, ":scene", castle_scene_plain_begin, castle_scene_plain_wood_end),
                 (try_end),
