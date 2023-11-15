@@ -723,8 +723,8 @@ sfkt_economic_treaty_clear = 0xF00F
 sfkt_tribute = 0x0100
 
 # Vassal treaties
-sfkt_vassal = 0x1000
-sfkt_overlord = 0x2000
+sfkt_vassal = 0x1000 	# represents being a vassal of targeted faction
+sfkt_overlord = 0x2000 	# represents being the overlord of targeted faction
 
 sfkt_vassal_treaty_clear = 0x00FF
 
@@ -1176,8 +1176,9 @@ slot_troop_faction_reserved_1		= slot_troop_prisoner_of # Only regulars
 slot_troop_faction_reserved_2		= slot_troop_faction_reserved_1 + 1 # Only regulars
 slot_troop_faction_not_1			= slot_troop_faction_reserved_2 + 1
 slot_troop_faction_not_2			= slot_troop_faction_not_1 + 1
+slot_troop_faction_not_3			= slot_troop_faction_not_2 + 1
 
-slot_troop_armor_weight 			= slot_troop_faction_not_2 + 1
+slot_troop_armor_weight 			= slot_troop_faction_not_3 + 1
 slot_troop_horse_weight 			= slot_troop_armor_weight + 1
 slot_troop_ranged_weapon_weight 	= slot_troop_horse_weight + 1
 

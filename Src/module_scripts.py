@@ -15022,9 +15022,26 @@ scripts = [
         [
             (store_script_param, ":faction_no", 1),
 
+            (call_script, "script_faction_get_color", ":faction_no", 10),
+            (faction_set_color, ":faction_no", reg0),
+        ]),
+
+    # script_faction_get_color
+        # input:
+        #   arg1: faction_no
+        #   arg2: max_depth
+        # output:
+        #   reg0: color
+    ("faction_get_color",
+        [
+            (store_script_param, ":faction_no", 1),
+            (store_script_param, ":max_depth", 2),
+
+            (assign, ":color", -1),
             (faction_get_slot, ":vassal_type", ":faction_no", slot_faction_vassal_type),
             (try_begin),
                 (eq, "$g_normalize_faction_color", 1),
+                (gt, ":max_depth", 0),
                 (gt, ":vassal_type", 0),
                 (assign, ":overlord", -1),
                 (assign, ":end", kingdoms_end),
@@ -15039,13 +15056,14 @@ scripts = [
                     (assign, ":end", kingdoms_begin),
                 (try_end),
                 (gt, ":overlord", 0),
-                (faction_get_slot, ":overlord_color", ":overlord", slot_faction_original_color),
-                (faction_set_color, ":faction_no", ":overlord_color"),
+                (val_sub, ":max_depth", 1),
+                (call_script, "script_faction_get_color", ":overlord", ":max_depth"),
+                (assign, ":color", reg0),
             (else_try),
                 (faction_get_slot, ":faction_color", ":faction_no", slot_faction_original_color),
-                (faction_set_color, ":faction_no", ":faction_color"),
+                (assign, ":color", ":faction_color"),
             (try_end),
-
+            (assign, reg0, ":color"),
         ]),
 
     # script_faction_update_name
