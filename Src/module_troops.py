@@ -1971,7 +1971,7 @@ troops = [
     itm_fur_coat, itm_leather_vest, itm_linen_tunic,
     itm_vaegir_fur_cap, itm_leather_cap, itm_leather_warrior_cap,
     ],
-   str_10|agi_9|int_6|cha_6|level(8), wpex(75,70,65,60,20,40), knows_common|knows_ironflesh_2|knows_power_strike_3|knows_power_draw_1|knows_athletics_5|knows_riding_1, vaegir_face_young_1, vaegir_face_old_2 ],
+   str_10|agi_9|int_6|cha_6|level(8), wpex(75,70,65,60,20,40), knows_common|knows_ironflesh_2|knows_power_strike_3|knows_power_draw_1|knows_athletics_4|knows_riding_1, vaegir_face_young_1, vaegir_face_old_2 ],
   
   # Common
   # Light infantry, sabres, axes, 2h axes, shields
@@ -2705,7 +2705,7 @@ troops = [
     itm_blue_tunic, itm_coarse_tunic, itm_fur_coat,
     itm_leather_cap, itm_nordic_archer_helmet, itm_skullcap,
     ],
-   str_12|agi_11|int_5|cha_6|level(11), wpex(85,70,70,30,15,30), knows_common|knows_ironflesh_1|knows_power_strike_4|knows_power_throw_1|knows_athletics_3, nord_face_young_1, nord_face_old_2 ],
+   str_12|agi_11|int_5|cha_6|level(11), wpex(85,70,70,30,15,30), knows_common|knows_ironflesh_2|knows_power_strike_4|knows_power_throw_1|knows_athletics_3, nord_face_young_1, nord_face_old_2 ],
 
   # Basic ranged, daggers, axes, bows
   ["nord_militia", "Nord Militia", "Nord Militias", tf_guarantee_recruit_armor|tf_guarantee_ranged, no_scene, reserved, fac_kingdom_4,
@@ -2863,7 +2863,7 @@ troops = [
    str_16|agi_14|int_7|cha_8|level(22), wpex(80,65,60,95,45,55), knows_common|knows_ironflesh_2|knows_power_strike_3|knows_power_throw_1|knows_power_draw_6|knows_athletics_4|knows_riding_1, nord_face_young_1, nord_face_old_2 ],
   
   # Medium cavalry, 2h axes
-  ["nord_medium_cavalry", "Nord Cavalry", "Nord Cavalries", tf_guarantee_trained_armor|tf_guarantee_horseman, no_scene, reserved, fac_kingdom_4,
+  ["nord_horseman", "Nord Horseman", "Nord Horsemen", tf_guarantee_trained_armor|tf_guarantee_horseman, no_scene, reserved, fac_kingdom_4,
    [itm_two_handed_axe,
     itm_leather_boots, itm_leather_gloves,
     itm_leather_jerkin,
@@ -2940,6 +2940,16 @@ troops = [
     itm_nordic_footman_helmet, itm_nordic_fighter_helmet, itm_nordic_helmet,
     ],
    str_18|agi_14|int_9|cha_11|level(29), wpex(120,105,100,60,25,65), knows_common|knows_ironflesh_6|knows_power_strike_3|knows_power_throw_1|knows_athletics_3|knows_shield_1, nord_face_young_1, nord_face_old_2 ],
+  
+  # Medium cavalry, swords, axes, shields
+  # SPECIAL
+  ["nord_cavalry", "Nord Cavalry", "Nord Cavalries", tf_guarantee_trained_armor|tf_guarantee_horseman|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_41,
+   [itm_one_handed_battle_axe_a, itm_one_handed_war_axe_b, itm_sword_viking_2, itm_throwing_axes, itm_tab_shield_round_c,itm_tab_shield_round_c_plain_1,itm_tab_shield_round_c_plain_2,
+    itm_leather_boots, itm_leather_gloves,
+    itm_byrnie,
+    itm_nordic_veteran_archer_helmet, itm_nordic_footman_helmet, itm_nordic_fighter_helmet,
+    itm_pack_horse],
+   str_14|agi_13|int_7|cha_8|level(19), wpex(100,95,95,50,25,90), knows_common|knows_ironflesh_3|knows_power_strike_3|knows_power_throw_3|knows_athletics_3|knows_riding_4|knows_horse_archery_3, nord_face_young_1, nord_face_old_2 ],
   
   # Elite
   # Medium cavalry, swords, axes, shields

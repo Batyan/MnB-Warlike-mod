@@ -54,6 +54,11 @@ v 0.430:
 		* reduce bandits wages by x0.5
 		* reduce melee weapons damage by 10%
 		* reduce ranged weapons damage by 5%
+		* increase small_kingdom_41 cavalry (15 -> 30) and lancer (30 -> 40) ratio
+		* rename nord_medium_cavalry to nord_horseman
+		* add nord_cavalry to small_kingdom_41
+		* reduce vaegir_levy_axeman athletics 5 -> 4
+		* increase nord_raider ironflesh (1 -> 2)
 		* add new castle scene
 	-Fixes:
 		* fix garrisons creating and giving troops to auxiliary parties (patrols, caravans) when besieged
