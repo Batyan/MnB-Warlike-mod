@@ -63,11 +63,38 @@ scenes = [
 	("castle_plain_02_outside", sf_generate, "none", "none", (0,0), (240,240),-0.5,"0x00000000324805308005b969000069f300004c1500000248",
 		[],[], "outer_terrain_plain"),
 	
+	("castle_plain_03_outside", sf_generate, "none", "none", (0,0), (240,240),-0.5,"0x000000013002d76340053d4f00001c0c0000777d00003fef",
+		[],[], "outer_terrain_plain"),
+	
 	("castle_plain_wood_01_outside", sf_generate, "none", "none", (0,0), (240,240),-0.5,"0x0000000332655a630006098400001edc0000246b00007856",
 		[],[], "outer_terrain_plain"),
 		
 	("castle_plain_dark_01_outside", sf_generate, "none", "none", (0,0), (240,240),-0.5,"0x00000001b244d2000006098d00005999000033a700007a61",
 		[],[], "outer_terrain_plain"),
+	
+	# # TODO
+	# ("castle_forest_01_outside", sf_generate, "none", "none", (0,0), (240,240),-0.5,"0x000000013002d763400771d400001c0c0000777d00007a52",
+	# 	[],[], "outer_terrain_plain"),
+	
+	# # TODO
+	# ("castle_forest_wood_01_outside", sf_generate, "none", "none", (0,0), (240,240),-0.5,"0x0000000332655a630006098400001edc0000246b00007856",
+	# 	[],[], "outer_terrain_plain"),
+		
+	# # TODO
+	# ("castle_forest_dark_01_outside", sf_generate, "none", "none", (0,0), (240,240),-0.5,"0x00000001b244d2000006098d00005999000033a700007a61",
+	# 	[],[], "outer_terrain_plain"),
+	
+	# TODO
+	("castle_sea_01_outside", sf_generate, "none", "none", (0,0), (240,240),-100,"0x00000001360624ca000725c30000203e00003728000071a7",
+		[],[], "sea_outer_terrain_1"),
+	
+	# # TODO
+	# ("castle_sea_wood_01_outside", sf_generate, "none", "none", (0,0), (240,240),-0.5,"0x0000000334c356a0800615870000575500007f310000359d",
+	# 	[],[], "sea_outer_terrain_1"),
+	
+	# # TODO
+	# ("castle_sea_dark_01_outside", sf_generate, "none", "none", (0,0), (240,240),-0.5,"0x0000000334c356a0800615870000575500007f310000359d",
+	# 	[],[], "sea_outer_terrain_1"),
 		
 	("castle_steppe_01_outside", sf_generate, "none", "none", (0,0), (240,240),-0.5,"0x00000003264b18e30004912200007b7e00006d9e00006880",
 		[],[], "outer_terrain_steppe"),
