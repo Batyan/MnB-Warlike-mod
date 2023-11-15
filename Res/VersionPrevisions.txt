@@ -105,7 +105,7 @@
 	0.720: Strength
 		Give out fiefs
 		Hire lords
-	0.730: 
+	0.730: Player kingdom
 		Possible for player to lead a kingdom
 0.800: NPCs
 	Add kingdom women

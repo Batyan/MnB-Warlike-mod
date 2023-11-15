@@ -217,6 +217,13 @@ game_menus = [
                     #   mounted skirmishing (throwing weapons)
                     # (jump_to_menu, "mnu_levy_train"),
                 ]),
+
+            ("camp_sort_troops", [], "Sort player party",
+                [
+                    (call_script, "script_party_sort_troops", "$g_player_party"),
+                    (display_message, "@Party sorted"),
+                    (jump_to_menu, "mnu_camp"),
+                ]),
             
             ("resume_travelling",[], "Dismantle camp",
                 [
@@ -233,6 +240,23 @@ game_menus = [
         "none",
         [],
         [
+            ("settings_faction_color",
+                [
+                    (try_begin),
+                        (eq, "$g_normalize_faction_color", 1),
+                        (str_store_string, s10, "@consolidated"),
+                    (else_try),
+                        (str_store_string, s10, "@unique"),
+                    (try_end),
+                ], "Faction color ({s10})",
+                [
+                    (val_add, "$g_normalize_faction_color", 1),
+                    (val_mod, "$g_normalize_faction_color", 2),
+                    (try_for_range, ":faction_no", kingdoms_begin, kingdoms_end),
+                        (call_script, "script_faction_update_color", ":faction_no"),
+                    (try_end),
+                    (jump_to_menu, "mnu_settings"),
+                ]),
             ("setting_shield",
                 [], "Shield painting",
                 [(start_presentation, "prsnt_setting_shield_painting"),]),
@@ -489,7 +513,10 @@ game_menus = [
                     (try_end),
                 ], "{s13}", 
                 [
-                    (call_script, "script_faction_make_peace_to_faction", "$test_faction_1", "$test_faction_2"),
+                    (call_script, "script_war_find_from_participants", "$test_faction_1", "$test_faction_2"),
+                    (assign, ":storage", reg0),
+                    (call_script, "script_faction_make_peace_to_faction", "$test_faction_1", "$test_faction_2", ":storage"),
+                    (call_script, "script_war_clean", ":storage"),
                 ]),
             ("make_alliance", 
                 [
@@ -797,9 +824,8 @@ game_menus = [
                     (neq, ":faction", ":current_faction"),
                 ], "|Cheat| Switch center faction to occupier",
                 [
-                    (party_get_slot, ":faction", "$g_encountered_party", slot_party_faction),
                     (store_faction_of_party, ":current_faction", "$g_encountered_party"),
-                    (call_script, "script_center_change_faction", "$g_encountered_party", ":current_faction", ":faction"),
+                    (call_script, "script_center_change_faction", "$g_encountered_party", ":current_faction", 1),
                     (jump_to_menu, "mnu_town"),
                 ]),
             
@@ -1215,7 +1241,7 @@ game_menus = [
                 [ ], "Launch the attack",
                 [
                     (assign, "$g_enemy", "$g_encountered_party"),
-                    (assign, "$g_player_team", 0),
+                    (assign, "$g_player_team", 1),
                     (try_for_parties, ":party_no"),
                         (call_script, "script_cf_party_join_battle", ":party_no", "$g_encountered_party", "$g_player_party"),
                         (assign, ":continue", reg0),

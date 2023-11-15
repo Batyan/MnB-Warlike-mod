@@ -1,3 +1,70 @@
+v 0.430:
+	-New features:
+		* lords now appear directly inside centers to prevent capture on spawn
+		* add player party sorting
+		* set name for castle 33d and village 33d1
+	-Balance changes:
+		The following changes aim to increase sarranid troops resilience
+		They still keep their high athletics / low hp focus
+		* decrease swadian_footman athletics 6 -> 5
+		* increase sarranid_medium_infantry ironflesh 1 -> 2
+		* increase sarranid_footman ironflesh 2 -> 3
+		* increase sarranid_guard ironflesh 3 -> 4
+		* increase sarranid_guard athletics 4 -> 5
+		* increase sarranid_heavy_infantry ironflesh 5 -> 6
+		* increase sarranid_heavy_infantry athletics 3 -> 4
+		* increase sarranid_light_spearman ironflesh 2 -> 3
+		* increase sarranid_light_spearman athletics 5 -> 6
+		* increase sarranid_medium_spearman ironflesh 4 -> 5
+		* increase sarranid_medium_spearman athletics 3 -> 5
+		* increase sarranid_heavy_spearman ironflesh 6 -> 7
+		* increase sarranid_heavy_spearman athletics 3 -> 4
+		* increase sarranid_pikeman athletics 3 -> 4
+		* increase sarranid_light_crossbowman athletics 4 -> 5
+		* increase sarranid_crossbowman athletics 3 -> 4
+		* increase sarranid_medium_cavalry ironflesh 2 -> 3
+		* increase sarranid_heavy_cavalry ironflesh 4 -> 5
+		* increase sarranid_noble_cavalry ironflesh 5 -> 7
+		* increase sarranid_light_cavalry ironflesh 0 -> 1
+		* increase sarranid_champion ironflesh 2 -> 3
+		* increase sarranid_noble_skirmisher ironflesh 4 -> 6
+		* replace sarranid_noble_skirmisher horse to warhorse
+		* add sarranid_mail_shirt to sarranid_noble_skirmisher (reduce overall armor value)
+		* add heavy_lance to sarranid_noble_skirmisher
+		* remove shields to sarranid_noble_skirmisher
+		* add short_bow to sarranid_light_bowman
+		* reduce sarranid_light_bowman archery 150 -> 135
+		* add short_bow to sarranid_light_horse_archer
+		* reduce sarranid_light_horse_archer archery 145 -> 130
+		* add nomad_bow to sarranid_bowman
+		* reduce sarranid_bowman archery 140 -> 120
+		* increase sarranid_bowman power_draw 4 -> 5
+		* add nomad_bow to sarranid_horse_archer
+		* reduce sarranid_horse_archer archery 135 -> 115
+		* increase sarranid_horse_archer power_draw 4 -> 5
+		* add strong_bow to sarranid_heavy_bowman
+		* reduce sarranid_heavy_bowman archery 130 -> 110
+		* add strong_bow to sarranid_heavy_horse_archer
+		* reduce sarranid_heavy_horse_archer archery 125 -> 105
+		* add strong_bow to sarranid_noble_horse_archer
+		* remove khergit_elite_armor from khergit_noble_lancer (reduce overall armor value)
+		* remove leather_gloves from khergit_noble_lancer (increase overall armor value)
+		* change vaegir_scout from light cavalry to horse archer
+		* change khergit_light_archer armor to tribal_warrior_outfit (increase overall armor value)
+		* reduce bandits wages by x0.5
+		* reduce melee weapons damage by 10%
+		* reduce ranged weapons damage by 5%
+		* increase small_kingdom_41 cavalry (15 -> 30) and lancer (30 -> 40) ratio
+		* rename nord_medium_cavalry to nord_horseman
+		* add nord_cavalry to small_kingdom_41
+		* reduce vaegir_levy_axeman athletics 5 -> 4
+		* increase nord_raider ironflesh (1 -> 2)
+		* add new castle scene
+	-Fixes:
+		* fix garrisons creating and giving troops to auxiliary parties (patrols, caravans) when besieged
+		* fix castle scene assignment
+		* prevents ais from falling from a few castle scenes
+
 v 0.420:
 	-New features:
 		* improve vassal center granting system

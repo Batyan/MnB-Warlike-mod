@@ -155,20 +155,40 @@ castle_scene_end = "scn_meeting_scene_steppe"
 castle_scene_plain_begin = "scn_castle_plain_01_outside"
 castle_scene_plain_wood_begin = "scn_castle_plain_wood_01_outside"
 castle_scene_plain_dark_begin = "scn_castle_plain_dark_01_outside"
+castle_scene_forest_begin = "scn_castle_steppe_01_outside" # "scn_castle_forest_01_outside"
+castle_scene_forest_wood_begin = "scn_castle_steppe_01_outside" # "scn_castle_forest_wood_01_outside"
+castle_scene_forest_dark_begin = "scn_castle_steppe_01_outside" # "scn_castle_forest_dark_01_outside"
+castle_scene_sea_begin = "scn_castle_steppe_01_outside" # "scn_castle_sea_01_outside"
+castle_scene_sea_wood_begin = "scn_castle_steppe_01_outside" # "scn_castle_sea_wood_01_outside"
+castle_scene_sea_dark_begin = "scn_castle_steppe_01_outside" # "scn_castle_sea_dark_01_outside"
 castle_scene_steppe_begin = "scn_castle_steppe_01_outside"
-castle_scene_steppe_wood_begin = "scn_castle_steppe_01_outside"
+castle_scene_steppe_wood_begin = "scn_castle_snow_01_outside" # TODO
+castle_scene_steppe_forest_begin = "scn_castle_snow_01_outside" # TODO
+castle_scene_steppe_forest_wood_begin = "scn_castle_snow_01_outside" # TODO
 castle_scene_snow_begin = "scn_castle_snow_01_outside"
 castle_scene_snow_wood_begin = "scn_castle_snow_wood_01_outside"
+castle_scene_snow_forest_begin = "scn_castle_desert_01_outside" # "scn_castle_snow_forest_01_outside"
+castle_scene_snow_forest_wood_begin = "scn_castle_desert_01_outside" # "scn_castle_snow_forest_wood_01_outside"
 castle_scene_desert_begin = "scn_castle_desert_01_outside"
 castle_scene_desert_wood_begin = castle_scene_end
 
 castle_scene_plain_end = castle_scene_plain_wood_begin
 castle_scene_plain_wood_end = castle_scene_plain_dark_begin
-castle_scene_plain_dark_end = castle_scene_steppe_begin
+castle_scene_plain_dark_end = castle_scene_forest_begin
+castle_scene_forest_end = castle_scene_forest_wood_begin
+castle_scene_forest_wood_end = castle_scene_forest_dark_begin
+castle_scene_forest_dark_end = castle_scene_sea_begin
+castle_scene_sea_end = castle_scene_sea_wood_begin
+castle_scene_sea_wood_end = castle_scene_sea_dark_begin
+castle_scene_sea_dark_end = castle_scene_steppe_begin
 castle_scene_steppe_end = castle_scene_steppe_wood_begin
-castle_scene_steppe_wood_end = castle_scene_snow_begin
+castle_scene_steppe_wood_end = castle_scene_steppe_forest_begin
+castle_scene_steppe_forest_end = castle_scene_steppe_forest_wood_begin
+castle_scene_steppe_forest_wood_end = castle_scene_snow_begin
 castle_scene_snow_end = castle_scene_snow_wood_begin
-castle_scene_snow_wood_end = castle_scene_desert_begin
+castle_scene_snow_wood_end = castle_scene_snow_forest_begin
+castle_scene_snow_forest_end = castle_scene_snow_forest_wood_begin
+castle_scene_snow_forest_wood_end = castle_scene_desert_begin
 castle_scene_desert_end = castle_scene_desert_wood_begin
 castle_scene_desert_wood_end = castle_scene_end
 
@@ -228,6 +248,13 @@ relation_neutral = 0
 relation_positive = 20
 relation_friendly = 40
 relation_excellent = 80
+
+relation_change_factor = 20
+
+relation_change_center_freed = 32
+relation_change_vassal_freed = 8
+relation_change_war_declared = -500
+relation_change_joined_war = 100
 
 center_buildings_begin = "itm_building_hunter_camp"
 center_buildings_end = "itm_buildings_end"
@@ -590,8 +617,10 @@ slot_faction_strength_offensive_allies = slot_faction_strength_defensive_allies 
 
 slot_faction_war_damage = slot_faction_strength_offensive_allies + 1
 
+slot_faction_safety = slot_faction_war_damage + 1
+
 # Last time the faction was at peace
-slot_faction_last_peace = slot_faction_war_damage + 1
+slot_faction_last_peace = slot_faction_safety + 1
 
 slot_faction_preparing_war = slot_faction_last_peace + 1
 
@@ -649,6 +678,8 @@ sfvt_sattrapy = 0x10 # joins offensive wars of overlord
 sfvt_bulwark = 0x40 # joins defensive wars of overlord
 sfvt_protectorate = 0x80 # joins defensive wars of vassal
 
+sfvt_default_vassal_type = sfvt_tributary | sfvt_vassal | sfvt_sattrapy | sfvt_bulwark | sfvt_protectorate
+
 slot_faction_battle_casualties = slot_faction_vassal_type + 1
 
 slot_faction_name_holder = slot_faction_battle_casualties + 1
@@ -679,23 +710,23 @@ sfkt_non_agression = 0x0002
 sfkt_defensive_alliance = 0x0004
 sfkt_alliance = 0x0008
 
-sfkt_military_treaty_clear = 0xFFF0
+sfkt_military_treaty_clear = 0xF0F0
 
 # Economic treaties
 sfkt_open_trade = 0x0010
 sfkt_trade_preference = 0x0020
 sfkt_trade_exclusivity = 0x0040
 
-sfkt_economic_treaty_clear = 0xFF0F
+sfkt_economic_treaty_clear = 0xF00F
 
 # Temporary treaties
 sfkt_tribute = 0x0100
 
 # Vassal treaties
-sfkt_vassal = 0x1000
-sfkt_overlord = 0x2000
+sfkt_vassal = 0x1000 	# represents being a vassal of targeted faction
+sfkt_overlord = 0x2000 	# represents being the overlord of targeted faction
 
-sfkt_vassal_treaty_clear = 0x0FFF
+sfkt_vassal_treaty_clear = 0x00FF
 
 sfkt_all_treaty_clear = 0x0000
 
@@ -711,6 +742,8 @@ slot_faction_kingdom_distance_end = slot_faction_kingdom_distance_begin - kingdo
 
 faction_distance_close = 60
 faction_distance_far = 150
+
+slot_faction_wealth = slot_faction_kingdom_distance_end + 1
 
 #######################
 ## War Storage Slots ##
@@ -746,12 +779,32 @@ kw_failling = -1
 kw_neutral = 0
 kw_eager = 1
 
+proposal_peace_base_score = 0
+proposal_peace_score_village_captured = 10
+proposal_peace_score_castle_captured = 100
+proposal_peace_score_town_captured = 300
+
+num_peace_proposal = 20
+wppt_transfer_center = 1
+wppt_liberate_center = 2
+wppt_tribute = 3
+wppt_liberate_prisoners_common = 4
+wppt_liberate_prisoners_heroes = 5
+wppt_vassalize = 6
+
+slot_war_peace_proposal_object_begin = slot_war_kingdom_willingness_end + 1
+slot_war_peace_proposal_object_end = slot_war_peace_proposal_object_begin + num_peace_proposal
+slot_war_peace_proposal_type_begin = slot_war_peace_proposal_object_end + 1
+slot_war_peace_proposal_type_end = slot_war_peace_proposal_type_begin + num_peace_proposal
+slot_war_peace_proposal_target_begin = slot_war_peace_proposal_type_end + 1
+slot_war_peace_proposal_target_end = slot_war_peace_proposal_target_begin + num_peace_proposal
+
 # slot_war_kingdom_participation_score_begin = slot_war_kingdom_willingness_end
 # slot_war_kingdom_participation_score_end = slot_war_kingdom_participation_score_begin - kingdoms_begin + kingdoms_end
 
 ### Slots included between these two will be reset to 0 when the war storage is reset
 slot_war_clear_slots_begin = slot_war_active
-slot_war_clear_slots_end = slot_war_kingdom_participant_begin
+slot_war_clear_slots_end = slot_war_peace_proposal_type_end
 ###
 
 
@@ -984,13 +1037,15 @@ slot_party_building_state_9 = slot_party_building_state_8 + 1
 slot_party_building_state_10 = slot_party_building_state_9 + 1
 
 # For centers
-slot_party_item_consumed_begin 	= 200 # Number of items consumed
+slot_party_item_consumed_begin 	= slot_party_building_state_10 + 1 # Number of items consumed
 slot_party_item_consumed_end	= slot_party_item_consumed_begin + goods_end - goods_begin
 slot_party_item_last_produced_begin 	= slot_party_item_consumed_end # Number of items produced
 slot_party_item_last_produced_end	= slot_party_item_last_produced_begin + goods_end - goods_begin
 # For parties (caravans)
 slot_party_item_stored_price_begin 	= slot_party_item_consumed_begin
 slot_party_item_stored_price_end 	= slot_party_item_consumed_end
+
+slot_party_temporary_data = slot_party_item_stored_price_end + 1
 
 
 #################
@@ -1087,50 +1142,51 @@ tp_renega = 0x0080 # ToDO
 # tp_
 
 slot_troop_leaded_party				= 14
+slot_troop_garrisoned 				= slot_troop_leaded_party + 1
 
-slot_troop_building_one 			= 15
-slot_troop_building_end				= 16
+slot_troop_building_one 			= slot_troop_garrisoned + 1
+slot_troop_building_end				= slot_troop_building_one + 1
 
-slot_troop_days_next_rethink		= 17
+slot_troop_days_next_rethink		= slot_troop_building_end + 1
 
-slot_troop_num_vassal				= 18
-slot_troop_vassal_of				= 19
+slot_troop_num_vassal				= slot_troop_days_next_rethink + 1
+slot_troop_vassal_of				= slot_troop_num_vassal + 1
 
-slot_troop_home						= 20
+slot_troop_home						= slot_troop_vassal_of + 1
+slot_troop_current_home				= slot_troop_home + 1
 
-slot_troop_mission 					= 21
+slot_troop_mission 					= slot_troop_current_home + 1
 tm_none					= 0
 tm_defending			= 1
 tm_attacking			= 2
 tm_escorting			= 3
 
-slot_troop_mission_object			= 22
+slot_troop_mission_object			= slot_troop_mission + 1
 
-slot_troop_behavior_object 			= 23
-slot_troop_behavior 				= 24
+slot_troop_behavior_object 			= slot_troop_mission_object + 1
+slot_troop_behavior 				= slot_troop_behavior_object + 1
 tb_none 				= 0
 tb_move 				= 1
 tb_follow 				= 2
 tb_patrol				= 3
 
-slot_troop_prisoner_of				= 25 # Only heroes
+slot_troop_prisoner_of				= slot_troop_behavior + 1 # Only heroes
 
-slot_troop_faction_reserved_1		= 25 # Only regulars
-slot_troop_faction_reserved_2		= 26 # Only regulars
-slot_troop_faction_not_1			= 27
-slot_troop_faction_not_2			= 28
+slot_troop_faction_reserved_1		= slot_troop_prisoner_of # Only regulars
+slot_troop_faction_reserved_2		= slot_troop_faction_reserved_1 + 1 # Only regulars
+slot_troop_faction_not_1			= slot_troop_faction_reserved_2 + 1
+slot_troop_faction_not_2			= slot_troop_faction_not_1 + 1
+slot_troop_faction_not_3			= slot_troop_faction_not_2 + 1
 
-slot_troop_armor_weight 			= 29
-slot_troop_horse_weight 			= 30
-slot_troop_ranged_weapon_weight 	= 31
+slot_troop_armor_weight 			= slot_troop_faction_not_3 + 1
+slot_troop_horse_weight 			= slot_troop_armor_weight + 1
+slot_troop_ranged_weapon_weight 	= slot_troop_horse_weight + 1
 
 weight_very_light = 0
 weight_light = 1
 weight_medium = 2
 weight_heavy = 3
 weight_very_heavy = 4
-
-slot_troop_last_met 				= 32
 
 slot_troop_surplus_center			= 33
 
@@ -1198,6 +1254,8 @@ slot_troop_budget_reserved_other = 67
 
 slot_troop_budget_debt = 68
 slot_troop_budget_perceived_debt = 69
+
+slot_troop_last_met 				= 70
 
 slot_troop_relations_begin = 400
 

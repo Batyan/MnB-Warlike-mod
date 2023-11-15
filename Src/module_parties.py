@@ -144,7 +144,7 @@ parties = [
 	("castle_32a","Sungetche Castle", icon_castle_a|pf_castle, 0, pt_none, fac_small_kingdom_32,0,ai_bhvr_hold,0,(110.3, 40.5),[], 170),
 	("castle_33b","Shalgan Castle", icon_castle_a|pf_castle, 0, pt_none, fac_small_kingdom_33,0,ai_bhvr_hold,0,(77.3, -50.5),[], 170),
 	("castle_33c","New Castle", icon_castle_a|pf_castle, 0, pt_none, fac_small_kingdom_33,0,ai_bhvr_hold,0,(71.8, -12.7),[], 170),
-	("castle_33d","New Castle", icon_castle_a|pf_castle, 0, pt_none, fac_small_kingdom_33,0,ai_bhvr_hold,0,(77.7, 7.5),[], 170),
+	("castle_33d","Dichebe Castle", icon_castle_a|pf_castle, 0, pt_none, fac_small_kingdom_33,0,ai_bhvr_hold,0,(77.7, 7.5),[], 170),
 	("castle_34b","Vanush Castle", icon_castle_a|pf_castle, 0, pt_none, fac_small_kingdom_34,0,ai_bhvr_hold,0,(21.6, -39.8),[], 170),
 	("castle_35a","Uhhun Castle", icon_castle_a|pf_castle, 0, pt_none, fac_small_kingdom_35,0,ai_bhvr_hold,0,(62.1, -24.8),[], 170),
 	("castle_35b","New Castle", icon_castle_a|pf_castle, 0, pt_none, fac_small_kingdom_35,0,ai_bhvr_hold,0,(43.5, -35.5),[], 170),
@@ -314,7 +314,7 @@ parties = [
 	("village_33a3","Zadke Kulun", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_33,0,ai_bhvr_hold,0,(103.3, -30),[], 170),
 	("village_33b1","Shalgan", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_33,0,ai_bhvr_hold,0,(84.2, -54.1),[], 170),
 	("village_33c1","New Village", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_33,0,ai_bhvr_hold,0,(77.7, -11),[], 170),
-	("village_33d1","New Village", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_33,0,ai_bhvr_hold,0,(88.6, 11.4),[], 170),
+	("village_33d1","Dichebe", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_33,0,ai_bhvr_hold,0,(88.6, 11.4),[], 170),
 	
 	("village_34a1","Peshmi", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_34,0,ai_bhvr_hold,0,(15.6, -59.0),[], 170),
 	("village_34a2","Hun Aban", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_34,0,ai_bhvr_hold,0,(31.3, -77.2),[], 170),

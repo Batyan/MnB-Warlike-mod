@@ -90,6 +90,7 @@ presentations = [
         			(party_get_num_companion_stacks, ":num_stacks", ":current_city"),
         			(try_for_range, ":stack_no", 0, ":num_stacks"),
         				(party_stack_get_troop_id, ":troop_no", ":current_city", ":stack_no"),
+                        (neg|troop_is_hero, ":troop_no"),
         				(party_stack_get_size, ":stack_size", ":current_city", ":stack_no"),
         				(assign, reg1, ":stack_size"),
         				
@@ -174,6 +175,7 @@ presentations = [
         		(party_get_num_companion_stacks, ":num_stacks", ":current_city"),
         		(try_for_range, ":stack_no", 0, ":num_stacks"),
         			(party_stack_get_troop_id, ":troop_no", ":current_city", ":stack_no"),
+                    (neg|troop_is_hero, ":troop_no"),
         			(val_mul, ":troop_no", 2),
         			(create_mesh_overlay_with_tableau_material, reg0, -1, "tableau_game_party_window", ":troop_no"),
         			# (position_set_x, pos1, 600),

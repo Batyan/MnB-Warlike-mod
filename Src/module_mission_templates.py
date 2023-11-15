@@ -434,6 +434,9 @@ test_battle_siege_spawn_troops = (
 				(display_message, "@Spawning new troops at spawn {reg0} for team {reg1}."),
 			(try_end),
 		(try_end),
+		
+		(val_max, "$g_attacker_reinforcements_delay", 0),
+		(val_add, "$g_attacker_reinforcements_delay", 1),
 	])
 
 test_battle_spawn_troops_2_teams = (
