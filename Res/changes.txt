@@ -54,8 +54,10 @@ v 0.430:
 		* reduce bandits wages by x0.5
 		* reduce melee weapons damage by 10%
 		* reduce ranged weapons damage by 5%
+		* add new castle scene
 	-Fixes:
 		* fix garrisons creating and giving troops to auxiliary parties (patrols, caravans) when besieged
+		* prevents ais from falling from a few castle scenes
 
 v 0.420:
 	-New features:
