@@ -4962,12 +4962,14 @@ scripts = [
 
             (assign, ":member_tax", 0),
             (assign, ":vassal_tax", 0),
+            (assign, ":funds_tax", 0),
 
             (store_faction_of_party, ":party_faction", ":party_no"),
             (try_begin),
                 (gt, ":party_faction", 0),
                 (faction_get_slot, ":member_tax_rate", ":party_faction", slot_faction_member_tax_rate),
                 (faction_get_slot, ":vassal_tax_rate", ":party_faction", slot_faction_vassal_tax_rate),
+                (faction_get_slot, ":funds_tax_rate", ":party_faction", slot_faction_funds_tax_rate),
 
                 (try_begin),
                     (gt, ":member_tax_rate", 0),
@@ -5013,6 +5015,24 @@ scripts = [
                         (str_store_troop_name, s11, ":party_leader_lord"),
                         (assign, reg10, ":vassal_tax"),
                         (display_message, "@{s10} vassal taxes: {reg10} to {s11}"),
+                    (try_end),
+                (try_end),
+                (try_begin),
+                    (gt, ":funds_tax_rate", 0),
+
+                    (store_mul, ":funds_tax", ":funds_tax_rate", ":taxes"),
+                    (val_div, ":funds_tax", 100),
+
+                    (call_script, "script_faction_add_accumulated_taxes", ":party_faction", ":funds_tax", tax_type_funds, 1),
+
+                    (store_mul, ":funds_tax_pay", ":funds_tax", -1),
+                    (call_script, "script_party_add_accumulated_taxes", ":party_no", ":funds_tax_pay", tax_type_funds_pay),
+
+                    (try_begin),
+                        (call_script, "script_cf_debug", debug_economy),
+                        (str_store_party_name, s10, ":party_no"),
+                        (assign, reg10, ":funds_tax"),
+                        (display_message, "@{s10} fund taxes: {reg10}"),
                     (try_end),
                 (try_end),
             (try_end),
@@ -5100,14 +5120,14 @@ scripts = [
 
                 (try_begin),
                     (eq, ":tax_type", tax_type_vassal),
-                    (troop_get_slot, ":budget", ":troop_no", slot_party_budget_vassal_taxes),
+                    (troop_get_slot, ":budget", ":troop_no", slot_troop_budget_vassal_taxes),
                     (val_add, ":budget", ":amount"),
-                    (troop_set_slot, ":troop_no", slot_party_budget_vassal_taxes, ":budget"),
+                    (troop_set_slot, ":troop_no", slot_troop_budget_vassal_taxes, ":budget"),
                 (else_try),
                     (eq, ":tax_type", tax_type_member),
-                    (troop_get_slot, ":budget", ":troop_no", slot_party_budget_faction_member_taxes),
+                    (troop_get_slot, ":budget", ":troop_no", slot_troop_budget_faction_member_taxes),
                     (val_add, ":budget", ":amount"),
-                    (troop_set_slot, ":troop_no", slot_party_budget_faction_member_taxes, ":budget"),
+                    (troop_set_slot, ":troop_no", slot_troop_budget_faction_member_taxes, ":budget"),
                 (try_end),
 
                 (try_begin),
@@ -5192,6 +5212,27 @@ scripts = [
                 (val_add, ":budget", ":amount"),
                 (party_set_slot, ":party_no", ":budget_slot", ":budget"),
             (try_end),
+        ]),
+
+    # script_faction_add_accumulated_taxes
+        # input:
+        #   arg1: party_no
+        #   arg2: amount
+        #   arg3: tax_type
+        # output: none
+    ("faction_add_accumulated_taxes",
+        [
+            (store_script_param, ":faction_no", 1),
+            (store_script_param, ":amount", 2),
+            # (store_script_param, ":tax_type", 3),
+
+            (faction_get_slot, ":accumulated_taxes", ":faction_no", slot_faction_accumulated_taxes),
+            (val_add, ":accumulated_taxes", ":amount"),
+            (faction_set_slot, ":faction_no", slot_faction_accumulated_taxes, ":accumulated_taxes"),
+
+            (faction_get_slot, ":wealth", ":faction_no", slot_faction_wealth),
+            (val_add, ":wealth", ":amount"),
+            (faction_set_slot, ":faction_no", slot_faction_wealth, ":wealth"),
         ]),
 
     # script_troop_get_allocated_budget
@@ -5741,6 +5782,8 @@ scripts = [
 
                 (faction_set_slot, ":fac_1", slot_faction_vassal_tax_rate, 5),
                 (faction_set_slot, ":fac_1", slot_faction_member_tax_rate, 2),
+                (faction_set_slot, ":fac_1", slot_faction_funds_tax_rate, 2),
+                
 
                 (faction_set_slot, ":fac_1", slot_faction_is_at_war, 0),
 
@@ -6913,6 +6956,8 @@ scripts = [
 
             (assign, ":has_defender", 0),
             (assign, ":has_attacker", 0),
+            (assign, ":has_main_attacker", 0),
+            (assign, ":has_main_defender", 0),
             (try_for_range, ":kingdom", kingdoms_begin, kingdoms_end),
                 (store_sub, ":offset", ":kingdom", kingdoms_begin),
                 (store_add, ":slot", ":offset", slot_war_kingdom_participant_begin),
@@ -6938,6 +6983,13 @@ scripts = [
                     (lt, ":participant", swkp_bystander),
                     (assign, ":has_defender", 1),
                 (try_end),
+                (try_begin),
+                    (eq, ":participant", swkp_main_aggressor),
+                    (assign, ":has_main_attacker", 1),
+                (else_try),
+                    (eq, ":participant", swkp_main_defender),
+                    (assign, ":has_main_defender", 1),
+                (try_end),
             (try_end),
             (try_begin),
                 (this_or_next|eq, ":has_attacker", 0),
@@ -6945,6 +6997,47 @@ scripts = [
 
                 (call_script, "script_war_clean", ":war_storage"),
                 (call_script, "script_update_faction_war_count"),
+            (else_try),
+                (try_begin),
+                    (eq, ":has_main_attacker", 0),
+                    (call_script, "script_war_assign_main_participant", ":war_storage", swkp_aggressor),
+                (try_end),
+                (try_begin),
+                    (eq, ":has_main_defender", 0),
+                    (call_script, "script_war_assign_main_participant", ":war_storage", swkp_defender),
+                (try_end),
+            (try_end),
+        ]),
+
+    # script_war_assign_main_participant
+        # input:
+        #   arg1: war_storage
+        #   arg2: participant
+        # output: none
+    ("war_assign_main_participant",
+        [
+            (store_script_param, ":war_storage", 1),
+            (store_script_param, ":participant", 2),
+
+            (assign, ":new_participant", swkp_bystander),
+            (try_begin),
+                (eq, ":participant", swkp_defender),
+                (assign, ":new_participant", swkp_main_defender),
+            (else_try),
+                (eq, ":participant", swkp_aggressor),
+                (assign, ":new_participant", swkp_main_aggressor),
+            (try_end),
+
+            (assign, ":end", kingdoms_end),
+
+            (try_for_range, ":kingdom", kingdoms_begin, ":end"),
+                (store_sub, ":offset", ":kingdom", kingdoms_begin),
+                (store_add, ":slot", ":offset", slot_war_kingdom_participant_begin),
+
+                (faction_get_slot, ":current_participant", ":war_storage", ":slot"),
+                (eq, ":current_participant", ":participant"),
+                (assign, ":end", kingdoms_begin),
+                (faction_set_slot, ":war_storage", ":slot", ":new_participant"),
             (try_end),
         ]),
 
@@ -9421,6 +9514,9 @@ scripts = [
                     (neg|party_slot_eq, ":party_no", slot_party_type, spt_village),
                     (lt, ":wages", ":lower_limit"),
                     (call_script, "script_party_ask_reinforcements", ":party_no"),
+                    
+                    (store_mul, ":cost", reg1, -1),
+                    (call_script, "script_party_modify_wealth", ":party_no", ":cost"),
                 (try_end),
                 # (call_script, "script_party_add_troops_with_buildings", ":party_no"),
             (try_end),
@@ -11139,11 +11235,8 @@ scripts = [
             (troop_set_slot, "trp_nord_light_bowman", slot_troop_faction_not_1, "fac_small_kingdom_42"), # Has Light Longbowman instead
             (troop_set_slot, "trp_nord_heavy_bowman", slot_troop_faction_not_1, "fac_small_kingdom_42"), # Has Heavy Longbowman instead
             (troop_set_slot, "trp_nord_light_infantry", slot_troop_faction_not_1, "fac_small_kingdom_42"), # Has Footman instead
-            #(troop_set_slot, "trp_nord_light_infantry", slot_troop_faction_not_1, "fac_small_kingdom_42"), # 
-            (troop_set_slot, "trp_nord_medium_infantry", slot_troop_faction_not_1, "fac_small_kingdom_42"), # Has Heavy Infantry instead
             (troop_set_slot, "trp_nord_light_infantry", slot_troop_faction_not_2, "fac_small_kingdom_43"), # Has Skirmisher instead
             (troop_set_slot, "trp_nord_light_cavalry", slot_troop_faction_not_1, "fac_small_kingdom_43"), # Has Light Mounted Skirmisher instead
-            (troop_set_slot, "trp_nord_guard", slot_troop_faction_not_1, "fac_small_kingdom_43"), # Has Heavy Skirmisher instead
             (troop_set_slot, "trp_nord_horseman", slot_troop_faction_not_1, "fac_small_kingdom_44"), # Has Spear Cavalry instead
             (troop_set_slot, "trp_nord_heavy_cavalry", slot_troop_faction_not_1, "fac_small_kingdom_44"), # Has Heavy Spear Cavalry instead
             (troop_set_slot, "trp_nord_medium_longbowman", slot_troop_faction_not_2, "fac_small_kingdom_44"), # Has Crossbowman instead
@@ -13258,12 +13351,7 @@ scripts = [
             (try_begin),
                 (neg|faction_slot_eq, ":faction_no", slot_faction_status, sfst_disabled),
                 # Handle faction wealth
-                (try_begin),
-                    (call_script, "script_cf_debug", debug_economy),
-                    (str_store_faction_name, s11, ":faction_no"),
-                    (faction_get_slot, reg10, ":faction_no", slot_faction_wealth),
-                    (display_message, "@{s11} has {reg10} denars in reserve", text_color_info),
-                (try_end),
+                (call_script, "script_faction_process_wealth", ":faction_no"),
                 
                 # Distribute captured territory
                 (faction_get_slot, ":center_no", ":faction_no", slot_faction_current_free_center),
@@ -19349,6 +19437,75 @@ scripts = [
             (else_try),
                 (set_relation, ":faction_1", ":faction_2", relation_state_neutral),
             (try_end),
+        ]),
 
+    # script_faction_process_wealth
+        # input:
+        #   arg1: faction_no
+        # output: none
+    ("faction_process_wealth",
+        [
+            (store_script_param, ":faction_no", 1),
+
+            (faction_get_slot, ":faction_wealth", ":faction_no", slot_faction_wealth),
+
+            (try_begin),
+                (gt, ":faction_wealth", 0),
+                (assign, ":fiefless_share_multiplier", faction_wealth_fiefless_share_multiplier),
+                (store_mul, ":wealth_shared", ":faction_wealth", faction_wealth_shared_ratio),
+                (val_div, ":wealth_shared", 100),
+                (assign, ":num_shares", 0),
+
+                (try_for_range, ":lord_no", npc_heroes_begin, npc_heroes_end),
+                    (troop_slot_eq, ":lord_no", slot_troop_kingdom_occupation, tko_kingdom_hero),
+                    (store_troop_faction, ":lord_faction", ":lord_no"),
+                    (eq, ":lord_faction", ":faction_no"),
+                    (troop_get_slot, ":lord_rank", ":lord_no", slot_troop_rank),
+                    (try_begin),
+                        (ge, ":lord_rank", rank_village),
+                        (val_add, ":num_shares", 1),
+                    (else_try),
+                        (val_add, ":num_shares", ":fiefless_share_multiplier"),
+                    (try_end),
+                (try_end),
+
+                (gt, ":num_shares", 0),
+                (gt, ":wealth_shared", 0),
+                (store_div, ":wealth_shared_part", ":wealth_shared", ":num_shares"),
+
+                (try_begin),
+                    (call_script, "script_cf_debug", debug_economy|debug_current),
+                    (str_store_faction_name, s11, ":faction_no"),
+                    (assign, reg10, ":faction_wealth"),
+                    (assign, reg11, ":wealth_shared"),
+                    (display_message, "@{s11} has {reg10} denars in reserve, sharing {reg11}", text_color_info),
+                (try_end),
+
+                (gt, ":wealth_shared_part", faction_wealth_shared_min),
+                (try_for_range, ":lord_no", npc_heroes_begin, npc_heroes_end),
+                    (troop_slot_eq, ":lord_no", slot_troop_kingdom_occupation, tko_kingdom_hero),
+                    (store_troop_faction, ":lord_faction", ":lord_no"),
+                    (eq, ":lord_faction", ":faction_no"),
+                    (troop_get_slot, ":lord_rank", ":lord_no", slot_troop_rank),
+                    (assign, ":received_wealth", 0),
+                    (try_begin),
+                        (ge, ":lord_rank", rank_village),
+                        (assign, ":received_wealth", ":wealth_shared_part"),
+                    (else_try),
+                        (store_mul, ":received_wealth", ":fiefless_share_multiplier", ":wealth_shared_part"),
+                    (try_end),
+                    (try_begin),
+                        (call_script, "script_cf_debug", debug_current|debug_economy),
+                        (str_store_faction_name, s10, ":faction_no"),
+                        (str_store_troop_name, s11, ":lord_no"),
+                        (assign, reg10, ":received_wealth"),
+                        (display_message, "@{s10} shares {reg10} denars with {s11}", text_color_info),
+                    (try_end),
+                    (call_script, "script_troop_add_accumulated_taxes", ":lord_no", ":received_wealth", tax_type_funds_pay, 0),
+                    (val_sub, ":faction_wealth", ":received_wealth"),
+                (try_end),
+                (faction_set_slot, ":faction_no", slot_faction_wealth, ":faction_wealth"),
+
+            (try_end),
         ]),
 ]

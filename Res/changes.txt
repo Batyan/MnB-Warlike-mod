@@ -1,6 +1,11 @@
 v 0.440:
 	-New features:
+		* add kingdom funds and kingdom landless help
 	-Balance changes
+		* move khergit_clansman to small_kingdom_34 (from small_kingdom_35)
+		* add khergit_levy_horseman to small_kingdom_35
+		* change nord_heavy_infantry to elite
+		* reduce rhodok_levy_pikeman ironflesh (6 -> 4)
 	-Fixes
 v 0.430:
 	-New features:

@@ -371,6 +371,8 @@ tax_type_vassal_pay = 5
 tax_type_member_pay = 6
 tax_type_trade = 7
 tax_type_visitor = 8
+tax_type_funds = 9
+tax_type_funds_pay = 10
 
 caravan_max_cargo_size = 60
 
@@ -431,6 +433,10 @@ base_hero_value_none = 100000
 
 base_hero_value_vassals_percentage = 15
 base_hero_value_renown_multiplier = 10
+
+faction_wealth_shared_ratio = 3
+faction_wealth_shared_min = 75 # minimum amount of wealth shared per lord in the faction
+faction_wealth_fiefless_share_multiplier = 10
 
 ################
 ## Item Slots ##
@@ -655,6 +661,7 @@ slot_faction_mission_focus_20 = slot_faction_mission_focus_19 + 1
 
 slot_faction_vassal_tax_rate = slot_faction_mission_focus_20 + 1
 slot_faction_member_tax_rate = slot_faction_vassal_tax_rate + 1
+slot_faction_funds_tax_rate = slot_faction_member_tax_rate + 1
 
 slot_faction_status = slot_faction_member_tax_rate + 1
 sfst_default = 0
@@ -744,6 +751,7 @@ faction_distance_close = 60
 faction_distance_far = 150
 
 slot_faction_wealth = slot_faction_kingdom_distance_end + 1
+slot_faction_accumulated_taxes = slot_faction_wealth + 1
 
 #######################
 ## War Storage Slots ##

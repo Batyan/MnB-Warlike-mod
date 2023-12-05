@@ -814,8 +814,8 @@ test_battle_faction_select = (
 				
 				(team_get_slot, ":team_faction", "$g_test_cur_team", slot_team_test_faction),
 				(faction_get_slot, ":culture", ":team_faction", slot_faction_culture),
-				(faction_get_slot, ":troop_begin", ":culture", slot_faction_veteran_begin),
-				(faction_get_slot, ":troop_end", ":culture", slot_faction_elite_begin),
+				(faction_get_slot, ":troop_begin", ":culture", slot_faction_elite_begin),
+				(faction_get_slot, ":troop_end", ":culture", slot_faction_noble_begin),
 				(try_for_range, ":unused", 0, 6),
 					(store_random_in_range, ":troop", ":troop_begin", ":troop_end"),
 					(add_visitors_to_current_scene, "$g_test_player_team", ":troop", 1),

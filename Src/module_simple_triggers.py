@@ -73,6 +73,9 @@ simple_triggers = [
                 (party_set_slot, ":center", slot_party_budget_pay_faction_member_taxes, 0),
                 (party_set_slot, ":center", slot_party_budget_trade, 0),
             (try_end),
+            (try_for_range, ":faction_no", kingdoms_begin, kingdoms_end),
+                (faction_set_slot, ":faction_no", slot_faction_accumulated_taxes, 0),
+            (try_end),
 
             (try_for_parties, ":party_no"),
                 (party_is_active, ":party_no"),

@@ -52,15 +52,15 @@ factions = [
 	("small_kingdom_31", "Eastern", 0, 0.9, [("outlaws",-0.5),], [], 0xbb88bb), # Champion + Noble Rider + Tribal Infantry? + Tribal Light Archer? + Tribal Archer?
 	("small_kingdom_32", "Warriors of Sungetche", 0, 0.9, [("outlaws",-0.5),], [], 0x997A99), # Light Skirmisher + Warrior + Heavy Skirmisher + Noble Skirmisher?
 	("small_kingdom_33", "Narra", 0, 0.9, [("outlaws",-0.5),], [], 0x7e0041), # Light Horse Archer + Light Steppe Cavalry + Heavy Steppe Cavalry
-	("small_kingdom_34", "Halmar", 0, 0.9, [("outlaws",-0.5),], [], 0x6D00C1), # Heavy Lancer + Noble Cavalry + Noble Lancer
-	("small_kingdom_35", "Uhhun", 0, 0.9, [("outlaws",-0.5),], [], 0x9966ff), # Clansman + Light Horseman + Heavy Horseman + Noble Horseman
+	("small_kingdom_34", "Halmar", 0, 0.9, [("outlaws",-0.5),], [], 0x6D00C1), # Clansman +  Heavy Lancer + Noble Cavalry + Noble Lancer
+	("small_kingdom_35", "Uhhun", 0, 0.9, [("outlaws",-0.5),], [], 0x9966ff), # Levy Horseman + Light Horseman + Heavy Horseman + Noble Horseman
 	("small_kingdom_36", "Azugan", 0, 0.9, [("outlaws",-0.5),], [], 0x6755db), # Heavy Archer + Blade-master + Heavy Infantry + Levy Infantry
 	
 	("small_kingdom_41", "Pirash", 0, 0.9, [("outlaws",-0.5),], [], 0x14FF8D), # Light Lancer + Mounted Bowman + Armoured Lancer + Heavy Mounted Bowman
-	("small_kingdom_42", "Gundig", 0, 0.9, [("outlaws",-0.5),], [], 0x2f8558), # Heavy Longbowman + Light Longbowman + Light Infantry + Heavy Infantry
-	("small_kingdom_43", "Wercheg", 0, 0.9, [("outlaws",-0.5),], [], 0xADE9FF), # Skirmisher + Heavy Skirmisher + Light Mounted Skirmisher + Mounted Skirmisher?
+	("small_kingdom_42", "Gundig", 0, 0.9, [("outlaws",-0.5),], [], 0x2f8558), # Heavy Longbowman + Light Longbowman + Footman + Infantry
+	("small_kingdom_43", "Wercheg", 0, 0.9, [("outlaws",-0.5),], [], 0xADE9FF), # Skirmisher + Heavy Skirmisher + Light Mounted Skirmisher + Heavy Infantry + Infantry + King's Guard
 	("small_kingdom_44", "Aldelen", 0, 0.9, [("outlaws",-0.5),], [], 0x396C72), # Spearman + Heavy Spearman + Hunter + Crossbowman + Medium Spear Cavalry + Heavy Spear Cavalry
-	("small_kingdom_45", "Rizi", 0, 0.9, [("outlaws",-0.5),], [], 0x0061ab), # King's Guard + Bowman + Light Spear Cavalry + Spear Cavalry + Heavy Spear Cavalry
+	("small_kingdom_45", "Rizi", 0, 0.9, [("outlaws",-0.5),], [], 0x0061ab), # Bowman + Light Spear Cavalry + Spear Cavalry + Heavy Spear Cavalry
 	
 	("small_kingdom_51", "Highlanders", 0, 0.9, [("outlaws",-0.5),], [], 0x4F5868), # Hunter + Bowman + Heavy Bowman + Sergeant + Highlander
 	("small_kingdom_52", "Bezan", 0, 0.9, [("outlaws",-0.5),], [], 0x4F6C99), # Heroic Horseman + Levy Pikeman + Heavy Horseman + Light Horseman? + Heroic Pikeman
