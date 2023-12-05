@@ -17481,10 +17481,25 @@ scripts = [
                 (party_count_prisoners_of_type, ":prisoner", ":prisoner_of", ":troop_no"),
                 (gt, ":prisoner", 0),
 
+                (store_faction_of_party, ":prison_faction", ":prisoner_of"),
+                (store_troop_faction, ":troop_faction", ":troop_no"),
                 (try_begin),
-                    (store_faction_of_party, ":prison_faction", ":prisoner_of"),
-                    (store_troop_faction, ":troop_faction", ":troop_no"),
                     (eq, ":prison_faction", ":troop_faction"),
+                    (assign, ":freed", 1),
+                (else_try),
+                    (call_script, "script_faction_get_treaties", ":prison_faction", ":troop_faction"),
+                    (assign, ":treaties", reg0),
+
+                    (store_and, ":alliance", ":treaties", sfkt_alliance),
+                    (store_and, ":defensive", ":treaties", sfkt_defensive_alliance),
+                    (store_and, ":vassal", ":treaties", sfkt_vassal),
+                    (store_and, ":overlord", ":treaties", sfkt_overlord),
+
+                    (this_or_next|eq, ":alliance", sfkt_alliance),
+                    (this_or_next|neq, ":defensive", sfkt_defensive_alliance),
+                    (this_or_next|neq, ":vassal", sfkt_vassal),
+                    (neq, ":overlord", sfkt_overlord),
+
                     (assign, ":freed", 1),
                 (else_try),
                     # Ransom chance
