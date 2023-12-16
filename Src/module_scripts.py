@@ -882,10 +882,10 @@ scripts = [
             (call_script, "script_party_group_loot_party_group", ":winner_party", ":defeated_party"),
             (call_script, "script_party_group_take_party_group_prisoner", ":winner_party", ":defeated_party"),
 
-            (try_begin),
-                (neq, ":defeated_party", "$g_player_party"),
-                (call_script, "script_clear_party_group", ":defeated_party"),
-            (try_end),
+            # (try_begin),
+            #     # (neq, ":defeated_party", "$g_player_party"),
+            #     (call_script, "script_clear_party_group", ":defeated_party"),
+            # (try_end),
             # /!\ Defeated_party should be considered no longer referenced! (unless it is a center) /!\
             
             (party_set_slot, ":winner_party", slot_party_battle_stage, bs_approach),
@@ -2153,17 +2153,20 @@ scripts = [
 
             (try_begin),
                 (ge, ":root_party", 0),
-                (party_get_num_attached_parties, ":num_attached_parties", ":root_party"),
-                (try_for_range, ":attached_party_rank", 0, ":num_attached_parties"),
-                    (party_get_attached_party_with_rank, ":attached_party", ":root_party", ":attached_party_rank"),
-                    (call_script, "script_clear_party_group", ":attached_party"),
-                (try_end),
 
                 (party_get_attached_to, ":attached", ":root_party"),
                 (try_begin),
                     (ge, ":attached", 0),
                     (party_detach, ":root_party"),
                 (try_end),
+                
+                (party_get_num_attached_parties, ":num_attached_parties", ":root_party"),
+                (try_for_range, ":attached_party_rank", 0, ":num_attached_parties"),
+                    (party_get_attached_party_with_rank, ":attached_party", ":root_party", ":attached_party_rank"),
+                    (call_script, "script_clear_party_group", ":attached_party"),
+                (try_end),
+
+                (neq, ":root_party", "$g_player_party"),
 
                 (party_clear, ":root_party"),
                 # (try_begin),
