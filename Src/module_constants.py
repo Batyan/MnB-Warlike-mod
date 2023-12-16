@@ -1256,14 +1256,15 @@ slot_troop_accumulated_taxes = 63
 
 slot_troop_budget_vassal_taxes = 64
 slot_troop_budget_faction_member_taxes = 65
+slot_troop_budget_faction_funds = slot_troop_budget_faction_member_taxes + 1
 
-slot_troop_budget_reserved_party = 66
-slot_troop_budget_reserved_other = 67
+slot_troop_budget_reserved_party = slot_troop_budget_faction_funds + 1
+slot_troop_budget_reserved_other = slot_troop_budget_reserved_party + 1
 
-slot_troop_budget_debt = 68
-slot_troop_budget_perceived_debt = 69
+slot_troop_budget_debt = slot_troop_budget_reserved_other + 1
+slot_troop_budget_perceived_debt = slot_troop_budget_debt + 1
 
-slot_troop_last_met 				= 70
+slot_troop_last_met 				= slot_troop_budget_perceived_debt + 1
 
 slot_troop_relations_begin = 400
 
