@@ -394,12 +394,13 @@ script_party_get_skill_level = 392
 script_party_empty_goods = 393
 script_party_sort_troops = 394
 script_party_sort_troops_step = 395
-script_faction_get_center_interest = 396
-script_troop_get_surplus_center = 397
-script_faction_disable = 398
-script_faction_remove_wars = 399
-script_faction_enable = 400
-script_faction_reset_relations = 401
-script_faction_process_wealth = 402
+script_troop_get_party_sort_score = 396
+script_faction_get_center_interest = 397
+script_troop_get_surplus_center = 398
+script_faction_disable = 399
+script_faction_remove_wars = 400
+script_faction_enable = 401
+script_faction_reset_relations = 402
+script_faction_process_wealth = 403
 
 

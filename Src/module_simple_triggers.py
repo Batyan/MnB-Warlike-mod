@@ -80,6 +80,11 @@ simple_triggers = [
                     (eq, ":party_type", spt_caravan),
                     (call_script, "script_party_caravan_process", ":party_no"),
                 (try_end),
+                (try_begin),
+                    (party_get_battle_opponent, ":opponent", ":party_no"),
+                    (lt, ":opponent", 0),
+                    (call_script, "script_party_sort_troops_step", ":party_no"),
+                (try_end),
             (try_end),
 
             (try_for_range, ":lord", lords_begin, lords_end),

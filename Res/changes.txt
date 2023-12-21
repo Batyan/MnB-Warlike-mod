@@ -1,13 +1,15 @@
 v 0.440:
 	-New features:
 		* add kingdom funds and kingdom landless help
+		* factions release prisoners of allied factions
+		* auto sorting of parties
 	-Balance changes
 		* move khergit_clansman to small_kingdom_34 (from small_kingdom_35)
 		* add khergit_levy_horseman to small_kingdom_35
 		* change nord_heavy_infantry to elite
 		* reduce rhodok_levy_pikeman ironflesh (6 -> 4)
-		* factions release prisoners of allied factions
 	-Fixes
+		* fix empty parties remaining after manual battles
 v 0.430:
 	-New features:
 		* lords now appear directly inside centers to prevent capture on spawn

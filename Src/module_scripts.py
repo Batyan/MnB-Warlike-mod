@@ -1013,26 +1013,6 @@ scripts = [
 
             (party_clear, "p_prisoners_party"),
             (party_clear, "p_temp_party"),
-            
-            (party_get_num_prisoner_stacks, ":num_stacks", ":prisoner_party"),
-            (try_for_range_backwards, ":cur_stack", 0, ":num_stacks"),
-                (party_prisoner_stack_get_troop_id, ":troop_id", ":prisoner_party", ":cur_stack"),
-                # We do not care if its a hero or not, it will be processed elsewhere
-                (party_prisoner_stack_get_size, ":stack_size", ":prisoner_party", ":cur_stack"),
-                (party_add_members, "p_temp_party", ":troop_id", ":stack_size"),
-                (party_remove_prisoners, ":prisoner_party", ":troop_id", ":stack_size"),
-            (try_end),
-
-            (party_get_num_companion_stacks, ":num_stacks", ":prisoner_party"),
-            (try_for_range_backwards, ":cur_stack", 0, ":num_stacks"),
-                (party_stack_get_troop_id, ":troop_id", ":prisoner_party", ":cur_stack"),
-                (party_stack_get_size, ":stack_size", ":prisoner_party", ":cur_stack"),
-
-                (neq, ":troop_id", "$g_player_troop"),
-
-                (party_force_add_members, "p_prisoners_party", ":troop_id", ":stack_size"),
-                (party_remove_members, ":prisoner_party", ":troop_id", ":stack_size"),
-            (try_end),
 
             (party_get_num_attached_parties, ":num_attached_prisoner_parties", ":prisoner_party"),
             (try_for_range, ":attached", 0, ":num_attached_prisoner_parties"),
@@ -1052,6 +1032,26 @@ scripts = [
                     (party_force_add_members, "p_prisoners_party", ":troop_id", ":stack_size"),
                     (party_remove_members, ":attached_party", ":troop_id", ":stack_size"),
                 (try_end),
+            (try_end),
+            
+            (party_get_num_prisoner_stacks, ":num_stacks", ":prisoner_party"),
+            (try_for_range_backwards, ":cur_stack", 0, ":num_stacks"),
+                (party_prisoner_stack_get_troop_id, ":troop_id", ":prisoner_party", ":cur_stack"),
+                # We do not care if its a hero or not, it will be processed elsewhere
+                (party_prisoner_stack_get_size, ":stack_size", ":prisoner_party", ":cur_stack"),
+                (party_add_members, "p_temp_party", ":troop_id", ":stack_size"),
+                (party_remove_prisoners, ":prisoner_party", ":troop_id", ":stack_size"),
+            (try_end),
+
+            (party_get_num_companion_stacks, ":num_stacks", ":prisoner_party"),
+            (try_for_range_backwards, ":cur_stack", 0, ":num_stacks"),
+                (party_stack_get_troop_id, ":troop_id", ":prisoner_party", ":cur_stack"),
+                (party_stack_get_size, ":stack_size", ":prisoner_party", ":cur_stack"),
+
+                (neq, ":troop_id", "$g_player_troop"),
+
+                (party_force_add_members, "p_prisoners_party", ":troop_id", ":stack_size"),
+                (party_remove_members, ":prisoner_party", ":troop_id", ":stack_size"),
             (try_end),
 
             (call_script, "script_party_group_take_party_prisoner", ":party_group_no", "p_prisoners_party"),
@@ -19318,12 +19318,15 @@ scripts = [
             (party_get_num_companion_stacks, ":num_stacks", ":party_no"),
             (try_for_range_backwards, ":stack", 1, ":num_stacks"),
                 (party_stack_get_troop_id, ":troop_id", ":party_no", ":stack"),
-                (store_character_level, ":troop_level", ":troop_id"),
 
                 (store_sub, ":previous_stack", ":stack", 1),
                 (party_stack_get_troop_id, ":previous_troop_id", ":party_no", ":previous_stack"),
                 (neg|troop_is_hero, ":previous_troop_id"),
-                (store_character_level, ":previous_troop_level", ":previous_troop_id"),
+
+                (call_script, "script_troop_get_party_sort_score", ":troop_id", ":party_no"),
+                (assign, ":troop_level", reg0),
+                (call_script, "script_troop_get_party_sort_score", ":previous_troop_id", ":party_no"),
+                (assign, ":previous_troop_level", reg0),
 
                 (this_or_next|troop_is_hero, ":troop_id"),
                 (gt, ":previous_troop_level", ":troop_level"),
@@ -19336,6 +19339,36 @@ scripts = [
             (try_end),
 
             (assign, reg0, ":has_changed"),
+        ]),
+
+    # script_troop_get_party_sort_score
+        # input:
+        #   arg1: troop_no
+        #   arg2: party_no
+        # output:
+        #   reg0: score
+    ("troop_get_party_sort_score",
+        [
+            (store_script_param, ":troop_no", 1),
+            (store_script_param, ":party_no", 2),
+
+            (store_character_level, ":score", ":troop_no"),
+
+            (store_troop_faction, ":troop_faction", ":troop_no"),
+            (store_faction_of_party, ":party_faction", ":party_no"),
+
+            (try_begin),
+                (eq, ":troop_faction", ":party_faction"),
+                (val_add, ":score", 100),
+            (else_try),
+                (faction_get_slot, ":troop_culture", ":troop_faction", slot_faction_culture),
+                (faction_get_slot, ":party_culture", ":party_faction", slot_faction_culture),
+                (gt, ":troop_culture", 0),
+                (eq, ":troop_culture", ":party_culture"),
+                (val_add, ":score", 100),
+            (try_end),
+
+            (assign, reg0, ":score"),
         ]),
 
     # script_faction_get_center_interest
