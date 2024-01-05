@@ -1730,6 +1730,8 @@ game_menus = [
                 [
                     (call_script, "script_party_group_defeat_party_group", "$g_player_party", "$g_enemy"),
 
+                    (party_leave_cur_battle, "$g_player_party"),
+
                     (change_screen_return),
                 ]),
             ("error_leave", [(neq, "$g_battle_result", 1),(neq, "$g_battle_result", -1),], "Error! Leave the battle",
