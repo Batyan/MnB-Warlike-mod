@@ -267,7 +267,7 @@ center_town_buildings_begin = "itm_building_slaver"
 center_town_buildings_end = center_buildings_end
 
 text_color_impossible = 0xc01010
-text_color_gold = 0x55eeee
+text_color_gold = 0xffdd55
 text_color_valid = 0x00ee55
 text_color_info = 0x5555ff
 text_color_capture = 0xDD2200
@@ -366,13 +366,15 @@ tax_type_population = 0
 tax_type_protection = 1
 tax_type_protection_pay = 2
 tax_type_vassal = 3
-tax_type_member = 4
-tax_type_vassal_pay = 5
+tax_type_vassal_pay = 4
+tax_type_member = 5
 tax_type_member_pay = 6
 tax_type_trade = 7
 tax_type_visitor = 8
 tax_type_funds = 9
 tax_type_funds_pay = 10
+tax_type_tribute = 11
+tax_type_tribute_pay = 12
 
 caravan_max_cargo_size = 60
 
@@ -734,6 +736,7 @@ sfkt_vassal = 0x1000 	# represents being a vassal of targeted faction
 sfkt_overlord = 0x2000 	# represents being the overlord of targeted faction
 
 sfkt_vassal_treaty_clear = 0x00FF
+sfkt_tribute_treaty_clear = 0xF0FF
 
 sfkt_all_treaty_clear = 0x0000
 
@@ -752,6 +755,14 @@ faction_distance_far = 150
 
 slot_faction_wealth = slot_faction_kingdom_distance_end + 1
 slot_faction_accumulated_taxes = slot_faction_wealth + 1
+slot_faction_last_share_amount = slot_faction_accumulated_taxes + 1
+
+slot_faction_budget_tribute = slot_faction_last_share_amount + 1
+slot_faction_budget_tribute_payment = slot_faction_budget_tribute + 1
+slot_faction_budget_funds = slot_faction_budget_tribute_payment + 1
+slot_faction_budget_funds_payment = slot_faction_budget_funds + 1
+
+slot_faction_wealth_shared_ratio = slot_faction_budget_funds_payment + 1
 
 #######################
 ## War Storage Slots ##
@@ -806,6 +817,8 @@ slot_war_peace_proposal_type_begin = slot_war_peace_proposal_object_end + 1
 slot_war_peace_proposal_type_end = slot_war_peace_proposal_type_begin + num_peace_proposal
 slot_war_peace_proposal_target_begin = slot_war_peace_proposal_type_end + 1
 slot_war_peace_proposal_target_end = slot_war_peace_proposal_target_begin + num_peace_proposal
+slot_war_peace_proposal_value_begin = slot_war_peace_proposal_target_end + 1
+slot_war_peace_proposal_value_end = slot_war_peace_proposal_value_begin + num_peace_proposal
 
 # slot_war_kingdom_participation_score_begin = slot_war_kingdom_willingness_end
 # slot_war_kingdom_participation_score_end = slot_war_kingdom_participation_score_begin - kingdoms_begin + kingdoms_end

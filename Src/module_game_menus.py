@@ -220,7 +220,7 @@ game_menus = [
 
             ("camp_sort_troops", [], "Sort player party",
                 [
-                    (call_script, "script_party_sort_troops", "$g_player_party"),
+                    (call_script, "script_party_sort_troops", "$g_player_party", 50),
                     (display_message, "@Party sorted"),
                     (jump_to_menu, "mnu_camp"),
                 ]),
