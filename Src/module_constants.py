@@ -665,7 +665,7 @@ slot_faction_vassal_tax_rate = slot_faction_mission_focus_20 + 1
 slot_faction_member_tax_rate = slot_faction_vassal_tax_rate + 1
 slot_faction_funds_tax_rate = slot_faction_member_tax_rate + 1
 
-slot_faction_status = slot_faction_member_tax_rate + 1
+slot_faction_status = slot_faction_funds_tax_rate + 1
 sfst_default = 0
 sfst_disabled = -1
 
