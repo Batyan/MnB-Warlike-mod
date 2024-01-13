@@ -3547,7 +3547,7 @@ troops = [
   
   # Light ranged, swords, maces, crossbows, shields
   # SPECIAL
-  ["sarranid_light_crossbowman", "Sarranid Light Crossbowman", "Sarranid Light Crossbowmen", tf_guarantee_common_armor|tf_guarantee_ranged|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_61,
+  ["sarranid_light_crossbowman", "Sarranid Light Crossbowman", "Sarranid Light Crossbowmen", tf_guarantee_common_armor|tf_guarantee_ranged|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_64,
    [itm_arabian_sword_a, itm_mace_3, itm_crossbow, itm_bolts, itm_tab_shield_kite_b,itm_tab_shield_kite_b_plain_1,itm_tab_shield_kite_b_plain_2,
     itm_sarranid_boots_b, itm_leather_gloves,
     itm_archers_vest,
@@ -3557,7 +3557,7 @@ troops = [
   
   # Light cavalry ranged, swords, maces, bows
   # SPECIAL
-  ["sarranid_light_horse_archer", "Sarranid Light Horse Archer", "Sarranid Light Horse Archers", tf_guarantee_common_armor|tf_guarantee_ranged|tf_guarantee_horseman, no_scene, reserved, fac_small_kingdom_64,
+  ["sarranid_light_horse_archer", "Sarranid Light Horse Archer", "Sarranid Light Horse Archers", tf_guarantee_common_armor|tf_guarantee_ranged|tf_guarantee_horseman, no_scene, reserved, fac_small_kingdom_61,
    [itm_arabian_sword_a, itm_mace_3, itm_short_bow2, itm_barbed_arrows, itm_barbed_arrows,
     itm_sarranid_boots_b, itm_leather_gloves,
     itm_archers_vest,
@@ -3663,7 +3663,7 @@ troops = [
   
   # Medium cavalry ranged, swords, maces, bows
   # SPECIAL
-  ["sarranid_horse_archer", "Sarranid Horse Archer", "Sarranid Horse Archers", tf_guarantee_trained_armor|tf_guarantee_ranged|tf_guarantee_horseman, no_scene, reserved, fac_small_kingdom_64,
+  ["sarranid_horse_archer", "Sarranid Horse Archer", "Sarranid Horse Archers", tf_guarantee_trained_armor|tf_guarantee_ranged|tf_guarantee_horseman, no_scene, reserved, fac_small_kingdom_61,
    [itm_arabian_sword_b, itm_mace_4, itm_nomad_bow2, itm_bodkin_arrows, itm_bodkin_arrows,
     itm_sarranid_boots_c, itm_leather_gloves,
     itm_arabian_armor_b, itm_sarranid_cavalry_robe,
@@ -3683,7 +3683,7 @@ troops = [
   
   # Medium ranged, swords, maces, crossbows, shields
   # SPECIAL
-  ["sarranid_crossbowman", "Sarranid Crossbowman", "Sarranid Light Crossbowmen", tf_guarantee_trained_armor|tf_guarantee_ranged|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_61,
+  ["sarranid_crossbowman", "Sarranid Crossbowman", "Sarranid Light Crossbowmen", tf_guarantee_trained_armor|tf_guarantee_ranged|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_64,
    [itm_arabian_sword_b, itm_mace_4, itm_crossbow, itm_steel_bolts, itm_tab_shield_kite_c,itm_tab_shield_kite_c_plain_1,itm_tab_shield_kite_c_plain_2,
     itm_sarranid_boots_c, itm_leather_gloves,
     itm_arabian_armor_b, itm_sarranid_cavalry_robe,
@@ -3752,7 +3752,7 @@ troops = [
   
   # Medium cavalry ranged, swords, maces, bows, shields
   # SPECIAL
-  ["sarranid_heavy_horse_archer", "Sarranid Heavy Horse Archer", "Sarranid Heavy Horse Archers", tf_guarantee_trained_armor|tf_guarantee_ranged|tf_guarantee_horseman|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_64,
+  ["sarranid_heavy_horse_archer", "Sarranid Heavy Horse Archer", "Sarranid Heavy Horse Archers", tf_guarantee_trained_armor|tf_guarantee_ranged|tf_guarantee_horseman|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_61,
    [itm_sarranid_cavalry_sword, itm_mace_4, itm_sarranid_axe_a, itm_strong_bow2, itm_bodkin_arrows, itm_tab_shield_small_round_b,itm_tab_shield_small_round_b_plain_1,itm_tab_shield_small_round_b_plain_2,
     itm_sarranid_boots_c, itm_leather_gloves,
     itm_arabian_armor_b,

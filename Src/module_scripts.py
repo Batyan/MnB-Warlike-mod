@@ -6089,9 +6089,9 @@ scripts = [
             (call_script, "script_faction_change_slot", "fac_small_kingdom_55", slot_faction_troop_ratio_spearman, -10),
             (call_script, "script_faction_change_slot", "fac_small_kingdom_55", slot_faction_troop_ratio_infantry, -5),
             
-            (call_script, "script_faction_change_slot", "fac_small_kingdom_61", slot_faction_troop_ratio_crossbow, 65),
-            (call_script, "script_faction_change_slot", "fac_small_kingdom_61", slot_faction_troop_ratio_archer, -15),
-            (call_script, "script_faction_change_slot", "fac_small_kingdom_61", slot_faction_troop_ratio_skirmisher, -80),
+            (call_script, "script_faction_change_slot", "fac_small_kingdom_61", slot_faction_troop_ratio_horse_archer, 50),
+            (call_script, "script_faction_change_slot", "fac_small_kingdom_61", slot_faction_troop_ratio_mounted_skirmisher, -40),
+            (call_script, "script_faction_change_slot", "fac_small_kingdom_61", slot_faction_troop_ratio_lancer, 5),
             
             (call_script, "script_faction_change_slot", "fac_small_kingdom_62", slot_faction_troop_ratio_archer, 25),
             (call_script, "script_faction_change_slot", "fac_small_kingdom_62", slot_faction_troop_ratio_skirmisher, -50),
@@ -6106,9 +6106,9 @@ scripts = [
             (call_script, "script_faction_change_slot", "fac_small_kingdom_63", slot_faction_troop_ratio_mounted_skirmisher, -60),
             (call_script, "script_faction_change_slot", "fac_small_kingdom_63", slot_faction_troop_ratio_skirmisher, -45),
             
-            (call_script, "script_faction_change_slot", "fac_small_kingdom_64", slot_faction_troop_ratio_horse_archer, 35),
-            (call_script, "script_faction_change_slot", "fac_small_kingdom_64", slot_faction_troop_ratio_mounted_skirmisher, -25),
-            (call_script, "script_faction_change_slot", "fac_small_kingdom_64", slot_faction_troop_ratio_lancer, -5),
+            (call_script, "script_faction_change_slot", "fac_small_kingdom_64", slot_faction_troop_ratio_crossbow, 65),
+            (call_script, "script_faction_change_slot", "fac_small_kingdom_64", slot_faction_troop_ratio_archer, -15),
+            (call_script, "script_faction_change_slot", "fac_small_kingdom_64", slot_faction_troop_ratio_skirmisher, -80),
             
             (call_script, "script_faction_change_slot", "fac_small_kingdom_65", slot_faction_troop_ratio_pikeman, 20),
             (call_script, "script_faction_change_slot", "fac_small_kingdom_65", slot_faction_troop_ratio_cavalry, -10),
@@ -11309,8 +11309,8 @@ scripts = [
             (troop_set_slot, "trp_rhodok_mounted_crossbow", slot_troop_faction_reserved_2, "fac_small_kingdom_55"), # 
             (troop_set_slot, "trp_rhodok_levy_crossbowman", slot_troop_faction_reserved_2, "fac_small_kingdom_55"), # 
             
-            (troop_set_slot, "trp_sarranid_light_bowman", slot_troop_faction_not_1, "fac_small_kingdom_61"), # Has Light Crossbowman instead
-            (troop_set_slot, "trp_sarranid_bowman", slot_troop_faction_not_1, "fac_small_kingdom_61"), # Has Crossbowman instead
+            (troop_set_slot, "trp_sarranid_light_bowman", slot_troop_faction_not_1, "fac_small_kingdom_64"), # Has Light Crossbowman instead
+            (troop_set_slot, "trp_sarranid_bowman", slot_troop_faction_not_1, "fac_small_kingdom_64"), # Has Crossbowman instead
             (troop_set_slot, "trp_sarranid_noble_horse_archer", slot_troop_faction_not_2, "fac_small_kingdom_62"), # Has Noble Spearman and Noble Infantry
             (troop_set_slot, "trp_sarranid_light_infantry", slot_troop_faction_not_1, "fac_small_kingdom_63"), # Has Levy Infantry instead
             (troop_set_slot, "trp_sarranid_medium_infantry", slot_troop_faction_not_1, "fac_small_kingdom_63"), # Has Footman instead
@@ -11319,6 +11319,8 @@ scripts = [
             (troop_set_slot, "trp_sarranid_heavy_skirmisher", slot_troop_faction_not_1, "fac_small_kingdom_63"), # Has Skirmisher instead
             (troop_set_slot, "trp_sarranid_heavy_infantry", slot_troop_faction_not_1, "fac_small_kingdom_63"), # Has Sergeant instead
             (troop_set_slot, "trp_sarranid_noble_horse_archer", slot_troop_faction_not_1, "fac_small_kingdom_63"), # Has Cataphract instead
+
+            (troop_set_slot, "trp_sarranid_heavy_lancer", slot_troop_faction_reserved_2, "fac_small_kingdom_61"), # 
         ]),
     
     # script_init_troops_types

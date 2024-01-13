@@ -68,10 +68,10 @@ factions = [
 	("small_kingdom_54", "Jamiche", 0, 0.9, [("outlaws",-0.5),], [], 0xBE9EFF), # Light Spearman + Light Skirmisher + Heavy Spearman + Mounted Crossbow + Heavy Mounted Crossbow + Heroic Mounted Crossbow + Levy Crossbow
 	("small_kingdom_55", "Saren", 0, 0.9, [("outlaws",-0.5),], [], 0x74DBD2), # Mounted Crossbow + Heavy Lancer + Heroic Lancer + Scout + Levy Crossbow
 	
-	("small_kingdom_61", "Barriye", 0, 0.9, [("outlaws",-0.5),], [], 0x804303), # Light Crossbowman + Levy Horseman + Crossbowman + Noble Horseman?
+	("small_kingdom_61", "Barriye", 0, 0.9, [("outlaws",-0.5),], [], 0x804303), # Levy Horseman + Light Horse Archer + Horse Archer + Heavy Horse Archer
 	("small_kingdom_62", "Sharwa Keep", 0, 0.9, [("outlaws",-0.5),], [], 0xd87a17), # Heavy Archer + Noble Infantry + Levy Spearman + Spearman + Heavy Spearman + Noble Spearman
 	("small_kingdom_63", "Sarrdak", 0, 0.9, [("outlaws",-0.5),], [], 0xFFBF7F), # Heavy Lancer + Cataphract + Footman + Warrior + Skirmisher + Sergeant
-	("small_kingdom_64", "Uzgha", 0, 0.9, [("outlaws",-0.5),], [], 0x6f6a3e), # Light Horse Archer + Horse Archer + Heavy Horse Archer
+	("small_kingdom_64", "Uzgha", 0, 0.9, [("outlaws",-0.5),], [], 0x6f6a3e), # Light Crossbowman + Crossbowman + Noble Horseman?
 	("small_kingdom_65", "Durquba", 0, 0.9, [("outlaws",-0.5),], [], 0xbd6123), # Mounted Skirmisher + Pikeman + Heavy Pikeman + Noble Skirmisher
 	
 	("kingdoms_end", "Kingdoms End", 0, 0.9, [], []),
