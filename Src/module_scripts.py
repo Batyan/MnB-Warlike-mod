@@ -18555,7 +18555,7 @@ scripts = [
             (call_script, "script_party_get_prefered_wages_limit", ":party_no"),
             (assign, ":wanted_wages", reg0),
             (assign, ":min_wages", reg1),
-            # (assign, ":max_wages", reg2),
+            (assign, ":max_wages", reg2),
 
 
             (assign, ":go_home", 0),
@@ -18580,6 +18580,11 @@ scripts = [
                     (is_between, ":cur_town", centers_begin, centers_end),
 
                     (party_set_slot, ":party_no", slot_party_last_rest, ":current_day"),
+
+                    (party_get_slot, ":new_budget", ":cur_town", slot_party_budget_reserved_auxiliaries),
+                    (party_set_slot, ":party_no", slot_party_budget_reserved_party, ":new_budget"),
+                    (party_set_slot, ":party_no", slot_party_wanted_party_wages, ":new_budget"),
+
                     (try_begin),
                         (ge, ":num_prisoners", 1),
                         (call_script, "script_party_give_prisoners_to_party", ":party_no", ":cur_town"),
@@ -18591,6 +18596,9 @@ scripts = [
                         (call_script, "script_cf_center_can_give_troops", ":cur_town"),
                         (store_random_in_range, ":num_troops", 3, 7),
                         (call_script, "script_party_give_troops_to_party", ":cur_town", ":party_no", ":num_troops"),
+                    (else_try),
+                        (gt, ":current_wages", ":max_wages"),
+                        (call_script, "script_party_give_troops_to_party", ":party_no", ":cur_town", 3),
                     (try_end),
                 (try_end),
             (try_end),
