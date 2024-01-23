@@ -493,6 +493,10 @@ simple_triggers = [
             (try_begin),
                 (neg|is_between, "$g_politics_cur_faction", kingdoms_begin, kingdoms_end),
                 (assign, "$g_politics_cur_faction", kingdoms_begin),
+
+                (try_for_range, ":faction_no", kingdoms_begin, kingdoms_end),
+                    (call_script, "script_reset_faction_politics", ":faction_no"),
+                (try_end),
             (try_end),
             (try_begin),
                 (call_script, "script_cf_debug", debug_faction|debug_simple),
