@@ -1868,6 +1868,13 @@ scripts = [
                 (else_try),
                     (str_store_string, s0, "@{s0}{s10}"),
                 (try_end),
+            (else_try),
+                (eq, ":note_index", 4),
+
+                (faction_get_slot, ":wealth", ":faction_no", slot_faction_wealth),
+                (call_script, "script_game_get_money_text", ":wealth"),
+                (str_store_string_reg, s10, s0),
+                (str_store_string, s0, "@Current wealth: {s10}"),
             (try_end),
 
             (set_trigger_result, 1),
@@ -5257,22 +5264,22 @@ scripts = [
             (faction_set_slot, ":faction_no", slot_faction_wealth, ":wealth"),
 
             (try_begin),
-                (eq, ":tax_type", tax_type_funds),
+                (eq, ":tax_type", tax_type_tribute),
                 (faction_get_slot, ":budget", ":faction_no", slot_faction_budget_tribute),
                 (val_add, ":budget", ":amount"),
                 (faction_set_slot, ":faction_no", slot_faction_budget_tribute, ":budget"),
             (else_try),
-                (eq, ":tax_type", tax_type_funds_pay),
+                (eq, ":tax_type", tax_type_tribute_pay),
                 (faction_get_slot, ":budget", ":faction_no", slot_faction_budget_tribute_payment),
                 (val_add, ":budget", ":amount"),
                 (faction_set_slot, ":faction_no", slot_faction_budget_tribute_payment, ":budget"),
             (else_try),
-                (eq, ":tax_type", tax_type_tribute),
+                (eq, ":tax_type", tax_type_funds),
                 (faction_get_slot, ":budget", ":faction_no", slot_faction_budget_funds),
                 (val_add, ":budget", ":amount"),
                 (faction_set_slot, ":faction_no", slot_faction_budget_funds, ":budget"),
             (else_try),
-                (eq, ":tax_type", tax_type_tribute_pay),
+                (eq, ":tax_type", tax_type_funds_pay),
                 (faction_get_slot, ":budget", ":faction_no", slot_faction_budget_funds_payment),
                 (val_add, ":budget", ":amount"),
                 (faction_set_slot, ":faction_no", slot_faction_budget_funds_payment, ":budget"),
@@ -5824,9 +5831,9 @@ scripts = [
                 (faction_set_slot, ":fac_1", slot_faction_size, -1),
                 (faction_set_slot, ":fac_1", slot_faction_size_category, -1),
 
-                (faction_set_slot, ":fac_1", slot_faction_vassal_tax_rate, 5),
-                (faction_set_slot, ":fac_1", slot_faction_member_tax_rate, 2),
-                (faction_set_slot, ":fac_1", slot_faction_funds_tax_rate, 2),
+                (faction_set_slot, ":fac_1", slot_faction_vassal_tax_rate, faction_tax_rate_vassal_base),
+                (faction_set_slot, ":fac_1", slot_faction_member_tax_rate, faction_tax_rate_member_base),
+                (faction_set_slot, ":fac_1", slot_faction_funds_tax_rate, faction_tax_rate_funds_base),
 
                 (faction_set_slot, ":fac_1", slot_faction_wealth_shared_ratio, faction_wealth_shared_ratio),
                 
@@ -9560,9 +9567,6 @@ scripts = [
                     (neg|party_slot_eq, ":party_no", slot_party_type, spt_village),
                     (lt, ":wages", ":lower_limit"),
                     (call_script, "script_party_ask_reinforcements", ":party_no"),
-                    
-                    (store_mul, ":cost", reg1, -1),
-                    (call_script, "script_party_modify_wealth", ":party_no", ":cost"),
                 (try_end),
                 # (call_script, "script_party_add_troops_with_buildings", ":party_no"),
             (try_end),
@@ -9734,7 +9738,7 @@ scripts = [
             (store_script_param, ":party_no", 1),
 
             (call_script, "script_party_get_prefered_wages_limit", ":party_no"),
-            (assign, ":limit", reg1),
+            (assign, ":limit", reg0),
             (call_script, "script_party_get_wages", ":party_no"),
             (assign, ":wages", reg0),
 
@@ -13478,6 +13482,106 @@ scripts = [
                     (display_message, "@{s10} war damage change {reg10} -> {reg11}"),
                 (try_end),
             (try_end),
+        ]),
+
+    # script_reset_faction_politics
+        # input:
+        #   arg1: faction_no
+        # output: none
+    ("reset_faction_politics",
+        [
+            (store_script_param, ":faction_no", 1),
+
+            (try_begin),
+                (faction_slot_eq, ":faction_no", slot_faction_status, sfst_default),
+                (faction_get_slot, ":budget_tribute", ":faction_no", slot_faction_budget_tribute),
+                (faction_get_slot, ":budget_tribute_payment", ":faction_no", slot_faction_budget_tribute_payment),
+                (faction_get_slot, ":budget_funds", ":faction_no", slot_faction_budget_funds),
+                # (faction_get_slot, ":budget_funds_payment", ":faction_no", slot_faction_budget_funds_payment),
+
+                (faction_get_slot, ":wealth", ":faction_no", slot_faction_wealth),
+
+                (store_add, ":balance", ":budget_tribute", ":budget_tribute_payment"),
+                (val_add, ":balance", ":budget_funds"),
+                # (val_add, ":balance", ":budget_funds_payment"),
+
+                (faction_get_slot, ":funds_tax", ":faction_no", slot_faction_funds_tax_rate),
+
+                (faction_get_slot, ":at_war", ":faction_no", slot_faction_is_at_war),
+                (faction_get_slot, ":preparing_war", ":faction_no", slot_faction_preparing_war),
+
+                (val_max, ":at_war", ":preparing_war"),
+
+                (assign, ":average_additional_funds", 0),
+                (try_begin),
+                    (gt, ":funds_tax", 0),
+                    (store_div, ":average_additional_funds", ":budget_funds", ":funds_tax"),
+                (try_end),
+
+                (assign, ":new_target_tax", ":funds_tax"),
+
+                (try_begin),
+                    (eq, ":budget_tribute_payment", 0),
+                    # (neq, ":funds_tax", faction_tax_rate_funds_base),
+                    (try_begin),
+                        (gt, ":wealth", 0),
+                        (assign, ":new_target_tax", faction_tax_rate_funds_base),
+                    (else_try),
+                        (gt, ":at_war", 0),
+                        (assign, ":new_target_tax", faction_tax_rate_funds_base),
+                    (else_try),
+                        # Slowly reduce taxes
+                        (val_min, ":new_target_tax", 10),
+                        (val_sub, ":new_target_tax", 1),
+                        (val_max, ":new_target_tax", faction_tax_rate_funds_base),
+                    (try_end),
+                (else_try),
+                    (lt, ":balance", 0),
+                    (val_add, ":new_target_tax", 1),
+                (else_try),
+                    (ge, ":balance", 0),
+                    (store_sub, ":remaining_balance", ":balance", ":average_additional_funds"),
+                    (try_begin),
+                        (gt, ":remaining_balance", 0),
+                        (val_sub, ":new_target_tax", 1),
+                    (try_end),
+                (try_end),
+
+                (try_begin),
+                    (neq, ":new_target_tax", ":funds_tax"),
+                    (assign, ":new_tax", ":funds_tax"),
+                    (try_begin),
+                        (gt, ":new_target_tax", ":funds_tax"),
+                        (val_add, ":new_tax", 1),
+                    (else_try),
+                        (val_add, ":new_tax", -1),
+                    (try_end),
+
+                    (val_max, ":new_tax", faction_tax_rate_funds_min),
+                    (try_begin),
+                        (gt, ":at_war", 0),
+                        (val_min, ":new_tax", faction_tax_rate_funds_max_war),
+                    (else_try),
+                        (val_min, ":new_tax", faction_tax_rate_funds_max_peace),
+                    (try_end),
+
+                    (try_begin),
+                        (call_script, "script_cf_debug", debug_current|debug_economy),
+                        (str_store_faction_name, s10, ":faction_no"),
+                        (assign, reg10, ":funds_tax"),
+                        (assign, reg11, ":new_tax"),
+                        (assign, reg12, ":new_target_tax"),
+                        (display_message, "@{s10} set funds tax from {reg10} to {reg11} (target: {reg12})"),
+                    (try_end),
+                    (faction_set_slot, ":faction_no", slot_faction_funds_tax_rate, ":new_tax"),
+                (try_end),
+            (else_try),
+                (faction_set_slot, ":faction_no", slot_faction_funds_tax_rate, 0),
+            (try_end),
+            (faction_set_slot, ":faction_no", slot_faction_budget_tribute, 0),
+            (faction_set_slot, ":faction_no", slot_faction_budget_tribute_payment, 0),
+            (faction_set_slot, ":faction_no", slot_faction_budget_funds, 0),
+            (faction_set_slot, ":faction_no", slot_faction_budget_funds_payment, 0),
         ]),
 
     # script_faction_process_leader_selection
@@ -19783,6 +19887,7 @@ scripts = [
             (try_end),
 
             (faction_get_slot, ":faction_wealth", ":faction_no", slot_faction_wealth),
+            (assign, ":total_cost", 0),
 
             (try_begin),
                 (gt, ":faction_wealth", 0),
@@ -19839,9 +19944,11 @@ scripts = [
                         (display_message, "@{s10} shares {reg10} denars with {s11}", text_color_gold),
                     (try_end),
                     (call_script, "script_troop_add_accumulated_taxes", ":lord_no", ":received_wealth", tax_type_funds, 1),
-                    (val_sub, ":faction_wealth", ":received_wealth"),
+                    # (val_sub, ":faction_wealth", ":received_wealth"),
+                    (val_sub, ":total_cost", ":received_wealth"),
                 (try_end),
-                (faction_set_slot, ":faction_no", slot_faction_wealth, ":faction_wealth"),
+                (call_script, "script_faction_add_accumulated_taxes", ":faction_no", ":total_cost", tax_type_funds_pay),
+                # (faction_set_slot, ":faction_no", slot_faction_wealth, ":faction_wealth"),
             (try_end),
         ]),
 

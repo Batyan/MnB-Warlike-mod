@@ -440,6 +440,13 @@ faction_wealth_shared_ratio = 3
 faction_wealth_shared_min = 75 # minimum amount of wealth shared per lord in the faction
 faction_wealth_fiefless_share_multiplier = 10
 
+faction_tax_rate_funds_min = 0
+faction_tax_rate_funds_base = 2
+faction_tax_rate_funds_max_peace = 25
+faction_tax_rate_funds_max_war = 10
+faction_tax_rate_member_base = 2
+faction_tax_rate_vassal_base = 5
+
 ################
 ## Item Slots ##
 ################
