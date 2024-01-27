@@ -1,8 +1,23 @@
+v 0.440:
+	-New features:
+		* add kingdom funds and kingdom landless help
+		* factions release prisoners of allied factions
+		* auto sorting of parties
+	-Balance changes
+		* move khergit_clansman to small_kingdom_34 (from small_kingdom_35)
+		* add khergit_levy_horseman to small_kingdom_35
+		* change nord_heavy_infantry to elite
+		* reduce rhodok_levy_pikeman ironflesh (6 -> 4)
+	-Fixes
+		* fix empty parties remaining after manual battles
 v 0.430:
 	-New features:
 		* lords now appear directly inside centers to prevent capture on spawn
 		* add player party sorting
 		* set name for castle 33d and village 33d1
+		* add faction vassalage
+		* add faction defeat
+		* add toggle for faction color consolidation
 	-Balance changes:
 		The following changes aim to increase sarranid troops resilience
 		They still keep their high athletics / low hp focus
@@ -64,6 +79,7 @@ v 0.430:
 		* fix garrisons creating and giving troops to auxiliary parties (patrols, caravans) when besieged
 		* fix castle scene assignment
 		* prevents ais from falling from a few castle scenes
+		* fix incorrect siege battle outcome
 
 v 0.420:
 	-New features:

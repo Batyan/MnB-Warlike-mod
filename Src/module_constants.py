@@ -267,7 +267,7 @@ center_town_buildings_begin = "itm_building_slaver"
 center_town_buildings_end = center_buildings_end
 
 text_color_impossible = 0xc01010
-text_color_gold = 0x55eeee
+text_color_gold = 0xffdd55
 text_color_valid = 0x00ee55
 text_color_info = 0x5555ff
 text_color_capture = 0xDD2200
@@ -366,11 +366,16 @@ tax_type_population = 0
 tax_type_protection = 1
 tax_type_protection_pay = 2
 tax_type_vassal = 3
-tax_type_member = 4
-tax_type_vassal_pay = 5
+tax_type_vassal_pay = 4
+tax_type_member = 5
 tax_type_member_pay = 6
 tax_type_trade = 7
 tax_type_visitor = 8
+tax_type_funds = 9
+tax_type_funds_pay = 10
+tax_type_tribute = 11
+tax_type_tribute_pay = 12
+tax_type_occupation = 13
 
 caravan_max_cargo_size = 60
 
@@ -431,6 +436,17 @@ base_hero_value_none = 100000
 
 base_hero_value_vassals_percentage = 15
 base_hero_value_renown_multiplier = 10
+
+faction_wealth_shared_ratio = 3
+faction_wealth_shared_min = 10 # minimum amount of wealth shared per lord in the faction
+faction_wealth_fiefless_share_multiplier = 10
+
+faction_tax_rate_funds_min = 0
+faction_tax_rate_funds_base = 2
+faction_tax_rate_funds_max_peace = 25
+faction_tax_rate_funds_max_war = 10
+faction_tax_rate_member_base = 2
+faction_tax_rate_vassal_base = 5
 
 ################
 ## Item Slots ##
@@ -655,8 +671,9 @@ slot_faction_mission_focus_20 = slot_faction_mission_focus_19 + 1
 
 slot_faction_vassal_tax_rate = slot_faction_mission_focus_20 + 1
 slot_faction_member_tax_rate = slot_faction_vassal_tax_rate + 1
+slot_faction_funds_tax_rate = slot_faction_member_tax_rate + 1
 
-slot_faction_status = slot_faction_member_tax_rate + 1
+slot_faction_status = slot_faction_funds_tax_rate + 1
 sfst_default = 0
 sfst_disabled = -1
 
@@ -727,6 +744,7 @@ sfkt_vassal = 0x1000 	# represents being a vassal of targeted faction
 sfkt_overlord = 0x2000 	# represents being the overlord of targeted faction
 
 sfkt_vassal_treaty_clear = 0x00FF
+sfkt_tribute_treaty_clear = 0xF0FF
 
 sfkt_all_treaty_clear = 0x0000
 
@@ -744,6 +762,15 @@ faction_distance_close = 60
 faction_distance_far = 150
 
 slot_faction_wealth = slot_faction_kingdom_distance_end + 1
+slot_faction_accumulated_taxes = slot_faction_wealth + 1
+slot_faction_last_share_amount = slot_faction_accumulated_taxes + 1
+
+slot_faction_budget_tribute = slot_faction_last_share_amount + 1
+slot_faction_budget_tribute_payment = slot_faction_budget_tribute + 1
+slot_faction_budget_funds = slot_faction_budget_tribute_payment + 1
+slot_faction_budget_funds_payment = slot_faction_budget_funds + 1
+
+slot_faction_wealth_shared_ratio = slot_faction_budget_funds_payment + 1
 
 #######################
 ## War Storage Slots ##
@@ -798,6 +825,8 @@ slot_war_peace_proposal_type_begin = slot_war_peace_proposal_object_end + 1
 slot_war_peace_proposal_type_end = slot_war_peace_proposal_type_begin + num_peace_proposal
 slot_war_peace_proposal_target_begin = slot_war_peace_proposal_type_end + 1
 slot_war_peace_proposal_target_end = slot_war_peace_proposal_target_begin + num_peace_proposal
+slot_war_peace_proposal_value_begin = slot_war_peace_proposal_target_end + 1
+slot_war_peace_proposal_value_end = slot_war_peace_proposal_value_begin + num_peace_proposal
 
 # slot_war_kingdom_participation_score_begin = slot_war_kingdom_willingness_end
 # slot_war_kingdom_participation_score_end = slot_war_kingdom_participation_score_begin - kingdoms_begin + kingdoms_end
@@ -1248,14 +1277,15 @@ slot_troop_accumulated_taxes = 63
 
 slot_troop_budget_vassal_taxes = 64
 slot_troop_budget_faction_member_taxes = 65
+slot_troop_budget_faction_funds = slot_troop_budget_faction_member_taxes + 1
 
-slot_troop_budget_reserved_party = 66
-slot_troop_budget_reserved_other = 67
+slot_troop_budget_reserved_party = slot_troop_budget_faction_funds + 1
+slot_troop_budget_reserved_other = slot_troop_budget_reserved_party + 1
 
-slot_troop_budget_debt = 68
-slot_troop_budget_perceived_debt = 69
+slot_troop_budget_debt = slot_troop_budget_reserved_other + 1
+slot_troop_budget_perceived_debt = slot_troop_budget_debt + 1
 
-slot_troop_last_met 				= 70
+slot_troop_last_met 				= slot_troop_budget_perceived_debt + 1
 
 slot_troop_relations_begin = 400
 

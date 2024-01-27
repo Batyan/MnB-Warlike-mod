@@ -220,7 +220,7 @@ game_menus = [
 
             ("camp_sort_troops", [], "Sort player party",
                 [
-                    (call_script, "script_party_sort_troops", "$g_player_party"),
+                    (call_script, "script_party_sort_troops", "$g_player_party", 50),
                     (display_message, "@Party sorted"),
                     (jump_to_menu, "mnu_camp"),
                 ]),
@@ -1242,6 +1242,7 @@ game_menus = [
                 [
                     (assign, "$g_enemy", "$g_encountered_party"),
                     (assign, "$g_player_team", 1),
+                    (assign, "$g_clear_battles", 0),
                     (try_for_parties, ":party_no"),
                         (call_script, "script_cf_party_join_battle", ":party_no", "$g_encountered_party", "$g_player_party"),
                         (assign, ":continue", reg0),
@@ -1315,6 +1316,7 @@ game_menus = [
                     (select_enemy, 1),
                     (assign, "$g_enemy", "$g_encountered_party_2"),
                     (assign, "$g_player_team", 0),
+                    (assign, "$g_clear_battles", 1),
                     (jump_to_menu, "mnu_encounter_battle_siege"),
                 ]),
             
@@ -1325,6 +1327,7 @@ game_menus = [
                     (select_enemy, 0),
                     (assign, "$g_enemy", "$g_encountered_party"),
                     (assign, "$g_player_team", 1),
+                    (assign, "$g_clear_battles", 1),
                     (jump_to_menu, "mnu_encounter_battle_siege"),
                 ]),
             
@@ -1381,6 +1384,7 @@ game_menus = [
                     # (try_end),
                     # (store_sub, ":enemy_team", 1, "$g_player_team"),
                     (assign, "$g_enemy", "$g_encountered_party"),
+                    (assign, "$g_clear_battles", 0),
                     (try_for_parties, ":party_no"),
                         (call_script, "script_cf_party_join_battle", ":party_no", "$g_encountered_party", "$g_player_party"),
                         (assign, ":continue", reg0),
@@ -1424,13 +1428,13 @@ game_menus = [
         ]),
     
     ("double_encounter", mnf_scale_picture,
-        "Double encounter, not supposed to work yet",
+        "Double encounter",
         "none",
         [
             # (set_background_mesh, "mesh_pic_camp"),
         ],
         [
-            ("encounter_meet_leader", 
+            ("encounter_meet_leader",
                 [
                     (party_stack_get_troop_id, ":troop_no", "$g_encountered_party", 0),
                     (str_store_troop_name, s10, ":troop_no"),], "Meet {s10}",
@@ -1439,7 +1443,7 @@ game_menus = [
                     (call_script, "script_setup_party_meeting", "$g_encountered_party"),
                 ]),
             
-            ("encounter_meet_leader_2", 
+            ("encounter_meet_leader_2",
                 [
                     (party_stack_get_troop_id, ":troop_no", "$g_encountered_party_2", 0),
                     (str_store_troop_name, s10, ":troop_no"),], "Meet {s10}",
@@ -1448,7 +1452,7 @@ game_menus = [
                     (call_script, "script_setup_party_meeting", "$g_encountered_party_2"),
                 ]),
             
-            ("encounter_attack", 
+            ("encounter_attack",
                 [
                     (str_store_party_name, s10, "$g_encountered_party"),
                     (str_store_party_name, s12, "$g_encountered_party_2"),
@@ -1461,6 +1465,7 @@ game_menus = [
                     # Preparation
                     (assign, "$g_enemy", "$g_encountered_party"),
                     (assign, "$g_player_team", 1),
+                    (assign, "$g_clear_battles", 1),
                     (select_enemy, 0),
                     
                     (try_for_parties, ":party_no"),
@@ -1480,7 +1485,7 @@ game_menus = [
                     (jump_to_menu, "mnu_encounter_battle"),
                 ]),
             
-            ("encounter_attack_2", 
+            ("encounter_attack_2",
                 [
                     (str_store_party_name, s10, "$g_encountered_party_2"),
                     (str_store_party_name, s12, "$g_encountered_party"),
@@ -1493,6 +1498,7 @@ game_menus = [
                     # Preparation
                     (assign, "$g_enemy", "$g_encountered_party_2"),
                     (assign, "$g_player_team", 0),
+                    (assign, "$g_clear_battles", 1),
                     (select_enemy, 1),
                     
                     (try_for_parties, ":party_no"),
@@ -1655,6 +1661,8 @@ game_menus = [
             ("defeat_taken_prisoner", [(eq, "$g_battle_result", -1),(lt, reg20, 4),],
                 "You are taken prisoner by your oppenents", [
                     (call_script, "script_party_take_player_party_prisoner", "$g_enemy"),
+
+                    (leave_encounter),
                     (change_screen_return),
                 ]),
 
@@ -1687,6 +1695,12 @@ game_menus = [
                     # ToDo: reduce relation with faction and slightly with looted lords
                     (call_script, "script_party_group_defeat_party_group", "$g_player_party", "$g_enemy"),
 
+                    (try_begin),
+                        (eq, "$g_clear_battles", 1),
+                        (party_leave_cur_battle, "$g_player_party"),
+                    (try_end),
+                    
+                    (leave_encounter),
                     (change_screen_return),
                 ]),
             
@@ -1724,16 +1738,29 @@ game_menus = [
                     # ToDo: slightly increase relation with faction
                     (call_script, "script_party_group_defeat_party_group", "$g_player_party", "$g_enemy"),
 
+                    (try_begin),
+                        (eq, "$g_clear_battles", 1),
+                        (party_leave_cur_battle, "$g_player_party"),
+                    (try_end),
+
+                    (leave_encounter),
                     (change_screen_return),
                 ]),
             ("leave", [(eq, "$g_battle_result", 1), (eq, "$g_looted_enemies", 1),], "Leave the battlefield",
                 [
                     (call_script, "script_party_group_defeat_party_group", "$g_player_party", "$g_enemy"),
 
+                    (try_begin),
+                        (eq, "$g_clear_battles", 1),
+                        (party_leave_cur_battle, "$g_player_party"),
+                    (try_end),
+
+                    (leave_encounter),
                     (change_screen_return),
                 ]),
             ("error_leave", [(neq, "$g_battle_result", 1),(neq, "$g_battle_result", -1),], "Error! Leave the battle",
                 [
+                    (leave_encounter),
                     (change_screen_return),
                 ]),
         ]),
