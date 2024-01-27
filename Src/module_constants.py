@@ -375,6 +375,7 @@ tax_type_funds = 9
 tax_type_funds_pay = 10
 tax_type_tribute = 11
 tax_type_tribute_pay = 12
+tax_type_occupation = 13
 
 caravan_max_cargo_size = 60
 
@@ -437,7 +438,7 @@ base_hero_value_vassals_percentage = 15
 base_hero_value_renown_multiplier = 10
 
 faction_wealth_shared_ratio = 3
-faction_wealth_shared_min = 75 # minimum amount of wealth shared per lord in the faction
+faction_wealth_shared_min = 10 # minimum amount of wealth shared per lord in the faction
 faction_wealth_fiefless_share_multiplier = 10
 
 faction_tax_rate_funds_min = 0
