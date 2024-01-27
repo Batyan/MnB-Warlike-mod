@@ -60,6 +60,9 @@
 		Faction taxes
 		Faction support funds
 		Faction tributes
+	0.450: Faction allies
+		Faction alliances
+		Faction willing vassal
 0.500: Party ai
 	Better party ai
 	0.510: Cooperation
