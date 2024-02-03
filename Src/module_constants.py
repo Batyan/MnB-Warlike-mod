@@ -758,8 +758,8 @@ slot_faction_kingdom_distance_end = slot_faction_kingdom_distance_begin - kingdo
 # slot_faction_kingdom_treaty_expiration_begin = slot_faction_kingdom_distance_end
 # slot_faction_kingdom_treaty_expiration_end = slot_faction_kingdom_treaty_expiration_begin - kingdoms_begin + kingdoms_end
 
-faction_distance_close = 60
-faction_distance_far = 150
+faction_distance_close = 25
+faction_distance_far = 100
 
 slot_faction_wealth = slot_faction_kingdom_distance_end + 1
 slot_faction_accumulated_taxes = slot_faction_wealth + 1

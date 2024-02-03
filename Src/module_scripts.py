@@ -6607,7 +6607,8 @@ scripts = [
             (store_script_param, ":faction_no", 1),
 
             (faction_get_slot, ":vassal_type", ":faction_no", slot_faction_vassal_type),
-            (neq, ":vassal_type", sfvt_vassal),
+            (store_and, ":is_vassal", ":vassal_type", sfvt_vassal),
+            (neq, ":is_vassal", sfvt_vassal),
 
             (faction_get_slot, ":num_fiefs", ":faction_no", slot_faction_num_fiefs),
             (faction_get_slot, ":num_vassals_active", ":faction_no", slot_faction_num_vassals_active),
@@ -14065,22 +14066,20 @@ scripts = [
                 (faction_get_slot, ":distance", ":faction_no", ":distance_slot"),
                 (store_sub, ":distance_base", ":distance", faction_distance_close),
 
-                (store_mul, ":distance_substracter", ":distance_base", 50),
-                (store_div, ":distance_substracter", ":distance_base", ":distance_divider"),
+                (store_mul, ":distance_substracter", ":distance_base", 100),
+                (val_div, ":distance_substracter", ":distance_divider"),
 
                 (store_sub, ":distance_ratio", 100, ":distance_substracter"),
 
                 (try_begin),
-                    (gt, ":distance", faction_distance_far),
-                    (val_div, ":other_strength_active", 2),
-                    (val_div, ":other_strength_ready", 2),
-                (else_try),
-                    (gt, ":distance", faction_distance_close),
-                    (store_mul, ":other_strength_active", ":distance_ratio"),
-                    (store_mul, ":other_strength_ready", ":distance_ratio"),
+                    (val_mul, ":other_strength_active", ":distance_ratio"),
+                    (val_mul, ":other_strength_ready", ":distance_ratio"),
 
                     (val_div, ":other_strength_active", 100),
                     (val_div, ":other_strength_ready", 100),
+
+                    (val_max, ":other_strength_active", 0),
+                    (val_max, ":other_strength_ready", 0),
                 (try_end),
 
                 (call_script, "script_faction_get_relation_with_faction", ":faction_no", ":other_faction"),
@@ -14127,11 +14126,13 @@ scripts = [
                 (else_try),
                     (gt, ":non_aggression", 0),
                 (else_try),
-                    (lt, ":relation", relation_neutral),
+                    (lt, ":relation", relation_friendly),
                     (store_mul, ":mult", ":relation", -1),
                     (val_add, ":mult", 50),
-                    (val_max, ":mult", 50),
-                    (val_min, ":mult", 100),
+                    (val_max, ":mult", 10),
+                    (val_min, ":mult", 150),
+                    (val_mul, ":mult", 2),
+                    (val_div, ":mult", 3),
 
                     (store_mul, ":added_strength", ":other_strength_active", ":mult"),
                     (val_div, ":added_strength", 100),
