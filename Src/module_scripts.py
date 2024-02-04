@@ -3340,6 +3340,8 @@ scripts = [
             
             (party_set_slot, ":party_no", slot_party_besieged_by, -1),
 
+            (party_set_slot, ":party_no", slot_party_autosort_options, autosort_low_level_first|autosort_foreign_first),
+
             (party_get_slot, ":party_type", ":party_no", slot_party_type),
             (try_begin),
                 (eq, ":party_type", spt_village),
