@@ -218,11 +218,9 @@ game_menus = [
                     # (jump_to_menu, "mnu_levy_train"),
                 ]),
 
-            ("camp_sort_troops", [], "Sort player party",
+            ("camp_autosort_options", [], "Autosort options",
                 [
-                    (call_script, "script_party_sort_troops", "$g_player_party", 50),
-                    (display_message, "@Party sorted"),
-                    (jump_to_menu, "mnu_camp"),
+                    (jump_to_menu, "mnu_settings_autosort"),
                 ]),
             
             ("resume_travelling",[], "Dismantle camp",
@@ -714,6 +712,90 @@ game_menus = [
                 ]),
 
             ("join_back", [], "Back to camp",
+                [
+                    (jump_to_menu, "mnu_camp"),
+                ]),
+        ]),
+
+    ("settings_autosort",mnf_scale_picture,
+        "Customize the way autosort works",
+        "none", [],
+        [
+            ("autosort_level", 
+                [
+                    (party_get_slot, ":autosort_options", "$g_player_party", slot_party_autosort_options),
+                    (store_and, ":autosort_level", ":autosort_options", autosort_level_flag),
+
+                    (try_begin),
+                        (eq, ":autosort_level", autosort_low_level_first),
+                        (str_store_string, s11, "@Low level troops first"),
+                    (else_try),
+                        (eq, ":autosort_level", autosort_high_level_first),
+                        (str_store_string, s11, "@High level troops first"),
+                    (else_try),
+                        (str_store_string, s11, "@No level sorting"),
+                    (try_end),
+                ], "Set autosort level options: {s11}",
+                [
+                    (party_get_slot, ":autosort_options", "$g_player_party", slot_party_autosort_options),
+                    (store_and, ":autosort_level", ":autosort_options", autosort_level_flag),
+
+                    (assign, ":level_options", autosort_no_sort),
+                    (try_begin),
+                        (eq, ":autosort_level", autosort_low_level_first),
+                        (assign, ":level_options", autosort_high_level_first),
+                    (else_try),
+                        (eq, ":autosort_level", autosort_high_level_first),
+                        (assign, ":level_options", autosort_no_sort),
+                    (else_try),
+                        (assign, ":level_options", autosort_low_level_first),
+                    (try_end),
+
+                    (store_and, ":new_options", ":autosort_options", autosort_level_clearer),
+                    (val_or, ":new_options", ":level_options"),
+
+                    (party_set_slot, "$g_player_party", slot_party_autosort_options, ":new_options"),
+
+                    (jump_to_menu, "mnu_settings_autosort"),
+                ]),
+            ("autosort_culture",
+                [
+                    (party_get_slot, ":autosort_options", "$g_player_party", slot_party_autosort_options),
+                    (store_and, ":autosort_culture", ":autosort_options", autosort_culture_flag),
+
+                    (try_begin),
+                        (eq, ":autosort_culture", autosort_foreign_first),
+                        (str_store_string, s12, "@Foreign troops first"),
+                    (else_try),
+                        (eq, ":autosort_culture", autosort_local_first),
+                        (str_store_string, s12, "@Local troops first"),
+                    (else_try),
+                        (str_store_string, s12, "@No culture sorting"),
+                    (try_end),
+                ], "Set autosort culture options: {s12}",
+                [
+                    (party_get_slot, ":autosort_options", "$g_player_party", slot_party_autosort_options),
+                    (store_and, ":autosort_culture", ":autosort_options", autosort_culture_flag),
+
+                    (assign, ":culture_options", autosort_no_sort),
+                    (try_begin),
+                        (eq, ":autosort_culture", autosort_foreign_first),
+                        (assign, ":culture_options", autosort_local_first),
+                    (else_try),
+                        (eq, ":autosort_culture", autosort_local_first),
+                        (assign, ":culture_options", autosort_no_sort),
+                    (else_try),
+                        (assign, ":culture_options", autosort_foreign_first),
+                    (try_end),
+
+                    (store_and, ":new_options", ":autosort_options", autosort_culture_clearer),
+                    (val_or, ":new_options", ":culture_options"),
+
+                    (party_set_slot, "$g_player_party", slot_party_autosort_options, ":new_options"),
+
+                    (jump_to_menu, "mnu_settings_autosort"),
+                ]),
+            ("autosort_back", [], "Back to camp",
                 [
                     (jump_to_menu, "mnu_camp"),
                 ]),

@@ -28,6 +28,7 @@ scripts = [
             (assign, "$g_player_troop", "trp_player"),
             (assign, "$g_player_party", "p_main_party"),
             (party_set_slot, "$g_player_party", slot_party_type, spt_war_party),
+            (party_set_slot, "$g_player_party", slot_party_autosort_options, autosort_low_level_first|autosort_foreign_first),
 
             # (party_set_slot, "$g_player_party", slot_party_type, spt_war_party),
             
@@ -8303,6 +8304,8 @@ scripts = [
             
             (party_set_slot, ":party", slot_party_type, spt_war_party),
             (party_set_slot, ":party", slot_party_wages_cache, 0),
+
+            (party_set_slot, ":party", slot_party_autosort_options, autosort_low_level_first|autosort_foreign_first),
             
             (call_script, "script_party_set_behavior", ":party", tai_traveling_to_party, ":center_no"),
             (call_script, "script_party_process_mission", ":party", 1),
@@ -18522,6 +18525,8 @@ scripts = [
             (party_set_slot, ":spawned_party", slot_party_type, spt_patrol),
             (party_set_slot, ":spawned_party", slot_party_linked_party, ":party_no"),
 
+            (party_set_slot, ":spawned_party", slot_party_autosort_options, autosort_low_level_first|autosort_foreign_first),
+
             (call_script, "script_get_current_day"),
             (assign, ":current_day", reg0),
             (party_set_slot, ":spawned_party", slot_party_last_rest, ":current_day"),
@@ -18586,6 +18591,8 @@ scripts = [
             (party_set_slot, ":spawned_party", slot_party_type, spt_caravan),
             (party_set_slot, ":spawned_party", slot_party_linked_party, ":party_no"),
             (party_set_slot, ":spawned_party", slot_party_mission_object, -1),
+
+            (party_set_slot, ":spawned_party", slot_party_autosort_options, autosort_no_sort),
 
             (party_set_aggressiveness, ":spawned_party", 0),
 
@@ -19581,29 +19588,34 @@ scripts = [
         [
             (store_script_param, ":party_no", 1),
 
-            (assign, ":has_changed", 0),
+            (party_get_slot, ":autosort_options", ":party_no", slot_party_autosort_options),
+            (try_begin),
+                (neq, ":autosort_options", autosort_no_sort),
 
-            (party_get_num_companion_stacks, ":num_stacks", ":party_no"),
-            (try_for_range_backwards, ":stack", 1, ":num_stacks"),
-                (party_stack_get_troop_id, ":troop_id", ":party_no", ":stack"),
+                (assign, ":has_changed", 0),
 
-                (store_sub, ":previous_stack", ":stack", 1),
-                (party_stack_get_troop_id, ":previous_troop_id", ":party_no", ":previous_stack"),
-                (neg|troop_is_hero, ":previous_troop_id"),
+                (party_get_num_companion_stacks, ":num_stacks", ":party_no"),
+                (try_for_range_backwards, ":stack", 1, ":num_stacks"),
+                    (party_stack_get_troop_id, ":troop_id", ":party_no", ":stack"),
 
-                (call_script, "script_troop_get_party_sort_score", ":troop_id", ":party_no"),
-                (assign, ":troop_level", reg0),
-                (call_script, "script_troop_get_party_sort_score", ":previous_troop_id", ":party_no"),
-                (assign, ":previous_troop_level", reg0),
+                    (store_sub, ":previous_stack", ":stack", 1),
+                    (party_stack_get_troop_id, ":previous_troop_id", ":party_no", ":previous_stack"),
+                    (neg|troop_is_hero, ":previous_troop_id"),
 
-                (this_or_next|troop_is_hero, ":troop_id"),
-                (gt, ":previous_troop_level", ":troop_level"),
-                (party_stack_get_size, ":previous_size", ":party_no", ":previous_stack"),
-                (party_stack_get_num_wounded, ":previous_wounded", ":party_no", ":previous_stack"),
-                (party_remove_members, ":party_no", ":previous_troop_id", ":previous_size"),
-                (party_add_members, ":party_no", ":previous_troop_id", ":previous_size"),
-                (party_wound_members, ":party_no", ":previous_troop_id", ":previous_wounded"),
-                (assign, ":has_changed", 1),
+                    (call_script, "script_troop_get_party_sort_score", ":troop_id", ":party_no"),
+                    (assign, ":troop_score", reg0),
+                    (call_script, "script_troop_get_party_sort_score", ":previous_troop_id", ":party_no"),
+                    (assign, ":previous_troop_score", reg0),
+
+                    (this_or_next|troop_is_hero, ":troop_id"),
+                    (gt, ":previous_troop_score", ":troop_score"),
+                    (party_stack_get_size, ":previous_size", ":party_no", ":previous_stack"),
+                    (party_stack_get_num_wounded, ":previous_wounded", ":party_no", ":previous_stack"),
+                    (party_remove_members, ":party_no", ":previous_troop_id", ":previous_size"),
+                    (party_add_members, ":party_no", ":previous_troop_id", ":previous_size"),
+                    (party_wound_members, ":party_no", ":previous_troop_id", ":previous_wounded"),
+                    (assign, ":has_changed", 1),
+                (try_end),
             (try_end),
 
             (assign, reg0, ":has_changed"),
@@ -19620,19 +19632,43 @@ scripts = [
             (store_script_param, ":troop_no", 1),
             (store_script_param, ":party_no", 2),
 
-            (store_character_level, ":score", ":troop_no"),
+            (assign, ":score", 0),
+
+            (party_get_slot, ":autosort_options", ":party_no", slot_party_autosort_options),
+            (store_and, ":autosort_level", ":autosort_options", autosort_level_flag),
+            (store_and, ":autosort_culture", ":autosort_options", autosort_culture_flag),
+            (try_begin),
+                (eq, ":autosort_level", autosort_low_level_first),
+                (store_character_level, ":score", ":troop_no"),
+            (else_try),
+                (eq, ":autosort_level", autosort_high_level_first),
+                (store_character_level, ":level", ":troop_no"),
+                (store_sub, ":score", 100, ":level"),
+            (try_end),
 
             (store_troop_faction, ":troop_faction", ":troop_no"),
             (store_faction_of_party, ":party_faction", ":party_no"),
 
+            (assign, ":same_culture", 0),
+
             (try_begin),
                 (eq, ":troop_faction", ":party_faction"),
-                (val_add, ":score", 100),
+                (assign, ":same_culture", 1),
             (else_try),
                 (faction_get_slot, ":troop_culture", ":troop_faction", slot_faction_culture),
                 (faction_get_slot, ":party_culture", ":party_faction", slot_faction_culture),
                 (gt, ":troop_culture", 0),
                 (eq, ":troop_culture", ":party_culture"),
+                (assign, ":same_culture", 1),
+            (try_end),
+
+            (try_begin),
+                (eq, ":autosort_culture", autosort_foreign_first),
+                (eq, ":same_culture", 1),
+                (val_add, ":score", 100),
+            (else_try),
+                (eq, ":autosort_culture", autosort_local_first),
+                (eq, ":same_culture", 0),
                 (val_add, ":score", 100),
             (try_end),
 
@@ -19964,7 +20000,7 @@ scripts = [
                     (try_end),
                     (store_mul, ":received_wealth", ":received_shares", ":wealth_shared_part"),
                     (try_begin),
-                        (call_script, "script_cf_debug", debug_economy|debug_current),
+                        (call_script, "script_cf_debug", debug_economy),
                         (str_store_faction_name, s10, ":faction_no"),
                         (str_store_troop_name, s11, ":lord_no"),
                         (assign, reg10, ":received_wealth"),

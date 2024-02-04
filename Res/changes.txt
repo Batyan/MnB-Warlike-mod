@@ -1,5 +1,6 @@
 v0.450:
 	-New features:
+		* add autosort options
 	-Balance changes
 	-Fixes
 

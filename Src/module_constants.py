@@ -1076,6 +1076,19 @@ slot_party_item_stored_price_end 	= slot_party_item_consumed_end
 
 slot_party_temporary_data = slot_party_item_stored_price_end + 1
 
+slot_party_autosort_options = slot_party_temporary_data + 1
+
+autosort_no_sort = 0x00
+autosort_low_level_first = 0x01
+autosort_high_level_first = 0x02
+autosort_foreign_first = 0x10
+autosort_local_first = 0x20
+
+autosort_level_flag = 0x0F
+autosort_culture_flag = 0xF0
+autosort_level_clearer = 0xF0
+autosort_culture_clearer = 0x0F
+
 
 #################
 ## Scene Slots ##
