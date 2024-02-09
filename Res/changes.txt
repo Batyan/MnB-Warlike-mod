@@ -3,6 +3,8 @@ v0.450:
 		* add autosort options
 	-Balance changes
 	-Fixes
+		* fix incorrect strength calculations for skirmishers in auto battles
+		* fix display error in troop recruit presentation when a hero npc is present in the center
 
 v 0.440:
 	-New features:
