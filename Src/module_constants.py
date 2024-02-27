@@ -376,6 +376,7 @@ tax_type_funds_pay = 10
 tax_type_tribute = 11
 tax_type_tribute_pay = 12
 tax_type_occupation = 13
+tax_type_expenses = 14
 
 caravan_max_cargo_size = 60
 
@@ -727,14 +728,15 @@ sfkt_non_agression = 0x0002
 sfkt_defensive_alliance = 0x0004
 sfkt_alliance = 0x0008
 
-sfkt_military_treaty_clear = 0xF0F0
+sfkt_military_treaty_mask = 0x000F
+sfkt_military_treaty_clear = 0xFFF0
 
 # Economic treaties
 sfkt_open_trade = 0x0010
 sfkt_trade_preference = 0x0020
 sfkt_trade_exclusivity = 0x0040
 
-sfkt_economic_treaty_clear = 0xF00F
+sfkt_economic_treaty_clear = 0xFF0F
 
 # Temporary treaties
 sfkt_tribute = 0x0100
