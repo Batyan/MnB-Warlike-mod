@@ -3025,7 +3025,7 @@ troops = [
    [itm_sword_viking_3, itm_sword_viking_3_small, itm_sword_viking_3_long, itm_one_handed_battle_axe_b, itm_one_handed_battle_axe_c, itm_tab_shield_round_e,itm_tab_shield_round_e_plain_1,itm_tab_shield_round_e_plain_2,
     itm_mail_boots, itm_iron_greaves, itm_gauntlets, itm_mail_mittens,
     itm_banded_armor, itm_cuir_bouilli,
-    itm_nordic_helmet, itm_nordic_huscarl_helmet, itm_nordic_warlord_helmet,
+    itm_nordic_huscarl_helmet, itm_nordic_warlord_helmet,
     ],
    str_23|agi_21|int_12|cha_17|level(50), wpex(145,110,105,70,30,90), knows_common|knows_ironflesh_8|knows_power_strike_6|knows_power_throw_3|knows_power_draw_3|knows_athletics_6|knows_riding_3|knows_shield_1|knows_horse_archery_1, nord_face_young_1, nord_face_old_2 ],
   
