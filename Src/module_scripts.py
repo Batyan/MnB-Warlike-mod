@@ -6628,6 +6628,8 @@ scripts = [
             (val_max, ":safety_difference", 0),
             (store_sub, ":min_war_damage", 20, ":safety_difference"),
 
+            (faction_get_slot, ":safety", ":faction_no", slot_faction_safety),
+
             (try_begin),
                 (call_script, "script_cf_debug", debug_war),
                 (str_store_faction_name, s10, ":faction_no"),
@@ -6635,11 +6637,13 @@ scripts = [
                 (assign, reg11, ":num_vassals_active"),
                 (assign, reg12, ":war_damage"),
                 (assign, reg13, ":min_war_damage"),
-                (display_message, "@{s10} checks for want_war {reg11}>{reg10} - {reg12}<{reg13}"),
+                (assign, reg14, ":safety"),
+                (display_message, "@{s10} checks for want_war {reg11}>{reg10} - {reg12}<{reg13} - {reg14}>25"),
             (try_end),
 
             (lt, ":war_damage", ":min_war_damage"),
             (gt, ":num_vassals_active", ":threshold"),
+            (gt, ":safety", 25),
 
 
         ]),
@@ -13882,7 +13886,24 @@ scripts = [
                     (faction_get_slot, ":preparing_war", ":faction_no", slot_faction_preparing_war),
                     (try_begin),
                         (eq, ":preparing_war", ":want_war"),
-                        (call_script, "script_faction_declare_war_to_faction", ":faction_no", ":want_war", -1),
+                        (try_begin),
+                            (call_script, "script_cf_faction_want_vassal", ":faction_no", ":want_war"),
+
+                            (call_script, "script_faction_get_treaty_score", ":want_war", sfkt_overlord, ":faction_no", -1),
+                            (gt, reg0, 0),
+                            (call_script, "script_faction_create_vassal", ":faction_no", ":want_war", sfvt_default_vassal_type),
+
+                            (call_script, "script_faction_relation_change_event", ":want_war", ":faction_no", relation_change_submit),
+
+                            (try_begin),
+                                (call_script, "script_cf_debug", debug_current),
+                                (str_store_faction_name, s10, ":faction_no"),
+                                (str_store_faction_name, s11, ":want_war"),
+                                (display_message, "@{s10} vassalize {s11} under threat of war", text_color_war),
+                            (try_end),
+                        (else_try),
+                            (call_script, "script_faction_declare_war_to_faction", ":faction_no", ":want_war", -1),
+                        (try_end),
                     (else_try),
                         (neq, ":preparing_war", ":want_war"),
                         (is_between, ":preparing_war", kingdoms_begin, kingdoms_end),
@@ -15029,6 +15050,21 @@ scripts = [
 
                 (assign, reg0, 0),
                 (assign, reg1, 0),
+            (else_try),
+                (eq, ":treaty_type", sfkt_overlord),
+                # Become vassal of the target
+                (faction_get_slot, ":own_strength", ":faction_no", slot_faction_strength_defensive_allies),
+                (faction_get_slot, ":target_strength", ":treaty_target", slot_faction_strength_offensive_allies),
+
+                (store_div, ":min_strength", ":target_strength", 20),
+                (gt, ":min_strength", ":own_strength"),
+
+                (faction_get_slot, ":own_wars", ":faction_no", slot_faction_is_at_war),
+                (eq, ":own_wars", 0),
+
+                (assign, reg0, 1),
+                (assign, reg1, 0),
+
             (else_try),
                 (assign, reg0, 1),
                 (assign, reg1, 1),
@@ -16690,7 +16726,7 @@ scripts = [
             (call_script, "script_faction_set_treaty", ":faction_1", ":faction_2", ":treaty_type"),
 
             (try_begin),
-                (call_script, "script_cf_debug", debug_faction),
+                (call_script, "script_cf_debug", debug_faction|debug_current),
                 (str_store_faction_name, s10, ":faction_1"),
                 (str_store_faction_name, s11, ":faction_2"),
                 (assign, reg10, ":treaty_type"),
@@ -16776,7 +16812,10 @@ scripts = [
             (faction_set_slot, ":vassal", slot_faction_vassal_type, ":vassal_type"),
             (call_script, "script_faction_create_treaty", ":vassal", ":overlord", sfkt_vassal),
             
+            # (try_begin),
+                # (is_between, ":war_storage", war_storages_begin, war_storages_end),
             (call_script, "script_faction_remove_wars", ":vassal", ":war_storage"),
+            # (try_end),
 
             (call_script, "script_faction_remove_vassal_treaties", ":vassal"),
 
@@ -20014,6 +20053,7 @@ scripts = [
             # (assign, ":num_tries", 50),
             (try_begin),
                 (call_script, "script_cf_party_can_sort_troops", ":party_no"),
+
                 (try_for_range, ":unused", 0, ":num_tries"),
                     (call_script, "script_party_sort_troops_step", ":party_no"),
                     (assign, ":has_changed", reg0),

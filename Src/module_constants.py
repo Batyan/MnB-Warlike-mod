@@ -253,8 +253,9 @@ relation_change_factor = 20
 
 relation_change_center_freed = 32
 relation_change_vassal_freed = 8
-relation_change_war_declared = -500
-relation_change_joined_war = 100
+relation_change_war_declared = relation_change_factor * -25
+relation_change_joined_war = relation_change_factor * 5
+relation_change_submit = relation_change_factor * -50
 
 center_buildings_begin = "itm_building_hunter_camp"
 center_buildings_end = "itm_buildings_end"
