@@ -1067,18 +1067,7 @@ slot_party_building_state_8 = slot_party_building_state_7 + 1
 slot_party_building_state_9 = slot_party_building_state_8 + 1
 slot_party_building_state_10 = slot_party_building_state_9 + 1
 
-# For centers
-slot_party_item_consumed_begin 	= slot_party_building_state_10 + 1 # Number of items consumed
-slot_party_item_consumed_end	= slot_party_item_consumed_begin + goods_end - goods_begin
-slot_party_item_last_produced_begin 	= slot_party_item_consumed_end # Number of items produced
-slot_party_item_last_produced_end	= slot_party_item_last_produced_begin + goods_end - goods_begin
-# For parties (caravans)
-slot_party_item_stored_price_begin 	= slot_party_item_consumed_begin
-slot_party_item_stored_price_end 	= slot_party_item_consumed_end
-
-slot_party_temporary_data = slot_party_item_stored_price_end + 1
-
-slot_party_autosort_options = slot_party_temporary_data + 1
+slot_party_autosort_options = slot_party_building_state_10 + 1
 
 autosort_no_sort = 0x00
 autosort_low_level_first = 0x01
@@ -1091,6 +1080,16 @@ autosort_culture_flag = 0xF0
 autosort_level_clearer = 0xF0
 autosort_culture_clearer = 0x0F
 
+# For centers
+slot_party_item_consumed_begin 	= slot_party_autosort_options + 1 # Number of items consumed
+slot_party_item_consumed_end	= slot_party_item_consumed_begin + goods_end - goods_begin
+slot_party_item_last_produced_begin 	= slot_party_item_consumed_end # Number of items produced
+slot_party_item_last_produced_end	= slot_party_item_last_produced_begin + goods_end - goods_begin
+# For parties (caravans)
+slot_party_item_stored_price_begin 	= slot_party_item_consumed_begin
+slot_party_item_stored_price_end 	= slot_party_item_consumed_end
+
+slot_party_temporary_data = slot_party_item_stored_price_end + 1
 
 #################
 ## Scene Slots ##
