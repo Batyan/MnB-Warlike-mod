@@ -6024,13 +6024,14 @@ scripts = [
             (call_script, "script_faction_change_slot", "fac_small_kingdom_25", slot_faction_troop_ratio_horse_archer, 35),
             (call_script, "script_faction_change_slot", "fac_small_kingdom_25", slot_faction_troop_ratio_cavalry, -35),
             
-            (call_script, "script_faction_change_slot", "fac_small_kingdom_31", slot_faction_troop_ratio_shock_infantry, 20),
-            (call_script, "script_faction_change_slot", "fac_small_kingdom_31", slot_faction_troop_ratio_infantry, 15),
+            (call_script, "script_faction_change_slot", "fac_small_kingdom_31", slot_faction_troop_ratio_horse_archer, 35),
+            (call_script, "script_faction_change_slot", "fac_small_kingdom_31", slot_faction_troop_ratio_infantry, 5),
             (call_script, "script_faction_change_slot", "fac_small_kingdom_31", slot_faction_troop_ratio_lancer, -10),
-            (call_script, "script_faction_change_slot", "fac_small_kingdom_31", slot_faction_troop_ratio_spearman, -15),
+            (call_script, "script_faction_change_slot", "fac_small_kingdom_31", slot_faction_troop_ratio_spearman, 5),
+            (call_script, "script_faction_change_slot", "fac_small_kingdom_31", slot_faction_troop_ratio_cavalry, -10),
             
             (call_script, "script_faction_change_slot", "fac_small_kingdom_32", slot_faction_troop_ratio_spearman, 25),
-            (call_script, "script_faction_change_slot", "fac_small_kingdom_32", slot_faction_troop_ratio_shock_infantry, 5),
+            (call_script, "script_faction_change_slot", "fac_small_kingdom_32", slot_faction_troop_ratio_shock_infantry, 20),
             (call_script, "script_faction_change_slot", "fac_small_kingdom_32", slot_faction_troop_ratio_archer, 25),
             (call_script, "script_faction_change_slot", "fac_small_kingdom_32", slot_faction_troop_ratio_infantry, 50),
             (call_script, "script_faction_change_slot", "fac_small_kingdom_32", slot_faction_troop_ratio_skirmisher, 40),
@@ -6253,7 +6254,7 @@ scripts = [
             (faction_set_slot, "fac_culture_2", slot_faction_noble_begin, "trp_vaegir_royal_hussar"),
             
             (faction_set_slot, "fac_culture_3", slot_faction_common_begin, "trp_khergit_light_infantry"),
-            (faction_set_slot, "fac_culture_3", slot_faction_veteran_begin, "trp_khergit_light_archer"),
+            (faction_set_slot, "fac_culture_3", slot_faction_veteran_begin, "trp_khergit_archer"),
             (faction_set_slot, "fac_culture_3", slot_faction_elite_begin, "trp_khergit_guard"),
             (faction_set_slot, "fac_culture_3", slot_faction_noble_begin, "trp_khergit_noble"),
             
@@ -11295,16 +11296,23 @@ scripts = [
             (troop_set_slot, "trp_vaegir_mounted_bowman", slot_troop_faction_not_2, "fac_small_kingdom_25"), # Has Mounted Longbowman instead
             (troop_set_slot, "trp_vaegir_royal_hussar", slot_troop_faction_not_1, "fac_small_kingdom_25"), # Has Royal Mounted Longbowman instead
             
+            (troop_set_slot, "trp_khergit_noble_cavalry", slot_troop_faction_reserved_2, "fac_small_kingdom_31"), # Has Noble Mounted Skirmisher
+
+            (troop_set_slot, "trp_khergit_noble", slot_troop_faction_not_1, "fac_small_kingdom_31"), # Has Noble Mounted Skirmisher
+            (troop_set_slot, "trp_khergit_light_lancer", slot_troop_faction_not_1, "fac_small_kingdom_31"), # Has Light Mounted Skirmisher instead
+            (troop_set_slot, "trp_khergit_lancer", slot_troop_faction_not_1, "fac_small_kingdom_31"), # Has Mounted Skirmisher instead
+            (troop_set_slot, "trp_khergit_horse_archer", slot_troop_faction_not_1, "fac_small_kingdom_31"), # Has Mounted Skirmisher instead
+            (troop_set_slot, "trp_khergit_heavy_horse_archer", slot_troop_faction_not_1, "fac_small_kingdom_31"), # Has Heavy Mounted Skirmisher instead
             (troop_set_slot, "trp_khergit_light_infantry", slot_troop_faction_not_1, "fac_small_kingdom_32"), # Has Light Skirmisher instead
             (troop_set_slot, "trp_khergit_skirmisher", slot_troop_faction_not_1, "fac_small_kingdom_32"), # Has Light Skirmisher instead
             (troop_set_slot, "trp_khergit_guard", slot_troop_faction_not_1, "fac_small_kingdom_32"), # Has Heavy Skirmisher instead
             (troop_set_slot, "trp_khergit_light_cavalry", slot_troop_faction_not_1, "fac_small_kingdom_33"), # Has Light Steppe Cavalry instead
             (troop_set_slot, "trp_khergit_heavy_cavalry", slot_troop_faction_not_1, "fac_small_kingdom_33"), # Has Heavy Steppe Cavalry instead
-            (troop_set_slot, "trp_khergit_mounted_skirmisher", slot_troop_faction_not_1, "fac_small_kingdom_33"), # Has Scout instead
-            (troop_set_slot, "trp_khergit_noble", slot_troop_faction_not_1, "fac_small_kingdom_34"), # Has Noble Cavalry and Noble Lancer instead
-            (troop_set_slot, "trp_khergit_mounted_skirmisher", slot_troop_faction_not_2, "fac_small_kingdom_35"), # Has Light Horseman instead
-            (troop_set_slot, "trp_khergit_light_lancer", slot_troop_faction_not_1, "fac_small_kingdom_35"), # Has Light Horseman instead
-            (troop_set_slot, "trp_khergit_lancer", slot_troop_faction_not_1, "fac_small_kingdom_35"), # Has Heavy Horseman instead
+            (troop_set_slot, "trp_khergit_light_mounted_skirmisher", slot_troop_faction_not_1, "fac_small_kingdom_33"), # Has Light Horse Archer instead
+            (troop_set_slot, "trp_khergit_noble", slot_troop_faction_not_2, "fac_small_kingdom_34"), # Has Noble Cavalry and Noble Lancer instead
+            (troop_set_slot, "trp_khergit_light_mounted_skirmisher", slot_troop_faction_not_2, "fac_small_kingdom_35"), # Has Light Horseman instead
+            (troop_set_slot, "trp_khergit_light_lancer", slot_troop_faction_not_2, "fac_small_kingdom_35"), # Has Light Horseman instead
+            (troop_set_slot, "trp_khergit_lancer", slot_troop_faction_not_2, "fac_small_kingdom_35"), # Has Heavy Horseman instead
             (troop_set_slot, "trp_khergit_guard", slot_troop_faction_not_2, "fac_small_kingdom_36"), # Has Blade-Master instead
             
             (troop_set_slot, "trp_nord_horseman", slot_troop_faction_not_3, "fac_small_kingdom_41"), # Has Cavalry instead

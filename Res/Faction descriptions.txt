@@ -142,7 +142,7 @@ Vaegir Minors:
 		Focus on longbowmen and horse archers
 Khergit Minors:
 	Eastern Tribes
-		Focus on shock infantry
+		Focus on mounted skirmisher lancers
 	Warriors of Sungetche
 		Focus on footmen
 	Narra Khanate

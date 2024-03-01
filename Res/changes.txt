@@ -1,12 +1,22 @@
 v0.450:
 	-New features:
 		* add autosort options
+		* small factions submit to vassalisation before being decalred in a war they can't win
+		* faction will improve relations with neighbors they like
+		* faction will create treaties with friendly factions
 	-Balance changes
 		* improve nord_noble_infantry head gear
 		* slightly reduce pikemen weight for rhodok armies (50 -> 40)
+		* add khergit_mounted_skirmisher to small_kingdom_31
+		* add khergit_heavy_mounted_skirmisher to small_kingdom_31
+		* add khergit_noble_mounted_skirmisher to small_kingdom_31
+		* remove khergit_noble_rider
+		* move khergit_champion to small_kingdom_32
+		* add side slashes to hafted blades on horseback
 	-Fixes
 		* fix incorrect strength calculations for skirmishers in auto battles
 		* fix display error in troop recruit presentation when a hero npc is present in the center
+		* rename some khergit troops for consistency
 
 v 0.440:
 	-New features:
