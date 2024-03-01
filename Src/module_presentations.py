@@ -90,23 +90,29 @@ presentations = [
         			(party_get_num_companion_stacks, ":num_stacks", ":current_city"),
         			(try_for_range, ":stack_no", 0, ":num_stacks"),
         				(party_stack_get_troop_id, ":troop_no", ":current_city", ":stack_no"),
-                        (neg|troop_is_hero, ":troop_no"),
+                        # (neg|troop_is_hero, ":troop_no"),
         				(party_stack_get_size, ":stack_size", ":current_city", ":stack_no"),
         				(assign, reg1, ":stack_size"),
         				
         				(str_store_troop_name, s1, ":troop_no"),
         				
-        				(call_script, "script_troop_get_cost", ":troop_no"),
-        				(assign, ":troop_cost", reg0),
-        				
-        				(call_script, "script_troop_get_cost_modifier", ":troop_no", ":current_city", "$g_player_troop"),
-        				(assign, ":cost_modifier", reg0),
-        				(val_mul, ":troop_cost", ":cost_modifier"),
-        				(val_div, ":troop_cost", 100),
-        				
-        				(assign, reg2, ":troop_cost"),
-        				
-        				(create_text_overlay, reg0, "@{s1}: {reg2} denars ({reg1})", tf_left_align),
+                        (try_begin),
+                            (troop_is_hero, ":troop_no"),
+                        
+                            (create_text_overlay, reg0, "@{s1}", tf_left_align),
+                        (else_try),
+            				(call_script, "script_troop_get_cost", ":troop_no"),
+            				(assign, ":troop_cost", reg0),
+            				
+            				(call_script, "script_troop_get_cost_modifier", ":troop_no", ":current_city", "$g_player_troop"),
+            				(assign, ":cost_modifier", reg0),
+            				(val_mul, ":troop_cost", ":cost_modifier"),
+            				(val_div, ":troop_cost", 100),
+            				
+            				(assign, reg2, ":troop_cost"),
+                        
+                            (create_text_overlay, reg0, "@{s1}: {reg2} denars ({reg1})", tf_left_align),
+                        (try_end),
         				
         				(position_set_x, pos1, ":names_x"),
         				(position_set_y, pos1, ":cur_y"),
@@ -119,8 +125,10 @@ presentations = [
         				(try_begin),
         					(troop_is_hero, ":troop_no"),
         					(assign, ":max_taken", 0),
+                            (create_text_overlay, reg0, "@ ", tf_left_align),
+                        (else_try),
+        				    (create_number_box_overlay, reg0, 0, ":max_taken"),
         				(try_end),
-        				(create_number_box_overlay, reg0, 0, ":max_taken"),
         				
         				(position_set_x, pos1, ":numberbox_x"),
         				(position_set_y, pos1, ":cur_y"),
@@ -175,7 +183,7 @@ presentations = [
         		(party_get_num_companion_stacks, ":num_stacks", ":current_city"),
         		(try_for_range, ":stack_no", 0, ":num_stacks"),
         			(party_stack_get_troop_id, ":troop_no", ":current_city", ":stack_no"),
-                    (neg|troop_is_hero, ":troop_no"),
+                    # (neg|troop_is_hero, ":troop_no"),
         			(val_mul, ":troop_no", 2),
         			(create_mesh_overlay_with_tableau_material, reg0, -1, "tableau_game_party_window", ":troop_no"),
         			# (position_set_x, pos1, 600),
@@ -234,6 +242,12 @@ presentations = [
         		
         		(store_sub, ":stack_no", ":object", "$g_hire_soldiers_center_troops_begin"),
         		(val_div, ":stack_no", 2),
+
+                # (try_for_range, ":cur_stack", 0, ":stack_no"),
+                #     (party_stack_get_troop_id, ":troop_no", "$temp", ":cur_stack"),
+                #     (troop_is_hero, ":troop_no"),
+                #     (val_add, ":stack_no", 1),
+                # (try_end),
         		
         		(store_add, ":portrait", ":stack_no", "$g_hide_soldiers_portrait_begin"),
         		
@@ -351,6 +365,13 @@ presentations = [
         			# (party_get_num_companion_stacks, ":num_stacks", ":current_city"),
         			(store_sub, ":troop_stack", ":object", "$g_hire_soldiers_center_troops_begin"),
         			(val_div, ":troop_stack", 2),
+
+                    # (try_for_range, ":cur_stack", 0, ":troop_stack"),
+                    #     (party_stack_get_troop_id, ":troop_no", "$temp", ":cur_stack"),
+                    #     (troop_is_hero, ":troop_no"),
+                    #     (val_sub, ":troop_stack", 1),
+                    # (try_end),
+
         			(party_stack_get_troop_id, ":troop_no", ":current_city", ":troop_stack"),
         			(troop_set_slot, ":troop_no", slot_troop_temp_hire_number, ":value"),
         			(overlay_set_val, ":object", ":value"),

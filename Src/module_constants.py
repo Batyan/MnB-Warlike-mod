@@ -253,8 +253,9 @@ relation_change_factor = 20
 
 relation_change_center_freed = 32
 relation_change_vassal_freed = 8
-relation_change_war_declared = -500
-relation_change_joined_war = 100
+relation_change_war_declared = relation_change_factor * -25
+relation_change_joined_war = relation_change_factor * 5
+relation_change_submit = relation_change_factor * -50
 
 center_buildings_begin = "itm_building_hunter_camp"
 center_buildings_end = "itm_buildings_end"
@@ -376,6 +377,7 @@ tax_type_funds_pay = 10
 tax_type_tribute = 11
 tax_type_tribute_pay = 12
 tax_type_occupation = 13
+tax_type_expenses = 14
 
 caravan_max_cargo_size = 60
 
@@ -727,14 +729,15 @@ sfkt_non_agression = 0x0002
 sfkt_defensive_alliance = 0x0004
 sfkt_alliance = 0x0008
 
-sfkt_military_treaty_clear = 0xF0F0
+sfkt_military_treaty_mask = 0x000F
+sfkt_military_treaty_clear = 0xFFF0
 
 # Economic treaties
 sfkt_open_trade = 0x0010
 sfkt_trade_preference = 0x0020
 sfkt_trade_exclusivity = 0x0040
 
-sfkt_economic_treaty_clear = 0xF00F
+sfkt_economic_treaty_clear = 0xFF0F
 
 # Temporary treaties
 sfkt_tribute = 0x0100
@@ -758,8 +761,8 @@ slot_faction_kingdom_distance_end = slot_faction_kingdom_distance_begin - kingdo
 # slot_faction_kingdom_treaty_expiration_begin = slot_faction_kingdom_distance_end
 # slot_faction_kingdom_treaty_expiration_end = slot_faction_kingdom_treaty_expiration_begin - kingdoms_begin + kingdoms_end
 
-faction_distance_close = 60
-faction_distance_far = 150
+faction_distance_close = 25
+faction_distance_far = 100
 
 slot_faction_wealth = slot_faction_kingdom_distance_end + 1
 slot_faction_accumulated_taxes = slot_faction_wealth + 1
@@ -1065,8 +1068,21 @@ slot_party_building_state_8 = slot_party_building_state_7 + 1
 slot_party_building_state_9 = slot_party_building_state_8 + 1
 slot_party_building_state_10 = slot_party_building_state_9 + 1
 
+slot_party_autosort_options = slot_party_building_state_10 + 1
+
+autosort_no_sort = 0x00
+autosort_low_level_first = 0x01
+autosort_high_level_first = 0x02
+autosort_foreign_first = 0x10
+autosort_local_first = 0x20
+
+autosort_level_flag = 0x0F
+autosort_culture_flag = 0xF0
+autosort_level_clearer = 0xF0
+autosort_culture_clearer = 0x0F
+
 # For centers
-slot_party_item_consumed_begin 	= slot_party_building_state_10 + 1 # Number of items consumed
+slot_party_item_consumed_begin 	= slot_party_autosort_options + 1 # Number of items consumed
 slot_party_item_consumed_end	= slot_party_item_consumed_begin + goods_end - goods_begin
 slot_party_item_last_produced_begin 	= slot_party_item_consumed_end # Number of items produced
 slot_party_item_last_produced_end	= slot_party_item_last_produced_begin + goods_end - goods_begin
@@ -1075,7 +1091,6 @@ slot_party_item_stored_price_begin 	= slot_party_item_consumed_begin
 slot_party_item_stored_price_end 	= slot_party_item_consumed_end
 
 slot_party_temporary_data = slot_party_item_stored_price_end + 1
-
 
 #################
 ## Scene Slots ##

@@ -142,7 +142,7 @@ Vaegir Minors:
 		Focus on longbowmen and horse archers
 Khergit Minors:
 	Eastern Tribes
-		Focus on shock infantry
+		Focus on mounted skirmisher lancers
 	Warriors of Sungetche
 		Focus on footmen
 	Narra Khanate
@@ -177,12 +177,12 @@ Rhodok Minors:
 		Focus on lancers and mounted crossbowmen
 Sarranid Minors:
 	Oasis of Barriye
-		Focus on crossbowmen
+		Focus on horse archers and lancers
 	Defenders of Sharwa Keep
 		Focus on archers
 	Sarrdak Sultanate
 		Focus on lancers, heavy infantry, heavy cavalry
 	Tribes of Uzgha
-		Focus on horse archers
+		Focus on crossbowmen
 	Great Tribes of Durquba
 		Focus on mounted skirmishers and pikemen

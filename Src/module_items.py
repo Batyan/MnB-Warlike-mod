@@ -789,11 +789,11 @@ items = [
     ["hafted_blade_b",              "Long Hafted Blade", [("khergit_pike_a",0)], itp_type_polearm|itp_merchandise| itp_two_handed|itp_primary|itp_wooden_parry, itcf_carry_spear|itc_guandao,
      580 , weight(4.25)|difficulty(11)|spd_rtng(93) | weapon_length(153)|swing_damage(37, cut) | thrust_damage(28, cut),imodbits_polearm , [], [fac_kingdom_3] ],
     
-    ["long_spiked_club",            "Long Spiked Club", [("mace_long_c",0)], itp_type_polearm|itp_can_knock_down|itp_merchandise| itp_two_handed|itp_primary|itp_wooden_parry|itp_unbalanced, itc_guandao|itcf_carry_axe_back,
+    ["long_spiked_club",            "Long Spiked Club", [("mace_long_c",0)], itp_type_polearm|itp_cant_use_on_horseback|itp_can_knock_down|itp_merchandise| itp_two_handed|itp_primary|itp_wooden_parry|itp_unbalanced, itc_guandao|itcf_carry_axe_back,
      150 , weight(3.5)|difficulty(8)|spd_rtng(92) | weapon_length(126)|swing_damage(20, blunt) | thrust_damage(15, blunt),imodbits_mace ],
-    ["long_hafted_knobbed_mace",    "Long Hafted Knobbed Mace", [("mace_long_a",0)], itp_type_polearm|itp_can_knock_down|itp_merchandise| itp_two_handed|itp_primary|itp_wooden_parry|itp_unbalanced, itc_guandao|itcf_carry_axe_back,
+    ["long_hafted_knobbed_mace",    "Long Hafted Knobbed Mace", [("mace_long_a",0)], itp_type_polearm|itp_cant_use_on_horseback|itp_can_knock_down|itp_merchandise| itp_two_handed|itp_primary|itp_wooden_parry|itp_unbalanced, itc_guandao|itcf_carry_axe_back,
      310 , weight(4.8)|difficulty(9)|spd_rtng(91) | weapon_length(133)|swing_damage(22, blunt) | thrust_damage(16, blunt),imodbits_mace ],
-    ["long_hafted_spiked_mace",     "Long Hafted Spiked Mace", [("mace_long_b",0)], itp_type_polearm|itp_can_knock_down|itp_merchandise| itp_two_handed|itp_primary|itp_wooden_parry|itp_unbalanced, itc_guandao|itcf_carry_axe_back,
+    ["long_hafted_spiked_mace",     "Long Hafted Spiked Mace", [("mace_long_b",0)], itp_type_polearm|itp_cant_use_on_horseback|itp_can_knock_down|itp_merchandise| itp_two_handed|itp_primary|itp_wooden_parry|itp_unbalanced, itc_guandao|itcf_carry_axe_back,
      470 , weight(4.9)|difficulty(10)|spd_rtng(90) | weapon_length(139)|swing_damage(24, blunt) | thrust_damage(16, blunt),imodbits_mace ],
     
     ["long_bardiche",               "Long Bardiche", [("two_handed_battle_long_axe_b",0)], itp_type_polearm|itp_cant_use_on_horseback|itp_merchandise| itp_two_handed|itp_primary|itp_bonus_against_shield|itp_wooden_parry|itp_unbalanced, itc_staff|itcf_carry_axe_back,
