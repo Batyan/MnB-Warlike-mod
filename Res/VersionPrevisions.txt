@@ -64,7 +64,8 @@
 		Faction alliances
 		Faction willing vassal
 	0.460: Improvements
-		General improvements and bug fixes
+		General improvements
+		Bug fixes
 0.500: Party ai
 	Better party ai
 	0.510: Cooperation
