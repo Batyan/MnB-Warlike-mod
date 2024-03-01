@@ -13897,7 +13897,7 @@ scripts = [
                         (try_begin),
                             (call_script, "script_cf_faction_want_vassal", ":faction_no", ":want_war"),
 
-                            (call_script, "script_faction_get_treaty_score", ":want_war", sfkt_overlord, ":faction_no", -1),
+                            (call_script, "script_faction_get_treaty_score", ":want_war", sfkt_overlord, ":faction_no"),
                             (gt, reg0, 0),
                             (call_script, "script_faction_create_vassal", ":faction_no", ":want_war", sfvt_default_vassal_type, -1),
 
