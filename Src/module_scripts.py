@@ -16820,14 +16820,57 @@ scripts = [
             (faction_set_slot, ":vassal", slot_faction_vassal_type, ":vassal_type"),
             (call_script, "script_faction_create_treaty", ":vassal", ":overlord", sfkt_vassal),
             
-            # (try_begin),
-                # (is_between, ":war_storage", war_storages_begin, war_storages_end),
             (call_script, "script_faction_remove_wars", ":vassal", ":war_storage"),
-            # (try_end),
 
             (call_script, "script_faction_remove_vassal_treaties", ":vassal"),
 
             (call_script, "script_faction_update_color", ":vassal"),
+
+            (try_for_range, ":faction_no", kingdoms_begin, kingdoms_end),
+                (neq, ":faction_no", ":overlord"),
+                (neq, ":faction_no", ":vassal"),
+
+                (call_script, "script_cf_faction_is_vassal", ":faction_no", ":vassal"),
+                (assign, ":old_vassal_type", reg0),
+                (call_script, "script_faction_remove_vassal", ":vassal", ":faction_no"),
+                (call_script, "script_faction_create_vassal", ":overlord", ":faction_no", ":old_vassal_type", ":war_storage"),
+            (try_end),
+        ]),
+
+    # script_cf_faction_is_vassal
+        # input:
+        #   arg1: faction_no
+        #   arg2: potential_overlord
+        # output:
+        #   reg0: vassal_type
+        #   fails if faction_no is not vassal of potential_overlord
+    ("cf_faction_is_vassal",
+        [
+            (store_script_param, ":faction_no", 1),
+            (store_script_param, ":potential_overlord", 2),
+
+            (call_script, "script_faction_get_treaties", ":faction_no", ":potential_overlord"),
+            (assign, ":treaties", reg0),
+
+            (store_and, ":vassal", ":treaties", sfkt_vassal),
+            (gt, ":vassal", 0),
+
+            (faction_get_slot, reg0, ":faction_no", slot_faction_vassal_type),
+        ]),
+
+    # script_faction_remove_vassal
+        # input:
+        #   arg1: overlord
+        #   arg2: vassal
+        # output: none
+    ("faction_remove_vassal",
+        [
+            (store_script_param, ":overlord", 1),
+            (store_script_param, ":vassal", 2),
+
+            (call_script, "script_faction_revoke_treaty", ":overlord", ":vassal", sfkt_overlord),
+
+            (faction_set_slot, ":vassal", slot_faction_vassal_type, sfvt_none),
         ]),
 
     # script_faction_remove_vassal_treaties

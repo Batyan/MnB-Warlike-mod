@@ -691,6 +691,7 @@ sfpa_none = 2
 slot_faction_vassal_type = slot_faction_policy_assimilation + 1
 
 # Vassal treaties
+sfvt_none = 0x00 # not a vassal
 sfvt_tributary = 0x01 # pays tribute
 sfvt_vassal = 0x02 # foreign policy is limited
 sfvt_sattrapy = 0x10 # joins offensive wars of overlord
