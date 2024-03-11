@@ -63,7 +63,7 @@
 	0.450: Faction allies
 		Faction alliances
 		Faction willing vassal
-	0.460: Improvements
+	0.460: Stabilization
 		General improvements
 		Bug fixes
 0.500: Party ai
@@ -87,8 +87,7 @@
 		Marshall ai
 		Marshall election
 0.600: City Management
-	Buildings
-	Bank
+	Integrate player in center distribution
 	0.610: Player City Management
 		Change taxes
 		Change internal policies
@@ -105,6 +104,9 @@
 		All trader types for centers
 		Goods produced based on local productions
 		Equipment based on culture
+	0.660: Buildings
+		Buildings
+		Bank
 0.700: Kingdom Management
 	0.710: Policies
 		Kingdom policies

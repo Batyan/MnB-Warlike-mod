@@ -6859,7 +6859,7 @@ scripts = [
             (store_script_param, ":party_no", 1),
 
             (store_faction_of_party, ":party_faction", ":party_no"),
-            (faction_get_slot, ":leader", ":party_faction"),
+            (faction_get_slot, ":leader", ":party_faction", slot_faction_leader),
             (assign, ":capital", -1),
             (try_begin),
                 (ge, ":leader", 0),
@@ -14033,6 +14033,8 @@ scripts = [
 
             (assign, ":score_ratio", 100),
 
+            (assign, ":penalty_score", 0),
+
             (assign, ":relation_score", ":relation"),
             (try_begin),
                 (ge, ":relation", relation_excellent),
@@ -14068,18 +14070,25 @@ scripts = [
 
             (faction_get_slot, ":combined_offensive_strength", ":faction_no", slot_faction_strength_offensive_allies),
 
+            (set_fixed_point_multiplier, 1),
             (faction_get_slot, ":other_faction_strength", ":other_faction", slot_faction_strength_defensive_allies),
             (faction_get_slot, ":other_faction_war", ":other_faction", slot_faction_is_at_war),
-            # Each war increases divider by 0.5
-            (val_add, ":other_faction_war", 2),
-            (val_max, ":other_faction_war", 1),
-            (val_mul, ":other_faction_strength", 2),
-            (val_div, ":other_faction_strength", ":other_faction_war"),
+            (try_begin),
+                (gt, ":other_faction_war", 0),
+                (lt, ":other_faction_strength", ":combined_offensive_strength"),
+                (store_sub, ":penalty_difference", ":combined_offensive_strength", ":other_faction_strength"),
+                (store_sqrt, ":penalty_score", ":penalty_difference"),
+            (else_try),
+                # Each war increases divider by 0.5
+                (val_add, ":other_faction_war", 2),
+                (val_max, ":other_faction_war", 1),
+                (val_mul, ":other_faction_strength", 2),
+                (val_div, ":other_faction_strength", ":other_faction_war"),
+            (try_end),
 
             (store_sub, ":strength_difference", ":combined_offensive_strength", ":other_faction_strength"),
             (assign, ":strength_score", 0),
 
-            (set_fixed_point_multiplier, 1),
             (try_begin),
                 (gt, ":strength_difference", 0),
                 (store_sqrt, ":strength_score", ":strength_difference"),
@@ -14091,9 +14100,12 @@ scripts = [
             (try_end),
 
             (store_add, ":score", ":strength_score", ":distance_score"),
+            (val_sub, ":score", ":penalty_score"),
 
+            (val_add, ":score", 500),
             (val_mul, ":score", ":score_ratio"),
-            (val_div, ":score", ":score_ratio"),
+            (val_div, ":score", 100),
+            (val_add, ":score", -500),
 
             (call_script, "script_faction_get_war_damage_penalty_score", ":faction_no"),
             (assign, ":war_damage", reg0),
@@ -14105,16 +14117,17 @@ scripts = [
             (val_sub, ":score", ":inverse_safety"),
 
             (try_begin),
-                (call_script, "script_cf_debug", debug_faction),
+                (call_script, "script_cf_debug", debug_faction|debug_current),
                 (str_store_faction_name, s10, ":faction_no"),
                 (str_store_faction_name, s11, ":other_faction"),
                 (assign, reg10, ":score"),
                 (assign, reg11, ":score_ratio"),
                 (assign, reg12, ":strength_score"),
                 (assign, reg13, ":distance_score"),
+                (assign, reg16, ":penalty_score"),
                 (assign, reg14, ":war_damage"),
                 (assign, reg15, ":inverse_safety"),
-                (display_message, "@{s10} war score for {s11}: {reg10} ({reg12} + {reg13} / {reg11}% - {reg14} - {reg15})"),
+                (display_message, "@{s10} war score {s11}: {reg10} ({reg12} + {reg13} - {reg16} / {reg11}% - {reg14} - {reg15})"),
             (try_end),
 
             (assign, reg0, ":score"),
@@ -20318,6 +20331,16 @@ scripts = [
                 (call_script, "script_cf_war_remove_participant", ":war_storage", ":faction_no"),
                 (val_add, ":num_wars", 1),
             (try_end),
+
+            (try_for_range, ":center_no", centers_begin, centers_end),
+                (party_get_slot, ":center_faction", ":center_no", slot_party_faction),
+                (store_faction_of_party, ":current_faction", ":center_no"),
+                (neq, ":center_faction", ":current_faction"),
+                (eq, ":center_faction", ":faction_no"),
+
+                (call_script, "script_center_evacuate", ":center_no"),
+            (try_end),
+
             (assign, reg0, ":num_wars"),
         ]),
 
