@@ -364,6 +364,9 @@ scripts = [
                 (assign, ":attacker_strength", 0),
                 (assign, ":defender_strength", 0),
             (try_end),
+
+            (val_mul, ":attacker_strength", 2),
+            (val_mul, ":defender_strength", 2),
             
             # (try_begin),
             #     (call_script, "script_cf_debug", debug_war),
@@ -379,58 +382,19 @@ scripts = [
                 (this_or_next|eq, ":defender_type", spt_castle),
                 (eq, ":defender_type", spt_town),
 
-                (val_div, ":attacker_strength", 6),
-                (gt, ":defender_strength", 0),
-                (val_add, ":defender_strength", 50),
+                (val_div, ":attacker_strength", 2),
+
+                (val_mul, ":defender_strength", 3),
+                (val_div, ":defender_strength", 2),
             (else_try),
                 (eq, ":defender_type", spt_village),
-                (val_div, ":attacker_strength", 2),
-                (gt, ":defender_strength", 0),
-                (val_add, ":defender_strength", 5),
-            (try_end),
+                (val_div, ":attacker_strength", 5),
+                (val_mul, ":attacker_strength", 4),
 
-            (try_begin),
-                (gt, ":attacker_strength", 0),
-                (store_sqrt, ":attacker_strength", ":attacker_strength"),
-            (try_end),
-            (try_begin),
-                (gt, ":defender_strength", 0),
-                (store_sqrt, ":defender_strength", ":defender_strength"),
-            (try_end),
-
-            (assign, ":max_value", ":attacker_strength"),
-            (val_max, ":max_value", ":defender_strength"),
-            (val_max, ":max_value", 1),
-
-            (assign, ":base_value_defender", 40),
-            (assign, ":base_value_attacker", 40),
-            (try_begin),
-                (this_or_next|eq, ":defender_type", spt_castle),
-                (eq, ":defender_type", spt_town),
-                (assign, ":base_value_attacker", 20),
-                (assign, ":base_value_defender", 50),
-            (else_try),
-                (eq, ":defender_type", spt_village),
-                (assign, ":base_value_attacker", 30),
-                (assign, ":base_value_defender", 40),
-            (try_end),
-
-            (try_begin),
-                (gt, ":attacker_strength", 0),
-                (val_mul, ":attacker_strength", ":base_value_attacker"),
-                (val_div, ":attacker_strength", ":max_value"),
-                (val_add, ":attacker_strength", ":base_value_attacker"),
-                (val_div, ":attacker_strength", 2),
-            (try_end),
-
-            (try_begin),
-                (gt, ":defender_strength", 0),
-                (val_mul, ":defender_strength", ":base_value_defender"),
-                (val_div, ":defender_strength", ":max_value"),
-                (val_add, ":defender_strength", ":base_value_defender"),
+                (val_mul, ":defender_strength", 3),
                 (val_div, ":defender_strength", 2),
             (try_end),
-            
+
             (try_begin),
                 (is_currently_night),
                 (val_div, ":attacker_strength", 2),
@@ -572,30 +536,22 @@ scripts = [
             
             (call_script, "script_party_group_calculate_strength_approach", ":attacker"),
             (assign, ":attacker_strength", reg0),
-            # (assign, ":attacker_defense", reg1),
+            (assign, ":attacker_number", reg2),
             (call_script, "script_party_group_calculate_strength_approach", ":defender"),
             (assign, ":defender_strength", reg0),
-            # (assign, ":defender_defense", reg1),
+            (assign, ":defender_number", reg2),
 
-            # (val_max, ":attacker_defense", 1),
-            # (val_max, ":defender_defense", 1),
-            
-            # (store_mul, ":attacker_reduce", ":attacker_strength", 100),
-            # (val_div, ":attacker_reduce", ":defender_defense"),
-            # (store_sub, ":attacker_reduce", 100, ":attacker_reduce"),
-            # (val_mul, ":attacker_reduce", ":attacker_strength"),
-            # (store_sqrt, ":attacker_reduce", ":attacker_reduce"),
-            # (val_sub, ":attacker_strength", ":attacker_reduce"),
-
-            # (store_mul, ":defender_reduce", ":defender_strength", 100),
-            # (val_div, ":defender_reduce", ":attacker_defense"),
-            # (store_sub, ":defender_reduce", 100, ":defender_reduce"),
-            # (val_mul, ":defender_reduce", ":defender_strength"),
-            # (store_sqrt, ":defender_reduce", ":defender_reduce"),
-            # (val_sub, ":defender_strength", ":defender_reduce"),
+            (try_begin),
+                (gt, ":attacker_number", 0),
+                (val_div, ":attacker_strength", ":attacker_number"),
+            (try_end),
+            (try_begin),
+                (gt, ":defender_number", 0),
+                (val_div, ":defender_strength", ":defender_number"),
+            (try_end),
 
             # Defenders have a small bonus during the approach phase
-            (val_mul, ":defender_strength", 120),
+            (val_mul, ":defender_strength", 105),
             (val_div, ":defender_strength", 100),
             
             (assign, reg0, ":attacker_strength"),
@@ -616,14 +572,25 @@ scripts = [
             
             (call_script, "script_party_group_calculate_strength_charge", ":attacker"),
             (assign, ":attacker_strength", reg0),
+            (assign, ":attacker_number", reg2),
             # Defender does not benefit from charge bonus
             (call_script, "script_party_group_calculate_strength", ":defender"),
             (assign, ":defender_strength", reg0),
+            (assign, ":defender_number", reg2),
 
             # Attackers have a large bonus during the charge phase
-            (val_mul, ":attacker_strength", 150),
+            (val_mul, ":attacker_strength", 110),
             (val_div, ":attacker_strength", 100),
-            
+
+            (try_begin),
+                (gt, ":attacker_number", 0),
+                (val_div, ":attacker_strength", ":attacker_number"),
+            (try_end),
+            (try_begin),
+                (gt, ":defender_number", 0),
+                (val_div, ":defender_strength", ":defender_number"),
+            (try_end),
+
             (assign, reg0, ":attacker_strength"),
             (assign, reg1, ":defender_strength"),
         ]),
@@ -642,8 +609,19 @@ scripts = [
             
             (call_script, "script_party_group_calculate_strength", ":attacker"),
             (assign, ":attacker_strength", reg0),
+            (assign, ":attacker_number", reg2),
             (call_script, "script_party_group_calculate_strength", ":defender"),
             (assign, ":defender_strength", reg0),
+            (assign, ":defender_number", reg2),
+
+            (try_begin),
+                (gt, ":attacker_number", 0),
+                (val_div, ":attacker_strength", ":attacker_number"),
+            (try_end),
+            (try_begin),
+                (gt, ":defender_number", 0),
+                (val_div, ":defender_strength", ":defender_number"),
+            (try_end),
             
             (assign, reg0, ":attacker_strength"),
             (assign, reg1, ":defender_strength"),
@@ -662,6 +640,8 @@ scripts = [
             
             (assign, ":strength", 0),
             (assign, ":defense", 0),
+
+            (assign, ":total_troops", 0),
             
             (party_get_num_companion_stacks, ":num_stacks", ":party_no"),
             (try_for_range, ":i_stack", 0, ":num_stacks"),
@@ -688,6 +668,7 @@ scripts = [
                 
                 (val_add, ":strength", ":cur_strength"),
                 (val_add, ":defense", ":cur_defense"),
+                (val_add, ":total_troops", ":num_ready"),
             (try_end),
             
             (party_get_num_attached_parties, ":num_attached", ":party_no"),
@@ -696,9 +677,11 @@ scripts = [
                 (call_script, "script_party_group_calculate_strength", ":cur_party"),
                 (val_add, ":strength", reg0),
                 (val_add, ":defense", reg1),
+                (val_add, ":total_troops", reg2),
             (try_end),
             (assign, reg0, ":strength"),
             (assign, reg1, ":defense"),
+            (assign, reg2, ":total_troops"),
         ]),
     
     # script_party_group_calculate_strength_approach
@@ -713,6 +696,8 @@ scripts = [
             
             (assign, ":strength", 0),
             (assign, ":defense", 0),
+
+            (assign, ":total_troops", 0),
             
             (party_get_num_companion_stacks, ":num_stacks", ":party_no"),
             (try_for_range, ":i_stack", 0, ":num_stacks"),
@@ -732,6 +717,7 @@ scripts = [
                 
                 (val_add, ":strength", ":cur_strength"),
                 (val_add, ":defense", ":cur_defense"),
+                (val_add, ":total_troops", ":num_ready"),
             (try_end),
             
             (party_get_num_attached_parties, ":num_attached", ":party_no"),
@@ -740,9 +726,11 @@ scripts = [
                 (call_script, "script_party_group_calculate_strength_approach", ":cur_party"),
                 (val_add, ":strength", reg0),
                 (val_add, ":defense", reg1),
+                (val_add, ":total_troops", reg2),
             (try_end),
             (assign, reg0, ":strength"),
             (assign, reg1, ":defense"),
+            (assign, reg2, ":total_troops"),
         ]),
     
     # script_party_group_calculate_strength_charge
@@ -758,6 +746,8 @@ scripts = [
             
             (assign, ":strength", 0),
             (assign, ":defense", 0),
+
+            (assign, ":total_troops", 0),
             
             (party_get_num_companion_stacks, ":num_stacks", ":party_no"),
             (try_for_range, ":i_stack", 0, ":num_stacks"),
@@ -776,6 +766,9 @@ scripts = [
                 (val_mul, ":cur_strength", ":num_ready"),
                 (val_mul, ":cur_defense", ":num_ready"),
                 (val_mul, ":cur_ranged", ":num_ready"),
+
+                (val_add, ":total_troops", ":num_ready"),
+
                 (try_begin),
                     (this_or_next|eq, ":type", tt_shock_infantry),
                     (eq, ":type", tt_spearman),
@@ -816,9 +809,11 @@ scripts = [
                 (call_script, "script_party_group_calculate_strength_charge", ":cur_party"),
                 (val_add, ":strength", reg0),
                 (val_add, ":defense", reg1),
+                (val_add, ":total_troops", reg2),
             (try_end),
             (assign, reg0, ":strength"),
             (assign, reg1, ":defense"),
+            (assign, reg2, ":total_troops"),
         ]),
     
     # script_troop_calculate_strength
@@ -13994,7 +13989,7 @@ scripts = [
             (try_end),
 
             (try_begin),
-                (call_script, "script_cf_debug", debug_faction|debug_current),
+                (call_script, "script_cf_debug", debug_faction),
                 (str_store_faction_name, s10, ":faction_no"),
                 (assign, reg10, ":num_fiefs"),
                 (assign, reg11, ":num_vassals"),
@@ -14117,7 +14112,7 @@ scripts = [
             (val_sub, ":score", ":inverse_safety"),
 
             (try_begin),
-                (call_script, "script_cf_debug", debug_faction|debug_current),
+                (call_script, "script_cf_debug", debug_faction),
                 (str_store_faction_name, s10, ":faction_no"),
                 (str_store_faction_name, s11, ":other_faction"),
                 (assign, reg10, ":score"),
@@ -14360,13 +14355,13 @@ scripts = [
             (call_script, "script_faction_add_accumulated_taxes", ":faction_no", ":total_cost", tax_type_expenses),
 
             (try_begin),
-                (call_script, "script_cf_debug", debug_current),
+                (call_script, "script_cf_debug", debug_ai),
                 (str_store_faction_name, s10, ":faction_no"),
                 (str_store_faction_name, s11, ":target_faction"),
                 (assign, reg10, ":relation_change"),
                 (assign, reg11, ":relation"),
                 (assign, reg12, ":proposed_treaty"),
-                (display_message, "@{s10} seeks to improve relations with {s11} ({reg11} -> {reg10} : {reg12})"),
+                (display_message, "@{s10} improves relations with {s11} ({reg11} -> {reg10} : {reg12})"),
             (try_end),
 
             (assign, reg0, ":relation_change"),
