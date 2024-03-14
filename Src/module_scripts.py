@@ -16734,22 +16734,9 @@ scripts = [
             (store_script_param, ":faction_2", 2),
             (store_script_param, ":treaty_type", 3),
 
-            (try_begin),
-                (this_or_next|eq, ":treaty_type", sfkt_alliance),
-                (this_or_next|eq, ":treaty_type", sfkt_defensive_alliance),
-                (this_or_next|eq, ":treaty_type", sfkt_vassal),
-                (eq, ":treaty_type", sfkt_overlord),
-
-                (set_relation, ":faction_1", ":faction_2", relation_state_friendly),
-            (else_try),
-                (eq, ":treaty_type", sfkt_non_agression),
-                (set_relation, ":faction_1", ":faction_2", relation_state_neutral),
-            (else_try),
-                (eq, ":treaty_type", sfkt_truce),
-                (set_relation, ":faction_1", ":faction_2", relation_state_neutral),
-            (try_end),
-
             (call_script, "script_faction_set_treaty", ":faction_1", ":faction_2", ":treaty_type"),
+
+            (call_script, "script_faction_reset_relations", ":faction_1", ":faction_2"),
 
             (try_begin),
                 (call_script, "script_cf_debug", debug_faction|debug_current),
@@ -16776,21 +16763,6 @@ scripts = [
             (store_script_param, ":expire_time", 4),
             (store_script_param, ":value", 5),
 
-            (try_begin),
-                (this_or_next|eq, ":treaty_type", sfkt_alliance),
-                (this_or_next|eq, ":treaty_type", sfkt_defensive_alliance),
-                (this_or_next|eq, ":treaty_type", sfkt_vassal),
-                (eq, ":treaty_type", sfkt_overlord),
-
-                (set_relation, ":faction_1", ":faction_2", relation_state_friendly),
-            (else_try),
-                (eq, ":treaty_type", sfkt_non_agression),
-                (set_relation, ":faction_1", ":faction_2", relation_state_neutral),
-            (else_try),
-                (eq, ":treaty_type", sfkt_truce),
-                (set_relation, ":faction_1", ":faction_2", relation_state_neutral),
-            (try_end),
-
             (store_sub, ":offset", ":faction_2", kingdoms_begin),
             (store_add, ":treaty_slot", ":offset", slot_faction_kingdom_temporary_treaties_begin),
             (store_add, ":treaty_duration_slot", ":offset", slot_faction_kingdom_temporary_treaties_duration_begin),
@@ -16810,6 +16782,8 @@ scripts = [
                 (faction_set_slot, ":faction_2", ":treaty_duration_slot", ":expire_time"),
                 (faction_set_slot, ":faction_2", ":treaty_object_slot", ":value"),
             (try_end),
+            
+            (call_script, "script_faction_reset_relations", ":faction_1", ":faction_2"),
 
             (try_begin),
                 (call_script, "script_cf_debug", debug_faction|debug_current),
@@ -20388,17 +20362,24 @@ scripts = [
             (store_script_param, ":faction_1", 1),
             (store_script_param, ":faction_2", 2),
 
-            (store_sub, ":offset", ":faction_2", kingdoms_begin),
-            (store_add, ":slot", ":offset", slot_faction_kingdom_treaties_begin),
+            (call_script, "script_faction_get_treaties", ":faction_1", ":faction_2"),
+            (assign, ":treaties", reg0),
 
-            (faction_get_slot, ":treaty", ":faction_1", ":slot"),
+            (store_and, ":alliance", ":treaties", sfkt_alliance),
+            (store_and, ":defensive", ":treaties", sfkt_defensive_alliance),
+            (store_and, ":vassal", ":treaties", sfkt_vassal),
+            (store_and, ":overlord", ":treaties", sfkt_overlord),
 
             (try_begin),
-                (gt, ":treaty", 0),
-                (neq, ":treaty", sfkt_truce),
-                (neq, ":treaty", sfkt_non_agression),
+                (this_or_next|gt, ":alliance", 0),
+                (this_or_next|gt, ":defensive", 0),
+                (this_or_next|gt, ":vassal", 0),
+                (gt, ":overlord", 0),
 
                 (set_relation, ":faction_1", ":faction_2", relation_state_friendly),
+            (else_try),
+                (call_script, "script_cf_factions_are_at_war", ":faction_1", ":faction_2"),
+                (set_relation, ":faction_1", ":faction_2", relation_state_war),
             (else_try),
                 (set_relation, ":faction_1", ":faction_2", relation_state_neutral),
             (try_end),
