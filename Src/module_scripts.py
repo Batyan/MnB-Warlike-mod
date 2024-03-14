@@ -15082,14 +15082,42 @@ scripts = [
                 (faction_get_slot, ":own_strength", ":faction_no", slot_faction_strength_defensive_allies),
                 (faction_get_slot, ":target_strength", ":treaty_target", slot_faction_strength_offensive_allies),
 
-                (store_div, ":min_strength", ":target_strength", 20),
-                (gt, ":min_strength", ":own_strength"),
+                (store_div, ":min_strength", ":target_strength", 5),
 
-                (faction_get_slot, ":own_wars", ":faction_no", slot_faction_is_at_war),
-                (eq, ":own_wars", 0),
+                (call_script, "script_faction_get_relation_with_faction", ":faction_no", ":treaty_target"),
+                (store_mul, ":relation_bonus", reg0, 100),
+                (store_sub, ":total_strength", ":own_strength", ":relation_bonus"),
 
-                (assign, reg0, 1),
-                (assign, reg1, 0),
+                (store_sub, ":offset", ":treaty_target", kingdoms_begin),
+                (store_add, ":distance_slot", ":offset", slot_faction_kingdom_distance_begin),
+                (faction_get_slot, ":distance", ":faction_no", ":distance_slot"),
+                (val_mul, ":distance", 250),
+                (val_add, ":total_strength", ":distance"),
+
+                (try_begin),
+                    (call_script, "script_cf_debug", debug_current),
+                    (str_store_faction_name, s10, ":treaty_target"),
+                    (str_store_faction_name, s11, ":faction_no"),
+                    (assign, reg10, ":min_strength"),
+                    (assign, reg11, ":total_strength"),
+                    (assign, reg12, ":own_strength"),
+                    (assign, reg13, ":relation_bonus"),
+                    (assign, reg14, ":distance"),
+                    (display_message, "@{s10} asks for vassal {s11}: {reg10}>{reg11}={reg12}-{reg13}+{reg14}"),
+                (try_end),
+
+                (try_begin),
+                    (gt, ":min_strength", ":total_strength"),
+
+                    (faction_get_slot, ":own_wars", ":faction_no", slot_faction_is_at_war),
+                    (eq, ":own_wars", 0),
+
+                    (assign, reg0, 1),
+                    (assign, reg1, 0),
+                (else_try),
+                    (assign, reg0, 0),
+                    (assign, reg1, 0),
+                (try_end),
 
             (else_try),
                 (assign, reg0, 1),
@@ -16782,7 +16810,7 @@ scripts = [
                 (faction_set_slot, ":faction_2", ":treaty_duration_slot", ":expire_time"),
                 (faction_set_slot, ":faction_2", ":treaty_object_slot", ":value"),
             (try_end),
-            
+
             (call_script, "script_faction_reset_relations", ":faction_1", ":faction_2"),
 
             (try_begin),
