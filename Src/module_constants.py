@@ -16,7 +16,7 @@ debug_ai = 0x04 					# Displays informations about party ais
 debug_faction = 0x08 				# Displays informations about factions (politics)
 debug_war = debug_ai|debug_faction 	# Activates both faction and ai
 debug_trade = 0x10 					# Displays informations about trading
-debug_current = 0x20 				# Displays informations about the current feature beeing worked on (temporary debug state)
+debug_current = 0x20 				# Displays informations about the current feature being worked on (temporary debug state)
 debug_all = 0xFF 					# Displays every debug line available (most likely spams the screen)
 
 banner_meshes_begin = "mesh_banner_a01"
