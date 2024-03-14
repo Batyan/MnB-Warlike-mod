@@ -719,6 +719,12 @@ scripts = [
                 (val_add, ":defense", ":cur_defense"),
                 (val_add, ":total_troops", ":num_ready"),
             (try_end),
+
+            (call_script, "script_party_get_skill_level", ":party_no", skl_tactics),
+            (store_mul, ":tactics_bonus", reg0, 3),
+            (store_mul, ":strength_bonus", ":tactics_bonus", ":strength"),
+            (val_div, ":strength_bonus", 100),
+            (val_add, ":strength", ":strength_bonus"),
             
             (party_get_num_attached_parties, ":num_attached", ":party_no"),
             (try_for_range, ":i", 0, ":num_attached"),
@@ -2068,7 +2074,11 @@ scripts = [
         [
             # (store_script_param, ":troop_no", 1),
             # (store_script_param, ":skill_no", 2),
-            (set_trigger_result, 0),
+
+            (assign, ":bonus_skill", 0),
+
+            (assign, reg0, ":bonus_skill"),
+            (set_trigger_result, ":bonus_skill"),
         ]),
   
     # script_game_check_party_sees_party
@@ -3304,7 +3314,7 @@ scripts = [
             (party_set_faction, ":new_party_id", ":faction_no"),
             
             (party_set_slot, ":new_party_id", slot_party_type, spt_village),
-            
+
             (call_script, "script_party_init_center", ":new_party_id"),
             
             (call_script, "script_party_transfer_to_party", ":party_no", ":new_party_id"),
@@ -20062,9 +20072,19 @@ scripts = [
             (store_script_param, ":party_no", 1),
             (store_script_param, ":skill", 2),
 
-            # TODO: maybe to refine ? parties without leader seem to have random stat returned ?
+            (assign, ":total_skill", 0),
 
-            (party_get_skill_level, reg0, ":party_no", ":skill"),
+            (party_get_num_companion_stacks, ":num_stacks", ":party_no"),
+            (try_for_range, ":stack_no", 0, ":num_stacks"),
+                (party_stack_get_troop_id, ":troop_no", ":party_no", ":stack_no"),
+                (troop_is_hero, ":troop_no"),
+                (store_skill_level, ":troop_skill", ":skill", ":troop_no"),
+                (call_script, "script_game_get_skill_modifier_for_troop", ":troop_no", ":skill"),
+                (val_add, ":troop_skill", reg0),
+                (val_add, ":total_skill", ":troop_skill"),
+            (try_end),
+
+            (assign, reg0, ":total_skill"),
         ]),
 
     # script_party_empty_goods
