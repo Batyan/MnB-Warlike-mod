@@ -14027,12 +14027,12 @@ scripts = [
     ("faction_get_declare_war_score",
         [
             (store_script_param, ":faction_no", 1),
-            (store_script_param, ":other_faction", 2),
+            (store_script_param, ":war_target", 2),
 
-            (call_script, "script_faction_get_relation_with_faction", ":faction_no", ":other_faction"),
+            (call_script, "script_faction_get_relation_with_faction", ":faction_no", ":war_target"),
             (assign, ":relation", reg0),
 
-            (store_sub, ":offset", ":other_faction", kingdoms_begin),
+            (store_sub, ":offset", ":war_target", kingdoms_begin),
             (store_add, ":distance_slot", ":offset", slot_faction_kingdom_distance_begin),
             (faction_get_slot, ":distance", ":faction_no", ":distance_slot"),
 
@@ -14076,22 +14076,22 @@ scripts = [
             (faction_get_slot, ":combined_offensive_strength", ":faction_no", slot_faction_strength_offensive_allies),
 
             (set_fixed_point_multiplier, 1),
-            (faction_get_slot, ":other_faction_strength", ":other_faction", slot_faction_strength_defensive_allies),
-            (faction_get_slot, ":other_faction_war", ":other_faction", slot_faction_is_at_war),
+            (faction_get_slot, ":war_target_strength", ":war_target", slot_faction_strength_defensive_allies),
+            (faction_get_slot, ":war_target_war", ":war_target", slot_faction_is_at_war),
             (try_begin),
-                (gt, ":other_faction_war", 0),
-                (lt, ":other_faction_strength", ":combined_offensive_strength"),
-                (store_sub, ":penalty_difference", ":combined_offensive_strength", ":other_faction_strength"),
+                (gt, ":war_target_war", 0),
+                (lt, ":war_target_strength", ":combined_offensive_strength"),
+                (store_sub, ":penalty_difference", ":combined_offensive_strength", ":war_target_strength"),
                 (store_sqrt, ":penalty_score", ":penalty_difference"),
             (else_try),
                 # Each war increases divider by 0.5
-                (val_add, ":other_faction_war", 2),
-                (val_max, ":other_faction_war", 1),
-                (val_mul, ":other_faction_strength", 2),
-                (val_div, ":other_faction_strength", ":other_faction_war"),
+                (val_add, ":war_target_war", 2),
+                (val_max, ":war_target_war", 1),
+                (val_mul, ":war_target_strength", 2),
+                (val_div, ":war_target_strength", ":war_target_war"),
             (try_end),
 
-            (store_sub, ":strength_difference", ":combined_offensive_strength", ":other_faction_strength"),
+            (store_sub, ":strength_difference", ":combined_offensive_strength", ":war_target_strength"),
             (assign, ":strength_score", 0),
 
             (try_begin),
@@ -14121,10 +14121,48 @@ scripts = [
             (store_sub, ":inverse_safety", 100, ":safety"),
             (val_sub, ":score", ":inverse_safety"),
 
+            (assign, ":other_relations_score", 0),
+            (try_for_range, ":other_faction", kingdoms_begin, kingdoms_end),
+                (call_script, "script_faction_get_relation_with_faction", ":faction_no", ":other_faction"),
+                (assign, ":relation", reg0),
+                (call_script, "script_faction_get_relation_with_faction", ":other_faction", ":war_target"),
+                (assign, ":war_target_relation", reg0),
+
+                (val_div, ":relation", 10),
+                (val_div, ":war_target_relation", 10),
+                (try_begin),
+                    (neq, ":relation", 0),
+                    (val_mul, ":war_target_relation", ":relation"),
+                    (val_sub, ":other_relations_score", ":war_target_relation"),
+                (try_end),
+
+                (call_script, "script_faction_get_treaties", ":war_target", ":other_faction"),
+                (assign, ":war_target_treaties", reg0),
+                (call_script, "script_faction_get_treaties", ":faction_no", ":other_faction"),
+                (assign, ":treaties", reg0),
+
+                (val_and, ":treaties", sfkt_defensive_mask),
+                (val_and, ":war_target_treaties", sfkt_defensive_mask),
+
+                (try_begin),
+                    (gt, ":treaties", 0),
+                    (gt, ":war_target_treaties", 0),
+                    (val_add, ":other_relations_score", -10000),
+                (try_end),
+
+                (try_begin),
+                    (call_script, "script_cf_factions_are_at_war", ":other_faction", ":war_target"),
+                    (gt, ":treaties", 0),
+                    (val_add, ":other_relations_score", ":penalty_score"),
+                (try_end),
+            (try_end),
+
+            (val_add, ":score", ":other_relations_score"),
+
             (try_begin),
                 (call_script, "script_cf_debug", debug_faction),
                 (str_store_faction_name, s10, ":faction_no"),
-                (str_store_faction_name, s11, ":other_faction"),
+                (str_store_faction_name, s11, ":war_target"),
                 (assign, reg10, ":score"),
                 (assign, reg11, ":score_ratio"),
                 (assign, reg12, ":strength_score"),
@@ -14132,7 +14170,8 @@ scripts = [
                 (assign, reg16, ":penalty_score"),
                 (assign, reg14, ":war_damage"),
                 (assign, reg15, ":inverse_safety"),
-                (display_message, "@{s10} war score {s11}: {reg10} ({reg12} + {reg13} - {reg16} / {reg11}% - {reg14} - {reg15})"),
+                (assign, reg17, ":other_relations_score"),
+                (display_message, "@{s10} war score {s11}: {reg10} ({reg12} + {reg13} - {reg16} / {reg11}% - {reg14} - {reg15} + {reg17})"),
             (try_end),
 
             (assign, reg0, ":score"),

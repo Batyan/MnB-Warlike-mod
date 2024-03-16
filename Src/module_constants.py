@@ -752,6 +752,8 @@ sfkt_tribute_treaty_clear = 0xF0FF
 
 sfkt_all_treaty_clear = 0x0000
 
+sfkt_defensive_mask = sfkt_defensive_alliance|sfkt_alliance|sfkt_vassal|sfkt_overlord
+
 # For reference distance between:
 #   Suno - Burglen: 30
 #	Sargoth - Praven: 95
