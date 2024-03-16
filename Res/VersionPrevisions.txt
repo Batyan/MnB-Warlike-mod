@@ -63,76 +63,79 @@
 	0.450: Faction allies
 		Faction alliances
 		Faction willing vassal
-	0.460: Improvements
-		General improvements and bug fixes
-0.500: Party ai
-	Better party ai
-	0.510: Cooperation
-		Cooperation (ai)
-			Transfer troops (center to center)
-			Transfer prisoners
-		Improve vassal following behavior
-	0.520: Money changers
-		Lords need to pay to upgrade gear
-		Hire/Sell mercenaries
-		Lending money
-		Lord debts
-	0.530: Peace
-		Lords rest if wounded
-		Peacetime activities
-			Hunt bandit lairs
-			Visit other npcs
-	0.540: Marshall
-		Marshall ai
-		Marshall election
-0.600: City Management
-	Buildings
-	Bank
-	0.610: Player City Management
+	0.460: Stabilization
+		General improvements
+		Bug fixes
+0.500: City Management
+	Integrate player in center distribution
+	0.510: Player City Management
 		Change taxes
 		Change internal policies
-	0.620: Goods
+	0.520: Goods
 		Good transformation
 		Good consumption
-	0.630: Npcs
+	0.530: Npcs
 		Lords build buildings
-	0.640: Living economy
+	0.540: Living economy
 		Civilian parties
 		Prisoner transfer
 		Gold movements
-	0.650: Player trading
+	0.550: Player trading
 		All trader types for centers
 		Goods produced based on local productions
 		Equipment based on culture
-0.700: Kingdom Management
-	0.710: Policies
+	0.560: Buildings
+		Buildings
+		Bank
+0.600: Kingdom Management
+	0.610: Policies
 		Kingdom policies
-	0.720: Strength
+	0.620: Strength
 		Give out fiefs
 		Hire lords
-	0.730: Player kingdom
+	0.630: Player kingdom
 		Possible for player to lead a kingdom
-0.800: NPCs
+0.700: NPCs
 	Add kingdom women
 	Basic dialogs
 		Lords
 		Ladies
-	0.810: Relations
+	0.710: Relations
 		Heroes relations
 			Families
 			Friends
 		Heroes randomisation
 			Faces
 			Names
-	0.820: Personalities
+	0.720: Personalities
 		NPCs personalities
-	0.830: Rest
+	0.730: Rest
 		Npcs Visiting friends / family
-	0.840: Influence
+	0.740: Influence
 		Npc actions change relations
-	0.850: Dialogs
+	0.750: Dialogs
 		Contextual dialogs
 		Memorize important events with player
+0.800: Party ai
+	Better party ai
+	0.810: Cooperation
+		Cooperation (ai)
+			Transfer troops (center to center)
+			Transfer prisoners
+		Improve vassal following behavior
+	0.820: Money changers
+		Lords need to pay to upgrade gear
+		Hire/Sell mercenaries
+		Lending money
+		Lord debts
+	0.830: Peace
+		Lords rest if wounded
+		Peacetime activities
+			Hunt bandit lairs
+			Visit other npcs
+	0.840: Marshall
+		Marshall ai
+		Marshall election
 0.900: Politics
 	Politics
 	Kingdom government types

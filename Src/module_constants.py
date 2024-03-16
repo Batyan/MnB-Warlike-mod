@@ -16,7 +16,7 @@ debug_ai = 0x04 					# Displays informations about party ais
 debug_faction = 0x08 				# Displays informations about factions (politics)
 debug_war = debug_ai|debug_faction 	# Activates both faction and ai
 debug_trade = 0x10 					# Displays informations about trading
-debug_current = 0x20 				# Displays informations about the current feature beeing worked on (temporary debug state)
+debug_current = 0x20 				# Displays informations about the current feature being worked on (temporary debug state)
 debug_all = 0xFF 					# Displays every debug line available (most likely spams the screen)
 
 banner_meshes_begin = "mesh_banner_a01"
@@ -691,6 +691,7 @@ sfpa_none = 2
 slot_faction_vassal_type = slot_faction_policy_assimilation + 1
 
 # Vassal treaties
+sfvt_none = 0x00 # not a vassal
 sfvt_tributary = 0x01 # pays tribute
 sfvt_vassal = 0x02 # foreign policy is limited
 sfvt_sattrapy = 0x10 # joins offensive wars of overlord
@@ -750,6 +751,8 @@ sfkt_vassal_treaty_clear = 0x00FF
 sfkt_tribute_treaty_clear = 0xF0FF
 
 sfkt_all_treaty_clear = 0x0000
+
+sfkt_defensive_mask = sfkt_defensive_alliance|sfkt_alliance|sfkt_vassal|sfkt_overlord
 
 # For reference distance between:
 #   Suno - Burglen: 30
