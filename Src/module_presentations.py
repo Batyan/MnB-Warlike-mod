@@ -570,7 +570,7 @@ presentations = [
         ]),
 
     # Presentation detailing budget management
-    # Requires reg10 set to 1/0
+    # Requires g_process_effects set to 1/0
     #   toggle processing of current effects (owned center taxes, party wages...)
     ("budget_report", 0, mesh_load_window,
         [
@@ -619,62 +619,32 @@ presentations = [
                 
                 (set_container_overlay, reg0),
 
-                ## TODO: Current state
-
                 (assign, ":cur_y", 10),
-                (assign, ":line_height", 20),
+                (assign, ":line_height", 30),
+                (assign, ":category_height", 50),
                 (assign, ":num_lines", 3),
                 (store_mul, ":center_line_height", ":line_height", ":num_lines"),
                 (val_add, ":center_line_height", 10),
-                (try_for_range, ":center", centers_begin, centers_end),
+                (try_for_range_backwards, ":center", centers_begin, centers_end),
                     (party_get_slot, ":last_wealth", ":center", slot_party_budget_last_wealth),
-
-                    (try_begin),
-                        (eq, "$g_process_effects", 1),
-                        (party_set_slot, ":center", slot_party_budget_last_wealth, 0),
-                    (try_end),
-                    
-                    (party_get_slot, ":leader", ":center", slot_party_leader),
-                    (eq, ":leader", "$g_player_troop"),
-                    (is_between, ":center", towns_begin, towns_end),
-
-                    (str_store_party_name, s10, ":center"),
-                    (assign, reg11, ":last_wealth"),
-                    (create_text_overlay, reg0, "@{s10} past wealth: {reg11}", tf_left_align),
-                    (position_set_x, pos1, ":current_state_x"),
-                    (position_set_y, pos1, ":cur_y"),
-                    (overlay_set_position, reg0, pos1),
-                    (position_set_x, pos1, 1000),
-                    (position_set_y, pos1, 1000),
-                    (overlay_set_size, reg0, pos1),
-                    (overlay_set_color, reg0, text_color_budget_neutral),
-
-                    (val_add, ":cur_y", ":center_line_height"),
-                (try_end),
-
-                ## TODO: Current effects
-
-                (assign, ":cur_y", 10),
-
-                (try_for_range, ":center", centers_begin, centers_end),
                     (party_get_slot, ":accumulated_taxes", ":center", slot_party_budget_taxes),
-
                     (party_get_slot, ":accumulated_protection_taxes", ":center", slot_party_budget_protection_taxes),
 
                     (try_begin),
                         (eq, "$g_process_effects", 1),
+                        (party_set_slot, ":center", slot_party_budget_last_wealth, 0),
                         (party_set_slot, ":center", slot_party_budget_taxes, 0),
                         (party_set_slot, ":center", slot_party_budget_protection_taxes, 0),
                     (try_end),
-
+                    
                     (party_get_slot, ":leader", ":center", slot_party_leader),
                     (eq, ":leader", "$g_player_troop"),
-                    (is_between, ":center", towns_begin, towns_end),
+                    # (is_between, ":center", towns_begin, towns_end),
 
                     (str_store_party_name, s10, ":center"),
 
-                    (call_script, "script_game_get_money_text", ":accumulated_taxes"),
 
+                    (call_script, "script_game_get_money_text", ":accumulated_taxes"),
                     (create_text_overlay, reg0, "@{s10} taxes: {s0}", tf_left_align),
                     (position_set_x, pos1, ":current_effects_x"),
                     (position_set_y, pos1, ":cur_y"),
@@ -700,10 +670,20 @@ presentations = [
 
                     (val_add, ":cur_y", ":line_height"),
 
+                    (call_script, "script_game_get_money_text", ":last_wealth"),
+                    (create_text_overlay, reg0, "@{s10} past wealth: {s0}", tf_left_align),
+                    (position_set_x, pos1, ":current_state_x"),
+                    (position_set_y, pos1, ":cur_y"),
+                    (overlay_set_position, reg0, pos1),
+                    (position_set_x, pos1, 1000),
+                    (position_set_y, pos1, 1000),
+                    (overlay_set_size, reg0, pos1),
+                    (overlay_set_color, reg0, text_color_budget_neutral),
+
                     (call_script, "script_party_get_wages", ":center"),
                     (store_mul, ":center_wages", reg0, -1),
+                    
                     (call_script, "script_game_get_money_text", ":center_wages"),
-
                     (create_text_overlay, reg0, "@{s10} center wages: {s0}", tf_left_align),
                     (position_set_x, pos1, ":current_effects_x"),
                     (position_set_y, pos1, ":cur_y"),
@@ -713,13 +693,72 @@ presentations = [
                     (overlay_set_size, reg0, pos1),
                     (overlay_set_color, reg0, text_color_budget_negative),
 
-                    (val_add, ":cur_y", ":line_height"),
-                    (val_add, ":cur_y", 10),
+                    (val_add, ":cur_y", ":category_height"),
                 (try_end),
 
                 (store_troop_gold, ":player_gold", "$g_player_troop"),
-                (call_script, "script_game_get_money_text", ":player_gold"),
 
+                (call_script, "script_party_get_wages", "$g_player_party"),
+                (store_mul, ":player_party_wages", reg0, -1),
+
+                (store_add, ":player_party_remaining", ":player_gold", 0),
+
+                (party_get_slot, ":player_party_debt", "$g_player_party", slot_party_unpaid_wages),
+                (store_sub, ":remaining_debt", ":player_party_debt", ":player_party_wages"),
+
+                (create_text_overlay, reg0, "@Remaining debt:", tf_left_align),
+                (position_set_x, pos1, ":future_state_x"),
+                (position_set_y, pos1, ":cur_y"),
+                (overlay_set_position, reg0, pos1),
+                (position_set_x, pos1, 1000),
+                (position_set_y, pos1, 1000),
+                (overlay_set_size, reg0, pos1),
+
+                (call_script, "script_game_get_money_text", ":remaining_debt"),
+                (create_text_overlay, reg0, "@{s0}", tf_left_align),
+                (store_add, ":position_x", ":future_state_x", 150),
+                (position_set_x, pos1, ":position_x"),
+                (position_set_y, pos1, ":cur_y"),
+                (overlay_set_position, reg0, pos1),
+                (position_set_x, pos1, 1000),
+                (position_set_y, pos1, 1000),
+                (overlay_set_size, reg0, pos1),
+                (assign, "$g_presentation_wages_remaining_unpaid", reg0),
+
+                (call_script, "script_game_get_money_text", ":player_party_debt"),
+                (create_text_overlay, reg0, "@Current debt: {s0}", tf_left_align),
+                (position_set_x, pos1, ":current_state_x"),
+                (position_set_y, pos1, ":cur_y"),
+                (overlay_set_position, reg0, pos1),
+                (position_set_x, pos1, 1000),
+                (position_set_y, pos1, 1000),
+                (overlay_set_size, reg0, pos1),
+                (overlay_set_color, reg0, text_color_budget_neutral),
+
+                (val_add, ":cur_y", ":line_height"),
+                
+                (create_text_overlay, reg0, "@Remaining gold:", tf_left_align),
+                (position_set_x, pos1, ":future_state_x"),
+                (position_set_y, pos1, ":cur_y"),
+                (overlay_set_position, reg0, pos1),
+                (position_set_x, pos1, 1000),
+                (position_set_y, pos1, 1000),
+                (overlay_set_size, reg0, pos1),
+
+                (call_script, "script_game_get_money_text", ":player_party_remaining"),
+                (create_text_overlay, reg0, "@{s0}", tf_left_align),
+                (store_add, ":position_x", ":future_state_x", 150),
+                (position_set_x, pos1, ":position_x"),
+                (position_set_y, pos1, ":cur_y"),
+                (overlay_set_position, reg0, pos1),
+                (position_set_x, pos1, 1000),
+                (position_set_y, pos1, 1000),
+                (overlay_set_size, reg0, pos1),
+                (assign, "$g_presentation_wages_remaining_gold", reg0),
+
+                (val_add, ":cur_y", ":line_height"),
+
+                (call_script, "script_game_get_money_text", ":player_gold"),
                 (create_text_overlay, reg0, "@Main party wealth: {s0}", tf_left_align),
                 (position_set_x, pos1, ":current_state_x"),
                 (position_set_y, pos1, ":cur_y"),
@@ -729,10 +768,7 @@ presentations = [
                 (overlay_set_size, reg0, pos1),
                 (overlay_set_color, reg0, text_color_budget_neutral),
 
-                (call_script, "script_party_get_wages", "$g_player_party"),
-                (store_mul, ":player_party_wages", reg0, -1),
                 (call_script, "script_game_get_money_text", ":player_party_wages"),
-
                 (create_text_overlay, reg0, "@Main party wages: {s0}", tf_left_align),
                 (position_set_x, pos1, ":current_effects_x"),
                 (position_set_y, pos1, ":cur_y"),
@@ -742,18 +778,32 @@ presentations = [
                 (overlay_set_size, reg0, pos1),
                 (overlay_set_color, reg0, text_color_budget_negative),
 
-                ## TODO: Future state
-
-                (store_add, ":player_party_remaining", ":player_gold", ":player_party_wages"),
-                (call_script, "script_game_get_money_text", ":player_party_remaining"),
-
-                (create_text_overlay, reg0, "@Remaining gold: {s0}", tf_left_align),
+                (create_text_overlay, reg0, "@Amount to pay:", tf_left_align),
                 (position_set_x, pos1, ":future_state_x"),
                 (position_set_y, pos1, ":cur_y"),
                 (overlay_set_position, reg0, pos1),
                 (position_set_x, pos1, 1000),
                 (position_set_y, pos1, 1000),
                 (overlay_set_size, reg0, pos1),
+
+                (assign, "$g_presentation_wages_amount_paying", 0),
+
+                (try_begin),
+                    (eq, "$g_process_effects", 1),
+                    (store_add, ":max_wage_payment", ":player_gold", 1),
+                    (create_number_box_overlay, reg0, 0, ":max_wage_payment"),
+                (else_try),
+                    (call_script, "script_game_get_money_text", 0),
+                    (create_text_overlay, reg0, "@{s0}"),
+                (try_end),
+                (store_add, ":position_x", ":future_state_x", 150),
+                (position_set_x, pos1, ":position_x"),
+                (position_set_y, pos1, ":cur_y"),
+                (overlay_set_position, reg0, pos1),
+                (position_set_x, pos1, 1000),
+                (position_set_y, pos1, 1000),
+                (overlay_set_size, reg0, pos1),
+                (assign, "$g_presentation_wages_pay_slider", reg0),
 
                 (set_container_overlay, -1),
 
@@ -769,17 +819,35 @@ presentations = [
             (ti_on_presentation_event_state_change,
             [
                 (store_trigger_param_1, ":object"),
-                # (store_trigger_param_2, ":value"),
+                (store_trigger_param_2, ":value"),
 
                 (try_begin),
                     (eq, ":object", "$g_presentation_ok"),
 
                     (try_begin),
                         (eq, "$g_process_effects", 1),
-                        (call_script, "script_party_pay_wages", "$g_player_party"),
+                        (call_script, "script_party_pay_wages", "$g_player_party", "$g_presentation_wages_amount_paying"),
                         (assign, "$g_process_effects", 0),
                     (try_end),
                     (presentation_set_duration, 0),
+                (else_try),
+                    (eq, ":object", "$g_presentation_wages_pay_slider"),
+
+                    (assign, "$g_presentation_wages_amount_paying", ":value"),
+
+                    (store_troop_gold, ":player_gold", "$g_player_troop"),
+                    (store_sub, ":player_party_remaining", ":player_gold", ":value"),
+                    (call_script, "script_game_get_money_text", ":player_party_remaining"),
+                    (overlay_set_text, "$g_presentation_wages_remaining_gold", "@{s0}"),
+
+                    (call_script, "script_party_get_wages", "$g_player_party"),
+                    (assign, ":player_party_wages", reg0),
+                    (store_sub, ":remaining_wages", ":player_party_wages", ":value"),
+                    (party_get_slot, ":unpaid_wages", "$g_player_party", slot_party_unpaid_wages),
+                    (val_add, ":unpaid_wages", ":remaining_wages"),
+                    (call_script, "script_game_get_money_text", ":unpaid_wages"),
+                    (overlay_set_text, "$g_presentation_wages_remaining_unpaid", "@{s0}"),
+
                 (try_end),
             ]),
         ]),

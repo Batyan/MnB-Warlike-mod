@@ -145,7 +145,7 @@ ressource_gathering_pace = 200
 lords_begin = "trp_lord_001"
 lords_end = companions_begin
 
-npc_heroes_begin = lords_begin
+npc_heroes_begin = "trp_current_player"
 npc_heroes_end = companions_end
 
 # SCENES
