@@ -706,6 +706,8 @@ presentations = [
                 (party_get_slot, ":player_party_debt", "$g_player_party", slot_party_unpaid_wages),
                 (store_sub, ":remaining_debt", ":player_party_debt", ":player_party_wages"),
 
+                (assign, "$g_presentation_wages_amount_unpaid", ":remaining_debt"),
+
                 (create_text_overlay, reg0, "@Remaining debt:", tf_left_align),
                 (position_set_x, pos1, ":future_state_x"),
                 (position_set_y, pos1, ":cur_y"),
@@ -791,6 +793,7 @@ presentations = [
                 (try_begin),
                     (eq, "$g_process_effects", 1),
                     (store_add, ":max_wage_payment", ":player_gold", 1),
+                    (val_min, ":max_wage_payment", ":remaining_debt"),
                     (create_number_box_overlay, reg0, 0, ":max_wage_payment"),
                 (else_try),
                     (call_script, "script_game_get_money_text", 0),
@@ -827,6 +830,7 @@ presentations = [
                     (try_begin),
                         (eq, "$g_process_effects", 1),
                         (call_script, "script_party_pay_wages", "$g_player_party", "$g_presentation_wages_amount_paying"),
+                        (party_set_slot, "$g_player_party", slot_party_unpaid_wages, "$g_presentation_wages_amount_unpaid"),
                         (assign, "$g_process_effects", 0),
                     (try_end),
                     (presentation_set_duration, 0),
@@ -847,6 +851,8 @@ presentations = [
                     (val_add, ":unpaid_wages", ":remaining_wages"),
                     (call_script, "script_game_get_money_text", ":unpaid_wages"),
                     (overlay_set_text, "$g_presentation_wages_remaining_unpaid", "@{s0}"),
+
+                    (assign, "$g_presentation_wages_amount_unpaid", ":unpaid_wages"),
 
                 (try_end),
             ]),

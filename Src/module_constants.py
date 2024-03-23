@@ -787,15 +787,16 @@ war_storages_end = "fac_war_storage_end"
 
 
 slot_war_active = 9
-slot_war_start_date = 10
+slot_war_ended = slot_war_active + 1
+slot_war_start_date = slot_war_ended + 1
 
-slot_war_defender_strength = 11
-slot_war_attacker_strength = 12
+slot_war_defender_strength = slot_war_start_date + 1
+slot_war_attacker_strength = slot_war_defender_strength + 1
 
-slot_war_defender_willingness_score = 13
-slot_war_attacker_willingness_score = 14
+slot_war_defender_willingness_score = slot_war_attacker_strength + 1
+slot_war_attacker_willingness_score = slot_war_defender_willingness_score + 1
 
-slot_war_kingdom_participant_begin = 15
+slot_war_kingdom_participant_begin = slot_war_attacker_willingness_score + 1
 slot_war_kingdom_participant_end = slot_war_kingdom_participant_begin - kingdoms_begin + kingdoms_end
 
 swkp_main_defender = -2
