@@ -1,10 +1,25 @@
+v0.500:
+	-Features:
+		* allows player control of fiefs
+		* allows player becoming a vassal
+		* enable paying for troops in yearly budget
+	-Fixes:
+		* prevent kingdom relations from not resetting after war ends
+v0.460:
+	-Improvements:
+		* reduce chances for multiple wars on a single faction
+		* improve effectiveness of high level troops in auto battle calculations
+		* vassals of a faction become vassals of its overlord
+	-Fixes:
+		* fix ais attacking allies
+		* fix centers still being occupied after war ends
 v0.450:
-	-New features:
+	-Features:
 		* add autosort options
 		* small factions submit to vassalisation before being decalred in a war they can't win
 		* faction will improve relations with neighbors they like
 		* faction will create treaties with friendly factions
-	-Balance changes
+	-Balance
 		* improve nord_noble_infantry head gear
 		* slightly reduce pikemen weight for rhodok armies (50 -> 40)
 		* add khergit_mounted_skirmisher to small_kingdom_31
@@ -19,26 +34,26 @@ v0.450:
 		* rename some khergit troops for consistency
 
 v 0.440:
-	-New features:
+	-Features:
 		* add kingdom funds and kingdom landless help
 		* factions release prisoners of allied factions
 		* auto sorting of parties
-	-Balance changes
+	-Balance:
 		* move khergit_clansman to small_kingdom_34 (from small_kingdom_35)
 		* add khergit_levy_horseman to small_kingdom_35
 		* change nord_heavy_infantry to elite
 		* reduce rhodok_levy_pikeman ironflesh (6 -> 4)
-	-Fixes
+	-Fixes:
 		* fix empty parties remaining after manual battles
 v 0.430:
-	-New features:
+	-Features:
 		* lords now appear directly inside centers to prevent capture on spawn
 		* add player party sorting
 		* set name for castle 33d and village 33d1
 		* add faction vassalage
 		* add faction defeat
 		* add toggle for faction color consolidation
-	-Balance changes:
+	-Balance:
 		The following changes aim to increase sarranid troops resilience
 		They still keep their high athletics / low hp focus
 		* decrease swadian_footman athletics 6 -> 5
@@ -102,19 +117,19 @@ v 0.430:
 		* fix incorrect siege battle outcome
 
 v 0.420:
-	-New features:
+	-Features:
 		* improve vassal center granting system
 		* add vassals information in faction notes
 		* add prisoner ransom
 		* evacuate occupied centers after truce
-	-Balance changes:
+	-Balance:
 		* increase nord_light_infantry armor
 		* update center granting system to allow better hierarchy on vassals
 	-Fixes:
 		* fix incorrect affectation of linked center for some villages
 
 v 0.410:
-	-New features:
+	-Features:
 		* add kingdom relations
 		* add kingdom war and peace declaration
 		* add kingdom treaties
@@ -128,8 +143,7 @@ v 0.410:
 		* reworked autoresolve troops strength to match more closely troops wages
 		* defenders are given 20 seconds to prepare before attacker spawns during siege
 		* besieged and occupied centers have a tax penalty of 30% applied
-
-	-Balance changes:
+	-Balance:
 		* add 4 new castle and associated village for minor khergit, nord, rhodok and sarranid
 		* change swadian_light_horseman to use lances instead of ranged weapons
 		* change swadian_horseman to use lances instead of ranged weapons
@@ -226,7 +240,6 @@ v 0.410:
 		* reduce nord_levy agility (9 -> 8)
 		* reduce nord_levy strength (12 -> 11)
 		* reduce sarranid_noble_infantry powerstrike (5 -> 4)
-
 	-Fixes:
 		* fix battles being joined by parties that were already engaged in a battle
 		* fix villages not applying protection taxes properly
@@ -235,23 +248,22 @@ v 0.410:
 		* fix name for faction marshall
 
 v 0.400:
-	-New features:
+	-Features:
 		* capture center mechanic
 
 	-Fixes:
 		* fix villages not sending reinforcements to linked centers
 
 v 0.340:
-	-New features:
+	-Features:
 	* caravans
 	* good production
 	* good trading taxes
-
-	-Balance changes:
+	-Balance:
 	* slowed down caravans, patrols, bandits and war parties on campaign map
 
 v 0.330:
-	-New features:
+	-Features:
 		* add defensive parties
 			Scout: small parties of fast troops (priority to cavalry units) to engage bandits and spot enemy parties
 			Partol: average/large parties to defend against large bandit parties and help in defensive battles
@@ -259,8 +271,7 @@ v 0.330:
 		* add vassal taxation
 			Vassals have to give a small amount of their revenue to their liege
 			All kingdom members have to pay a smaller percentage to the kingdom leader
-
-	-Balance changes:
+	-Balance:
 		* increase swadian_militia strength (8 -> 9)
 		* decrease swadian_militia intelligence (7 -> 6)
 		* decrease swadian_militia ironflesh (1 -> 0)
