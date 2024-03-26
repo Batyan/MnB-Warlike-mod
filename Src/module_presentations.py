@@ -809,6 +809,19 @@ presentations = [
                 (overlay_set_size, reg0, pos1),
                 (assign, "$g_presentation_wages_pay_slider", reg0),
 
+                (try_begin),
+                    (eq, "$g_process_effects", 1),
+                    (create_button_overlay, reg0, "@Pay all"),
+                    (store_add, ":position_x", ":future_state_x", 225),
+                    (position_set_x, pos1, ":position_x"),
+                    (position_set_y, pos1, ":cur_y"),
+                    (overlay_set_position, reg0, pos1),
+                    (position_set_x, pos1, 1000),
+                    (position_set_y, pos1, 1000),
+                    (overlay_set_size, reg0, pos1),
+                    (assign, "$g_presentation_wages_pay_all", reg0),
+                (try_end),
+
                 (set_container_overlay, -1),
 
                 # Actions panel
@@ -854,6 +867,29 @@ presentations = [
                     (overlay_set_text, "$g_presentation_wages_remaining_unpaid", "@{s0}"),
 
                     (assign, "$g_presentation_wages_amount_unpaid", ":unpaid_wages"),
+                (else_try),
+                    (eq, ":object", "$g_presentation_wages_pay_all"),
+                    (store_troop_gold, ":player_gold", "$g_player_troop"),
+
+                    (call_script, "script_party_get_wages", "$g_player_party"),
+                    (assign, ":player_party_wages", reg0),
+                    (party_get_slot, ":unpaid_wages", "$g_player_party", slot_party_unpaid_wages),
+                    (val_add, ":unpaid_wages", ":player_party_wages"),
+
+                    (assign, ":amount_paid", ":player_gold"),
+                    (val_min, ":amount_paid", ":unpaid_wages"),
+
+                    (assign, "$g_presentation_wages_amount_paying", ":amount_paid"),
+
+                    (overlay_set_val, "$g_presentation_wages_pay_slider", ":amount_paid"),
+
+                    (store_sub, ":remaining_gold", ":player_gold", ":amount_paid"),
+                    (call_script, "script_game_get_money_text", ":remaining_gold"),
+                    (overlay_set_text, "$g_presentation_wages_remaining_gold", "@{s0}"),
+
+                    (store_sub, ":remaining_unpaid", ":unpaid_wages", ":amount_paid"),
+                    (call_script, "script_game_get_money_text", ":remaining_unpaid"),
+                    (overlay_set_text, "$g_presentation_wages_remaining_unpaid", "@{s0}"),
 
                 (try_end),
             ]),
