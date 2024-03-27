@@ -528,6 +528,29 @@ simple_triggers = [
                 (faction_set_slot, ":cur_kingdom", slot_faction_num_vassals_active, 0),
             (try_end),
 
+            (try_begin),
+                (store_faction_of_party, ":player_faction", "$g_player_party"),
+                (is_between, ":player_faction", kingdoms_begin, kingdoms_end),
+
+                (faction_get_slot, ":num_vassals", ":player_faction", slot_faction_num_vassals),
+                (val_add, ":num_vassals", 1),
+                (faction_set_slot, ":player_faction", slot_faction_num_vassals, ":num_vassals"),
+
+                (faction_get_slot, ":num_vassals", ":player_faction", slot_faction_num_vassals_active),
+                (val_add, ":num_vassals", 1),
+                (faction_set_slot, ":player_faction", slot_faction_num_vassals_active, ":num_vassals"),
+
+                (faction_get_slot, ":current_strength", ":player_faction", slot_faction_strength_active),
+                (party_get_slot, ":value", "$g_player_party", slot_party_wages_cache),
+                (val_add, ":current_strength", ":value"),
+                (faction_set_slot, ":player_faction", slot_faction_strength_active, ":current_strength"),
+
+                (faction_get_slot, ":current_strength", ":player_faction", slot_faction_strength_ready),
+                (party_get_slot, ":value", "$g_player_party", slot_party_wages_cache),
+                (val_add, ":current_strength", ":value"),
+                (faction_set_slot, ":player_faction", slot_faction_strength_ready, ":current_strength"),
+            (try_end),
+
             (try_for_range, ":lord_no", lords_begin, lords_end),
                 (troop_get_slot, ":occupation", ":lord_no", slot_troop_kingdom_occupation),
                 (try_begin),
