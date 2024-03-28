@@ -136,6 +136,7 @@ scripts = [
             (assign, "$g_global_cloud_amount", 0),
 
             (assign, "$g_normalize_faction_color", 1),
+            (assign, "$g_update_player_name", 1),
             
             (set_show_messages, 1),
         ]),
@@ -7301,24 +7302,30 @@ scripts = [
     ("troop_update_name",
         [
             (store_script_param, ":troop_no", 1),
-            
-            (store_troop_faction, ":faction", ":troop_no"),
-            (faction_get_slot, ":culture", ":faction", slot_faction_culture),
-            (troop_get_slot, ":new_rank", ":troop_no", slot_troop_rank),
-            
-            (faction_get_slot, ":faction_name_begin", ":culture", slot_faction_lord_name_begin),
-            (store_add, ":lord_name", ":faction_name_begin", ":new_rank"),
-            (str_store_troop_name_plural, s0, ":troop_no"),
-            
-            (troop_get_slot, ":party", ":troop_no", slot_troop_leaded_party),
+
             (try_begin),
-                (gt, ":party", 0),
-                (party_slot_eq, ":party", slot_party_type, spt_war_party),
-                (str_store_string, s10, ":lord_name"),
-                (party_set_name, ":party", "@{s10}'s Party"),
-            (try_end),
+                (eq, ":troop_no", "$g_player_troop"),
+                (eq, "$g_update_player_name", 0),
+            (else_try),
             
-            (troop_set_name, ":troop_no", ":lord_name"),
+                (store_troop_faction, ":faction", ":troop_no"),
+                (faction_get_slot, ":culture", ":faction", slot_faction_culture),
+                (troop_get_slot, ":new_rank", ":troop_no", slot_troop_rank),
+                
+                (faction_get_slot, ":faction_name_begin", ":culture", slot_faction_lord_name_begin),
+                (store_add, ":lord_name", ":faction_name_begin", ":new_rank"),
+                (str_store_troop_name_plural, s0, ":troop_no"),
+                
+                (troop_get_slot, ":party", ":troop_no", slot_troop_leaded_party),
+                (try_begin),
+                    (gt, ":party", 0),
+                    (party_slot_eq, ":party", slot_party_type, spt_war_party),
+                    (str_store_string, s10, ":lord_name"),
+                    (party_set_name, ":party", "@{s10}'s Party"),
+                (try_end),
+                
+                (troop_set_name, ":troop_no", ":lord_name"),
+            (try_end),
         ]),
     
     # script_troop_change_stat_with_template

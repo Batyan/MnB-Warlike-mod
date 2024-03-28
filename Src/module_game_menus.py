@@ -96,6 +96,8 @@ game_menus = [
                         # (call_script, "script_troop_copy_face_code_from_troop", "$g_player_troop", "trp_player"),
                         # (set_player_troop, "$g_player_troop"),
                     (try_end),
+                    (str_store_troop_name, s10, "$g_player_troop"),
+                    (troop_set_plural_name, "$g_player_troop", s10),
                 ]),
         ]),
     
