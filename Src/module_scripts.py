@@ -125,6 +125,8 @@ scripts = [
                 (try_end),
             (try_end),
 
+            (call_script, "script_init_quests"),
+
             (try_for_range, ":merchant", merchants_begin, merchants_end),
                 (troop_set_slot, ":merchant", slot_troop_last_met, -24*7*5), # Around 5 weeks' worth of goods
             (try_end),
@@ -136,7 +138,9 @@ scripts = [
             (assign, "$g_global_cloud_amount", 0),
 
             (assign, "$g_normalize_faction_color", 1),
-            (assign, "$g_update_player_name", 1),
+            (assign, "$g_player_update_name", 1),
+
+            (assign, "$g_player_last_proposed_vassalage", -1),
             
             (set_show_messages, 1),
         ]),
@@ -1892,6 +1896,7 @@ scripts = [
         # OUTPUT: s0 = note
     ("game_get_quest_note",
         [
+            (set_trigger_result, 0), # set it to 1 if this script is wanted to be used rather than static notes
         ]),
 
     #script_game_get_info_page_note
@@ -3346,6 +3351,7 @@ scripts = [
             (party_set_slot, ":party_no", slot_party_prosperity, 50),
             
             (party_set_slot, ":party_no", slot_party_lord, -1),
+            (party_set_slot, ":party_no", slot_party_reserved, -1),
             
             (party_set_slot, ":party_no", slot_party_besieged_by, -1),
 
@@ -7305,7 +7311,7 @@ scripts = [
 
             (try_begin),
                 (eq, ":troop_no", "$g_player_troop"),
-                (eq, "$g_update_player_name", 0),
+                (eq, "$g_player_update_name", 0),
             (else_try),
             
                 (store_troop_faction, ":faction", ":troop_no"),
@@ -11175,6 +11181,30 @@ scripts = [
             (store_random_in_range, ":name", ":names_begin", ":names_end"),
             (troop_set_plural_name, ":troop_no", ":name"),
         ]),
+
+    # script_troop_give_center_to_troop_pl
+        # input:
+        #   arg1: giver_troop_no
+        #   arg2: center
+        #   arg3: receiver_troop
+        # output: none
+    ("troop_give_center_to_troop_pl",
+        [
+            (store_script_param, ":giver_troop_no", 1),
+            (store_script_param, ":center", 2),
+            (store_script_param, ":receiver_troop", 3),
+
+            (try_begin),
+                (eq, ":receiver_troop", "$g_player_troop"),
+
+                (assign, reg20, ":giver_troop_no"),
+                (assign, reg21, ":center"),
+                (jump_to_menu, "mnu_player_receive_center"),
+            (else_try),
+                (call_script, "script_troop_give_center_to_troop", ":giver_troop_no", ":center", ":receiver_troop"),
+            (try_end),
+        ]),
+
     
     # script_troop_give_center_to_troop
         # input:
@@ -11244,6 +11274,7 @@ scripts = [
             (troop_get_slot, ":old_rank", ":troop_no", slot_troop_rank),
             
             (party_set_slot, ":center_no", slot_party_lord, ":troop_no"),
+            (party_set_slot, ":center_no", slot_party_reserved, -1),
             
             (call_script, "script_troop_get_rank", ":troop_no"),
             (assign, ":rank", reg0),
@@ -11821,6 +11852,13 @@ scripts = [
                     (assign, ":score", reg0),
                     (try_begin),
                         (gt, ":score", ":best_score"),
+                        (call_script, "script_get_current_day"),
+                        (assign, ":current_day", reg0),
+
+                        # If the player previously refused an offer we don't ask for a while
+                        (store_add, ":threshold", "$g_player_last_proposed_vassalage", 365*2),
+                        (gt, ":current_day", ":threshold"),
+
                         (assign, ":best_score", ":score"),
                         (assign, ":best_candidate", "$g_player_troop"),
                     (try_end),
@@ -20524,6 +20562,7 @@ scripts = [
                 (assign, ":end", centers_end),
                 (try_for_range, ":center_no", centers_begin, ":end"),
                     (party_slot_eq, ":center_no", slot_party_lord, ":troop_no"),
+                    (party_slot_eq, ":center_no", slot_party_reserved, -1),
                     (neq, ":center_no", ":home"),
                     (assign, ":surplus_center", ":center_no"),
                     (assign, ":end", 0),
@@ -20898,4 +20937,118 @@ scripts = [
 
             (assign, reg0, ":inverse_tax"),
         ]),
+
+    # script_init_quests
+        # input: none
+        # output: none
+    ("init_quests",
+        [
+            (try_for_range, ":quest_no", quests_begin, quests_end),
+                (store_sub, ":offset", ":quest_no", quests_begin),
+                (store_add, ":quest_index", ":offset", quest_descriptions_begin),
+
+                (quest_set_slot, ":quest_no", slot_quest_description, ":quest_index"),
+            (try_end),
+        ]),
+
+    # script_start_quest
+        # input:
+        #   arg1: quest_no
+        #   arg2: giver_troop_no
+        # output: none
+    ("start_quest",
+        [
+            (store_script_param, ":quest_no", 1),
+            (store_script_param, ":giver_troop_no", 2),
+
+            (quest_set_slot, ":quest_no", slot_quest_giver_troop, ":giver_troop_no"),
+            (quest_get_slot, ":quest_description_index", ":quest_no", slot_quest_description),
+
+            (try_begin),
+                (eq, ":giver_troop_no", -1),
+                (str_store_string, s63, "@Political suggestion"),
+            (else_try),
+                (is_between, ":giver_troop_no", npc_heroes_begin, npc_heroes_end),
+                (str_store_troop_name_link, s62, ":giver_troop_no"),
+                (str_store_string, s63, "@Given by: {s62}"),
+            (else_try),
+                (str_store_troop_name, s62, ":giver_troop_no"),
+                (str_store_string, s63, "@Given by: {s62}"),
+            (try_end),
+            (store_current_hours, ":cur_hours"),
+            (str_store_date, s60, ":cur_hours"),
+            (str_store_string, s60, "@Given on: {s60}"),
+            (try_begin),
+                (gt, ":quest_description_index", 0),
+                (str_store_string, s61, ":quest_description_index"),
+            (else_try),
+                (str_clear, s61),
+            (try_end),
+
+            (add_quest_note_from_sreg, ":quest_no", 0, s60, 0),
+            (add_quest_note_from_sreg, ":quest_no", 1, s63, 0),
+            (add_quest_note_from_sreg, ":quest_no", 2, s61, 0),
+
+            (try_begin),
+                (quest_slot_ge, ":quest_no", slot_quest_expiration_days, 1),
+                (quest_get_slot, reg0, ":quest_no", slot_quest_expiration_days),
+                (add_quest_note_from_sreg, ":quest_no", 7, "@You have {reg0} days to finish this quest.", 0),
+            (try_end),
+
+            # Adding dont_give_again_for_days value
+            (try_begin),
+                (quest_slot_ge, ":quest_no", slot_quest_dont_give_again_period, 1),
+                (quest_get_slot, ":dont_give_again_period", ":quest_no", slot_quest_dont_give_again_period),
+                (quest_set_slot, ":quest_no", slot_quest_dont_give_again_remaining_days, ":dont_give_again_period"),
+            (try_end),
+            
+            (setup_quest_text, ":quest_no"),
+            (start_quest, ":quest_no", ":giver_troop_no"),
+        ]),
+
+    # script_conclude_quest
+        # input:
+        #   arg1: quest_no
+    ("conclude_quest",
+        [
+            (store_script_param, ":quest_no", 1),
+            (conclude_quest, ":quest_no"),
+        ]),
+
+    # script_succeed_quest
+        # input:
+        #   arg1: quest_no
+    ("succeed_quest",
+        [
+            (store_script_param, ":quest_no", 1),
+            (succeed_quest, ":quest_no"),
+        ]),
+
+    # script_fail_quest
+        # input:
+        #   arg1: quest_no
+    ("fail_quest",
+        [
+            (store_script_param, ":quest_no", 1),
+            (fail_quest, ":quest_no"),
+        ]),
+
+    # script_complete_quest
+        # input:
+        #   arg1: quest_no
+    ("complete_quest",
+        [
+            (store_script_param, ":quest_no", 1),
+            (complete_quest, ":quest_no"),
+        ]),
+
+    # script_cancel_quest
+        # input:
+        #   arg1: quest_no
+    ("cancel_quest",
+        [
+            (store_script_param, ":quest_no", 1),
+            (cancel_quest, ":quest_no"),
+        ]),
+
 ]

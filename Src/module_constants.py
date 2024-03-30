@@ -450,6 +450,12 @@ faction_tax_rate_funds_max_war = 10
 faction_tax_rate_member_base = 2
 faction_tax_rate_vassal_base = 5
 
+quests_begin = "qst_swear_vassalage_fief"
+quests_end = "qst_quests_end"
+
+quest_descriptions_begin = "str_quest_description_swear_vassalage_fief"
+quest_descriptions_end = "qst_quest_description_end"
+
 ################
 ## Item Slots ##
 ################
@@ -1085,8 +1091,10 @@ autosort_culture_flag = 0xF0
 autosort_level_clearer = 0xF0
 autosort_culture_clearer = 0x0F
 
+slot_party_reserved = slot_party_autosort_options + 1
+
 # For centers
-slot_party_item_consumed_begin 	= slot_party_autosort_options + 1 # Number of items consumed
+slot_party_item_consumed_begin 	= slot_party_reserved + 1 # Number of items consumed
 slot_party_item_consumed_end	= slot_party_item_consumed_begin + goods_end - goods_begin
 slot_party_item_last_produced_begin 	= slot_party_item_consumed_end # Number of items produced
 slot_party_item_last_produced_end	= slot_party_item_last_produced_begin + goods_end - goods_begin
@@ -1430,7 +1438,14 @@ grc_reinforcement_cavalry = 8
 
 quest_slots = 0
 
+slot_quest_giver_troop = 1
+slot_quest_expiration_days = slot_quest_giver_troop + 1
+slot_quest_dont_give_again_period = slot_quest_expiration_days + 1
+slot_quest_dont_give_again_remaining_days = slot_quest_dont_give_again_period + 1
 
+slot_quest_description = slot_quest_dont_give_again_remaining_days + 1
+
+slot_quest_object = slot_quest_description + 1
 
 
 

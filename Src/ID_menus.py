@@ -40,3 +40,4 @@ menu_player_prisoner_escape = 38
 menu_player_prisoner_escape_persuade = 39
 menu_player_prisoner_escape_sneak = 40
 menu_player_prisoner_escape_force = 41
+menu_player_receive_center = 42

@@ -398,7 +398,7 @@ simple_triggers = [
                             
                             (try_begin),
                                 (ge, ":selected", 0),
-                                (call_script, "script_troop_give_center_to_troop", ":lord_no", ":surplus_fief", ":selected"),
+                                (call_script, "script_troop_give_center_to_troop_pl", ":lord_no", ":surplus_fief", ":selected"),
                             (else_try), # Promote a relative with a fief
                                 (call_script, "script_find_free_lord"),
                                 (assign, ":new_lord", reg0),

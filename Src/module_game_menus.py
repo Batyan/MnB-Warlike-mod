@@ -2088,4 +2088,35 @@ game_menus = [
             ]),
             ("action_go_back", [(eq, reg10, outcome_success),], "Free at last", [(call_script, "script_player_party_free"),(change_screen_return),]),
         ]),
+
+    ("player_receive_center", mnf_scale_picture, 
+        "{s12}",
+        "none",
+        [
+            (set_background_mesh, "mesh_pic_messenger"),
+
+            (str_store_troop_name, s10, reg20),
+            (str_store_party_name, s11, reg21),
+            (try_begin),
+                (troop_slot_eq, "$g_player_troop", slot_troop_vassal_of, reg20),
+                (str_store_string, s12, "str_player_receive_center_vassal"),
+            (else_try),
+                (str_store_string, s12, "str_player_receive_center"),
+            (try_end),
+        ],
+        [
+            ("receive_center_refuse", [], "Refuse", [
+                (call_script, "script_get_current_day"),
+                (assign, reg20, reg0),
+                (assign, "$g_player_last_proposed_vassalage", reg20),
+                (change_screen_return),
+            ]),
+            ("receive_center_accept", [], "Accept", [
+                (party_set_slot, reg21, slot_party_reserved, "$g_player_troop"),
+                # (call_script, "script_troop_give_center_to_troop", reg20, reg21, "$g_player_troop"),
+                (call_script, "script_start_quest", "qst_swear_vassalage_fief", reg20),
+                (quest_set_slot, "qst_swear_vassalage_fief", slot_quest_object, reg21),
+                (change_screen_return),
+            ]),
+        ]),
  ]
