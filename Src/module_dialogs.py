@@ -234,11 +234,13 @@ dialogs = [
 
 	[anyone, "lord_offer_vassal",
 		[
- 			(quest_get_slot, s11, "qst_swear_vassalage_fief", slot_quest_object),
+ 			(quest_get_slot, ":fief", "qst_swear_vassalage_fief", slot_quest_object),
+ 			(str_store_party_name, s11, ":fief"),
 		], "You know then of my offer, your oath of vassalage, with the fief of {s11} to lord over. What is your answer?", "player_lord_offer_vassal_answer", []],
 	[anyone, "lord_offer_vassal_explain",
 		[
- 			(quest_get_slot, s11, "qst_swear_vassalage_fief", slot_quest_object),
+ 			(quest_get_slot, ":fief", "qst_swear_vassalage_fief", slot_quest_object),
+ 			(str_store_party_name, s11, ":fief"),
  			], "That is most unfortunate... To be brief I would like your sword by my side, an offer to pledge your vassalage to me.^On top of this you would be granted the fief of {s11} to lord over. What do you say?", "player_lord_offer_vassal_answer", []],
 
 	[anyone|plyr, "player_lord_offer_vassal_answer",
@@ -300,8 +302,11 @@ dialogs = [
 			(call_script, "script_succeed_quest", "qst_swear_vassalage_fief"),
 		], "Very well. You have given me your solemn oath, {playername}. May you uphold it always, with proper courage and devotion.", "lord_offer_vassal_oath_end_2", []],
 	[anyone, "lord_offer_vassal_oath_end_2",
-		[], "Let it be known that from this day forward, you are my sworn {man/follower} and vassal.\
- I give you my protection and grant you the right to bear arms in my name, and I pledge that I shall not deprive you of your life, liberty or properties except by the lawful judgment of your peers or by the law and custom of the land. Furthermore I give you the fief of {s10} with all its rents and revenues.", "lord_offer_vassal_oath_end_3", []],
+		[
+ 			(quest_get_slot, ":fief", "qst_swear_vassalage_fief", slot_quest_object),
+ 			(str_store_party_name, s11, ":fief"),
+		], "Let it be known that from this day forward, you are my sworn {man/follower} and vassal.\
+ I give you my protection and grant you the right to bear arms in my name, and I pledge that I shall not deprive you of your life, liberty or properties except by the lawful judgment of your peers or by the law and custom of the land. Furthermore I give you the fief of {s11} with all its rents and revenues.", "lord_offer_vassal_oath_end_3", []],
 	[anyone, "lord_offer_vassal_oath_end_3",
 		[], "You have done a wise thing, {playername}. Serve me well and I promise, you will rise high.", "player_lord_offer_vassal_oath_end", []],
 	[anyone|plyr, "player_lord_offer_vassal_oath_end",
