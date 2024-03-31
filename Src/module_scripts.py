@@ -845,6 +845,9 @@ scripts = [
 
             (call_script, "script_troop_get_wages", ":troop_no"),
             (assign, ":score", reg0),
+
+            (val_div, ":score", 2),
+            (val_add, ":score", 10),
             
             (troop_get_slot, ":weapon_weight", ":troop_no", slot_troop_ranged_weapon_weight),
             
@@ -12281,39 +12284,39 @@ scripts = [
     #   reg0: total cost
     #   reg1: num troops
     ("calculate_hire_troop_cost",
-    [
-        (store_script_param, ":current_city", 1),
-        (store_script_param, ":recruiter", 2),
-        
-        (assign, ":total_cost", 0),
-        (assign, ":total_num_troops", 0),
-        (party_get_num_companion_stacks, ":num_stacks", ":current_city"),
-        (try_for_range, ":stack_no", 0, ":num_stacks"),
-            (party_stack_get_troop_id, ":troop_no", ":current_city", ":stack_no"),
-            # (party_stack_get_size, ":stack_size", ":current_city", ":stack_no"),
+        [
+            (store_script_param, ":current_city", 1),
+            (store_script_param, ":recruiter", 2),
             
-            (store_mul, ":numbox_offset", ":stack_no", 2),
-            (val_add, ":numbox_offset", 1),
-            
-            # (store_add, ":numbox_object", ":numbox_offset", "$g_hire_soldiers_center_troops_begin"),
-            (troop_get_slot, ":num_troops", ":troop_no", slot_troop_temp_hire_number),
-            
-            (call_script, "script_troop_get_cost", ":troop_no"),
-            (assign, ":troop_cost", reg0),
-            (val_mul, ":troop_cost", ":num_troops"),
-            
-            (val_add, ":total_num_troops", ":num_troops"),
-            
-            (call_script, "script_troop_get_cost_modifier", ":troop_no", ":current_city", ":recruiter"),
-            (assign, ":cost_modifier", reg0),
-            (val_mul, ":troop_cost", ":cost_modifier"),
-            (val_div, ":troop_cost", 100),
-            
-            (val_add, ":total_cost", ":troop_cost"),
-        (try_end),
-        (assign, reg0, ":total_cost"),
-        (assign, reg1, ":total_num_troops"),
-    ]),
+            (assign, ":total_cost", 0),
+            (assign, ":total_num_troops", 0),
+            (party_get_num_companion_stacks, ":num_stacks", ":current_city"),
+            (try_for_range, ":stack_no", 0, ":num_stacks"),
+                (party_stack_get_troop_id, ":troop_no", ":current_city", ":stack_no"),
+                # (party_stack_get_size, ":stack_size", ":current_city", ":stack_no"),
+                
+                (store_mul, ":numbox_offset", ":stack_no", 2),
+                (val_add, ":numbox_offset", 1),
+                
+                # (store_add, ":numbox_object", ":numbox_offset", "$g_hire_soldiers_center_troops_begin"),
+                (troop_get_slot, ":num_troops", ":troop_no", slot_troop_temp_hire_number),
+                
+                (call_script, "script_troop_get_cost", ":troop_no"),
+                (assign, ":troop_cost", reg0),
+                (val_mul, ":troop_cost", ":num_troops"),
+                
+                (val_add, ":total_num_troops", ":num_troops"),
+                
+                (call_script, "script_troop_get_cost_modifier", ":troop_no", ":current_city", ":recruiter"),
+                (assign, ":cost_modifier", reg0),
+                (val_mul, ":troop_cost", ":cost_modifier"),
+                (val_div, ":troop_cost", 100),
+                
+                (val_add, ":total_cost", ":troop_cost"),
+            (try_end),
+            (assign, reg0, ":total_cost"),
+            (assign, reg1, ":total_num_troops"),
+        ]),
     
     # script_troop_get_cost
     # input: 
@@ -12321,25 +12324,25 @@ scripts = [
     # output:
     #   reg0: troop cost
     ("troop_get_cost",
-    [
-        (store_script_param_1, ":troop_id"),
-        
-        (store_character_level, ":level", ":troop_id"),
-        
-        (store_add, ":join_cost", ":level", 8),
-        (val_mul, ":join_cost", ":join_cost"),
-        (val_div, ":join_cost", 5),
-        
-        (try_begin),
-            (troop_is_mounted, ":troop_id"), # 50% increase for mounted troops
-            (val_mul, ":join_cost", 3),
-            (val_div, ":join_cost", 2),
-        (try_end),
+        [
+            (store_script_param_1, ":troop_id"),
+            
+            (store_character_level, ":level", ":troop_id"),
+            
+            (store_add, ":join_cost", ":level", 8),
+            (val_mul, ":join_cost", ":join_cost"),
+            (val_div, ":join_cost", 5),
+            
+            (try_begin),
+                (troop_is_mounted, ":troop_id"), # 50% increase for mounted troops
+                (val_mul, ":join_cost", 3),
+                (val_div, ":join_cost", 2),
+            (try_end),
 
-        (val_mul, ":join_cost", 10),
-        
-        (assign, reg0, ":join_cost"), 
-    ]),
+            (val_mul, ":join_cost", 10),
+            
+            (assign, reg0, ":join_cost"), 
+        ]),
     
     # script_troop_get_cost_modifier
     # input:
@@ -12355,57 +12358,58 @@ scripts = [
             (store_script_param, ":recruiter", 3),
             
             (assign, ":modifier", 100),
-            
-            (party_get_slot, ":party_type", ":current_party", slot_party_type),
-            (store_troop_faction, ":troop_faction", ":troop_no"),
-            (faction_get_slot, ":culture", ":troop_faction", slot_faction_culture),
-            (faction_get_slot, ":peasant_begin", ":culture", slot_faction_troops_begin),
-            (faction_get_slot, ":common_begin", ":culture", slot_faction_common_begin),
-            (faction_get_slot, ":veteran_begin", ":culture", slot_faction_veteran_begin),
-            (faction_get_slot, ":elite_begin", ":culture", slot_faction_elite_begin),
-            # (faction_get_slot, ":noble_begin", ":culture", slot_faction_noble_begin),
-            (faction_get_slot, ":troops_end", ":culture", slot_faction_troops_end),
-            
-            (store_faction_of_party, ":party_faction", ":current_party"),
-            
-            (try_begin),
-                (eq, ":party_type", spt_village),
-                # (assign, ":relation_divider", 4),
-                (try_begin),
-                    (is_between, ":troop_no", ":peasant_begin", ":common_begin"),
-                    (val_add, ":modifier", -10), # 10% reduction on peasant troops in villages
-                (else_try),
-                    (is_between, ":troop_no", ":common_begin", ":veteran_begin"),
-                    (val_add, ":modifier", -5), # 5% reduction on common troops in villages
-                (else_try),
-                    (is_between, ":troop_no", ":elite_begin", ":troops_end"),
-                    (val_add, ":modifier", 10), # 10% increase on elite/noble troops in villages
-                (try_end),
-            (else_try),
-                (eq, ":party_type", spt_castle),
-                # (assign, ":relation_divider", 10),
-                (try_begin),
-                    (is_between, ":troop_no", ":peasant_begin", ":common_begin"),
-                    (val_add, ":modifier", 5), # 5% increase on peasant troops in castles
-                (else_try),
-                    (is_between, ":troop_no", ":veteran_begin", ":troops_end"),
-                    (val_add, ":modifier", -5), # 5% reduction on veteran, elite and noble troops in castles
-                (try_end),
-            (try_end),
-            
-            # (assign, ":relation_divider", 8),
+
             (party_get_slot, ":center_owner", ":current_party", slot_party_lord),
-            
+            (store_troop_faction, ":recruiter_faction", ":recruiter"),
+            (store_faction_of_party, ":party_faction", ":current_party"),
+
             (try_begin),
-                # Used for center reinforcements
                 (eq, ":recruiter", ":center_owner"),
-                (val_add, ":modifier", -50),
+                (eq, ":recruiter_faction", ":party_faction"),
+                (assign, ":modifier", 0),
             (else_try),
+            
+                (party_get_slot, ":party_type", ":current_party", slot_party_type),
+                (store_troop_faction, ":troop_faction", ":troop_no"),
+                (faction_get_slot, ":culture", ":troop_faction", slot_faction_culture),
+                (faction_get_slot, ":peasant_begin", ":culture", slot_faction_troops_begin),
+                (faction_get_slot, ":common_begin", ":culture", slot_faction_common_begin),
+                (faction_get_slot, ":veteran_begin", ":culture", slot_faction_veteran_begin),
+                (faction_get_slot, ":elite_begin", ":culture", slot_faction_elite_begin),
+                # (faction_get_slot, ":noble_begin", ":culture", slot_faction_noble_begin),
+                (faction_get_slot, ":troops_end", ":culture", slot_faction_troops_end),
                 
-                (store_troop_faction, ":recruiter_faction", ":recruiter"),
+                
+                (try_begin),
+                    (eq, ":party_type", spt_village),
+                    # (assign, ":relation_divider", 4),
+                    (try_begin),
+                        (is_between, ":troop_no", ":peasant_begin", ":common_begin"),
+                        (val_add, ":modifier", -10), # 10% reduction on peasant troops in villages
+                    (else_try),
+                        (is_between, ":troop_no", ":common_begin", ":veteran_begin"),
+                        (val_add, ":modifier", -5), # 5% reduction on common troops in villages
+                    (else_try),
+                        (is_between, ":troop_no", ":elite_begin", ":troops_end"),
+                        (val_add, ":modifier", 10), # 10% increase on elite/noble troops in villages
+                    (try_end),
+                (else_try),
+                    (eq, ":party_type", spt_castle),
+                    # (assign, ":relation_divider", 10),
+                    (try_begin),
+                        (is_between, ":troop_no", ":peasant_begin", ":common_begin"),
+                        (val_add, ":modifier", 5), # 5% increase on peasant troops in castles
+                    (else_try),
+                        (is_between, ":troop_no", ":veteran_begin", ":troops_end"),
+                        (val_add, ":modifier", -5), # 5% reduction on veteran, elite and noble troops in castles
+                    (try_end),
+                (try_end),
+                
+                # (assign, ":relation_divider", 8),
+                    
                 (try_begin),
                     (neq, ":party_faction", ":recruiter_faction"),
-                    (val_add, ":modifier", 10),
+                    (val_add, ":modifier", 15),
                 (try_end),
                 
                 # ToDo:
@@ -12424,22 +12428,22 @@ scripts = [
                     # (val_div, ":relation", ":relation_divider"),
                     # (val_sub, ":modifier", ":relation"),
                 # (try_end),
+                
+                (faction_get_slot, ":party_culture", ":party_faction", slot_faction_culture),
+                (try_begin), # If troop is from another faction we increase its price
+                    (neq, ":culture", ":party_culture"),
+                    (val_add, ":modifier", 25),
+                (try_end),
+                
+                (store_skill_level, ":trade_skill", skl_trade, ":recruiter"),
+                (store_skill_level, ":persuasion_skill", skl_persuasion, ":recruiter"),
+                (val_div, ":persuasion_skill", 2),
+                
+                (val_sub, ":modifier", ":trade_skill"),
+                (val_sub, ":modifier", ":persuasion_skill"),
+                
+                (val_max, ":modifier", 20),
             (try_end),
-            
-            (faction_get_slot, ":party_culture", ":party_faction", slot_faction_culture),
-            (try_begin), # If troop is from another faction we increase its price
-                (neq, ":culture", ":party_culture"),
-                (val_add, ":modifier", 25),
-            (try_end),
-            
-            (store_skill_level, ":trade_skill", skl_trade, ":recruiter"),
-            (store_skill_level, ":persuasion_skill", skl_persuasion, ":recruiter"),
-            (val_div, ":persuasion_skill", 2),
-            
-            (val_sub, ":modifier", ":trade_skill"),
-            (val_sub, ":modifier", ":persuasion_skill"),
-            
-            (val_max, ":modifier", 20),
             
             (assign, reg0, ":modifier"),
         ]),
