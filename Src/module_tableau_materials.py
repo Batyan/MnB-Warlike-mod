@@ -626,7 +626,7 @@ tableaus = [
      # (cur_tableau_add_tableau_mesh, "tableau_retired_troop_alpha_mask", ":type", pos1, 0, 0),
      # ]),
 	 
-	  ("round_shield_1", 0, "sample_shield_round_1", 512, 256, 0, 0, 0, 0,
+  ("round_shield_1", 0, "sample_shield_round_1", 512, 256, 0, 0, 0, 0,
    [
        (store_script_param, ":banner_mesh", 1),
 
@@ -1704,5 +1704,131 @@ tableaus = [
        (position_set_z, pos1, 100),
        (cur_tableau_add_mesh, "mesh_tableau_mesh_brigandine_b_herald", pos1, 0, 0),
        (cur_tableau_set_camera_parameters, 0, 200, 200, 0, 100000),
+       ]),
+
+
+
+  ("tear_shield_a_plain_1", 0, "sample_shield_matte", 512, 512, 0, 0, 0, 0,
+   [
+       (store_script_param, ":banner_mesh", 1),
+
+       (set_fixed_point_multiplier, 100),
+       (store_sub, ":background_slot", ":banner_mesh", arms_meshes_begin),
+       (troop_get_slot, ":background_color", "trp_banner_background_color_array", ":background_slot"),
+       (cur_tableau_set_background_color, ":background_color"),
+
+       (init_position, pos1),
+       (position_set_z, pos1, 10),
+       (cur_tableau_add_mesh, "mesh_tableau_mesh_shields_tear", pos1, 0, 0),
+       (cur_tableau_set_camera_parameters, 0, 200, 200, 0, 100000),
+       ]),
+
+  ("tear_shield_a_plain_2", 0, "sample_shield_matte", 512, 256, 0, 0, 0, 0,
+   [
+       (store_script_param, ":banner_mesh", 1),
+
+       (set_fixed_point_multiplier, 100),
+       (store_sub, ":background_slot", ":banner_mesh", arms_meshes_begin),
+       (val_add, ":background_slot", arms_meshes_end),
+       (troop_get_slot, ":background_color", "trp_banner_background_color_array", ":background_slot"),
+       (cur_tableau_set_background_color, ":background_color"),
+
+       (init_position, pos1),
+       (position_set_z, pos1, 10),
+       (cur_tableau_add_mesh, "mesh_tableau_mesh_shields_tear", pos1, 0, 0),
+       (cur_tableau_set_camera_parameters, 0, 200, 100, 0, 100000),
+       ]),
+
+  ("tear_shield_b_plain_1", 0, "sample_shield_matte", 512, 512, 0, 0, 0, 0,
+   [
+       (store_script_param, ":banner_mesh", 1),
+
+       (set_fixed_point_multiplier, 100),
+       (store_sub, ":background_slot", ":banner_mesh", arms_meshes_begin),
+       (troop_get_slot, ":background_color", "trp_banner_background_color_array", ":background_slot"),
+       (cur_tableau_set_background_color, ":background_color"),
+
+       (init_position, pos1),
+       (position_set_z, pos1, 10),
+       (cur_tableau_add_mesh, "mesh_tableau_mesh_shields_tear", pos1, 0, 0),
+       (cur_tableau_set_camera_parameters, 0, 200, 200, 0, 100000),
+       ]),
+
+  ("tear_shield_b_plain_2", 0, "sample_shield_matte", 512, 256, 0, 0, 0, 0,
+   [
+       (store_script_param, ":banner_mesh", 1),
+
+       (set_fixed_point_multiplier, 100),
+       (store_sub, ":background_slot", ":banner_mesh", arms_meshes_begin),
+       (val_add, ":background_slot", arms_meshes_end),
+       (troop_get_slot, ":background_color", "trp_banner_background_color_array", ":background_slot"),
+       (cur_tableau_set_background_color, ":background_color"),
+
+       (init_position, pos1),
+       (position_set_z, pos1, 10),
+       (cur_tableau_add_mesh, "mesh_tableau_mesh_shields_tear", pos1, 0, 0),
+       (cur_tableau_set_camera_parameters, 0, 200, 100, 0, 100000),
+       ]),
+
+  ("tear_shield_c_plain_1", 0, "sample_shield_matte", 512, 512, 0, 0, 0, 0,
+   [
+       (store_script_param, ":banner_mesh", 1),
+
+       (set_fixed_point_multiplier, 100),
+       (store_sub, ":background_slot", ":banner_mesh", arms_meshes_begin),
+       (troop_get_slot, ":background_color", "trp_banner_background_color_array", ":background_slot"),
+       (cur_tableau_set_background_color, ":background_color"),
+
+       (init_position, pos1),
+       (position_set_z, pos1, 10),
+       (cur_tableau_add_mesh, "mesh_tableau_mesh_shields_tear", pos1, 0, 0),
+       (cur_tableau_set_camera_parameters, 0, 200, 200, 0, 100000),
+       ]),
+
+  ("tear_shield_c_plain_2", 0, "sample_shield_matte", 512, 256, 0, 0, 0, 0,
+   [
+       (store_script_param, ":banner_mesh", 1),
+
+       (set_fixed_point_multiplier, 100),
+       (store_sub, ":background_slot", ":banner_mesh", arms_meshes_begin),
+       (val_add, ":background_slot", arms_meshes_end),
+       (troop_get_slot, ":background_color", "trp_banner_background_color_array", ":background_slot"),
+       (cur_tableau_set_background_color, ":background_color"),
+
+       (init_position, pos1),
+       (position_set_z, pos1, 10),
+       (cur_tableau_add_mesh, "mesh_tableau_mesh_shields_tear", pos1, 0, 0),
+       (cur_tableau_set_camera_parameters, 0, 200, 100, 0, 100000),
+       ]),
+
+  ("tear_shield_d_plain_1", 0, "sample_shield_matte", 512, 512, 0, 0, 0, 0,
+   [
+       (store_script_param, ":banner_mesh", 1),
+
+       (set_fixed_point_multiplier, 100),
+       (store_sub, ":background_slot", ":banner_mesh", arms_meshes_begin),
+       (troop_get_slot, ":background_color", "trp_banner_background_color_array", ":background_slot"),
+       (cur_tableau_set_background_color, ":background_color"),
+
+       (init_position, pos1),
+       (position_set_z, pos1, 10),
+       (cur_tableau_add_mesh, "mesh_tableau_mesh_shields_tear", pos1, 0, 0),
+       (cur_tableau_set_camera_parameters, 0, 200, 200, 0, 100000),
+       ]),
+
+  ("tear_shield_d_plain_2", 0, "sample_shield_matte", 512, 256, 0, 0, 0, 0,
+   [
+       (store_script_param, ":banner_mesh", 1),
+
+       (set_fixed_point_multiplier, 100),
+       (store_sub, ":background_slot", ":banner_mesh", arms_meshes_begin),
+       (val_add, ":background_slot", arms_meshes_end),
+       (troop_get_slot, ":background_color", "trp_banner_background_color_array", ":background_slot"),
+       (cur_tableau_set_background_color, ":background_color"),
+
+       (init_position, pos1),
+       (position_set_z, pos1, 10),
+       (cur_tableau_add_mesh, "mesh_tableau_mesh_shields_tear", pos1, 0, 0),
+       (cur_tableau_set_camera_parameters, 0, 200, 100, 0, 100000),
        ]),
 ]
