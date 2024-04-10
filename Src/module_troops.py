@@ -426,8 +426,8 @@ troops = [
     ## Hardcoded ##
     ###############
   ["player","Player","Player",tf_hero|tf_unmoveable_in_party_window,no_scene,reserved,fac_player_faction,
-   [itm_sword_medieval_b, itm_tab_shield_heater_cav_a, itm_light_lance, itm_leather_boots, itm_leather_gloves, itm_leather_armor, itm_saddle_horse],
-   str_12|agi_12|int_12|cha_12|level(1),wp(10),0,0x000000018000000136db6db6db6db6db00000000001db6db0000000000000000 ],
+   [itm_leather_boots, itm_leather_gloves, itm_leather_armor],
+   str_5|agi_5|int_5|cha_5|level(1),wp(10),0,0x000000018000000136db6db6db6db6db00000000001db6db0000000000000000 ],
   ["multiplayer_profile_troop_male","multiplayer_profile_troop_male","multiplayer_profile_troop_male", tf_hero|tf_guarantee_all, 0, 0,fac_commoners,
    [itm_linen_tunic, itm_coarse_tunic, itm_tabard, itm_fur_coat, itm_leather_boots, itm_leather_gloves],
    0, 0, 0, 0x000000018000000136db6db6db6db6db00000000001db6db0000000000000000 ],
@@ -3521,7 +3521,7 @@ troops = [
   # Common
   # Light infantry, swords, maces, axes, spears, shields
   ["sarranid_medium_infantry", "Sarranid Infantry", "Sarranid Infantries", tf_guarantee_common_armor|tf_guarantee_shield, no_scene, reserved, fac_kingdom_6,
-   [itm_arabian_sword_b, itm_mace_3, itm_sarranid_axe_a, itm_tab_shield_kite_b,itm_tab_shield_kite_b_plain_1,itm_tab_shield_kite_b_plain_2,
+   [itm_arabian_sword_b, itm_mace_3, itm_sarranid_axe_a, itm_tab_shield_tear_b,itm_tab_shield_tear_b,itm_tab_shield_tear_a_plain_1,itm_tab_shield_tear_a_plain_2,itm_tab_shield_tear_b_plain_1,itm_tab_shield_tear_b_plain_2,
     itm_sarranid_boots_b, itm_leather_gloves,
     itm_archers_vest,
     itm_desert_turban, itm_sarranid_warrior_cap,
@@ -3530,7 +3530,7 @@ troops = [
   
   # Light infantry skirmisher, swords, javelins, shields
   ["sarranid_light_skirmisher", "Sarranid Light Skirmisher", "Sarranid Light Skirmishers", tf_guarantee_common_armor|tf_guarantee_ranged|tf_guarantee_shield, no_scene, reserved, fac_kingdom_6,
-   [itm_arabian_sword_a, itm_mace_3, itm_javelin, itm_javelin, itm_tab_shield_kite_b,itm_tab_shield_kite_b_plain_1,itm_tab_shield_kite_b_plain_2,
+   [itm_arabian_sword_a, itm_mace_3, itm_javelin, itm_javelin, itm_tab_shield_tear_b,itm_tab_shield_tear_b,itm_tab_shield_tear_a_plain_1,itm_tab_shield_tear_a_plain_2,itm_tab_shield_tear_b_plain_1,itm_tab_shield_tear_b_plain_2,
     itm_sarranid_boots_b, itm_leather_gloves,
     itm_archers_vest, itm_skirmisher_armor,
     itm_turban, itm_desert_turban,
@@ -3567,7 +3567,7 @@ troops = [
   # Light ranged, swords, maces, crossbows, shields
   # SPECIAL
   ["sarranid_light_crossbowman", "Sarranid Light Crossbowman", "Sarranid Light Crossbowmen", tf_guarantee_common_armor|tf_guarantee_ranged|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_64,
-   [itm_arabian_sword_a, itm_mace_3, itm_crossbow, itm_bolts, itm_tab_shield_kite_b,itm_tab_shield_kite_b_plain_1,itm_tab_shield_kite_b_plain_2,
+   [itm_arabian_sword_a, itm_mace_3, itm_crossbow, itm_bolts, itm_tab_shield_tear_b,itm_tab_shield_tear_b,itm_tab_shield_tear_a_plain_1,itm_tab_shield_tear_a_plain_2,itm_tab_shield_tear_b_plain_1,itm_tab_shield_tear_b_plain_2,
     itm_sarranid_boots_b, itm_leather_gloves,
     itm_archers_vest,
     itm_turban, itm_desert_turban, itm_sarranid_warrior_cap,
@@ -3597,7 +3597,7 @@ troops = [
   # Light infantry, swords, maces, axes, shields
   # SPECIAL
   ["sarranid_footman", "Sarranid Footman", "Sarranid Footmen", tf_guarantee_common_armor|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_63,
-   [itm_arabian_sword_b, itm_mace_3, itm_sarranid_axe_a, itm_tab_shield_kite_b,itm_tab_shield_kite_b_plain_1,itm_tab_shield_kite_b_plain_2,
+   [itm_arabian_sword_b, itm_mace_3, itm_sarranid_axe_a, itm_tab_shield_tear_b,itm_tab_shield_tear_b,itm_tab_shield_tear_a_plain_1,itm_tab_shield_tear_a_plain_2,itm_tab_shield_tear_b_plain_1,itm_tab_shield_tear_b_plain_2,
     itm_sarranid_boots_b, itm_leather_gloves,
     itm_sarranid_leather_armor,
     itm_desert_turban, itm_sarranid_warrior_cap,
@@ -3607,7 +3607,7 @@ troops = [
   # Light infantry, spears, shields
   # SPECIAL
   ["sarranid_light_spearman", "Sarranid Light Spearman", "Sarranid Light Spearmen", tf_guarantee_common_armor|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_62,
-   [itm_spear, itm_tab_shield_kite_b,itm_tab_shield_kite_b_plain_1,itm_tab_shield_kite_b_plain_2,
+   [itm_spear, itm_tab_shield_tear_b,itm_tab_shield_tear_b,itm_tab_shield_tear_a_plain_1,itm_tab_shield_tear_a_plain_2,itm_tab_shield_tear_b_plain_1,itm_tab_shield_tear_b_plain_2,
     itm_sarranid_boots_b, itm_leather_gloves,
     itm_archers_vest,
     itm_desert_turban, itm_sarranid_warrior_cap,
@@ -3617,7 +3617,7 @@ troops = [
   # Veteran
   # Medium infantry, swords, maces, axes, javelins, shields
   ["sarranid_guard", "Sarranid Guard", "Sarranid Guards", tf_guarantee_trained_armor|tf_guarantee_shield, no_scene, reserved, fac_kingdom_6,
-   [itm_arabian_sword_d, itm_mace_4, itm_sarranid_axe_a, itm_javelin, itm_tab_shield_kite_c,itm_tab_shield_kite_c_plain_1,itm_tab_shield_kite_c_plain_2,
+   [itm_arabian_sword_d, itm_mace_4, itm_sarranid_axe_a, itm_javelin, itm_tab_shield_tear_d,itm_tab_shield_tear_d,itm_tab_shield_tear_c_plain_1,itm_tab_shield_tear_c_plain_2,itm_tab_shield_tear_d_plain_1,itm_tab_shield_tear_d_plain_2,
     itm_sarranid_boots_c, itm_leather_gloves,
     itm_arabian_armor_b,
     itm_sarranid_helmet1, itm_sarranid_mail_coif,
@@ -3703,7 +3703,7 @@ troops = [
   # Medium ranged, swords, maces, crossbows, shields
   # SPECIAL
   ["sarranid_crossbowman", "Sarranid Crossbowman", "Sarranid Light Crossbowmen", tf_guarantee_trained_armor|tf_guarantee_ranged|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_64,
-   [itm_arabian_sword_b, itm_mace_4, itm_crossbow, itm_steel_bolts, itm_tab_shield_kite_c,itm_tab_shield_kite_c_plain_1,itm_tab_shield_kite_c_plain_2,
+   [itm_arabian_sword_b, itm_mace_4, itm_crossbow, itm_steel_bolts, itm_tab_shield_tear_d,itm_tab_shield_tear_d,itm_tab_shield_tear_c_plain_1,itm_tab_shield_tear_c_plain_2,itm_tab_shield_tear_d_plain_1,itm_tab_shield_tear_d_plain_2,
     itm_sarranid_boots_c, itm_leather_gloves,
     itm_arabian_armor_b, itm_sarranid_cavalry_robe,
     itm_sarranid_warrior_cap, itm_sarranid_helmet1, itm_sarranid_mail_coif,
@@ -3723,7 +3723,7 @@ troops = [
   # Medium infantry skirmisher, swords, maces, javelins, shields
   # SPECIAL
   ["sarranid_skirmisher", "Sarranid Skirmisher", "Sarranid Skirmishers", tf_guarantee_trained_armor|tf_guarantee_ranged|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_63,
-   [itm_arabian_sword_b, itm_mace_4, itm_javelin, itm_javelin, itm_tab_shield_kite_c,itm_tab_shield_kite_c_plain_1,itm_tab_shield_kite_c_plain_2,
+   [itm_arabian_sword_b, itm_mace_4, itm_javelin, itm_javelin, itm_tab_shield_tear_d,itm_tab_shield_tear_d,itm_tab_shield_tear_c_plain_1,itm_tab_shield_tear_c_plain_2,itm_tab_shield_tear_d_plain_1,itm_tab_shield_tear_d_plain_2,
     itm_sarranid_boots_c, itm_leather_gloves,
     itm_sarranid_cavalry_robe,
     itm_sarranid_warrior_cap, itm_sarranid_helmet1, itm_sarranid_mail_coif,
@@ -3733,7 +3733,7 @@ troops = [
   # Medium infantry, spears, shields
   # SPECIAL
   ["sarranid_medium_spearman", "Sarranid Spearman", "Sarranid Spearmen", tf_guarantee_trained_armor|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_62,
-   [itm_war_spear, itm_tab_shield_kite_c,itm_tab_shield_kite_c_plain_1,itm_tab_shield_kite_c_plain_2,
+   [itm_war_spear, itm_tab_shield_tear_d,itm_tab_shield_tear_d,itm_tab_shield_tear_c_plain_1,itm_tab_shield_tear_c_plain_2,itm_tab_shield_tear_d_plain_1,itm_tab_shield_tear_d_plain_2,
     itm_sarranid_boots_c, itm_leather_gloves,
     itm_arabian_armor_b,
     itm_sarranid_helmet1, itm_sarranid_mail_coif,
@@ -3743,7 +3743,7 @@ troops = [
   # Elite
   # Medium infantry, swords, maces, axes, shields
   ["sarranid_heavy_infantry", "Sarranid Heavy Infantry", "Sarranid Heavy Infantries", tf_guarantee_trained_armor|tf_guarantee_shield, no_scene, reserved, fac_kingdom_6,
-   [itm_arabian_sword_d, itm_iron_mace, itm_sarranid_axe_b, itm_tab_shield_kite_d,itm_tab_shield_kite_d_plain_1,itm_tab_shield_kite_d_plain_2,
+   [itm_arabian_sword_d, itm_iron_mace, itm_sarranid_axe_b, itm_tab_shield_tear_d,itm_tab_shield_tear_d_plain_1,itm_tab_shield_tear_d_plain_2,
     itm_sarranid_boots_d, itm_mail_mittens,
     itm_sarranid_mail_shirt,
     itm_sarranid_veiled_helmet,
@@ -3762,7 +3762,7 @@ troops = [
   # Medium ranged, swords, maxes, bows, shields
   # SPECIAL
   ["sarranid_heavy_archer", "Sarranid Heavy Archer", "Sarranid Heavy Archers", tf_guarantee_trained_armor|tf_guarantee_ranged|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_62,
-   [itm_arabian_sword_d, itm_mace_4, itm_sarranid_axe_a, itm_strong_bow2, itm_bodkin_arrows, itm_tab_shield_kite_c,itm_tab_shield_kite_c_plain_1,itm_tab_shield_kite_c_plain_2,
+   [itm_arabian_sword_d, itm_mace_4, itm_sarranid_axe_a, itm_strong_bow2, itm_bodkin_arrows, itm_tab_shield_tear_d,itm_tab_shield_tear_d_plain_1,itm_tab_shield_tear_d_plain_2,
     itm_sarranid_boots_c, itm_leather_gloves,
     itm_arabian_armor_b,
     itm_sarranid_helmet1, itm_sarranid_mail_coif,
@@ -3772,7 +3772,7 @@ troops = [
   # Medium cavalry ranged, swords, maces, bows, shields
   # SPECIAL
   ["sarranid_heavy_horse_archer", "Sarranid Heavy Horse Archer", "Sarranid Heavy Horse Archers", tf_guarantee_trained_armor|tf_guarantee_ranged|tf_guarantee_horseman|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_61,
-   [itm_sarranid_cavalry_sword, itm_mace_4, itm_sarranid_axe_a, itm_strong_bow2, itm_bodkin_arrows, itm_tab_shield_small_round_b,itm_tab_shield_small_round_b_plain_1,itm_tab_shield_small_round_b_plain_2,
+   [itm_sarranid_cavalry_sword, itm_mace_4, itm_sarranid_axe_a, itm_strong_bow2, itm_bodkin_arrows, itm_tab_shield_tear_d,itm_tab_shield_tear_d,itm_tab_shield_tear_c_plain_1,itm_tab_shield_tear_c_plain_2,itm_tab_shield_tear_d_plain_1,itm_tab_shield_tear_d_plain_2,
     itm_sarranid_boots_c, itm_leather_gloves,
     itm_arabian_armor_b,
     itm_sarranid_helmet1, itm_sarranid_mail_coif,
@@ -3782,7 +3782,7 @@ troops = [
   # Heavy infantry, swords, maces, axes, shields
   # SPECIAL
   ["sarranid_sergeant", "Sarranid Sergeant", "Sarranid Sergeants", tf_guarantee_trained_armor|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_63,
-   [itm_arabian_sword_d, itm_iron_mace, itm_sarranid_axe_b, itm_sarranid_two_handed_axe_b, itm_two_handed_iron_mace, itm_tab_shield_kite_d,itm_tab_shield_kite_d_plain_1,itm_tab_shield_kite_d_plain_2,
+   [itm_arabian_sword_d, itm_iron_mace, itm_sarranid_axe_b, itm_sarranid_two_handed_axe_b, itm_two_handed_iron_mace, itm_tab_shield_tear_d,itm_tab_shield_tear_d_plain_1,itm_tab_shield_tear_d_plain_2,
     itm_sarranid_boots_d, itm_mail_mittens,
     itm_mamluke_mail,
     itm_sarranid_veiled_helmet,
@@ -3792,7 +3792,7 @@ troops = [
   # Heavy infantry, spears, shields
   # SPECIAL
   ["sarranid_heavy_spearman", "Sarranid Heavy Spearman", "Sarranid Heavy Spearmen", tf_guarantee_trained_armor|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_62,
-   [itm_war_spear, itm_tab_shield_kite_d,itm_tab_shield_kite_d_plain_1,itm_tab_shield_kite_d_plain_2,
+   [itm_war_spear, itm_tab_shield_tear_d,itm_tab_shield_tear_d_plain_1,itm_tab_shield_tear_d_plain_2,
     itm_sarranid_boots_d, itm_mail_mittens,
     itm_sarranid_mail_shirt,
     itm_sarranid_veiled_helmet,
@@ -5191,7 +5191,7 @@ troops = [
   ["sarranid_lord_template_0", "Nobleman", "Nobleman", tf_is_merchant, no_scene, reserved, fac_culture_6,
    [itm_arabian_sword_a, itm_mace_2,
     itm_javelin,
-    itm_tab_shield_kite_b, itm_tab_shield_small_round_a,
+    itm_tab_shield_tear_b, itm_tab_shield_small_round_a,
     itm_sarranid_boots_a, itm_sarranid_boots_b, itm_leather_gloves,
     itm_sarranid_cloth_robe, itm_sarranid_cloth_robe_b, itm_skirmisher_armor,
     itm_turban, itm_desert_turban,
@@ -5200,7 +5200,7 @@ troops = [
   ["sarranid_lord_template_1", "Mamluke", "Mamluke", tf_is_merchant, no_scene, reserved, fac_culture_6,
    [itm_arabian_sword_b, itm_mace_3,
     itm_javelin, itm_hunting_bow2, itm_arrows_b, itm_light_lance,
-    itm_tab_shield_kite_b, itm_tab_shield_small_round_a,
+    itm_tab_shield_tear_b, itm_tab_shield_small_round_a,
     itm_sarranid_boots_b, itm_leather_gloves,
     itm_archers_vest,
     itm_sarranid_warrior_cap, itm_desert_turban,
@@ -5209,7 +5209,7 @@ troops = [
   ["sarranid_lord_template_2", "Noble", "Noble", tf_is_merchant, no_scene, reserved, fac_culture_6,
    [itm_arabian_sword_b, itm_mace_3, itm_sarranid_axe_a, itm_sarranid_two_handed_axe_a,
     itm_javelin, itm_short_bow2, itm_barbed_arrows, itm_light_lance, itm_crossbow, itm_bolts,
-    itm_tab_shield_kite_b, itm_tab_shield_small_round_b,
+    itm_tab_shield_tear_b, itm_tab_shield_small_round_b,
     itm_sarranid_boots_b, itm_leather_gloves,
     itm_sarranid_cavalry_robe, itm_sarranid_leather_armor,
     itm_sarranid_warrior_cap, itm_sarranid_horseman_helmet,
@@ -5218,7 +5218,7 @@ troops = [
   ["sarranid_lord_template_3", "Noble", "Noble", tf_is_merchant, no_scene, reserved, fac_culture_6,
    [itm_arabian_sword_b, itm_mace_3, itm_sarranid_axe_a, itm_sarranid_two_handed_axe_a,
     itm_javelin, itm_nomad_bow2, itm_bodkin_arrows, itm_lance, itm_crossbow, itm_bolts,
-    itm_tab_shield_kite_b, itm_tab_shield_small_round_b,
+    itm_tab_shield_tear_b, itm_tab_shield_small_round_b,
     itm_sarranid_boots_c, itm_leather_gloves,
     itm_sarranid_cavalry_robe, itm_arabian_armor_b,
     itm_sarranid_helmet1,
@@ -5227,7 +5227,7 @@ troops = [
   ["sarranid_lord_template_4", "Emir", "Emir", tf_is_merchant, no_scene, reserved, fac_culture_6,
    [itm_sarranid_cavalry_sword, itm_mace_4, itm_sarranid_axe_b, itm_sarranid_two_handed_axe_b,
     itm_jarid, itm_nomad_bow2, itm_bodkin_arrows, itm_lance, itm_crossbow, itm_steel_bolts,
-    itm_tab_shield_kite_c, itm_tab_shield_small_round_c,
+    itm_tab_shield_tear_d, itm_tab_shield_small_round_c,
     itm_sarranid_boots_c, itm_leather_gloves,
     itm_sarranid_mail_shirt,
     itm_sarranid_mail_coif, itm_sarranid_helmet1,
@@ -5236,7 +5236,7 @@ troops = [
   ["sarranid_lord_template_5", "Malik", "Malik", tf_is_merchant, no_scene, reserved, fac_culture_6,
    [itm_arabian_sword_d, itm_sarranid_cavalry_sword, itm_iron_mace, itm_two_handed_iron_mace, itm_sarranid_axe_b, itm_sarranid_two_handed_axe_b,
     itm_jarid, itm_strong_bow2, itm_bodkin_arrows, itm_heavy_lance, itm_heavy_crossbow, itm_steel_bolts,
-    itm_tab_shield_kite_d, itm_tab_shield_small_round_c,
+    itm_tab_shield_tear_d, itm_tab_shield_small_round_c,
     itm_sarranid_boots_d, itm_mail_mittens,
     itm_mamluke_mail, itm_sarranid_mail_shirt,
     itm_sarranid_veiled_helmet, itm_sarranid_mail_coif,

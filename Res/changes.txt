@@ -3,8 +3,10 @@ v0.500:
 		* allows player control of fiefs
 		* allows player becoming a vassal
 		* enable paying for troops in yearly budget
+		* add new heraldic shields to sarranid troops
 	-Fixes:
 		* prevent kingdom relations from not resetting after war ends
+		* fix negative looted gold after battle
 v0.460:
 	-Improvements:
 		* reduce chances for multiple wars on a single faction
