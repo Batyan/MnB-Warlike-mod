@@ -127,6 +127,16 @@ dialogs = [
 	
 	# Main lord talk (player)
 	[anyone|plyr, "player_lord_main",
+		[
+			(store_troop_faction, ":talk_troop_faction", "$g_talk_troop"),
+			(call_script, "script_cf_troop_can_join_faction", "$g_player_troop", ":talk_troop_faction"),
+		], "My lord, I would ask to become your sworn vassal.", "lord_ask_vassal",
+		[
+			(call_script, "script_get_player_vassal_outcome", "$g_talk_troop"),
+			(assign, "$g_dialog_outcome", reg0),
+			(assign, "$g_object_outcome", reg1),
+		]],
+	[anyone|plyr, "player_lord_main",
 		[], "I would like to know something.", "lord_ask", []],
 	[anyone|plyr, "player_lord_main",
 		[], "Let us talk for a bit.", "lord_talk", []],
@@ -185,7 +195,44 @@ dialogs = [
 	[anyone, "lord_ask_opinion_marshall",
 		[], "I don't think we have a marshall do we ?", "lord_main_return", []],
 	
+	[anyone, "lord_ask_vassal",
+		[(eq, "$g_dialog_outcome", vassal_outcome_too_many),], "I'm afraid I have no room for you in my court.", "lord_ask_vassal_too_many", []],
+	[anyone, "lord_ask_vassal",
+		[(eq, "$g_dialog_outcome", vassal_outcome_unknown),], "I do not know your worth.", "lord_ask_vassal_unknown", []],
+	[anyone, "lord_ask_vassal",
+		[(eq, "$g_dialog_outcome", vassal_outcome_refused),], "I wouldn't want someone like you on my court.", "lord_main_return", []],
+	[anyone, "lord_ask_vassal",
+		[(eq, "$g_dialog_outcome", vassal_outcome_no_fief),], "I have room in my court for someone like you, unfortunatly I would not be able to grant you property.", "lord_ask_vassal_no_fief", []],
+	[anyone, "lord_ask_vassal",
+		[
+			(eq, "$g_dialog_outcome", vassal_outcome_accepted),
+            (call_script, "script_troop_get_relation_with_troop", "$g_talk_troop", "$g_player_troop"),
+            (assign, ":relation", reg0),
+			(lt, ":relation", 20),
+		], "I think you could make use of your skills.", "lord_ask_vassal_no_fief",
+		[
+		]],
+	[anyone, "lord_ask_vassal",
+		[(eq, "$g_dialog_outcome", vassal_outcome_accepted),], "I would be glad to have you in my court.", "lord_ask_vassal_no_fief", []],
 	
+	[anyone, "lord_ask_vassal_unknown",
+		[], "Take the fight to my enemies and prove yourself as a fine leader of men and I might reconsider.", "lord_main_return", []],
+
+	[anyone, "lord_ask_vassal_too_many",
+		[], "I'm afraid I have no place for you in my court.", "lord_main_return", []],
+
+	[anyone, "lord_ask_vassal_no_fief", [
+		(store_troop_faction, ":troop_faction", "$g_talk_troop"),
+		(faction_get_slot, ":faction_leader", ":troop_faction", slot_faction_leader),
+		(neq, ":faction_leader", "$g_talk_troop"),
+	], "Now, should our liege bestow onto me a fief adequate for your status I could reward you in due time.", "lord_ask_vassal_ready_pledge", []],
+	[anyone, "lord_ask_vassal_no_fief", [], "Keep in mind I do generously reward my most loyal followers, if you work hard and make a better name for yourself you will be granted a fief in due time.", "lord_ask_vassal_ready_pledge", []],
+
+	[anyone, "lord_ask_vassal_ready_pledge", [
+        (quest_set_slot, "qst_swear_vassalage_fief", slot_quest_object, "$g_object_outcome"),
+        (call_script, "script_start_quest", "qst_swear_vassalage_fief", "$g_talk_troop"),
+	], "Are you ready to take the oath then?", "player_lord_offer_vassal_answer", []],
+
 	[anyone, "duel_request",
 		[], "A duel? You think I will allow you an honourable death? Ah! I will crush you and your pathetic excuse of an army.", "close_window", 
 		[(party_set_slot, "$g_talk_party", slot_party_speak_allowed, 0),
@@ -236,17 +283,17 @@ dialogs = [
 		[
  			(quest_get_slot, ":fief", "qst_swear_vassalage_fief", slot_quest_object),
  			(str_store_party_name, s11, ":fief"),
-		], "You know then of my offer, your oath of vassalage, with the fief of {s11} to lord over. What is your answer?", "player_lord_offer_vassal_answer", []],
+		], "You know then of my offer, your oath of vassalage, with the fief of {s11} to lord over. Are you ready to pledge your oath to me?", "player_lord_offer_vassal_answer", []],
 	[anyone, "lord_offer_vassal_explain",
 		[
  			(quest_get_slot, ":fief", "qst_swear_vassalage_fief", slot_quest_object),
  			(str_store_party_name, s11, ":fief"),
- 			], "That is most unfortunate... To be brief I would like your sword by my side, an offer to pledge your vassalage to me.^On top of this you would be granted the fief of {s11} to lord over. What do you say?", "player_lord_offer_vassal_answer", []],
+ 			], "That is most unfortunate... To be brief I would like your sword by my side, an offer to pledge your vassalage to me.^On top of this you would be granted the fief of {s11} to lord over. Are you ready to give me your oath?", "player_lord_offer_vassal_answer", []],
 
 	[anyone|plyr, "player_lord_offer_vassal_answer",
-		[], "I have yes", "lord_offer_vassal_accept", []],
+		[], "I am, my Lord.", "lord_offer_vassal_accept", []],
 	[anyone|plyr, "player_lord_offer_vassal_answer",
-		[], "I'm afraid I must refuse", "lord_offer_vassal_refused", []],
+		[], "I'm afraid I need more time to think this over.", "lord_offer_vassal_refused", []],
 	
 	[anyone, "lord_offer_vassal_accept",
 		[
@@ -288,7 +335,7 @@ dialogs = [
 	[anyone|plyr, "player_lord_offer_vassal_oath_2",
 		[], "...and I will be at your side to fight your enemies should you need my sword.", "lord_offer_vassal_oath_3", []],
 	[anyone|plyr, "player_lord_offer_vassal_oath_2",
-		[], "Sir}, may I ask for some time to think about this?", "lord_offer_vassal_give_up", []],
+		[], "Sir, may I ask for some time to think about this?", "lord_offer_vassal_give_up", []],
 
 	[anyone, "lord_offer_vassal_oath_3",
 		[], "Finally, I will uphold your lawful claims and those of your legitimate heirs.", "player_lord_offer_vassal_oath_3", []],
@@ -304,9 +351,16 @@ dialogs = [
 	[anyone, "lord_offer_vassal_oath_end_2",
 		[
  			(quest_get_slot, ":fief", "qst_swear_vassalage_fief", slot_quest_object),
- 			(str_store_party_name, s11, ":fief"),
+ 			(try_begin),
+ 				(is_between, ":fief", centers_begin, centers_end),
+ 				(str_store_party_name, s11, ":fief"),
+ 				(assign, reg10, 1),
+ 			(else_try),
+ 				(str_clear, s11),
+ 				(assign, reg10, 0),
+ 			(try_end),
 		], "Let it be known that from this day forward, you are my sworn {man/follower} and vassal.\
- I give you my protection and grant you the right to bear arms in my name, and I pledge that I shall not deprive you of your life, liberty or properties except by the lawful judgment of your peers or by the law and custom of the land. Furthermore I give you the fief of {s11} with all its rents and revenues.", "lord_offer_vassal_oath_end_3", []],
+ I give you my protection and grant you the right to bear arms in my name, and I pledge that I shall not deprive you of your life, liberty or properties except by the lawful judgment of your peers or by the law and custom of the land. {reg10?Furthermore I give you the fief of {s11} with all its rents and revenues.:}", "lord_offer_vassal_oath_end_3", []],
 	[anyone, "lord_offer_vassal_oath_end_3",
 		[], "You have done a wise thing, {playername}. Serve me well and I promise, you will rise high.", "player_lord_offer_vassal_oath_end", []],
 	[anyone|plyr, "player_lord_offer_vassal_oath_end",
@@ -316,7 +370,12 @@ dialogs = [
  I know you shall prove yourself worthy of the trust I have placed in you.", "close_window",
  		[
  			(quest_get_slot, ":center", "qst_swear_vassalage_fief", slot_quest_object),
-            (call_script, "script_troop_give_center_to_troop", "$g_talk_troop", ":center", "$g_player_troop"),
+ 			(try_begin),
+ 				(is_between, ":center", centers_begin, centers_end),
+            	(call_script, "script_troop_give_center_to_troop", "$g_talk_troop", ":center", "$g_player_troop"),
+            (else_try),
+            	(call_script, "script_troop_become_vassal", "$g_player_troop", "$g_talk_troop"),
+            (try_end),
 			(call_script, "script_complete_quest", "qst_swear_vassalage_fief"),
  		]],
 
@@ -324,7 +383,10 @@ dialogs = [
 		[], "A shame, I had expected more from you... Nevermind, it's probably for the best.", "close_window",
 		[
  			(quest_get_slot, ":center", "qst_swear_vassalage_fief", slot_quest_object),
- 			(party_set_slot, ":center", slot_party_reserved, -1),
+ 			(try_begin),
+ 				(is_between, ":center", centers_begin, centers_end),
+ 				(party_set_slot, ":center", slot_party_reserved, -1),
+ 			(try_end),
 			(call_script, "script_troop_change_relation_with_troop", "$g_talk_troop", "$g_player_troop", -5),
 			(call_script, "script_cancel_quest", "qst_swear_vassalage_fief"),
 		]],
@@ -334,7 +396,10 @@ dialogs = [
 		], "What are you playing at, {playername}? Go and make up your mind, and stop wasting my time.", "close_window",
 		[
  			(quest_get_slot, ":center", "qst_swear_vassalage_fief", slot_quest_object),
- 			(party_set_slot, ":center", slot_party_reserved, -1),
+ 			(try_begin),
+ 				(is_between, ":center", centers_begin, centers_end),
+ 				(party_set_slot, ":center", slot_party_reserved, -1),
+ 			(try_end),
 			(call_script, "script_troop_change_relation_with_troop", "$g_talk_troop", "$g_player_troop", -25),
 			(call_script, "script_complete_quest", "qst_swear_vassalage_fief"),
 		]],
@@ -548,7 +613,7 @@ dialogs = [
 			(call_script, "script_party_bargain", "p_main_party", "$g_talk_party", 100, bargain_type_strength, -10), 
 			(assign, "$g_dialog_outcome", reg0),
 			(ge, "$g_dialog_outcome", outcome_neutral), 
-			(call_script, "script_party_get_total_wealth", "$g_talk_party"),
+			(call_script, "script_party_get_total_wealth", "$g_talk_party", 1),
 			(assign, ":gold", reg0),
 			(ge, ":gold", 50),
 			(try_begin),

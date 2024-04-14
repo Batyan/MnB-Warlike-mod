@@ -456,6 +456,12 @@ quests_end = "qst_quests_end"
 quest_descriptions_begin = "str_quest_description_swear_vassalage_fief"
 quest_descriptions_end = "qst_quest_description_end"
 
+vassal_outcome_too_many = 1
+vassal_outcome_unknown = 2
+vassal_outcome_refused = 3
+vassal_outcome_no_fief = 4
+vassal_outcome_accepted = 5
+
 ################
 ## Item Slots ##
 ################
@@ -682,7 +688,7 @@ slot_faction_member_tax_rate = slot_faction_vassal_tax_rate + 1
 slot_faction_funds_tax_rate = slot_faction_member_tax_rate + 1
 
 slot_faction_status = slot_faction_funds_tax_rate + 1
-sfst_default = 0
+sfst_default = 1
 sfst_disabled = -1
 
 slot_faction_policy_assimilation = slot_faction_status + 1
@@ -1313,6 +1319,8 @@ slot_troop_budget_debt = slot_troop_budget_reserved_other + 1
 slot_troop_budget_perceived_debt = slot_troop_budget_debt + 1
 
 slot_troop_last_met 				= slot_troop_budget_perceived_debt + 1
+
+slot_troop_culture = slot_troop_last_met + 1
 
 slot_troop_relations_begin = 400
 

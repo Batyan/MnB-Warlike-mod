@@ -10,9 +10,27 @@ factions = [
 	## Hardcoded ##
 	###############
     ("no_faction", "No Faction", 0, 0.9, [], []),
-    ("commoners", "Commoners", 0, 0.9, [], []),
+    ("commoners", "Commoners", 0, 0.9, [
+    	("faction_1",-0.5),
+    	("faction_2",-0.5),
+    	("faction_3",-0.5),
+    	("faction_4",-0.5),
+    	("faction_5",-0.5),
+    	("faction_6",-0.5),
+    	("faction_7",-0.5),
+    	("outlaws",-0.5),
+	], []),
 	
-    ("player_faction", "Player Faction", 0, 0.9, [("outlaws",-0.5),], []),
+    ("player_faction", "Player Faction", 0, 0.9, [
+    	("faction_1",-0.5),
+    	("faction_2",-0.5),
+    	("faction_3",-0.5),
+    	("faction_4",-0.5),
+    	("faction_5",-0.5),
+    	("faction_6",-0.5),
+    	("faction_7",-0.5),
+    	("outlaws",-0.5),
+    ], []),
     
 	("faction_1", "Forest Bandits", 0, 0.9, [], []),
 	("faction_2", "Bandits", 0, 0.9, [], []),

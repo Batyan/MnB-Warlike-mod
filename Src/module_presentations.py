@@ -414,49 +414,21 @@ presentations = [
         		(position_set_y, pos1, 1000),
         		(overlay_set_size, reg0, pos1),
         		
-        		(create_combo_button_overlay, "$g_culture_choice"),
+        		(create_combo_button_overlay, "$g_presentation_culture_choice"),
         		(position_set_x, pos1, 240),
         		(position_set_y, pos1, 500),
-        		(overlay_set_position, "$g_culture_choice", pos1),
+        		(overlay_set_position, "$g_presentation_culture_choice", pos1),
         		(position_set_x, pos1, 1000),
         		(position_set_y, pos1, 1000),
-        		(overlay_set_size, "$g_culture_choice", pos1),
+        		(overlay_set_size, "$g_presentation_culture_choice", pos1),
         		
         		(try_for_range_backwards, ":culture", cultures_begin, cultures_end),
         			(str_store_faction_name, s10, ":culture"),
-        			(overlay_add_item, "$g_culture_choice", s10),
-        			
-        			# Faction selection
-        			(create_combo_button_overlay, reg0),
-        			(position_set_x, pos1, 240),
-        			(position_set_y, pos1, 400),
-        			(overlay_set_position, reg0, pos1),
-        			(position_set_x, pos1, 1000),
-        			(position_set_y, pos1, 1000),
-        			(overlay_set_size, reg0, pos1),
-        			(assign, ":num_factions", -1),
-        			(try_for_range_backwards, ":faction", kingdoms_begin, kingdoms_end),
-        				(faction_slot_eq, ":faction", slot_faction_culture, ":culture"),
-        				(str_store_faction_name, s10, ":faction"),
-        				(overlay_add_item, reg0, s10),
-        				(val_add, ":num_factions", 1),
-        			(try_end),
-        			(overlay_set_val, reg0, ":num_factions"),
-        			(overlay_set_display, reg0, 0),
+        			(overlay_add_item, "$g_presentation_culture_choice", s10),
         		(try_end),
-        		
-        		(store_add, reg0, "$g_culture_choice", 6),
-        		(overlay_set_display, reg0, 1),
-        		(overlay_set_val, "$g_culture_choice", 6),
-        		
-        		(str_store_string, s0, "@Select the faction you wish to join"),
-        		(create_text_overlay, reg0, s0, tf_left_align),
-        		(position_set_x, pos1, 50),
-        		(position_set_y, pos1, 450),
-        		(overlay_set_position, reg0, pos1),
-        		(position_set_x, pos1, 1000),
-        		(position_set_y, pos1, 1000),
-        		(overlay_set_size, reg0, pos1),
+        		(overlay_set_val, "$g_presentation_culture_choice", 6),
+
+                (assign, "$g_presentation_culture", cultures_begin),
         		
         		# Accept button
         		(create_button_overlay, "$g_presentation_ok", "@Accept"),
@@ -481,12 +453,11 @@ presentations = [
         		(try_begin),
         			(eq, ":object", "$g_presentation_ok"),
         			
-        			(troop_set_faction, "$g_player_troop", "$g_test_player_faction"),
-        			
-        			(party_set_faction, "$g_player_party", "$g_test_player_faction"),
-        			(try_for_range, ":unused", 0, 10),
-        				(call_script, "script_party_add_reinforcements", "$g_player_party"),
-        			(try_end),
+
+                    (troop_set_slot, "$g_player_troop", slot_troop_culture, "$g_presentation_culture"),
+                    (troop_set_slot, "$g_player_troop", slot_troop_original_faction, "$g_test_player_faction"),
+
+                    (call_script, "script_player_add_starting_items"),
         			
         			(assign, reg10, "$g_test_player_faction"),
         			(str_store_faction_name, s10, "$g_test_player_faction"),
@@ -494,31 +465,18 @@ presentations = [
         			
         			(presentation_set_duration, 1),
         		(else_try),
-        			(eq, ":object", "$g_culture_choice"),
-        			(store_add, ":faction_choice", "$g_culture_choice", 1),
+        			(eq, ":object", "$g_presentation_culture_choice"),
         			
         			(store_sub, ":num_cultures", cultures_end, cultures_begin),
-        			(try_for_range, ":overlay", 0, ":num_cultures"),
-        				(val_add, ":overlay", ":faction_choice"),
-        				(overlay_set_display, ":overlay", 0),
-        			(try_end),
         			
-        			(val_add, ":faction_choice", ":value"),
-        			(overlay_set_display, ":faction_choice", 1),
         			(assign, ":faction", 0),
         			
         			(store_sub, ":culture", ":num_cultures", ":value"),
         			(val_sub, ":culture", 1),
         			(val_add, ":culture", cultures_begin),
-        			
-        			(assign, ":num_factions", 0),
-        			(try_for_range, ":faction_no", kingdoms_begin, kingdoms_end),
-        				(faction_slot_eq, ":faction_no", slot_faction_culture, ":culture"),
-        				(val_add, ":num_factions", 1),
-        			(try_end),
-        			(val_sub, ":num_factions", 1),
-        			(overlay_set_val, ":faction_choice", ":num_factions"),
-        			
+
+                    (assign, "$g_presentation_culture", ":culture"),
+        			        			
         			(assign, ":end", kingdoms_end),
         			(try_for_range, ":faction_no", kingdoms_begin, ":end"),
         				(faction_slot_eq, ":faction_no", slot_faction_culture, ":culture"),
@@ -526,41 +484,6 @@ presentations = [
         				(assign, ":end", 0),
         			(try_end),
         			(assign, "$g_test_player_faction", ":faction"),
-        			
-        			(assign, reg10, "$g_test_player_faction"),
-        			(str_store_faction_name, s10, "$g_test_player_faction"),
-        			(display_message, "@Faction is {reg10}: {s10}"),
-        		(else_try),
-        			(store_sub, ":num_cultures", cultures_end, cultures_begin),
-        			(store_add, ":bot", "$g_culture_choice", 1),
-        			(store_add, ":top", ":bot", ":num_cultures"),
-        			(is_between, ":object", ":bot", ":top"),
-        			
-        			(store_sub, ":offset", ":object", ":bot"),
-        			(store_sub, ":culture", ":num_cultures", ":offset"),
-        			(val_sub, ":culture", 1),
-        			(val_add, ":culture", cultures_begin),
-        			
-        			(assign, ":num_factions", 0),
-        			(try_for_range, ":faction_no", kingdoms_begin, kingdoms_end),
-        				(faction_slot_eq, ":faction_no", slot_faction_culture, ":culture"),
-        				(val_add, ":num_factions", 1),
-        			(try_end),
-        			(store_sub, ":count", ":num_factions", ":value"),
-        			(val_sub, ":count", 1),
-        			
-        			(assign, ":end", kingdoms_end),
-        			
-        			(try_for_range, ":faction", kingdoms_begin, ":end"),
-        				(faction_slot_eq, ":faction", slot_faction_culture, ":culture"),
-        				(try_begin),
-        					(eq, ":count", 0),
-        					(assign, ":end", 0),
-        					(assign, "$g_test_player_faction", ":faction"),
-        				(else_try),
-        					(val_sub, ":count", 1),
-        				(try_end),
-        			(try_end),
         			
         			(assign, reg10, "$g_test_player_faction"),
         			(str_store_faction_name, s10, "$g_test_player_faction"),

@@ -4,9 +4,15 @@ v0.500:
 		* allows player becoming a vassal
 		* enable paying for troops in yearly budget
 		* add new heraldic shields to sarranid troops
+	-Balance
+		* player begins in a neutral faction at the start of the game
+		* increase loot gained when defeating parties
+		* increase quantity of troops in towns
 	-Fixes:
 		* prevent kingdom relations from not resetting after war ends
 		* fix negative looted gold after battle
+		* fix player faction being neutral to bandits
+		* fix town merchants inventories being overstocked
 v0.460:
 	-Improvements:
 		* reduce chances for multiple wars on a single faction
