@@ -1167,4 +1167,10 @@ strings = [
   ("bandit_defensive_surrender_leave_men_refuse_tundra", "No, they followed you, they will now follow you in jail."),
   ("bandit_defensive_surrender_leave_men_refuse_desert", "No, they followed you, they will now follow you in jail."),
 
+  ("player_receive_center", "A messenger brings a message for you.^^{s10} wishes to offer you {s11} as a fief under the condition that you become his vassal^^^^Do you accept ?"),
+  ("player_receive_center_vassal", "A messenger brings a message for you.^^Your lord {s10} wishes to offer you {s11} as a fief^Refusing would likely reduce your chances of being awarded another for some time.^^^Do you accept ?"),
+
+  ("quest_description_swear_vassalage_fief", "{s62} would like to receive your oath of allegience to him{reg60?, you would be granted {s11} in exchange:}."),
+  ("quest_description_visit_center_new_owner", "As the newly appointed owner of {s62} you should head to the center to make yourself known and arrange the details of your fiefdom."),
+  ("quest_description_end", "{!}QUESTS END"),
 ]

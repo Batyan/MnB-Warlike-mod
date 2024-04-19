@@ -507,11 +507,12 @@ mesh_tableau_mesh_shield_heater_4 = 505
 mesh_tableau_mesh_shield_pavise_1 = 506
 mesh_tableau_mesh_shield_pavise_2 = 507
 mesh_tableau_mesh_shield_pavise_3 = 508
-mesh_heraldic_armor_bg = 509
-mesh_tableau_mesh_heraldic_armor_a = 510
-mesh_tableau_mesh_heraldic_armor_b = 511
-mesh_tableau_mesh_heraldic_armor_c = 512
-mesh_tableau_mesh_heraldic_armor_d = 513
-mesh_tableau_mesh_brigandine_b_herald = 514
+mesh_tableau_mesh_shields_tear = 509
+mesh_heraldic_armor_bg = 510
+mesh_tableau_mesh_heraldic_armor_a = 511
+mesh_tableau_mesh_heraldic_armor_b = 512
+mesh_tableau_mesh_heraldic_armor_c = 513
+mesh_tableau_mesh_heraldic_armor_d = 514
+mesh_tableau_mesh_brigandine_b_herald = 515
 
 

@@ -75,7 +75,7 @@
 		Good transformation
 		Good consumption
 	0.530: Npcs
-		Lords build buildings
+		Vassal of player
 	0.540: Living economy
 		Civilian parties
 		Prisoner transfer
@@ -87,6 +87,12 @@
 	0.560: Buildings
 		Buildings
 		Bank
+	0.570: Maintenance
+		Lords build buildings
+		Buildings degradation/repairs
+	0.580: Stabilization
+		General improvements
+		Bug fixes
 0.600: Kingdom Management
 	0.610: Policies
 		Kingdom policies

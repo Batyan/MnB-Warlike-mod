@@ -39,6 +39,8 @@ battle_siege_equalize_division = (
 			(val_add, ":slot", 1),
 		(try_end),
 		(store_div, ":avg", ":num_total", ":num_points"),
+
+		# TODO: remove defense division equalizer
 		(try_for_agents, ":agent_no"),
 			(agent_is_alive, ":agent_no"),
 			(agent_get_team, ":team", ":agent_no"),
@@ -67,6 +69,7 @@ battle_siege_equalize_division = (
 				(try_end),
 			(try_end),
 		(try_end),
+		# END
 		
 		(team_get_slot, ":num_archers", ":defender_team", slot_team_division_2_number),
 		(try_begin),

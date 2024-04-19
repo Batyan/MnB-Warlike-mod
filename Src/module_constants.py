@@ -145,7 +145,7 @@ ressource_gathering_pace = 200
 lords_begin = "trp_lord_001"
 lords_end = companions_begin
 
-npc_heroes_begin = lords_begin
+npc_heroes_begin = "trp_current_player"
 npc_heroes_end = companions_end
 
 # SCENES
@@ -450,6 +450,18 @@ faction_tax_rate_funds_max_war = 10
 faction_tax_rate_member_base = 2
 faction_tax_rate_vassal_base = 5
 
+quests_begin = "qst_swear_vassalage_fief"
+quests_end = "qst_quests_end"
+
+quest_descriptions_begin = "str_quest_description_swear_vassalage_fief"
+quest_descriptions_end = "qst_quest_description_end"
+
+vassal_outcome_too_many = 1
+vassal_outcome_unknown = 2
+vassal_outcome_refused = 3
+vassal_outcome_no_fief = 4
+vassal_outcome_accepted = 5
+
 ################
 ## Item Slots ##
 ################
@@ -676,7 +688,7 @@ slot_faction_member_tax_rate = slot_faction_vassal_tax_rate + 1
 slot_faction_funds_tax_rate = slot_faction_member_tax_rate + 1
 
 slot_faction_status = slot_faction_funds_tax_rate + 1
-sfst_default = 0
+sfst_default = 1
 sfst_disabled = -1
 
 slot_faction_policy_assimilation = slot_faction_status + 1
@@ -787,15 +799,16 @@ war_storages_end = "fac_war_storage_end"
 
 
 slot_war_active = 9
-slot_war_start_date = 10
+slot_war_ended = slot_war_active + 1
+slot_war_start_date = slot_war_ended + 1
 
-slot_war_defender_strength = 11
-slot_war_attacker_strength = 12
+slot_war_defender_strength = slot_war_start_date + 1
+slot_war_attacker_strength = slot_war_defender_strength + 1
 
-slot_war_defender_willingness_score = 13
-slot_war_attacker_willingness_score = 14
+slot_war_defender_willingness_score = slot_war_attacker_strength + 1
+slot_war_attacker_willingness_score = slot_war_defender_willingness_score + 1
 
-slot_war_kingdom_participant_begin = 15
+slot_war_kingdom_participant_begin = slot_war_attacker_willingness_score + 1
 slot_war_kingdom_participant_end = slot_war_kingdom_participant_begin - kingdoms_begin + kingdoms_end
 
 swkp_main_defender = -2
@@ -1084,8 +1097,10 @@ autosort_culture_flag = 0xF0
 autosort_level_clearer = 0xF0
 autosort_culture_clearer = 0x0F
 
+slot_party_reserved = slot_party_autosort_options + 1
+
 # For centers
-slot_party_item_consumed_begin 	= slot_party_autosort_options + 1 # Number of items consumed
+slot_party_item_consumed_begin 	= slot_party_reserved + 1 # Number of items consumed
 slot_party_item_consumed_end	= slot_party_item_consumed_begin + goods_end - goods_begin
 slot_party_item_last_produced_begin 	= slot_party_item_consumed_end # Number of items produced
 slot_party_item_last_produced_end	= slot_party_item_last_produced_begin + goods_end - goods_begin
@@ -1305,6 +1320,8 @@ slot_troop_budget_perceived_debt = slot_troop_budget_debt + 1
 
 slot_troop_last_met 				= slot_troop_budget_perceived_debt + 1
 
+slot_troop_culture = slot_troop_last_met + 1
+
 slot_troop_relations_begin = 400
 
 
@@ -1429,7 +1446,14 @@ grc_reinforcement_cavalry = 8
 
 quest_slots = 0
 
+slot_quest_giver_troop = 1
+slot_quest_expiration_days = slot_quest_giver_troop + 1
+slot_quest_dont_give_again_period = slot_quest_expiration_days + 1
+slot_quest_dont_give_again_remaining_days = slot_quest_dont_give_again_period + 1
 
+slot_quest_description = slot_quest_dont_give_again_remaining_days + 1
+
+slot_quest_object = slot_quest_description + 1
 
 
 

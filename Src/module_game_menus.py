@@ -86,7 +86,8 @@ game_menus = [
                         (eq, "$g_test_player_troop", -1),
                         (assign, "$g_test_player_troop", "trp_swadian_light_cavalry"),
 
-                        (store_random_in_range, ":banner", banner_scene_props_begin, banner_scene_props_end),
+                        # (store_random_in_range, ":banner", banner_scene_props_begin, banner_scene_props_end),
+                        (assign, ":banner", banner_scene_props_begin),
                         (troop_set_slot, "$g_player_troop", slot_troop_banner_scene_prop, ":banner"),
                     (else_try),
                         (neg|is_between, "$g_test_player_faction", kingdoms_begin, kingdoms_end),
@@ -96,6 +97,8 @@ game_menus = [
                         # (call_script, "script_troop_copy_face_code_from_troop", "$g_player_troop", "trp_player"),
                         # (set_player_troop, "$g_player_troop"),
                     (try_end),
+                    (str_store_troop_name, s10, "$g_player_troop"),
+                    (troop_set_plural_name, "$g_player_troop", s10),
                 ]),
         ]),
     
@@ -858,6 +861,9 @@ game_menus = [
                     (str_store_string, s14, "@no linked party"),
                 (try_end),
                 (display_message, "@Linked party: {s14}"),
+
+                (party_get_slot, reg19, "$g_encountered_party", slot_party_reserved),
+                (display_message, "@Reserved! {reg19}"),
             (try_end),
             (try_begin),
                 (call_script, "script_cf_debug", debug_economy|debug_trade),
@@ -2085,5 +2091,41 @@ game_menus = [
                 (rest_for_hours, 24, 1, 0),
             ]),
             ("action_go_back", [(eq, reg10, outcome_success),], "Free at last", [(call_script, "script_player_party_free"),(change_screen_return),]),
+        ]),
+
+    ("player_receive_center", mnf_scale_picture, 
+        "{s12}",
+        "none",
+        [
+            (set_background_mesh, "mesh_pic_messenger"),
+
+            (str_store_troop_name, s10, reg20),
+            (str_store_party_name, s11, reg21),
+            (try_begin),
+                (troop_slot_eq, "$g_player_troop", slot_troop_vassal_of, reg20),
+                (str_store_string, s12, "str_player_receive_center_vassal"),
+            (else_try),
+                (str_store_string, s12, "str_player_receive_center"),
+            (try_end),
+        ],
+        [
+            ("receive_center_refuse", [], "Refuse", [
+                (call_script, "script_get_current_day"),
+                (assign, reg20, reg0),
+                (assign, "$g_player_last_proposed_vassalage", reg20),
+                (change_screen_return),
+            ]),
+            ("receive_center_accept", [], "Accept", [
+                (try_begin),
+                    (troop_slot_eq, "$g_player_troop", slot_troop_vassal_of, reg20),
+                    (party_set_slot, reg21, slot_party_reserved, "$g_player_troop"),
+                    # (call_script, "script_troop_give_center_to_troop", reg20, reg21, "$g_player_troop"),
+                    (quest_set_slot, "qst_swear_vassalage_fief", slot_quest_object, reg21),
+                    (call_script, "script_start_quest", "qst_swear_vassalage_fief", reg20),
+                (else_try),
+                    (call_script, "script_troop_give_center_to_troop", reg20, reg21, "$g_player_troop"),
+                (try_end),
+                (change_screen_return),
+            ]),
         ]),
  ]

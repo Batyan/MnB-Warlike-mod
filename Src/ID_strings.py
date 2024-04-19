@@ -882,5 +882,10 @@ str_bandit_defensive_surrender_leave_men_refuse_raider = 880
 str_bandit_defensive_surrender_leave_men_refuse_steppe = 881
 str_bandit_defensive_surrender_leave_men_refuse_tundra = 882
 str_bandit_defensive_surrender_leave_men_refuse_desert = 883
+str_player_receive_center = 884
+str_player_receive_center_vassal = 885
+str_quest_description_swear_vassalage_fief = 886
+str_quest_description_visit_center_new_owner = 887
+str_quest_description_end = 888
 
 
