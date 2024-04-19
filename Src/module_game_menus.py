@@ -86,7 +86,8 @@ game_menus = [
                         (eq, "$g_test_player_troop", -1),
                         (assign, "$g_test_player_troop", "trp_swadian_light_cavalry"),
 
-                        (store_random_in_range, ":banner", banner_scene_props_begin, banner_scene_props_end),
+                        # (store_random_in_range, ":banner", banner_scene_props_begin, banner_scene_props_end),
+                        (assign, ":banner", banner_scene_props_begin),
                         (troop_set_slot, "$g_player_troop", slot_troop_banner_scene_prop, ":banner"),
                     (else_try),
                         (neg|is_between, "$g_test_player_faction", kingdoms_begin, kingdoms_end),
