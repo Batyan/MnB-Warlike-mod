@@ -83,51 +83,6 @@ simple_triggers = [
                 (call_script, "script_party_sort_troops", ":party_no", 2),
             (try_end),
 
-            (try_for_range, ":lord", lords_begin, lords_end),
-                (troop_get_slot, ":occupation", ":lord", slot_troop_kingdom_occupation),
-                (eq, ":occupation", tko_kingdom_hero),
-
-                (troop_get_slot, ":real_debt", ":lord", slot_troop_budget_debt),
-                (troop_get_slot, ":perceived_debt", ":lord", slot_troop_budget_perceived_debt),
-                (val_mul, ":perceived_debt", 9),
-                (val_add, ":perceived_debt", ":real_debt"),
-                (val_div, ":perceived_debt", 10),
-                (troop_set_slot, ":lord", slot_troop_budget_perceived_debt, ":perceived_debt"),
-
-                (call_script, "script_troop_process_ideal_party_wages", ":lord"),
-            (try_end),
-            (try_for_range, ":center", centers_begin, centers_end),
-                (call_script, "script_party_process_ideal_party_wages", ":center"),
-            (try_end),
-            
-            (try_for_range, ":lord", lords_begin, lords_end),
-                (troop_set_slot, ":lord", slot_troop_accumulated_taxes, 0),
-                (troop_set_slot, ":lord", slot_troop_budget_vassal_taxes, 0),
-                (troop_set_slot, ":lord", slot_troop_budget_faction_member_taxes, 0),
-                (troop_set_slot, ":lord", slot_troop_budget_faction_funds, 0),
-                (troop_set_slot, ":lord", slot_troop_budget_reserved_party, 0),
-                (troop_set_slot, ":lord", slot_troop_budget_reserved_other, 0),
-            (try_end),
-            (try_for_range, ":center", centers_begin, centers_end),
-                (party_set_slot, ":center", slot_party_accumulated_taxes, 0),
-                (party_set_slot, ":center", slot_party_budget_reserved_party, 0),
-                (party_set_slot, ":center", slot_party_budget_reserved_auxiliaries, 0),
-                (party_set_slot, ":center", slot_party_budget_reserved_expenses, 0),
-                (party_set_slot, ":center", slot_party_budget_reserved_other, 0),
-                (party_set_slot, ":center", slot_party_budget_taxes, 0),
-                (party_set_slot, ":center", slot_party_budget_protection_taxes, 0),
-                (party_set_slot, ":center", slot_party_budget_vassal_taxes, 0),
-                (party_set_slot, ":center", slot_party_budget_faction_member_taxes, 0),
-                (party_set_slot, ":center", slot_party_budget_pay_protection_taxes, 0),
-                (party_set_slot, ":center", slot_party_budget_pay_vassal_taxes, 0),
-                (party_set_slot, ":center", slot_party_budget_pay_faction_member_taxes, 0),
-                (party_set_slot, ":center", slot_party_budget_trade, 0),
-            (try_end),
-            (try_for_range, ":faction_no", kingdoms_begin, kingdoms_end),
-                (faction_set_slot, ":faction_no", slot_faction_accumulated_taxes, 0),
-            (try_end),
-
-
             (store_random_in_range, "$g_daily_random", 0, 10000),
         ]),
     
@@ -426,6 +381,23 @@ simple_triggers = [
 
     (yearly, # Yearly wages for parties
         [
+            (try_for_range, ":lord", lords_begin, lords_end),
+                (troop_get_slot, ":occupation", ":lord", slot_troop_kingdom_occupation),
+                (eq, ":occupation", tko_kingdom_hero),
+
+                (troop_get_slot, ":real_debt", ":lord", slot_troop_budget_debt),
+                (troop_get_slot, ":perceived_debt", ":lord", slot_troop_budget_perceived_debt),
+                (val_mul, ":perceived_debt", 9),
+                (val_add, ":perceived_debt", ":real_debt"),
+                (val_div, ":perceived_debt", 10),
+                (troop_set_slot, ":lord", slot_troop_budget_perceived_debt, ":perceived_debt"),
+
+                (call_script, "script_troop_process_ideal_party_wages", ":lord"),
+            (try_end),
+            (try_for_range, ":center", centers_begin, centers_end),
+                (call_script, "script_party_process_ideal_party_wages", ":center"),
+            (try_end),
+
             (try_for_parties, ":party_no"),
                 (neq, ":party_no", "$g_player_party"),
                 # Every party must pay wages

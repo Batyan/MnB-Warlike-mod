@@ -430,5 +430,6 @@ script_cancel_quest = 428
 script_player_add_starting_items = 429
 script_cf_troop_can_join_faction = 430
 script_get_player_vassal_outcome = 431
+script_clean_budgets = 432
 
 

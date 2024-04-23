@@ -4887,13 +4887,13 @@ scripts = [
             (val_add, ":taxes", ":taxes_noble"),
 
             (party_get_slot, ":party_type", ":party_no", slot_party_type),
-            (assign, ":mult", 120),
+            (assign, ":mult", 12),
             (try_begin),
                 (eq, ":party_type", spt_village),
-                (assign, ":mult", 60),
+                (assign, ":mult", 6),
             (else_try),
                 (eq, ":party_type", spt_town),
-                (assign, ":mult", 60),
+                (assign, ":mult", 6),
             (try_end),
 
             (val_mul, ":taxes", ":mult"),
@@ -5213,55 +5213,76 @@ scripts = [
                 (display_message, "@Adding {reg10} denars for {s10} (type {reg11})"),
             (try_end),
 
-            (party_get_slot, ":accumulated_taxes", ":party_no", slot_party_accumulated_taxes),
-            (val_add, ":accumulated_taxes", ":amount"),
-            (party_set_slot, ":party_no", slot_party_accumulated_taxes, ":accumulated_taxes"),
-
-            (party_get_slot, ":budget_party", ":party_no", slot_party_budget_reserved_party),
-            (party_get_slot, ":budget_auxiliaries", ":party_no", slot_party_budget_reserved_auxiliaries),
-            (party_get_slot, ":budget_expenses", ":party_no", slot_party_budget_reserved_expenses),
-            (party_get_slot, ":budget_other", ":party_no", slot_party_budget_reserved_other),
-
-            (call_script, "script_party_get_allocated_budget", ":party_no", ":amount"),
-            (assign, ":budget_party_ratio", reg0),
-            (assign, ":budget_auxiliaries_ratio", reg1),
-            (assign, ":budget_expenses_ratio", reg2),
-            (assign, ":budget_other_ratio", reg3),
-
-            (store_mul, ":budget_party_new", ":amount", ":budget_party_ratio"),
-            (val_div, ":budget_party_new", 100),
-
-            (store_mul, ":budget_auxiliaries_new", ":amount", ":budget_auxiliaries_ratio"),
-            (val_div, ":budget_auxiliaries_new", 100),
-
-            (store_mul, ":budget_expenses_new", ":amount", ":budget_expenses_ratio"),
-            (val_div, ":budget_expenses_new", 100),
-
-            (store_mul, ":budget_other_new", ":amount", ":budget_other_ratio"),
-            (val_div, ":budget_other_new", 100),
-
-            (val_add, ":budget_party", ":budget_party_new"),
-            (val_add, ":budget_auxiliaries", ":budget_auxiliaries_new"),
-            (val_add, ":budget_expenses", ":budget_expenses_new"),
-            (val_add, ":budget_other", ":budget_other_new"),
-
-            (party_set_slot, ":party_no", slot_party_budget_reserved_party, ":budget_party"),
-            (party_set_slot, ":party_no", slot_party_budget_reserved_auxiliaries, ":budget_auxiliaries"),
-            (party_set_slot, ":party_no", slot_party_budget_reserved_expenses, ":budget_expenses"),
-            (party_set_slot, ":party_no", slot_party_budget_reserved_other, ":budget_other"),
-
-            (party_get_slot, ":leader", ":party_no", slot_party_leader),
             (try_begin),
-                (ge, ":leader", 0),
-                (store_troop_faction, ":leader_faction", ":leader"),
-                (store_faction_of_party, ":party_faction", ":party_no"),
+                (this_or_next|eq, ":tax_type", tax_type_population),
+                (this_or_next|eq, ":tax_type", tax_type_protection),
+                (this_or_next|eq, ":tax_type", tax_type_protection_pay),
+                (this_or_next|eq, ":tax_type", tax_type_vassal),
+                (this_or_next|eq, ":tax_type", tax_type_vassal_pay),
+                (this_or_next|eq, ":tax_type", tax_type_member),
+                (this_or_next|eq, ":tax_type", tax_type_member_pay),
+                (this_or_next|eq, ":tax_type", tax_type_trade),
+                (this_or_next|eq, ":tax_type", tax_type_visitor),
+                (this_or_next|eq, ":tax_type", tax_type_funds),
+                (this_or_next|eq, ":tax_type", tax_type_funds_pay),
+                (this_or_next|eq, ":tax_type", tax_type_tribute),
+                (this_or_next|eq, ":tax_type", tax_type_tribute_pay),
+                (this_or_next|eq, ":tax_type", tax_type_occupation),
+                (eq, ":tax_type", tax_type_occupation_pay),
+                
+                (party_get_slot, ":accumulated_taxes", ":party_no", slot_party_accumulated_taxes),
+                (val_add, ":accumulated_taxes", ":amount"),
+                (party_set_slot, ":party_no", slot_party_accumulated_taxes, ":accumulated_taxes"),
+
+                (party_get_slot, ":budget_party", ":party_no", slot_party_budget_reserved_party),
+                (party_get_slot, ":budget_auxiliaries", ":party_no", slot_party_budget_reserved_auxiliaries),
+                (party_get_slot, ":budget_expenses", ":party_no", slot_party_budget_reserved_expenses),
+                (party_get_slot, ":budget_other", ":party_no", slot_party_budget_reserved_other),
+
+                (call_script, "script_party_get_allocated_budget", ":party_no", ":amount"),
+                (assign, ":budget_party_ratio", reg0),
+                (assign, ":budget_auxiliaries_ratio", reg1),
+                (assign, ":budget_expenses_ratio", reg2),
+                (assign, ":budget_other_ratio", reg3),
+
+                (store_mul, ":budget_party_new", ":amount", ":budget_party_ratio"),
+                (val_div, ":budget_party_new", 100),
+
+                (store_mul, ":budget_auxiliaries_new", ":amount", ":budget_auxiliaries_ratio"),
+                (val_div, ":budget_auxiliaries_new", 100),
+
+                (store_mul, ":budget_expenses_new", ":amount", ":budget_expenses_ratio"),
+                (val_div, ":budget_expenses_new", 100),
+
+                (store_mul, ":budget_other_new", ":amount", ":budget_other_ratio"),
+                (val_div, ":budget_other_new", 100),
+
+                (val_add, ":budget_party", ":budget_party_new"),
+                (val_add, ":budget_auxiliaries", ":budget_auxiliaries_new"),
+                (val_add, ":budget_expenses", ":budget_expenses_new"),
+                (val_add, ":budget_other", ":budget_other_new"),
+
+                (party_set_slot, ":party_no", slot_party_budget_reserved_party, ":budget_party"),
+                (party_set_slot, ":party_no", slot_party_budget_reserved_auxiliaries, ":budget_auxiliaries"),
+                (party_set_slot, ":party_no", slot_party_budget_reserved_expenses, ":budget_expenses"),
+                (party_set_slot, ":party_no", slot_party_budget_reserved_other, ":budget_other"),
+
+                (party_get_slot, ":leader", ":party_no", slot_party_leader),
                 (try_begin),
-                    (eq, ":leader_faction", ":party_faction"),
-                    (call_script, "script_troop_add_accumulated_taxes", ":leader", ":budget_other_new", ":tax_type", 0),
-                (else_try),
-                    # Occupied parties give the leader's money to the occupying faction
-                    (call_script, "script_faction_add_accumulated_taxes", ":party_faction", ":budget_other_new", tax_type_occupation),
-                    (val_sub, ":amount", ":budget_other_new"),
+                    (ge, ":leader", 0),
+                    (store_troop_faction, ":leader_faction", ":leader"),
+                    (store_faction_of_party, ":party_faction", ":party_no"),
+                    (try_begin),
+                        (eq, ":leader_faction", ":party_faction"),
+                        (call_script, "script_troop_add_accumulated_taxes", ":leader", ":budget_other_new", ":tax_type", 0),
+                    (else_try),
+                        # Occupied parties give the leader's money to the occupying faction
+                        (gt, ":budget_other_new", 0),
+                        (call_script, "script_faction_add_accumulated_taxes", ":party_faction", ":budget_other_new", tax_type_occupation),
+                        (store_mul, ":occupation_pay", ":budget_other_new", -1),
+                        (call_script, "script_party_add_accumulated_taxes", ":party_no", ":occupation_pay", tax_type_occupation_pay),
+                        (val_sub, ":amount", ":budget_other_new"),
+                    (try_end),
                 (try_end),
             (try_end),
             
@@ -5407,10 +5428,15 @@ scripts = [
                 (le, ":old_wanted_wages", 0),
                 (assign, ":new_wanted_wages", ":wanted_wages"),
             (else_try),
-                # We make an average of the last 10 months
-                (store_mul, ":new_wanted_wages", ":old_wanted_wages", 9),
+                # In case the new wages are higher we take the average of this and last year
+                (gt, ":wanted_wages", ":old_wanted_wages"),
+                (store_add, ":new_wanted_wages", ":old_wanted_wages", ":wanted_wages"),
+                (val_div, ":new_wanted_wages", 2),
+            (else_try),
+                # We make an average of the last 5 years
+                (store_mul, ":new_wanted_wages", ":old_wanted_wages", 4),
                 (val_add, ":new_wanted_wages", ":wanted_wages"),
-                (val_div, ":new_wanted_wages", 10),
+                (val_div, ":new_wanted_wages", 5),
             (try_end),
 
             (try_begin),
@@ -5450,9 +5476,9 @@ scripts = [
                 (assign, ":new_wanted_wages", ":wanted_wages"),
             (else_try),
                 # We make an average of the last 10 months
-                (store_mul, ":new_wanted_wages", ":old_wanted_wages", 9),
+                (store_mul, ":new_wanted_wages", ":old_wanted_wages", 4),
                 (val_add, ":new_wanted_wages", ":wanted_wages"),
-                (val_div, ":new_wanted_wages", 10),
+                (val_div, ":new_wanted_wages", 5),
             (try_end),
 
             (try_begin),
@@ -11046,7 +11072,7 @@ scripts = [
             (troop_set_slot, ":lord_no", slot_troop_last_met, -1),
             (troop_set_slot, ":lord_no", slot_troop_gathering, -1),
             # We need a minimum amount of wanted wages to cover for a few troops
-            (troop_set_slot, ":lord_no", slot_troop_wanted_party_wages, 500),
+            (troop_set_slot, ":lord_no", slot_troop_wanted_party_wages, 800),
 
             # Reset family
             (try_for_range, ":slot", slot_troop_married_to, slot_troop_child_10+1),
@@ -21245,6 +21271,43 @@ scripts = [
                 (assign, reg1, ":surplus_fief"),
             (else_try),
                 (assign, reg0, vassal_outcome_no_fief),
+            (try_end),
+        ]),
+
+    # script_clean_budgets
+        # input: none
+        # output: none
+    ("clean_budgets",
+        [
+
+            (try_for_range, ":lord", lords_begin, lords_end),
+                (troop_set_slot, ":lord", slot_troop_accumulated_taxes, 0),
+                (troop_set_slot, ":lord", slot_troop_budget_vassal_taxes, 0),
+                (troop_set_slot, ":lord", slot_troop_budget_faction_member_taxes, 0),
+                (troop_set_slot, ":lord", slot_troop_budget_faction_funds, 0),
+                (troop_set_slot, ":lord", slot_troop_budget_reserved_party, 0),
+                (troop_set_slot, ":lord", slot_troop_budget_reserved_other, 0),
+            (try_end),
+            (try_for_range, ":center", centers_begin, centers_end),
+                (party_set_slot, ":center", slot_party_accumulated_taxes, 0),
+                (party_set_slot, ":center", slot_party_budget_reserved_party, 0),
+                (party_set_slot, ":center", slot_party_budget_reserved_auxiliaries, 0),
+                (party_set_slot, ":center", slot_party_budget_reserved_expenses, 0),
+                (party_set_slot, ":center", slot_party_budget_reserved_other, 0),
+                (party_set_slot, ":center", slot_party_budget_taxes, 0),
+                (party_set_slot, ":center", slot_party_budget_protection_taxes, 0),
+                (party_set_slot, ":center", slot_party_budget_vassal_taxes, 0),
+                (party_set_slot, ":center", slot_party_budget_faction_member_taxes, 0),
+                (party_set_slot, ":center", slot_party_budget_pay_protection_taxes, 0),
+                (party_set_slot, ":center", slot_party_budget_pay_vassal_taxes, 0),
+                (party_set_slot, ":center", slot_party_budget_pay_faction_member_taxes, 0),
+                (party_set_slot, ":center", slot_party_budget_trade, 0),
+
+                (party_get_slot, ":wealth", ":center", slot_party_wealth),
+                (party_set_slot, ":center", slot_party_budget_last_wealth, ":wealth"),
+            (try_end),
+            (try_for_range, ":faction_no", kingdoms_begin, kingdoms_end),
+                (faction_set_slot, ":faction_no", slot_faction_accumulated_taxes, 0),
             (try_end),
         ]),
 
