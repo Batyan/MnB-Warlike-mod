@@ -553,11 +553,16 @@ presentations = [
                 (val_add, ":center_line_height", 10),
                 (try_for_range_backwards, ":center", centers_begin, centers_end),
                     (party_get_slot, ":last_wealth", ":center", slot_party_budget_last_wealth),
+                    (party_get_slot, ":current_wealth", ":center", slot_party_wealth),
                     
                     (party_get_slot, ":leader", ":center", slot_party_leader),
                     (eq, ":leader", "$g_player_troop"),
                     # (is_between, ":center", towns_begin, towns_end),
 
+                    (call_script, "script_party_get_wages", ":center"),
+                    (store_mul, ":center_wages", reg0, -1),
+
+                    (assign, ":total_budget", ":center_wages"),
                     (try_for_range, ":tax_slot", slot_party_buget_taxes_begin, slot_party_buget_taxes_end),
                         (store_sub, ":offset", ":tax_slot", slot_party_buget_taxes_begin),
                         (store_add, ":tax_description", ":offset", "str_party_tax_description_taxes"),
@@ -589,8 +594,41 @@ presentations = [
                         (else_try),
                             (overlay_set_color, reg0, text_color_budget_negative),
                         (try_end),
+                        (val_add, ":total_budget", ":amount"),
 
-                        (val_add, ":cur_y", ":line_height"),    
+                        (val_add, ":cur_y", ":line_height"),
+                    (try_end),
+
+                    (store_add, ":total", ":last_wealth", ":total_budget"),
+                    (store_sub, ":missing", ":current_wealth", ":total"),
+
+                    (try_begin),
+                        (neq, ":missing", 0),
+                        (str_store_string, s11, "@Other spendings:"),
+                        (create_text_overlay, reg0, "@{s11}:", tf_left_align),
+                        (position_set_x, pos1, ":current_effects_x"),
+                        (position_set_y, pos1, ":cur_y"),
+                        (overlay_set_position, reg0, pos1),
+                        (position_set_x, pos1, 1000),
+                        (position_set_y, pos1, 1000),
+                        (overlay_set_size, reg0, pos1),
+                        (overlay_set_color, reg0, text_color_budget_neutral),
+
+                        (assign, reg10, ":missing"),
+                        (create_text_overlay, reg0, "@{reg10}", tf_right_align),
+                        (position_set_x, pos1, ":current_effects_values_x"),
+                        (position_set_y, pos1, ":cur_y"),
+                        (overlay_set_position, reg0, pos1),
+                        (position_set_x, pos1, 1000),
+                        (position_set_y, pos1, 1000),
+                        (overlay_set_size, reg0, pos1),
+                        (try_begin),
+                            (gt, ":missing", 0),
+                            (overlay_set_color, reg0, text_color_budget_positive),
+                        (else_try),
+                            (overlay_set_color, reg0, text_color_budget_negative),
+                        (try_end),
+                        (val_add, ":cur_y", ":line_height"),
                     (try_end),
 
                     (create_text_overlay, reg0, "@Past wealth:", tf_left_align),
@@ -611,9 +649,6 @@ presentations = [
                     (position_set_y, pos1, 1000),
                     (overlay_set_size, reg0, pos1),
                     (overlay_set_color, reg0, text_color_budget_neutral),
-
-                    (call_script, "script_party_get_wages", ":center"),
-                    (store_mul, ":center_wages", reg0, -1),
                     
                     (create_text_overlay, reg0, "@Wages:", tf_left_align),
                     (position_set_x, pos1, ":current_effects_x"),
@@ -633,8 +668,30 @@ presentations = [
                     (position_set_y, pos1, 1000),
                     (overlay_set_size, reg0, pos1),
                     (overlay_set_color, reg0, text_color_budget_negative),
+                    
+                    (try_begin),
+                        (eq, "$g_process_effects", 1),
+                        (create_text_overlay, reg0, "@Wealth:", tf_left_align),
+                        (position_set_x, pos1, ":future_state_x"),
+                        (position_set_y, pos1, ":cur_y"),
+                        (overlay_set_position, reg0, pos1),
+                        (position_set_x, pos1, 1000),
+                        (position_set_y, pos1, 1000),
+                        (overlay_set_size, reg0, pos1),
+                        (overlay_set_color, reg0, text_color_budget_neutral),
 
-                    (val_add, ":cur_y", ":line_height"),  
+                        (assign, reg10, ":current_wealth"),
+                        (create_text_overlay, reg0, "@{reg10}", tf_right_align),
+                        (position_set_x, pos1, ":future_state_values_x"),
+                        (position_set_y, pos1, ":cur_y"),
+                        (overlay_set_position, reg0, pos1),
+                        (position_set_x, pos1, 1000),
+                        (position_set_y, pos1, 1000),
+                        (overlay_set_size, reg0, pos1),
+                        (overlay_set_color, reg0, text_color_budget_negative),
+                    (try_end),
+
+                    (val_add, ":cur_y", ":line_height"),
 
                     (str_store_party_name, s10, ":center"),
 
@@ -734,7 +791,6 @@ presentations = [
 
                 (val_add, ":cur_y", ":line_height"),
 
-                (call_script, "script_game_get_money_text", ":player_gold"),
                 (create_text_overlay, reg0, "@Wealth:", tf_left_align),
                 (position_set_x, pos1, ":current_state_x"),
                 (position_set_y, pos1, ":cur_y"),

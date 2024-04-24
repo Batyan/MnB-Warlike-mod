@@ -21279,7 +21279,6 @@ scripts = [
         # output: none
     ("clean_budgets",
         [
-
             (try_for_range, ":lord", lords_begin, lords_end),
                 (troop_set_slot, ":lord", slot_troop_accumulated_taxes, 0),
                 (troop_set_slot, ":lord", slot_troop_budget_vassal_taxes, 0),
@@ -21302,6 +21301,15 @@ scripts = [
                 (party_set_slot, ":center", slot_party_budget_pay_vassal_taxes, 0),
                 (party_set_slot, ":center", slot_party_budget_pay_faction_member_taxes, 0),
                 (party_set_slot, ":center", slot_party_budget_trade, 0),
+                
+                (party_set_slot, ":center", slot_party_budget_visitor, 0),
+                (party_set_slot, ":center", slot_party_budget_funds, 0),
+                (party_set_slot, ":center", slot_party_budget_pay_funds, 0),
+                (party_set_slot, ":center", slot_party_budget_tribute, 0),
+                (party_set_slot, ":center", slot_party_budget_pay_tribute, 0),
+                (party_set_slot, ":center", slot_party_budget_occupation, 0),
+                (party_set_slot, ":center", slot_party_budget_pay_occupation, 0),
+                (party_set_slot, ":center", slot_party_budget_expenses, 0),
 
                 (party_get_slot, ":wealth", ":center", slot_party_wealth),
                 (party_set_slot, ":center", slot_party_budget_last_wealth, ":wealth"),
@@ -21310,5 +21318,4 @@ scripts = [
                 (faction_set_slot, ":faction_no", slot_faction_accumulated_taxes, 0),
             (try_end),
         ]),
-
 ]
