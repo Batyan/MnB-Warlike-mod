@@ -688,7 +688,12 @@ presentations = [
                         (position_set_x, pos1, 1000),
                         (position_set_y, pos1, 1000),
                         (overlay_set_size, reg0, pos1),
-                        (overlay_set_color, reg0, text_color_budget_negative),
+                        (try_begin),
+                            (ge, ":current_wealth", 0),
+                            (overlay_set_color, reg0, text_color_budget_neutral),
+                        (else_try),
+                            (overlay_set_color, reg0, text_color_budget_negative),
+                        (try_end),
                     (try_end),
 
                     (val_add, ":cur_y", ":line_height"),
