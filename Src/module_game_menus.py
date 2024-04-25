@@ -2111,13 +2111,12 @@ game_menus = [
         [
             ("receive_center_refuse", [], "Refuse", [
                 (call_script, "script_get_current_day"),
-                (assign, reg20, reg0),
-                (assign, "$g_player_last_proposed_vassalage", reg20),
+                (assign, "$g_player_last_proposed_vassalage", reg0),
                 (change_screen_return),
             ]),
             ("receive_center_accept", [], "Accept", [
                 (try_begin),
-                    (troop_slot_eq, "$g_player_troop", slot_troop_vassal_of, reg20),
+                    (neg|troop_slot_eq, "$g_player_troop", slot_troop_vassal_of, reg20),
                     (party_set_slot, reg21, slot_party_reserved, "$g_player_troop"),
                     # (call_script, "script_troop_give_center_to_troop", reg20, reg21, "$g_player_troop"),
                     (quest_set_slot, "qst_swear_vassalage_fief", slot_quest_object, reg21),
