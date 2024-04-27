@@ -6715,7 +6715,7 @@ scripts = [
             (store_script_param, ":faction_2", 2),
             (store_script_param, ":war_storage", 3),
             
-            (set_relation, ":faction_1", ":faction_2", relation_state_war),
+            # (set_relation, ":faction_1", ":faction_2", relation_state_war),
             
             (str_store_faction_name_link, s10, ":faction_1"),
             (str_store_faction_name_link, s11, ":faction_2"),
@@ -6745,6 +6745,19 @@ scripts = [
             (try_begin),
                 (eq, ":main_participant", 1),
                 (call_script, "script_update_faction_war_count"),
+
+                (try_for_range, ":faction_1", kingdoms_begin, kingdoms_end),
+                    (call_script, "script_faction_is_war_participant", ":faction_1", ":war_storage"),
+                    (assign, ":relation", reg0),
+                    (neq, ":relation", swkp_bystander),
+                    (store_add, ":begin", ":faction_1", 1),
+                    (try_for_range, ":faction_2", ":begin", kingdoms_end),
+                        (call_script, "script_faction_is_war_participant", ":faction_2", ":war_storage"),
+                        (neq, reg0, swkp_bystander),
+                        (neq, reg0, ":relation"),
+                        (call_script, "script_faction_reset_relations", ":faction_1", ":faction_2"),
+                    (try_end),
+                (try_end),
             (try_end),
 
             # Update last peace time
@@ -6757,6 +6770,30 @@ scripts = [
             (try_begin),
                 (le, ":num_wars_2", 0),
                 (faction_set_slot, ":faction_2", slot_faction_last_peace, ":current_day"),
+            (try_end),
+        ]),
+
+    # script_faction_join_war
+        # input:
+        #   arg1: faction_no
+        #   arg2: war_storage
+        #   arg3: participant_side
+        # output: none
+    ("faction_join_war",
+        [
+            (store_script_param, ":faction_no", 1),
+            (store_script_param, ":war_storage", 2),
+            (store_script_param, ":participant_side", 3),
+
+            (call_script, "script_war_add_participant",  ":war_storage", ":faction_no", ":participant_side", -1),
+
+            (call_script, "script_get_current_day"),
+            (assign, ":current_day", reg0),
+            # Update last peace time
+            (faction_get_slot, ":num_wars", ":faction_no", slot_faction_is_at_war),
+            (try_begin),
+                (le, ":num_wars", 0),
+                (faction_set_slot, ":faction_no", slot_faction_last_peace, ":current_day"),
             (try_end),
         ]),
 
@@ -11958,6 +11995,14 @@ scripts = [
                 (assign, ":score", reg0),
                 (try_begin),
                     (gt, ":score", ":best_score"),
+                    
+                    (call_script, "script_get_current_day"),
+                    (assign, ":current_day", reg0),
+
+                    # If the player previously refused an offer we don't ask for a while
+                    (store_add, ":threshold", "$g_player_last_proposed_vassalage", 365*2),
+                    (gt, ":current_day", ":threshold"),
+
                     (assign, ":best_score", ":score"),
                     (assign, ":best_candidate", "$g_player_troop"),
                 (try_end),
@@ -16922,7 +16967,7 @@ scripts = [
                         (assign, reg11, ":treaty_attacker"),
                         (display_log_message, "@{s10} joins war on side of attacker ({reg10} {reg11})"),
                     (try_end),
-                    (call_script, "script_faction_declare_war_to_faction", ":faction_no", ":faction_defender", ":war_storage"),
+                    (call_script, "script_faction_join_war", ":faction_no", ":war_storage", swkp_aggressor),
                 (else_try),
                     (eq, ":must_declare_defender", 0),
                     (eq, ":must_declare_attacker", 1),
@@ -16934,7 +16979,7 @@ scripts = [
                         (assign, reg11, ":treaty_attacker"),
                         (display_log_message, "@{s10} joins war on side of defender ({reg10} {reg11})"),
                     (try_end),
-                    (call_script, "script_faction_declare_war_to_faction", ":faction_attacker", ":faction_no", ":war_storage"),
+                    (call_script, "script_faction_join_war", ":faction_no", ":war_storage", swkp_defender),
                 (else_try),
                     (eq, ":must_declare_defender", 1),
                     (eq, ":must_declare_attacker", 1),
