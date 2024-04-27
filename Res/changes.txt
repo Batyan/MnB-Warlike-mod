@@ -1,4 +1,13 @@
 v0.510:
+	-Features:
+		* player fiefs are displayed in yearly budget presentation
+	-Balance
+		* increase tax revenue by about 20%
+	-Fixes:
+		* prevent a faction being at war with more/less opponent than the war should allow
+		* fix for grant fief forcing the player to pledge an oath again
+		* fix taxes being too high in centers
+		* fix center budget not properly cleared
 v0.500:
 	-Features:
 		* allows player control of fiefs
