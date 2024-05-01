@@ -6719,7 +6719,7 @@ scripts = [
             
             (str_store_faction_name_link, s10, ":faction_1"),
             (str_store_faction_name_link, s11, ":faction_2"),
-            (display_message, "@{s10} declaring war to {s11}", text_color_war),
+            (display_log_message, "@{s10} declaring war to {s11}", text_color_war),
 
             (call_script, "script_get_current_day"),
             (assign, ":current_day", reg0),
@@ -16866,10 +16866,164 @@ scripts = [
             (assign, reg0, ":output"),
         ]),
 
+    # script_war_apply_treaties
+        # input:
+        #   arg1: war_storage
+        # output: none
+        # this script needs to be called after script_war_invite_treaties
+    ("war_apply_treaties",
+        [
+            (store_script_param, ":war_storage", 1),
+            (try_for_range, ":faction_no", kingdoms_begin, kingdoms_end),
+                (neg|faction_slot_eq, ":faction_no", slot_faction_status, sfst_disabled),
+                (faction_get_slot, ":side", ":faction_no", slot_faction_tmp),
+                (neq, ":side", swkp_bystander),
+
+                (try_begin),
+                    (ge, ":side", swkp_aggressor),
+                    (str_store_faction_name, s10, ":faction_no"),
+                    (display_log_message, "@{s10} joins war on side of attacker", text_color_war),
+                (else_try),
+                    (le, ":side", swkp_defender),
+                    (str_store_faction_name, s10, ":faction_no"),
+                    (display_log_message, "@{s10} joins war on side of defender", text_color_war),
+                (try_end),
+                (call_script, "script_faction_join_war", ":faction_no", ":war_storage", ":side"),
+                (faction_set_slot, ":faction_no", slot_faction_tmp, swkp_bystander),
+            (try_end),
+        ]),
+
+    # script_war_invite_treaties
+        # input:
+        #   arg1: war_storage
+        # output: none
+    ("war_invite_treaties",
+        [
+            (store_script_param, ":war_storage", 1),
+            (store_script_param, ":ignore_treaties", 2),
+
+            (try_for_range, ":faction_no", kingdoms_begin, kingdoms_end),
+                (try_begin),
+                    (neg|faction_slot_eq, ":faction_no", slot_faction_status, sfst_disabled),
+                    (call_script, "script_faction_is_war_participant", ":faction_no", ":war_storage"),
+                    (eq, reg0, swkp_bystander),
+
+                    (call_script, "script_faction_get_war_side", ":faction_no", ":war_storage", ":ignore_treaties"),
+                    (assign, ":must_declare_attacker", reg0),
+                    (assign, ":must_declare_defender", reg1),
+
+                    (try_begin),
+                        (eq, ":must_declare_defender", 1),
+                        (eq, ":must_declare_attacker", 0),
+
+                        (faction_set_slot, ":faction_no", slot_faction_tmp, swkp_aggressor),
+                    (else_try),
+                        (eq, ":must_declare_defender", 0),
+                        (eq, ":must_declare_attacker", 1),
+
+                        (faction_set_slot, ":faction_no", slot_faction_tmp, swkp_defender),
+                    (else_try),
+                        (eq, ":must_declare_defender", 1),
+                        (eq, ":must_declare_attacker", 1),
+
+                        (faction_set_slot, ":faction_no", slot_faction_tmp, swkp_bystander),
+                    (else_try),
+                        (faction_set_slot, ":faction_no", slot_faction_tmp, swkp_bystander),
+                    (try_end),
+                (else_try),
+                    (faction_set_slot, ":faction_no", slot_faction_tmp, swkp_bystander),
+                (try_end),
+            (try_end),
+        ]),
+
+    # script_faction_get_war_side
+        # input:
+        #   arg1: faction_no
+        #   arg2: war_storage
+        #   arg3: ignore_treaties
+        # output:
+        #   reg0: must_declare_attacker
+        #   reg1: must_declare_defender
+    ("faction_get_war_side",
+        [
+            (store_script_param, ":faction_no", 1),
+            (store_script_param, ":war_storage", 2),
+            (store_script_param, ":ignore_treaties", 3),
+
+            (assign, ":must_declare_attacker", 0),
+            (assign, ":must_declare_defender", 0),
+
+            (try_for_range, ":other_faction", kingdoms_begin, kingdoms_end),
+                (call_script, "script_faction_is_war_participant", ":other_faction", ":war_storage"),
+                (assign, ":side", reg0),
+                (neq, ":side", swkp_bystander),
+
+                (call_script, "script_faction_get_treaties", ":faction_no", ":other_faction"),
+                (assign, ":treaties", reg0),
+
+                (faction_get_slot, ":vassal_type", ":faction_no", slot_faction_vassal_type),
+                (faction_get_slot, ":vassal_type_other", ":other_faction", slot_faction_vassal_type),
+
+                (store_and, ":alliance", ":treaties", sfkt_alliance),
+                (store_and, ":defensive", ":treaties", sfkt_defensive_alliance),
+                (store_and, ":vassal", ":treaties", sfkt_vassal),
+                (store_and, ":overlord", ":treaties", sfkt_overlord),
+
+                (assign, ":must_help", 0),
+
+                (try_begin),
+                    (gt, ":alliance", 0),
+                    (eq, ":ignore_treaties", 0),
+                    (assign, ":must_help", 1),
+                (else_try),
+                    (gt, ":defensive", 0),
+                    (eq, ":ignore_treaties", 0),
+                    (le, ":side", swkp_defender),
+                    (assign, ":must_help", 1),
+                (else_try),
+                    (gt, ":vassal"),
+                    
+                    (store_and, ":is_sattrapy", ":vassal_type", sfvt_sattrapy),
+                    (gt, ":is_sattrapy", 0),
+                    (assign, ":must_help", 1),
+                (else_try),
+                    (gt, ":vassal"),
+
+                    (le, ":side", swkp_defender),
+                    (store_and, ":is_bulwark", ":vassal_type", sfvt_bulwark),
+                    (gt, ":is_bulwark", 0),
+
+                    (assign, ":must_help", 1),
+                (else_try),
+                    (gt, ":overlord", 0),
+
+                    (le, ":side", swkp_defender),
+                    (store_and, ":is_protectorate", ":vassal_type_other", sfvt_protectorate),
+                    (gt, ":is_protectorate", 0),
+                    (assign, ":must_help", 1),
+                (try_end),
+
+                (try_begin),
+                    (gt, ":must_help", 0),
+                    (try_begin),
+                        (lt, ":side", swkp_bystander),
+                        (assign, ":must_declare_attacker", 1),
+                    (else_try),
+                        (gt, ":side", swkp_bystander),
+                        (assign, ":must_declare_defender", 1),
+                    (try_end),
+                (try_end),
+            (try_end),
+
+            (assign, reg0, ":must_declare_attacker"),
+            (assign, reg1, ":must_declare_defender"),
+        ]),
+
     # script_faction_political_event_war_declared
         # input:
         #   arg1: faction_attacker
         #   arg2: faction_defender
+        #   arg3: war_storage
     ("faction_political_event_war_declared",
         [
             (store_script_param, ":faction_attacker", 1),
@@ -16883,34 +17037,12 @@ scripts = [
                 (neq, ":faction_no", ":faction_attacker"),
                 (neq, ":faction_no", ":faction_defender"),
 
-                (store_relation, ":relation_attacker", ":faction_no", ":faction_attacker"),
-                (store_relation, ":relation_defender", ":faction_no", ":faction_defender"),
-
-                (call_script, "script_faction_get_treaties", ":faction_no", ":faction_defender"),
-                (assign, ":treaty_defender", reg0),
-                (call_script, "script_faction_get_treaties", ":faction_no", ":faction_attacker"),
-                (assign, ":treaty_attacker", reg0),
-
-                (faction_get_slot, ":vassal_type", ":faction_no", slot_faction_vassal_type),
-                (faction_get_slot, ":vassal_type_defender", ":faction_defender", slot_faction_vassal_type),
-                # (faction_get_slot, ":vassal_type_attacker", ":faction_attacker", slot_faction_vassal_type),
-
-                (store_and, ":alliance_defender", ":treaty_defender", sfkt_alliance),
-                (store_and, ":defensive_defender", ":treaty_defender", sfkt_defensive_alliance),
-                (store_and, ":vassal_defender", ":treaty_defender", sfkt_vassal),
-                (store_and, ":overlord_defender", ":treaty_defender", sfkt_overlord),
-
-                (store_and, ":alliance_attacker", ":treaty_attacker", sfkt_alliance),
-                # (store_and, ":defensive_attacker", ":treaty_attacker", sfkt_defensive_alliance),
-                (store_and, ":vassal_attacker", ":treaty_attacker", sfkt_vassal),
-                (store_and, ":overlord_attacker", ":treaty_attacker", sfkt_overlord),
-
-                (assign, ":must_declare_attacker", 0),
-                (assign, ":must_declare_defender", 0),
-
                 (store_sub, ":defender_offset", ":faction_defender", kingdoms_begin),
                 (store_add, ":defender_relation_slot", slot_faction_kingdom_relation_begin, ":defender_offset"),
                 (faction_get_slot, ":relation", ":faction_no", ":defender_relation_slot"),
+
+                # (store_relation, ":relation_attacker", ":faction_no", ":faction_attacker"),
+                (store_relation, ":relation_defender", ":faction_no", ":faction_defender"),
 
                 (store_mul, ":relation_hit", ":relation", -1),
                 (try_begin),
@@ -16918,84 +17050,20 @@ scripts = [
                     (val_add, ":relation_hit", relation_change_joined_war),
                 (try_end),
                 (call_script, "script_faction_relation_change_event", ":faction_no", ":faction_attacker", ":relation_hit"),
-
-                (try_begin),
-                    (this_or_next|gt, ":alliance_defender", 0),
-                    (gt, ":defensive_defender", 0),
-
-                    (assign, ":must_declare_attacker", 1),
-                (else_try),
-                    (gt, ":vassal_defender", 0),
-
-                    (store_and, ":is_bulwark", ":vassal_type", sfvt_bulwark),
-                    (gt, ":is_bulwark", 0),
-                    (assign, ":must_declare_attacker", 1),
-                (else_try),
-                    (gt, ":overlord_defender", 0),
-
-                    (store_and, ":is_protectorate", ":vassal_type_defender", sfvt_protectorate),
-                    (gt, ":is_protectorate", 0),
-                    (assign, ":must_declare_attacker", 1),
-                (try_end),
-
-                (try_begin),
-                    (gt, ":alliance_attacker", 0),
-
-                    (assign, ":must_declare_defender", 1),
-                (else_try),
-                    (gt, ":vassal_attacker", 0),
-
-                    (store_and, ":is_sattrapy", ":vassal_type", sfvt_sattrapy),
-                    (gt, ":is_sattrapy", 0),
-                    (assign, ":must_declare_defender", 1),
-                (else_try),
-                    (gt, ":overlord_attacker", 0),
-
-                    (store_and, ":is_sattrapy", ":vassal_type", sfvt_sattrapy),
-                    (gt, ":is_sattrapy", 0),
-                    (assign, ":must_declare_defender", 1),
-                (try_end),
-
-                (try_begin),
-                    (eq, ":must_declare_defender", 1),
-                    (eq, ":must_declare_attacker", 0),
-                    (gt, ":relation_defender", relation_state_war),
-                    (try_begin),
-                        (call_script, "script_cf_debug", debug_faction),
-                        (str_store_faction_name, s10, ":faction_no"),
-                        (assign, reg10, ":treaty_defender"),
-                        (assign, reg11, ":treaty_attacker"),
-                        (display_log_message, "@{s10} joins war on side of attacker ({reg10} {reg11})"),
-                    (try_end),
-                    (call_script, "script_faction_join_war", ":faction_no", ":war_storage", swkp_aggressor),
-                (else_try),
-                    (eq, ":must_declare_defender", 0),
-                    (eq, ":must_declare_attacker", 1),
-                    (gt, ":relation_attacker", relation_state_war),
-                    (try_begin),
-                        (call_script, "script_cf_debug", debug_faction),
-                        (str_store_faction_name, s10, ":faction_no"),
-                        (assign, reg10, ":treaty_defender"),
-                        (assign, reg11, ":treaty_attacker"),
-                        (display_log_message, "@{s10} joins war on side of defender ({reg10} {reg11})"),
-                    (try_end),
-                    (call_script, "script_faction_join_war", ":faction_no", ":war_storage", swkp_defender),
-                (else_try),
-                    (eq, ":must_declare_defender", 1),
-                    (eq, ":must_declare_attacker", 1),
-                    (try_begin),
-                        (call_script, "script_cf_debug", debug_faction),
-                        (str_store_faction_name, s10, ":faction_no"),
-                        (display_message, "@{s10} can't join war on either side"),
-                    (try_end),
-                # (else_try),
-                #     (try_begin),
-                #         (call_script, "script_cf_debug", debug_all),
-                #         (str_store_faction_name, s10, ":faction_no"),
-                #         (display_message, "@{s10} ignoring the event"),
-                #     (try_end),
-                (try_end),
             (try_end),
+
+            # We first invite direct vassals/overlords of participants
+            (call_script, "script_war_invite_treaties", ":war_storage", 1),
+            (call_script, "script_war_apply_treaties", ":war_storage"),
+
+            # We then invite treaty-bounds
+            (call_script, "script_war_invite_treaties", ":war_storage", 0),
+            (call_script, "script_war_apply_treaties", ":war_storage"),
+
+            # We finally invite direct vassals/overlords of treaty-bounds
+            (call_script, "script_war_invite_treaties", ":war_storage", 1),
+            (call_script, "script_war_apply_treaties", ":war_storage"),
+
         ]),
 
     # script_faction_political_event_center_freed

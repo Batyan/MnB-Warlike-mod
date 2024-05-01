@@ -791,6 +791,8 @@ slot_faction_budget_funds_payment = slot_faction_budget_funds + 1
 
 slot_faction_wealth_shared_ratio = slot_faction_budget_funds_payment + 1
 
+slot_faction_tmp = slot_faction_wealth_shared_ratio + 1
+
 #######################
 ## War Storage Slots ##
 ## ####################
@@ -1334,11 +1336,11 @@ slot_troop_relations_begin = 400
 
 
 # # # ToDo: remove test slots
-slot_troop_mission_kills = 200
-slot_troop_mission_deaths = 201
-slot_item_mission_kills = 200
-slot_faction_mission_kills = 200
-slot_faction_mission_deaths = 201
+slot_troop_mission_kills = 398
+slot_troop_mission_deaths = 399
+slot_item_mission_kills = 400
+slot_faction_mission_kills = 400
+slot_faction_mission_deaths = 401
 # # #
 
 ##################
