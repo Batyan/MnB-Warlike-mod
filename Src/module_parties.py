@@ -285,7 +285,7 @@ parties = [
 	("village_25a1","Shulus", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_25,0,ai_bhvr_hold,0,(122.4, 88.4),[], 170),
 	("village_25a2","Tridina", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_25,0,ai_bhvr_hold,0,(138.4, 103.6),[], 170),
 	("village_25a3","Dimishte", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_25,0,ai_bhvr_hold,0,(152.8, 91.4),[], 170),
-	("village_25b1","New Village", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_25,0,ai_bhvr_hold,0,(127.9, 54.5),[], 170),
+	("village_25b1","Shizike", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_25,0,ai_bhvr_hold,0,(127.9, 54.5),[], 170),
 	("village_25c1","New Village", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_25,0,ai_bhvr_hold,0,(127.2, 107.1),[], 170),
 	("village_25d1","New Village", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_25,0,ai_bhvr_hold,0,(139.3, 77),[], 170),
 
