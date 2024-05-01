@@ -3,6 +3,8 @@ v0.510:
 		* player fiefs are displayed in yearly budget presentation
 	-Balance
 		* increase tax revenue by about 20%
+		* increase swadian_ranger riding (5 -> 6)
+		* set swadian_ranger horse to pack_horse
 	-Fixes:
 		* prevent a faction being at war with more/less opponent than the war should allow
 		* fix for grant fief forcing the player to pledge an oath again

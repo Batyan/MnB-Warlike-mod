@@ -1774,14 +1774,14 @@ troops = [
     itm_pack_horse],
    str_14|agi_15|int_8|cha_10|level(24), wpex(110,85,100,60,50,50), knows_common|knows_ironflesh_3|knows_power_strike_4|knows_power_draw_1|knows_athletics_4|knows_riding_6|knows_horse_archery_2, swadian_face_young_1, swadian_face_old_2 ],
   
-  # Medium cavalry ranged, swords, bows, crossbows, shields
+  # Light cavalry ranged, swords, bows, crossbows, shields
   ["swadian_ranger", "Swadian Ranger", "Swadian Rangers", tf_guarantee_trained_armor|tf_guarantee_ranged|tf_guarantee_horseman|tf_guarantee_shield, no_scene, reserved, fac_kingdom_1,
    [itm_sword_medieval_b, itm_bolts, itm_light_crossbow, itm_barbed_arrows, itm_short_bow2, itm_tab_shield_heater_cav_a,itm_tab_shield_heater_cav_a_plain_1,itm_tab_shield_heater_cav_a_plain_2,
     itm_leather_boots, itm_leather_gloves,
     itm_padded_cloth, itm_leather_armor, itm_leather_jerkin,
     itm_padded_coif, itm_mail_coif, itm_footman_helmet,
-    itm_hunter],
-   str_13|agi_18|int_9|cha_7|level(24), wpex(95,50,80,125,115,60), knows_common|knows_ironflesh_1|knows_power_strike_2|knows_power_draw_4|knows_athletics_3|knows_riding_5|knows_horse_archery_4, swadian_face_young_1, swadian_face_old_2 ],
+    itm_pack_horse],
+   str_13|agi_18|int_9|cha_7|level(24), wpex(95,50,80,125,115,60), knows_common|knows_ironflesh_1|knows_power_strike_2|knows_power_draw_4|knows_athletics_3|knows_riding_6|knows_horse_archery_4, swadian_face_young_1, swadian_face_old_2 ],
   
   # Light cavalry, lances, shields
   ["swadian_light_lancer", "Swadian Light Lancer", "Swadian Light Lancers", tf_guarantee_trained_armor|tf_guarantee_horseman|tf_guarantee_shield, no_scene, reserved, fac_kingdom_1,
