@@ -1999,7 +1999,7 @@ scripts = [
         [
             (store_script_param, ":party_no", 1),
             (party_get_slot, ":leader", ":party_no", slot_party_leader),
-            (assign, ":limit", 0),
+            (party_get_num_companions, ":limit", ":party_no"),
             (try_begin),
                 (ge, ":leader", 0),
                 (troop_is_hero, ":leader"),
@@ -2009,6 +2009,7 @@ scripts = [
 
                 (val_mul, ":limit", ":prisoner_level"),
                 (val_div, ":limit", 100),
+                (val_add, ":limit", 1),
             (else_try),
                 # Parties with no leader or non-hero leaders are considered having 1 in prisoner management
                 # Means 10% of party size max can be prisoners
