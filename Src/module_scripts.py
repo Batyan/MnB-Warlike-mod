@@ -140,7 +140,7 @@ scripts = [
             (assign, "$g_normalize_faction_color", 1),
             (assign, "$g_player_update_name", 1),
 
-            (assign, "$g_player_last_proposed_vassalage", -1),
+            (assign, "$g_player_last_proposed_vassalage", -10000),
             
             (set_show_messages, 1),
         ]),
