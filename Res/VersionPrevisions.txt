@@ -76,6 +76,7 @@
 		Good consumption
 	0.530: Npcs
 		Vassal of player
+		Garrison management
 	0.540: Living economy
 		Civilian parties
 		Prisoner transfer
