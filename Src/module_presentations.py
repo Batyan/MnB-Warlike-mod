@@ -492,9 +492,10 @@ presentations = [
         	]),
         ]),
 
-    # Presentation detailing budget management
-    # Requires g_process_effects set to 1/0
-    #   toggle processing of current effects (owned center taxes, party wages...)
+    # prsnt_budget_report
+        # Presentation detailing budget management
+        # Requires g_process_effects set to 1/0
+        #   toggle processing of current effects (owned center taxes, party wages...)
     ("budget_report", 0, mesh_load_window,
         [
             (ti_on_presentation_load,
@@ -559,10 +560,10 @@ presentations = [
                     (eq, ":leader", "$g_player_troop"),
                     # (is_between, ":center", towns_begin, towns_end),
 
-                    (call_script, "script_party_get_wages", ":center"),
-                    (store_mul, ":center_wages", reg0, -1),
+                    # (call_script, "script_party_get_wages", ":center"),
+                    # (store_mul, ":center_wages", reg0, -1),
 
-                    (assign, ":total_budget", ":center_wages"),
+                    (assign, ":total_budget", 0),
                     (try_for_range, ":tax_slot", slot_party_buget_taxes_begin, slot_party_buget_taxes_end),
                         (store_sub, ":offset", ":tax_slot", slot_party_buget_taxes_begin),
                         (store_add, ":tax_description", ":offset", "str_party_tax_description_taxes"),
@@ -631,6 +632,9 @@ presentations = [
                         (val_add, ":cur_y", ":line_height"),
                     (try_end),
 
+                    # We need to go back one row
+                    (val_sub, ":cur_y", ":line_height"),
+
                     (create_text_overlay, reg0, "@Past wealth:", tf_left_align),
                     (position_set_x, pos1, ":current_state_x"),
                     (position_set_y, pos1, ":cur_y"),
@@ -649,25 +653,6 @@ presentations = [
                     (position_set_y, pos1, 1000),
                     (overlay_set_size, reg0, pos1),
                     (overlay_set_color, reg0, text_color_budget_neutral),
-                    
-                    (create_text_overlay, reg0, "@Wages:", tf_left_align),
-                    (position_set_x, pos1, ":current_effects_x"),
-                    (position_set_y, pos1, ":cur_y"),
-                    (overlay_set_position, reg0, pos1),
-                    (position_set_x, pos1, 1000),
-                    (position_set_y, pos1, 1000),
-                    (overlay_set_size, reg0, pos1),
-                    (overlay_set_color, reg0, text_color_budget_neutral),
-
-                    (assign, reg10, ":center_wages"),
-                    (create_text_overlay, reg0, "@{reg10}", tf_right_align),
-                    (position_set_x, pos1, ":current_effects_values_x"),
-                    (position_set_y, pos1, ":cur_y"),
-                    (overlay_set_position, reg0, pos1),
-                    (position_set_x, pos1, 1000),
-                    (position_set_y, pos1, 1000),
-                    (overlay_set_size, reg0, pos1),
-                    (overlay_set_color, reg0, text_color_budget_negative),
                     
                     (try_begin),
                         (eq, "$g_process_effects", 1),
@@ -972,6 +957,77 @@ presentations = [
                         (overlay_set_color, "$g_presentation_wages_remaining_unpaid", text_color_budget_negative),
                     (try_end),
 
+                (try_end),
+            ]),
+        ]),
+
+    # prsnt_center_administration
+        # Requires temp set to center id
+    ("center_administration", 0, mesh_load_window,
+        [
+            (ti_on_presentation_load,
+            [
+                (assign, ":current_center", "$temp"),
+
+                (set_fixed_point_multiplier, 1000),
+
+                (str_store_party_name, s11, ":current_center"),
+                (create_text_overlay, reg0, s11, tf_left_align),
+                (position_set_x, pos1, 50),
+                (position_set_y, pos1, 680),
+                (overlay_set_position, reg0, pos1),
+                (position_set_x, pos1, 1000),
+                (position_set_y, pos1, 1000),
+                (overlay_set_size, reg0, pos1),
+
+                (str_clear, s0),
+                (create_text_overlay, reg0, s0, tf_scrollable),
+                (position_set_x, pos1, 50),
+                (position_set_y, pos1, 100),
+                (overlay_set_position, reg0, pos1),
+                (position_set_x, pos1, 880),
+                (position_set_y, pos1, 550),
+                (overlay_set_area_size, reg0, pos1),
+                
+                (set_container_overlay, reg0),
+
+                ## CENTER WEALTH
+                # Center treasury
+                # Player wealth
+                # Take or deposit from treasury
+                ## CENTER POLICIES
+                # Center taxes
+                ## CENTER GARRISON
+                # Center garrison selling
+                # Center garrison sending
+                # Center garrison size
+
+                (set_container_overlay, -1),
+
+                (create_button_overlay, "$g_presentation_ok", "@Continue"),
+                (position_set_x, pos1, 50),
+                (position_set_y, pos1, 50),
+                (overlay_set_position, "$g_presentation_ok", pos1),
+
+
+                (presentation_set_duration, 999999),
+            ]),
+
+            (ti_on_presentation_run,
+            [
+                # (presentation_set_duration, 0),
+            ]),
+
+
+            (ti_on_presentation_event_state_change,
+            [
+                (store_trigger_param_1, ":object"),
+                # (store_trigger_param_2, ":value"),
+
+                (try_begin),
+                    (eq, ":object", "$g_presentation_ok"),
+
+                    (presentation_set_duration, 0),
                 (try_end),
             ]),
         ]),

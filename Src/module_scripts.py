@@ -5097,14 +5097,14 @@ scripts = [
                 (is_between, ":linked_party", centers_begin, centers_end),
                 (store_mul, ":linked_taxes", ":taxes", 3),
                 (val_div, ":linked_taxes", 10),
-                # TODO: separate protection taxes
-                (val_sub, ":taxes", ":linked_taxes"),
 
                 # TODO: remove instant teleportation of money
                 # (party_get_slot, ":linked_center_wealth", ":linked_party", slot_party_wealth),
                 # (val_add, ":linked_center_wealth", ":linked_taxes"),
                 # (party_set_slot, ":linked_party", slot_party_wealth, ":linked_center_wealth"),
 
+                (store_mul, ":linked_taxes_payment", ":linked_taxes", -1),
+                (call_script, "script_party_add_accumulated_taxes", ":party_no", ":linked_taxes_payment", tax_type_protection_pay),
                 (call_script, "script_party_add_accumulated_taxes", ":linked_party", ":linked_taxes", tax_type_protection),
 
             (try_end),
@@ -5229,7 +5229,8 @@ scripts = [
                 (this_or_next|eq, ":tax_type", tax_type_tribute),
                 (this_or_next|eq, ":tax_type", tax_type_tribute_pay),
                 (this_or_next|eq, ":tax_type", tax_type_occupation),
-                (eq, ":tax_type", tax_type_occupation_pay),
+                (this_or_next|eq, ":tax_type", tax_type_occupation_pay),
+                (eq, ":tax_type", tax_type_debts),
                 
                 (party_get_slot, ":accumulated_taxes", ":party_no", slot_party_accumulated_taxes),
                 (val_add, ":accumulated_taxes", ":amount"),
@@ -18268,20 +18269,26 @@ scripts = [
             (try_begin),
                 (is_between, ":party_type", spt_bandit, spt_fort + 1),
 
-                (assign, ":paid_wages", 0),
+                (call_script, "script_party_get_wages", ":party_no"),
+                (assign, ":party_wages", reg0),
                 (try_begin),
                     (eq, ":amount_paid", -1),
-                    (call_script, "script_party_get_wages", ":party_no"),
-                    (assign, ":party_wages", reg0),
+                    (assign, ":amount_paid", ":party_wages"),
                 (try_end),
 
                 (try_begin),
+                    (eq, ":party_no", "$g_player_party"),
+                    (troop_remove_gold, ":party_no", ":amount_paid"),
+                    (assign, ":paid_wages", ":amount_paid"),
+                (else_try),
                     (is_between, ":party_type", spt_village, spt_fort + 1),
                     # Only centers pay wages directly
                     # The rest is accumulated in debts
 
-                    (call_script, "script_party_remove_gold", ":party_no", ":party_wages"),
-                    (assign, ":paid_wages", reg0),
+                    (store_mul, ":party_wages_payment", ":amount_paid", -1),
+                    (call_script, "script_party_add_accumulated_taxes", ":party_no", ":party_wages_payment", tax_type_wages),
+                    # (call_script, "script_party_remove_gold", ":party_no", ":party_wages"),
+                    (assign, ":paid_wages", ":amount_paid"),
 
                     (try_begin),
                         (call_script, "script_cf_debug", debug_economy),
@@ -18291,13 +18298,10 @@ scripts = [
                         (assign, reg11, ":paid_wages"),
                         (display_message, "@{s10} paying wages: {reg10} - total paid: {reg11}"),
                     (try_end),
-                (else_try),
-                    (eq, ":party_no", "$g_player_party"),
-                    (troop_remove_gold, ":party_no", ":amount_paid"),
                 (try_end),
 
                 (try_begin),
-                    (neq, ":paid_wages", ":party_wages"),
+                    (neq, ":amount_paid", ":party_wages"),
                     (store_sub, ":unpaid_wages", ":party_wages", ":paid_wages"),
                     (call_script, "script_party_unpaid_wages_penalties", ":party_no", ":unpaid_wages", ":party_wages"),
                 (try_end),
@@ -18333,7 +18337,10 @@ scripts = [
                     (try_end),
 
                     (val_min, ":max_payment", ":unpaid_wages"),
-                    (call_script, "script_party_remove_gold", ":party_no", ":max_payment"),
+
+                    (store_mul, ":payment", ":max_payment", -1),
+                    (call_script, "script_party_add_accumulated_taxes", ":party_no", ":payment", tax_type_late_wages),
+                    # (call_script, "script_party_remove_gold", ":party_no", ":max_payment"),
                     (val_sub, ":unpaid_wages", ":max_payment"),
                     (val_add, ":paid_debts", ":max_payment"),
                 (try_end),
@@ -18344,13 +18351,45 @@ scripts = [
                     (gt, ":linked_party", 0),
                     (party_get_attached_to, ":attached", ":party_no"),
                     (eq, ":attached", ":linked_party"),
-                    (call_script, "script_party_transfer_wealth", ":attached", ":party_no", ":unpaid_wages", -1),
-                    (call_script, "script_party_remove_gold", ":party_no", ":unpaid_wages"),
+                    (call_script, "script_party_transfer_wealth", ":attached", ":party_no", ":unpaid_wages", tax_type_none),
+                    # (call_script, "script_party_remove_gold", ":party_no", ":unpaid_wages"),
+                    (assign, ":unpaid_wages", 0),
                 (try_end),
                 (party_set_slot, ":party_no", slot_party_unpaid_wages, ":unpaid_wages"),
             (try_end),
 
             (assign, reg0, ":paid_debts"),
+        ]),
+
+    # script_party_process_debts
+        # input:
+        #   arg1: party_no
+        # output: none
+    ("party_process_debts",
+        [
+            (store_script_param, ":party_no", 1),
+
+            (party_get_slot, ":party_type", ":party_no", slot_party_type),
+
+            (try_begin),
+                (is_between, ":party_type", spt_village, spt_fort + 1),
+
+                (party_get_slot, ":wealth", ":party_no", slot_party_wealth),
+                (party_get_slot, ":unpaid_wages", ":party_no", slot_party_unpaid_wages),
+
+                (store_sub, ":total_debts", 0, ":unpaid_wages"),
+                (try_begin),
+                    (lt, ":wealth", 0),
+                    (val_add, ":total_debts", ":wealth"),
+                (try_end),
+                (try_begin),
+                    (lt, ":total_debts", 0),
+                    # Debts accumulate at a rate of 1%
+                    (store_div, ":debt_interests", ":total_debts", 100),
+                    (lt, ":debt_interests", 0),
+                    (call_script, "script_party_add_accumulated_taxes", ":party_no", ":debt_interests", tax_type_debts),
+                (try_end),
+            (try_end),
         ]),
 
     # script_party_get_total_wealth

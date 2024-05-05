@@ -362,24 +362,6 @@ type_moderate = 2
 type_slight = 1
 type_none = 0
 
-tax_type_none = -1
-tax_type_population = 0
-tax_type_protection = 1
-tax_type_protection_pay = 2
-tax_type_vassal = 3
-tax_type_vassal_pay = 4
-tax_type_member = 5
-tax_type_member_pay = 6
-tax_type_trade = 7
-tax_type_visitor = 8
-tax_type_funds = 9
-tax_type_funds_pay = 10
-tax_type_tribute = 11
-tax_type_tribute_pay = 12
-tax_type_occupation = 13
-tax_type_occupation_pay = 14
-tax_type_expenses = 15
-
 caravan_max_cargo_size = 60
 
 caravan_score_distance_ratio = 3
@@ -1035,12 +1017,36 @@ slot_party_budget_tribute = slot_party_budget_pay_funds + 1
 slot_party_budget_pay_tribute = slot_party_budget_tribute + 1
 slot_party_budget_occupation = slot_party_budget_pay_tribute + 1
 slot_party_budget_pay_occupation = slot_party_budget_occupation + 1
-slot_party_budget_expenses = slot_party_budget_pay_occupation + 1
+slot_party_budget_debts = slot_party_budget_pay_occupation + 1
+slot_party_budget_expenses = slot_party_budget_debts + 1
+slot_party_budget_late_wages = slot_party_budget_expenses + 1
+slot_party_budget_wages = slot_party_budget_late_wages + 1
+
+tax_type_none = -1
+tax_type_population = 0
+tax_type_protection = 1
+tax_type_protection_pay = 2
+tax_type_vassal = 3
+tax_type_vassal_pay = 4
+tax_type_member = 5
+tax_type_member_pay = 6
+tax_type_trade = 7
+tax_type_visitor = 8
+tax_type_funds = 9
+tax_type_funds_pay = 10
+tax_type_tribute = 11
+tax_type_tribute_pay = 12
+tax_type_occupation = 13
+tax_type_occupation_pay = 14
+tax_type_debts = 15
+tax_type_expenses = 16
+tax_type_late_wages = 17
+tax_type_wages = 18
 
 slot_party_buget_taxes_begin = slot_party_budget_taxes
-slot_party_buget_taxes_end = slot_party_budget_expenses + 1
+slot_party_buget_taxes_end = slot_party_budget_wages + 1
 
-slot_party_budget_reserved_party = slot_party_budget_expenses + 1
+slot_party_budget_reserved_party = slot_party_budget_wages + 1
 slot_party_budget_reserved_auxiliaries = slot_party_budget_reserved_party + 1
 slot_party_budget_reserved_expenses = slot_party_budget_reserved_auxiliaries + 1
 slot_party_budget_reserved_other = slot_party_budget_reserved_expenses + 1

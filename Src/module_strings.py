@@ -1189,5 +1189,8 @@ strings = [
   ("party_tax_description_tribute_pay", "Tribute payments"),
   ("party_tax_description_occupation", "Center occupations"),
   ("party_tax_description_occupation_pay", "Center occupation"),
+  ("party_tax_description_debts", "Debts"),
   ("party_tax_description_expenses", "Diverse expenses"),
+  ("party_tax_description_late_wages", "Old Wages"),
+  ("party_tax_description_wages", "Wages"),
 ]

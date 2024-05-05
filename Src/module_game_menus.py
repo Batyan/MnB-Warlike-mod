@@ -1280,8 +1280,11 @@ game_menus = [
             ("manage_events", # Organize tournaments, festivals, plan special events
                 [(disable_menu_option),], "Manage events", []),
 
-            ("manage_troops", # Allows automatic training, automatic reinforcements (both ways), set maximum garrison (up to real max)
-                [(disable_menu_option),], "Manage garrison", []),
+            # Allows automatic training, automatic reinforcements (both ways), set maximum garrison (up to real max)
+            ("manage_troops", 
+                [], "Manage garrison", [
+                    (change_screen_exchange_members, 1, "$g_encountered_party"),
+                ]),
 
             ("manage_return",
                 [], "Go back", [(jump_to_menu, "mnu_town_keep"),]),

@@ -902,6 +902,9 @@ str_party_tax_description_tribute = 900
 str_party_tax_description_tribute_pay = 901
 str_party_tax_description_occupation = 902
 str_party_tax_description_occupation_pay = 903
-str_party_tax_description_expenses = 904
+str_party_tax_description_debts = 904
+str_party_tax_description_expenses = 905
+str_party_tax_description_late_wages = 906
+str_party_tax_description_wages = 907
 
 

@@ -401,8 +401,9 @@ simple_triggers = [
             (try_for_parties, ":party_no"),
                 (neq, ":party_no", "$g_player_party"),
                 # Every party must pay wages
-                (call_script, "script_party_pay_wages", ":party_no", 1),
+                (call_script, "script_party_process_debts", ":party_no"),
                 (call_script, "script_party_pay_debts", ":party_no"),
+                (call_script, "script_party_pay_wages", ":party_no", -1),
             (try_end),
 
             # For player we call the budget menu

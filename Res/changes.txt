@@ -1,6 +1,5 @@
 v0.510:
 	-Features:
-		* player fiefs are displayed in yearly budget presentation
 		* player centers are displayed in yearly budget presentation
 	-Balance
 		* increase tax revenue by about 20%
