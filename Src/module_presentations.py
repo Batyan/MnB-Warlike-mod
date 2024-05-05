@@ -605,8 +605,7 @@ presentations = [
 
                     (try_begin),
                         (neq, ":missing", 0),
-                        (str_store_string, s11, "@Other spendings:"),
-                        (create_text_overlay, reg0, "@{s11}:", tf_left_align),
+                        (create_text_overlay, reg0, "@Other spendings:", tf_left_align),
                         (position_set_x, pos1, ":current_effects_x"),
                         (position_set_y, pos1, ":cur_y"),
                         (overlay_set_position, reg0, pos1),
