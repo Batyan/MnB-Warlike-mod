@@ -1268,11 +1268,11 @@ game_menus = [
         "none",
         [],
         [
-            ("manage_report", # Gives a report of current situation of town
-                [(disable_menu_option),], "Center report", []),
-
-            ("manage_tax", # 
-                [(disable_menu_option),], "Manage taxes", []),
+            ("manage_administration", # Allows changing various parameters for the center
+                [], "Center administration", [
+                    (assign, "$temp", "$g_encountered_party"),
+                    (start_presentation, "prsnt_center_administration"),
+                ]),
 
             ("manage_buildings", # View currently built buildings, their conditions, their upkeep
                 [(disable_menu_option),], "Manage constructions", []),
