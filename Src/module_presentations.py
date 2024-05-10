@@ -990,8 +990,101 @@ presentations = [
                 
                 (set_container_overlay, reg0),
 
+                (party_get_slot, ":center_wealth", ":current_center", slot_party_wealth),
+                (store_troop_gold, ":player_wealth", "$g_player_troop"),
+
                 ## CENTER WEALTH
                 # Center treasury
+                (assign, ":cur_y", 10),
+                (assign, ":line_height", 30),
+                (assign, ":left_panel_x", 0),
+                (assign, ":left_panel_values_x", 385),
+                (assign, ":right_panel_x", 435),
+                (assign, ":right_panel_values_x", 870),
+
+                (store_add, ":max", ":center_wealth", 1),
+                (create_number_box_overlay, reg0, 0, ":max"),
+                (position_set_x, pos1, ":left_panel_x"),
+                (position_set_y, pos1, ":cur_y"),
+                (overlay_set_position, reg0, pos1),
+                (position_set_x, pos1, 1000),
+                (position_set_y, pos1, 1000),
+                (overlay_set_size, reg0, pos1),
+                (assign, "$g_presentation_center_wealth_select", reg0),
+
+                (assign, reg10, ":center_wealth"),
+                (create_button_overlay, reg0, "@Withdraw", tf_right_align),
+                (position_set_x, pos1, ":left_panel_values_x"),
+                (position_set_y, pos1, ":cur_y"),
+                (overlay_set_position, reg0, pos1),
+                (position_set_x, pos1, 1000),
+                (position_set_y, pos1, 1000),
+                (overlay_set_size, reg0, pos1),
+                (assign, "$g_presentation_withdraw", reg0),
+
+                (store_add, ":max", ":player_wealth", 1),
+                (create_number_box_overlay, reg0, 0, ":max"),
+                (position_set_x, pos1, ":right_panel_x"),
+                (position_set_y, pos1, ":cur_y"),
+                (overlay_set_position, reg0, pos1),
+                (position_set_x, pos1, 1000),
+                (position_set_y, pos1, 1000),
+                (overlay_set_size, reg0, pos1),
+                (assign, "$g_presentation_player_wealth_select", reg0),
+
+                (assign, reg11, ":player_wealth"),
+                (create_button_overlay, reg0, "@Deposit", tf_right_align),
+                (position_set_x, pos1, ":right_panel_values_x"),
+                (position_set_y, pos1, ":cur_y"),
+                (overlay_set_position, reg0, pos1),
+                (position_set_x, pos1, 1000),
+                (position_set_y, pos1, 1000),
+                (overlay_set_size, reg0, pos1),
+                (assign, "$g_presentation_deposit", reg0),
+
+                (val_add, ":cur_y", ":line_height"),
+
+                (str_store_party_name, s11, ":current_center"),
+                (create_text_overlay, reg0, "@{s11} treasury:", tf_left_align),
+                (position_set_x, pos1, ":left_panel_x"),
+                (position_set_y, pos1, ":cur_y"),
+                (overlay_set_position, reg0, pos1),
+                (position_set_x, pos1, 1000),
+                (position_set_y, pos1, 1000),
+                (overlay_set_size, reg0, pos1),
+
+                (assign, reg10, ":center_wealth"),
+                (create_text_overlay, reg0, "@{reg10}", tf_right_align),
+                (position_set_x, pos1, ":left_panel_values_x"),
+                (position_set_y, pos1, ":cur_y"),
+                (overlay_set_position, reg0, pos1),
+                (position_set_x, pos1, 1000),
+                (position_set_y, pos1, 1000),
+                (overlay_set_size, reg0, pos1),
+                (assign, "$g_presentation_center_wealth", reg0),
+
+                (str_store_troop_name, s12, "$g_player_troop"),
+                (create_text_overlay, reg0, "@{s12} wealth:", tf_left_align),
+                (position_set_x, pos1, ":right_panel_x"),
+                (position_set_y, pos1, ":cur_y"),
+                (overlay_set_position, reg0, pos1),
+                (position_set_x, pos1, 1000),
+                (position_set_y, pos1, 1000),
+                (overlay_set_size, reg0, pos1),
+
+                (assign, reg11, ":player_wealth"),
+                (create_text_overlay, reg0, "@{reg11}", tf_right_align),
+                (position_set_x, pos1, ":right_panel_values_x"),
+                (position_set_y, pos1, ":cur_y"),
+                (overlay_set_position, reg0, pos1),
+                (position_set_x, pos1, 1000),
+                (position_set_y, pos1, 1000),
+                (overlay_set_size, reg0, pos1),
+                (assign, "$g_presentation_player_wealth", reg0),
+
+                (assign, "$g_withdraw_select", 0),
+                (assign, "$g_deposit_select", 0),
+
                 # Player wealth
                 # Take or deposit from treasury
                 ## CENTER POLICIES
@@ -1021,13 +1114,44 @@ presentations = [
             (ti_on_presentation_event_state_change,
             [
                 (store_trigger_param_1, ":object"),
-                # (store_trigger_param_2, ":value"),
+                (store_trigger_param_2, ":value"),
+
+                (assign, ":current_center", "$temp"),
 
                 (try_begin),
+                    (eq, ":object", "$g_presentation_deposit"),
+                    (call_script, "script_party_transfer_wealth", "$g_player_party", ":current_center", "$g_deposit_select", tax_type_none),
+                    (overlay_set_val, "$g_presentation_player_wealth_select", 0),
+                    (assign, "$g_deposit_select", 0),
+                (else_try),
+                    (eq, ":object", "$g_presentation_withdraw"),
+                    (call_script, "script_party_transfer_wealth", ":current_center", "$g_player_party", "$g_withdraw_select", tax_type_none),
+                    (overlay_set_val, "$g_presentation_center_wealth_select", 0),
+                    (assign, "$g_withdraw_select", 0),
+                (else_try),
+                    (eq, ":object", "$g_presentation_center_wealth_select"),
+                    (assign, "$g_withdraw_select", ":value"),
+                (else_try),
+                    (eq, ":object", "$g_presentation_player_wealth_select"),
+                    (assign, "$g_deposit_select", ":value"),
+                (else_try),
                     (eq, ":object", "$g_presentation_ok"),
 
                     (presentation_set_duration, 0),
                 (try_end),
+
+                (party_get_slot, ":center_wealth", ":current_center", slot_party_wealth),
+                (store_troop_gold, ":player_wealth", "$g_player_troop"),
+
+                (assign, reg10, ":center_wealth"),
+                (assign, reg11, ":player_wealth"),
+                (overlay_set_text, "$g_presentation_center_wealth", "@{reg10}"),
+                (overlay_set_text, "$g_presentation_player_wealth", "@{reg11}"),
+
+                (store_add, ":max", ":center_wealth", 1),
+                (overlay_set_boundaries, "$g_presentation_center_wealth_select", 0, ":max"),
+                (store_add, ":max", ":player_wealth", 1),
+                (overlay_set_boundaries, "$g_presentation_player_wealth_select", 0, ":max"),
             ]),
         ]),
 

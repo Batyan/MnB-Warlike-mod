@@ -10670,10 +10670,22 @@ scripts = [
         [
             (store_script_param, ":party_no", 1),
             (store_script_param, ":value", 2),
-            
-            (party_get_slot, ":wealth", ":party_no", slot_party_wealth),
-            (val_add, ":wealth", ":value"),
-            (party_set_slot, ":party_no", slot_party_wealth, ":wealth"),
+
+            (try_begin),
+                (eq, ":party_no", "$g_player_party"),
+                (try_begin),
+                    (gt, ":value", 0),
+                    (troop_add_gold, "$g_player_troop", ":value"),
+                (else_try),
+                    (lt, ":value", 0),
+                    (val_mul, ":value", -1),
+                    (troop_remove_gold, "$g_player_troop", ":value"),
+                (try_end),
+            (else_try),
+                (party_get_slot, ":wealth", ":party_no", slot_party_wealth),
+                (val_add, ":wealth", ":value"),
+                (party_set_slot, ":party_no", slot_party_wealth, ":wealth"),
+            (try_end),
         ]),
     
     # script_init_building_slots
