@@ -276,8 +276,8 @@ text_color_freed = 0x22DD00
 text_color_debug = 0xCCCCCC
 text_color_war = 0xBB0101
 
-text_color_budget_positive = 0x00dd00
-text_color_budget_negative = 0xdd0000
+text_color_budget_positive = 0x20a020
+text_color_budget_negative = 0xa02020
 text_color_budget_neutral = 0x222222
 
 era_minimum_duration = 365
@@ -361,23 +361,6 @@ type_critical = 3
 type_moderate = 2
 type_slight = 1
 type_none = 0
-
-tax_type_none = -1
-tax_type_population = 0
-tax_type_protection = 1
-tax_type_protection_pay = 2
-tax_type_vassal = 3
-tax_type_vassal_pay = 4
-tax_type_member = 5
-tax_type_member_pay = 6
-tax_type_trade = 7
-tax_type_visitor = 8
-tax_type_funds = 9
-tax_type_funds_pay = 10
-tax_type_tribute = 11
-tax_type_tribute_pay = 12
-tax_type_occupation = 13
-tax_type_expenses = 14
 
 caravan_max_cargo_size = 60
 
@@ -790,6 +773,8 @@ slot_faction_budget_funds_payment = slot_faction_budget_funds + 1
 
 slot_faction_wealth_shared_ratio = slot_faction_budget_funds_payment + 1
 
+slot_faction_tmp = slot_faction_wealth_shared_ratio + 1
+
 #######################
 ## War Storage Slots ##
 ## ####################
@@ -976,6 +961,18 @@ slot_party_taxes_fixed		= 131 # Fixed taxes paid by everyone
 slot_party_taxes_wealth		= 132 # Taxes paid upon earning money inside the city (also applied to buying and selling)
 slot_party_taxes_visit		= 133 # Taxes paid upon entering the city (not paid by residents)
 
+default_fixed_tax_rate_village = 5
+default_fixed_tax_rate_castle = 10
+default_fixed_tax_rate_town = 5
+
+default_buy_tax_rate_village = 5
+default_buy_tax_rate_castle = 7
+default_buy_tax_rate_town = 10
+
+default_sell_tax_rate_village = 2
+default_sell_tax_rate_castle = 4
+default_sell_tax_rate_town = 6
+
 slot_party_speak_allowed = 134
 
 slot_party_notes = 135
@@ -1017,43 +1014,74 @@ slot_party_recent_casualties_loot = 151 # Contains gold looted during simulated 
 
 slot_party_budget_last_wealth = 152
 
-slot_party_budget_taxes = 153
-slot_party_budget_protection_taxes = 154
-slot_party_budget_pay_protection_taxes = 155
-slot_party_budget_vassal_taxes = 156
-slot_party_budget_faction_member_taxes = 157
-slot_party_budget_pay_vassal_taxes = 158
-slot_party_budget_pay_faction_member_taxes = 159
-slot_party_budget_trade = 160
-slot_party_budget_visitor = 161
+slot_party_budget_taxes = slot_party_budget_last_wealth + 1
+slot_party_budget_protection_taxes = slot_party_budget_taxes + 1
+slot_party_budget_pay_protection_taxes = slot_party_budget_protection_taxes + 1
+slot_party_budget_vassal_taxes = slot_party_budget_pay_protection_taxes + 1
+slot_party_budget_pay_vassal_taxes = slot_party_budget_vassal_taxes + 1
+slot_party_budget_faction_member_taxes = slot_party_budget_pay_vassal_taxes + 1
+slot_party_budget_pay_faction_member_taxes = slot_party_budget_faction_member_taxes + 1
+slot_party_budget_trade = slot_party_budget_pay_faction_member_taxes + 1
+slot_party_budget_visitor = slot_party_budget_trade + 1
+slot_party_budget_funds = slot_party_budget_visitor + 1
+slot_party_budget_pay_funds = slot_party_budget_funds + 1
+slot_party_budget_tribute = slot_party_budget_pay_funds + 1
+slot_party_budget_pay_tribute = slot_party_budget_tribute + 1
+slot_party_budget_occupation = slot_party_budget_pay_tribute + 1
+slot_party_budget_pay_occupation = slot_party_budget_occupation + 1
+slot_party_budget_debts = slot_party_budget_pay_occupation + 1
+slot_party_budget_expenses = slot_party_budget_debts + 1
+slot_party_budget_late_wages = slot_party_budget_expenses + 1
+slot_party_budget_wages = slot_party_budget_late_wages + 1
+
+tax_type_none = -1
+tax_type_population = 0
+tax_type_protection = 1
+tax_type_protection_pay = 2
+tax_type_vassal = 3
+tax_type_vassal_pay = 4
+tax_type_member = 5
+tax_type_member_pay = 6
+tax_type_trade = 7
+tax_type_visitor = 8
+tax_type_funds = 9
+tax_type_funds_pay = 10
+tax_type_tribute = 11
+tax_type_tribute_pay = 12
+tax_type_occupation = 13
+tax_type_occupation_pay = 14
+tax_type_debts = 15
+tax_type_expenses = 16
+tax_type_late_wages = 17
+tax_type_wages = 18
 
 slot_party_buget_taxes_begin = slot_party_budget_taxes
-slot_party_buget_taxes_end = slot_party_budget_visitor + 1
+slot_party_buget_taxes_end = slot_party_budget_wages + 1
 
-slot_party_budget_reserved_party = 162
-slot_party_budget_reserved_auxiliaries = 163
-slot_party_budget_reserved_expenses = 164
-slot_party_budget_reserved_other = 165
+slot_party_budget_reserved_party = slot_party_budget_wages + 1
+slot_party_budget_reserved_auxiliaries = slot_party_budget_reserved_party + 1
+slot_party_budget_reserved_expenses = slot_party_budget_reserved_auxiliaries + 1
+slot_party_budget_reserved_other = slot_party_budget_reserved_expenses + 1
 
-slot_party_attached_party_1 = 166
-slot_party_attached_party_2 = 167
-slot_party_attached_party_3 = 168
+slot_party_attached_party_1 = slot_party_budget_reserved_other + 1
+slot_party_attached_party_2 = slot_party_attached_party_1 + 1
+slot_party_attached_party_3 = slot_party_attached_party_2 + 1
 
-slot_party_last_rest = 169 # for small parties
+slot_party_last_rest = slot_party_attached_party_3 + 1 # for small parties
 
-slot_party_mission_target_1 = 170
-slot_party_mission_target_2 = 171
-slot_party_mission_target_3 = 172
-slot_party_mission_objective_1 = 173
-slot_party_mission_objective_2 = 174
-slot_party_mission_objective_3 = 175
+slot_party_mission_target_1 = slot_party_last_rest + 1
+slot_party_mission_target_2 = slot_party_mission_target_1 + 1
+slot_party_mission_target_3 = slot_party_mission_target_2 + 1
+slot_party_mission_objective_1 = slot_party_mission_target_3 + 1
+slot_party_mission_objective_2 = slot_party_mission_objective_1 + 1
+slot_party_mission_objective_3 = slot_party_mission_objective_2 + 1
 
-slot_party_readiness = 176
+slot_party_readiness = slot_party_mission_objective_3 + 1
 
 sfsr_unavailable = 0
 sfsr_ready = 0 # For now those are the same until we implement party readiness
 
-slot_party_building_slot_1	= 177
+slot_party_building_slot_1	= slot_party_readiness + 1
 slot_party_building_slot_2	= slot_party_building_slot_1 + 1
 slot_party_building_slot_3	= slot_party_building_slot_2 + 1
 slot_party_building_slot_4	= slot_party_building_slot_3 + 1
@@ -1326,11 +1354,11 @@ slot_troop_relations_begin = 400
 
 
 # # # ToDo: remove test slots
-slot_troop_mission_kills = 200
-slot_troop_mission_deaths = 201
-slot_item_mission_kills = 200
-slot_faction_mission_kills = 200
-slot_faction_mission_deaths = 201
+slot_troop_mission_kills = 398
+slot_troop_mission_deaths = 399
+slot_item_mission_kills = 400
+slot_faction_mission_kills = 400
+slot_faction_mission_deaths = 401
 # # #
 
 ##################

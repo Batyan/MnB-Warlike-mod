@@ -80,6 +80,7 @@ scripts = [
             (try_for_range, ":party_no", centers_begin, centers_end),
                 (call_script, "script_party_init_center", ":party_no"),
             (try_end),
+            (call_script, "script_clean_budgets"),
 
             (try_for_range, ":lord_no", lords_begin, lords_end),
                 (call_script, "script_init_lord", ":lord_no"),
@@ -140,7 +141,7 @@ scripts = [
             (assign, "$g_normalize_faction_color", 1),
             (assign, "$g_player_update_name", 1),
 
-            (assign, "$g_player_last_proposed_vassalage", -1),
+            (assign, "$g_player_last_proposed_vassalage", -10000),
             
             (set_show_messages, 1),
         ]),
@@ -1999,7 +2000,7 @@ scripts = [
         [
             (store_script_param, ":party_no", 1),
             (party_get_slot, ":leader", ":party_no", slot_party_leader),
-            (assign, ":limit", 0),
+            (party_get_num_companions, ":limit", ":party_no"),
             (try_begin),
                 (ge, ":leader", 0),
                 (troop_is_hero, ":leader"),
@@ -2009,6 +2010,7 @@ scripts = [
 
                 (val_mul, ":limit", ":prisoner_level"),
                 (val_div, ":limit", 100),
+                (val_add, ":limit", 1),
             (else_try),
                 # Parties with no leader or non-hero leaders are considered having 1 in prisoner management
                 # Means 10% of party size max can be prisoners
@@ -3375,6 +3377,10 @@ scripts = [
                 (party_set_slot, ":party_no", slot_party_population_slave, 0),
             
                 (party_set_slot, ":party_no", slot_party_population_max, population_max_village),
+
+                (party_set_slot, ":party_no", slot_party_taxes_fixed, default_fixed_tax_rate_village),
+                (party_set_slot, ":party_no", slot_party_taxes_buy, default_buy_tax_rate_village),
+                (party_set_slot, ":party_no", slot_party_taxes_sell, default_sell_tax_rate_village),
             (else_try),
                 (eq, ":party_type", spt_castle),
                 (party_set_slot, ":party_no", slot_party_population_noble, population_max_castle * population_growth_castle_noble / 100),
@@ -3383,6 +3389,10 @@ scripts = [
                 (party_set_slot, ":party_no", slot_party_population_slave, 0),
             
                 (party_set_slot, ":party_no", slot_party_population_max, population_max_castle),
+
+                (party_set_slot, ":party_no", slot_party_taxes_fixed, default_fixed_tax_rate_castle),
+                (party_set_slot, ":party_no", slot_party_taxes_buy, default_buy_tax_rate_castle),
+                (party_set_slot, ":party_no", slot_party_taxes_sell, default_sell_tax_rate_castle),
             (else_try),
                 (party_set_slot, ":party_no", slot_party_population_noble, population_max_town * population_growth_town_noble / 100),
                 (party_set_slot, ":party_no", slot_party_population_artisan, population_max_town * population_growth_town_artisan / 100),
@@ -3390,34 +3400,22 @@ scripts = [
                 (party_set_slot, ":party_no", slot_party_population_slave, 0),
             
                 (party_set_slot, ":party_no", slot_party_population_max, population_max_town),
-            (try_end),
 
-            (party_set_slot, ":party_no", slot_party_taxes_buy, 5),
-            (party_set_slot, ":party_no", slot_party_taxes_sell, 2),
+                (party_set_slot, ":party_no", slot_party_taxes_fixed, default_fixed_tax_rate_town),
+                (party_set_slot, ":party_no", slot_party_taxes_buy, default_buy_tax_rate_town),
+                (party_set_slot, ":party_no", slot_party_taxes_sell, default_sell_tax_rate_town),
+            (try_end),
 
             (party_set_slot, ":party_no", slot_party_taxes_visit, 20),
 
-            (try_for_range, ":unused", 0, 10),
+            (try_for_range, ":unused", 0, 12),
                 (call_script, "script_party_process_ressources", ":party_no"),
                 (call_script, "script_party_process_production", ":party_no"),
                 (call_script, "script_party_process_population", ":party_no"),
                 (call_script, "script_party_process_taxes", ":party_no"),
             (try_end),
+            (call_script, "script_party_process_ideal_party_wages", ":party_no"),
             
-            (party_set_slot, ":party_no", slot_party_accumulated_taxes, 0),
-            (party_set_slot, ":party_no", slot_party_budget_reserved_party, 0),
-            (party_set_slot, ":party_no", slot_party_budget_reserved_auxiliaries, 0),
-            (party_set_slot, ":party_no", slot_party_budget_reserved_expenses, 0),
-            (party_set_slot, ":party_no", slot_party_budget_reserved_other, 0),
-            (party_set_slot, ":party_no", slot_party_budget_taxes, 0),
-            (party_set_slot, ":party_no", slot_party_budget_protection_taxes, 0),
-            (party_set_slot, ":party_no", slot_party_budget_vassal_taxes, 0),
-            (party_set_slot, ":party_no", slot_party_budget_faction_member_taxes, 0),
-            (party_set_slot, ":party_no", slot_party_budget_pay_protection_taxes, 0),
-            (party_set_slot, ":party_no", slot_party_budget_pay_vassal_taxes, 0),
-            (party_set_slot, ":party_no", slot_party_budget_pay_faction_member_taxes, 0),
-            (party_set_slot, ":party_no", slot_party_budget_trade, 0),
-
             (call_script, "script_party_init_consumption", ":party_no"),
             
             (call_script, "script_party_get_siege_scene", ":party_no"),
@@ -4886,20 +4884,9 @@ scripts = [
             (store_add, ":taxes", ":taxes_serf", ":taxes_artisan"),
             (val_add, ":taxes", ":taxes_noble"),
 
-            (party_get_slot, ":party_type", ":party_no", slot_party_type),
-            (assign, ":mult", 120),
-            (try_begin),
-                (eq, ":party_type", spt_village),
-                (assign, ":mult", 60),
-            (else_try),
-                (eq, ":party_type", spt_town),
-                (assign, ":mult", 60),
-            (try_end),
-
-            (val_mul, ":taxes", ":mult"),
-            (val_div, ":taxes", 10),
-
-            (val_div, ":taxes", 12), # We are doing taxes in a monthly basis
+            (party_get_slot, ":tax_rate", ":party_no", slot_party_taxes_fixed),
+            (val_mul, ":taxes", ":tax_rate"),
+            (val_div, ":taxes", 100),
 
             (assign, reg0, ":taxes"),
         ]),        
@@ -5096,14 +5083,14 @@ scripts = [
                 (is_between, ":linked_party", centers_begin, centers_end),
                 (store_mul, ":linked_taxes", ":taxes", 3),
                 (val_div, ":linked_taxes", 10),
-                # TODO: separate protection taxes
-                (val_sub, ":taxes", ":linked_taxes"),
 
                 # TODO: remove instant teleportation of money
                 # (party_get_slot, ":linked_center_wealth", ":linked_party", slot_party_wealth),
                 # (val_add, ":linked_center_wealth", ":linked_taxes"),
                 # (party_set_slot, ":linked_party", slot_party_wealth, ":linked_center_wealth"),
 
+                (store_mul, ":linked_taxes_payment", ":linked_taxes", -1),
+                (call_script, "script_party_add_accumulated_taxes", ":party_no", ":linked_taxes_payment", tax_type_protection_pay),
                 (call_script, "script_party_add_accumulated_taxes", ":linked_party", ":linked_taxes", tax_type_protection),
 
             (try_end),
@@ -5213,55 +5200,78 @@ scripts = [
                 (display_message, "@Adding {reg10} denars for {s10} (type {reg11})"),
             (try_end),
 
-            (party_get_slot, ":accumulated_taxes", ":party_no", slot_party_accumulated_taxes),
-            (val_add, ":accumulated_taxes", ":amount"),
-            (party_set_slot, ":party_no", slot_party_accumulated_taxes, ":accumulated_taxes"),
-
-            (party_get_slot, ":budget_party", ":party_no", slot_party_budget_reserved_party),
-            (party_get_slot, ":budget_auxiliaries", ":party_no", slot_party_budget_reserved_auxiliaries),
-            (party_get_slot, ":budget_expenses", ":party_no", slot_party_budget_reserved_expenses),
-            (party_get_slot, ":budget_other", ":party_no", slot_party_budget_reserved_other),
-
-            (call_script, "script_party_get_allocated_budget", ":party_no", ":amount"),
-            (assign, ":budget_party_ratio", reg0),
-            (assign, ":budget_auxiliaries_ratio", reg1),
-            (assign, ":budget_expenses_ratio", reg2),
-            (assign, ":budget_other_ratio", reg3),
-
-            (store_mul, ":budget_party_new", ":amount", ":budget_party_ratio"),
-            (val_div, ":budget_party_new", 100),
-
-            (store_mul, ":budget_auxiliaries_new", ":amount", ":budget_auxiliaries_ratio"),
-            (val_div, ":budget_auxiliaries_new", 100),
-
-            (store_mul, ":budget_expenses_new", ":amount", ":budget_expenses_ratio"),
-            (val_div, ":budget_expenses_new", 100),
-
-            (store_mul, ":budget_other_new", ":amount", ":budget_other_ratio"),
-            (val_div, ":budget_other_new", 100),
-
-            (val_add, ":budget_party", ":budget_party_new"),
-            (val_add, ":budget_auxiliaries", ":budget_auxiliaries_new"),
-            (val_add, ":budget_expenses", ":budget_expenses_new"),
-            (val_add, ":budget_other", ":budget_other_new"),
-
-            (party_set_slot, ":party_no", slot_party_budget_reserved_party, ":budget_party"),
-            (party_set_slot, ":party_no", slot_party_budget_reserved_auxiliaries, ":budget_auxiliaries"),
-            (party_set_slot, ":party_no", slot_party_budget_reserved_expenses, ":budget_expenses"),
-            (party_set_slot, ":party_no", slot_party_budget_reserved_other, ":budget_other"),
-
-            (party_get_slot, ":leader", ":party_no", slot_party_leader),
             (try_begin),
-                (ge, ":leader", 0),
-                (store_troop_faction, ":leader_faction", ":leader"),
-                (store_faction_of_party, ":party_faction", ":party_no"),
+                (this_or_next|eq, ":tax_type", tax_type_population),
+                (this_or_next|eq, ":tax_type", tax_type_protection),
+                (this_or_next|eq, ":tax_type", tax_type_protection_pay),
+                (this_or_next|eq, ":tax_type", tax_type_vassal),
+                (this_or_next|eq, ":tax_type", tax_type_vassal_pay),
+                (this_or_next|eq, ":tax_type", tax_type_member),
+                (this_or_next|eq, ":tax_type", tax_type_member_pay),
+                (this_or_next|eq, ":tax_type", tax_type_trade),
+                (this_or_next|eq, ":tax_type", tax_type_visitor),
+                (this_or_next|eq, ":tax_type", tax_type_funds),
+                (this_or_next|eq, ":tax_type", tax_type_funds_pay),
+                (this_or_next|eq, ":tax_type", tax_type_tribute),
+                (this_or_next|eq, ":tax_type", tax_type_tribute_pay),
+                (this_or_next|eq, ":tax_type", tax_type_occupation),
+                (this_or_next|eq, ":tax_type", tax_type_occupation_pay),
+                (eq, ":tax_type", tax_type_debts),
+                
+                (party_get_slot, ":accumulated_taxes", ":party_no", slot_party_accumulated_taxes),
+                (val_add, ":accumulated_taxes", ":amount"),
+                (party_set_slot, ":party_no", slot_party_accumulated_taxes, ":accumulated_taxes"),
+
+                (party_get_slot, ":budget_party", ":party_no", slot_party_budget_reserved_party),
+                (party_get_slot, ":budget_auxiliaries", ":party_no", slot_party_budget_reserved_auxiliaries),
+                (party_get_slot, ":budget_expenses", ":party_no", slot_party_budget_reserved_expenses),
+                (party_get_slot, ":budget_other", ":party_no", slot_party_budget_reserved_other),
+
+                (call_script, "script_party_get_allocated_budget", ":party_no", ":amount"),
+                (assign, ":budget_party_ratio", reg0),
+                (assign, ":budget_auxiliaries_ratio", reg1),
+                (assign, ":budget_expenses_ratio", reg2),
+                (assign, ":budget_other_ratio", reg3),
+
+                (store_mul, ":budget_party_new", ":amount", ":budget_party_ratio"),
+                (val_div, ":budget_party_new", 100),
+
+                (store_mul, ":budget_auxiliaries_new", ":amount", ":budget_auxiliaries_ratio"),
+                (val_div, ":budget_auxiliaries_new", 100),
+
+                (store_mul, ":budget_expenses_new", ":amount", ":budget_expenses_ratio"),
+                (val_div, ":budget_expenses_new", 100),
+
+                (store_mul, ":budget_other_new", ":amount", ":budget_other_ratio"),
+                (val_div, ":budget_other_new", 100),
+
+                (val_add, ":budget_party", ":budget_party_new"),
+                (val_add, ":budget_auxiliaries", ":budget_auxiliaries_new"),
+                (val_add, ":budget_expenses", ":budget_expenses_new"),
+                (val_add, ":budget_other", ":budget_other_new"),
+
+                (party_set_slot, ":party_no", slot_party_budget_reserved_party, ":budget_party"),
+                (party_set_slot, ":party_no", slot_party_budget_reserved_auxiliaries, ":budget_auxiliaries"),
+                (party_set_slot, ":party_no", slot_party_budget_reserved_expenses, ":budget_expenses"),
+                (party_set_slot, ":party_no", slot_party_budget_reserved_other, ":budget_other"),
+
+                (store_faction_of_party, ":current_party_faction", ":party_no"),
+                (party_get_slot, ":party_faction", ":party_no", slot_party_faction),
                 (try_begin),
-                    (eq, ":leader_faction", ":party_faction"),
-                    (call_script, "script_troop_add_accumulated_taxes", ":leader", ":budget_other_new", ":tax_type", 0),
+                    (eq, ":current_party_faction", ":party_faction"),
+                    (try_begin),
+                        (party_get_slot, ":leader", ":party_no", slot_party_leader),
+                        (ge, ":leader", 0),
+                        (call_script, "script_troop_add_accumulated_taxes", ":leader", ":budget_other_new", ":tax_type", 0),
+                    (try_end),
                 (else_try),
                     # Occupied parties give the leader's money to the occupying faction
-                    (call_script, "script_faction_add_accumulated_taxes", ":party_faction", ":budget_other_new", tax_type_occupation),
-                    (val_sub, ":amount", ":budget_other_new"),
+                    (neq, ":tax_type", tax_type_occupation_pay),
+                    (gt, ":budget_other_new", 0),
+
+                    (call_script, "script_faction_add_accumulated_taxes", ":current_party_faction", ":budget_other_new", tax_type_occupation),
+                    (store_mul, ":occupation_pay", ":budget_other_new", -1),
+                    (call_script, "script_party_add_accumulated_taxes", ":party_no", ":occupation_pay", tax_type_occupation_pay),
                 (try_end),
             (try_end),
             
@@ -5407,10 +5417,15 @@ scripts = [
                 (le, ":old_wanted_wages", 0),
                 (assign, ":new_wanted_wages", ":wanted_wages"),
             (else_try),
-                # We make an average of the last 10 months
-                (store_mul, ":new_wanted_wages", ":old_wanted_wages", 9),
+                # In case the new wages are higher we take the average of this and last year
+                (gt, ":wanted_wages", ":old_wanted_wages"),
+                (store_add, ":new_wanted_wages", ":old_wanted_wages", ":wanted_wages"),
+                (val_div, ":new_wanted_wages", 2),
+            (else_try),
+                # We make an average of the last 5 years
+                (store_mul, ":new_wanted_wages", ":old_wanted_wages", 4),
                 (val_add, ":new_wanted_wages", ":wanted_wages"),
-                (val_div, ":new_wanted_wages", 10),
+                (val_div, ":new_wanted_wages", 5),
             (try_end),
 
             (try_begin),
@@ -5450,9 +5465,9 @@ scripts = [
                 (assign, ":new_wanted_wages", ":wanted_wages"),
             (else_try),
                 # We make an average of the last 10 months
-                (store_mul, ":new_wanted_wages", ":old_wanted_wages", 9),
+                (store_mul, ":new_wanted_wages", ":old_wanted_wages", 4),
                 (val_add, ":new_wanted_wages", ":wanted_wages"),
-                (val_div, ":new_wanted_wages", 10),
+                (val_div, ":new_wanted_wages", 5),
             (try_end),
 
             (try_begin),
@@ -6689,11 +6704,11 @@ scripts = [
             (store_script_param, ":faction_2", 2),
             (store_script_param, ":war_storage", 3),
             
-            (set_relation, ":faction_1", ":faction_2", relation_state_war),
+            # (set_relation, ":faction_1", ":faction_2", relation_state_war),
             
             (str_store_faction_name_link, s10, ":faction_1"),
             (str_store_faction_name_link, s11, ":faction_2"),
-            (display_message, "@{s10} declaring war to {s11}", text_color_war),
+            (display_log_message, "@{s10} declaring war to {s11}", text_color_war),
 
             (call_script, "script_get_current_day"),
             (assign, ":current_day", reg0),
@@ -6719,6 +6734,19 @@ scripts = [
             (try_begin),
                 (eq, ":main_participant", 1),
                 (call_script, "script_update_faction_war_count"),
+
+                (try_for_range, ":faction_1", kingdoms_begin, kingdoms_end),
+                    (call_script, "script_faction_is_war_participant", ":faction_1", ":war_storage"),
+                    (assign, ":relation", reg0),
+                    (neq, ":relation", swkp_bystander),
+                    (store_add, ":begin", ":faction_1", 1),
+                    (try_for_range, ":faction_2", ":begin", kingdoms_end),
+                        (call_script, "script_faction_is_war_participant", ":faction_2", ":war_storage"),
+                        (neq, reg0, swkp_bystander),
+                        (neq, reg0, ":relation"),
+                        (call_script, "script_faction_reset_relations", ":faction_1", ":faction_2"),
+                    (try_end),
+                (try_end),
             (try_end),
 
             # Update last peace time
@@ -6731,6 +6759,30 @@ scripts = [
             (try_begin),
                 (le, ":num_wars_2", 0),
                 (faction_set_slot, ":faction_2", slot_faction_last_peace, ":current_day"),
+            (try_end),
+        ]),
+
+    # script_faction_join_war
+        # input:
+        #   arg1: faction_no
+        #   arg2: war_storage
+        #   arg3: participant_side
+        # output: none
+    ("faction_join_war",
+        [
+            (store_script_param, ":faction_no", 1),
+            (store_script_param, ":war_storage", 2),
+            (store_script_param, ":participant_side", 3),
+
+            (call_script, "script_war_add_participant",  ":war_storage", ":faction_no", ":participant_side", -1),
+
+            (call_script, "script_get_current_day"),
+            (assign, ":current_day", reg0),
+            # Update last peace time
+            (faction_get_slot, ":num_wars", ":faction_no", slot_faction_is_at_war),
+            (try_begin),
+                (le, ":num_wars", 0),
+                (faction_set_slot, ":faction_no", slot_faction_last_peace, ":current_day"),
             (try_end),
         ]),
 
@@ -10605,10 +10657,22 @@ scripts = [
         [
             (store_script_param, ":party_no", 1),
             (store_script_param, ":value", 2),
-            
-            (party_get_slot, ":wealth", ":party_no", slot_party_wealth),
-            (val_add, ":wealth", ":value"),
-            (party_set_slot, ":party_no", slot_party_wealth, ":wealth"),
+
+            (try_begin),
+                (eq, ":party_no", "$g_player_party"),
+                (try_begin),
+                    (gt, ":value", 0),
+                    (troop_add_gold, "$g_player_troop", ":value"),
+                (else_try),
+                    (lt, ":value", 0),
+                    (val_mul, ":value", -1),
+                    (troop_remove_gold, "$g_player_troop", ":value"),
+                (try_end),
+            (else_try),
+                (party_get_slot, ":wealth", ":party_no", slot_party_wealth),
+                (val_add, ":wealth", ":value"),
+                (party_set_slot, ":party_no", slot_party_wealth, ":wealth"),
+            (try_end),
         ]),
     
     # script_init_building_slots
@@ -11046,7 +11110,7 @@ scripts = [
             (troop_set_slot, ":lord_no", slot_troop_last_met, -1),
             (troop_set_slot, ":lord_no", slot_troop_gathering, -1),
             # We need a minimum amount of wanted wages to cover for a few troops
-            (troop_set_slot, ":lord_no", slot_troop_wanted_party_wages, 500),
+            (troop_set_slot, ":lord_no", slot_troop_wanted_party_wages, 800),
 
             # Reset family
             (try_for_range, ":slot", slot_troop_married_to, slot_troop_child_10+1),
@@ -11091,6 +11155,7 @@ scripts = [
             
             (troop_set_slot, ":lord_no", slot_troop_original_faction, ":faction_no"),
             (troop_set_slot, ":lord_no", slot_troop_culture, ":culture"),
+            (troop_set_slot, ":lord_no", slot_troop_renown, 50),
             
             (troop_set_slot, ":lord_no", slot_troop_kingdom_occupation, tko_kingdom_hero),
             
@@ -11932,6 +11997,14 @@ scripts = [
                 (assign, ":score", reg0),
                 (try_begin),
                     (gt, ":score", ":best_score"),
+                    
+                    (call_script, "script_get_current_day"),
+                    (assign, ":current_day", reg0),
+
+                    # If the player previously refused an offer we don't ask for a while
+                    (store_add, ":threshold", "$g_player_last_proposed_vassalage", 365*2),
+                    (gt, ":current_day", ":threshold"),
+
                     (assign, ":best_score", ":score"),
                     (assign, ":best_candidate", "$g_player_troop"),
                 (try_end),
@@ -13934,7 +14007,7 @@ scripts = [
                 # ToDo: ended mandate
 
                 (assign, ":best_candidate", -1),
-                (assign, ":best_candidate_score", 0),
+                (assign, ":best_candidate_score", -1),
                 (try_for_range, ":cur_lord", lords_begin, lords_end),
                     (store_troop_faction, ":lord_faction", ":cur_lord"),
                     (eq, ":lord_faction", ":faction_no"),
@@ -13942,7 +14015,7 @@ scripts = [
 
                     (neg|troop_slot_ge, ":cur_lord", slot_troop_prisoner_of, 0),
                     (troop_get_slot, ":rank", ":cur_lord", slot_troop_rank),
-                    (ge, ":rank", rank_castle),
+                    # (ge, ":rank", rank_castle),
 
                     (assign, ":score", 0),
                     # (troop_get_slot, ":renown", ":cur_lord", slot_troop_renown),
@@ -16795,10 +16868,164 @@ scripts = [
             (assign, reg0, ":output"),
         ]),
 
+    # script_war_apply_treaties
+        # input:
+        #   arg1: war_storage
+        # output: none
+        # this script needs to be called after script_war_invite_treaties
+    ("war_apply_treaties",
+        [
+            (store_script_param, ":war_storage", 1),
+            (try_for_range, ":faction_no", kingdoms_begin, kingdoms_end),
+                (neg|faction_slot_eq, ":faction_no", slot_faction_status, sfst_disabled),
+                (faction_get_slot, ":side", ":faction_no", slot_faction_tmp),
+                (neq, ":side", swkp_bystander),
+
+                (try_begin),
+                    (ge, ":side", swkp_aggressor),
+                    (str_store_faction_name, s10, ":faction_no"),
+                    (display_log_message, "@{s10} joins war on side of attacker", text_color_war),
+                (else_try),
+                    (le, ":side", swkp_defender),
+                    (str_store_faction_name, s10, ":faction_no"),
+                    (display_log_message, "@{s10} joins war on side of defender", text_color_war),
+                (try_end),
+                (call_script, "script_faction_join_war", ":faction_no", ":war_storage", ":side"),
+                (faction_set_slot, ":faction_no", slot_faction_tmp, swkp_bystander),
+            (try_end),
+        ]),
+
+    # script_war_invite_treaties
+        # input:
+        #   arg1: war_storage
+        # output: none
+    ("war_invite_treaties",
+        [
+            (store_script_param, ":war_storage", 1),
+            (store_script_param, ":ignore_treaties", 2),
+
+            (try_for_range, ":faction_no", kingdoms_begin, kingdoms_end),
+                (try_begin),
+                    (neg|faction_slot_eq, ":faction_no", slot_faction_status, sfst_disabled),
+                    (call_script, "script_faction_is_war_participant", ":faction_no", ":war_storage"),
+                    (eq, reg0, swkp_bystander),
+
+                    (call_script, "script_faction_get_war_side", ":faction_no", ":war_storage", ":ignore_treaties"),
+                    (assign, ":must_declare_attacker", reg0),
+                    (assign, ":must_declare_defender", reg1),
+
+                    (try_begin),
+                        (eq, ":must_declare_defender", 1),
+                        (eq, ":must_declare_attacker", 0),
+
+                        (faction_set_slot, ":faction_no", slot_faction_tmp, swkp_aggressor),
+                    (else_try),
+                        (eq, ":must_declare_defender", 0),
+                        (eq, ":must_declare_attacker", 1),
+
+                        (faction_set_slot, ":faction_no", slot_faction_tmp, swkp_defender),
+                    (else_try),
+                        (eq, ":must_declare_defender", 1),
+                        (eq, ":must_declare_attacker", 1),
+
+                        (faction_set_slot, ":faction_no", slot_faction_tmp, swkp_bystander),
+                    (else_try),
+                        (faction_set_slot, ":faction_no", slot_faction_tmp, swkp_bystander),
+                    (try_end),
+                (else_try),
+                    (faction_set_slot, ":faction_no", slot_faction_tmp, swkp_bystander),
+                (try_end),
+            (try_end),
+        ]),
+
+    # script_faction_get_war_side
+        # input:
+        #   arg1: faction_no
+        #   arg2: war_storage
+        #   arg3: ignore_treaties
+        # output:
+        #   reg0: must_declare_attacker
+        #   reg1: must_declare_defender
+    ("faction_get_war_side",
+        [
+            (store_script_param, ":faction_no", 1),
+            (store_script_param, ":war_storage", 2),
+            (store_script_param, ":ignore_treaties", 3),
+
+            (assign, ":must_declare_attacker", 0),
+            (assign, ":must_declare_defender", 0),
+
+            (try_for_range, ":other_faction", kingdoms_begin, kingdoms_end),
+                (call_script, "script_faction_is_war_participant", ":other_faction", ":war_storage"),
+                (assign, ":side", reg0),
+                (neq, ":side", swkp_bystander),
+
+                (call_script, "script_faction_get_treaties", ":faction_no", ":other_faction"),
+                (assign, ":treaties", reg0),
+
+                (faction_get_slot, ":vassal_type", ":faction_no", slot_faction_vassal_type),
+                (faction_get_slot, ":vassal_type_other", ":other_faction", slot_faction_vassal_type),
+
+                (store_and, ":alliance", ":treaties", sfkt_alliance),
+                (store_and, ":defensive", ":treaties", sfkt_defensive_alliance),
+                (store_and, ":vassal", ":treaties", sfkt_vassal),
+                (store_and, ":overlord", ":treaties", sfkt_overlord),
+
+                (assign, ":must_help", 0),
+
+                (try_begin),
+                    (gt, ":alliance", 0),
+                    (eq, ":ignore_treaties", 0),
+                    (assign, ":must_help", 1),
+                (else_try),
+                    (gt, ":defensive", 0),
+                    (eq, ":ignore_treaties", 0),
+                    (le, ":side", swkp_defender),
+                    (assign, ":must_help", 1),
+                (else_try),
+                    (gt, ":vassal"),
+                    
+                    (store_and, ":is_sattrapy", ":vassal_type", sfvt_sattrapy),
+                    (gt, ":is_sattrapy", 0),
+                    (assign, ":must_help", 1),
+                (else_try),
+                    (gt, ":vassal"),
+
+                    (le, ":side", swkp_defender),
+                    (store_and, ":is_bulwark", ":vassal_type", sfvt_bulwark),
+                    (gt, ":is_bulwark", 0),
+
+                    (assign, ":must_help", 1),
+                (else_try),
+                    (gt, ":overlord", 0),
+
+                    (le, ":side", swkp_defender),
+                    (store_and, ":is_protectorate", ":vassal_type_other", sfvt_protectorate),
+                    (gt, ":is_protectorate", 0),
+                    (assign, ":must_help", 1),
+                (try_end),
+
+                (try_begin),
+                    (gt, ":must_help", 0),
+                    (try_begin),
+                        (lt, ":side", swkp_bystander),
+                        (assign, ":must_declare_attacker", 1),
+                    (else_try),
+                        (gt, ":side", swkp_bystander),
+                        (assign, ":must_declare_defender", 1),
+                    (try_end),
+                (try_end),
+            (try_end),
+
+            (assign, reg0, ":must_declare_attacker"),
+            (assign, reg1, ":must_declare_defender"),
+        ]),
+
     # script_faction_political_event_war_declared
         # input:
         #   arg1: faction_attacker
         #   arg2: faction_defender
+        #   arg3: war_storage
     ("faction_political_event_war_declared",
         [
             (store_script_param, ":faction_attacker", 1),
@@ -16812,34 +17039,12 @@ scripts = [
                 (neq, ":faction_no", ":faction_attacker"),
                 (neq, ":faction_no", ":faction_defender"),
 
-                (store_relation, ":relation_attacker", ":faction_no", ":faction_attacker"),
-                (store_relation, ":relation_defender", ":faction_no", ":faction_defender"),
-
-                (call_script, "script_faction_get_treaties", ":faction_no", ":faction_defender"),
-                (assign, ":treaty_defender", reg0),
-                (call_script, "script_faction_get_treaties", ":faction_no", ":faction_attacker"),
-                (assign, ":treaty_attacker", reg0),
-
-                (faction_get_slot, ":vassal_type", ":faction_no", slot_faction_vassal_type),
-                (faction_get_slot, ":vassal_type_defender", ":faction_defender", slot_faction_vassal_type),
-                # (faction_get_slot, ":vassal_type_attacker", ":faction_attacker", slot_faction_vassal_type),
-
-                (store_and, ":alliance_defender", ":treaty_defender", sfkt_alliance),
-                (store_and, ":defensive_defender", ":treaty_defender", sfkt_defensive_alliance),
-                (store_and, ":vassal_defender", ":treaty_defender", sfkt_vassal),
-                (store_and, ":overlord_defender", ":treaty_defender", sfkt_overlord),
-
-                (store_and, ":alliance_attacker", ":treaty_attacker", sfkt_alliance),
-                # (store_and, ":defensive_attacker", ":treaty_attacker", sfkt_defensive_alliance),
-                (store_and, ":vassal_attacker", ":treaty_attacker", sfkt_vassal),
-                (store_and, ":overlord_attacker", ":treaty_attacker", sfkt_overlord),
-
-                (assign, ":must_declare_attacker", 0),
-                (assign, ":must_declare_defender", 0),
-
                 (store_sub, ":defender_offset", ":faction_defender", kingdoms_begin),
                 (store_add, ":defender_relation_slot", slot_faction_kingdom_relation_begin, ":defender_offset"),
                 (faction_get_slot, ":relation", ":faction_no", ":defender_relation_slot"),
+
+                # (store_relation, ":relation_attacker", ":faction_no", ":faction_attacker"),
+                (store_relation, ":relation_defender", ":faction_no", ":faction_defender"),
 
                 (store_mul, ":relation_hit", ":relation", -1),
                 (try_begin),
@@ -16847,84 +17052,20 @@ scripts = [
                     (val_add, ":relation_hit", relation_change_joined_war),
                 (try_end),
                 (call_script, "script_faction_relation_change_event", ":faction_no", ":faction_attacker", ":relation_hit"),
-
-                (try_begin),
-                    (this_or_next|gt, ":alliance_defender", 0),
-                    (gt, ":defensive_defender", 0),
-
-                    (assign, ":must_declare_attacker", 1),
-                (else_try),
-                    (gt, ":vassal_defender", 0),
-
-                    (store_and, ":is_bulwark", ":vassal_type", sfvt_bulwark),
-                    (gt, ":is_bulwark", 0),
-                    (assign, ":must_declare_attacker", 1),
-                (else_try),
-                    (gt, ":overlord_defender", 0),
-
-                    (store_and, ":is_protectorate", ":vassal_type_defender", sfvt_protectorate),
-                    (gt, ":is_protectorate", 0),
-                    (assign, ":must_declare_attacker", 1),
-                (try_end),
-
-                (try_begin),
-                    (gt, ":alliance_attacker", 0),
-
-                    (assign, ":must_declare_defender", 1),
-                (else_try),
-                    (gt, ":vassal_attacker", 0),
-
-                    (store_and, ":is_sattrapy", ":vassal_type", sfvt_sattrapy),
-                    (gt, ":is_sattrapy", 0),
-                    (assign, ":must_declare_defender", 1),
-                (else_try),
-                    (gt, ":overlord_attacker", 0),
-
-                    (store_and, ":is_sattrapy", ":vassal_type", sfvt_sattrapy),
-                    (gt, ":is_sattrapy", 0),
-                    (assign, ":must_declare_defender", 1),
-                (try_end),
-
-                (try_begin),
-                    (eq, ":must_declare_defender", 1),
-                    (eq, ":must_declare_attacker", 0),
-                    (gt, ":relation_defender", relation_state_war),
-                    (try_begin),
-                        (call_script, "script_cf_debug", debug_faction),
-                        (str_store_faction_name, s10, ":faction_no"),
-                        (assign, reg10, ":treaty_defender"),
-                        (assign, reg11, ":treaty_attacker"),
-                        (display_log_message, "@{s10} joins war on side of attacker ({reg10} {reg11})"),
-                    (try_end),
-                    (call_script, "script_faction_declare_war_to_faction", ":faction_no", ":faction_defender", ":war_storage"),
-                (else_try),
-                    (eq, ":must_declare_defender", 0),
-                    (eq, ":must_declare_attacker", 1),
-                    (gt, ":relation_attacker", relation_state_war),
-                    (try_begin),
-                        (call_script, "script_cf_debug", debug_faction),
-                        (str_store_faction_name, s10, ":faction_no"),
-                        (assign, reg10, ":treaty_defender"),
-                        (assign, reg11, ":treaty_attacker"),
-                        (display_log_message, "@{s10} joins war on side of defender ({reg10} {reg11})"),
-                    (try_end),
-                    (call_script, "script_faction_declare_war_to_faction", ":faction_attacker", ":faction_no", ":war_storage"),
-                (else_try),
-                    (eq, ":must_declare_defender", 1),
-                    (eq, ":must_declare_attacker", 1),
-                    (try_begin),
-                        (call_script, "script_cf_debug", debug_faction),
-                        (str_store_faction_name, s10, ":faction_no"),
-                        (display_message, "@{s10} can't join war on either side"),
-                    (try_end),
-                # (else_try),
-                #     (try_begin),
-                #         (call_script, "script_cf_debug", debug_all),
-                #         (str_store_faction_name, s10, ":faction_no"),
-                #         (display_message, "@{s10} ignoring the event"),
-                #     (try_end),
-                (try_end),
             (try_end),
+
+            # We first invite direct vassals/overlords of participants
+            (call_script, "script_war_invite_treaties", ":war_storage", 1),
+            (call_script, "script_war_apply_treaties", ":war_storage"),
+
+            # We then invite treaty-bounds
+            (call_script, "script_war_invite_treaties", ":war_storage", 0),
+            (call_script, "script_war_apply_treaties", ":war_storage"),
+
+            # We finally invite direct vassals/overlords of treaty-bounds
+            (call_script, "script_war_invite_treaties", ":war_storage", 1),
+            (call_script, "script_war_apply_treaties", ":war_storage"),
+
         ]),
 
     # script_faction_political_event_center_freed
@@ -18128,20 +18269,26 @@ scripts = [
             (try_begin),
                 (is_between, ":party_type", spt_bandit, spt_fort + 1),
 
-                (assign, ":paid_wages", 0),
+                (call_script, "script_party_get_wages", ":party_no"),
+                (assign, ":party_wages", reg0),
                 (try_begin),
                     (eq, ":amount_paid", -1),
-                    (call_script, "script_party_get_wages", ":party_no"),
-                    (assign, ":party_wages", reg0),
+                    (assign, ":amount_paid", ":party_wages"),
                 (try_end),
 
                 (try_begin),
+                    (eq, ":party_no", "$g_player_party"),
+                    (troop_remove_gold, ":party_no", ":amount_paid"),
+                    (assign, ":paid_wages", ":amount_paid"),
+                (else_try),
                     (is_between, ":party_type", spt_village, spt_fort + 1),
                     # Only centers pay wages directly
                     # The rest is accumulated in debts
 
-                    (call_script, "script_party_remove_gold", ":party_no", ":party_wages"),
-                    (assign, ":paid_wages", reg0),
+                    (store_mul, ":party_wages_payment", ":amount_paid", -1),
+                    (call_script, "script_party_add_accumulated_taxes", ":party_no", ":party_wages_payment", tax_type_wages),
+                    # (call_script, "script_party_remove_gold", ":party_no", ":party_wages"),
+                    (assign, ":paid_wages", ":amount_paid"),
 
                     (try_begin),
                         (call_script, "script_cf_debug", debug_economy),
@@ -18151,13 +18298,10 @@ scripts = [
                         (assign, reg11, ":paid_wages"),
                         (display_message, "@{s10} paying wages: {reg10} - total paid: {reg11}"),
                     (try_end),
-                (else_try),
-                    (eq, ":party_no", "$g_player_party"),
-                    (troop_remove_gold, ":party_no", ":amount_paid"),
                 (try_end),
 
                 (try_begin),
-                    (neq, ":paid_wages", ":party_wages"),
+                    (neq, ":amount_paid", ":party_wages"),
                     (store_sub, ":unpaid_wages", ":party_wages", ":paid_wages"),
                     (call_script, "script_party_unpaid_wages_penalties", ":party_no", ":unpaid_wages", ":party_wages"),
                 (try_end),
@@ -18193,7 +18337,10 @@ scripts = [
                     (try_end),
 
                     (val_min, ":max_payment", ":unpaid_wages"),
-                    (call_script, "script_party_remove_gold", ":party_no", ":max_payment"),
+
+                    (store_mul, ":payment", ":max_payment", -1),
+                    (call_script, "script_party_add_accumulated_taxes", ":party_no", ":payment", tax_type_late_wages),
+                    # (call_script, "script_party_remove_gold", ":party_no", ":max_payment"),
                     (val_sub, ":unpaid_wages", ":max_payment"),
                     (val_add, ":paid_debts", ":max_payment"),
                 (try_end),
@@ -18204,13 +18351,45 @@ scripts = [
                     (gt, ":linked_party", 0),
                     (party_get_attached_to, ":attached", ":party_no"),
                     (eq, ":attached", ":linked_party"),
-                    (call_script, "script_party_transfer_wealth", ":attached", ":party_no", ":unpaid_wages", -1),
-                    (call_script, "script_party_remove_gold", ":party_no", ":unpaid_wages"),
+                    (call_script, "script_party_transfer_wealth", ":attached", ":party_no", ":unpaid_wages", tax_type_none),
+                    # (call_script, "script_party_remove_gold", ":party_no", ":unpaid_wages"),
+                    (assign, ":unpaid_wages", 0),
                 (try_end),
                 (party_set_slot, ":party_no", slot_party_unpaid_wages, ":unpaid_wages"),
             (try_end),
 
             (assign, reg0, ":paid_debts"),
+        ]),
+
+    # script_party_process_debts
+        # input:
+        #   arg1: party_no
+        # output: none
+    ("party_process_debts",
+        [
+            (store_script_param, ":party_no", 1),
+
+            (party_get_slot, ":party_type", ":party_no", slot_party_type),
+
+            (try_begin),
+                (is_between, ":party_type", spt_village, spt_fort + 1),
+
+                (party_get_slot, ":wealth", ":party_no", slot_party_wealth),
+                (party_get_slot, ":unpaid_wages", ":party_no", slot_party_unpaid_wages),
+
+                (store_sub, ":total_debts", 0, ":unpaid_wages"),
+                (try_begin),
+                    (lt, ":wealth", 0),
+                    (val_add, ":total_debts", ":wealth"),
+                (try_end),
+                (try_begin),
+                    (lt, ":total_debts", 0),
+                    # Debts accumulate at a rate of 1%
+                    (store_div, ":debt_interests", ":total_debts", 100),
+                    (lt, ":debt_interests", 0),
+                    (call_script, "script_party_add_accumulated_taxes", ":party_no", ":debt_interests", tax_type_debts),
+                (try_end),
+            (try_end),
         ]),
 
     # script_party_get_total_wealth
@@ -21248,4 +21427,35 @@ scripts = [
             (try_end),
         ]),
 
+    # script_clean_budgets
+        # input: none
+        # output: none
+    ("clean_budgets",
+        [
+            (try_for_range, ":lord", lords_begin, lords_end),
+                (troop_set_slot, ":lord", slot_troop_accumulated_taxes, 0),
+                (troop_set_slot, ":lord", slot_troop_budget_vassal_taxes, 0),
+                (troop_set_slot, ":lord", slot_troop_budget_faction_member_taxes, 0),
+                (troop_set_slot, ":lord", slot_troop_budget_faction_funds, 0),
+                (troop_set_slot, ":lord", slot_troop_budget_reserved_party, 0),
+                (troop_set_slot, ":lord", slot_troop_budget_reserved_other, 0),
+            (try_end),
+            (try_for_range, ":center", centers_begin, centers_end),
+                (party_set_slot, ":center", slot_party_accumulated_taxes, 0),
+                (party_set_slot, ":center", slot_party_budget_reserved_party, 0),
+                (party_set_slot, ":center", slot_party_budget_reserved_auxiliaries, 0),
+                (party_set_slot, ":center", slot_party_budget_reserved_expenses, 0),
+                (party_set_slot, ":center", slot_party_budget_reserved_other, 0),
+
+                (try_for_range, ":slot", slot_party_buget_taxes_begin, slot_party_buget_taxes_end),
+                    (party_set_slot, ":center", ":slot", 0),
+                (try_end),
+
+                (party_get_slot, ":wealth", ":center", slot_party_wealth),
+                (party_set_slot, ":center", slot_party_budget_last_wealth, ":wealth"),
+            (try_end),
+            (try_for_range, ":faction_no", kingdoms_begin, kingdoms_end),
+                (faction_set_slot, ":faction_no", slot_faction_accumulated_taxes, 0),
+            (try_end),
+        ]),
 ]

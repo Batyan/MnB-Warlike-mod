@@ -1,3 +1,18 @@
+v0.510:
+	-Features:
+		* player centers are displayed in yearly budget presentation
+		* allow administrating owned centers taxes
+	-Balance
+		* increase tax revenue by about 20%
+		* increase swadian_ranger riding (5 -> 6)
+		* set swadian_ranger horse to pack_horse
+	-Fixes:
+		* prevent a faction being at war with more/less opponent than the war should allow
+		* reduce likeliness of world wars occuring
+		* fix for grant fief forcing the player to pledge an oath again
+		* fix taxes being too high in centers
+		* fix center budget not properly cleared
+		* set player prisoner limit properly
 v0.500:
 	-Features:
 		* allows player control of fiefs

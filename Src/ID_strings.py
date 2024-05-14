@@ -887,5 +887,24 @@ str_player_receive_center_vassal = 885
 str_quest_description_swear_vassalage_fief = 886
 str_quest_description_visit_center_new_owner = 887
 str_quest_description_end = 888
+str_party_tax_description_taxes = 889
+str_party_tax_description_protection = 890
+str_party_tax_description_protection_pay = 891
+str_party_tax_description_vassal = 892
+str_party_tax_description_vassal_pay = 893
+str_party_tax_description_member = 894
+str_party_tax_description_member_pay = 895
+str_party_tax_description_trade = 896
+str_party_tax_description_visitor = 897
+str_party_tax_description_funds = 898
+str_party_tax_description_funds_pay = 899
+str_party_tax_description_tribute = 900
+str_party_tax_description_tribute_pay = 901
+str_party_tax_description_occupation = 902
+str_party_tax_description_occupation_pay = 903
+str_party_tax_description_debts = 904
+str_party_tax_description_expenses = 905
+str_party_tax_description_late_wages = 906
+str_party_tax_description_wages = 907
 
 

@@ -1268,11 +1268,11 @@ game_menus = [
         "none",
         [],
         [
-            ("manage_report", # Gives a report of current situation of town
-                [(disable_menu_option),], "Center report", []),
-
-            ("manage_tax", # 
-                [(disable_menu_option),], "Manage taxes", []),
+            ("manage_administration", # Allows changing various parameters for the center
+                [], "Center administration", [
+                    (assign, "$temp", "$g_encountered_party"),
+                    (start_presentation, "prsnt_center_administration"),
+                ]),
 
             ("manage_buildings", # View currently built buildings, their conditions, their upkeep
                 [(disable_menu_option),], "Manage constructions", []),
@@ -1280,8 +1280,11 @@ game_menus = [
             ("manage_events", # Organize tournaments, festivals, plan special events
                 [(disable_menu_option),], "Manage events", []),
 
-            ("manage_troops", # Allows automatic training, automatic reinforcements (both ways), set maximum garrison (up to real max)
-                [(disable_menu_option),], "Manage garrison", []),
+            # Allows automatic training, automatic reinforcements (both ways), set maximum garrison (up to real max)
+            ("manage_troops", 
+                [], "Manage garrison", [
+                    (change_screen_exchange_members, 1, "$g_encountered_party"),
+                ]),
 
             ("manage_return",
                 [], "Go back", [(jump_to_menu, "mnu_town_keep"),]),
@@ -2111,13 +2114,12 @@ game_menus = [
         [
             ("receive_center_refuse", [], "Refuse", [
                 (call_script, "script_get_current_day"),
-                (assign, reg20, reg0),
-                (assign, "$g_player_last_proposed_vassalage", reg20),
+                (assign, "$g_player_last_proposed_vassalage", reg0),
                 (change_screen_return),
             ]),
             ("receive_center_accept", [], "Accept", [
                 (try_begin),
-                    (troop_slot_eq, "$g_player_troop", slot_troop_vassal_of, reg20),
+                    (neg|troop_slot_eq, "$g_player_troop", slot_troop_vassal_of, reg20),
                     (party_set_slot, reg21, slot_party_reserved, "$g_player_troop"),
                     # (call_script, "script_troop_give_center_to_troop", reg20, reg21, "$g_player_troop"),
                     (quest_set_slot, "qst_swear_vassalage_fief", slot_quest_object, reg21),
