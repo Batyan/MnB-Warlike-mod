@@ -1,3 +1,4 @@
+v0.520:
 v0.510:
 	-Features:
 		* player centers are displayed in yearly budget presentation
