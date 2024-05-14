@@ -80,6 +80,7 @@ scripts = [
             (try_for_range, ":party_no", centers_begin, centers_end),
                 (call_script, "script_party_init_center", ":party_no"),
             (try_end),
+            (call_script, "script_clean_budgets"),
 
             (try_for_range, ":lord_no", lords_begin, lords_end),
                 (call_script, "script_init_lord", ":lord_no"),
@@ -3376,6 +3377,10 @@ scripts = [
                 (party_set_slot, ":party_no", slot_party_population_slave, 0),
             
                 (party_set_slot, ":party_no", slot_party_population_max, population_max_village),
+
+                (party_set_slot, ":party_no", slot_party_taxes_fixed, default_fixed_tax_rate_village),
+                (party_set_slot, ":party_no", slot_party_taxes_buy, default_buy_tax_rate_village),
+                (party_set_slot, ":party_no", slot_party_taxes_sell, default_sell_tax_rate_village),
             (else_try),
                 (eq, ":party_type", spt_castle),
                 (party_set_slot, ":party_no", slot_party_population_noble, population_max_castle * population_growth_castle_noble / 100),
@@ -3384,6 +3389,10 @@ scripts = [
                 (party_set_slot, ":party_no", slot_party_population_slave, 0),
             
                 (party_set_slot, ":party_no", slot_party_population_max, population_max_castle),
+
+                (party_set_slot, ":party_no", slot_party_taxes_fixed, default_fixed_tax_rate_castle),
+                (party_set_slot, ":party_no", slot_party_taxes_buy, default_buy_tax_rate_castle),
+                (party_set_slot, ":party_no", slot_party_taxes_sell, default_sell_tax_rate_castle),
             (else_try),
                 (party_set_slot, ":party_no", slot_party_population_noble, population_max_town * population_growth_town_noble / 100),
                 (party_set_slot, ":party_no", slot_party_population_artisan, population_max_town * population_growth_town_artisan / 100),
@@ -3391,34 +3400,22 @@ scripts = [
                 (party_set_slot, ":party_no", slot_party_population_slave, 0),
             
                 (party_set_slot, ":party_no", slot_party_population_max, population_max_town),
-            (try_end),
 
-            (party_set_slot, ":party_no", slot_party_taxes_buy, 5),
-            (party_set_slot, ":party_no", slot_party_taxes_sell, 2),
+                (party_set_slot, ":party_no", slot_party_taxes_fixed, default_fixed_tax_rate_town),
+                (party_set_slot, ":party_no", slot_party_taxes_buy, default_buy_tax_rate_town),
+                (party_set_slot, ":party_no", slot_party_taxes_sell, default_sell_tax_rate_town),
+            (try_end),
 
             (party_set_slot, ":party_no", slot_party_taxes_visit, 20),
 
-            (try_for_range, ":unused", 0, 10),
+            (try_for_range, ":unused", 0, 12),
                 (call_script, "script_party_process_ressources", ":party_no"),
                 (call_script, "script_party_process_production", ":party_no"),
                 (call_script, "script_party_process_population", ":party_no"),
                 (call_script, "script_party_process_taxes", ":party_no"),
             (try_end),
+            (call_script, "script_party_process_ideal_party_wages", ":party_no"),
             
-            (party_set_slot, ":party_no", slot_party_accumulated_taxes, 0),
-            (party_set_slot, ":party_no", slot_party_budget_reserved_party, 0),
-            (party_set_slot, ":party_no", slot_party_budget_reserved_auxiliaries, 0),
-            (party_set_slot, ":party_no", slot_party_budget_reserved_expenses, 0),
-            (party_set_slot, ":party_no", slot_party_budget_reserved_other, 0),
-            (party_set_slot, ":party_no", slot_party_budget_taxes, 0),
-            (party_set_slot, ":party_no", slot_party_budget_protection_taxes, 0),
-            (party_set_slot, ":party_no", slot_party_budget_vassal_taxes, 0),
-            (party_set_slot, ":party_no", slot_party_budget_faction_member_taxes, 0),
-            (party_set_slot, ":party_no", slot_party_budget_pay_protection_taxes, 0),
-            (party_set_slot, ":party_no", slot_party_budget_pay_vassal_taxes, 0),
-            (party_set_slot, ":party_no", slot_party_budget_pay_faction_member_taxes, 0),
-            (party_set_slot, ":party_no", slot_party_budget_trade, 0),
-
             (call_script, "script_party_init_consumption", ":party_no"),
             
             (call_script, "script_party_get_siege_scene", ":party_no"),
@@ -4887,20 +4884,9 @@ scripts = [
             (store_add, ":taxes", ":taxes_serf", ":taxes_artisan"),
             (val_add, ":taxes", ":taxes_noble"),
 
-            (party_get_slot, ":party_type", ":party_no", slot_party_type),
-            (assign, ":mult", 12),
-            (try_begin),
-                (eq, ":party_type", spt_village),
-                (assign, ":mult", 6),
-            (else_try),
-                (eq, ":party_type", spt_town),
-                (assign, ":mult", 6),
-            (try_end),
-
-            (val_mul, ":taxes", ":mult"),
-            (val_div, ":taxes", 10),
-
-            (val_div, ":taxes", 12), # We are doing taxes in a monthly basis
+            (party_get_slot, ":tax_rate", ":party_no", slot_party_taxes_fixed),
+            (val_mul, ":taxes", ":tax_rate"),
+            (val_div, ":taxes", 100),
 
             (assign, reg0, ":taxes"),
         ]),        
@@ -5269,22 +5255,23 @@ scripts = [
                 (party_set_slot, ":party_no", slot_party_budget_reserved_expenses, ":budget_expenses"),
                 (party_set_slot, ":party_no", slot_party_budget_reserved_other, ":budget_other"),
 
-                (party_get_slot, ":leader", ":party_no", slot_party_leader),
+                (store_faction_of_party, ":current_party_faction", ":party_no"),
+                (party_get_slot, ":party_faction", ":party_no", slot_party_faction),
                 (try_begin),
-                    (ge, ":leader", 0),
-                    (store_troop_faction, ":leader_faction", ":leader"),
-                    (store_faction_of_party, ":party_faction", ":party_no"),
+                    (eq, ":current_party_faction", ":party_faction"),
                     (try_begin),
-                        (eq, ":leader_faction", ":party_faction"),
+                        (party_get_slot, ":leader", ":party_no", slot_party_leader),
+                        (ge, ":leader", 0),
                         (call_script, "script_troop_add_accumulated_taxes", ":leader", ":budget_other_new", ":tax_type", 0),
-                    (else_try),
-                        # Occupied parties give the leader's money to the occupying faction
-                        (gt, ":budget_other_new", 0),
-                        (call_script, "script_faction_add_accumulated_taxes", ":party_faction", ":budget_other_new", tax_type_occupation),
-                        (store_mul, ":occupation_pay", ":budget_other_new", -1),
-                        (call_script, "script_party_add_accumulated_taxes", ":party_no", ":occupation_pay", tax_type_occupation_pay),
-                        (val_sub, ":amount", ":budget_other_new"),
                     (try_end),
+                (else_try),
+                    # Occupied parties give the leader's money to the occupying faction
+                    (neq, ":tax_type", tax_type_occupation_pay),
+                    (gt, ":budget_other_new", 0),
+
+                    (call_script, "script_faction_add_accumulated_taxes", ":current_party_faction", ":budget_other_new", tax_type_occupation),
+                    (store_mul, ":occupation_pay", ":budget_other_new", -1),
+                    (call_script, "script_party_add_accumulated_taxes", ":party_no", ":occupation_pay", tax_type_occupation_pay),
                 (try_end),
             (try_end),
             
@@ -11168,6 +11155,7 @@ scripts = [
             
             (troop_set_slot, ":lord_no", slot_troop_original_faction, ":faction_no"),
             (troop_set_slot, ":lord_no", slot_troop_culture, ":culture"),
+            (troop_set_slot, ":lord_no", slot_troop_renown, 50),
             
             (troop_set_slot, ":lord_no", slot_troop_kingdom_occupation, tko_kingdom_hero),
             
@@ -14019,7 +14007,7 @@ scripts = [
                 # ToDo: ended mandate
 
                 (assign, ":best_candidate", -1),
-                (assign, ":best_candidate_score", 0),
+                (assign, ":best_candidate_score", -1),
                 (try_for_range, ":cur_lord", lords_begin, lords_end),
                     (store_troop_faction, ":lord_faction", ":cur_lord"),
                     (eq, ":lord_faction", ":faction_no"),
@@ -14027,7 +14015,7 @@ scripts = [
 
                     (neg|troop_slot_ge, ":cur_lord", slot_troop_prisoner_of, 0),
                     (troop_get_slot, ":rank", ":cur_lord", slot_troop_rank),
-                    (ge, ":rank", rank_castle),
+                    # (ge, ":rank", rank_castle),
 
                     (assign, ":score", 0),
                     # (troop_get_slot, ":renown", ":cur_lord", slot_troop_renown),

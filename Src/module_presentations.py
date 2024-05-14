@@ -19,27 +19,35 @@ import string
 ## 
 ##
 
+numberbox_padding = 5
+numberbox_size = 65
+
+button_padding = 12
+
+line_height = 30
+category_height = line_height + 20
+
 presentations = [
 
     ###############
     ## Hardcoded ##
     ###############
     ("game_profile_banner_selection", 0, mesh_load_window,
-    [
-        (ti_on_presentation_load, [
-            (set_fixed_point_multiplier, 1000),
-            (presentation_set_duration, 999999),
+        [
+            (ti_on_presentation_load, [
+                (set_fixed_point_multiplier, 1000),
+                (presentation_set_duration, 999999),
+            ]),
+
+            (ti_on_presentation_run,
+            [
+                (presentation_set_duration, 0),
+            ]),
         ]),
 
-        (ti_on_presentation_run,
-        [
-            (presentation_set_duration, 0),
-        ]),
-    ]),
     ###########
     ## Other ##
     ###########
-
     ("recruit_from_town_garrison", 0, mesh_load_window, 
         [
         	(ti_on_presentation_load,
@@ -547,8 +555,8 @@ presentations = [
                 (set_container_overlay, reg0),
 
                 (assign, ":cur_y", 10),
-                (assign, ":line_height", 30),
-                (assign, ":category_height", 50),
+                (assign, ":line_height", line_height),
+                (assign, ":category_height", category_height),
                 (assign, ":num_lines", 3),
                 (store_mul, ":center_line_height", ":line_height", ":num_lines"),
                 (val_add, ":center_line_height", 10),
@@ -989,22 +997,114 @@ presentations = [
                 (overlay_set_area_size, reg0, pos1),
                 
                 (set_container_overlay, reg0),
-
-                (party_get_slot, ":center_wealth", ":current_center", slot_party_wealth),
-                (store_troop_gold, ":player_wealth", "$g_player_troop"),
-
-                ## CENTER WEALTH
-                # Center treasury
                 (assign, ":cur_y", 10),
-                (assign, ":line_height", 30),
+                (assign, ":line_height", line_height),
+                (assign, ":category_height", category_height),
                 (assign, ":left_panel_x", 0),
                 (assign, ":left_panel_values_x", 385),
                 (assign, ":right_panel_x", 435),
                 (assign, ":right_panel_values_x", 870),
+                
+                ## CENTER POLICIES
+                # Center taxes
+
+                (create_text_overlay, reg0, "@Buying tax rate", tf_left_align),
+                (position_set_x, pos1, ":left_panel_x"),
+                (position_set_y, pos1, ":cur_y"),
+                (overlay_set_position, reg0, pos1),
+                (position_set_x, pos1, 1000),
+                (position_set_y, pos1, 1000),
+                (overlay_set_size, reg0, pos1),
+
+                (party_get_slot, ":buy_rate", ":current_center", slot_party_taxes_buy),
+                (assign, ":max", 100),
+                (create_number_box_overlay, reg0, 0, ":max"),
+                (store_sub, ":pos", ":left_panel_values_x", numberbox_size),
+                (position_set_x, pos1, ":pos"),
+                (position_set_y, pos1, ":cur_y"),
+                (overlay_set_position, reg0, pos1),
+                (position_set_x, pos1, 1000),
+                (position_set_y, pos1, 1000),
+                (overlay_set_size, reg0, pos1),
+                (overlay_set_val, reg0, ":buy_rate"),
+                (assign, "$g_presentation_center_tax_rate_buy_select", reg0),
+
+                (create_text_overlay, reg0, "@Selling tax rate", tf_left_align),
+                (position_set_x, pos1, ":right_panel_x"),
+                (position_set_y, pos1, ":cur_y"),
+                (overlay_set_position, reg0, pos1),
+                (position_set_x, pos1, 1000),
+                (position_set_y, pos1, 1000),
+                (overlay_set_size, reg0, pos1),
+
+                (party_get_slot, ":sell_rate", ":current_center", slot_party_taxes_sell),
+                (assign, ":max", 100),
+                (create_number_box_overlay, reg0, 0, ":max"),
+                (store_sub, ":pos", ":right_panel_values_x", numberbox_size),
+                (position_set_x, pos1, ":pos"),
+                (position_set_y, pos1, ":cur_y"),
+                (overlay_set_position, reg0, pos1),
+                (position_set_x, pos1, 1000),
+                (position_set_y, pos1, 1000),
+                (overlay_set_size, reg0, pos1),
+                (overlay_set_val, reg0, ":sell_rate"),
+                (assign, "$g_presentation_center_tax_rate_sell_select", reg0),
+
+                (val_add, ":cur_y", ":line_height"),
+
+                (create_text_overlay, reg0, "@Tax rate", tf_left_align),
+                (position_set_x, pos1, ":left_panel_x"),
+                (position_set_y, pos1, ":cur_y"),
+                (overlay_set_position, reg0, pos1),
+                (position_set_x, pos1, 1000),
+                (position_set_y, pos1, 1000),
+                (overlay_set_size, reg0, pos1),
+
+                (party_get_slot, ":tax_rate", ":current_center", slot_party_taxes_fixed),
+                (assign, ":max", 100),
+                (create_number_box_overlay, reg0, 0, ":max"),
+                (store_sub, ":pos", ":left_panel_values_x", numberbox_size),
+                (position_set_x, pos1, ":pos"),
+                (position_set_y, pos1, ":cur_y"),
+                (overlay_set_position, reg0, pos1),
+                (position_set_x, pos1, 1000),
+                (position_set_y, pos1, 1000),
+                (overlay_set_size, reg0, pos1),
+                (overlay_set_val, reg0, ":tax_rate"),
+                (assign, "$g_presentation_center_tax_rate_fixed_select", reg0),
+
+                (create_text_overlay, reg0, "@Estimated monthly taxes: ", tf_left_align),
+                (position_set_x, pos1, ":right_panel_x"),
+                (position_set_y, pos1, ":cur_y"),
+                (overlay_set_position, reg0, pos1),
+                (position_set_x, pos1, 1000),
+                (position_set_y, pos1, 1000),
+                (overlay_set_size, reg0, pos1),
+
+                (call_script, "script_party_get_expected_taxes", ":current_center"),
+                (assign, reg10, reg0),
+
+                (assign, ":max", 100),
+                (create_text_overlay, reg0, "@{reg10}", tf_right_align),
+                (position_set_x, pos1, ":right_panel_values_x"),
+                (position_set_y, pos1, ":cur_y"),
+                (overlay_set_position, reg0, pos1),
+                (position_set_x, pos1, 1000),
+                (position_set_y, pos1, 1000),
+                (overlay_set_size, reg0, pos1),
+                (assign, "$g_presentation_center_tax_rate_fixed_estimation", reg0),
+
+                (val_add, ":cur_y", ":category_height"),
+
+                ## CENTER WEALTH
+                # Center treasury
+                (party_get_slot, ":center_wealth", ":current_center", slot_party_wealth),
+                (store_troop_gold, ":player_wealth", "$g_player_troop"),
 
                 (store_add, ":max", ":center_wealth", 1),
                 (create_number_box_overlay, reg0, 0, ":max"),
-                (position_set_x, pos1, ":left_panel_x"),
+                (store_add, ":pos", ":left_panel_x", numberbox_padding),
+                (position_set_x, pos1, ":pos"),
                 (position_set_y, pos1, ":cur_y"),
                 (overlay_set_position, reg0, pos1),
                 (position_set_x, pos1, 1000),
@@ -1014,7 +1114,8 @@ presentations = [
 
                 (assign, reg10, ":center_wealth"),
                 (create_button_overlay, reg0, "@Withdraw", tf_right_align),
-                (position_set_x, pos1, ":left_panel_values_x"),
+                (store_add, ":pos", ":left_panel_values_x", button_padding),
+                (position_set_x, pos1, ":pos"),
                 (position_set_y, pos1, ":cur_y"),
                 (overlay_set_position, reg0, pos1),
                 (position_set_x, pos1, 1000),
@@ -1024,7 +1125,8 @@ presentations = [
 
                 (store_add, ":max", ":player_wealth", 1),
                 (create_number_box_overlay, reg0, 0, ":max"),
-                (position_set_x, pos1, ":right_panel_x"),
+                (store_add, ":pos", ":right_panel_x", numberbox_padding),
+                (position_set_x, pos1, ":pos"),
                 (position_set_y, pos1, ":cur_y"),
                 (overlay_set_position, reg0, pos1),
                 (position_set_x, pos1, 1000),
@@ -1034,7 +1136,8 @@ presentations = [
 
                 (assign, reg11, ":player_wealth"),
                 (create_button_overlay, reg0, "@Deposit", tf_right_align),
-                (position_set_x, pos1, ":right_panel_values_x"),
+                (store_add, ":pos", ":right_panel_values_x", button_padding),
+                (position_set_x, pos1, ":pos"),
                 (position_set_y, pos1, ":cur_y"),
                 (overlay_set_position, reg0, pos1),
                 (position_set_x, pos1, 1000),
@@ -1085,10 +1188,6 @@ presentations = [
                 (assign, "$g_withdraw_select", 0),
                 (assign, "$g_deposit_select", 0),
 
-                # Player wealth
-                # Take or deposit from treasury
-                ## CENTER POLICIES
-                # Center taxes
                 ## CENTER GARRISON
                 # Center garrison selling
                 # Center garrison sending
@@ -1134,6 +1233,19 @@ presentations = [
                 (else_try),
                     (eq, ":object", "$g_presentation_player_wealth_select"),
                     (assign, "$g_deposit_select", ":value"),
+                (else_try),
+                    (eq, ":object", "$g_presentation_center_tax_rate_fixed_select"),
+                    (party_set_slot, ":current_center", slot_party_taxes_fixed, ":value"),
+
+                    (call_script, "script_party_get_expected_taxes", ":current_center"),
+                    (assign, reg10, reg0),
+                    (overlay_set_text, "$g_presentation_center_tax_rate_fixed_estimation", "@{reg10}"),
+                (else_try),
+                    (eq, ":object", "$g_presentation_center_tax_rate_buy_select"),
+                    (party_set_slot, ":current_center", slot_party_taxes_buy, ":value"),
+                (else_try),
+                    (eq, ":object", "$g_presentation_center_tax_rate_sell_select"),
+                    (party_set_slot, ":current_center", slot_party_taxes_sell, ":value"),
                 (else_try),
                     (eq, ":object", "$g_presentation_ok"),
 

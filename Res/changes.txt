@@ -1,6 +1,7 @@
 v0.510:
 	-Features:
 		* player centers are displayed in yearly budget presentation
+		* allow administrating owned centers taxes
 	-Balance
 		* increase tax revenue by about 20%
 		* increase swadian_ranger riding (5 -> 6)

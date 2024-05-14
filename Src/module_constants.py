@@ -961,6 +961,18 @@ slot_party_taxes_fixed		= 131 # Fixed taxes paid by everyone
 slot_party_taxes_wealth		= 132 # Taxes paid upon earning money inside the city (also applied to buying and selling)
 slot_party_taxes_visit		= 133 # Taxes paid upon entering the city (not paid by residents)
 
+default_fixed_tax_rate_village = 5
+default_fixed_tax_rate_castle = 10
+default_fixed_tax_rate_town = 5
+
+default_buy_tax_rate_village = 5
+default_buy_tax_rate_castle = 7
+default_buy_tax_rate_town = 10
+
+default_sell_tax_rate_village = 2
+default_sell_tax_rate_castle = 4
+default_sell_tax_rate_town = 6
+
 slot_party_speak_allowed = 134
 
 slot_party_notes = 135
