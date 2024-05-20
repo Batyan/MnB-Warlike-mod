@@ -445,6 +445,15 @@ vassal_outcome_refused = 3
 vassal_outcome_no_fief = 4
 vassal_outcome_accepted = 5
 
+goods_ratio_production_village = 50
+goods_ratio_transformation_village = 20
+
+goods_ratio_production_castle = 33
+goods_ratio_transformation_castle = 20
+
+goods_ratio_production_town = 10
+goods_ratio_transformation_town = 10
+
 ################
 ## Item Slots ##
 ################
@@ -452,59 +461,64 @@ vassal_outcome_accepted = 5
 item_slots = 0
 
 slot_building_cost_wood		= 1
-slot_building_cost_stone	= 2
-slot_building_cost_gold		= 3
-slot_building_build_time	= 4
+slot_building_cost_stone	= slot_building_cost_wood + 1
+slot_building_cost_gold		= slot_building_cost_stone + 1
+slot_building_build_time	= slot_building_cost_gold + 1
 
 slot_item_produced_1_required				= 1 # Number of items required per batch
-slot_item_produced_1_to_1 					= 2 # First item produced by this good
-slot_item_produced_1_to_2					= 3 # Second item produced by this good (if any)
-slot_item_produced_1_to_3					= 4 # Third item produced by this good (if any)
-slot_item_produced_1_quantity_1				= 5 # Number of items produced in a batch
-slot_item_produced_1_quantity_2				= 6 # Number of items produced in a batch
-slot_item_produced_1_quantity_3				= 7 # Number of items produced in a batch
-slot_item_produced_1_requires_1 			= 8 # Additional item required to create the item
-slot_item_produced_1_requires_2				= 9 # Additional item required to create the item
-slot_item_produced_1_requires_3				= 10 # Additional item required to create the item
-slot_item_produced_1_reauires_quantity_1	= 11 # Additional item quantity required to create the item
-slot_item_produced_1_reauires_quantity_2	= 12 # Additional item quantity required to create the item
-slot_item_produced_1_reauires_quantity_3	= 13 # Additional item quantity required to create the item
+slot_item_produced_1_to_1 					= slot_item_produced_1_required + 1 # First item produced by this good
+slot_item_produced_1_to_2					= slot_item_produced_1_to_1 + 1 # Second item produced by this good (if any)
+slot_item_produced_1_to_3					= slot_item_produced_1_to_2 + 1 # Third item produced by this good (if any)
+slot_item_produced_1_quantity				= slot_item_produced_1_to_3 + 1 # Number of items produced in a batch
+slot_item_produced_1_quantity_1				= slot_item_produced_1_quantity + 1 # Number of additional items produced in a batch
+slot_item_produced_1_quantity_2				= slot_item_produced_1_quantity_1 + 1 # Number of additional items produced in a batch
+slot_item_produced_1_quantity_3				= slot_item_produced_1_quantity_2 + 1 # Number of additional items produced in a batch
+slot_item_produced_1_requires_1 			= slot_item_produced_1_quantity_3 + 1 # Additional item required to create the item
+slot_item_produced_1_requires_2				= slot_item_produced_1_requires_1 + 1 # Additional item required to create the item
+slot_item_produced_1_requires_3				= slot_item_produced_1_requires_2 + 1 # Additional item required to create the item
+slot_item_produced_1_requires_quantity_1	= slot_item_produced_1_requires_3 + 1 # Additional item quantity required to create the item
+slot_item_produced_1_requires_quantity_2	= slot_item_produced_1_requires_quantity_1 + 1 # Additional item quantity required to create the item
+slot_item_produced_1_requires_quantity_3	= slot_item_produced_1_requires_quantity_2 + 1 # Additional item quantity required to create the item
+slot_item_produced_1_workload 				= slot_item_produced_1_requires_quantity_3 + 1
 
-slot_item_produced_2_required				= 14 # Number of items required per batch
-slot_item_produced_2_to_1 					= 15 # First item produced by this good
-slot_item_produced_2_to_2					= 16 # Second item produced by this good (if any)
-slot_item_produced_2_to_3					= 17 # Third item produced by this good (if any)
-slot_item_produced_2_quantity_1				= 18 # Number of items produced in a batch
-slot_item_produced_2_quantity_2				= 19 # Number of items produced in a batch
-slot_item_produced_2_quantity_3				= 20 # Number of items produced in a batch
-slot_item_produced_2_requires_1 			= 21 # Additional item required to create the item
-slot_item_produced_2_requires_2				= 22 # Additional item required to create the item
-slot_item_produced_2_requires_3				= 23 # Additional item required to create the item
-slot_item_produced_2_reauires_quantity_1	= 24 # Additional item quantity required to create the item
-slot_item_produced_2_reauires_quantity_2	= 25 # Additional item quantity required to create the item
-slot_item_produced_2_reauires_quantity_3	= 26 # Additional item quantity required to create the item
+slot_item_produced_2_required				= slot_item_produced_1_workload + 1 # Number of items required per batch
+slot_item_produced_2_to_1 					= slot_item_produced_2_required + 1 # First item produced by this good
+slot_item_produced_2_to_2					= slot_item_produced_2_to_1 + 1 # Second item produced by this good (if any)
+slot_item_produced_2_to_3					= slot_item_produced_2_to_2 + 1 # Third item produced by this good (if any)
+slot_item_produced_2_quantity				= slot_item_produced_2_to_3 + 1 # Number of items produced in a batch
+slot_item_produced_2_quantity_1				= slot_item_produced_2_quantity + 1 # Number of additional items produced in a batch
+slot_item_produced_2_quantity_2				= slot_item_produced_2_quantity_1 + 1 # Number of additional items produced in a batch
+slot_item_produced_2_quantity_3				= slot_item_produced_2_quantity_2 + 1 # Number of additional items produced in a batch
+slot_item_produced_2_requires_1 			= slot_item_produced_2_quantity_3 + 1 # Additional item required to create the item
+slot_item_produced_2_requires_2				= slot_item_produced_2_requires_1 + 1 # Additional item required to create the item
+slot_item_produced_2_requires_3				= slot_item_produced_2_requires_2 + 1 # Additional item required to create the item
+slot_item_produced_2_requires_quantity_1	= slot_item_produced_2_requires_3 + 1 # Additional item quantity required to create the item
+slot_item_produced_2_requires_quantity_2	= slot_item_produced_2_requires_quantity_1 + 1 # Additional item quantity required to create the item
+slot_item_produced_2_requires_quantity_3	= slot_item_produced_2_requires_quantity_2 + 1 # Additional item quantity required to create the item
+slot_item_produced_2_workload 				= slot_item_produced_2_requires_quantity_3 + 1
 
-slot_item_produced_3_required				= 27 # Number of items required per batch
-slot_item_produced_3_to_1 					= 28 # First item produced by this good
-slot_item_produced_3_to_2					= 29 # Second item produced by this good (if any)
-slot_item_produced_3_to_3					= 30 # Third item produced by this good (if any)
-slot_item_produced_3_quantity_1				= 31 # Number of items produced in a batch
-slot_item_produced_3_quantity_2				= 32 # Number of items produced in a batch
-slot_item_produced_3_quantity_3				= 33 # Number of items produced in a batch
-slot_item_produced_3_requires_1 			= 34 # Additional item required to create the item
-slot_item_produced_3_requires_2				= 35 # Additional item required to create the item
-slot_item_produced_3_requires_3				= 36 # Additional item required to create the item
-slot_item_produced_3_reauires_quantity_1	= 37 # Additional item quantity required to create the item
-slot_item_produced_3_reauires_quantity_2	= 38 # Additional item quantity required to create the item
-slot_item_produced_3_reauires_quantity_3	= 39 # Additional item quantity required to create the item
+slot_item_produced_3_required				= slot_item_produced_2_workload + 1 # Number of items required per batch
+slot_item_produced_3_to_1 					= slot_item_produced_3_required + 1 # First item produced by this good
+slot_item_produced_3_to_2					= slot_item_produced_3_to_1 + 1 # Second item produced by this good (if any)
+slot_item_produced_3_to_3					= slot_item_produced_3_to_2 + 1 # Third item produced by this good (if any)
+slot_item_produced_3_quantity				= slot_item_produced_3_to_3 + 1 # Number of items produced in a batch
+slot_item_produced_3_quantity_1				= slot_item_produced_3_quantity + 1 # Number of additional items produced in a batch
+slot_item_produced_3_quantity_2				= slot_item_produced_3_quantity_1 + 1 # Number of additional items produced in a batch
+slot_item_produced_3_quantity_3				= slot_item_produced_3_quantity_2 + 1 # Number of additional items produced in a batch
+slot_item_produced_3_requires_1 			= slot_item_produced_3_quantity_3 + 1 # Additional item required to create the item
+slot_item_produced_3_requires_2				= slot_item_produced_3_requires_1 + 1 # Additional item required to create the item
+slot_item_produced_3_requires_3				= slot_item_produced_3_requires_2 + 1 # Additional item required to create the item
+slot_item_produced_3_requires_quantity_1	= slot_item_produced_3_requires_3 + 1 # Additional item quantity required to create the item
+slot_item_produced_3_requires_quantity_2	= slot_item_produced_3_requires_quantity_1 + 1 # Additional item quantity required to create the item
+slot_item_produced_3_requires_quantity_3	= slot_item_produced_3_requires_quantity_2 + 1 # Additional item quantity required to create the item
+slot_item_produced_3_workload				= slot_item_produced_3_requires_quantity_3 + 1
 
-# slot_item_number_produced = 8
-# slot_item_number_ticks = 9
+num_slot_item_produced = slot_item_produced_2_required - slot_item_produced_1_required
 
 # Amount of items consumed per 1000000 pop
-slot_item_consumption_base = 40
+slot_item_consumption_base = slot_item_produced_3_workload + 1
 # Amount of surplus item consumed because there are too many in stock
-slot_item_consumption_ratio = 41
+slot_item_consumption_ratio = slot_item_consumption_base + 1
 
 consumption_ratio_base = 1000000
 
@@ -918,11 +932,11 @@ slot_party_ressource_radius = 16
 slot_party_total_resources = 17
 
 slot_party_ressources_begin = itm_spice # 18
-slot_party_ressources_end = itm_saddle_horse # 63
-slot_party_ressources_count = slot_party_ressources_end - slot_party_ressources_begin # 45
+slot_party_ressources_end = itm_saddle_horse # 66
+slot_party_ressources_count = slot_party_ressources_end - slot_party_ressources_begin # 48
 
-slot_party_ressources_current_amount_begin = slot_party_ressources_end # 63
-slot_party_ressources_current_amount_end = slot_party_ressources_current_amount_begin + slot_party_ressources_count # 108
+slot_party_ressources_current_amount_begin = slot_party_ressources_end # 65
+slot_party_ressources_current_amount_end = slot_party_ressources_current_amount_begin + slot_party_ressources_count # 113
 
 slot_party_original_faction = 121
 

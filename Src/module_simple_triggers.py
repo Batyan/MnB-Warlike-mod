@@ -56,8 +56,12 @@ simple_triggers = [
                 (party_get_slot, ":party_type", ":party_no", slot_party_type),
                 (try_begin),
                     (is_between, ":party_type", spt_village, spt_fort), # Need to move this part in a trigger for centers
-                    (call_script, "script_party_process_ressources", ":party_no"), # Made in the same way as faction political calculations
 
+                    (try_for_range, ":slot", slot_party_item_consumed_begin, slot_party_item_last_produced_end),
+                        (party_set_slot, ":party_no", ":slot", 0),
+                    (try_end),
+
+                    (call_script, "script_party_process_ressources", ":party_no"), # Made in the same way as faction political calculations
                     (call_script, "script_party_process_production", ":party_no"),
                     (call_script, "script_party_process_consumption", ":party_no"),
                     (call_script, "script_party_process_population", ":party_no"),
@@ -553,9 +557,9 @@ simple_triggers = [
                         (try_begin),
                             (party_get_slot, ":readiness", ":leaded_party", slot_party_readiness),
                             (eq, ":readiness", sfsr_ready),
-                            (party_get_slot, ":current_strength_ready", ":lord_kingdom", slot_faction_strength_ready),
+                            (faction_get_slot, ":current_strength_ready", ":lord_kingdom", slot_faction_strength_ready),
                             (val_add, ":current_strength_ready", ":value"),
-                            (party_set_slot, ":lord_kingdom", slot_faction_strength_ready, ":current_strength_ready"),
+                            (faction_set_slot, ":lord_kingdom", slot_faction_strength_ready, ":current_strength_ready"),
                         (try_end),
                     (try_end),
                 (try_end),
