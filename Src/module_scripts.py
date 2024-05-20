@@ -3900,10 +3900,35 @@ scripts = [
             # Pig -> sausages
             # Chicken -> chicken meat
 
+            (item_set_slot, "itm_grain", slot_item_produced_2_to_1, "itm_ale"),
+            (item_set_slot, "itm_grain", slot_item_produced_2_quantity, 2),
+            (item_set_slot, "itm_grain", slot_item_produced_2_required, 5),
+            (item_set_slot, "itm_grain", slot_item_produced_2_workload, 10),
+
             (item_set_slot, "itm_grain", slot_item_produced_1_to_1, "itm_bread"),
-            (item_set_slot, "itm_grain", slot_item_produced_1_quantity, 25),
+            (item_set_slot, "itm_grain", slot_item_produced_1_quantity, 10),
             (item_set_slot, "itm_grain", slot_item_produced_1_required, 5),
             (item_set_slot, "itm_grain", slot_item_produced_1_workload, 5),
+
+            (item_set_slot, "itm_raw_grapes", slot_item_produced_1_to_1, "itm_wine"),
+            (item_set_slot, "itm_raw_grapes", slot_item_produced_1_quantity, 5),
+            (item_set_slot, "itm_raw_grapes", slot_item_produced_1_required, 10),
+            (item_set_slot, "itm_raw_grapes", slot_item_produced_1_workload, 25),
+
+            (item_set_slot, "itm_raw_olives", slot_item_produced_1_to_1, "itm_oil"),
+            (item_set_slot, "itm_raw_olives", slot_item_produced_1_quantity, 5),
+            (item_set_slot, "itm_raw_olives", slot_item_produced_1_required, 10),
+            (item_set_slot, "itm_raw_olives", slot_item_produced_1_workload, 25),
+
+            (item_set_slot, "itm_iron", slot_item_produced_1_to_1, "itm_tools"),
+            (item_set_slot, "itm_iron", slot_item_produced_1_quantity, 5),
+            (item_set_slot, "itm_iron", slot_item_produced_1_required, 5),
+            (item_set_slot, "itm_iron", slot_item_produced_1_workload, 50),
+
+            (item_set_slot, "itm_raw_leather", slot_item_produced_1_to_1, "itm_leatherwork"),
+            (item_set_slot, "itm_raw_leather", slot_item_produced_1_quantity, 10),
+            (item_set_slot, "itm_raw_leather", slot_item_produced_1_required, 10),
+            (item_set_slot, "itm_raw_leather", slot_item_produced_1_workload, 20),
 
             (item_set_slot, "itm_wood", slot_item_produced_1_to_1, "itm_refined_wood"),
             (item_set_slot, "itm_wood", slot_item_produced_1_quantity, 5),
