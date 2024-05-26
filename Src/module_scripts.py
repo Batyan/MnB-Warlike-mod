@@ -14246,6 +14246,10 @@ scripts = [
                 (ge, ":best_candidate", 0),
                 (faction_set_slot, ":faction_no", slot_faction_leader, ":best_candidate"),
 
+                (call_script, "script_troop_get_rank", ":best_candidate"),
+                (assign, ":rank", reg0),
+                (troop_set_slot, ":best_candidate", slot_troop_rank, ":rank"),
+                
                 (call_script, "script_troop_update_name", ":best_candidate"),
 
                 (try_begin),
