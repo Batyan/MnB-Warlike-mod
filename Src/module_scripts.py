@@ -19802,36 +19802,38 @@ scripts = [
             (try_begin),
                 (is_between, ":slot", slot_party_attached_party_1, slot_party_attached_party_3 + 1),
 
-                (call_script, "script_cf_center_can_give_troops", ":party_no"),
-
-                (store_faction_of_party, ":current_faction", ":party_no"),
-                (party_get_slot, ":party_faction", ":party_no", slot_party_faction),
-                (eq, ":current_faction", ":party_faction"),
-                (party_get_slot, ":attached_party_reserved_wages", ":party_no", slot_party_budget_reserved_auxiliaries),
-
-                (call_script, "script_spawn_party_around_party", ":party_no", "pt_patrol"),
-                (assign, ":spawned_party", reg0),
-
-                (party_set_faction, ":spawned_party", ":party_faction"),
-                (party_set_slot, ":spawned_party", slot_party_budget_reserved_party, ":attached_party_reserved_wages"),
-                (party_set_slot, ":spawned_party", slot_party_wanted_party_wages, ":attached_party_reserved_wages"),
-                (party_set_slot, ":spawned_party", slot_party_type, spt_patrol),
-                (party_set_slot, ":spawned_party", slot_party_linked_party, ":party_no"),
-
-                (party_set_slot, ":spawned_party", slot_party_autosort_options, autosort_low_level_first|autosort_foreign_first),
-
-                (call_script, "script_get_current_day"),
-                (assign, ":current_day", reg0),
-                (party_set_slot, ":spawned_party", slot_party_last_rest, ":current_day"),
-
-                (party_attach_to_party, ":spawned_party", ":party_no"),
-
-                (party_set_slot, ":party_no", ":slot", ":spawned_party"),
-                (call_script, "script_party_give_troops_to_party", ":party_no", ":spawned_party", 5),
                 (try_begin),
-                    (call_script, "script_cf_debug", debug_war|debug_ai),
-                    (str_store_party_name, s10, ":party_no"),
-                    (display_message, "@{s10} generating attached party patrol"),
+                    (call_script, "script_cf_center_can_give_troops", ":party_no"),
+
+                    (store_faction_of_party, ":current_faction", ":party_no"),
+                    (party_get_slot, ":party_faction", ":party_no", slot_party_faction),
+                    (eq, ":current_faction", ":party_faction"),
+                    (party_get_slot, ":attached_party_reserved_wages", ":party_no", slot_party_budget_reserved_auxiliaries),
+
+                    (call_script, "script_spawn_party_around_party", ":party_no", "pt_patrol"),
+                    (assign, ":spawned_party", reg0),
+
+                    (party_set_faction, ":spawned_party", ":party_faction"),
+                    (party_set_slot, ":spawned_party", slot_party_budget_reserved_party, ":attached_party_reserved_wages"),
+                    (party_set_slot, ":spawned_party", slot_party_wanted_party_wages, ":attached_party_reserved_wages"),
+                    (party_set_slot, ":spawned_party", slot_party_type, spt_patrol),
+                    (party_set_slot, ":spawned_party", slot_party_linked_party, ":party_no"),
+
+                    (party_set_slot, ":spawned_party", slot_party_autosort_options, autosort_low_level_first|autosort_foreign_first),
+
+                    (call_script, "script_get_current_day"),
+                    (assign, ":current_day", reg0),
+                    (party_set_slot, ":spawned_party", slot_party_last_rest, ":current_day"),
+
+                    (party_attach_to_party, ":spawned_party", ":party_no"),
+
+                    (party_set_slot, ":party_no", ":slot", ":spawned_party"),
+                    (call_script, "script_party_give_troops_to_party", ":party_no", ":spawned_party", 5),
+                    (try_begin),
+                        (call_script, "script_cf_debug", debug_war|debug_ai),
+                        (str_store_party_name, s10, ":party_no"),
+                        (display_message, "@{s10} generating attached party patrol"),
+                    (try_end),
                 (try_end),
             (else_try),
                 (call_script, "script_cf_debug", debug_simple),
@@ -19853,66 +19855,68 @@ scripts = [
             (try_begin),
                 (is_between, ":slot", slot_party_attached_party_1, slot_party_attached_party_3 + 1),
             
-                (call_script, "script_cf_center_can_give_troops", ":party_no"),
-
-                (assign, ":end", goods_end),
-                (assign, ":continue", 0),
-                (try_for_range, ":good", goods_begin, ":end"),
-                    (store_sub, ":offset", ":good", goods_begin),
-                    (store_add, ":amount_slot", ":offset", slot_party_ressources_current_amount_begin),
-                    (store_add, ":production_slot", ":offset", slot_party_item_last_produced_begin),
-                    (store_add, ":consumption_slot", ":offset", slot_party_item_consumed_begin),
-
-                    (party_get_slot, ":amount", ":party_no", ":amount_slot"),
-                    (party_get_slot, ":production", ":party_no", ":production_slot"),
-                    (party_get_slot, ":consumption", ":party_no", ":consumption_slot"),
-
-                    (store_sub, ":difference", ":production", ":consumption"),
-                    (lt, ":difference", 0),
-                    (store_div, ":ticks_left", ":amount", ":difference"),
-                    # We don't want to send a caravan if we still have >10 ticks of storage
-                    (gt, ":ticks_left", -10),
-
-                    (assign, ":continue", 1),
-                    (assign, ":end", goods_begin),
-                (try_end),
-                (eq, ":continue", 1),
-
-                (store_faction_of_party, ":party_faction", ":party_no"),
-                (party_slot_eq, ":party_no", slot_party_faction, ":party_faction"),
-                # (party_get_slot, ":attached_party_reserved_wages", ":party_no", slot_party_budget_reserved_auxiliaries),
-                # (val_div, ":attached_party_reserved_wages", 2),
-
-                (call_script, "script_spawn_party_around_party", ":party_no", "pt_caravan"),
-                (assign, ":spawned_party", reg0),
-
-                (party_set_faction, ":spawned_party", ":party_faction"),
-                (party_set_slot, ":spawned_party", slot_party_budget_reserved_party, 5000),
-                (party_set_slot, ":spawned_party", slot_party_wanted_party_wages, 5000),
-                (party_set_slot, ":spawned_party", slot_party_type, spt_caravan),
-                (party_set_slot, ":spawned_party", slot_party_linked_party, ":party_no"),
-                (party_set_slot, ":spawned_party", slot_party_mission_object, -1),
-
-                (party_set_slot, ":spawned_party", slot_party_autosort_options, autosort_no_sort),
-
-                (party_set_aggressiveness, ":spawned_party", 0),
-
-                (party_set_slot, ":party_no", ":slot", ":spawned_party"),
-
-                (party_attach_to_party, ":spawned_party", ":party_no"),
-
-                (faction_get_slot, ":culture", ":party_faction", slot_faction_culture),
-                (faction_get_slot, ":caravan_master", ":culture", slot_faction_caravan_master),
                 (try_begin),
-                    (gt, ":caravan_master", 0),
-                    (party_force_add_members, ":spawned_party", ":caravan_master", 1),
-                (else_try),
-                    (party_force_add_members, ":spawned_party", "trp_swadian_caravan_master", 1),
-                (try_end),
-                (try_begin),
-                    (call_script, "script_cf_debug", debug_trade|debug_ai),
-                    (str_store_party_name, s10, ":party_no"),
-                    (display_message, "@{s10} generating attached party caravan"),
+                    (call_script, "script_cf_center_can_give_troops", ":party_no"),
+
+                    (assign, ":end", goods_end),
+                    (assign, ":continue", 0),
+                    (try_for_range, ":good", goods_begin, ":end"),
+                        (store_sub, ":offset", ":good", goods_begin),
+                        (store_add, ":amount_slot", ":offset", slot_party_ressources_current_amount_begin),
+                        (store_add, ":production_slot", ":offset", slot_party_item_last_produced_begin),
+                        (store_add, ":consumption_slot", ":offset", slot_party_item_consumed_begin),
+
+                        (party_get_slot, ":amount", ":party_no", ":amount_slot"),
+                        (party_get_slot, ":production", ":party_no", ":production_slot"),
+                        (party_get_slot, ":consumption", ":party_no", ":consumption_slot"),
+
+                        (store_sub, ":difference", ":production", ":consumption"),
+                        (lt, ":difference", 0),
+                        (store_div, ":ticks_left", ":amount", ":difference"),
+                        # We don't want to send a caravan if we still have >10 ticks of storage
+                        (gt, ":ticks_left", -10),
+
+                        (assign, ":continue", 1),
+                        (assign, ":end", goods_begin),
+                    (try_end),
+                    (eq, ":continue", 1),
+
+                    (store_faction_of_party, ":party_faction", ":party_no"),
+                    (party_slot_eq, ":party_no", slot_party_faction, ":party_faction"),
+                    # (party_get_slot, ":attached_party_reserved_wages", ":party_no", slot_party_budget_reserved_auxiliaries),
+                    # (val_div, ":attached_party_reserved_wages", 2),
+
+                    (call_script, "script_spawn_party_around_party", ":party_no", "pt_caravan"),
+                    (assign, ":spawned_party", reg0),
+
+                    (party_set_faction, ":spawned_party", ":party_faction"),
+                    (party_set_slot, ":spawned_party", slot_party_budget_reserved_party, 5000),
+                    (party_set_slot, ":spawned_party", slot_party_wanted_party_wages, 5000),
+                    (party_set_slot, ":spawned_party", slot_party_type, spt_caravan),
+                    (party_set_slot, ":spawned_party", slot_party_linked_party, ":party_no"),
+                    (party_set_slot, ":spawned_party", slot_party_mission_object, -1),
+
+                    (party_set_slot, ":spawned_party", slot_party_autosort_options, autosort_no_sort),
+
+                    (party_set_aggressiveness, ":spawned_party", 0),
+
+                    (party_set_slot, ":party_no", ":slot", ":spawned_party"),
+
+                    (party_attach_to_party, ":spawned_party", ":party_no"),
+
+                    (faction_get_slot, ":culture", ":party_faction", slot_faction_culture),
+                    (faction_get_slot, ":caravan_master", ":culture", slot_faction_caravan_master),
+                    (try_begin),
+                        (gt, ":caravan_master", 0),
+                        (party_force_add_members, ":spawned_party", ":caravan_master", 1),
+                    (else_try),
+                        (party_force_add_members, ":spawned_party", "trp_swadian_caravan_master", 1),
+                    (try_end),
+                    (try_begin),
+                        (call_script, "script_cf_debug", debug_trade|debug_ai),
+                        (str_store_party_name, s10, ":party_no"),
+                        (display_message, "@{s10} generating attached party caravan"),
+                    (try_end),
                 (try_end),
             (else_try),
                 (call_script, "script_cf_debug", debug_simple),
