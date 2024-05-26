@@ -194,9 +194,6 @@ castle_scene_desert_wood_end = castle_scene_end
 
 
 # OTHER
-siege_attack_spawn_begin = 2
-siege_defend_points_begin = 10
-siege_archer_points_begin = 20
 
 rank_king = 7
 rank_marshall = 6
@@ -1155,6 +1152,10 @@ slot_party_temporary_data = slot_party_item_stored_price_end + 1
 #################
 ## Scene Slots ##
 #################
+
+siege_attack_spawn_begin = 2
+siege_defend_points_begin = 10
+siege_archer_points_begin = 20
 
 scene_slots = 0
 

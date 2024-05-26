@@ -8505,6 +8505,10 @@ scripts = [
             (scene_set_slot, "scn_castle_plain_dark_01_outside", slot_scene_num_attack_spawn, 2),
             (scene_set_slot, "scn_castle_plain_dark_01_outside", slot_scene_num_archer_points, 8),
             
+            (scene_set_slot, "scn_castle_sea_01_outside", slot_scene_num_defend_points, 2),
+            (scene_set_slot, "scn_castle_sea_01_outside", slot_scene_num_attack_spawn, 1),
+            (scene_set_slot, "scn_castle_sea_01_outside", slot_scene_num_archer_points, 9),
+            
             (scene_set_slot, "scn_castle_steppe_01_outside", slot_scene_num_defend_points, 2),
             (scene_set_slot, "scn_castle_steppe_01_outside", slot_scene_num_attack_spawn, 2),
             (scene_set_slot, "scn_castle_steppe_01_outside", slot_scene_num_archer_points, 9),
