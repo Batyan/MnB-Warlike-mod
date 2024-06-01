@@ -8636,8 +8636,11 @@ scripts = [
         # output: none
     ("cf_lord_can_create_party",
         [
-            (eq, 1, 1),
-            # (store_script_param, ":troop_no", 1),
+            (store_script_param, ":troop_no", 1),
+            (store_troop_health, ":troop_health", ":troop_no", 0),
+
+            (gt, ":troop_health", 66),
+            (troop_slot_ge, ":troop_no", slot_troop_wanted_party_wages, 500),
         ]),
     
     # script_cf_lord_can_spawn
@@ -11319,7 +11322,7 @@ scripts = [
             (troop_set_slot, ":lord_no", slot_troop_last_met, -1),
             (troop_set_slot, ":lord_no", slot_troop_gathering, -1),
             # We need a minimum amount of wanted wages to cover for a few troops
-            (troop_set_slot, ":lord_no", slot_troop_wanted_party_wages, 800),
+            # (troop_set_slot, ":lord_no", slot_troop_wanted_party_wages, 800),
 
             # Reset family
             (try_for_range, ":slot", slot_troop_married_to, slot_troop_child_10+1),
@@ -14249,7 +14252,7 @@ scripts = [
                 (call_script, "script_troop_get_rank", ":best_candidate"),
                 (assign, ":rank", reg0),
                 (troop_set_slot, ":best_candidate", slot_troop_rank, ":rank"),
-                
+
                 (call_script, "script_troop_update_name", ":best_candidate"),
 
                 (try_begin),
