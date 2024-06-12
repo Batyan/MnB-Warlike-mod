@@ -455,12 +455,32 @@ goods_ratio_transformation_town = 10
 ## Item Slots ##
 ################
 
+# Storing all raw materials used to produce goods
+# Raw flax -> linen
+# Wool -> wool_cloth
+# Raw_silk + raw_dyes -> velvet
+# Iron -> tools
+# Raw_leather -> leatherwork
+# Raw_grapes -> wine
+# Grain -> ale
+# Grain -> bread
+# Raw_olives -> oil
+
+# Possible others ?
+# Cattle -> cattle_meat
+# Cattle -> butter
+# Cattle -> cheese
+# Pig -> pork
+# Pig -> sausages
+# Chicken -> chicken meat
+
 item_slots = 0
 
 slot_building_cost_wood		= 1
 slot_building_cost_stone	= slot_building_cost_wood + 1
 slot_building_cost_gold		= slot_building_cost_stone + 1
 slot_building_build_time	= slot_building_cost_gold + 1
+
 
 slot_item_produced_1_required				= 1 # Number of items required per batch
 slot_item_produced_1_to_1 					= slot_item_produced_1_required + 1 # First item produced by this good
@@ -512,10 +532,21 @@ slot_item_produced_3_workload				= slot_item_produced_3_requires_quantity_3 + 1
 
 num_slot_item_produced = slot_item_produced_2_required - slot_item_produced_1_required
 
+slot_item_perish_ratio = slot_item_produced_3_workload + 1
+
 # Amount of items consumed per 1000000 pop
-slot_item_consumption_base = slot_item_produced_3_workload + 1
-# Amount of surplus item consumed because there are too many in stock
-slot_item_consumption_ratio = slot_item_consumption_base + 1
+slot_item_consumption_weight_serf = slot_item_perish_ratio + 1
+slot_item_consumption_weight_artisan = slot_item_consumption_weight_serf + 1
+slot_item_consumption_weight_noble = slot_item_consumption_weight_artisan + 1
+slot_item_consumption_weight_slave = slot_item_consumption_weight_noble + 1
+slot_item_consumption_quality = slot_item_consumption_weight_slave + 1
+
+# Category represent groups of goods that can be substituted
+slot_item_consumption_category = slot_item_consumption_quality + 1
+
+icc_food = 1
+icc_drink = 2
+icc_clothes = 3
 
 consumption_ratio_base = 1000000
 
@@ -896,27 +927,27 @@ slot_party_population_artisan = 10
 slot_party_population_slave = 11
 
 population_max_town = 34000
-population_max_castle = 8000
-population_max_village = 10000
+population_max_castle = 8500
+population_max_village = 12000
 slot_party_population_max 	= 12
 
-population_growth_castle_noble = 15
-population_growth_castle_artisan = 25
-population_growth_castle_serf = 60
+population_growth_castle_noble = 8
+population_growth_castle_artisan = 24
+population_growth_castle_serf = 68
 population_growth_castle_slave = 0
 
-population_growth_town_noble = 10
+population_growth_town_noble = 8
 population_growth_town_artisan = 30
-population_growth_town_serf = 60
+population_growth_town_serf = 62
 population_growth_town_slave = 0
 
-population_growth_village_noble = 5
-population_growth_village_artisan = 5
-population_growth_village_serf = 90
+population_growth_village_noble = 1
+population_growth_village_artisan = 4
+population_growth_village_serf = 95
 population_growth_village_slave = 0
 
-taxes_noble_amount = 16
-taxes_artisan_amount = 4
+taxes_noble_amount = 20
+taxes_artisan_amount = 5
 taxes_serf_amount = 2
 
 slot_party_wanted_party_wages = 13

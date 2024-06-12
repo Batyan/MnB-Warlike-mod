@@ -42,6 +42,7 @@ scripts = [
             (call_script, "script_init_factions"),
             (call_script, "script_init_cultures"),
             (call_script, "script_init_bandits"),
+            (call_script, "script_init_goods"),
             
             ## Generate some bandits to begin with
             (try_for_range, ":cur_center", villages_begin, villages_end),
@@ -72,11 +73,6 @@ scripts = [
                 (faction_set_slot, ":small_kingdom", slot_faction_marshall, -1),
             (try_end),
 
-            (try_for_range, ":good", goods_begin, goods_end),
-                (item_set_slot, ":good", slot_item_consumption_base, 20),
-                (item_set_slot, ":good", slot_item_consumption_ratio, 3),
-            (try_end),
-
             (try_for_range, ":party_no", centers_begin, centers_end),
                 (call_script, "script_party_init_center", ":party_no"),
             (try_end),
@@ -85,28 +81,19 @@ scripts = [
             (try_for_range, ":lord_no", lords_begin, lords_end),
                 (call_script, "script_init_lord", ":lord_no"),
             (try_end),
-            
-            (try_for_range, ":center_no", walled_centers_begin, walled_centers_end),
-                (store_faction_of_party, ":center_faction", ":center_no"),
-                (is_between, ":center_faction", kingdoms_begin, kingdoms_end),
 
+            (try_for_range, ":faction_no", kingdoms_begin, kingdoms_end),
                 (call_script, "script_find_free_lord"),
                 (assign, ":lord_no", reg0),
                 (gt, ":lord_no", 0),
                 
-                (party_set_slot, ":center_no", slot_party_lord, ":lord_no"),
-                
-                (call_script, "script_ready_lord", ":lord_no", ":center_faction"),
-                
+                (call_script, "script_ready_lord", ":lord_no", ":faction_no"),
                 (call_script, "script_troop_get_rank", ":lord_no"),
                 (assign, ":rank", reg0),
                 (troop_set_slot, ":lord_no", slot_troop_rank, ":rank"),
-
-                (call_script, "script_give_center_to_troop", ":center_no", ":lord_no"),
-                
                 (call_script, "script_troop_change_level", ":lord_no", ":rank"),
             (try_end),
-            
+
             (try_for_range, ":party_no", centers_begin, centers_end),
                 (party_get_slot, ":party_type", ":party_no", slot_party_type),
                 (try_begin),
@@ -3356,7 +3343,6 @@ scripts = [
             (try_end),
             
             (call_script, "script_party_update_nearby_resources", ":party_no"),
-            (call_script, "script_init_productions", ":party_no"),
             
             (party_set_slot, ":party_no", slot_party_wealth, 0),
             (party_set_slot, ":party_no", slot_party_prosperity, 50),
@@ -3415,8 +3401,6 @@ scripts = [
                 (call_script, "script_party_process_taxes", ":party_no"),
             (try_end),
             (call_script, "script_party_process_ideal_party_wages", ":party_no"),
-            
-            (call_script, "script_party_init_consumption", ":party_no"),
             
             (call_script, "script_party_get_siege_scene", ":party_no"),
             (assign, ":siege_scene", reg0),
@@ -3626,6 +3610,7 @@ scripts = [
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_goat", 1),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_cattle", 1),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_poultry", 1),
+                (call_script, "script_party_update_resources_slot", ":party_no", "itm_horse", 4),
 
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_cabbages", 2),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_grain", 2),
@@ -3649,8 +3634,8 @@ scripts = [
 
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_cattle", 5),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_poultry", 1),
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_pig", 1),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_sheep", 1),
+                (call_script, "script_party_update_resources_slot", ":party_no", "itm_horse", 2),
                 # (call_script, "script_party_update_resources_slot", ":party_no", "itm_", 1),
                 
                 # (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_wet, 0, ":radius"),
@@ -3668,7 +3653,9 @@ scripts = [
 
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_pig", 1),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_goat", 1),
+                (call_script, "script_party_update_resources_slot", ":party_no", "itm_sheep", 1),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_venison", 2),
+                (call_script, "script_party_update_resources_slot", ":party_no", "itm_horse", 2),
                 # (call_script, "script_party_update_resources_slot", ":party_no", "itm_", 1),
                 
                 # (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_wet, 0, ":radius"),
@@ -3683,7 +3670,9 @@ scripts = [
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_raw_date_fruit", 6),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_raw_olives", 1),
 
+                (call_script, "script_party_update_resources_slot", ":party_no", "itm_cattle", 1),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_poultry", 2),
+                (call_script, "script_party_update_resources_slot", ":party_no", "itm_horse", 3),
                 # (call_script, "script_party_update_resources_slot", ":party_no", "itm_", 1),
                 
                 (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_wet, -2000, ":radius"),
@@ -3735,6 +3724,7 @@ scripts = [
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_goat", 2),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_venison", 1),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_pig", 1),
+                (call_script, "script_party_update_resources_slot", ":party_no", "itm_horse", 1),
                 # (call_script, "script_party_update_resources_slot", ":party_no", "itm_", 1),
                 
                 (call_script, "script_party_update_weather_slot", ":party_no", slot_party_weather_wet, -500, ":radius"),
@@ -3766,7 +3756,7 @@ scripts = [
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_furs", 8),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_wood", 12),
 
-                (call_script, "script_party_update_resources_slot", ":party_no", "itm_pig", 1),
+                (call_script, "script_party_update_resources_slot", ":party_no", "itm_pig", 2),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_goat", 1),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_venison", 6),
                 # (call_script, "script_party_update_resources_slot", ":party_no", "itm_", 1),
@@ -3784,6 +3774,8 @@ scripts = [
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_raw_grapes", 2),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_raw_olives", 2),
 
+                (call_script, "script_party_update_resources_slot", ":party_no", "itm_pig", 1),
+                (call_script, "script_party_update_resources_slot", ":party_no", "itm_sheep", 1),
                 (call_script, "script_party_update_resources_slot", ":party_no", "itm_venison", 2),
                 # (call_script, "script_party_update_resources_slot", ":party_no", "itm_", 1),
                 
@@ -3865,80 +3857,6 @@ scripts = [
             (store_div, ":modified_value", ":value", ":radius"),
             (val_add, ":current_weather", ":modified_value"),
             (party_set_slot, ":party_no", ":slot", ":current_weather"),
-        ]),
-
-    # script_party_init_consumption
-    # input:
-    #   arg1: party_no
-    # output: none
-    ("party_init_consumption",
-        [
-            # (store_script_param, ":party_no", 1),
-        ]),
-    
-    # script_init_productions
-    # input: none
-    # output: none
-    ("init_productions",
-        [
-            # Storing all raw materials used to produce goods
-            # Raw flax -> linen
-            # Wool -> wool_cloth
-            # Raw_silk + raw_dyes -> velvet
-            # Iron -> tools
-            # Raw_leather -> leatherwork
-            # Raw_grapes -> wine
-            # Grain -> ale
-            # Grain -> bread
-            # Raw_olives -> oil
-
-            # Possible others ?
-            # Cattle -> cattle_meat
-            # Cattle -> butter
-            # Cattle -> cheese
-            # Pig -> pork
-            # Pig -> sausages
-            # Chicken -> chicken meat
-
-            (item_set_slot, "itm_grain", slot_item_produced_2_to_1, "itm_ale"),
-            (item_set_slot, "itm_grain", slot_item_produced_2_quantity, 2),
-            (item_set_slot, "itm_grain", slot_item_produced_2_required, 5),
-            (item_set_slot, "itm_grain", slot_item_produced_2_workload, 10),
-
-            (item_set_slot, "itm_grain", slot_item_produced_1_to_1, "itm_bread"),
-            (item_set_slot, "itm_grain", slot_item_produced_1_quantity, 10),
-            (item_set_slot, "itm_grain", slot_item_produced_1_required, 5),
-            (item_set_slot, "itm_grain", slot_item_produced_1_workload, 5),
-
-            (item_set_slot, "itm_raw_grapes", slot_item_produced_1_to_1, "itm_wine"),
-            (item_set_slot, "itm_raw_grapes", slot_item_produced_1_quantity, 5),
-            (item_set_slot, "itm_raw_grapes", slot_item_produced_1_required, 10),
-            (item_set_slot, "itm_raw_grapes", slot_item_produced_1_workload, 25),
-
-            (item_set_slot, "itm_raw_olives", slot_item_produced_1_to_1, "itm_oil"),
-            (item_set_slot, "itm_raw_olives", slot_item_produced_1_quantity, 5),
-            (item_set_slot, "itm_raw_olives", slot_item_produced_1_required, 10),
-            (item_set_slot, "itm_raw_olives", slot_item_produced_1_workload, 25),
-
-            (item_set_slot, "itm_iron", slot_item_produced_1_to_1, "itm_tools"),
-            (item_set_slot, "itm_iron", slot_item_produced_1_quantity, 5),
-            (item_set_slot, "itm_iron", slot_item_produced_1_required, 5),
-            (item_set_slot, "itm_iron", slot_item_produced_1_workload, 50),
-
-            (item_set_slot, "itm_raw_leather", slot_item_produced_1_to_1, "itm_leatherwork"),
-            (item_set_slot, "itm_raw_leather", slot_item_produced_1_quantity, 10),
-            (item_set_slot, "itm_raw_leather", slot_item_produced_1_required, 10),
-            (item_set_slot, "itm_raw_leather", slot_item_produced_1_workload, 20),
-
-            (item_set_slot, "itm_wood", slot_item_produced_1_to_1, "itm_refined_wood"),
-            (item_set_slot, "itm_wood", slot_item_produced_1_quantity, 5),
-            (item_set_slot, "itm_wood", slot_item_produced_1_required, 10),
-            (item_set_slot, "itm_wood", slot_item_produced_1_workload, 10),
-
-            (item_set_slot, "itm_stone", slot_item_produced_1_to_1, "itm_refined_stone"),
-            (item_set_slot, "itm_stone", slot_item_produced_1_quantity, 5),
-            (item_set_slot, "itm_stone", slot_item_produced_1_required, 10),
-            (item_set_slot, "itm_stone", slot_item_produced_1_workload, 10),
         ]),
     
     # script_party_transfer_to_party
@@ -4617,6 +4535,300 @@ scripts = [
             (assign, reg2, ":min_distance_2"),
             (assign, reg3, ":min_distance_3"),
         ]),
+
+    # script_init_goods
+        # input: none
+        # output: none
+    ("init_goods",
+        [
+            ## Categories
+            (item_set_slot, "itm_velvet", slot_item_consumption_category, icc_clothes),
+            (item_set_slot, "itm_linen", slot_item_consumption_category, icc_clothes),
+            (item_set_slot, "itm_wool_cloth", slot_item_consumption_category, icc_clothes),
+            (item_set_slot, "itm_fur_cloth", slot_item_consumption_category, icc_clothes),
+            (item_set_slot, "itm_leatherwork", slot_item_consumption_category, icc_clothes),
+
+            (item_set_slot, "itm_wine", slot_item_consumption_category, icc_drink),
+            (item_set_slot, "itm_ale", slot_item_consumption_category, icc_drink),
+            (item_set_slot, "itm_milk", slot_item_consumption_category, icc_drink),
+
+            (item_set_slot, "itm_smoked_fish", slot_item_consumption_category, icc_food),
+            (item_set_slot, "itm_cheese", slot_item_consumption_category, icc_food),
+            (item_set_slot, "itm_honey", slot_item_consumption_category, icc_food),
+            (item_set_slot, "itm_sausages", slot_item_consumption_category, icc_food),
+            (item_set_slot, "itm_cabbages", slot_item_consumption_category, icc_food),
+            (item_set_slot, "itm_dried_meat", slot_item_consumption_category, icc_food),
+            (item_set_slot, "itm_chicken", slot_item_consumption_category, icc_food),
+            (item_set_slot, "itm_apples", slot_item_consumption_category, icc_food),
+            (item_set_slot, "itm_raw_grapes", slot_item_consumption_category, icc_food),
+            (item_set_slot, "itm_raw_olives", slot_item_consumption_category, icc_food),
+            (item_set_slot, "itm_raw_date_fruit", slot_item_consumption_category, icc_food),
+            (item_set_slot, "itm_grain", slot_item_consumption_category, icc_food),
+            (item_set_slot, "itm_butter", slot_item_consumption_category, icc_food),
+            (item_set_slot, "itm_bread", slot_item_consumption_category, icc_food),
+
+            ## Perishable
+            (item_set_slot, "itm_spice", slot_item_perish_ratio, 1),
+            (item_set_slot, "itm_salt", slot_item_perish_ratio, 1),
+            (item_set_slot, "itm_raw_flax", slot_item_perish_ratio, 2),
+            (item_set_slot, "itm_wool", slot_item_perish_ratio, 2),
+            (item_set_slot, "itm_raw_silk", slot_item_perish_ratio, 3),
+            (item_set_slot, "itm_raw_dyes", slot_item_perish_ratio, 3),
+            (item_set_slot, "itm_iron", slot_item_perish_ratio, 1),
+            (item_set_slot, "itm_raw_leather", slot_item_perish_ratio, 2),
+            (item_set_slot, "itm_furs", slot_item_perish_ratio, 2),
+            (item_set_slot, "itm_stone", slot_item_perish_ratio, 1),
+            (item_set_slot, "itm_wood", slot_item_perish_ratio, 3),
+            (item_set_slot, "itm_clay", slot_item_perish_ratio, 1),
+            (item_set_slot, "itm_oil", slot_item_perish_ratio, 2),
+
+            (item_set_slot, "itm_refined_stone", slot_item_perish_ratio, 1),
+            (item_set_slot, "itm_refined_wood", slot_item_perish_ratio, 2),
+            (item_set_slot, "itm_pottery", slot_item_perish_ratio, 4),
+            (item_set_slot, "itm_leatherwork", slot_item_perish_ratio, 2),
+            (item_set_slot, "itm_tools", slot_item_perish_ratio, 3),
+            (item_set_slot, "itm_velvet", slot_item_perish_ratio, 5),
+            (item_set_slot, "itm_linen", slot_item_perish_ratio, 4),
+            (item_set_slot, "itm_wool_cloth", slot_item_perish_ratio, 3),
+            (item_set_slot, "itm_fur_cloth", slot_item_perish_ratio, 4),
+
+            (item_set_slot, "itm_cattle", slot_item_perish_ratio, 1),
+            (item_set_slot, "itm_poultry", slot_item_perish_ratio, 1),
+            (item_set_slot, "itm_pig", slot_item_perish_ratio, 1),
+            (item_set_slot, "itm_goat", slot_item_perish_ratio, 1),
+            (item_set_slot, "itm_sheep", slot_item_perish_ratio, 1),
+            (item_set_slot, "itm_horse", slot_item_perish_ratio, 1),
+            # Food items
+            (item_set_slot, "itm_wine", slot_item_perish_ratio, 1),
+            (item_set_slot, "itm_ale", slot_item_perish_ratio, 1),
+            (item_set_slot, "itm_milk", slot_item_perish_ratio, 20),
+
+            (item_set_slot, "itm_smoked_fish", slot_item_perish_ratio, 2),
+            (item_set_slot, "itm_cheese", slot_item_perish_ratio, 2),
+            (item_set_slot, "itm_honey", slot_item_perish_ratio, 3),
+            (item_set_slot, "itm_sausages", slot_item_perish_ratio, 10),
+            (item_set_slot, "itm_cabbages", slot_item_perish_ratio, 10),
+            (item_set_slot, "itm_dried_meat", slot_item_perish_ratio, 2),
+            (item_set_slot, "itm_chicken", slot_item_perish_ratio, 10),
+            (item_set_slot, "itm_apples", slot_item_perish_ratio, 8),
+            (item_set_slot, "itm_raw_grapes", slot_item_perish_ratio, 10),
+            (item_set_slot, "itm_raw_olives", slot_item_perish_ratio, 9),
+            (item_set_slot, "itm_raw_date_fruit", slot_item_perish_ratio, 9),
+            (item_set_slot, "itm_grain", slot_item_perish_ratio, 4),
+            (item_set_slot, "itm_butter", slot_item_perish_ratio, 8),
+            (item_set_slot, "itm_bread", slot_item_perish_ratio, 8),
+
+            (item_set_slot, "itm_raw_fish", slot_item_perish_ratio, 20),
+            (item_set_slot, "itm_cattle_meat", slot_item_perish_ratio, 20),
+            (item_set_slot, "itm_venison", slot_item_perish_ratio, 20),
+            (item_set_slot, "itm_raw_chicken", slot_item_perish_ratio, 20),
+            (item_set_slot, "itm_pork", slot_item_perish_ratio, 20),
+
+            ## Quality
+            (item_set_slot, "itm_spice", slot_item_consumption_quality, 3),
+            (item_set_slot, "itm_salt", slot_item_consumption_quality, 2),
+            (item_set_slot, "itm_raw_flax", slot_item_consumption_quality, 0),
+            (item_set_slot, "itm_wool", slot_item_consumption_quality, 0),
+            (item_set_slot, "itm_raw_silk", slot_item_consumption_quality, 0),
+            (item_set_slot, "itm_raw_dyes", slot_item_consumption_quality, 3),
+            (item_set_slot, "itm_iron", slot_item_consumption_quality, 2),
+            (item_set_slot, "itm_raw_leather", slot_item_consumption_quality, 0),
+            (item_set_slot, "itm_furs", slot_item_consumption_quality, 3),
+            (item_set_slot, "itm_stone", slot_item_consumption_quality, 2),
+            (item_set_slot, "itm_wood", slot_item_consumption_quality, 1),
+            (item_set_slot, "itm_clay", slot_item_consumption_quality, 1),
+            (item_set_slot, "itm_oil", slot_item_consumption_quality, 1),
+
+            (item_set_slot, "itm_refined_stone", slot_item_consumption_quality, 2),
+            (item_set_slot, "itm_refined_wood", slot_item_consumption_quality, 2),
+            (item_set_slot, "itm_pottery", slot_item_consumption_quality, 2),
+            (item_set_slot, "itm_leatherwork", slot_item_consumption_quality, 2),
+            (item_set_slot, "itm_tools", slot_item_consumption_quality, 2),
+            (item_set_slot, "itm_velvet", slot_item_consumption_quality, 3),
+            (item_set_slot, "itm_linen", slot_item_consumption_quality, 2),
+            (item_set_slot, "itm_wool_cloth", slot_item_consumption_quality, 1),
+            (item_set_slot, "itm_fur_cloth", slot_item_consumption_quality, 3),
+
+            (item_set_slot, "itm_cattle", slot_item_consumption_quality, 0),
+            (item_set_slot, "itm_poultry", slot_item_consumption_quality, 0),
+            (item_set_slot, "itm_pig", slot_item_consumption_quality, 0),
+            (item_set_slot, "itm_goat", slot_item_consumption_quality, 0),
+            (item_set_slot, "itm_sheep", slot_item_consumption_quality, 0),
+            (item_set_slot, "itm_horse", slot_item_consumption_quality, 3),
+
+            # Food items
+            (item_set_slot, "itm_wine", slot_item_consumption_quality, 3),
+            (item_set_slot, "itm_ale", slot_item_consumption_quality, 2),
+            (item_set_slot, "itm_milk", slot_item_consumption_quality, 2),
+
+            (item_set_slot, "itm_smoked_fish", slot_item_consumption_quality, 1),
+            (item_set_slot, "itm_cheese", slot_item_consumption_quality, 3),
+            (item_set_slot, "itm_honey", slot_item_consumption_quality, 3),
+            (item_set_slot, "itm_sausages", slot_item_consumption_quality, 3),
+            (item_set_slot, "itm_cabbages", slot_item_consumption_quality, 1),
+            (item_set_slot, "itm_dried_meat", slot_item_consumption_quality, 1),
+            (item_set_slot, "itm_chicken", slot_item_consumption_quality, 2),
+            (item_set_slot, "itm_apples", slot_item_consumption_quality, 2),
+            (item_set_slot, "itm_raw_grapes", slot_item_consumption_quality, 3),
+            (item_set_slot, "itm_raw_olives", slot_item_consumption_quality, 3),
+            (item_set_slot, "itm_raw_date_fruit", slot_item_consumption_quality, 3),
+            (item_set_slot, "itm_grain", slot_item_consumption_quality, 1),
+            (item_set_slot, "itm_butter", slot_item_consumption_quality, 3),
+            (item_set_slot, "itm_bread", slot_item_consumption_quality, 2),
+
+            (item_set_slot, "itm_raw_fish", slot_item_consumption_quality, 0),
+            (item_set_slot, "itm_cattle_meat", slot_item_consumption_quality, 0),
+            (item_set_slot, "itm_venison", slot_item_consumption_quality, 0),
+            (item_set_slot, "itm_raw_chicken", slot_item_consumption_quality, 0),
+            (item_set_slot, "itm_pork", slot_item_consumption_quality, 0),
+
+            (try_for_range, ":item", goods_begin, goods_end),
+                (item_set_slot, ":item", slot_item_consumption_weight_serf, 0),
+                (item_set_slot, ":item", slot_item_consumption_weight_artisan, 0),
+                (item_set_slot, ":item", slot_item_consumption_weight_noble, 0),
+                (item_set_slot, ":item", slot_item_consumption_weight_slave, 0),
+            (try_end),
+
+            (item_set_slot, "itm_cattle", slot_item_consumption_weight_serf, 0),
+            (item_set_slot, "itm_cattle", slot_item_consumption_weight_artisan, 0),
+            (item_set_slot, "itm_cattle", slot_item_consumption_weight_noble, 0),
+            (item_set_slot, "itm_cattle", slot_item_consumption_weight_slave, 0),
+
+            (item_set_slot, "itm_poultry", slot_item_consumption_weight_serf, 0),
+            (item_set_slot, "itm_poultry", slot_item_consumption_weight_artisan, 0),
+            (item_set_slot, "itm_poultry", slot_item_consumption_weight_noble, 0),
+            (item_set_slot, "itm_poultry", slot_item_consumption_weight_slave, 0),
+
+            (item_set_slot, "itm_pig", slot_item_consumption_weight_serf, 0),
+            (item_set_slot, "itm_pig", slot_item_consumption_weight_artisan, 0),
+            (item_set_slot, "itm_pig", slot_item_consumption_weight_noble, 0),
+            (item_set_slot, "itm_pig", slot_item_consumption_weight_slave, 0),
+
+            (item_set_slot, "itm_goat", slot_item_consumption_weight_serf, 0),
+            (item_set_slot, "itm_goat", slot_item_consumption_weight_artisan, 0),
+            (item_set_slot, "itm_goat", slot_item_consumption_weight_noble, 0),
+            (item_set_slot, "itm_goat", slot_item_consumption_weight_slave, 0),
+
+            (item_set_slot, "itm_sheep", slot_item_consumption_weight_serf, 0),
+            (item_set_slot, "itm_sheep", slot_item_consumption_weight_artisan, 0),
+            (item_set_slot, "itm_sheep", slot_item_consumption_weight_noble, 0),
+            (item_set_slot, "itm_sheep", slot_item_consumption_weight_slave, 0),
+
+            (item_set_slot, "itm_horse", slot_item_consumption_weight_serf, 0),
+            (item_set_slot, "itm_horse", slot_item_consumption_weight_artisan, 0),
+            (item_set_slot, "itm_horse", slot_item_consumption_weight_noble, 0),
+            (item_set_slot, "itm_horse", slot_item_consumption_weight_slave, 0),
+
+            (item_set_slot, "itm_ale", slot_item_consumption_weight_serf, 50),
+            (item_set_slot, "itm_ale", slot_item_consumption_weight_artisan, 100),
+            (item_set_slot, "itm_ale", slot_item_consumption_weight_noble, 100),
+            (item_set_slot, "itm_ale", slot_item_consumption_weight_slave, 0),
+
+            (item_set_slot, "itm_wine", slot_item_consumption_weight_serf, 5),
+            (item_set_slot, "itm_wine", slot_item_consumption_weight_artisan, 150),
+            (item_set_slot, "itm_wine", slot_item_consumption_weight_noble, 500),
+            (item_set_slot, "itm_wine", slot_item_consumption_weight_slave, 0),
+
+            (item_set_slot, "itm_milk", slot_item_consumption_weight_serf, 20),
+            (item_set_slot, "itm_milk", slot_item_consumption_weight_artisan, 40),
+            (item_set_slot, "itm_milk", slot_item_consumption_weight_noble, 80),
+            (item_set_slot, "itm_milk", slot_item_consumption_weight_slave, 5),
+
+            (item_set_slot, "itm_smoked_fish", slot_item_consumption_weight_serf, 50),
+            (item_set_slot, "itm_smoked_fish", slot_item_consumption_weight_artisan, 100),
+            (item_set_slot, "itm_smoked_fish", slot_item_consumption_weight_noble, 250),
+            (item_set_slot, "itm_smoked_fish", slot_item_consumption_weight_slave, 5),
+
+            (item_set_slot, "itm_cheese", slot_item_consumption_weight_serf, 20),
+            (item_set_slot, "itm_cheese", slot_item_consumption_weight_artisan, 150),
+            (item_set_slot, "itm_cheese", slot_item_consumption_weight_noble, 500),
+            (item_set_slot, "itm_cheese", slot_item_consumption_weight_slave, 0),
+
+            (item_set_slot, "itm_honey", slot_item_consumption_weight_serf, 0),
+            (item_set_slot, "itm_honey", slot_item_consumption_weight_artisan, 10),
+            (item_set_slot, "itm_honey", slot_item_consumption_weight_noble, 100),
+            (item_set_slot, "itm_honey", slot_item_consumption_weight_slave, 0),
+
+            (item_set_slot, "itm_sausages", slot_item_consumption_weight_serf, 10),
+            (item_set_slot, "itm_sausages", slot_item_consumption_weight_artisan, 100),
+            (item_set_slot, "itm_sausages", slot_item_consumption_weight_noble, 500),
+            (item_set_slot, "itm_sausages", slot_item_consumption_weight_slave, 0),
+
+            (item_set_slot, "itm_cabbages", slot_item_consumption_weight_serf, 50),
+            (item_set_slot, "itm_cabbages", slot_item_consumption_weight_artisan, 100),
+            (item_set_slot, "itm_cabbages", slot_item_consumption_weight_noble, 200),
+            (item_set_slot, "itm_cabbages", slot_item_consumption_weight_slave, 5),
+
+            (item_set_slot, "itm_dried_meat", slot_item_consumption_weight_serf, 50),
+            (item_set_slot, "itm_dried_meat", slot_item_consumption_weight_artisan, 50),
+            (item_set_slot, "itm_dried_meat", slot_item_consumption_weight_noble, 50),
+            (item_set_slot, "itm_dried_meat", slot_item_consumption_weight_slave, 2),
+
+            (item_set_slot, "itm_chicken", slot_item_consumption_weight_serf, 20),
+            (item_set_slot, "itm_chicken", slot_item_consumption_weight_artisan, 100),
+            (item_set_slot, "itm_chicken", slot_item_consumption_weight_noble, 400),
+            (item_set_slot, "itm_chicken", slot_item_consumption_weight_slave, 0),
+
+            (item_set_slot, "itm_apples", slot_item_consumption_weight_serf, 40),
+            (item_set_slot, "itm_apples", slot_item_consumption_weight_artisan, 80),
+            (item_set_slot, "itm_apples", slot_item_consumption_weight_noble, 160),
+            (item_set_slot, "itm_apples", slot_item_consumption_weight_slave, 4),
+
+            (item_set_slot, "itm_raw_grapes", slot_item_consumption_weight_serf, 10),
+            (item_set_slot, "itm_raw_grapes", slot_item_consumption_weight_artisan, 150),
+            (item_set_slot, "itm_raw_grapes", slot_item_consumption_weight_noble, 400),
+            (item_set_slot, "itm_raw_grapes", slot_item_consumption_weight_slave, 0),
+
+            (item_set_slot, "itm_raw_olives", slot_item_consumption_weight_serf, 10),
+            (item_set_slot, "itm_raw_olives", slot_item_consumption_weight_artisan, 150),
+            (item_set_slot, "itm_raw_olives", slot_item_consumption_weight_noble, 400),
+            (item_set_slot, "itm_raw_olives", slot_item_consumption_weight_slave, 0),
+
+            (item_set_slot, "itm_raw_date_fruit", slot_item_consumption_weight_serf, 0),
+            (item_set_slot, "itm_raw_date_fruit", slot_item_consumption_weight_artisan, 50),
+            (item_set_slot, "itm_raw_date_fruit", slot_item_consumption_weight_noble, 500),
+            (item_set_slot, "itm_raw_date_fruit", slot_item_consumption_weight_slave, 0),
+
+            (item_set_slot, "itm_grain", slot_item_consumption_weight_serf, 10),
+            (item_set_slot, "itm_grain", slot_item_consumption_weight_artisan, 0),
+            (item_set_slot, "itm_grain", slot_item_consumption_weight_noble, 0),
+            (item_set_slot, "itm_grain", slot_item_consumption_weight_slave, 10),
+
+            (item_set_slot, "itm_butter", slot_item_consumption_weight_serf, 5),
+            (item_set_slot, "itm_butter", slot_item_consumption_weight_artisan, 100),
+            (item_set_slot, "itm_butter", slot_item_consumption_weight_noble, 400),
+            (item_set_slot, "itm_butter", slot_item_consumption_weight_slave, 0),
+
+            (item_set_slot, "itm_bread", slot_item_consumption_weight_serf, 200),
+            (item_set_slot, "itm_bread", slot_item_consumption_weight_artisan, 100),
+            (item_set_slot, "itm_bread", slot_item_consumption_weight_noble, 100),
+            (item_set_slot, "itm_bread", slot_item_consumption_weight_slave, 1),
+
+            (item_set_slot, "itm_raw_fish", slot_item_consumption_weight_serf, 0),
+            (item_set_slot, "itm_raw_fish", slot_item_consumption_weight_artisan, 0),
+            (item_set_slot, "itm_raw_fish", slot_item_consumption_weight_noble, 0),
+            (item_set_slot, "itm_raw_fish", slot_item_consumption_weight_slave, 0),
+
+            (item_set_slot, "itm_cattle_meat", slot_item_consumption_weight_serf, 0),
+            (item_set_slot, "itm_cattle_meat", slot_item_consumption_weight_artisan, 0),
+            (item_set_slot, "itm_cattle_meat", slot_item_consumption_weight_noble, 0),
+            (item_set_slot, "itm_cattle_meat", slot_item_consumption_weight_slave, 0),
+
+            (item_set_slot, "itm_venison", slot_item_consumption_weight_serf, 0),
+            (item_set_slot, "itm_venison", slot_item_consumption_weight_artisan, 0),
+            (item_set_slot, "itm_venison", slot_item_consumption_weight_noble, 0),
+            (item_set_slot, "itm_venison", slot_item_consumption_weight_slave, 0),
+
+            (item_set_slot, "itm_raw_chicken", slot_item_consumption_weight_serf, 0),
+            (item_set_slot, "itm_raw_chicken", slot_item_consumption_weight_artisan, 0),
+            (item_set_slot, "itm_raw_chicken", slot_item_consumption_weight_noble, 0),
+            (item_set_slot, "itm_raw_chicken", slot_item_consumption_weight_slave, 0),
+
+            (item_set_slot, "itm_pork", slot_item_consumption_weight_serf, 0),
+            (item_set_slot, "itm_pork", slot_item_consumption_weight_artisan, 0),
+            (item_set_slot, "itm_pork", slot_item_consumption_weight_noble, 0),
+            (item_set_slot, "itm_pork", slot_item_consumption_weight_slave, 0),
+        ]),
     
     # script_party_process_ressources
         # input: 
@@ -4650,7 +4862,7 @@ scripts = [
                 (gt, ":raw_production", 0),
                 (val_mul, ":raw_production", ":population"),
                 (store_div, ":num_prod", ":raw_production", ":total_resources"),
-                (val_div, ":num_prod", 100),
+                (val_div, ":num_prod", 20),
 
                 (try_begin),
                     (store_mod, ":rest", ":raw_production", ":total_resources"),
@@ -4708,14 +4920,16 @@ scripts = [
                     (store_add, ":workload_slot", ":offset", slot_item_produced_1_workload),
 
                     (item_get_slot, ":required", ":good", ":required_slot"),
-                    (gt, ":current_amount", ":required"),
+                    (gt, ":required", 0),
                     (try_begin),
-                        (gt, ":required", 0),
+                        (gt, ":current_amount", ":required"),
                         (item_get_slot, ":workload", ":good", ":workload_slot"),
-                        (gt, ":workload", 0),
+                        (try_begin),
+                            (gt, ":workload", 0),
 
-                        (val_add, ":total_workload", ":workload"),
-                        (val_sub, ":current_amount", ":workload"),
+                            (val_add, ":total_workload", ":workload"),
+                            (val_sub, ":current_amount", ":required"),
+                        (try_end),
                     (else_try),
                         (assign, ":end", 0),
                     (try_end),
@@ -4758,40 +4972,41 @@ scripts = [
                             (gt, ":required", 0),
                             (store_add, ":workload_slot", ":offset", slot_item_produced_1_workload),
                             (item_get_slot, ":workload", ":good", ":workload_slot"),
-                            (gt, ":workload", 0),
-                            
-                            (store_div, ":max_tries", ":current_amount", ":required"),
-
-                            (assign, ":tries", ":min_produced"),
-                            (val_min, ":tries", ":max_tries"),
-                            (store_mul, ":target", 1000, ":mod"),
-                            (val_div, ":target", ":total_workload"),
-                            (val_div, ":target", ":workload"),
-                            (store_mul, ":max_rand", ":mod", 1000),
-                            (store_random_in_range, ":rand", 0, ":max_rand"),
                             (try_begin),
-                                (lt, ":rand", ":target"),
-                                (val_add, ":tries", 1),
-                            (try_end),
+                                (gt, ":workload", 0),
+                                
+                                (store_div, ":max_tries", ":current_amount", ":required"),
 
-                            (store_add, ":to_slot", ":offset", slot_item_produced_1_to_1),
-                            (item_get_slot, ":to", ":good", ":to_slot"),
-                            (try_begin),
-                                (is_between, ":to", goods_begin, goods_end),
+                                (assign, ":tries", ":min_produced"),
+                                (val_min, ":tries", ":max_tries"),
+                                (store_mul, ":target", 1000, ":mod"),
+                                (val_div, ":target", ":total_workload"),
+                                (val_div, ":target", ":workload"),
+                                (store_mul, ":max_rand", ":mod", 1000),
+                                (store_random_in_range, ":rand", 0, ":max_rand"),
+                                (try_begin),
+                                    (lt, ":rand", ":target"),
+                                    (val_add, ":tries", 1),
+                                (try_end),
 
-                                (store_mul, ":total_required", ":required", ":tries"),
-                                (call_script, "script_party_consume_item", ":party_no", ":good", ":total_required"),
-                                (assign, ":consumed", reg0),
+                                (store_add, ":to_slot", ":offset", slot_item_produced_1_to_1),
+                                (item_get_slot, ":to", ":good", ":to_slot"),
+                                (try_begin),
+                                    (is_between, ":to", goods_begin, goods_end),
 
-                                (val_sub, ":current_amount", ":consumed"),
-                                (store_mul, ":to_produce", ":consumed", ":tries"),
-                                (val_div, ":to_produce", ":required"),
+                                    (store_mul, ":total_required", ":required", ":tries"),
+                                    (call_script, "script_party_consume_item", ":party_no", ":good", ":total_required"),
+                                    (assign, ":consumed", reg0),
 
-                                (store_add, ":quantity_slot", ":offset", slot_item_produced_1_quantity),
-                                (item_get_slot, ":quantity_produced", ":good", ":quantity_slot"),
-                                (store_mul, ":total_produced", ":quantity_produced", ":to_produce"),
+                                    (val_sub, ":current_amount", ":consumed"),
+                                    (store_div, ":to_produce", ":consumed", ":required"),
 
-                                (call_script, "script_party_produce_item", ":party_no", ":to", ":total_produced"),
+                                    (store_add, ":quantity_slot", ":offset", slot_item_produced_1_quantity),
+                                    (item_get_slot, ":quantity_produced", ":good", ":quantity_slot"),
+                                    (store_mul, ":total_produced", ":quantity_produced", ":to_produce"),
+
+                                    (call_script, "script_party_produce_item", ":party_no", ":to", ":total_produced"),
+                                (try_end),
                             (try_end),
                         (else_try),
                             (assign, ":end", 0),
@@ -4839,6 +5054,7 @@ scripts = [
 
                     (try_begin),
                         (call_script, "script_cf_debug", debug_economy),
+                        (eq, ":party_no", towns_begin),
                         (str_store_party_name, s10, ":party_no"),
                         (str_store_item_name, s11, ":item_no"),
                         (assign, reg10, ":consumed"),
@@ -4886,6 +5102,7 @@ scripts = [
 
                     (try_begin),
                         (call_script, "script_cf_debug", debug_economy),
+                        (eq, ":party_no", towns_begin),
                         (str_store_party_name, s10, ":party_no"),
                         (str_store_item_name, s11, ":item_no"),
                         (assign, reg10, ":produced"),
@@ -4904,51 +5121,106 @@ scripts = [
         [
             (store_script_param, ":party_no", 1),
 
-            (assign, ":total_population", 0),
-
-            (party_get_slot, ":center_population", ":party_no", slot_party_population),
+            (party_get_slot, ":center_population_serf", ":party_no", slot_party_population),
             (party_get_slot, ":center_population_noble", ":party_no", slot_party_population_noble),
             (party_get_slot, ":center_population_artisan", ":party_no", slot_party_population_artisan),
             (party_get_slot, ":center_population_slave", ":party_no", slot_party_population_slave),
-
-            (val_add, ":total_population", ":center_population"),
-            (val_add, ":total_population", ":center_population_noble"),
-            (val_add, ":total_population", ":center_population_artisan"),
-            (val_add, ":total_population", ":center_population_slave"),
 
             (try_for_range, ":item", goods_begin, goods_end),
                 (store_sub, ":offset", ":item", goods_begin),
 
                 (store_add, ":amount_slot", ":offset", slot_party_ressources_current_amount_begin),
 
-                (item_get_slot, ":consumption_base", ":item", slot_item_consumption_base),
-                (item_get_slot, ":consumption_ratio", ":item", slot_item_consumption_ratio),
-                (assign, ":pop_consumption", 0),
-                (assign, ":surplus_consumption", 0),
+                (item_get_slot, ":consumption_base_serf", ":item", slot_item_consumption_weight_serf),
+                (item_get_slot, ":consumption_base_artisan", ":item", slot_item_consumption_weight_artisan),
+                (item_get_slot, ":consumption_base_noble", ":item", slot_item_consumption_weight_noble),
+                (item_get_slot, ":consumption_base_slave", ":item", slot_item_consumption_weight_slave),
+
                 (try_begin),
-                    (gt, ":consumption_base", 0),
-                    (store_mul, ":consumption_power", ":total_population", ":consumption_base"),
-                    (store_div, ":pop_consumption", ":consumption_power", consumption_ratio_base),
-                    (store_mod, ":consumption_rest", ":consumption_power", consumption_ratio_base),
-                    (try_begin),
-                        (gt, ":consumption_rest", 0),
-                        (store_random_in_range, ":rand", 0, consumption_ratio_base),
-                        (lt, ":rand", ":consumption_rest"),
-                        (val_add, ":pop_consumption", 1),
-                    (try_end),
+                    (gt, ":consumption_base_serf", 0),
+                    (store_mul, ":consumption_power", ":center_population_serf", ":consumption_base_serf"),
+                    (call_script, "script_party_process_consumption_good", ":party_no", ":item", ":consumption_power"),
                 (try_end),
                 (try_begin),
-                    (gt, ":consumption_ratio", 0),
-
-                    (party_get_slot, ":current_amount", ":party_no", ":amount_slot"),
-                    (store_mul, ":surplus_consumption", ":current_amount", ":consumption_ratio"),
-                    (val_div, ":surplus_consumption", 100),
+                    (gt, ":consumption_base_artisan", 0),
+                    (store_mul, ":consumption_power", ":center_population_artisan", ":consumption_base_artisan"),
+                    (call_script, "script_party_process_consumption_good", ":party_no", ":item", ":consumption_power"),
                 (try_end),
-
-                (store_add, ":consumption", ":pop_consumption", ":surplus_consumption"),
-
-                (call_script, "script_party_consume_item", ":party_no", ":item", ":consumption"),
+                (try_begin),
+                    (gt, ":consumption_base_noble", 0),
+                    (store_mul, ":consumption_power", ":center_population_noble", ":consumption_base_noble"),
+                    (call_script, "script_party_process_consumption_good", ":party_no", ":item", ":consumption_power"),
+                (try_end),
+                (try_begin),
+                    (gt, ":consumption_base_slave", 0),
+                    (store_mul, ":consumption_power", ":center_population_slave", ":consumption_base_slave"),
+                    (call_script, "script_party_process_consumption_good", ":party_no", ":item", ":consumption_power"),
+                (try_end),
             (try_end),
+
+            # Goods perishing
+            (try_for_range, ":item", goods_begin, goods_end),
+                (store_sub, ":offset", ":item", goods_begin),
+
+                (store_add, ":amount_slot", ":offset", slot_party_ressources_current_amount_begin),
+                (party_get_slot, ":amount", ":party_no", ":amount_slot"),
+
+                (item_get_slot, ":perish_ratio", ":item", slot_item_perish_ratio),
+                (store_mul, ":perished_items", ":perish_ratio", ":amount"),
+                (val_div, ":perished_items", 100),
+                (gt, ":perished_items", 0),
+                (try_begin),
+                    (call_script, "script_cf_debug", debug_economy),
+                    (eq, ":party_no", towns_begin),
+                    (str_store_party_name, s10, ":party_no"),
+                    (str_store_item_name, s11, ":item"),
+                    (assign, reg10, ":perished_items"),
+                    (display_message, "@{s10} has {reg10} {s11} perish"),
+                (try_end),
+                (val_sub, ":amount", ":perished_items"),
+                (party_set_slot, ":party_no", ":amount_slot", ":amount"),
+            (try_end),
+        ]),
+
+    # script_party_process_consumption_good
+        # input:
+        #   arg1: party_no
+        #   arg2: item_no
+        #   arg3: consumption_power
+        # output:
+        #   reg0: wanted_consumption
+        #   reg1: actual_consumption
+    ("party_process_consumption_good",
+        [
+            (store_script_param, ":party_no", 1),
+            (store_script_param, ":item_no", 2),
+            (store_script_param, ":consumption_power", 3),
+
+            (store_div, ":pop_consumption", ":consumption_power", consumption_ratio_base),
+            (store_mod, ":consumption_rest", ":consumption_power", consumption_ratio_base),
+            (try_begin),
+                (gt, ":consumption_rest", 0),
+                (store_random_in_range, ":rand", 0, consumption_ratio_base),
+                (lt, ":rand", ":consumption_rest"),
+                (val_add, ":pop_consumption", 1),
+            (try_end),
+
+            (call_script, "script_party_consume_item", ":party_no", ":item_no", ":pop_consumption"),
+            (assign, ":consumed", reg0),
+            (try_begin),
+                (neq, ":consumed", ":pop_consumption"),
+                (try_begin),
+                    (call_script, "script_cf_debug", debug_economy|debug_current),
+                    (eq, ":party_no", towns_begin),
+                    (str_store_party_name, s10, ":party_no"),
+                    (str_store_item_name, s11, ":item_no"),
+                    (assign, reg10, ":consumed"),
+                    (assign, reg11, ":pop_consumption"),
+                    (display_message, "@{s10} cant fulfill {s11} {reg11} consumed {reg10}"),
+                (try_end),
+            (try_end),
+            (assign, reg0, ":pop_consumption"),
+            (assign, reg1, ":consumed"),
         ]),
     
     # script_party_process_population

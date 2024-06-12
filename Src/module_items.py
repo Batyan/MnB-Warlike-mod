@@ -92,9 +92,9 @@ items = [
      550,   weight(50)| max_ammo(40),                       imodbits_none ],
 
      #REFINED GOODS
-    ["refined_stone",   "Refined Stone", [("throwing_stone",0)], itp_merchandise|itp_type_goods|itp_consumable, 0, 
+    ["refined_stone",   "Refined Stone", [("stone_ball",0)], itp_merchandise|itp_type_goods|itp_consumable, 0, 
      400,   weight(40)|   max_ammo(40),                       imodbits_none ],
-    ["refined_wood",    "Refined Wood", [("wooden_stick",0)], itp_merchandise|itp_type_goods|itp_consumable, 0, 
+    ["refined_wood",    "Refined Wood", [("wood_a",0)], itp_merchandise|itp_type_goods|itp_consumable, 0, 
      240,   weight(40)|   max_ammo(40),                       imodbits_none ],
     ["pottery",         "Pottery", [("jug",0)], itp_merchandise|itp_type_goods|itp_consumable, 0, 
      265,   weight(50)|   max_ammo(40),                       imodbits_none ],
@@ -108,6 +108,8 @@ items = [
      600,   weight(40)|   max_ammo(40),                       imodbits_none ],
     ["wool_cloth",      "Wool Cloth", [("wool_cloth",0)], itp_merchandise|itp_type_goods|itp_consumable, 0, 
      400,   weight(40)|   max_ammo(40),                       imodbits_none ],
+    ["fur_cloth",      "Fur Garments", [("wool_cloth",0)], itp_merchandise|itp_type_goods|itp_consumable, 0, 
+     1220,   weight(40)|   max_ammo(40),                       imodbits_none ],
 
     #DOMESTICATED
     ["cattle",          "Cattle", [("wooden_stick",0)], itp_merchandise|itp_type_goods|itp_consumable, 0, 
@@ -128,6 +130,8 @@ items = [
      220,   weight(30)|   max_ammo(20),                       imodbits_none ],
     ["ale",             "Ale", [("ale_barrel",0)], itp_merchandise|itp_type_goods|itp_consumable, 0, 
      120,   weight(30)|   max_ammo(20),                       imodbits_none ],
+    ["milk",             "Milk", [("amphora_slim",0)], itp_merchandise|itp_type_goods|itp_consumable, 0, 
+     70,   weight(30)|   max_ammo(20),                       imodbits_none ],
     #FOOD
     ["smoked_fish",     "Smoked Fish", [("smoked_fish",0)], itp_merchandise|itp_type_goods|itp_consumable|itp_food, 0, 
      70,    weight(20)|  max_ammo(20)|   food_quality(50),   imodbits_none ],
@@ -158,7 +162,7 @@ items = [
     ["bread",           "Bread", [("bread_a",0)], itp_merchandise|itp_type_goods|itp_consumable|itp_food, 0, 
      35,    weight(30)|  max_ammo(20)|   food_quality(30),   imodbits_none ],
     #PERISHABLES
-    ["raw_fish",     "Raw Fish", [("smoked_fish",0)], itp_merchandise|itp_type_goods|itp_consumable|itp_food, 0, 
+    ["raw_fish",     "Raw Fish", [("fish_a",0)], itp_merchandise|itp_type_goods|itp_consumable|itp_food, 0, 
      35,    weight(20)|  max_ammo(20)|   food_quality(50),   imodbits_none ],
     ["cattle_meat",     "Beef", [("raw_meat",0)], itp_merchandise|itp_type_goods|itp_consumable|itp_food, 0, 
      50,    weight(20)|  max_ammo(20)|   food_quality(110),  imodbits_none ],
@@ -1221,4 +1225,38 @@ items = [
     ["building_trading_post_2", "Trading Post (2)", [("shield_round_a",0)], 0, 0, 1, 0, 0 ],    # Increases trade profits of caravans by 10%, allows bigger escorts
     
     ["buildings_end", "END", [("shield_round_a",0)], 0, 0, 1, 0, 0 ],
+
+    ["recipe_wool", "Recipe", [("shield_round_a",0)], 0, 0, 1, 0, 0 ],
+
+    ["recipe_refine_stone", "Recipe", [("shield_round_a",0)], 0, 0, 1, 0, 0 ],
+    ["recipe_refine_wood", "Recipe", [("shield_round_a",0)], 0, 0, 1, 0, 0 ],
+    ["recipe_pottery", "Recipe", [("shield_round_a",0)], 0, 0, 1, 0, 0 ],
+    ["recipe_leatherwork", "Recipe", [("shield_round_a",0)], 0, 0, 1, 0, 0 ],
+    ["recipe_tools", "Recipe", [("shield_round_a",0)], 0, 0, 1, 0, 0 ],
+    ["recipe_velvet", "Recipe", [("shield_round_a",0)], 0, 0, 1, 0, 0 ],
+    ["recipe_linen", "Recipe", [("shield_round_a",0)], 0, 0, 1, 0, 0 ],
+    ["recipe_wool_cloth", "Recipe", [("shield_round_a",0)], 0, 0, 1, 0, 0 ],
+    ["recipe_fur_cloth", "Recipe", [("shield_round_a",0)], 0, 0, 1, 0, 0 ],
+
+    ["recipe_cattle_process", "Recipe", [("shield_round_a",0)], 0, 0, 1, 0, 0 ],
+    ["recipe_pig_process", "Recipe", [("shield_round_a",0)], 0, 0, 1, 0, 0 ],
+    ["recipe_poultry_process", "Recipe", [("shield_round_a",0)], 0, 0, 1, 0, 0 ],
+    ["recipe_goat_process", "Recipe", [("shield_round_a",0)], 0, 0, 1, 0, 0 ],
+    ["recipe_sheep_process", "Recipe", [("shield_round_a",0)], 0, 0, 1, 0, 0 ],
+    ["recipe_horse_process", "Recipe", [("shield_round_a",0)], 0, 0, 1, 0, 0 ],
+
+    ["recipe_wine", "Recipe", [("shield_round_a",0)], 0, 0, 1, 0, 0 ],
+    ["recipe_ale", "Recipe", [("shield_round_a",0)], 0, 0, 1, 0, 0 ],
+    ["recipe_milk_cattle", "Recipe", [("shield_round_a",0)], 0, 0, 1, 0, 0 ],
+    ["recipe_milk_goat", "Recipe", [("shield_round_a",0)], 0, 0, 1, 0, 0 ],
+    ["recipe_smoked_fish", "Recipe", [("shield_round_a",0)], 0, 0, 1, 0, 0 ],
+    ["recipe_cheese", "Recipe", [("shield_round_a",0)], 0, 0, 1, 0, 0 ],
+    ["recipe_sausages", "Recipe", [("shield_round_a",0)], 0, 0, 1, 0, 0 ],
+    ["recipe_dried_meat_beef", "Recipe", [("shield_round_a",0)], 0, 0, 1, 0, 0 ],
+    ["recipe_dried_meat_venison", "Recipe", [("shield_round_a",0)], 0, 0, 1, 0, 0 ],
+    ["recipe_chicken", "Recipe", [("shield_round_a",0)], 0, 0, 1, 0, 0 ],
+    ["recipe_butter", "Recipe", [("shield_round_a",0)], 0, 0, 1, 0, 0 ],
+    ["recipe_bread", "Recipe", [("shield_round_a",0)], 0, 0, 1, 0, 0 ],
+
+    ["recipes_end", "END", [("shield_round_a",0)], 0, 0, 1, 0, 0 ],
 ]
