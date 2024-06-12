@@ -359,7 +359,7 @@ parties = [
 	
 	("village_44a1","Kulum", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_44,0,ai_bhvr_hold,0,(-124.3, 103.2),[], 170),
 	("village_44b1","Aldelen", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_44,0,ai_bhvr_hold,0,(-103, 95.4),[], 170),
-	("village_44c1","New Village", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_44,0,ai_bhvr_hold,0,(-104.4, 80.2),[], 170),
+	("village_44c1","Vindisen", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_44,0,ai_bhvr_hold,0,(-104.4, 80.2),[], 170),
 	
 	("village_45a1","Fryja", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_45,0,ai_bhvr_hold,0,(-71.2, 93.4),[], 170),
 	("village_45a2","Kaelek", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_45,0,ai_bhvr_hold,0,(-79.4, 111.1),[], 170),
