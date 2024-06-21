@@ -64,6 +64,9 @@ cultures_end = fac_cultures_end
 goods_begin = itm_spice
 goods_end = itm_saddle_horse
 
+recipes_begin = itm_recipe_wool
+recipes_end = itm_recipes_end
+
 horses_begin = goods_end
 horses_end = "itm_arrows"
 light_horses_begin = horses_begin
@@ -481,58 +484,14 @@ slot_building_cost_stone	= slot_building_cost_wood + 1
 slot_building_cost_gold		= slot_building_cost_stone + 1
 slot_building_build_time	= slot_building_cost_gold + 1
 
+slot_recipe_required_item = slot_building_build_time + 1
+slot_recipe_required_item_quantity = slot_recipe_required_item + 1
+slot_recipe_workload = slot_recipe_required_item_quantity + 1
+slot_recipe_produced_item = slot_recipe_workload + 1
+slot_recipe_produced_item_quantity = slot_recipe_produced_item + 1
+slot_recipe_consume = slot_recipe_produced_item_quantity + 1
 
-slot_item_produced_1_required				= 1 # Number of items required per batch
-slot_item_produced_1_to_1 					= slot_item_produced_1_required + 1 # First item produced by this good
-slot_item_produced_1_to_2					= slot_item_produced_1_to_1 + 1 # Second item produced by this good (if any)
-slot_item_produced_1_to_3					= slot_item_produced_1_to_2 + 1 # Third item produced by this good (if any)
-slot_item_produced_1_quantity				= slot_item_produced_1_to_3 + 1 # Number of items produced in a batch
-slot_item_produced_1_quantity_1				= slot_item_produced_1_quantity + 1 # Number of additional items produced in a batch
-slot_item_produced_1_quantity_2				= slot_item_produced_1_quantity_1 + 1 # Number of additional items produced in a batch
-slot_item_produced_1_quantity_3				= slot_item_produced_1_quantity_2 + 1 # Number of additional items produced in a batch
-slot_item_produced_1_requires_1 			= slot_item_produced_1_quantity_3 + 1 # Additional item required to create the item
-slot_item_produced_1_requires_2				= slot_item_produced_1_requires_1 + 1 # Additional item required to create the item
-slot_item_produced_1_requires_3				= slot_item_produced_1_requires_2 + 1 # Additional item required to create the item
-slot_item_produced_1_requires_quantity_1	= slot_item_produced_1_requires_3 + 1 # Additional item quantity required to create the item
-slot_item_produced_1_requires_quantity_2	= slot_item_produced_1_requires_quantity_1 + 1 # Additional item quantity required to create the item
-slot_item_produced_1_requires_quantity_3	= slot_item_produced_1_requires_quantity_2 + 1 # Additional item quantity required to create the item
-slot_item_produced_1_workload 				= slot_item_produced_1_requires_quantity_3 + 1
-
-slot_item_produced_2_required				= slot_item_produced_1_workload + 1 # Number of items required per batch
-slot_item_produced_2_to_1 					= slot_item_produced_2_required + 1 # First item produced by this good
-slot_item_produced_2_to_2					= slot_item_produced_2_to_1 + 1 # Second item produced by this good (if any)
-slot_item_produced_2_to_3					= slot_item_produced_2_to_2 + 1 # Third item produced by this good (if any)
-slot_item_produced_2_quantity				= slot_item_produced_2_to_3 + 1 # Number of items produced in a batch
-slot_item_produced_2_quantity_1				= slot_item_produced_2_quantity + 1 # Number of additional items produced in a batch
-slot_item_produced_2_quantity_2				= slot_item_produced_2_quantity_1 + 1 # Number of additional items produced in a batch
-slot_item_produced_2_quantity_3				= slot_item_produced_2_quantity_2 + 1 # Number of additional items produced in a batch
-slot_item_produced_2_requires_1 			= slot_item_produced_2_quantity_3 + 1 # Additional item required to create the item
-slot_item_produced_2_requires_2				= slot_item_produced_2_requires_1 + 1 # Additional item required to create the item
-slot_item_produced_2_requires_3				= slot_item_produced_2_requires_2 + 1 # Additional item required to create the item
-slot_item_produced_2_requires_quantity_1	= slot_item_produced_2_requires_3 + 1 # Additional item quantity required to create the item
-slot_item_produced_2_requires_quantity_2	= slot_item_produced_2_requires_quantity_1 + 1 # Additional item quantity required to create the item
-slot_item_produced_2_requires_quantity_3	= slot_item_produced_2_requires_quantity_2 + 1 # Additional item quantity required to create the item
-slot_item_produced_2_workload 				= slot_item_produced_2_requires_quantity_3 + 1
-
-slot_item_produced_3_required				= slot_item_produced_2_workload + 1 # Number of items required per batch
-slot_item_produced_3_to_1 					= slot_item_produced_3_required + 1 # First item produced by this good
-slot_item_produced_3_to_2					= slot_item_produced_3_to_1 + 1 # Second item produced by this good (if any)
-slot_item_produced_3_to_3					= slot_item_produced_3_to_2 + 1 # Third item produced by this good (if any)
-slot_item_produced_3_quantity				= slot_item_produced_3_to_3 + 1 # Number of items produced in a batch
-slot_item_produced_3_quantity_1				= slot_item_produced_3_quantity + 1 # Number of additional items produced in a batch
-slot_item_produced_3_quantity_2				= slot_item_produced_3_quantity_1 + 1 # Number of additional items produced in a batch
-slot_item_produced_3_quantity_3				= slot_item_produced_3_quantity_2 + 1 # Number of additional items produced in a batch
-slot_item_produced_3_requires_1 			= slot_item_produced_3_quantity_3 + 1 # Additional item required to create the item
-slot_item_produced_3_requires_2				= slot_item_produced_3_requires_1 + 1 # Additional item required to create the item
-slot_item_produced_3_requires_3				= slot_item_produced_3_requires_2 + 1 # Additional item required to create the item
-slot_item_produced_3_requires_quantity_1	= slot_item_produced_3_requires_3 + 1 # Additional item quantity required to create the item
-slot_item_produced_3_requires_quantity_2	= slot_item_produced_3_requires_quantity_1 + 1 # Additional item quantity required to create the item
-slot_item_produced_3_requires_quantity_3	= slot_item_produced_3_requires_quantity_2 + 1 # Additional item quantity required to create the item
-slot_item_produced_3_workload				= slot_item_produced_3_requires_quantity_3 + 1
-
-num_slot_item_produced = slot_item_produced_2_required - slot_item_produced_1_required
-
-slot_item_perish_ratio = slot_item_produced_3_workload + 1
+slot_item_perish_ratio = slot_recipe_consume + 1
 
 # Amount of items consumed per 1000000 pop
 slot_item_consumption_weight_serf = slot_item_perish_ratio + 1
@@ -1178,7 +1137,10 @@ slot_party_item_last_produced_end	= slot_party_item_last_produced_begin + goods_
 slot_party_item_stored_price_begin 	= slot_party_item_consumed_begin
 slot_party_item_stored_price_end 	= slot_party_item_consumed_end
 
-slot_party_temporary_data = slot_party_item_stored_price_end + 1
+slot_party_production_target_begin = slot_party_item_last_produced_end + 1
+slot_party_production_target_end = slot_party_production_target_begin + recipes_end - recipes_begin
+
+slot_party_override_production_target = slot_party_production_target_end + 1
 
 #################
 ## Scene Slots ##
