@@ -4907,46 +4907,52 @@ scripts = [
             (item_set_slot, "itm_recipe_fur_cloth", slot_recipe_consume, 1),
 
             (item_set_slot, "itm_recipe_cattle_process", slot_recipe_required_item, "itm_cattle"),
-            (item_set_slot, "itm_recipe_cattle_process", slot_recipe_required_item_quantity, 5),
-            (item_set_slot, "itm_recipe_cattle_process", slot_recipe_workload, 100),
+            (item_set_slot, "itm_recipe_cattle_process", slot_recipe_required_item_quantity, 1),
+            (item_set_slot, "itm_recipe_cattle_process", slot_recipe_workload, 10),
             (item_set_slot, "itm_recipe_cattle_process", slot_recipe_produced_item, "itm_cattle_meat"),
-            (item_set_slot, "itm_recipe_cattle_process", slot_recipe_produced_item_quantity, 2),
+            (item_set_slot, "itm_recipe_cattle_process", slot_recipe_produced_item_quantity, 1),
             (item_set_slot, "itm_recipe_cattle_process", slot_recipe_consume, 1),
+            (item_set_slot, "itm_recipe_cattle_process", slot_recipe_produced_item_max_ratio, 10),
 
             (item_set_slot, "itm_recipe_pig_process", slot_recipe_required_item, "itm_pig"),
-            (item_set_slot, "itm_recipe_pig_process", slot_recipe_required_item_quantity, 5),
-            (item_set_slot, "itm_recipe_pig_process", slot_recipe_workload, 100),
+            (item_set_slot, "itm_recipe_pig_process", slot_recipe_required_item_quantity, 1),
+            (item_set_slot, "itm_recipe_pig_process", slot_recipe_workload, 10),
             (item_set_slot, "itm_recipe_pig_process", slot_recipe_produced_item, "itm_pork"),
-            (item_set_slot, "itm_recipe_pig_process", slot_recipe_produced_item_quantity, 2),
+            (item_set_slot, "itm_recipe_pig_process", slot_recipe_produced_item_quantity, 1),
             (item_set_slot, "itm_recipe_pig_process", slot_recipe_consume, 1),
+            (item_set_slot, "itm_recipe_pig_process", slot_recipe_produced_item_max_ratio, 10),
 
             (item_set_slot, "itm_recipe_poultry_process", slot_recipe_required_item, "itm_poultry"),
-            (item_set_slot, "itm_recipe_poultry_process", slot_recipe_required_item_quantity, 5),
-            (item_set_slot, "itm_recipe_poultry_process", slot_recipe_workload, 100),
+            (item_set_slot, "itm_recipe_poultry_process", slot_recipe_required_item_quantity, 1),
+            (item_set_slot, "itm_recipe_poultry_process", slot_recipe_workload, 10),
             (item_set_slot, "itm_recipe_poultry_process", slot_recipe_produced_item, "itm_raw_chicken"),
-            (item_set_slot, "itm_recipe_poultry_process", slot_recipe_produced_item_quantity, 2),
+            (item_set_slot, "itm_recipe_poultry_process", slot_recipe_produced_item_quantity, 1),
             (item_set_slot, "itm_recipe_poultry_process", slot_recipe_consume, 1),
+            (item_set_slot, "itm_recipe_poultry_process", slot_recipe_produced_item_max_ratio, 10),
 
             (item_set_slot, "itm_recipe_goat_process", slot_recipe_required_item, "itm_goat"),
-            (item_set_slot, "itm_recipe_goat_process", slot_recipe_required_item_quantity, 5),
-            (item_set_slot, "itm_recipe_goat_process", slot_recipe_workload, 100),
+            (item_set_slot, "itm_recipe_goat_process", slot_recipe_required_item_quantity, 1),
+            (item_set_slot, "itm_recipe_goat_process", slot_recipe_workload, 10),
             (item_set_slot, "itm_recipe_goat_process", slot_recipe_produced_item, "itm_venison"),
-            (item_set_slot, "itm_recipe_goat_process", slot_recipe_produced_item_quantity, 2),
+            (item_set_slot, "itm_recipe_goat_process", slot_recipe_produced_item_quantity, 1),
             (item_set_slot, "itm_recipe_goat_process", slot_recipe_consume, 1),
+            (item_set_slot, "itm_recipe_goat_process", slot_recipe_produced_item_max_ratio, 10),
 
             (item_set_slot, "itm_recipe_sheep_process", slot_recipe_required_item, "itm_sheep"),
-            (item_set_slot, "itm_recipe_sheep_process", slot_recipe_required_item_quantity, 5),
-            (item_set_slot, "itm_recipe_sheep_process", slot_recipe_workload, 100),
+            (item_set_slot, "itm_recipe_sheep_process", slot_recipe_required_item_quantity, 1),
+            (item_set_slot, "itm_recipe_sheep_process", slot_recipe_workload, 10),
             (item_set_slot, "itm_recipe_sheep_process", slot_recipe_produced_item, "itm_venison"),
-            (item_set_slot, "itm_recipe_sheep_process", slot_recipe_produced_item_quantity, 2),
+            (item_set_slot, "itm_recipe_sheep_process", slot_recipe_produced_item_quantity, 1),
             (item_set_slot, "itm_recipe_sheep_process", slot_recipe_consume, 1),
+            (item_set_slot, "itm_recipe_sheep_process", slot_recipe_produced_item_max_ratio, 10),
 
             (item_set_slot, "itm_recipe_horse_process", slot_recipe_required_item, "itm_horse"),
-            (item_set_slot, "itm_recipe_horse_process", slot_recipe_required_item_quantity, 5),
-            (item_set_slot, "itm_recipe_horse_process", slot_recipe_workload, 100),
+            (item_set_slot, "itm_recipe_horse_process", slot_recipe_required_item_quantity, 1),
+            (item_set_slot, "itm_recipe_horse_process", slot_recipe_workload, 10),
             (item_set_slot, "itm_recipe_horse_process", slot_recipe_produced_item, "itm_cattle_meat"),
-            (item_set_slot, "itm_recipe_horse_process", slot_recipe_produced_item_quantity, 2),
+            (item_set_slot, "itm_recipe_horse_process", slot_recipe_produced_item_quantity, 1),
             (item_set_slot, "itm_recipe_horse_process", slot_recipe_consume, 1),
+            (item_set_slot, "itm_recipe_horse_process", slot_recipe_produced_item_max_ratio, 10),
 
             (item_set_slot, "itm_recipe_wine", slot_recipe_required_item, "itm_raw_grapes"),
             (item_set_slot, "itm_recipe_wine", slot_recipe_required_item_quantity, 5),
@@ -5182,6 +5188,14 @@ scripts = [
 
                     (store_add, ":amount_slot", ":required_item_offset", slot_party_ressources_current_amount_begin),
                     (party_get_slot, ":amount", ":party_no", ":amount_slot"),
+
+                    (item_get_slot, ":quantity_ratio", ":recipe", slot_recipe_produced_item_max_ratio),
+                    (try_begin),
+                        (gt, ":quantity_ratio", 0),
+                        (val_mul, ":amount", ":quantity_ratio"),
+                        (val_div, ":amount", 100),
+                    (try_end),
+
                     (store_div, ":num_batch", ":amount", ":required_quantity"),
                     (store_mul, ":max_workload", ":workload", ":num_batch"),
 
@@ -5207,6 +5221,14 @@ scripts = [
 
                     (store_add, ":amount_slot", ":required_item_offset", slot_party_ressources_current_amount_begin),
                     (party_get_slot, ":amount", ":party_no", ":amount_slot"),
+
+                    (item_get_slot, ":quantity_ratio", ":recipe", slot_recipe_produced_item_max_ratio),
+                    (try_begin),
+                        (gt, ":quantity_ratio", 0),
+                        (val_mul, ":amount", ":quantity_ratio"),
+                        (val_div, ":amount", 100),
+                    (try_end),
+
                     (store_div, ":num_batch", ":amount", ":required_quantity"),
 
                     (store_mul, ":goal", ":num_batch", ":ratio"),
@@ -5260,7 +5282,7 @@ scripts = [
                     (party_set_slot, ":party_no", ":consumption_slot", ":consumption"),
 
                     (try_begin),
-                        (call_script, "script_cf_debug", debug_economy|debug_current),
+                        (call_script, "script_cf_debug", debug_economy),
                         (eq, ":party_no", towns_begin),
                         (str_store_party_name, s10, ":party_no"),
                         (str_store_item_name, s11, ":item_no"),
@@ -5308,7 +5330,7 @@ scripts = [
                     (party_set_slot, ":party_no", ":produced_slot", ":production"),
 
                     (try_begin),
-                        (call_script, "script_cf_debug", debug_economy|debug_current),
+                        (call_script, "script_cf_debug", debug_economy),
                         (eq, ":party_no", towns_begin),
                         (str_store_party_name, s10, ":party_no"),
                         (str_store_item_name, s11, ":item_no"),
@@ -18571,6 +18593,7 @@ scripts = [
                 # Remove troop for party id if not already done
                 (troop_get_slot, ":prisoner_of", ":troop_id", slot_troop_prisoner_of),
                 (ge, ":prisoner_of", 0),
+                (party_is_active, ":prisoner_of"),
                 (party_remove_prisoners, ":prisoner_of", ":troop_id", 1),
             (try_end),
 

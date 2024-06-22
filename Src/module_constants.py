@@ -490,8 +490,9 @@ slot_recipe_workload = slot_recipe_required_item_quantity + 1
 slot_recipe_produced_item = slot_recipe_workload + 1
 slot_recipe_produced_item_quantity = slot_recipe_produced_item + 1
 slot_recipe_consume = slot_recipe_produced_item_quantity + 1
+slot_recipe_produced_item_max_ratio = slot_recipe_consume + 1
 
-slot_item_perish_ratio = slot_recipe_consume + 1
+slot_item_perish_ratio = slot_recipe_produced_item_max_ratio + 1
 
 # Amount of items consumed per 1000000 pop
 slot_item_consumption_weight_serf = slot_item_perish_ratio + 1
