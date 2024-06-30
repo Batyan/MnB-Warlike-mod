@@ -1009,7 +1009,20 @@ game_menus = [
                     #ToDo: hall
                 ]),
             
-            ("center_recruit", [], "Recruit troops",
+            ("center_recruit",
+                [
+                    (store_faction_of_party, ":current_faction", "$g_encountered_party"),
+                    (party_get_slot, ":original_faction", "$g_encountered_party", slot_party_faction),
+                    (store_troop_faction, ":player_faction", "$g_player_party"),
+                    (try_begin),
+                        (neq, ":current_faction", ":original_faction"),
+                        (neq, ":current_faction", ":player_faction"),
+                        (disable_menu_option),
+                        (str_store_string, s10, "@Recruitment unavailable due to occupation"),
+                    (else_try),
+                        (str_store_string, s10, "@Recruit troops"),
+                    (try_end),
+                ], "{s10}",
                 [
                     (assign, "$temp", "$g_encountered_party"),
                     (start_presentation, "prsnt_recruit_from_town_garrison"),
