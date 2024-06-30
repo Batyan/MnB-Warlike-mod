@@ -275,6 +275,8 @@ text_color_capture = 0xDD2200
 text_color_freed = 0x22DD00
 text_color_debug = 0xCCCCCC
 text_color_war = 0xBB0101
+text_color_default = 0x000000
+text_color_light = 0x222222
 
 text_color_budget_positive = 0x20a020
 text_color_budget_negative = 0xa02020

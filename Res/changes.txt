@@ -1,4 +1,14 @@
 v0.520:
+	-Features:
+		* add restrictions on allowing recruitment of troops of certain quality
+		* allow selection of prisoners to hire after battle
+		* allow selection of enemy troops to emprison after battle
+		* lords without enough money to fund an army will stay inside their home center
+		* add goods transformation recipes
+	-Balance:
+		* improve goods consumption mechanics
+	-Fixes:
+		* fix unusual amount of grapes produced in centers
 v0.510:
 	-Features:
 		* player centers are displayed in yearly budget presentation

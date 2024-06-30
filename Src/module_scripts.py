@@ -3842,11 +3842,11 @@ scripts = [
         ]),
     
     # script_party_update_weather_slot
-    # input:
-    #   arg1: party_no
-    #   arg2: slot
-    #   arg3: value
-    # output: none
+        # input:
+        #   arg1: party_no
+        #   arg2: slot
+        #   arg3: value
+        # output: none
     ("party_update_weather_slot",
         [
             (store_script_param, ":party_no", 1),
@@ -3861,10 +3861,10 @@ scripts = [
         ]),
     
     # script_party_transfer_to_party
-    # input:
-    #   arg1: party_to_transfer
-    #   arg2: receiving_party
-    # output: none
+        # input:
+        #   arg1: party_to_transfer
+        #   arg2: receiving_party
+        # output: none
     ("party_transfer_to_party",
         [
             (store_script_param, ":party_to_transfer", 1),
@@ -3887,12 +3887,32 @@ scripts = [
             (call_script, "script_party_transfer_members_to_party", ":party_to_transfer", ":receiving_party", 1),
         ]),
     
+    # script_party_group_transfer_members_to_party
+        # input:
+        #   arg1: party_to_transfer
+        #   arg2: receiving_party
+        #   arg3: move heroes (0 no / 1 yes)
+        # output: none
+    ("party_group_transfer_members_to_party",
+        [
+            (store_script_param, ":party_to_transfer", 1),
+            (store_script_param, ":receiving_party", 2),
+            (store_script_param, ":move_heroes", 3),
+
+            (party_get_num_attached_parties, ":num_attached_parties", ":party_to_transfer"),
+            (try_for_range, ":attached_party_rank", 0, ":num_attached_parties"),
+                (party_get_attached_party_with_rank, ":attached_party", ":party_to_transfer", ":attached_party_rank"),
+                (call_script, "script_party_transfer_members_to_party", ":attached_party", ":receiving_party", ":move_heroes"),
+            (try_end),
+            (call_script, "script_party_transfer_members_to_party", ":party_to_transfer", ":receiving_party", ":move_heroes"),
+        ]),
+    
     # script_party_transfer_members_to_party
-    # input:
-    #   arg1: party_to_transfer
-    #   arg2: receiving_party
-    #   arg3: move heroes (0 no / 1 yes)
-    # output: none
+        # input:
+        #   arg1: party_to_transfer
+        #   arg2: receiving_party
+        #   arg3: move heroes (0 no / 1 yes)
+        # output: none
     ("party_transfer_members_to_party",
         [
             (store_script_param, ":party_to_transfer", 1),
@@ -3915,6 +3935,182 @@ scripts = [
                 (assign, ":really_added", reg0),
                 (party_remove_members, ":party_to_transfer", ":troop_id", ":really_added"),
             (try_end),
+        ]),
+
+    # script_party_group_transfer_members_to_prisoners
+        # input:
+        #   arg1: party_to_transfer
+        #   arg2: receiving_party
+        #   arg3: move heroes (0 no / 1 yes)
+        # output: none
+    ("party_group_transfer_members_to_prisoners",
+        [
+            (store_script_param, ":party_to_transfer", 1),
+            (store_script_param, ":receiving_party", 2),
+            (store_script_param, ":move_heroes", 3),
+
+            (party_get_num_attached_parties, ":num_attached_parties", ":party_to_transfer"),
+            (try_for_range, ":attached_party_rank", 0, ":num_attached_parties"),
+                (party_get_attached_party_with_rank, ":attached_party", ":party_to_transfer", ":attached_party_rank"),
+                (call_script, "script_party_transfer_members_to_prisoners", ":attached_party", ":receiving_party", ":move_heroes"),
+            (try_end),
+            (call_script, "script_party_transfer_members_to_prisoners", ":party_to_transfer", ":receiving_party", ":move_heroes"),
+        ]),
+    
+    # script_party_transfer_members_to_prisoners
+        # input:
+        #   arg1: party_to_transfer
+        #   arg2: receiving_party
+        #   arg3: move heroes (0 no / 1 yes)
+        # output: none
+    ("party_transfer_members_to_prisoners",
+        [
+            (store_script_param, ":party_to_transfer", 1),
+            (store_script_param, ":receiving_party", 2),
+            (store_script_param, ":move_heroes", 3),
+            
+            (party_get_num_companion_stacks, ":num_stacks", ":party_to_transfer"),
+            
+            (try_for_range_backwards, ":i_stack", 0, ":num_stacks"),
+                (assign, ":continue", 1),
+                (party_stack_get_size, ":i_stack_size", ":party_to_transfer", ":i_stack"),
+                (party_stack_get_troop_id, ":troop_id", ":party_to_transfer", ":i_stack"),
+                (try_begin),
+                    (eq, ":move_heroes", 0),
+                    (troop_is_hero, ":troop_id"),
+                    (assign, ":continue", 0),
+                (try_end),
+                (eq, ":continue", 1),
+                (party_add_prisoners, ":receiving_party", ":troop_id", ":i_stack_size"),
+                (assign, ":really_added", reg0),
+                (party_remove_members, ":party_to_transfer", ":troop_id", ":really_added"),
+            (try_end),
+        ]),
+
+    # script_party_group_transfer_prisoners_to_party
+        # input:
+        #   arg1: party_to_transfer
+        #   arg2: receiving_party
+        #   arg3: move heroes (0 no / 1 yes)
+        # output: none
+    ("party_group_transfer_prisoners_to_party",
+        [
+            (store_script_param, ":party_to_transfer", 1),
+            (store_script_param, ":receiving_party", 2),
+            (store_script_param, ":move_heroes", 3),
+
+            (party_get_num_attached_parties, ":num_attached_parties", ":party_to_transfer"),
+            (try_for_range, ":attached_party_rank", 0, ":num_attached_parties"),
+                (party_get_attached_party_with_rank, ":attached_party", ":party_to_transfer", ":attached_party_rank"),
+                (call_script, "script_party_transfer_prisoners_to_party", ":attached_party", ":receiving_party", ":move_heroes"),
+            (try_end),
+            (call_script, "script_party_transfer_prisoners_to_party", ":party_to_transfer", ":receiving_party", ":move_heroes"),
+        ]),
+    
+    # script_party_transfer_prisoners_to_party
+        # input:
+        #   arg1: party_to_transfer
+        #   arg2: receiving_party
+        #   arg3: move heroes (0 no / 1 yes)
+        # output: none
+    ("party_transfer_prisoners_to_party",
+        [
+            (store_script_param, ":party_to_transfer", 1),
+            (store_script_param, ":receiving_party", 2),
+            (store_script_param, ":move_heroes", 3),
+            
+            (party_get_num_prisoner_stacks, ":num_stacks", ":party_to_transfer"),
+            
+            (try_for_range_backwards, ":i_stack", 0, ":num_stacks"),
+                (assign, ":continue", 1),
+                (party_prisoner_stack_get_size, ":i_stack_size", ":party_to_transfer", ":i_stack"),
+                (party_prisoner_stack_get_troop_id, ":troop_id", ":party_to_transfer", ":i_stack"),
+                (try_begin),
+                    (eq, ":move_heroes", 0),
+                    (troop_is_hero, ":troop_id"),
+                    (assign, ":continue", 0),
+                (try_end),
+                (eq, ":continue", 1),
+                (party_add_members, ":receiving_party", ":troop_id", ":i_stack_size"),
+                (assign, ":really_added", reg0),
+                (party_remove_prisoners, ":party_to_transfer", ":troop_id", ":really_added"),
+            (try_end),
+        ]),
+
+    # script_party_group_transfer_prisoners_to_prisoners
+        # input:
+        #   arg1: party_to_transfer
+        #   arg2: receiving_party
+        #   arg3: move heroes (0 no / 1 yes)
+        # output: none
+    ("party_group_transfer_prisoners_to_prisoners",
+        [
+            (store_script_param, ":party_to_transfer", 1),
+            (store_script_param, ":receiving_party", 2),
+            (store_script_param, ":move_heroes", 3),
+
+            (party_get_num_attached_parties, ":num_attached_parties", ":party_to_transfer"),
+            (try_for_range, ":attached_party_rank", 0, ":num_attached_parties"),
+                (party_get_attached_party_with_rank, ":attached_party", ":party_to_transfer", ":attached_party_rank"),
+                (call_script, "script_party_transfer_prisoners_to_prisoners", ":attached_party", ":receiving_party", ":move_heroes"),
+            (try_end),
+            (call_script, "script_party_transfer_prisoners_to_prisoners", ":party_to_transfer", ":receiving_party", ":move_heroes")
+        ]),
+    
+    # script_party_transfer_prisoners_to_prisoners
+        # input:
+        #   arg1: party_to_transfer
+        #   arg2: receiving_party
+        #   arg3: move heroes (0 no / 1 yes)
+        # output: none
+    ("party_transfer_prisoners_to_prisoners",
+        [
+            (store_script_param, ":party_to_transfer", 1),
+            (store_script_param, ":receiving_party", 2),
+            (store_script_param, ":move_heroes", 3),
+            
+            (party_get_num_prisoner_stacks, ":num_stacks", ":party_to_transfer"),
+            
+            (try_for_range_backwards, ":i_stack", 0, ":num_stacks"),
+                (assign, ":continue", 1),
+                (party_prisoner_stack_get_size, ":i_stack_size", ":party_to_transfer", ":i_stack"),
+                (party_prisoner_stack_get_troop_id, ":troop_id", ":party_to_transfer", ":i_stack"),
+                (try_begin),
+                    (eq, ":move_heroes", 0),
+                    (troop_is_hero, ":troop_id"),
+                    (assign, ":continue", 0),
+                (try_end),
+                (eq, ":continue", 1),
+                (party_add_prisoners, ":receiving_party", ":troop_id", ":i_stack_size"),
+                (assign, ":really_added", reg0),
+                (party_remove_prisoners, ":party_to_transfer", ":troop_id", ":really_added"),
+            (try_end),
+        ]),
+
+    # script_cf_party_has_prisoners
+        # input:
+        #   arg1: party_no
+        # output: none
+        # fails if party has no prisoners
+    ("cf_party_has_prisoners",
+        [
+            (store_script_param, ":party_no", 1),
+
+            (party_get_num_prisoner_stacks, ":num_stacks", ":party_no"),
+            (gt, ":num_stacks", 0),
+        ]),
+
+    # script_cf_party_has_members
+        # input:
+        #   arg1: party_no
+        # output: none
+        # fails if party has no members
+    ("cf_party_has_members",
+        [
+            (store_script_param, ":party_no", 1),
+
+            (party_get_num_companion_stacks, ":num_stacks", ":party_no"),
+            (gt, ":num_stacks", 0),
         ]),
     
     # script_init_battle_ais
@@ -13854,6 +14050,8 @@ scripts = [
             (try_end),
 
             (party_get_num_companions, ":party_size", ":party_no"),
+            (set_fixed_point_multiplier, 1),
+            (store_sqrt, ":divider", ":party_size"),
             (party_get_num_companion_stacks, ":num_stacks", ":party_no"),
             (try_for_range, ":cur_stack", 0, ":num_stacks"),
                 (try_begin),
@@ -13867,13 +14065,14 @@ scripts = [
                 (party_stack_get_troop_id, ":troop_no", ":party_no", ":cur_stack"),
                 (party_stack_get_size, ":size", ":party_no", ":cur_stack"),
 
-                (store_mul, ":probability", ":size", 2000),
-                (val_div, ":probability", ":party_size"),
+                (store_mul, ":probability", ":size", 200),
+                (val_div, ":probability", ":divider"),
                 # Min amount of loot from troop
                 # Improves variety of loot
-                (val_max, ":probability", 20), 
+                # (val_max, ":probability", 5),
                 (troop_loot_troop, ":loot_storage", ":troop_no", ":probability"),
             (try_end),
+            (troop_sort_inventory, ":loot_storage"),
             (assign, reg0, ":loot_storage"),
         ]),
 
@@ -22199,5 +22398,74 @@ scripts = [
             (try_for_range, ":faction_no", kingdoms_begin, kingdoms_end),
                 (faction_set_slot, ":faction_no", slot_faction_accumulated_taxes, 0),
             (try_end),
+        ]),
+
+    # script_party_check_prisoners
+        # input:
+        #   arg1: party_no
+        # output: none
+    ("party_check_prisoners",
+        [
+            (store_script_param, ":party_no", 1),
+
+            (party_get_num_prisoner_stacks, ":num_stacks", ":party_no"),
+            (try_for_range, ":cur_stack", 0, ":num_stacks"),
+                (party_prisoner_stack_get_troop_id, ":troop_id", ":party_no", ":cur_stack"),
+                (troop_is_hero, ":troop_id"),
+
+                (troop_slot_eq, ":troop_id", slot_troop_prisoner_of, -1),
+                (call_script, "script_party_take_troop_prisoner", ":party_no", ":troop_id", -1, 1),
+            (try_end),
+        ]),
+
+    # script_cf_troop_available_for_recruit
+        # input:
+        #   arg1: troop_no
+        #   arg2: center_no
+        #   arg3: troop_recruiter
+        # output: none
+        # fails if troop not available for recruitment
+    ("cf_troop_available_for_recruit",
+        [
+            (store_script_param, ":troop_no", 1),
+            (store_script_param, ":center_no", 2),
+            (store_script_param, ":troop_recruiter", 3),
+
+            (assign, ":allowed_level", tq_peasant),
+            (troop_get_slot, ":troop_quality", ":troop_no", slot_troop_quality),
+
+            (party_get_slot, ":center_leader", ":center_no", slot_party_leader),
+            (try_begin),
+                (eq, ":center_leader", ":troop_recruiter"),
+                (assign, ":allowed_level", tq_noble),
+            (else_try),
+                (party_get_slot, ":center_type", ":center_no", slot_party_type),
+
+                (try_begin),
+                    (this_or_next|eq, ":center_type", spt_town),
+                    (eq, ":center_type", spt_castle),
+                    (val_add, ":allowed_level", 1),
+                (try_end),
+
+                (store_troop_faction, ":recruiter_faction", ":troop_recruiter"),
+                (store_faction_of_party, ":center_faction", ":center_no"),
+                (try_begin),
+                    (eq, ":recruiter_faction", ":center_faction"),
+                    (val_add, ":allowed_level", 1),
+                (try_end),
+
+                (try_begin),
+                    (ge, ":center_leader", 0),
+                    (call_script, "script_troop_get_relation_with_troop", ":center_leader", ":troop_recruiter"),
+                    (assign, ":relation", reg0),
+                    (store_skill_level, ":recruiter_persuasion", ":troop_recruiter", skl_persuasion),
+                    (val_mul, ":recruiter_persuasion", 2),
+                    (val_add, ":relation", ":recruiter_persuasion"),
+                    (store_div, ":bonus", ":relation", 30),
+                    (val_add, ":allowed_level", ":bonus"),
+                (try_end),
+            (try_end),
+
+            (ge, ":allowed_level", ":troop_quality"),
         ]),
 ]
