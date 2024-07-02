@@ -1857,8 +1857,8 @@ game_menus = [
                     (try_end),
 
                     (try_begin),
-                        (this_or_next|call_script, "script_cf_party_has_prisoners", "$g_enemy"),
-                        (call_script, "script_cf_party_has_members", "$g_enemy"),
+                        (this_or_next|call_script, "script_cf_party_has_prisoners", "p_battle_released_prisoners"),
+                        (call_script, "script_cf_party_has_members", "p_battle_released_prisoners"),
 
                         (call_script, "script_party_group_transfer_prisoners_to_party", "p_battle_released_prisoners", "$g_enemy", 1),
                         (call_script, "script_party_group_transfer_members_to_prisoners", "p_battle_released_prisoners", "$g_enemy", 0),
