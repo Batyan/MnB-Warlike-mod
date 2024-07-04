@@ -1347,6 +1347,7 @@ game_menus = [
                 [ ], "Launch the attack",
                 [
                     (assign, "$g_enemy", "$g_encountered_party"),
+                    (assign, "$g_ally", -1),
                     (assign, "$g_player_team", 1),
                     (assign, "$g_clear_battles", 0),
                     (try_for_parties, ":party_no"),
@@ -1421,6 +1422,7 @@ game_menus = [
                 [
                     (select_enemy, 1),
                     (assign, "$g_enemy", "$g_encountered_party_2"),
+                    (assign, "$g_ally", "$g_encountered_party"),
                     (assign, "$g_player_team", 0),
                     (assign, "$g_clear_battles", 1),
                     (jump_to_menu, "mnu_encounter_battle_siege"),
@@ -1432,6 +1434,7 @@ game_menus = [
                 [
                     (select_enemy, 0),
                     (assign, "$g_enemy", "$g_encountered_party"),
+                    (assign, "$g_ally", "$g_encountered_party_2"),
                     (assign, "$g_player_team", 1),
                     (assign, "$g_clear_battles", 1),
                     (jump_to_menu, "mnu_encounter_battle_siege"),
@@ -1490,6 +1493,7 @@ game_menus = [
                     # (try_end),
                     # (store_sub, ":enemy_team", 1, "$g_player_team"),
                     (assign, "$g_enemy", "$g_encountered_party"),
+                    (assign, "$g_ally", -1),
                     (assign, "$g_clear_battles", 0),
                     (try_for_parties, ":party_no"),
                         (call_script, "script_cf_party_join_battle", ":party_no", "$g_encountered_party", "$g_player_party"),
@@ -1570,6 +1574,7 @@ game_menus = [
                 [
                     # Preparation
                     (assign, "$g_enemy", "$g_encountered_party"),
+                    (assign, "$g_ally", "$g_encountered_party_2"),
                     (assign, "$g_player_team", 1),
                     (assign, "$g_clear_battles", 1),
                     (select_enemy, 0),
@@ -1603,6 +1608,7 @@ game_menus = [
                 [
                     # Preparation
                     (assign, "$g_enemy", "$g_encountered_party_2"),
+                    (assign, "$g_ally", "$g_encountered_party"),
                     (assign, "$g_player_team", 0),
                     (assign, "$g_clear_battles", 1),
                     (select_enemy, 1),
@@ -1866,7 +1872,7 @@ game_menus = [
                     
                     (call_script, "script_party_check_prisoners", "$g_player_party"),
 
-                    (call_script, "script_party_group_defeat_party_group", "$g_player_party", "$g_enemy"),
+                    (call_script, "script_party_group_defeat_party_group", "$g_player_party", "$g_enemy", "$g_ally"),
 
                     (try_begin),
                         (eq, "$g_clear_battles", 1),

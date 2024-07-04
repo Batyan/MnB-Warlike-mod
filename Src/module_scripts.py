@@ -274,9 +274,9 @@ scripts = [
                         (this_or_next|eq, ":party_type", spt_town),
                         (this_or_next|eq, ":party_type", spt_castle),
                         (eq, ":party_type", spt_village),
-                        (call_script, "script_party_group_defeat_party_group", ":attacker_party", ":defender_party"),
+                        (call_script, "script_party_group_defeat_party_group", ":attacker_party", ":defender_party", -1),
                     (else_try),
-                        (call_script, "script_party_group_defeat_party_group", ":attacker_party", ":defender_party"),
+                        (call_script, "script_party_group_defeat_party_group", ":attacker_party", ":defender_party", -1),
                     (try_end),
                 (else_try),
                     (eq, ":num_attackers", 0),
@@ -286,7 +286,7 @@ scripts = [
                         # (store_random_in_range, ":rand", 0, 3),
                         # (this_or_next|neg|is_between, ":party_type", spt_village, spt_fort + 1),
                         # (eq, ":rand", 0),
-                        (call_script, "script_party_group_defeat_party_group", ":defender_party", ":attacker_party"),
+                        (call_script, "script_party_group_defeat_party_group", ":defender_party", ":attacker_party", -1),
                     # (else_try),
                         # Order lords to turn around ?
                         # Keep the siege a while longer and wait for reinforcements ?
@@ -872,17 +872,25 @@ scripts = [
         # input:
         #   arg1: winner_party
         #   arg2: defeated_party
+        #   arg3: allied_party
         # output: none
     ("party_group_defeat_party_group",
         [
             (store_script_param, ":winner_party", 1),
             (store_script_param, ":defeated_party", 2),
+            (store_script_param, ":allied_party", 3),
             
             (party_get_slot, ":party_type", ":defeated_party", slot_party_type),
             
-            (call_script, "script_party_group_defeated", ":defeated_party", ":winner_party"),
-            (call_script, "script_party_group_loot_party_group", ":winner_party", ":defeated_party"),
-            (call_script, "script_party_group_take_party_group_prisoner", ":winner_party", ":defeated_party"),
+            (try_begin),
+                (neq, ":allied_party", -1),
+                # If we have an allied party it means the player helped another party on the map
+                (call_script, "script_party_group_defeated", ":defeated_party", ":allied_party"),
+            (else_try),
+                (call_script, "script_party_group_defeated", ":defeated_party", ":winner_party"),
+            (try_end),
+            (call_script, "script_party_group_loot_party_group", ":winner_party", ":defeated_party", ":allied_party"),
+            (call_script, "script_party_group_take_party_group_prisoner", ":winner_party", ":defeated_party", ":allied_party"),
 
             # (try_begin),
             #     # (neq, ":defeated_party", "$g_player_party"),
@@ -914,15 +922,22 @@ scripts = [
         # input:
         #   arg1: party_group_looting
         #   arg2: party_group_looted
+        #   arg3: allied_party
         # output: none
     ("party_group_loot_party_group",
         [
             (store_script_param, ":party_group_no", 1),
             (store_script_param, ":looted_party_group", 2),
+            (store_script_param, ":allied_party", 3),
 
             (call_script, "script_party_group_get_looted_gold", ":looted_party_group"),
             (assign, ":total_gold", reg0),
 
+            (try_begin),
+                (neq, ":allied_party", -1),
+                (val_div, ":total_gold", 2),
+                (call_script, "script_party_group_share_gold", ":allied_party", ":total_gold"),
+            (try_end),
             (call_script, "script_party_group_share_gold", ":party_group_no", ":total_gold"),
         ]),
 
@@ -1013,14 +1028,22 @@ scripts = [
         # input:
         #   arg1: party_group_no
         #   arg2: prisoner_party
+        #   arg3: allied_party
         # output: none
     ("party_group_take_party_group_prisoner",
         [
             (store_script_param, ":party_group_no", 1),
             (store_script_param, ":prisoner_party", 2),
+            (store_script_param, ":allied_party", 3),
 
             (party_clear, "p_prisoners_party"),
             (party_clear, "p_temp_party"),
+
+            (try_begin),
+                (eq, ":party_group_no", "$g_player_party"),
+                (neq, ":allied_party", -1),
+                (assign, ":party_group_no", ":allied_party"),
+            (try_end),
 
             (party_get_num_attached_parties, ":num_attached_prisoner_parties", ":prisoner_party"),
             (try_for_range, ":attached", 0, ":num_attached_prisoner_parties"),
@@ -1080,19 +1103,30 @@ scripts = [
             (party_get_num_attached_parties, ":num_attached_parties", ":party_group_no"),
 
             (store_add, ":total_num_parties", ":num_attached_parties", 1),
+            (try_begin),
+                (eq, ":party_group_no", "$g_player_party"),
+                (assign, ":total_num_parties", ":num_attached_parties"),
+            (try_end),
             (party_get_num_companions, ":num_prisoners", ":prisoner_party"),
-            (store_div, ":num_per_party", ":num_prisoners", ":total_num_parties"),
-            (val_mod, ":num_prisoners", ":total_num_parties"),
+            (assign, ":num_per_party", 0),
+            (try_begin),
+                (gt, ":total_num_parties", 0),
+                (store_div, ":num_per_party", ":num_prisoners", ":total_num_parties"),
+                (val_mod, ":num_prisoners", ":total_num_parties"),
+            (try_end),
 
             (try_begin),
                 (gt, ":num_per_party", 0),
                 # First party gets priority on troops
-                (try_for_range, ":unused", 0, ":num_per_party"),
-                    (party_get_num_companion_stacks, ":num_stacks", ":prisoner_party"),
-                    (store_random_in_range, ":rand", 0, ":num_stacks"),
-                    (party_stack_get_troop_id, ":troop_id", ":prisoner_party", ":rand"),
+                (try_begin),
+                    (neq, ":party_group_no", "$g_player_party"),
+                    (try_for_range, ":unused", 0, ":num_per_party"),
+                        (party_get_num_companion_stacks, ":num_stacks", ":prisoner_party"),
+                        (store_random_in_range, ":rand", 0, ":num_stacks"),
+                        (party_stack_get_troop_id, ":troop_id", ":prisoner_party", ":rand"),
 
-                    (call_script, "script_party_take_troop_prisoner", ":party_group_no", ":troop_id", ":prisoner_party", 1),
+                        (call_script, "script_party_take_troop_prisoner", ":party_group_no", ":troop_id", ":prisoner_party", 1),
+                    (try_end),
                 (try_end),
                 # Then we iterate over attached parties
                 (try_for_range, ":attached_party_rank", 0, ":num_attached_parties"),
@@ -1109,11 +1143,22 @@ scripts = [
             (try_end),
             (try_begin),
                 (gt, ":num_prisoners", 0),
+                (neq, ":party_group_no", "$g_player_party"),
                 (party_get_num_companion_stacks, ":num_stacks", ":prisoner_party"),
                 (try_for_range_backwards, ":cur_stack", 0, ":num_stacks"),
                     (party_stack_get_size, ":stack_size", ":prisoner_party", ":cur_stack"),
                     (party_stack_get_troop_id, ":troop_id", ":prisoner_party", ":cur_stack"),
                     (call_script, "script_party_take_troop_prisoner", ":party_group_no", ":troop_id", ":prisoner_party", ":stack_size"),
+                (try_end),
+            (else_try),
+                (gt, ":num_prisoners", 0),
+                (gt, ":num_attached_parties", 0),
+                (party_get_attached_party_with_rank, ":attached_party", ":party_group_no", 0),
+                (party_get_num_companion_stacks, ":num_stacks", ":prisoner_party"),
+                (try_for_range_backwards, ":cur_stack", 0, ":num_stacks"),
+                    (party_stack_get_size, ":stack_size", ":prisoner_party", ":cur_stack"),
+                    (party_stack_get_troop_id, ":troop_id", ":prisoner_party", ":cur_stack"),
+                    (call_script, "script_party_take_troop_prisoner", ":attached_party", ":troop_id", ":prisoner_party", ":stack_size"),
                 (try_end),
             (try_end),
         ]),
@@ -1249,7 +1294,8 @@ scripts = [
                 (assign, ":attitude", reg0),
                 (try_begin),
                     (this_or_next|eq, ":attitude", attitude_positive),
-                    (eq, ":attitude", attitude_neutral),
+                    (this_or_next|eq, ":attitude", attitude_neutral),
+                    (eq, ":party_group_no", "$g_player_party"),
                     (call_script, "script_troop_freed", ":troop_id", ":party_group_no"),
                 (else_try),
                     # Take the troop prisoner
@@ -1258,7 +1304,10 @@ scripts = [
                 (party_remove_members, ":freed_party", ":troop_id", 1),
             (try_end),
 
-            (distribute_party_among_party_group, ":freed_party", ":party_group_no"),
+            (try_begin),
+                (neq, ":party_group_no", "$g_player_party"),
+                (distribute_party_among_party_group, ":freed_party", ":party_group_no"),
+            (try_end),
         ]),
 
     # script_party_get_attitude_with_party
@@ -20292,7 +20341,7 @@ scripts = [
 
             (assign, "$g_player_captor_party", ":party_no"),
             
-            (call_script, "script_party_group_defeat_party_group", ":party_no", "$g_player_party"),
+            (call_script, "script_party_group_defeat_party_group", ":party_no", "$g_player_party", -1),
 
             (troop_set_slot, "$g_player_troop", slot_troop_prisoner_of, ":party_no"),
 
