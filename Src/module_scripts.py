@@ -9404,6 +9404,7 @@ scripts = [
             (neg|faction_slot_eq, ":troop_faction", slot_faction_status, sfst_disabled),
             
             (neg|troop_slot_ge, ":troop_no", slot_troop_prisoner_of, 0),
+            (neg|troop_slot_ge, ":troop_no", slot_troop_garrisoned, centers_begin),
             
             (call_script, "script_troop_get_current_home", ":troop_no", 1),
             (assign, ":home", reg0),
