@@ -1373,9 +1373,9 @@ game_menus = [
                 ]),
             
             ("siege_cheat_capture",
-                [(call_script, "script_cf_debug", debug_all), ], "|Cheat| Capture center",
+                [(call_script, "script_cf_debug", debug_all),], "|Cheat| Capture center",
                 [
-                    (call_script, "script_party_group_defeat_party_group", "$g_player_party", "$g_encountered_party"),
+                    (call_script, "script_party_group_defeat_party_group", "$g_player_party", "$g_encountered_party", -1),
                 ]),
             
             ("siege_wait",

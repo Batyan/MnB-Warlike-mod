@@ -10144,9 +10144,16 @@ scripts = [
                     (this_or_next|neq, ":old_mission", tm_escorting),
                     (eq, ":old_mission_object", ":liege"),
 
+                    (troop_get_slot, ":liege_mission", ":liege", slot_troop_mission),
+                    (troop_get_slot, ":liege_mission_object", ":liege", slot_troop_mission_object),
+
+                    (this_or_next|neq, ":liege_mission", tm_escorting),
+                    (neq, ":liege_mission_object", ":leader"),
+
                     (try_begin),
                         # (neq, ":new_mission_object", ":home"),
                         # (troop_get_slot, ":liege_party", ":liege", slot_troop_leaded_party),
+
                         (assign, ":new_mission", tm_escorting),
                         (assign, ":new_mission_object", ":liege"),
                     (try_end),

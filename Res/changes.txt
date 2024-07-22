@@ -10,6 +10,7 @@ v0.520:
 		* add a village to faction small_kingdom_61
 	-Fixes:
 		* fix unusual amount of grapes produced in centers
+		* fix lords stuck following each other when sieging centers
 v0.510:
 	-Features:
 		* player centers are displayed in yearly budget presentation
