@@ -424,6 +424,7 @@ parties = [
 	("village_61a1","Fishara", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_61,0,ai_bhvr_hold,0,(156.8, -106.1),[], 170),
 	("village_61a2","Iqbayl", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_61,0,ai_bhvr_hold,0,(150.8, -112.8),[], 170),
 	("village_61a3","Shqayet", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_61,0,ai_bhvr_hold,0,(165.7, -119.8),[], 170),
+	("village_61a3","Iyat", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_61,0,ai_bhvr_hold,0,(168.6, -97),[], 170),
 	
 	("village_62a1","Tazjunat", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_62,0,ai_bhvr_hold,0,(162.0, -60.7),[], 170),
 	

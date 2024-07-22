@@ -7,6 +7,7 @@ v0.520:
 		* add goods transformation recipes
 	-Balance:
 		* improve goods consumption mechanics
+		* add a village to faction small_kingdom_61
 	-Fixes:
 		* fix unusual amount of grapes produced in centers
 v0.510:
