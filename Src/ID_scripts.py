@@ -451,5 +451,7 @@ script_get_player_vassal_outcome = 449
 script_clean_budgets = 450
 script_party_check_prisoners = 451
 script_cf_troop_available_for_recruit = 452
+script_get_dialog_caravan_intro = 453
+script_get_dialog_caravan_trade = 454
 
 

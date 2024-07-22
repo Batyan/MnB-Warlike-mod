@@ -5,6 +5,7 @@ v0.520:
 		* allow selection of enemy troops to emprison after battle
 		* lords without enough money to fund an army will stay inside their home center
 		* add goods transformation recipes
+		* add dialogs to caravans
 	-Balance:
 		* improve goods consumption mechanics
 		* add a village to faction small_kingdom_61

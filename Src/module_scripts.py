@@ -22528,4 +22528,84 @@ scripts = [
 
             (ge, ":allowed_level", ":troop_quality"),
         ]),
+
+    # script_get_dialog_caravan_intro
+        # input:
+        #   arg1: caravan_party
+        # output:
+        #   s0: caravan_intro_dialog
+    ("get_dialog_caravan_intro",
+        [
+            (store_script_param, ":caravan_party", 1),
+
+            (store_faction_of_party, ":caravan_faction", ":caravan_party"),
+            (store_faction_of_party, ":player_faction", "$g_player_party"),
+
+            (call_script, "script_faction_get_relation_with_faction", ":caravan_faction", ":player_faction"),
+            (assign, ":relation", reg0),
+
+            (party_get_slot, ":caravan_origin_center", ":caravan_party", slot_party_linked_party),
+            (assign, ":caravan_leader", -1),
+            (try_begin),
+                (is_between, ":caravan_origin_center", centers_begin, centers_end),
+                (party_get_slot, ":caravan_leader", ":caravan_origin_center", slot_party_lord),
+            (try_end),
+
+            (try_begin),
+                # Caravan originates from player center
+                (eq, ":caravan_leader", "$g_player_troop"),
+                (str_store_string, s0, "@{my Lord/my Lady}, you grace us with your presence. How can we be of service ?"),
+            (else_try),
+                # Same faction
+                (eq, ":caravan_faction", ":player_faction"),
+                (str_store_string, s0, "@Greetings {my Lord/my Lady}. What brings you here ?"),
+            (else_try),
+                # Factions at war
+                (call_script, "script_cf_factions_are_at_war", ":caravan_faction", ":player_faction"),
+                (try_begin),
+                    (ge, ":caravan_leader", 0),
+                    (str_store_troop_name, s10, ":caravan_leader"),
+                (try_end),
+                (str_store_string, s0, "@Be mindful that this caravan is under the protection of {s10}. Now, what do you need {playername} ?"),
+            (else_try),
+                # Allied faction
+                (ge, ":relation", relation_positive),
+                (str_store_string, s0, "@Greetings {playername}. What brings you here ?"),
+            (else_try),
+                # Enemy faction
+                (le, ":relation", relation_tense),
+                (str_store_string, s0, "@{playername}, what do you need ?"),
+            (else_try),
+                # Neutral faction
+                (str_store_string, s0, "@Hail traveller. What brings you here ?"),
+            (try_end),
+        ]),
+
+    # script_get_dialog_caravan_trade
+        # input:
+        #   arg1: caravan_party
+        # output:
+        #   s0: caravan_trade_dialog
+    ("get_dialog_caravan_trade",
+        [
+            (store_script_param, ":caravan_party", 1),
+
+            (str_clear, s10),
+            (try_for_range, ":slot", slot_party_mission_objective_1, slot_party_mission_objective_3 + 1),
+                (party_get_slot, ":objective", ":caravan_party", ":slot"),
+                (is_between, ":objective", goods_begin, goods_end),
+                (str_store_item_name, s11, ":objective"),
+                (str_store_string, s10, "@ {s10}{s11}"),
+            (try_end),
+
+            (str_clear, s12),
+            (party_get_slot, ":linked_party", ":caravan_party", slot_party_linked_party),
+            (try_begin),
+                (is_between, ":linked_party", centers_begin, centers_end),
+                (str_store_party_name, s11, ":linked_party"),
+                (str_store_string, s12, "@ for {s11}"),
+            (try_end),
+
+            (str_store_string, s0, "@We are aiming to buy{s10}{s12}"),
+        ]),
 ]

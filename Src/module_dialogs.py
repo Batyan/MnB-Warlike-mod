@@ -746,15 +746,49 @@ dialogs = [
 		[
 			(party_get_slot, ":party_type", "$g_talk_party", slot_party_type),
 			(eq, ":party_type", spt_caravan),
-		], "Hail traveller. What brings you here ?", "caravan_player_neutral",
+
+			(try_begin),
+				(call_script, "script_cf_debug", debug_current|debug_economy),
+				(str_store_party_name, s10, "$g_encountered_party"),
+				(party_get_slot, ":origin_center", "$g_encountered_party", slot_party_linked_party),
+				(str_store_party_name, s11, ":origin_center"),
+				(party_get_slot, ":mission_objective", "$g_encountered_party", slot_party_mission_object),
+				(try_begin),
+					(is_between, ":mission_objective", centers_begin, centers_end),
+					(str_store_party_name, s12, ":mission_objective"),
+				(else_try),
+					(str_store_string, s12, "@unknown"),
+				(try_end),
+				(display_message, "@{s10} from {s11} heading for {s12}"),
+			(try_end),
+
+			(call_script, "script_get_dialog_caravan_intro", "$g_encountered_party"),
+		], "{s0}", "caravan_player",
 		[]],
 
-	[anyone|plyr, "caravan_player_neutral",
+	[anyone|plyr, "caravan_player",
+		[
+		], "What are you trading ?", "caravan_trade",
+		[
+			(leave_encounter),
+		]],
+
+	[anyone|plyr, "caravan_player",
+		[
+		], "This road has a toll, you need to pay up.", "close_window",
+		[
+			(leave_encounter),
+		]],
+
+	[anyone|plyr, "caravan_player",
 		[
 		], "Nevermind. You may go.", "close_window",
 		[
 			(leave_encounter),
 		]],
+
+	[anyone, "caravan_trade",
+		[(call_script, "script_get_dialog_caravan_trade", "$g_encountered_party"),], "{s0}", "caravan_player", []],
 
 	#################
 	# Error dialogs #
