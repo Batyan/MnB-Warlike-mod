@@ -22534,9 +22534,12 @@ scripts = [
         #   arg1: caravan_party
         # output:
         #   s0: caravan_intro_dialog
+        #   reg0: dialog_outcome
     ("get_dialog_caravan_intro",
         [
             (store_script_param, ":caravan_party", 1),
+
+            (assign, ":dialog_outcome", outcome_neutral),
 
             (store_faction_of_party, ":caravan_faction", ":caravan_party"),
             (store_faction_of_party, ":player_faction", "$g_player_party"),
@@ -22579,6 +22582,7 @@ scripts = [
                 # Neutral faction
                 (str_store_string, s0, "@Hail traveller. What brings you here ?"),
             (try_end),
+            (assign, reg0, ":dialog_outcome"),
         ]),
 
     # script_get_dialog_caravan_trade
@@ -22586,9 +22590,12 @@ scripts = [
         #   arg1: caravan_party
         # output:
         #   s0: caravan_trade_dialog
+        #   reg0: dialog_outcome
     ("get_dialog_caravan_trade",
         [
             (store_script_param, ":caravan_party", 1),
+
+            (assign, ":dialog_outcome", outcome_neutral),
 
             (str_clear, s10),
             (try_for_range, ":slot", slot_party_mission_objective_1, slot_party_mission_objective_3 + 1),
@@ -22607,5 +22614,6 @@ scripts = [
             (try_end),
 
             (str_store_string, s0, "@We are aiming to buy{s10}{s12}"),
+            (assign, reg0, ":dialog_outcome"),
         ]),
 ]
