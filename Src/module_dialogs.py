@@ -786,12 +786,7 @@ dialogs = [
 		], "{s0}", "caravan_player",
 		[]],
 
-	[anyone|plyr, "caravan_player",
-		[
-		], "What are you trading ?", "caravan_trade",
-		[
-			(leave_encounter),
-		]],
+	[anyone|plyr, "caravan_player", [], "What are goods are you trading ?", "caravan_trade", []],
 
 	[anyone|plyr, "caravan_player",
 		[
