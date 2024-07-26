@@ -13,6 +13,7 @@ v0.520:
 		* fix unusual amount of grapes produced in centers
 		* fix lords stuck following each other when sieging centers
 		* fix center assignment using incorrect distance values
+		* fix caravans stopîng trade after a few years
 v0.510:
 	-Features:
 		* player centers are displayed in yearly budget presentation
