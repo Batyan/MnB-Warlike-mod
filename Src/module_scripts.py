@@ -5510,6 +5510,12 @@ scripts = [
 
                 (store_add, ":amount_slot", ":offset", slot_party_ressources_current_amount_begin),
 
+                (store_add, ":consumption_slot", ":offset", slot_party_item_consumed_begin),
+
+                (party_get_slot, ":consumption", ":party_no", ":consumption_slot"),
+                (val_add, ":consumption", ":consumed"),
+                (party_set_slot, ":party_no", ":consumption_slot", ":consumption"),
+
                 (party_get_slot, ":amount", ":party_no", ":amount_slot"),
                 (val_min, ":quantity", ":amount"),
                 (try_begin),
@@ -5519,12 +5525,6 @@ scripts = [
                     (party_set_slot, ":party_no", ":amount_slot", ":amount"),
 
                     (assign, ":consumed", ":quantity"),
-
-                    (store_add, ":consumption_slot", ":offset", slot_party_item_consumed_begin),
-
-                    (party_get_slot, ":consumption", ":party_no", ":consumption_slot"),
-                    (val_add, ":consumption", ":consumed"),
-                    (party_set_slot, ":party_no", ":consumption_slot", ":consumption"),
 
                     (try_begin),
                         (call_script, "script_cf_debug", debug_economy),
