@@ -1,3 +1,7 @@
+v0.530:
+	-Features:
+	-Balance:
+	-Fixes:
 v0.520:
 	-Features:
 		* add restrictions on allowing recruitment of troops of certain quality
