@@ -873,14 +873,16 @@ game_menus = [
                     (store_add, ":amount_slot", slot_party_ressources_current_amount_begin, ":offset"),
                     (store_add, ":produced_slot", slot_party_item_last_produced_begin, ":offset"),
                     (store_add, ":consumed_slot", slot_party_item_consumed_begin, ":offset"),
+                    (store_add, ":production_slot", slot_party_ressources_begin, ":offset"),
 
                     (party_get_slot, reg10, "$g_encountered_party", ":amount_slot"),
                     (party_get_slot, reg11, "$g_encountered_party", ":produced_slot"),
                     (party_get_slot, reg12, "$g_encountered_party", ":consumed_slot"),
+                    (party_get_slot, reg13, "$g_encountered_party", ":production_slot"),
                     # (gt, reg10, 0),
                     (str_store_item_name, s11, ":good"),
                     (str_store_party_name, s12, "$g_encountered_party"),
-                    (display_message, "@{s12} - {s11}: {reg10} stored - {reg11} prod - {reg12} cons"),
+                    (display_message, "@{s12} - {s11}: {reg10} stored - {reg11} prod - {reg12} cons - {reg13}"),
                 (try_end),
                 (party_get_slot, reg12, "$g_encountered_party", slot_party_weather_wet),
                 (party_get_slot, reg13, "$g_encountered_party", slot_party_weather_heat),
@@ -1007,7 +1009,20 @@ game_menus = [
                     #ToDo: hall
                 ]),
             
-            ("center_recruit", [], "Recruit troops",
+            ("center_recruit",
+                [
+                    (store_faction_of_party, ":current_faction", "$g_encountered_party"),
+                    (party_get_slot, ":original_faction", "$g_encountered_party", slot_party_faction),
+                    (store_troop_faction, ":player_faction", "$g_player_party"),
+                    (try_begin),
+                        (neq, ":current_faction", ":original_faction"),
+                        (neq, ":current_faction", ":player_faction"),
+                        (disable_menu_option),
+                        (str_store_string, s10, "@Recruitment unavailable due to occupation"),
+                    (else_try),
+                        (str_store_string, s10, "@Recruit troops"),
+                    (try_end),
+                ], "{s10}",
                 [
                     (assign, "$temp", "$g_encountered_party"),
                     (start_presentation, "prsnt_recruit_from_town_garrison"),
@@ -1332,6 +1347,7 @@ game_menus = [
                 [ ], "Launch the attack",
                 [
                     (assign, "$g_enemy", "$g_encountered_party"),
+                    (assign, "$g_ally", -1),
                     (assign, "$g_player_team", 1),
                     (assign, "$g_clear_battles", 0),
                     (try_for_parties, ":party_no"),
@@ -1357,9 +1373,9 @@ game_menus = [
                 ]),
             
             ("siege_cheat_capture",
-                [(call_script, "script_cf_debug", debug_all), ], "|Cheat| Capture center",
+                [(call_script, "script_cf_debug", debug_all),], "|Cheat| Capture center",
                 [
-                    (call_script, "script_party_group_defeat_party_group", "$g_player_party", "$g_encountered_party"),
+                    (call_script, "script_party_group_defeat_party_group", "$g_player_party", "$g_encountered_party", -1),
                 ]),
             
             ("siege_wait",
@@ -1406,6 +1422,7 @@ game_menus = [
                 [
                     (select_enemy, 1),
                     (assign, "$g_enemy", "$g_encountered_party_2"),
+                    (assign, "$g_ally", "$g_encountered_party"),
                     (assign, "$g_player_team", 0),
                     (assign, "$g_clear_battles", 1),
                     (jump_to_menu, "mnu_encounter_battle_siege"),
@@ -1417,6 +1434,7 @@ game_menus = [
                 [
                     (select_enemy, 0),
                     (assign, "$g_enemy", "$g_encountered_party"),
+                    (assign, "$g_ally", "$g_encountered_party_2"),
                     (assign, "$g_player_team", 1),
                     (assign, "$g_clear_battles", 1),
                     (jump_to_menu, "mnu_encounter_battle_siege"),
@@ -1475,6 +1493,7 @@ game_menus = [
                     # (try_end),
                     # (store_sub, ":enemy_team", 1, "$g_player_team"),
                     (assign, "$g_enemy", "$g_encountered_party"),
+                    (assign, "$g_ally", -1),
                     (assign, "$g_clear_battles", 0),
                     (try_for_parties, ":party_no"),
                         (call_script, "script_cf_party_join_battle", ":party_no", "$g_encountered_party", "$g_player_party"),
@@ -1555,6 +1574,7 @@ game_menus = [
                 [
                     # Preparation
                     (assign, "$g_enemy", "$g_encountered_party"),
+                    (assign, "$g_ally", "$g_encountered_party_2"),
                     (assign, "$g_player_team", 1),
                     (assign, "$g_clear_battles", 1),
                     (select_enemy, 0),
@@ -1588,6 +1608,7 @@ game_menus = [
                 [
                     # Preparation
                     (assign, "$g_enemy", "$g_encountered_party_2"),
+                    (assign, "$g_ally", "$g_encountered_party"),
                     (assign, "$g_player_team", 0),
                     (assign, "$g_clear_battles", 1),
                     (select_enemy, 1),
@@ -1635,6 +1656,7 @@ game_menus = [
                     (jump_to_scene, ":scene"),
                     
                     (assign, "$g_looted_enemies", 0),
+                    (party_clear, "p_battle_released_prisoners"),
                     (jump_to_menu, "mnu_battle_casualties"),
 
                     (change_screen_mission),
@@ -1659,6 +1681,7 @@ game_menus = [
                     (jump_to_scene, ":scene"),
                     
                     (assign, "$g_looted_enemies", 0),
+                    (party_clear, "p_battle_released_prisoners"),
                     (jump_to_menu, "mnu_battle_casualties"),
                     (change_screen_mission),
                 ]),
@@ -1749,7 +1772,7 @@ game_menus = [
             (try_end),
         ],
         [
-            ("defeat_taken_prisoner", [(eq, "$g_battle_result", -1),(lt, reg20, 4),],
+            ("battle_result_defeat_taken_prisoner", [(eq, "$g_battle_result", -1),(lt, reg20, 4),],
                 "You are taken prisoner by your oppenents", [
                     (call_script, "script_party_take_player_party_prisoner", "$g_enemy"),
 
@@ -1757,10 +1780,10 @@ game_menus = [
                     (change_screen_return),
                 ]),
 
-            ("defeat_left_for_dead", [(eq, "$g_battle_result", -1),(eq, reg20, 4),],
+            ("battle_result_defeat_left_for_dead", [(eq, "$g_battle_result", -1),(eq, reg20, 4),],
                 "Your enemies believe you dead and leave you lying on the ground", [(rest_for_hours, 2, 1, 0),(change_screen_return),]),
 
-            ("loot_enemies", [(eq, "$g_battle_result", 1),(neq, "$g_looted_enemies", 1),], "Loot the fallen enemies",
+            ("battle_result_loot_enemies", [(eq, "$g_battle_result", 1),(neq, "$g_looted_enemies", 1),], "Loot the fallen enemies",
                 [
                     (call_script, "script_party_get_looted_gold", "p_enemy_casualties"),
                     (assign, ":gold", reg0),
@@ -1770,11 +1793,9 @@ game_menus = [
                     (assign, ":loot_troop", reg0),
                     (assign, "$g_looted_enemies", 1),
                     (change_screen_loot, ":loot_troop"),
-
-                    # (change_screen_return),
                 ]),
             
-            ("loot_enemies_no_player", [(eq, "$g_battle_result", 1),(neq, "$g_looted_enemies", 1),], "Allow your men to loot the fallen enemies",
+            ("battle_result_loot_enemies_no_player", [(eq, "$g_battle_result", 1),(neq, "$g_looted_enemies", 1),], "Allow your men to loot the fallen enemies",
                 [
                     (call_script, "script_party_get_looted_gold", "p_enemy_casualties"),
                     (assign, ":gold", reg0),
@@ -1784,18 +1805,12 @@ game_menus = [
                     (call_script, "script_party_change_morale", "$g_player_party", ":morale"),
                     (call_script, "script_troop_change_relation_with_party_heroes", "$g_player_troop", "p_enemy_casualties", -1),
                     # ToDo: reduce relation with faction and slightly with looted lords
-                    (call_script, "script_party_group_defeat_party_group", "$g_player_party", "$g_enemy"),
 
-                    (try_begin),
-                        (eq, "$g_clear_battles", 1),
-                        (party_leave_cur_battle, "$g_player_party"),
-                    (try_end),
-                    
-                    (leave_encounter),
-                    (change_screen_return),
+                    (assign, "$g_looted_enemies", 1),
+                    (jump_to_menu, "mnu_battle_casualties"),
                 ]),
             
-            ("loot_all", [(eq, "$g_battle_result", 1),(neq, "$g_looted_enemies", 1),], "Loot every fallen soldier",
+            ("battle_result_loot_all", [(eq, "$g_battle_result", 1),(neq, "$g_looted_enemies", 1),], "Loot every fallen soldier",
                 [
                     (call_script, "script_party_get_looted_gold", "p_enemy_casualties"),
                     (assign, ":gold", reg0),
@@ -1817,29 +1832,47 @@ game_menus = [
                     (call_script, "script_party_get_loot", "p_player_casualties", 0, ":loot_troop"),
                     (assign, "$g_looted_enemies", 1),
                     (change_screen_loot, ":loot_troop"),
-                    # (change_screen_return),
                 ]),
             
-            ("leave_no_loot", [(eq, "$g_battle_result", 1),(neq, "$g_looted_enemies", 1),], "Leave the battlefield without looting",
+            ("battle_result_manage_prisoners",
                 [
-                    (call_script, "script_party_get_looted_gold", "p_enemy_casualties"),
-                    (assign, ":gold", reg0),
-                    (troop_add_gold, "$g_player_troop", ":gold"),
-                    (call_script, "script_troop_change_honor", "$g_player_troop", 1),
-                    # ToDo: slightly increase relation with faction
-                    (call_script, "script_party_group_defeat_party_group", "$g_player_party", "$g_enemy"),
-
+                    (eq, "$g_battle_result", 1),
+                    (assign, ":continue", 0),
                     (try_begin),
-                        (eq, "$g_clear_battles", 1),
-                        (party_leave_cur_battle, "$g_player_party"),
+                        (call_script, "script_cf_party_has_prisoners", "$g_enemy"),
+                        (assign, ":continue", 1),
+                    (else_try),
+                        (call_script, "script_cf_party_has_members", "$g_enemy"),
+                        (assign, ":continue", 1),
+                    (try_end),
+                    (eq, ":continue", 1),
+                ], "Handle prisoners",
+                [
+                    (call_script, "script_party_group_transfer_prisoners_to_party", "$g_enemy", "p_battle_released_prisoners", 0),
+                    (call_script, "script_party_group_transfer_members_to_prisoners", "$g_enemy", "p_battle_released_prisoners", 1),
+
+                    (change_screen_exchange_with_party, "p_battle_released_prisoners"),
+                ]),
+            
+            ("battle_result_leave", [(eq, "$g_battle_result", 1),], "Leave the battlefield",
+                [
+                    (try_begin),
+                        (eq, "$g_looted_enemies", 0),
+                        # ToDo: slightly increase relation with faction
+                        (call_script, "script_troop_change_honor", "$g_player_troop", 1),
                     (try_end),
 
-                    (leave_encounter),
-                    (change_screen_return),
-                ]),
-            ("leave", [(eq, "$g_battle_result", 1), (eq, "$g_looted_enemies", 1),], "Leave the battlefield",
-                [
-                    (call_script, "script_party_group_defeat_party_group", "$g_player_party", "$g_enemy"),
+                    (try_begin),
+                        (this_or_next|call_script, "script_cf_party_has_prisoners", "p_battle_released_prisoners"),
+                        (call_script, "script_cf_party_has_members", "p_battle_released_prisoners"),
+
+                        (call_script, "script_party_group_transfer_prisoners_to_party", "p_battle_released_prisoners", "$g_enemy", 1),
+                        (call_script, "script_party_group_transfer_members_to_prisoners", "p_battle_released_prisoners", "$g_enemy", 0),
+                    (try_end),
+                    
+                    (call_script, "script_party_check_prisoners", "$g_player_party"),
+
+                    (call_script, "script_party_group_defeat_party_group", "$g_player_party", "$g_enemy", "$g_ally"),
 
                     (try_begin),
                         (eq, "$g_clear_battles", 1),

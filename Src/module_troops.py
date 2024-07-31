@@ -3772,7 +3772,7 @@ troops = [
   # Medium cavalry ranged, swords, maces, bows, shields
   # SPECIAL
   ["sarranid_heavy_horse_archer", "Sarranid Heavy Horse Archer", "Sarranid Heavy Horse Archers", tf_guarantee_trained_armor|tf_guarantee_ranged|tf_guarantee_horseman|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_61,
-   [itm_sarranid_cavalry_sword, itm_mace_4, itm_sarranid_axe_a, itm_strong_bow2, itm_bodkin_arrows, itm_tab_shield_tear_d,itm_tab_shield_tear_d,itm_tab_shield_tear_c_plain_1,itm_tab_shield_tear_c_plain_2,itm_tab_shield_tear_d_plain_1,itm_tab_shield_tear_d_plain_2,
+   [itm_sarranid_cavalry_sword, itm_mace_4, itm_sarranid_axe_a, itm_strong_bow2, itm_bodkin_arrows, itm_tab_shield_small_round_c,itm_tab_shield_small_round_c_plain_1,itm_tab_shield_small_round_c_plain_2,
     itm_sarranid_boots_c, itm_leather_gloves,
     itm_arabian_armor_b,
     itm_sarranid_helmet1, itm_sarranid_mail_coif,

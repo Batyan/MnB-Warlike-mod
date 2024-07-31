@@ -64,6 +64,9 @@ cultures_end = fac_cultures_end
 goods_begin = itm_spice
 goods_end = itm_saddle_horse
 
+recipes_begin = itm_recipe_wool
+recipes_end = itm_recipes_end
+
 horses_begin = goods_end
 horses_end = "itm_arrows"
 light_horses_begin = horses_begin
@@ -194,9 +197,6 @@ castle_scene_desert_wood_end = castle_scene_end
 
 
 # OTHER
-siege_attack_spawn_begin = 2
-siege_defend_points_begin = 10
-siege_archer_points_begin = 20
 
 rank_king = 7
 rank_marshall = 6
@@ -275,6 +275,8 @@ text_color_capture = 0xDD2200
 text_color_freed = 0x22DD00
 text_color_debug = 0xCCCCCC
 text_color_war = 0xBB0101
+text_color_default = 0x000000
+text_color_light = 0x222222
 
 text_color_budget_positive = 0x20a020
 text_color_budget_negative = 0xa02020
@@ -445,66 +447,68 @@ vassal_outcome_refused = 3
 vassal_outcome_no_fief = 4
 vassal_outcome_accepted = 5
 
+goods_ratio_production_village = 50
+goods_ratio_transformation_village = 20
+
+goods_ratio_production_castle = 33
+goods_ratio_transformation_castle = 20
+
+goods_ratio_production_town = 10
+goods_ratio_transformation_town = 10
+
 ################
 ## Item Slots ##
 ################
 
+# Storing all raw materials used to produce goods
+# Raw flax -> linen
+# Wool -> wool_cloth
+# Raw_silk + raw_dyes -> velvet
+# Iron -> tools
+# Raw_leather -> leatherwork
+# Raw_grapes -> wine
+# Grain -> ale
+# Grain -> bread
+# Raw_olives -> oil
+
+# Possible others ?
+# Cattle -> cattle_meat
+# Cattle -> butter
+# Cattle -> cheese
+# Pig -> pork
+# Pig -> sausages
+# Chicken -> chicken meat
+
 item_slots = 0
 
 slot_building_cost_wood		= 1
-slot_building_cost_stone	= 2
-slot_building_cost_gold		= 3
-slot_building_build_time	= 4
+slot_building_cost_stone	= slot_building_cost_wood + 1
+slot_building_cost_gold		= slot_building_cost_stone + 1
+slot_building_build_time	= slot_building_cost_gold + 1
 
-slot_item_produced_1_required				= 1 # Number of items required per batch
-slot_item_produced_1_to_1 					= 2 # First item produced by this good
-slot_item_produced_1_to_2					= 3 # Second item produced by this good (if any)
-slot_item_produced_1_to_3					= 4 # Third item produced by this good (if any)
-slot_item_produced_1_quantity_1				= 5 # Number of items produced in a batch
-slot_item_produced_1_quantity_2				= 6 # Number of items produced in a batch
-slot_item_produced_1_quantity_3				= 7 # Number of items produced in a batch
-slot_item_produced_1_requires_1 			= 8 # Additional item required to create the item
-slot_item_produced_1_requires_2				= 9 # Additional item required to create the item
-slot_item_produced_1_requires_3				= 10 # Additional item required to create the item
-slot_item_produced_1_reauires_quantity_1	= 11 # Additional item quantity required to create the item
-slot_item_produced_1_reauires_quantity_2	= 12 # Additional item quantity required to create the item
-slot_item_produced_1_reauires_quantity_3	= 13 # Additional item quantity required to create the item
+slot_recipe_required_item = slot_building_build_time + 1
+slot_recipe_required_item_quantity = slot_recipe_required_item + 1
+slot_recipe_workload = slot_recipe_required_item_quantity + 1
+slot_recipe_produced_item = slot_recipe_workload + 1
+slot_recipe_produced_item_quantity = slot_recipe_produced_item + 1
+slot_recipe_consume = slot_recipe_produced_item_quantity + 1
+slot_recipe_produced_item_max_ratio = slot_recipe_consume + 1
 
-slot_item_produced_2_required				= 14 # Number of items required per batch
-slot_item_produced_2_to_1 					= 15 # First item produced by this good
-slot_item_produced_2_to_2					= 16 # Second item produced by this good (if any)
-slot_item_produced_2_to_3					= 17 # Third item produced by this good (if any)
-slot_item_produced_2_quantity_1				= 18 # Number of items produced in a batch
-slot_item_produced_2_quantity_2				= 19 # Number of items produced in a batch
-slot_item_produced_2_quantity_3				= 20 # Number of items produced in a batch
-slot_item_produced_2_requires_1 			= 21 # Additional item required to create the item
-slot_item_produced_2_requires_2				= 22 # Additional item required to create the item
-slot_item_produced_2_requires_3				= 23 # Additional item required to create the item
-slot_item_produced_2_reauires_quantity_1	= 24 # Additional item quantity required to create the item
-slot_item_produced_2_reauires_quantity_2	= 25 # Additional item quantity required to create the item
-slot_item_produced_2_reauires_quantity_3	= 26 # Additional item quantity required to create the item
-
-slot_item_produced_3_required				= 27 # Number of items required per batch
-slot_item_produced_3_to_1 					= 28 # First item produced by this good
-slot_item_produced_3_to_2					= 29 # Second item produced by this good (if any)
-slot_item_produced_3_to_3					= 30 # Third item produced by this good (if any)
-slot_item_produced_3_quantity_1				= 31 # Number of items produced in a batch
-slot_item_produced_3_quantity_2				= 32 # Number of items produced in a batch
-slot_item_produced_3_quantity_3				= 33 # Number of items produced in a batch
-slot_item_produced_3_requires_1 			= 34 # Additional item required to create the item
-slot_item_produced_3_requires_2				= 35 # Additional item required to create the item
-slot_item_produced_3_requires_3				= 36 # Additional item required to create the item
-slot_item_produced_3_reauires_quantity_1	= 37 # Additional item quantity required to create the item
-slot_item_produced_3_reauires_quantity_2	= 38 # Additional item quantity required to create the item
-slot_item_produced_3_reauires_quantity_3	= 39 # Additional item quantity required to create the item
-
-# slot_item_number_produced = 8
-# slot_item_number_ticks = 9
+slot_item_perish_ratio = slot_recipe_produced_item_max_ratio + 1
 
 # Amount of items consumed per 1000000 pop
-slot_item_consumption_base = 40
-# Amount of surplus item consumed because there are too many in stock
-slot_item_consumption_ratio = 41
+slot_item_consumption_weight_serf = slot_item_perish_ratio + 1
+slot_item_consumption_weight_artisan = slot_item_consumption_weight_serf + 1
+slot_item_consumption_weight_noble = slot_item_consumption_weight_artisan + 1
+slot_item_consumption_weight_slave = slot_item_consumption_weight_noble + 1
+slot_item_consumption_quality = slot_item_consumption_weight_slave + 1
+
+# Category represent groups of goods that can be substituted
+slot_item_consumption_category = slot_item_consumption_quality + 1
+
+icc_food = 1
+icc_drink = 2
+icc_clothes = 3
 
 consumption_ratio_base = 1000000
 
@@ -885,27 +889,27 @@ slot_party_population_artisan = 10
 slot_party_population_slave = 11
 
 population_max_town = 34000
-population_max_castle = 8000
-population_max_village = 10000
+population_max_castle = 8500
+population_max_village = 12000
 slot_party_population_max 	= 12
 
-population_growth_castle_noble = 15
-population_growth_castle_artisan = 25
-population_growth_castle_serf = 60
+population_growth_castle_noble = 8
+population_growth_castle_artisan = 24
+population_growth_castle_serf = 68
 population_growth_castle_slave = 0
 
-population_growth_town_noble = 10
+population_growth_town_noble = 8
 population_growth_town_artisan = 30
-population_growth_town_serf = 60
+population_growth_town_serf = 62
 population_growth_town_slave = 0
 
-population_growth_village_noble = 5
-population_growth_village_artisan = 5
-population_growth_village_serf = 90
+population_growth_village_noble = 1
+population_growth_village_artisan = 4
+population_growth_village_serf = 95
 population_growth_village_slave = 0
 
-taxes_noble_amount = 16
-taxes_artisan_amount = 4
+taxes_noble_amount = 20
+taxes_artisan_amount = 5
 taxes_serf_amount = 2
 
 slot_party_wanted_party_wages = 13
@@ -918,11 +922,11 @@ slot_party_ressource_radius = 16
 slot_party_total_resources = 17
 
 slot_party_ressources_begin = itm_spice # 18
-slot_party_ressources_end = itm_saddle_horse # 63
-slot_party_ressources_count = slot_party_ressources_end - slot_party_ressources_begin # 45
+slot_party_ressources_end = itm_saddle_horse # 66
+slot_party_ressources_count = slot_party_ressources_end - slot_party_ressources_begin # 48
 
-slot_party_ressources_current_amount_begin = slot_party_ressources_end # 63
-slot_party_ressources_current_amount_end = slot_party_ressources_current_amount_begin + slot_party_ressources_count # 108
+slot_party_ressources_current_amount_begin = slot_party_ressources_end # 65
+slot_party_ressources_current_amount_end = slot_party_ressources_current_amount_begin + slot_party_ressources_count # 113
 
 slot_party_original_faction = 121
 
@@ -1136,11 +1140,20 @@ slot_party_item_last_produced_end	= slot_party_item_last_produced_begin + goods_
 slot_party_item_stored_price_begin 	= slot_party_item_consumed_begin
 slot_party_item_stored_price_end 	= slot_party_item_consumed_end
 
-slot_party_temporary_data = slot_party_item_stored_price_end + 1
+slot_party_production_target_begin = slot_party_item_last_produced_end + 1
+slot_party_production_target_end = slot_party_production_target_begin + recipes_end - recipes_begin
+
+slot_party_override_production_target = slot_party_production_target_end + 1
+
+slot_party_player_shakedown = slot_party_override_production_target + 1
 
 #################
 ## Scene Slots ##
 #################
+
+siege_attack_spawn_begin = 2
+siege_defend_points_begin = 10
+siege_archer_points_begin = 20
 
 scene_slots = 0
 

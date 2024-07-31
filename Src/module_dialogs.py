@@ -268,6 +268,26 @@ dialogs = [
 			(display_message, "@Party faction: {s10}"),
 			(faction_get_slot, reg10, ":current_party_faction", slot_faction_is_at_war),
 			(display_message, "@Faction at war: {reg10}"),
+			(party_get_slot, ":leader", "$g_encountered_party", slot_party_leader),
+			(try_begin),
+				(ge, ":leader", 0),
+				(troop_get_slot, ":home", ":leader", slot_troop_home),
+				(try_begin),
+					(is_between, ":home", centers_begin, centers_end),
+					(str_store_party_name, s10, ":home"),
+				(else_try),
+					(assign, reg10, ":home"),
+					(str_store_string, s10, "@-- {reg10} --"),
+				(try_end),
+				(display_message, "@Home: {s10}"),
+				(troop_get_slot, reg10, ":leader", slot_troop_rank),
+				(display_message, "@Rank: {reg10}"),
+				(store_troop_faction, ":troop_faction", ":leader"),
+				(str_store_faction_name, s10, ":troop_faction"),
+				(display_message, "@Faction: {s10}"),
+                (troop_get_slot, reg10, ":leader", slot_troop_kingdom_occupation),
+                (display_message, "@Occupation {reg10}"),
+			(try_end),
 		]],
 	[anyone|plyr, "player_lord_debug",
 		[], "Go back", "lord_main_return", []],
@@ -746,15 +766,77 @@ dialogs = [
 		[
 			(party_get_slot, ":party_type", "$g_talk_party", slot_party_type),
 			(eq, ":party_type", spt_caravan),
-		], "Hail traveller. What brings you here ?", "caravan_player_neutral",
+
+			(try_begin),
+				(call_script, "script_cf_debug", debug_current|debug_economy),
+				(str_store_party_name, s10, "$g_encountered_party"),
+				(party_get_slot, ":origin_center", "$g_encountered_party", slot_party_linked_party),
+				(str_store_party_name, s11, ":origin_center"),
+				(party_get_slot, ":mission_objective", "$g_encountered_party", slot_party_mission_object),
+				(try_begin),
+					(is_between, ":mission_objective", centers_begin, centers_end),
+					(str_store_party_name, s12, ":mission_objective"),
+				(else_try),
+					(str_store_string, s12, "@unknown"),
+				(try_end),
+				(display_message, "@{s10} from {s11} heading for {s12}"),
+			(try_end),
+
+			(call_script, "script_get_dialog_caravan_intro", "$g_encountered_party"),
+		], "{s0}", "caravan_player",
 		[]],
 
-	[anyone|plyr, "caravan_player_neutral",
+	[anyone|plyr, "caravan_player", [], "What goods are you trading ?", "caravan_trade", []],
+
+	[anyone|plyr, "caravan_player", [(party_slot_eq, "$g_encountered_party", slot_party_player_shakedown, 1),], "I've changed my mind, I'll take everything from you", "caravan_toll_attack", []],
+
+	[anyone|plyr, "caravan_player",
 		[
-		], "Nevermind. You may go.", "close_window",
+			(store_troop_faction, ":player_faction", "$g_player_troop"),
+			(store_faction_of_party, ":party_faction", "$g_encountered_party"),
+			(neq, ":player_faction", ":party_faction"),
+			(party_slot_eq, "$g_encountered_party", slot_party_player_shakedown, 0),
+		], "This road has a toll, you need to pay up.", "caravan_toll", []],
+
+	[anyone|plyr, "caravan_player",
+		[], "Nevermind. You may go.", "close_window",
 		[
 			(leave_encounter),
 		]],
+
+	[anyone, "caravan_trade",
+		[(call_script, "script_get_dialog_caravan_trade", "$g_encountered_party"),], "{s0}", "caravan_player", []],
+
+	[anyone, "caravan_toll",
+		[(call_script, "script_get_dialog_caravan_toll", "$g_encountered_party"),(eq, 1, 0),], "[INVALID DIALOG]", "close_window", []],
+	[anyone, "caravan_toll",
+		[(eq, reg0, outcome_success),], "{s0}", "caravan_toll_player_success", []],
+	[anyone, "caravan_toll",
+		[(eq, reg0, outcome_neutral),], "{s0}", "caravan_toll_player_swear", []],
+	[anyone, "caravan_toll",
+		[(eq, reg0, outcome_failure),], "{s0}", "caravan_toll_player_failed", []],
+
+	[anyone|plyr, "caravan_toll_player_success", [], "Hand it over and no one gets hurt.", "caravan_toll_pay", []],
+	[anyone|plyr, "caravan_toll_player_success", [], "No, I want everything you have and I'll take it from your corpse.", "caravan_toll_attack", []],
+	[anyone|plyr, "caravan_toll_player_success", [], "Nevermind, keep your gold.", "caravan_toll_back", []],
+
+	[anyone|plyr, "caravan_toll_player_swear", [], "You have my word.", "caravan_toll_pay", []],
+	[anyone|plyr, "caravan_toll_player_swear", [], "I'll just have to take it from your corpse then.", "caravan_toll_attack", []],
+	[anyone|plyr, "caravan_toll_player_swear", [], "Nevermind, keep your gold.", "caravan_toll_back", []],
+
+	[anyone, "caravan_toll_pay", [
+        (call_script, "script_party_transfer_wealth", "$g_encountered_party", "$g_player_party", reg1, tax_type_none),
+        (party_set_slot, "$g_encountered_party", slot_party_speak_allowed, 0),
+        (party_set_slot, "$g_encountered_party", slot_party_player_shakedown, 1),
+	], "Here is your money, I will not bid you farewell and hope we don't see each other again.", "close_window", []],
+
+	[anyone|plyr, "caravan_toll_player_failed", [], "I'll just have to take it from your corpse then.", "caravan_toll_attack", []],
+	[anyone|plyr, "caravan_toll_player_failed", [], "Nevermind, keep your gold.", "caravan_toll_back", []],
+
+	[anyone, "caravan_toll_attack", [], "We won't go down without a fight.", "close_window", [
+		(encounter_attack),
+	]],
+	[anyone, "caravan_toll_back", [], "Fine then, did you have something else in mind ?", "caravan_player", []],
 
 	#################
 	# Error dialogs #

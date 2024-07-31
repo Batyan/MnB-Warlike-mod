@@ -351,14 +351,26 @@ def insert_quick_string_with_auto_id(sentence,quick_strings):
       index = len(quick_strings)
       quick_strings.append([auto_id, sentence])
   if not done:
-    number = 1
-    new_auto_id = auto_id + str(number)
-    while quick_strings.has_key(new_auto_id):
+  #   number = 1
+  #   new_auto_id = auto_id + str(number)
+  #   while quick_strings.has_key(new_auto_id):
+  #     number += 1
+  #     new_auto_id = auto_id + str(number)
+  #   auto_id = new_auto_id
+  #   index = len(quick_strings)
+  #   quick_strings.append([auto_id, sentence])
+  # return index
+    number = 0
+    while not done:
       number += 1
-      new_auto_id = auto_id + str(number)
-    auto_id = new_auto_id
-    index = len(quick_strings)
-    quick_strings.append([auto_id, sentence])
+      new_auto_id = '%s%d' % (auto_id, number)
+      index = search_quick_string_keys(new_auto_id, quick_strings)
+      if index >= 0:
+        done = quick_strings[index][1] == sentence
+      else:
+        done = 1
+        index = len(quick_strings)
+        quick_strings.append([new_auto_id, sentence])
   return index
 
 

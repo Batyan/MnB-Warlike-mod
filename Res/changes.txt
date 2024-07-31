@@ -1,3 +1,19 @@
+v0.520:
+	-Features:
+		* add restrictions on allowing recruitment of troops of certain quality
+		* allow selection of prisoners to hire after battle
+		* allow selection of enemy troops to emprison after battle
+		* lords without enough money to fund an army will stay inside their home center
+		* add goods transformation recipes
+		* add dialogs to caravans
+	-Balance:
+		* improve goods consumption mechanics
+		* add a village to faction small_kingdom_61
+	-Fixes:
+		* fix unusual amount of grapes produced in centers
+		* fix lords stuck following each other when sieging centers
+		* fix center assignment using incorrect distance values
+		* fix caravans stopîng trade after a few years
 v0.510:
 	-Features:
 		* player centers are displayed in yearly budget presentation

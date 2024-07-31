@@ -46,6 +46,8 @@ parties = [
 	("player_casualties", "player_casualties", pf_disabled, 0, pt_none, fac_commoners, 0, ai_bhvr_hold, 0, (0, 0), []),
 	("ally_casualties", "ally_casualties", pf_disabled, 0, pt_none, fac_commoners, 0, ai_bhvr_hold, 0, (0, 0), []),
 	("enemy_casualties", "enemy_casualties", pf_disabled, 0, pt_none, fac_commoners, 0, ai_bhvr_hold, 0, (0, 0), []),
+
+	("battle_released_prisoners", "Released prisoners", pf_disabled, 0, pt_none, fac_commoners, 0, ai_bhvr_hold, 0, (0, 0), []),
 	
 	("resources_party", "Resources Party", icon_player|pf_disabled, 0, pt_none, fac_commoners, 0, ai_bhvr_hold, 0, (0, 0), []),
 
@@ -205,8 +207,8 @@ parties = [
 	("castle_65b","Druquba Castle", icon_castle_a|pf_castle, 0, pt_none, fac_small_kingdom_65,0,ai_bhvr_hold,0,(104.8, -90.2),[], 170),
 	
 	("village_111","Lyindha", icon_village_a|pf_village, 0, pt_none, fac_kingdom_1,0,ai_bhvr_hold,0,(-92, 14),[], 170),
-	("village_112","Veidar", icon_village_a|pf_village, 0, pt_none, fac_kingdom_1,0,ai_bhvr_hold,0,(-107, 30),[], 170),
-	("village_113","Azgad", icon_village_a|pf_village, 0, pt_none, fac_kingdom_1,0,ai_bhvr_hold,0,(-84, 33),[], 170),
+	("village_112","Veidar", icon_village_a|pf_village, 0, pt_none, fac_kingdom_1,0,ai_bhvr_hold,0,(-102.8, 33.4),[], 170),
+	("village_113","Azgad", icon_village_a|pf_village, 0, pt_none, fac_kingdom_1,0,ai_bhvr_hold,0,(-87.6, 36.4),[], 170),
 	
 	("village_121","Talhberl", icon_village_a|pf_village, 0, pt_none, fac_kingdom_1,0,ai_bhvr_hold,0,(-37.6, 12.5),[], 170),
 	("village_122","Ruluns", icon_village_a|pf_village, 0, pt_none, fac_kingdom_1,0,ai_bhvr_hold,0,(-54.8, 23.5),[], 170),
@@ -218,10 +220,10 @@ parties = [
 	("village_1d1","Veigar", icon_village_a|pf_village, 0, pt_none, fac_kingdom_1,0,ai_bhvr_hold,0,(-119.6, 19.5),[], 170),
 	("village_1e1","Ryindyar", icon_village_a|pf_village, 0, pt_none, fac_kingdom_1,0,ai_bhvr_hold,0,(-73.6, 12.2),[], 170),
 	("village_1f1","New Village", icon_village_a|pf_village, 0, pt_none, fac_kingdom_1,0,ai_bhvr_hold,0,(-37.5, 30.7),[], 170),
-	("village_1g1","New Village", icon_village_a|pf_village, 0, pt_none, fac_kingdom_1,0,ai_bhvr_hold,0,(-75.7, 25.3),[], 170),
+	("village_1g1","New Village", icon_village_a|pf_village, 0, pt_none, fac_kingdom_1,0,ai_bhvr_hold,0,(-76.7, 29),[], 170),
 	
 	("village_11a1","Balanli", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_11,0,ai_bhvr_hold,0,(-131.1, 42.9),[], 170),
-	("village_11b1","Vyigan", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_11,0,ai_bhvr_hold,0,(-118.8, 32.7),[], 170),
+	("village_11b1","Vyigan", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_11,0,ai_bhvr_hold,0,(-115.7, 31.3),[], 170),
 	
 	("village_12a1","Elberl", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_12,0,ai_bhvr_hold,0,(-147.4, 22.2),[], 170),
 	("village_12b1","Istyia", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_12,0,ai_bhvr_hold,0,(-142, 11.5),[], 170),
@@ -359,7 +361,7 @@ parties = [
 	
 	("village_44a1","Kulum", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_44,0,ai_bhvr_hold,0,(-124.3, 103.2),[], 170),
 	("village_44b1","Aldelen", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_44,0,ai_bhvr_hold,0,(-103, 95.4),[], 170),
-	("village_44c1","New Village", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_44,0,ai_bhvr_hold,0,(-104.4, 80.2),[], 170),
+	("village_44c1","Vindisen", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_44,0,ai_bhvr_hold,0,(-104.4, 80.2),[], 170),
 	
 	("village_45a1","Fryja", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_45,0,ai_bhvr_hold,0,(-71.2, 93.4),[], 170),
 	("village_45a2","Kaelek", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_45,0,ai_bhvr_hold,0,(-79.4, 111.1),[], 170),
@@ -422,6 +424,7 @@ parties = [
 	("village_61a1","Fishara", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_61,0,ai_bhvr_hold,0,(156.8, -106.1),[], 170),
 	("village_61a2","Iqbayl", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_61,0,ai_bhvr_hold,0,(150.8, -112.8),[], 170),
 	("village_61a3","Shqayet", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_61,0,ai_bhvr_hold,0,(165.7, -119.8),[], 170),
+	("village_61a3","Iyat", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_61,0,ai_bhvr_hold,0,(168.6, -97),[], 170),
 	
 	("village_62a1","Tazjunat", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_62,0,ai_bhvr_hold,0,(162.0, -60.7),[], 170),
 	
