@@ -5513,7 +5513,7 @@ scripts = [
                 (store_add, ":consumption_slot", ":offset", slot_party_item_consumed_begin),
 
                 (party_get_slot, ":consumption", ":party_no", ":consumption_slot"),
-                (val_add, ":consumption", ":consumed"),
+                (val_add, ":consumption", ":quantity"),
                 (party_set_slot, ":party_no", ":consumption_slot", ":consumption"),
 
                 (party_get_slot, ":amount", ":party_no", ":amount_slot"),
