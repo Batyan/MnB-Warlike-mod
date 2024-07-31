@@ -20672,8 +20672,10 @@ scripts = [
                     (assign, ":spawned_party", reg0),
 
                     (party_set_faction, ":spawned_party", ":party_faction"),
-                    (party_set_slot, ":spawned_party", slot_party_budget_reserved_party, 5000),
-                    (party_set_slot, ":spawned_party", slot_party_wanted_party_wages, 5000),
+
+                    (party_get_slot, ":attached_party_reserved_wages", ":party_no", slot_party_budget_reserved_auxiliaries),
+                    (party_set_slot, ":spawned_party", slot_party_budget_reserved_party, ":attached_party_reserved_wages"),
+                    (party_set_slot, ":spawned_party", slot_party_wanted_party_wages, ":attached_party_reserved_wages"),
                     (party_set_slot, ":spawned_party", slot_party_type, spt_caravan),
                     (party_set_slot, ":spawned_party", slot_party_linked_party, ":party_no"),
                     (party_set_slot, ":spawned_party", slot_party_mission_object, -1),
@@ -21294,6 +21296,8 @@ scripts = [
             (store_script_param, ":destination", 2),
             (store_script_param, ":origin", 3),
 
+            (party_set_slot, ":party_caravan", slot_party_player_shakedown, 0),
+
             (assign, ":number_objectives", 0),
             (try_for_range, ":slot", slot_party_mission_objective_1, slot_party_mission_objective_3 + 1),
                 (party_slot_ge, ":party_caravan", ":slot", goods_begin),
@@ -21336,6 +21340,11 @@ scripts = [
                     (try_end),
                 (try_end),
             (try_end),
+
+            (call_script, "script_party_get_wages", ":party_caravan"),
+            (assign, ":wages_caravan", reg0),
+            (store_mul, ":needed_wages", ":wages_caravan", 4),
+            (call_script, "script_party_transfer_wealth", ":origin", ":party_caravan", ":needed_wages", tax_type_none),
 
             (try_begin),
                 (gt, ":remaining_cargo", 0),
@@ -22543,6 +22552,75 @@ scripts = [
             (ge, ":allowed_level", ":troop_quality"),
         ]),
 
+    # script_cf_party_shakedown
+        # input:
+        #   arg1: party_agressor
+        #   arg2: party_victim
+        # output:
+        #   reg0: shakedown_amount
+        # fails if shakedown refused
+    ("cf_party_shakedown",
+        [
+            (store_script_param, ":party_aggressor", 1),
+            (store_script_param, ":party_victim", 2),
+
+            (call_script, "script_party_get_total_wealth", ":party_victim", 1),
+            (assign, ":victim_wealth", reg0),
+
+            (call_script, "script_party_get_skill_level", ":party_aggressor", skl_intimidation),
+            (assign, ":intimidation", reg0),
+            (store_mul, ":intimidation_times", ":intimidation", 2),
+
+            (call_script, "script_party_get_wages", ":party_aggressor"),
+            (store_mul, ":aggressor_strength", reg0, 4),
+            (assign, ":aggressor_wages", reg0),
+            (call_script, "script_party_get_wages", ":party_victim"),
+            (assign, ":victim_strength", reg0),
+
+            (assign, ":percent", 0),
+
+            (try_begin),
+                (gt, ":victim_strength", 0),
+
+                (store_mul, ":percent", ":aggressor_strength", 100),
+                (val_div, ":percent", ":victim_strength"),
+                (set_fixed_point_multiplier, 1),
+                (store_sqrt, ":percent", ":percent"),
+            (else_try),
+                (assign, ":percent", 100),
+            (try_end),
+
+            (val_add, ":percent", ":intimidation"),
+
+            (store_mul, ":shakedown_amount", ":victim_wealth", ":percent"),
+            (val_div, ":shakedown_amount", 100),
+
+            (store_sub, ":flat_value", ":aggressor_wages", ":victim_strength"),
+            (store_add, ":intimidation_flat", 100, ":intimidation_times"),
+            (val_mul, ":flat_value", ":intimidation_flat"),
+            (val_div, ":flat_value", 100),
+
+            (try_begin),
+                (call_script, "script_cf_debug", debug_simple|debug_current),
+                (assign, reg10, ":shakedown_amount"),
+                (assign, reg11, ":percent"),
+                (assign, reg12, ":flat_value"),
+                (assign, reg13, ":victim_wealth"),
+                (display_message, "@Shakedown for {reg10} : percent ({reg11}) - flat ({reg12}) - max ({reg13})"),
+            (try_end),
+
+            (val_max, ":shakedown_amount", ":flat_value"),
+
+            # (store_mul, ":min_shakedown", ":victim_wealth", 2),
+            # (val_div, ":min_shakedown", 3),
+
+            # (val_min, ":shakedown_amount", ":min_shakedown"),
+
+            (assign, reg0, ":shakedown_amount"),
+
+            (gt, ":shakedown_amount", 0),
+        ]),
+
     # script_get_dialog_caravan_intro
         # input:
         #   arg1: caravan_party
@@ -22569,6 +22647,10 @@ scripts = [
             (try_end),
 
             (try_begin),
+                (party_slot_eq, ":caravan_party", slot_party_player_shakedown, 1),
+                (str_store_string, s0, "@Oh... It's you again. What else do you need ?"),
+                (assign, ":dialog_outcome", outcome_neutral),
+            (else_try),
                 # Caravan originates from player center
                 (eq, ":caravan_leader", "$g_player_troop"),
                 (str_store_string, s0, "@{my Lord/my Lady}, you grace us with your presence. How can we be of service ?"),
@@ -22652,5 +22734,39 @@ scripts = [
 
             (str_store_string, s0, "@We are looking to purchase {s10}{s12}"),
             (assign, reg0, ":dialog_outcome"),
+        ]),
+
+    # script_get_dialog_caravan_toll
+        # input:
+        #   arg1: caravan_party
+        # output:
+        #   s0: caravan_toll_dialog
+        #   reg0: dialog_outcome
+        #   reg1: payment_amount
+    ("get_dialog_caravan_toll",
+        [
+            (store_script_param, ":caravan_party", 1),
+
+            (assign, ":dialog_outcome", outcome_neutral),
+            (assign, ":payment_amount", 0),
+
+            (try_begin),
+                (call_script, "script_cf_party_shakedown", "$g_player_party", ":caravan_party"),
+                (assign, ":payment_amount", reg0),
+                (try_begin),
+                    (call_script, "script_party_get_wages", "$g_player_party"),
+                    (gt, ":payment_amount", reg0),
+                    (assign, ":dialog_outcome", outcome_success),
+                (else_try),
+                    (assign, ":dialog_outcome", outcome_neutral),
+                (try_end),
+            (else_try),
+                (assign, ":dialog_outcome", outcome_failure),
+            (try_end),
+
+            (call_script, "script_game_get_money_text", ":payment_amount"),
+            (str_store_string, s0, "@Very well, you will be given {s0} if you can promise to let these men go unharmed."),
+            (assign, reg0, ":dialog_outcome"),
+            (assign, reg1, ":payment_amount"),
         ]),
 ]
