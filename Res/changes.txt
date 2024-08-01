@@ -1,6 +1,8 @@
 v0.530:
 	-Features:
 	-Balance:
+		* increase khergit_light_mounted_skirmisher powerstrike (2 -> 4)
+		* decrease khergit_mounted_skirmisher shield (1 -> 0)
 	-Fixes:
 v0.520:
 	-Features:
