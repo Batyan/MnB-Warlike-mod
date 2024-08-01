@@ -79,6 +79,7 @@ dialogs = [
 		[
 			(is_between, "$g_talk_troop", lords_begin, lords_end),
 			(check_quest_active, "qst_swear_vassalage_fief"),
+			(quest_slot_eq, "qst_swear_vassalage_fief", slot_quest_giver_troop, "$g_talk_troop"),
 		], "Ah {playername}, I was waiting for your arrival. My messenger has delivered the offer then?", "player_lord_offer_vassal", []],
 	
 	[anyone, "start", 
