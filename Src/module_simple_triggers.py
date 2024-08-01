@@ -352,6 +352,7 @@ simple_triggers = [
                             (ge, ":real_rank", rank_two_village),
                             (troop_get_slot, ":surplus_fief", ":lord_no", slot_troop_surplus_center),
                             (gt, ":surplus_fief", 0),
+                            (party_slot_eq, ":surplus_fief", slot_party_reserved, -1),
                             (store_troop_faction, ":faction", ":lord_no"),
 
                             (call_script, "script_faction_get_best_candidate_for_center", ":faction", ":surplus_fief", ":lord_no"),
