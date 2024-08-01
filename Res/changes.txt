@@ -3,6 +3,8 @@ v0.530:
 	-Balance:
 		* increase khergit_light_mounted_skirmisher powerstrike (2 -> 4)
 		* decrease khergit_mounted_skirmisher shield (1 -> 0)
+		* change swadian_militia type (archer to crossbow)
+			This change intends to fix small_kingdom_11 lack of militia ranged units
 	-Fixes:
 v0.520:
 	-Features:

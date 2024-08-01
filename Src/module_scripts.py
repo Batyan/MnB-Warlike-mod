@@ -12778,7 +12778,7 @@ scripts = [
             (try_end),
             
             # Secial treatments
-            (troop_set_slot, "trp_swadian_militia", slot_troop_type, tt_archer),
+            (troop_set_slot, "trp_swadian_militia", slot_troop_type, tt_crossbow),
             (troop_set_slot, "trp_swadian_sergeant", slot_troop_type, tt_shock_infantry), # Because swadians have too many of them
             (troop_set_slot, "trp_khergit_militia", slot_troop_type, tt_archer),
         ]),
