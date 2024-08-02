@@ -514,5 +514,7 @@ mesh_tableau_mesh_heraldic_armor_b = 512
 mesh_tableau_mesh_heraldic_armor_c = 513
 mesh_tableau_mesh_heraldic_armor_d = 514
 mesh_tableau_mesh_brigandine_b_herald = 515
+mesh_tableau_mesh_mail_shirt_a_herald = 516
+mesh_tableau_mesh_leather_armor_b_herald = 517
 
 
