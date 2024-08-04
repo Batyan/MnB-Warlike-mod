@@ -366,6 +366,8 @@ items = [
      740 , weight(16)|head_armor(0)|body_armor(39)|leg_armor(12)|difficulty(7) ,imodbits_armor , [], [fac_kingdom_2] ],
     ["byrnie", "Byrnie", [("byrnie_a_new",0)], itp_merchandise| itp_type_body_armor  |itp_covers_legs ,0,
      855 , weight(17)|head_armor(0)|body_armor(41)|leg_armor(11)|difficulty(8) ,imodbits_armor , [], [fac_kingdom_4, fac_kingdom_5] ],
+    ["byrnie_herald", "Byrnie", [("byrnie_a_herald",0)], itp_merchandise| itp_type_body_armor  |itp_covers_legs ,0,
+     855 , weight(17)|head_armor(0)|body_armor(41)|leg_armor(11)|difficulty(8) ,imodbits_armor , [(ti_on_init_item, [(store_trigger_param_1, ":agent_no"),(store_trigger_param_2, ":troop_no"),(call_script, "script_shield_item_set_banner", "tableau_heraldic_byrnie_a_plain", ":agent_no", ":troop_no")])], [fac_kingdom_4, fac_kingdom_5] ],
     ["haubergeon", "Haubergeon", [("haubergeon_c",0)], itp_merchandise| itp_type_body_armor  |itp_covers_legs ,0,
      940 , weight(18)|head_armor(0)|body_armor(42)|leg_armor(13)|difficulty(9) ,imodbits_armor , [], [fac_kingdom_1] ],
     ["lamellar_vest", "Lamellar Vest", [("lamellar_vest_a",0)], itp_merchandise| itp_type_body_armor |itp_civilian |itp_covers_legs ,0,

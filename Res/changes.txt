@@ -7,6 +7,7 @@ v0.530:
 			This change intends to fix small_kingdom_11 lack of militia ranged units
 		* update padded leather to use heraldic colors
 		* update mail shirt to use heraldic colors
+		* update byrnie to use heraldic colors
 	-Fixes:
 		* fix fief promised to player could be given to another lord
 		* fix incorrect quest giver for vassalage offer quest
