@@ -1,7 +1,6 @@
 from header_common import *
 from header_operations import *
 from module_constants import *
-from module_constants import *
 from header_parties import *
 from header_skills import *
 from header_mission_templates import *
@@ -33,8 +32,6 @@ scripts = [
             (troop_set_slot, "$g_player_troop", slot_troop_vassal_of, -1),
             (troop_set_slot, "$g_player_troop", slot_troop_renown, 100),
 
-            # (party_set_slot, "$g_player_party", slot_party_type, spt_war_party),
-            
             (assign, "$g_cur_free_lord", lords_begin),
 
             (set_show_messages, 0),
@@ -3398,6 +3395,7 @@ scripts = [
             (party_set_slot, ":party_no", slot_party_prosperity, 50),
             
             (party_set_slot, ":party_no", slot_party_lord, -1),
+            (party_set_slot, ":party_no", slot_party_governor, -1),
             (party_set_slot, ":party_no", slot_party_reserved, -1),
             
             (party_set_slot, ":party_no", slot_party_besieged_by, -1),
@@ -22768,5 +22766,66 @@ scripts = [
             (str_store_string, s0, "@Very well, you will be given {s0} if you can promise to let these men go unharmed."),
             (assign, reg0, ":dialog_outcome"),
             (assign, reg1, ":payment_amount"),
+        ]),
+
+    # script_party_get_picture_mesh
+        # input:
+        #   arg1: party_no
+        # output:
+        #   reg0: mesh_no
+    ("party_get_picture_mesh",
+        [
+            (store_script_param, ":party_no", 1),
+
+            (assign, ":mesh", "mesh_pic_village_p"),
+            (party_get_slot, ":party_type", ":party_no", slot_party_type),
+            (party_get_current_terrain, ":terrain", ":party_no"),
+            (try_begin),
+                (eq, ":party_type", spt_village),
+                (try_begin),
+                    (this_or_next|eq, ":terrain", rt_snow),
+                    (eq, ":terrain", rt_snow_forest),
+                    (assign, ":mesh", "mesh_pic_village_w"),
+                (else_try),
+                    (this_or_next|eq, ":terrain", rt_desert),
+                    (this_or_next|eq, ":terrain", rt_desert_forest),
+                    (this_or_next|eq, ":terrain", rt_steppe),
+                    (eq, ":terrain", rt_steppe_forest),
+                    (assign, ":mesh", "mesh_pic_village_s"),
+                (else_try),
+                    (assign, ":mesh", "mesh_pic_village_p"),
+                (try_end),
+            (else_try),
+                (eq, ":party_type", spt_town),
+                (try_begin),
+                    (this_or_next|eq, ":terrain", rt_snow),
+                    (eq, ":terrain", rt_snow_forest),
+                    (assign, ":mesh", "mesh_pic_castlesnow"),
+                (else_try),
+                    (this_or_next|eq, ":terrain", rt_desert),
+                    (this_or_next|eq, ":terrain", rt_desert_forest),
+                    (this_or_next|eq, ":terrain", rt_steppe),
+                    (eq, ":terrain", rt_steppe_forest),
+                    (assign, ":mesh", "mesh_pic_castledes"),
+                (else_try),
+                    (assign, ":mesh", "mesh_pic_town1"),
+                (try_end),
+            (else_try),
+                (eq, ":party_type", spt_castle),
+                (try_begin),
+                    (this_or_next|eq, ":terrain", rt_snow),
+                    (eq, ":terrain", rt_snow_forest),
+                    (assign, ":mesh", "mesh_pic_townsnow"),
+                (else_try),
+                    (this_or_next|eq, ":terrain", rt_desert),
+                    (this_or_next|eq, ":terrain", rt_desert_forest),
+                    (this_or_next|eq, ":terrain", rt_steppe),
+                    (eq, ":terrain", rt_steppe_forest),
+                    (assign, ":mesh", "mesh_pic_towndes"),
+                (else_try),
+                    (assign, ":mesh", "mesh_pic_castle1"),
+                (try_end),
+            (try_end),
+            (assign, reg0, ":mesh"),
         ]),
 ]

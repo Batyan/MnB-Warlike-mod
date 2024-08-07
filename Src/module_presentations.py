@@ -5,6 +5,7 @@ from ID_meshes import *
 from header_operations import *
 from header_triggers import *
 from module_constants import *
+from header_terrain_types import *
 import string
 
 ###############################
@@ -1291,7 +1292,6 @@ presentations = [
                 # (presentation_set_duration, 0),
             ]),
 
-
             (ti_on_presentation_event_state_change,
             [
                 (store_trigger_param_1, ":object"),
@@ -1347,6 +1347,236 @@ presentations = [
                 (store_add, ":max", ":player_wealth", 1),
                 (overlay_set_boundaries, "$g_presentation_player_wealth_select", 0, ":max"),
             ]),
+        ]),
+
+    # prsnt_clan_management
+    ("clan_management", 0, mesh_load_window,
+        [
+            (ti_on_presentation_load,
+                [
+                    (set_fixed_point_multiplier, 1000),
+
+                    (assign, ":picture_height", 100),
+                    (assign, ":center_name_x", 50),
+                    (assign, ":mesh_pic_x", 0),
+                    (assign, ":current_lord_x", 230),
+                    (assign, ":current_governor_x", 380),
+                    (assign, ":actions_x", 700),
+                    (assign, ":container_x", 50),
+                    (assign, ":container_y", 100),
+                    (assign, ":container_size_x", 880),
+                    (assign, ":container_size_y", 550),
+
+                    (store_add, ":header_y", ":container_y", ":container_size_y"),
+                    (val_add, ":header_y", 30),
+
+                    (store_add, ":header_x", ":center_name_x", ":container_x"),
+                    (create_text_overlay, reg0, "@Center"),
+                    (position_set_x, pos1, ":header_x"),
+                    (position_set_y, pos1, ":header_y"),
+                    (overlay_set_position, reg0, pos1),
+                    (position_set_x, pos1, 1200),
+                    (position_set_y, pos1, 1200),
+                    (overlay_set_size, reg0, pos1),
+
+                    (store_add, ":header_x", ":current_lord_x", ":container_x"),
+                    (create_text_overlay, reg0, "@Lord"),
+                    (position_set_x, pos1, ":header_x"),
+                    (position_set_y, pos1, ":header_y"),
+                    (overlay_set_position, reg0, pos1),
+                    (position_set_x, pos1, 1200),
+                    (position_set_y, pos1, 1200),
+                    (overlay_set_size, reg0, pos1),
+
+                    (store_add, ":header_x", ":current_governor_x", ":container_x"),
+                    (create_text_overlay, reg0, "@Governor"),
+                    (position_set_x, pos1, ":header_x"),
+                    (position_set_y, pos1, ":header_y"),
+                    (overlay_set_position, reg0, pos1),
+                    (position_set_x, pos1, 1200),
+                    (position_set_y, pos1, 1200),
+                    (overlay_set_size, reg0, pos1),
+
+                    (store_add, ":header_x", ":actions_x", ":container_x"),
+                    (create_text_overlay, reg0, "@Actions"),
+                    (position_set_x, pos1, ":header_x"),
+                    (position_set_y, pos1, ":header_y"),
+                    (overlay_set_position, reg0, pos1),
+                    (position_set_x, pos1, 1200),
+                    (position_set_y, pos1, 1200),
+                    (overlay_set_size, reg0, pos1),
+
+                    (str_clear, s0),
+                    (create_text_overlay, reg0, s0, tf_scrollable),
+                    (position_set_x, pos1, ":container_x"),
+                    (position_set_y, pos1, ":container_y"),
+                    (overlay_set_position, reg0, pos1),
+                    (position_set_x, pos1, ":container_size_x"),
+                    (position_set_y, pos1, ":container_size_y"),
+                    (overlay_set_area_size, reg0, pos1),
+                    
+                    (set_container_overlay, reg0),
+
+                    (assign, ":cur_y", 10),
+
+                    (store_add, ":line_height", ":picture_height", line_height),
+
+                    (try_for_range, ":cur_center", centers_begin, centers_end),
+                        (party_set_slot, ":cur_center", slot_party_temp, -1),
+                        (party_slot_eq, ":cur_center", slot_party_lord, "$g_player_troop"),
+
+                        (assign, ":center_y", ":cur_y"),
+
+                        (call_script, "script_party_get_picture_mesh", ":cur_center"),
+                        (assign, ":mesh", reg0),
+
+                        (create_mesh_overlay, reg0, ":mesh"),
+                        (position_set_x, pos1, ":mesh_pic_x"),
+                        (store_div, ":offset", ":picture_height", 3),
+                        (store_sub, ":mesh_pic_y", ":center_y", ":offset"),
+                        (position_set_y, pos1, ":mesh_pic_y"),
+                        (overlay_set_position, reg0, pos1),
+                        (position_set_x, pos1, 200),
+                        (position_set_y, pos1, 200),
+                        (overlay_set_size, reg0, pos1),
+
+                        (val_add, ":center_y", ":picture_height"),
+
+                        (str_store_party_name, s10, ":cur_center"),
+                        (create_text_overlay, reg0, "@{s10}"),
+                        (position_set_x, pos1, ":center_name_x"),
+                        (position_set_y, pos1, ":center_y"),
+                        (overlay_set_position, reg0, pos1),
+                        (position_set_x, pos1, 1000),
+                        (position_set_y, pos1, 1000),
+                        (overlay_set_size, reg0, pos1),
+                        (overlay_set_color, reg0, text_color_light),
+
+                        (val_add, ":center_y", line_height),
+
+                        (assign, ":center_y", ":cur_y"),
+
+                        (party_get_slot, ":lord", ":cur_center", slot_party_lord),
+                        (try_begin),
+                            (ge, ":lord", 0),
+                            (create_mesh_overlay_with_tableau_material, reg0, -1, "tableau_troop_note_mesh", ":lord"),
+                            (position_set_x, pos1, ":current_lord_x"),
+                            (position_set_y, pos1, ":center_y"),
+                            (overlay_set_position, reg0, pos1),
+                            (position_set_x, pos1, 380),
+                            (position_set_y, pos1, 380),
+                            (overlay_set_size, reg0, pos1),
+                        (try_end),
+
+                        (val_add, ":center_y", ":picture_height"),
+
+                        (str_store_party_name, s10, ":cur_center"),
+                        (try_begin),
+                            (ge, ":lord", 0),
+                            (str_store_troop_name, s10, ":lord"),
+                        (else_try),
+                            (str_store_string, s10, "@unassigned"),
+                        (try_end),
+                        (create_text_overlay, reg0, "@{s10}"),
+                        (position_set_x, pos1, ":current_lord_x"),
+                        (position_set_y, pos1, ":center_y"),
+                        (overlay_set_position, reg0, pos1),
+                        (position_set_x, pos1, 1000),
+                        (position_set_y, pos1, 1000),
+                        (overlay_set_size, reg0, pos1),
+                        (overlay_set_color, reg0, text_color_light),
+
+                        (assign, ":center_y", ":cur_y"),
+
+                        (party_get_slot, ":governor", ":cur_center", slot_party_governor),
+                        (try_begin),
+                            (ge, ":governor", 0),
+                            (create_mesh_overlay_with_tableau_material, reg0, -1, "tableau_troop_note_mesh", ":governor"),
+                            (position_set_x, pos1, ":current_governor_x"),
+                            (position_set_y, pos1, ":center_y"),
+                            (overlay_set_position, reg0, pos1),
+                            (position_set_x, pos1, 380),
+                            (position_set_y, pos1, 380),
+                            (overlay_set_size, reg0, pos1),
+                        (try_end),
+
+                        (val_add, ":center_y", ":picture_height"),
+
+                        (str_store_party_name, s10, ":cur_center"),
+                        (try_begin),
+                            (ge, ":governor", 0),
+                            (str_store_troop_name, s10, ":governor"),
+                        (else_try),
+                            (str_store_string, s10, "@unassigned"),
+                        (try_end),
+                        (create_text_overlay, reg0, "@{s10}"),
+                        (position_set_x, pos1, ":current_governor_x"),
+                        (position_set_y, pos1, ":center_y"),
+                        (overlay_set_position, reg0, pos1),
+                        (position_set_x, pos1, 1000),
+                        (position_set_y, pos1, 1000),
+                        (overlay_set_size, reg0, pos1),
+                        (overlay_set_color, reg0, text_color_light),
+
+                        (assign, ":center_y", ":cur_y"),
+
+                        # (create_game_button_overlay, reg0, "@Manage"),
+                        # (position_set_x, pos1, ":actions_x"),
+                        # (position_set_y, pos1, ":center_y"),
+                        # (overlay_set_position, reg0, pos1),
+                        # (position_set_x, pos1, 100),
+                        # (position_set_y, pos1, 100),
+                        # (overlay_set_size, reg0, pos1),
+
+                        (val_add, ":center_y", line_height),
+
+                        (create_game_button_overlay, reg0, "@Manage"),
+                        (store_add, ":x", ":actions_x", 50),
+                        (position_set_x, pos1, ":x"),
+                        (position_set_y, pos1, ":center_y"),
+                        (overlay_set_position, reg0, pos1),
+                        # (position_set_x, pos1, 1000),
+                        # (position_set_y, pos1, 1000),
+                        # (overlay_set_size, reg0, pos1),
+
+                        (party_set_slot, ":cur_center", slot_party_temp, reg0),
+
+                        (val_add, ":cur_y", ":line_height"),
+                    (try_end),
+
+                    (set_container_overlay, -1),
+
+                    # Actions panel
+                    (create_button_overlay, "$g_presentation_ok", "@Continue"),
+                    (position_set_x, pos1, 50),
+                    (position_set_y, pos1, 50),
+                    (overlay_set_position, "$g_presentation_ok", pos1),
+
+                    (presentation_set_duration, 999999),
+
+                ]),
+
+            (ti_on_presentation_event_state_change,
+                [
+                    (store_trigger_param_1, ":object"),
+                    # (store_trigger_param_2, ":value"),
+
+                    (assign, ":manage_center", -1),
+                    (try_for_range, ":cur_center", centers_begin, centers_end),
+                        (party_slot_eq, ":cur_center", slot_party_temp, ":object"),
+                        (assign, ":manage_center", ":cur_center"),
+                    (try_end),
+
+                    (try_begin),
+                        (eq, ":object", "$g_presentation_ok"),
+
+                        (presentation_set_duration, 0),
+                    (else_try),
+                        (is_between, ":manage_center", centers_begin, centers_end),
+                        (assign, "$temp", ":manage_center"),
+                        (start_presentation, "prsnt_center_administration"),
+                    (try_end),
+                ]),
         ]),
 
     ("setting_shield_painting", 0, mesh_load_window,

@@ -992,13 +992,18 @@ game_menus = [
         ]),
     
     ("town_keep", mnf_scale_picture,
-        "You are in the military section of the center",
+        "You are in the political and military section of the center",
         "none",
         [
             (set_background_mesh, "mesh_pic_camp"),
             
         ],
         [
+            ("center_manage_clan", [(party_slot_eq, "$g_encountered_party", slot_party_leader, "$g_player_troop"),(troop_slot_eq, "$g_player_troop", slot_troop_home, "$g_encountered_party"),], "Manage clan",
+                [
+                    (start_presentation, "prsnt_clan_management"),
+                ]),
+
             ("center_manage", [(party_slot_eq, "$g_encountered_party", slot_party_leader, "$g_player_troop"),], "Manage the center",
                 [
                     (jump_to_menu, "mnu_town_manage"),

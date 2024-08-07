@@ -455,5 +455,6 @@ script_cf_party_shakedown = 453
 script_get_dialog_caravan_intro = 454
 script_get_dialog_caravan_trade = 455
 script_get_dialog_caravan_toll = 456
+script_party_get_picture_mesh = 457
 
 

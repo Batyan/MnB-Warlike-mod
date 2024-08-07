@@ -1147,6 +1147,8 @@ slot_party_override_production_target = slot_party_production_target_end + 1
 
 slot_party_player_shakedown = slot_party_override_production_target + 1
 
+slot_party_governor = slot_party_player_shakedown + 1
+
 #################
 ## Scene Slots ##
 #################
