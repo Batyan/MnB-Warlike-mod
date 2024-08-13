@@ -965,17 +965,17 @@ slot_party_taxes_fixed		= 131 # Fixed taxes paid by everyone
 slot_party_taxes_wealth		= 132 # Taxes paid upon earning money inside the city (also applied to buying and selling)
 slot_party_taxes_visit		= 133 # Taxes paid upon entering the city (not paid by residents)
 
-default_fixed_tax_rate_village = 5
-default_fixed_tax_rate_castle = 10
-default_fixed_tax_rate_town = 5
+default_fixed_tax_rate_village = 20
+default_fixed_tax_rate_castle = 40
+default_fixed_tax_rate_town = 20
 
-default_buy_tax_rate_village = 5
-default_buy_tax_rate_castle = 7
-default_buy_tax_rate_town = 10
+default_buy_tax_rate_village = 20
+default_buy_tax_rate_castle = 28
+default_buy_tax_rate_town = 40
 
-default_sell_tax_rate_village = 2
-default_sell_tax_rate_castle = 4
-default_sell_tax_rate_town = 6
+default_sell_tax_rate_village = 8
+default_sell_tax_rate_castle = 16
+default_sell_tax_rate_town = 12
 
 slot_party_speak_allowed = 134
 
@@ -1361,9 +1361,11 @@ slot_troop_budget_reserved_other = slot_troop_budget_reserved_party + 1
 slot_troop_budget_debt = slot_troop_budget_reserved_other + 1
 slot_troop_budget_perceived_debt = slot_troop_budget_debt + 1
 
-slot_troop_last_met 				= slot_troop_budget_perceived_debt + 1
+slot_troop_last_met = slot_troop_budget_perceived_debt + 1
 
 slot_troop_culture = slot_troop_last_met + 1
+
+slot_troop_ratio_special_multiplier = slot_troop_culture + 1
 
 slot_troop_relations_begin = 400
 

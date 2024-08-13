@@ -5835,7 +5835,7 @@ scripts = [
 
             (party_get_slot, ":tax_rate", ":party_no", slot_party_taxes_fixed),
             (val_mul, ":taxes", ":tax_rate"),
-            (val_div, ":taxes", 100),
+            (val_div, ":taxes", 400),
 
             (assign, reg0, ":taxes"),
         ]),        
@@ -7006,8 +7006,9 @@ scripts = [
             (call_script, "script_faction_change_slot", "fac_small_kingdom_22", slot_faction_troop_ratio_shock_infantry, 15),
             
             (call_script, "script_faction_change_slot", "fac_small_kingdom_23", slot_faction_troop_ratio_infantry, 35),
-            (call_script, "script_faction_change_slot", "fac_small_kingdom_23", slot_faction_troop_ratio_pikeman, 25),
-            (call_script, "script_faction_change_slot", "fac_small_kingdom_23", slot_faction_troop_ratio_spearman, -5),
+            (call_script, "script_faction_change_slot", "fac_small_kingdom_23", slot_faction_troop_ratio_cavalry, 5),
+            (call_script, "script_faction_change_slot", "fac_small_kingdom_23", slot_faction_troop_ratio_spearman, 5),
+            (call_script, "script_faction_change_slot", "fac_small_kingdom_23", slot_faction_troop_ratio_archer, -10),
             
             (call_script, "script_faction_change_slot", "fac_small_kingdom_24", slot_faction_troop_ratio_skirmisher, 25),
             (call_script, "script_faction_change_slot", "fac_small_kingdom_24", slot_faction_troop_ratio_infantry, 10),
@@ -7018,6 +7019,7 @@ scripts = [
             
             (call_script, "script_faction_change_slot", "fac_small_kingdom_25", slot_faction_troop_ratio_horse_archer, 35),
             (call_script, "script_faction_change_slot", "fac_small_kingdom_25", slot_faction_troop_ratio_cavalry, -35),
+            (call_script, "script_faction_change_slot", "fac_small_kingdom_25", slot_faction_troop_ratio_pikeman, 15),
             
             (call_script, "script_faction_change_slot", "fac_small_kingdom_31", slot_faction_troop_ratio_horse_archer, 35),
             (call_script, "script_faction_change_slot", "fac_small_kingdom_31", slot_faction_troop_ratio_infantry, 5),
@@ -11236,88 +11238,13 @@ scripts = [
             (assign, ":total_cost", 0),
             
             (try_for_range, ":cur_troop", ":begin", ":end"),
-                (troop_get_slot, ":only_faction_1", ":cur_troop", slot_troop_faction_reserved_1),
-                (troop_get_slot, ":only_faction_2", ":cur_troop", slot_troop_faction_reserved_2),
-                (troop_get_slot, ":no_faction_1", ":cur_troop", slot_troop_faction_not_1),
-                (troop_get_slot, ":no_faction_2", ":cur_troop", slot_troop_faction_not_2),
-                (troop_get_slot, ":no_faction_3", ":cur_troop", slot_troop_faction_not_3),
-                (try_begin),
-                    (this_or_next|eq, ":only_faction_1", -1),
-                    (this_or_next|eq, ":only_faction_1", ":faction"),
-                    (eq, ":only_faction_2", ":faction"),
-                    (neq, ":no_faction_1", ":faction"),
-                    (neq, ":no_faction_2", ":faction"),
-                    (neq, ":no_faction_3", ":faction"),
-                    
-                    (troop_get_slot, ":troop_type", ":cur_troop", slot_troop_type),
-                    
-                    (store_add, ":faction_slot", ":troop_type", slot_faction_troop_ratio_infantry),
-                    (val_add, ":faction_slot", -1),
-                    
-                    (faction_get_slot, ":original_weight", ":faction", ":faction_slot"),
-                    (store_add, ":weight", ":original_weight", ":total_weight"),
-                    
-                    (troop_set_slot, ":cur_troop", slot_troop_temp_slot, ":weight"),
-                    
-                    (val_add, ":total_weight", ":original_weight"),
-                (else_try),
-                    (ge, ":only_faction_1", 0), # Nearby parties can recruit faction troops at a reduced rate
-                    
-                    (faction_get_slot, ":leader", ":only_faction_1", slot_faction_leader),
-                    (assign, ":weight", 0),
-                    (try_begin),
-                        (ge, ":leader", 0),
-                        (call_script, "script_troop_get_current_home", ":leader", 1),
-                        (assign, ":home", reg0),
-                        (ge, ":home", centers_begin),
-                        (store_distance_to_party_from_party, ":distance", ":party_no", ":home"),
-                        (lt, ":distance", 50),
-                        
-                        (store_sub, ":mul", 60, ":distance"),
-                        
-                        (troop_get_slot, ":troop_type", ":cur_troop", slot_troop_type),
-                    
-                        (store_add, ":faction_slot", ":troop_type", slot_faction_troop_ratio_infantry),
-                        (val_add, ":faction_slot", -1),
-                        
-                        (faction_get_slot, ":original_weight", ":faction", ":faction_slot"),
-                        (val_mul, ":original_weight", ":mul"),
-                        (val_div, ":original_weight", 180),
-                        (store_add, ":weight", ":original_weight", ":total_weight"),
-                        
-                        (val_add, ":total_weight", ":original_weight"),
-                    (try_end),
-                    
-                    (try_begin),
-                        (ge, ":only_faction_2", 0),
-                        (faction_get_slot, ":leader", ":only_faction_2", slot_faction_leader),
-                        (ge, ":leader", 0),
-                        (call_script, "script_troop_get_current_home", ":leader", 1),
-                        (assign, ":home", reg0),
-                        (try_begin),
-                            (ge, ":home", centers_begin),
-                            (store_distance_to_party_from_party, ":distance", ":party_no", ":home"),
-                            (lt, ":distance", 50),
-                            (store_sub, ":mul", 60, ":distance"),
-                            
-                            (troop_get_slot, ":troop_type", ":cur_troop", slot_troop_type),
-                        
-                            (store_add, ":faction_slot", ":troop_type", slot_faction_troop_ratio_infantry),
-                            (val_add, ":faction_slot", -1),
-                            
-                            (faction_get_slot, ":original_weight_2", ":faction", ":faction_slot"),
-                            (val_mul, ":original_weight_2", ":mul"),
-                            (val_div, ":original_weight_2", 180),
-                            (val_add, ":weight", ":original_weight_2"),
-                            
-                            (val_add, ":total_weight", ":original_weight_2"),
-                        (try_end),
-                    (try_end),
-                    
-                    (troop_set_slot, ":cur_troop", slot_troop_temp_slot, ":weight"),
-                (else_try),
-                    (troop_set_slot, ":cur_troop", slot_troop_temp_slot, 0),
-                (try_end),
+                (call_script, "script_troop_get_recruitment_weight", ":cur_troop", ":faction", ":party_no"),
+                (assign, ":original_weight", reg0),
+
+                (store_add, ":weight", ":original_weight", ":total_weight"),
+                (troop_set_slot, ":cur_troop", slot_troop_temp_slot, ":weight"),
+                
+                (val_add, ":total_weight", ":original_weight"),
             (try_end),
             
             (try_for_range, ":unused", 0, ":num_tries"),
@@ -11344,15 +11271,104 @@ scripts = [
             (assign, reg0, ":num_added"),
             (assign, reg1, ":total_cost"),
         ]),
-    
+
+    # script_troop_get_recruitment_weight
+        # input:
+        #   arg1: troop_no
+        #   arg2: faction_no
+        #   arg3: party_recruiting
+        # output:
+        #   reg0: troop_weight
+    ("troop_get_recruitment_weight",
+        [
+            (store_script_param, ":troop_no", 1),
+            (store_script_param, ":faction_no", 2),
+            (store_script_param, ":party_no", 3),
+
+            (troop_get_slot, ":only_faction_1", ":troop_no", slot_troop_faction_reserved_1),
+            (troop_get_slot, ":only_faction_2", ":troop_no", slot_troop_faction_reserved_2),
+            (troop_get_slot, ":no_faction_1", ":troop_no", slot_troop_faction_not_1),
+            (troop_get_slot, ":no_faction_2", ":troop_no", slot_troop_faction_not_2),
+            (troop_get_slot, ":no_faction_3", ":troop_no", slot_troop_faction_not_3),
+
+            (troop_get_slot, ":multiplier_weight", ":troop_no", slot_troop_ratio_special_multiplier),
+                
+            (troop_get_slot, ":troop_type", ":troop_no", slot_troop_type),
+            
+            (store_add, ":faction_slot", ":troop_type", slot_faction_troop_ratio_infantry),
+            (val_add, ":faction_slot", -1),
+
+            (assign, ":weight", 0),
+
+            (try_begin),
+                (this_or_next|eq, ":only_faction_1", -1),
+                (this_or_next|eq, ":only_faction_1", ":faction_no"),
+                (eq, ":only_faction_2", ":faction_no"),
+                (neq, ":no_faction_1", ":faction_no"),
+                (neq, ":no_faction_2", ":faction_no"),
+                (neq, ":no_faction_3", ":faction_no"),
+                
+                (faction_get_slot, ":original_weight", ":faction_no", ":faction_slot"),
+                (assign, ":weight", ":original_weight"),
+            (else_try),
+                (ge, ":only_faction_1", 0), # Nearby parties can recruit faction troops at a reduced rate
+                
+                (faction_get_slot, ":leader", ":only_faction_1", slot_faction_leader),
+                (assign, ":weight", 0),
+                (try_begin),
+                    (ge, ":leader", 0),
+                    (call_script, "script_troop_get_current_home", ":leader", 1),
+                    (assign, ":home", reg0),
+                    (ge, ":home", centers_begin),
+                    (store_distance_to_party_from_party, ":distance", ":party_no", ":home"),
+                    (lt, ":distance", 50),
+                    
+                    (store_sub, ":mul", 60, ":distance"),
+                    
+                    (faction_get_slot, ":original_weight", ":faction_no", ":faction_slot"),
+                    (val_mul, ":original_weight", ":mul"),
+                    (val_div, ":original_weight", 180),
+
+                    (assign, ":weight", ":original_weight"),
+                (try_end),
+
+                (try_begin),
+                    (ge, ":only_faction_2", 0),
+                    (faction_get_slot, ":leader", ":only_faction_2", slot_faction_leader),
+                    (ge, ":leader", 0),
+                    (call_script, "script_troop_get_current_home", ":leader", 1),
+                    (assign, ":home", reg0),
+                    (ge, ":home", centers_begin),
+                    (store_distance_to_party_from_party, ":distance", ":party_no", ":home"),
+                    (lt, ":distance", 50),
+
+                    (store_sub, ":mul", 60, ":distance"),
+                    
+                    (faction_get_slot, ":original_weight_2", ":faction_no", ":faction_slot"),
+                    (val_mul, ":original_weight_2", ":mul"),
+                    (val_div, ":original_weight_2", 180),
+
+                    (val_add, ":weight", ":original_weight_2"),
+                (try_end),
+            (try_end),
+
+            (try_begin),
+                (ge, ":multiplier_weight", 0),
+                (val_mul, ":weight", ":multiplier_weight"),
+                (val_div, ":weight", 100),
+            (try_end),
+
+            (assign, reg0, ":weight"),
+        ]),
+
     # script_party_send_reinforcements
-    # input:
-    #   arg1: party_no
-    #   arg2: party_to_send_to
-    #   arg3: optimal_number_to_send
-    # output:
-    #   reg0: num_sent
-    #   reg1: base_troop_cost
+        # input:
+        #   arg1: party_no
+        #   arg2: party_to_send_to
+        #   arg3: optimal_number_to_send
+        # output:
+        #   reg0: num_sent
+        #   reg1: base_troop_cost
     ("party_send_reinforcements",
         [
             (store_script_param, ":party_no", 1),
@@ -12396,6 +12412,8 @@ scripts = [
                 (troop_set_slot, ":cur_troop", slot_troop_faction_not_1, -1),
                 (troop_set_slot, ":cur_troop", slot_troop_faction_not_2, -1),
                 (troop_set_slot, ":cur_troop", slot_troop_faction_not_3, -1),
+
+                (troop_set_slot, ":cur_troop", slot_troop_ratio_special_multiplier, -1),
             (try_end),
             
             # Troops not added to factions
@@ -12417,7 +12435,7 @@ scripts = [
             (troop_set_slot, "trp_vaegir_heavy_infantry", slot_troop_faction_not_2, "fac_small_kingdom_22"), # Has Club Infantry instead
             (troop_set_slot, "trp_vaegir_light_infantry", slot_troop_faction_not_1, "fac_small_kingdom_23"), # Has Footman instead
             (troop_set_slot, "trp_vaegir_heavy_infantry", slot_troop_faction_not_1, "fac_small_kingdom_23"), # Has Heavy Footman instead
-            (troop_set_slot, "trp_vaegir_guard", slot_troop_faction_not_1, "fac_small_kingdom_23"), # Has Horseman instead
+            (troop_set_slot, "trp_vaegir_guard", slot_troop_faction_not_1, "fac_small_kingdom_25"), # Has Heavy Pikeman instead
             (troop_set_slot, "trp_vaegir_medium_bowman", slot_troop_faction_not_1, "fac_small_kingdom_25"), # Has Longbowman instead
             (troop_set_slot, "trp_vaegir_mounted_bowman", slot_troop_faction_not_1, "fac_small_kingdom_21"), # Has Hussar instead
             (troop_set_slot, "trp_vaegir_mounted_bowman", slot_troop_faction_not_2, "fac_small_kingdom_25"), # Has Mounted Longbowman instead
@@ -12461,6 +12479,7 @@ scripts = [
             (troop_set_slot, "trp_nord_heavy_spear_cavalry", slot_troop_faction_reserved_2, "fac_small_kingdom_44"), # 
             (troop_set_slot, "trp_nord_infantry", slot_troop_faction_reserved_2, "fac_small_kingdom_43"),
             
+            (troop_set_slot, "trp_rhodok_militia", slot_troop_faction_not_3, "fac_small_kingdom_51"), # Has Hunter instead
             (troop_set_slot, "trp_rhodok_militia", slot_troop_faction_not_1, "fac_small_kingdom_54"), # Has Levy Crossbowman instead
             (troop_set_slot, "trp_rhodok_militia", slot_troop_faction_not_2, "fac_small_kingdom_55"), # Has Levy Crossbowman instead
             (troop_set_slot, "trp_rhodok_light_crossbowman", slot_troop_faction_not_1, "fac_small_kingdom_51"), # 
@@ -12487,6 +12506,11 @@ scripts = [
             (troop_set_slot, "trp_sarranid_noble_horse_archer", slot_troop_faction_not_1, "fac_small_kingdom_63"), # Has Cataphract instead
 
             (troop_set_slot, "trp_sarranid_heavy_lancer", slot_troop_faction_reserved_2, "fac_small_kingdom_61"), # 
+
+            (troop_set_slot, "trp_sarranid_levy_horse", slot_troop_ratio_special_multiplier, 50),
+            (troop_set_slot, "trp_rhodok_militia", slot_troop_ratio_special_multiplier, 300),
+            (troop_set_slot, "trp_khergit_clansman", slot_troop_ratio_special_multiplier, 25),
+            (troop_set_slot, "trp_khergit_levy_horseman", slot_troop_ratio_special_multiplier, 30),
         ]),
     
     # script_init_troops_types
