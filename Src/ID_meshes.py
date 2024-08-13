@@ -517,5 +517,17 @@ mesh_tableau_mesh_brigandine_b_herald = 515
 mesh_tableau_mesh_mail_shirt_a_herald = 516
 mesh_tableau_mesh_leather_armor_b_herald = 517
 mesh_tableau_mesh_byrnie_a_herald = 518
+mesh_tableau_mesh_lamellar_leather_herald = 519
+mesh_tableau_mesh_cuir_bouilli_a_herald = 520
+mesh_tableau_mesh_haubergeon_c_herald = 521
+mesh_tableau_mesh_lamellar_armor_b_herald = 522
+mesh_tableau_mesh_lamellar_armor_e_herald = 523
+mesh_tableau_mesh_padded_cloth_b_herald = 524
+mesh_tableau_mesh_sarranid_elite_cavalary_herald = 525
+mesh_tableau_mesh_leather_armor_a_herald = 526
+mesh_tableau_mesh_full_plate_armor_herald = 527
+mesh_tableau_mesh_mail_long_surcoat_herald = 528
+mesh_tableau_mesh_tattered_leather_armor_a_herald = 529
+mesh_tableau_mesh_arabian_armor_b_herald = 530
 
 

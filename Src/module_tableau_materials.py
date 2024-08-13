@@ -1759,6 +1759,222 @@ tableaus = [
        (cur_tableau_add_mesh, "mesh_tableau_mesh_byrnie_a_herald", pos1, 0, 0),
        (cur_tableau_set_camera_parameters, 0, 200, 200, 0, 100000),
        ]),
+  
+  ("heraldic_lamellar_leather_plain", 0, "sample_lamellar_leather_herald", 512, 512, 0, 0, 0, 0,
+   [
+       (store_script_param, ":banner_mesh", 1),
+
+       (set_fixed_point_multiplier, 100),
+       (store_sub, ":background_slot", ":banner_mesh", arms_meshes_begin), #banner_meshes_begin),
+       (troop_get_slot, ":background_color", "trp_banner_background_color_array", ":background_slot"),
+       (cur_tableau_set_background_color, ":background_color"),
+
+       (init_position, pos1),
+       (cur_tableau_add_mesh_with_vertex_color, "mesh_heraldic_armor_bg", pos1, 200, 100, ":background_color"),
+
+       (init_position, pos1),
+       (position_set_z, pos1, 100),
+       (cur_tableau_add_mesh, "mesh_tableau_mesh_lamellar_leather_herald", pos1, 0, 0),
+       (cur_tableau_set_camera_parameters, 0, 200, 200, 0, 100000),
+       ]),
+  
+  ("heraldic_cuir_bouilli_a_plain", 0, "sample_cuir_bouilli_a_herald", 512, 512, 0, 0, 0, 0,
+   [
+       (store_script_param, ":banner_mesh", 1),
+
+       (set_fixed_point_multiplier, 100),
+       (store_sub, ":background_slot", ":banner_mesh", arms_meshes_begin), #banner_meshes_begin),
+       (troop_get_slot, ":background_color", "trp_banner_background_color_array", ":background_slot"),
+       (cur_tableau_set_background_color, ":background_color"),
+
+       (init_position, pos1),
+       (cur_tableau_add_mesh_with_vertex_color, "mesh_heraldic_armor_bg", pos1, 200, 100, ":background_color"),
+
+       (init_position, pos1),
+       (position_set_z, pos1, 100),
+       (cur_tableau_add_mesh, "mesh_tableau_mesh_cuir_bouilli_a_herald", pos1, 0, 0),
+       (cur_tableau_set_camera_parameters, 0, 200, 200, 0, 100000),
+       ]),
+  
+  ("heraldic_lamellar_armor_b_plain", 0, "sample_lamellar_armor_b_herald", 512, 512, 0, 0, 0, 0,
+   [
+       (store_script_param, ":banner_mesh", 1),
+
+       (set_fixed_point_multiplier, 100),
+       (store_sub, ":background_slot", ":banner_mesh", arms_meshes_begin), #banner_meshes_begin),
+       (troop_get_slot, ":background_color", "trp_banner_background_color_array", ":background_slot"),
+       (cur_tableau_set_background_color, ":background_color"),
+
+       (init_position, pos1),
+       (cur_tableau_add_mesh_with_vertex_color, "mesh_heraldic_armor_bg", pos1, 200, 100, ":background_color"),
+
+       (init_position, pos1),
+       (position_set_z, pos1, 100),
+       (cur_tableau_add_mesh, "mesh_tableau_mesh_lamellar_armor_b_herald", pos1, 0, 0),
+       (cur_tableau_set_camera_parameters, 0, 200, 200, 0, 100000),
+       ]),
+  
+  ("heraldic_haubergeon_c_plain", 0, "sample_haubergeon_c_herald", 512, 512, 0, 0, 0, 0,
+   [
+       (store_script_param, ":banner_mesh", 1),
+
+       (set_fixed_point_multiplier, 100),
+       (store_sub, ":background_slot", ":banner_mesh", arms_meshes_begin), #banner_meshes_begin),
+       (troop_get_slot, ":background_color", "trp_banner_background_color_array", ":background_slot"),
+       (cur_tableau_set_background_color, ":background_color"),
+
+       (init_position, pos1),
+       (cur_tableau_add_mesh_with_vertex_color, "mesh_heraldic_armor_bg", pos1, 200, 100, ":background_color"),
+
+       (init_position, pos1),
+       (position_set_z, pos1, 100),
+       (cur_tableau_add_mesh, "mesh_tableau_mesh_haubergeon_c_herald", pos1, 0, 0),
+       (cur_tableau_set_camera_parameters, 0, 200, 200, 0, 100000),
+       ]),
+  
+  ("heraldic_lamellar_armor_e_plain", 0, "sample_lamellar_armor_e_herald", 512, 512, 0, 0, 0, 0,
+   [
+       (store_script_param, ":banner_mesh", 1),
+
+       (set_fixed_point_multiplier, 100),
+       (store_sub, ":background_slot", ":banner_mesh", arms_meshes_begin), #banner_meshes_begin),
+       (troop_get_slot, ":background_color", "trp_banner_background_color_array", ":background_slot"),
+       (cur_tableau_set_background_color, ":background_color"),
+
+       (init_position, pos1),
+       (cur_tableau_add_mesh_with_vertex_color, "mesh_heraldic_armor_bg", pos1, 200, 100, ":background_color"),
+
+       (init_position, pos1),
+       (position_set_z, pos1, 100),
+       (cur_tableau_add_mesh, "mesh_tableau_mesh_lamellar_armor_e_herald", pos1, 0, 0),
+       (cur_tableau_set_camera_parameters, 0, 200, 200, 0, 100000),
+       ]),
+  
+  ("heraldic_padded_cloth_b_plain", 0, "sample_padded_cloth_b_herald", 512, 512, 0, 0, 0, 0,
+   [
+       (store_script_param, ":banner_mesh", 1),
+
+       (set_fixed_point_multiplier, 100),
+       (store_sub, ":background_slot", ":banner_mesh", arms_meshes_begin), #banner_meshes_begin),
+       (troop_get_slot, ":background_color", "trp_banner_background_color_array", ":background_slot"),
+       (cur_tableau_set_background_color, ":background_color"),
+
+       (init_position, pos1),
+       (cur_tableau_add_mesh_with_vertex_color, "mesh_heraldic_armor_bg", pos1, 200, 100, ":background_color"),
+
+       (init_position, pos1),
+       (position_set_z, pos1, 100),
+       (cur_tableau_add_mesh, "mesh_tableau_mesh_padded_cloth_b_herald", pos1, 0, 0),
+       (cur_tableau_set_camera_parameters, 0, 200, 200, 0, 100000),
+       ]),
+  
+  ("heraldic_sarranid_elite_cavalary_plain", 0, "sample_sarranid_elite_cavalary_herald", 512, 512, 0, 0, 0, 0,
+   [
+       (store_script_param, ":banner_mesh", 1),
+
+       (set_fixed_point_multiplier, 100),
+       (store_sub, ":background_slot", ":banner_mesh", arms_meshes_begin), #banner_meshes_begin),
+       (troop_get_slot, ":background_color", "trp_banner_background_color_array", ":background_slot"),
+       (cur_tableau_set_background_color, ":background_color"),
+
+       (init_position, pos1),
+       (cur_tableau_add_mesh_with_vertex_color, "mesh_heraldic_armor_bg", pos1, 200, 100, ":background_color"),
+
+       (init_position, pos1),
+       (position_set_z, pos1, 100),
+       (cur_tableau_add_mesh, "mesh_tableau_mesh_sarranid_elite_cavalary_herald", pos1, 0, 0),
+       (cur_tableau_set_camera_parameters, 0, 200, 200, 0, 100000),
+       ]),
+  
+  ("heraldic_leather_armor_a_plain", 0, "sample_leather_armor_a_herald", 512, 512, 0, 0, 0, 0,
+   [
+       (store_script_param, ":banner_mesh", 1),
+
+       (set_fixed_point_multiplier, 100),
+       (store_sub, ":background_slot", ":banner_mesh", arms_meshes_begin), #banner_meshes_begin),
+       (troop_get_slot, ":background_color", "trp_banner_background_color_array", ":background_slot"),
+       (cur_tableau_set_background_color, ":background_color"),
+
+       (init_position, pos1),
+       (cur_tableau_add_mesh_with_vertex_color, "mesh_heraldic_armor_bg", pos1, 200, 100, ":background_color"),
+
+       (init_position, pos1),
+       (position_set_z, pos1, 100),
+       (cur_tableau_add_mesh, "mesh_tableau_mesh_leather_armor_a_herald", pos1, 0, 0),
+       (cur_tableau_set_camera_parameters, 0, 200, 200, 0, 100000),
+       ]),
+  
+  ("heraldic_full_plate_armor_plain", 0, "sample_full_plate_herald", 512, 512, 0, 0, 0, 0,
+   [
+       (store_script_param, ":banner_mesh", 1),
+
+       (set_fixed_point_multiplier, 100),
+       (store_sub, ":background_slot", ":banner_mesh", arms_meshes_begin), #banner_meshes_begin),
+       (troop_get_slot, ":background_color", "trp_banner_background_color_array", ":background_slot"),
+       (cur_tableau_set_background_color, ":background_color"),
+
+       (init_position, pos1),
+       (cur_tableau_add_mesh_with_vertex_color, "mesh_heraldic_armor_bg", pos1, 200, 100, ":background_color"),
+
+       (init_position, pos1),
+       (position_set_z, pos1, 100),
+       (cur_tableau_add_mesh, "mesh_tableau_mesh_full_plate_armor_herald", pos1, 0, 0),
+       (cur_tableau_set_camera_parameters, 0, 200, 200, 0, 100000),
+       ]),
+  
+  ("heraldic_mail_long_surcoat_plain", 0, "sample_mail_long_surcoat_herald", 512, 512, 0, 0, 0, 0,
+   [
+       (store_script_param, ":banner_mesh", 1),
+
+       (set_fixed_point_multiplier, 100),
+       (store_sub, ":background_slot", ":banner_mesh", arms_meshes_begin), #banner_meshes_begin),
+       (troop_get_slot, ":background_color", "trp_banner_background_color_array", ":background_slot"),
+       (cur_tableau_set_background_color, ":background_color"),
+
+       (init_position, pos1),
+       (cur_tableau_add_mesh_with_vertex_color, "mesh_heraldic_armor_bg", pos1, 200, 100, ":background_color"),
+
+       (init_position, pos1),
+       (position_set_z, pos1, 100),
+       (cur_tableau_add_mesh, "mesh_tableau_mesh_mail_long_surcoat_herald", pos1, 0, 0),
+       (cur_tableau_set_camera_parameters, 0, 200, 200, 0, 100000),
+       ]),
+  
+  ("heraldic_tattered_leather_armor_a_plain", 0, "sample_tattered_leather_armor_a_herald", 512, 512, 0, 0, 0, 0,
+   [
+       (store_script_param, ":banner_mesh", 1),
+
+       (set_fixed_point_multiplier, 100),
+       (store_sub, ":background_slot", ":banner_mesh", arms_meshes_begin), #banner_meshes_begin),
+       (troop_get_slot, ":background_color", "trp_banner_background_color_array", ":background_slot"),
+       (cur_tableau_set_background_color, ":background_color"),
+
+       (init_position, pos1),
+       (cur_tableau_add_mesh_with_vertex_color, "mesh_heraldic_armor_bg", pos1, 200, 100, ":background_color"),
+
+       (init_position, pos1),
+       (position_set_z, pos1, 100),
+       (cur_tableau_add_mesh, "mesh_tableau_mesh_tattered_leather_armor_a_herald", pos1, 0, 0),
+       (cur_tableau_set_camera_parameters, 0, 200, 200, 0, 100000),
+       ]),
+  
+  ("heraldic_arabian_armor_b_plain", 0, "sample_arabian_armor_b_herald", 512, 512, 0, 0, 0, 0,
+   [
+       (store_script_param, ":banner_mesh", 1),
+
+       (set_fixed_point_multiplier, 100),
+       (store_sub, ":background_slot", ":banner_mesh", arms_meshes_begin), #banner_meshes_begin),
+       (troop_get_slot, ":background_color", "trp_banner_background_color_array", ":background_slot"),
+       (cur_tableau_set_background_color, ":background_color"),
+
+       (init_position, pos1),
+       (cur_tableau_add_mesh_with_vertex_color, "mesh_heraldic_armor_bg", pos1, 200, 100, ":background_color"),
+
+       (init_position, pos1),
+       (position_set_z, pos1, 100),
+       (cur_tableau_add_mesh, "mesh_tableau_mesh_arabian_armor_b_herald", pos1, 0, 0),
+       (cur_tableau_set_camera_parameters, 0, 200, 200, 0, 100000),
+       ]),
 
 
 

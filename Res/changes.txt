@@ -20,6 +20,13 @@ v0.530:
 		* update mail_long_surcoat to use heraldic colors
 		* update tattered_leather_armor to use heraldic colors
 		* update arabian_armor_b to use heraldic colors
+		* add vaegir_knight to small_kingdom_23
+		* move vaegir_pikman and vaegit_heavy_pikeman to small_kingdom_25 from small_kingdom_23
+		* increase rhodok_levy_spearman athletics (0 -> 1)
+		* add rhodok_hunter to small_kingdom_51
+		* increase ratio of rhodok_militia for rhodok culture
+		* decrease ratio of khergit_clansman for khergit culture
+		* decrease ratio of khergit_levy_horseman for khergit culture
 	-Fixes:
 		* fix fief promised to player could be given to another lord
 		* fix incorrect quest giver for vassalage offer quest
