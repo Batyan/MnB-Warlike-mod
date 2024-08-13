@@ -22852,4 +22852,56 @@ scripts = [
             (try_end),
             (assign, reg0, ":mesh"),
         ]),
+
+    # script_cf_clan_management_can_display_center
+        # input:
+        #   arg1: center_no
+        # output: none
+        # fails if center should not be displayed
+    ("cf_clan_management_can_display_center",
+        [
+            (store_script_param, ":center_no", 1),
+
+            (assign, ":continue", 0),
+
+            (party_get_slot, ":lord", ":center_no", slot_party_lord),
+            (try_begin),
+                (eq, ":lord", "$g_player_troop"),
+                (assign, ":continue", 1),
+            (else_try),
+                (call_script, "script_cf_troop_is_vassal_of", ":lord", "$g_player_troop", 0),
+                (assign, ":continue", 1),
+            (try_end),
+
+            (eq, ":continue", 1),
+        ]),
+
+    # script_cf_troop_is_vassal_of
+        # input:
+        #   arg1: troop_vassal
+        #   arg2: troop_vassal_of
+        #   arg3: direct
+        # output: none
+        # fails if troop is not vassal
+    ("cf_troop_is_vassal_of",
+        [
+            (store_script_param, ":troop_vassal", 1),
+            (store_script_param, ":troop_vassal_of", 2),
+            (store_script_param, ":direct", 3),
+
+            (assign, ":is_vassal", 0),
+            (ge, ":troop_vassal", 0),
+            (troop_get_slot, ":lord", ":troop_vassal", slot_troop_vassal_of),
+            (try_begin),
+                (eq, ":lord", ":troop_vassal_of"),
+                (assign, ":is_vassal", 1),
+            (else_try),
+                (eq, ":direct", 0),
+                (ge, ":lord", 0),
+                (call_script, "script_cf_troop_is_vassal_of", ":lord", ":troop_vassal_of", ":direct"),
+                (assign, ":is_vassal", 1),
+            (try_end),
+
+            (eq, ":is_vassal", 1),
+        ]),
 ]
