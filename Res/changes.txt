@@ -5,9 +5,21 @@ v0.530:
 		* decrease khergit_mounted_skirmisher shield (1 -> 0)
 		* change swadian_militia type (archer to crossbow)
 			This change intends to fix small_kingdom_11 lack of militia ranged units
-		* update padded leather to use heraldic colors
-		* update mail shirt to use heraldic colors
+		* update padded_leather to use heraldic colors
+		* update mail_shirt to use heraldic colors
 		* update byrnie to use heraldic colors
+		* update steppe_armor to use heraldic colors
+		* update cuir_bouilli to use heraldic colors
+		* update haubergeon to use heraldic colors
+		* update lamellar_armor to use heraldic colors
+		* update scale_armor to use heraldic colors
+		* update aketon_green_herald to use heraldic colors
+		* update studded_leather_coat to use heraldic colors
+		* update mamluke_mail to use heraldic colors
+		* update plate_armor to use heraldic colors
+		* update mail_long_surcoat to use heraldic colors
+		* update tattered_leather_armor to use heraldic colors
+		* update arabian_armor_b to use heraldic colors
 	-Fixes:
 		* fix fief promised to player could be given to another lord
 		* fix incorrect quest giver for vassalage offer quest
