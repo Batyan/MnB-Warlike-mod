@@ -1202,6 +1202,11 @@ presentations = [
 
                 (val_add, ":cur_y", ":category_height"),
 
+                ## CENTER GARRISON
+                # Center garrison selling
+                # Center garrison sending
+                # Center garrison size
+
                 ## CENTER WEALTH
                 # Center treasury
                 (try_begin),
@@ -1300,10 +1305,9 @@ presentations = [
                 (assign, "$g_withdraw_select", 0),
                 (assign, "$g_deposit_select", 0),
 
-                ## CENTER GARRISON
-                # Center garrison selling
-                # Center garrison sending
-                # Center garrison size
+                ## CENTER INFORMATIONS
+                # Citizen's wealth
+                # Population
 
                 ## CENTER ADMINISTRATION
                 # Assign governor

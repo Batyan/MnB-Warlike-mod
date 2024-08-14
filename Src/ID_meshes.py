@@ -529,5 +529,8 @@ mesh_tableau_mesh_full_plate_armor_herald = 527
 mesh_tableau_mesh_mail_long_surcoat_herald = 528
 mesh_tableau_mesh_tattered_leather_armor_a_herald = 529
 mesh_tableau_mesh_arabian_armor_b_herald = 530
+mesh_tableau_mesh_arena_tunic_herald = 531
+mesh_tableau_mesh_tabard_b_herald = 532
+mesh_tableau_mesh_leather_vest_a_herald = 533
 
 

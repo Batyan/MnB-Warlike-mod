@@ -568,4 +568,7 @@ meshes = [
   ("tableau_mesh_mail_long_surcoat_herald", 0, "tableau_mesh_mail_long_surcoat_herald",  0, 0, 0, 0, 0, 0, 1, 1, 1),
   ("tableau_mesh_tattered_leather_armor_a_herald", 0, "tableau_mesh_tattered_leather_armor_a_herald",  0, 0, 0, 0, 0, 0, 1, 1, 1),
   ("tableau_mesh_arabian_armor_b_herald", 0, "tableau_mesh_arabian_armor_b_herald",  0, 0, 0, 0, 0, 0, 1, 1, 1),
+  ("tableau_mesh_arena_tunic_herald", 0, "tableau_mesh_arena_tunic_herald",  0, 0, 0, 0, 0, 0, 1, 1, 1),
+  ("tableau_mesh_tabard_b_herald", 0, "tableau_mesh_tabard_b_herald",  0, 0, 0, 0, 0, 0, 1, 1, 1),
+  ("tableau_mesh_leather_vest_a_herald", 0, "tableau_mesh_leather_vest_a_herald",  0, 0, 0, 0, 0, 0, 1, 1, 1),
 ]
