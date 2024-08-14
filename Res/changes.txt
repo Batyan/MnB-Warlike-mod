@@ -33,6 +33,7 @@ v0.530:
 	-Fixes:
 		* fix fief promised to player could be given to another lord
 		* fix incorrect quest giver for vassalage offer quest
+		* prevent lords from spawning inside a besieged center
 v0.520:
 	-Features:
 		* add restrictions on allowing recruitment of troops of certain quality

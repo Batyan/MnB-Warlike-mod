@@ -9410,7 +9410,8 @@ scripts = [
             (assign, ":home", reg0),
             
             (ge, ":home", centers_begin),
-            # ToDo:
+            (party_get_slot, ":besieged", ":home", slot_party_besieged_by),
+            (lt, ":besieged", 0),
         ]),
     
     # script_troop_update_home
