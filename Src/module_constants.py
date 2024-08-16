@@ -1037,6 +1037,10 @@ slot_party_budget_debts = slot_party_budget_pay_occupation + 1
 slot_party_budget_expenses = slot_party_budget_debts + 1
 slot_party_budget_late_wages = slot_party_budget_expenses + 1
 slot_party_budget_wages = slot_party_budget_late_wages + 1
+slot_party_budget_private_expenses = slot_party_budget_wages + 1
+slot_party_budget_troops_hiring = slot_party_budget_private_expenses + 1
+slot_party_budget_troops_buying = slot_party_budget_troops_hiring + 1
+slot_party_budget_troops_selling = slot_party_budget_troops_hiring + 1
 
 tax_type_none = -1
 tax_type_population = 0
@@ -1058,11 +1062,15 @@ tax_type_debts = 15
 tax_type_expenses = 16
 tax_type_late_wages = 17
 tax_type_wages = 18
+tax_type_private_expenses = 19
+tax_type_troops_hiring = 20
+tax_type_troops_buying = 21
+tax_type_troops_selling = 22
 
 slot_party_buget_taxes_begin = slot_party_budget_taxes
-slot_party_buget_taxes_end = slot_party_budget_wages + 1
+slot_party_buget_taxes_end = slot_party_budget_troops_selling + 1
 
-slot_party_budget_reserved_party = slot_party_budget_wages + 1
+slot_party_budget_reserved_party = slot_party_buget_taxes_end
 slot_party_budget_reserved_auxiliaries = slot_party_budget_reserved_party + 1
 slot_party_budget_reserved_expenses = slot_party_budget_reserved_auxiliaries + 1
 slot_party_budget_reserved_other = slot_party_budget_reserved_expenses + 1

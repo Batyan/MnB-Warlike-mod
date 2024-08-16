@@ -1193,4 +1193,8 @@ strings = [
   ("party_tax_description_expenses", "Diverse expenses"),
   ("party_tax_description_late_wages", "Old Wages"),
   ("party_tax_description_wages", "Wages"),
+  ("party_tax_description_private_expenses", "Personal withdrawal"),
+  ("party_tax_description_troops_hiring", "Troops training"),
+  ("party_tax_description_troops_nuying", "Troops hiring"),
+  ("party_tax_description_troops_selling", "Tropps selling"),
 ]

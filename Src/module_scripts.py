@@ -5682,7 +5682,7 @@ scripts = [
             (try_begin),
                 (neq, ":consumed", ":pop_consumption"),
                 (try_begin),
-                    (call_script, "script_cf_debug", debug_economy|debug_current),
+                    (call_script, "script_cf_debug", debug_economy),
                     (eq, ":party_no", towns_begin),
                     (str_store_party_name, s10, ":party_no"),
                     (str_store_item_name, s11, ":item_no"),
@@ -10645,7 +10645,8 @@ scripts = [
 
                 (store_mul, ":gold_cost", reg1, -1),
 
-                (call_script, "script_party_modify_wealth", ":party_no", ":gold_cost"),
+                (call_script, "script_party_add_accumulated_taxes", ":party_no", ":gold_cost", tax_type_troops_hiring),
+                # (call_script, "script_party_modify_wealth", ":party_no", ":gold_cost"),
 
                 (try_begin),
                     # We do not want to buy expensive troops from other centers when we don't need it
@@ -19353,7 +19354,7 @@ scripts = [
                     (val_min, ":max_payment", ":unpaid_wages"),
 
                     (store_mul, ":payment", ":max_payment", -1),
-                    (call_script, "script_party_add_accumulated_taxes", ":party_no", ":payment", tax_type_late_wages),
+                    (call_script, "script_party_add_accumulated_taxes", ":party_no", ":payment", tax_type_debts),
                     # (call_script, "script_party_remove_gold", ":party_no", ":max_payment"),
                     (val_sub, ":unpaid_wages", ":max_payment"),
                     (val_add, ":paid_debts", ":max_payment"),
@@ -19365,7 +19366,7 @@ scripts = [
                     (gt, ":linked_party", 0),
                     (party_get_attached_to, ":attached", ":party_no"),
                     (eq, ":attached", ":linked_party"),
-                    (call_script, "script_party_transfer_wealth", ":attached", ":party_no", ":unpaid_wages", tax_type_none),
+                    (call_script, "script_party_transfer_wealth", ":attached", ":party_no", ":unpaid_wages", tax_type_late_wages),
                     # (call_script, "script_party_remove_gold", ":party_no", ":unpaid_wages"),
                     (assign, ":unpaid_wages", 0),
                 (try_end),
@@ -22233,6 +22234,7 @@ scripts = [
                 (this_or_next|eq, ":tax_type", tax_type_vassal),
                 (this_or_next|eq, ":tax_type", tax_type_member),
                 (this_or_next|eq, ":tax_type", tax_type_funds),
+                (this_or_next|eq, ":tax_type", tax_type_troops_buying),
                 (eq, ":tax_type", tax_type_tribute),
 
                 (store_add, ":inverse_tax", ":tax_type", 1),
@@ -22241,6 +22243,7 @@ scripts = [
                 (this_or_next|eq, ":tax_type", tax_type_vassal_pay),
                 (this_or_next|eq, ":tax_type", tax_type_member_pay),
                 (this_or_next|eq, ":tax_type", tax_type_funds_pay),
+                (this_or_next|eq, ":tax_type", tax_type_troops_selling),
                 (eq, ":tax_type", tax_type_tribute_pay),
 
                 (store_add, ":inverse_tax", ":tax_type", -1),
