@@ -459,5 +459,7 @@ script_get_dialog_caravan_toll = 457
 script_party_get_picture_mesh = 458
 script_cf_clan_management_can_display_center = 459
 script_cf_troop_is_vassal_of = 460
+script_assign_selected_lord = 461
+script_filter_lord_vassal_grant = 462
 
 
