@@ -532,5 +532,9 @@ mesh_tableau_mesh_arabian_armor_b_herald = 530
 mesh_tableau_mesh_arena_tunic_herald = 531
 mesh_tableau_mesh_tabard_b_herald = 532
 mesh_tableau_mesh_leather_vest_a_herald = 533
+mesh_tableau_mesh_rich_tunic_a_herald = 534
+mesh_tableau_mesh_surcoat_over_mail_herald = 535
+mesh_tableau_mesh_peasant_man_a_herald = 536
+mesh_tableau_mesh_ragged_leather_jerkin_herald = 537
 
 

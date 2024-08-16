@@ -23,6 +23,10 @@ v0.530:
 		* update tabard to use heraldic colors
 		* update leather_vest to use heraldic colors
 		* update tunic to use heraldic colors
+		* update rich_shirt to use heraldic colors
+		* update tunic_with_green_cape to use heraldic colors
+		* update leather_jerkin to use heraldic colors
+		* update surcoat_over_mail to use heraldic colors
 		* add vaegir_knight to small_kingdom_23
 		* move vaegir_pikman and vaegit_heavy_pikeman to small_kingdom_25 from small_kingdom_23
 		* increase rhodok_levy_spearman athletics (0 -> 1)
