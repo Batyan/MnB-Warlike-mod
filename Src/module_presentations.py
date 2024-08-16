@@ -49,6 +49,8 @@ presentations = [
     ###########
     ## Other ##
     ###########
+    # prsnt_recruit_from_town_garrison
+        # Requires $temp set to the center where the player is recruiting
     ("recruit_from_town_garrison", 0, mesh_load_window, 
         [
         	(ti_on_presentation_load,
@@ -165,7 +167,7 @@ presentations = [
         		# Total cost
         		(str_store_string, s0, "@Total cost: 0 denars"),
         		(create_text_overlay, "$g_hire_soldiers_total_cost", s0, tf_left_align),
-        		(position_set_x, pos1, 200),
+        		(position_set_x, pos1, 250),
         		(position_set_y, pos1, 140),
         		(overlay_set_position, "$g_hire_soldiers_total_cost", pos1),
         		(position_set_x, pos1, 1000),
@@ -175,7 +177,7 @@ presentations = [
         		(store_troop_gold, reg0, "$g_player_troop"),
         		(str_store_string, s0, "@Current money: {reg0} denars"),
         		(create_text_overlay, reg0, s0, tf_left_align),
-        		(position_set_x, pos1, 200),
+        		(position_set_x, pos1, 250),
         		(position_set_y, pos1, 110),
         		(overlay_set_position, reg0, pos1),
         		(position_set_x, pos1, 1000),
@@ -186,7 +188,7 @@ presentations = [
         		(party_get_num_companions, reg11, "$g_player_party"),
         		(str_store_string, s0, "@Party size: {reg11}"),
         		(create_text_overlay, "$g_hire_soldiers_free_capacity", s0, tf_left_align),
-        		(position_set_x, pos1, 200),
+        		(position_set_x, pos1, 250),
         		(position_set_y, pos1, 80),
         		(overlay_set_position, "$g_hire_soldiers_free_capacity", pos1),
         		(position_set_x, pos1, 1000),
@@ -200,7 +202,7 @@ presentations = [
                 (assign, reg11, reg0),
                 (str_store_string, s0, "@Center recruitment limit: {reg11}/{reg10}"),
                 (create_text_overlay, "$g_hire_soldiers_min_capacity", s0, tf_left_align),
-                (position_set_x, pos1, 200),
+                (position_set_x, pos1, 250),
                 (position_set_y, pos1, 50),
                 (overlay_set_position, "$g_hire_soldiers_min_capacity", pos1),
                 (position_set_x, pos1, 1000),
@@ -251,14 +253,14 @@ presentations = [
         		# (overlay_set_size, "$g_hire_soldiers_troop_type", pos1),
         		
         		# Buy button
-        		(create_button_overlay, "$g_presentation_ok", "@Buy"),
-        		(position_set_x, pos1, 50),
-        		(position_set_y, pos1, 80),
-        		(overlay_set_position, "$g_presentation_ok", pos1),
+                (create_game_button_overlay, "$g_presentation_ok", "@Buy"),
+                (position_set_x, pos1, 150),
+                (position_set_y, pos1, 100),
+                (overlay_set_position, "$g_presentation_ok", pos1),
         		
         		# Cancel button
-        		(create_button_overlay, "$g_presentation_cancel", "@Cancel"),
-        		(position_set_x, pos1, 50),
+        		(create_game_button_overlay, "$g_presentation_cancel", "@Cancel"),
+        		(position_set_x, pos1, 150),
         		(position_set_y, pos1, 50),
         		(overlay_set_position, "$g_presentation_cancel", pos1),
         		
@@ -522,8 +524,8 @@ presentations = [
                 (assign, "$g_presentation_culture", cultures_begin),
         		
         		# Accept button
-        		(create_button_overlay, "$g_presentation_ok", "@Accept"),
-        		(position_set_x, pos1, 50),
+        		(create_game_button_overlay, "$g_presentation_ok", "@Accept"),
+        		(position_set_x, pos1, 150),
         		(position_set_y, pos1, 120),
         		(overlay_set_position, "$g_presentation_ok", pos1),
         		
@@ -967,8 +969,8 @@ presentations = [
                 (set_container_overlay, -1),
 
                 # Actions panel
-                (create_button_overlay, "$g_presentation_ok", "@Continue"),
-                (position_set_x, pos1, 50),
+                (create_game_button_overlay, "$g_presentation_ok", "@Continue"),
+                (position_set_x, pos1, 150),
                 (position_set_y, pos1, 50),
                 (overlay_set_position, "$g_presentation_ok", pos1),
 
@@ -1313,20 +1315,78 @@ presentations = [
                 # Assign governor
                 # Grant fief
 
+                (try_begin),
+                    (ge, ":lord", 0),
+
+                    (create_mesh_overlay_with_tableau_material, reg0, -1, "tableau_troop_note_mesh", ":lord"),
+                    (store_sub, ":x", ":left_panel_values_x", 100),
+                    (position_set_x, pos1, ":x"),
+                    (position_set_y, pos1, ":cur_y"),
+                    (overlay_set_position, reg0, pos1),
+                    (position_set_x, pos1, 380),
+                    (position_set_y, pos1, 380),
+                    (overlay_set_size, reg0, pos1),
+                (try_end),
+
+                (try_begin),
+                    (this_or_next|eq, ":lord", "$g_player_troop"),
+                    (lt, ":lord", 0),
+
+                    (try_begin),
+                        (troop_slot_eq, "$g_player_troop", slot_troop_home, ":current_center"),
+                        (str_store_troop_name, s10, "$g_player_troop"),
+
+                        (create_text_overlay, reg0, "@Court of {s10}", tf_left_align),
+                        (position_set_x, pos1, ":left_panel_x"),
+                        (position_set_y, pos1, ":cur_y"),
+                        (overlay_set_position, reg0, pos1),
+                        (position_set_x, pos1, 1000),
+                        (position_set_y, pos1, 1000),
+                        (overlay_set_size, reg0, pos1),
+                    (else_try),
+                        (create_game_button_overlay, reg0, "@Change"),
+                        (store_add, ":x", ":left_panel_x", 100),
+                        (position_set_x, pos1, ":x"),
+                        (position_set_y, pos1, ":cur_y"),
+                        (overlay_set_position, reg0, pos1),
+                        (val_add, ":cur_y", ":line_height"),
+                        (assign, "$g_presentation_center_change_lord", reg0),
+                    (try_end),
+                (try_end),
+                (val_add, ":cur_y", ":line_height"),
+
+                (try_begin),
+                    (ge, ":lord", 0),
+                    (str_store_troop_name, s10, ":lord"),
+                (else_try),
+                    (str_store_string, s10, "@unassigned"),
+                (try_end),
+                (create_text_overlay, reg0, "@{s10}", tf_left_align),
+                (position_set_x, pos1, ":left_panel_x"),
+                (position_set_y, pos1, ":cur_y"),
+                (overlay_set_position, reg0, pos1),
+                (position_set_x, pos1, 1000),
+                (position_set_y, pos1, 1000),
+                (overlay_set_size, reg0, pos1),
+                (val_add, ":cur_y", ":line_height"),
+
+                (create_text_overlay, reg0, "@Current lord:", tf_left_align),
+                (position_set_x, pos1, ":left_panel_x"),
+                (position_set_y, pos1, ":cur_y"),
+                (overlay_set_position, reg0, pos1),
+                (position_set_x, pos1, 1000),
+                (position_set_y, pos1, 1000),
+                (overlay_set_size, reg0, pos1),
+                (val_add, ":cur_y", ":line_height"),
+
                 (set_container_overlay, -1),
 
-                (create_button_overlay, "$g_presentation_ok", "@Continue"),
-                (position_set_x, pos1, 50),
+                (create_game_button_overlay, "$g_presentation_ok", "@Continue"),
+                (position_set_x, pos1, 150),
                 (position_set_y, pos1, 50),
                 (overlay_set_position, "$g_presentation_ok", pos1),
 
-
                 (presentation_set_duration, 999999),
-            ]),
-
-            (ti_on_presentation_run,
-            [
-                # (presentation_set_duration, 0),
             ]),
 
             (ti_on_presentation_event_state_change,
@@ -1365,6 +1425,13 @@ presentations = [
                 (else_try),
                     (eq, ":object", "$g_presentation_center_tax_rate_sell_select"),
                     (party_set_slot, ":current_center", slot_party_taxes_sell, ":value"),
+                (else_try),
+                    (eq, ":object", "$g_presentation_center_change_lord"),
+                    (assign, "$callback", "script_assign_selected_lord"),
+                    (assign, "$temp", ":current_center"),
+                    (assign, "$filter_method", "script_filter_lord_vassal_grant"),
+
+                    (start_presentation, "prsnt_select_lord"),
                 (else_try),
                     (eq, ":object", "$g_presentation_ok"),
 
@@ -1584,8 +1651,8 @@ presentations = [
                     (set_container_overlay, -1),
 
                     # Actions panel
-                    (create_button_overlay, "$g_presentation_ok", "@Continue"),
-                    (position_set_x, pos1, 50),
+                    (create_game_button_overlay, "$g_presentation_ok", "@Continue"),
+                    (position_set_x, pos1, 150),
                     (position_set_y, pos1, 50),
                     (overlay_set_position, "$g_presentation_ok", pos1),
 
@@ -1612,6 +1679,67 @@ presentations = [
                         (is_between, ":manage_center", centers_begin, centers_end),
                         (assign, "$temp", ":manage_center"),
                         (start_presentation, "prsnt_center_administration"),
+                    (try_end),
+                ]),
+        ]),
+
+    # prsnt_select_lord
+        # Requires temp set to center id
+        # Requires callback set to callback script (arg1: selected lord)
+        # Requires filter_method set to script for filtering troop (arg1: selected lord)
+    ("select_lord", 0, mesh_load_window,
+        [
+            (ti_on_presentation_load,
+                [
+                    (set_fixed_point_multiplier, 1000),
+
+                    (str_clear, s0),
+                    (create_text_overlay, reg0, s0, tf_scrollable),
+                    (position_set_x, pos1, 50),
+                    (position_set_y, pos1, 100),
+                    (overlay_set_position, reg0, pos1),
+                    (position_set_x, pos1, 880),
+                    (position_set_y, pos1, 550),
+                    (overlay_set_area_size, reg0, pos1),
+                    
+                    (set_container_overlay, reg0),
+
+                    (assign, ":cur_y", 10),
+
+                    (try_for_range, ":lord_no", lords_begin, lords_end),
+                        (call_script, "$filter_method", ":lord_no"),
+                        (eq, reg0, 0),
+                        (create_mesh_overlay_with_tableau_material, reg0, -1, "tableau_troop_note_mesh", ":lord_no"),
+                        (position_set_x, pos1, 100),
+                        (position_set_y, pos1, ":cur_y"),
+                        (overlay_set_position, reg0, pos1),
+                        (position_set_x, pos1, 380),
+                        (position_set_y, pos1, 380),
+                        (overlay_set_size, reg0, pos1),
+
+                        (val_add, ":cur_y", 100),
+                    (try_end),
+
+                    (set_container_overlay, -1),
+
+                    # Actions panel
+                    (create_game_button_overlay, "$g_presentation_ok", "@Continue"),
+                    (position_set_x, pos1, 150),
+                    (position_set_y, pos1, 50),
+                    (overlay_set_position, "$g_presentation_ok", pos1),
+
+                    (presentation_set_duration, 999999),
+                ]),
+
+            (ti_on_presentation_event_state_change,
+                [
+                    (store_trigger_param_1, ":object"),
+                    # (store_trigger_param_2, ":value"),
+
+                    (try_begin),
+                        (eq, ":object", "$g_presentation_ok"),
+
+                        (presentation_set_duration, 0),
                     (try_end),
                 ]),
         ]),

@@ -22908,4 +22908,43 @@ scripts = [
 
             (eq, ":is_vassal", 1),
         ]),
+
+    # script_assign_selected_lord
+        # input:
+        #   arg1: troop_no
+        # output: none
+    ("assign_selected_lord",
+        [
+            (store_script_param, ":lord", 1),
+
+            (call_script, "script_troop_give_center_to_troop", "$g_player_troop", "$temp", ":lord"),
+        ]),
+
+    # script_filter_lord_vassal_grant
+        # input:
+        #   arg1: troop_no
+        # output:
+        #   reg0: troop_filtered (1: filtered)
+    ("filter_lord_vassal_grant",
+        [
+            (store_script_param, ":lord", 1),
+
+            (assign, ":filtered", 1),
+            (try_begin),
+                (troop_slot_eq, ":lord", slot_troop_kingdom_occupation, tko_kingdom_hero),
+                
+                (store_troop_faction, ":lord_faction", ":lord"),
+                (store_troop_faction, ":player_faction", "$g_player_troop"),
+                (eq, ":player_faction", ":lord_faction"),
+
+                (troop_get_slot, ":vassal_of", ":lord", slot_troop_vassal_of),
+                (this_or_next|eq, ":vassal_of", "$g_player_troop"),
+                (lt, ":vassal_of", 0),
+
+                (assign, ":filtered", 0),
+            (try_end),
+
+
+            (assign, reg0, ":filtered"),
+        ]),
 ]

@@ -906,5 +906,9 @@ str_party_tax_description_debts = 904
 str_party_tax_description_expenses = 905
 str_party_tax_description_late_wages = 906
 str_party_tax_description_wages = 907
+str_party_tax_description_private_expenses = 908
+str_party_tax_description_troops_hiring = 909
+str_party_tax_description_troops_nuying = 910
+str_party_tax_description_troops_selling = 911
 
 
