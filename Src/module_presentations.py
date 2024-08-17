@@ -1089,11 +1089,17 @@ presentations = [
                 (assign, ":left_panel_values_x", 385),
                 (assign, ":right_panel_x", 435),
                 (assign, ":right_panel_values_x", 870),
+
+                (party_get_slot, ":lord", ":current_center", slot_party_lord),
+                (try_begin),
+                    (eq, ":lord", "$g_player_troop"),
+                    (assign, "$g_presentation_readonly", 0),
+                (else_try),
+                    (assign, "$g_presentation_readonly", 1),
+                (try_end),
                 
                 ## CENTER POLICIES
                 # Center taxes
-
-                (party_get_slot, ":lord", ":current_center", slot_party_lord),
 
                 (create_text_overlay, reg0, "@Buying tax rate", tf_left_align),
                 (position_set_x, pos1, ":left_panel_x"),
@@ -1105,7 +1111,7 @@ presentations = [
 
                 (party_get_slot, ":buy_rate", ":current_center", slot_party_taxes_buy),
                 (try_begin),
-                    (eq, ":lord", "$g_player_troop"),
+                    (eq, "$g_presentation_readonly", 0),
                     (assign, ":max", 100),
                     (create_number_box_overlay, reg0, 0, ":max"),
                     (store_sub, ":pos", ":left_panel_values_x", numberbox_size),
@@ -1133,13 +1139,13 @@ presentations = [
 
                 (party_get_slot, ":sell_rate", ":current_center", slot_party_taxes_sell),
                 (try_begin),
-                    (eq, ":lord", "$g_player_troop"),
+                    (eq, "$g_presentation_readonly", 0),
                     (assign, ":max", 100),
                     (create_number_box_overlay, reg0, 0, ":max"),
                     (store_sub, ":pos", ":right_panel_values_x", numberbox_size),
                 (else_try),
                     (assign, reg10, ":sell_rate"),
-                    (create_text_overlay, reg0, "@{reg10}"),
+                    (create_text_overlay, reg0, "@{reg10}", tf_right_align),
                     (assign, ":pos", ":right_panel_values_x"),
                 (try_end),
                 (position_set_x, pos1, ":pos"),
@@ -1163,7 +1169,7 @@ presentations = [
 
                 (party_get_slot, ":tax_rate", ":current_center", slot_party_taxes_fixed),
                 (try_begin),
-                    (eq, ":lord", "$g_player_troop"),
+                    (eq, "$g_presentation_readonly", 0),
                     (assign, ":max", 100),
                     (create_number_box_overlay, reg0, 0, ":max"),
                     (store_sub, ":pos", ":left_panel_values_x", numberbox_size),
@@ -1212,7 +1218,7 @@ presentations = [
                 ## CENTER WEALTH
                 # Center treasury
                 (try_begin),
-                    (eq, ":lord", "$g_player_troop"),
+                    (eq, "$g_presentation_readonly", 0),
 
                     (party_get_slot, ":center_wealth", ":current_center", slot_party_wealth),
                     (store_troop_gold, ":player_wealth", "$g_player_troop"),
@@ -1397,6 +1403,10 @@ presentations = [
                 (assign, ":current_center", "$temp"),
 
                 (try_begin),
+                    (eq, ":object", "$g_presentation_ok"),
+
+                    (presentation_set_duration, 0),
+                (else_try),
                     (eq, ":object", "$g_presentation_deposit"),
                     (call_script, "script_party_transfer_wealth", "$g_player_party", ":current_center", "$g_deposit_select", tax_type_none),
                     (overlay_set_val, "$g_presentation_player_wealth_select", 0),
@@ -1432,24 +1442,23 @@ presentations = [
                     (assign, "$filter_method", "script_filter_lord_vassal_grant"),
 
                     (start_presentation, "prsnt_select_lord"),
-                (else_try),
-                    (eq, ":object", "$g_presentation_ok"),
-
-                    (presentation_set_duration, 0),
                 (try_end),
 
-                (party_get_slot, ":center_wealth", ":current_center", slot_party_wealth),
-                (store_troop_gold, ":player_wealth", "$g_player_troop"),
+                (try_begin),
+                    (eq, "$g_presentation_readonly", 0),
+                    (party_get_slot, ":center_wealth", ":current_center", slot_party_wealth),
+                    (store_troop_gold, ":player_wealth", "$g_player_troop"),
 
-                (assign, reg10, ":center_wealth"),
-                (assign, reg11, ":player_wealth"),
-                (overlay_set_text, "$g_presentation_center_wealth", "@{reg10}"),
-                (overlay_set_text, "$g_presentation_player_wealth", "@{reg11}"),
+                    (assign, reg10, ":center_wealth"),
+                    (assign, reg11, ":player_wealth"),
+                    (overlay_set_text, "$g_presentation_center_wealth", "@{reg10}"),
+                    (overlay_set_text, "$g_presentation_player_wealth", "@{reg11}"),
 
-                (store_add, ":max", ":center_wealth", 1),
-                (overlay_set_boundaries, "$g_presentation_center_wealth_select", 0, ":max"),
-                (store_add, ":max", ":player_wealth", 1),
-                (overlay_set_boundaries, "$g_presentation_player_wealth_select", 0, ":max"),
+                    (store_add, ":max", ":center_wealth", 1),
+                    (overlay_set_boundaries, "$g_presentation_center_wealth_select", 0, ":max"),
+                    (store_add, ":max", ":player_wealth", 1),
+                    (overlay_set_boundaries, "$g_presentation_player_wealth_select", 0, ":max"),
+                (try_end),
             ]),
         ]),
 
@@ -1701,17 +1710,23 @@ presentations = [
                     (position_set_x, pos1, 880),
                     (position_set_y, pos1, 550),
                     (overlay_set_area_size, reg0, pos1),
+
+                    (assign, "$g_presentation_selected_lord", -1),
                     
                     (set_container_overlay, reg0),
 
                     (assign, ":cur_y", 10),
 
-                    (assign, ":left_panel_x", 0),
-                    (assign, ":left_panel_values_x", 160),
-                    (assign, ":left_panel_values2_x", 260),
-                    (assign, ":right_panel_x", 435),
-                    (assign, ":right_panel_values_x", 595),
-                    (assign, ":right_panel_values2_x", 695),
+                    (assign, ":left_panel_x", 10),
+                    (assign, ":left_panel_values_x", 175),
+                    (assign, ":left_panel_values2_x", 275),
+                    (assign, ":right_panel_x", 445),
+                    (assign, ":right_panel_values_x", 610),
+                    (assign, ":right_panel_values2_x", 710),
+
+                    (try_for_range, ":lord_no", lords_begin, lords_end),
+                        (troop_set_slot, ":lord_no", slot_troop_temp_slot, -1),
+                    (try_end),
 
                     (assign, ":i", 0),
 
@@ -1731,15 +1746,33 @@ presentations = [
                             (assign, ":values2_x", ":right_panel_values2_x"),
                         (try_end),
 
-                        (create_mesh_overlay_with_tableau_material, reg0, -1, "tableau_troop_note_mesh", ":lord_no"),
+                        (create_mesh_overlay, reg0, "mesh_mp_ingame_menu"),
                         (position_set_x, pos1, ":x"),
                         (position_set_y, pos1, ":cur_y"),
+                        (overlay_set_position, reg0, pos1),
+                        (position_set_x, pos1, 775),
+                        (position_set_y, pos1, 225),
+                        (overlay_set_size, reg0, pos1),
+
+                        (store_add, ":line_text_y", ":cur_y", 10),
+
+                        (store_add, ":checkbox_y", ":line_text_y", 45),
+                        (store_add, ":checkbox_x", ":x", 25),
+                        (create_check_box_overlay, reg0, "mesh_checkbox_off", "mesh_checkbox_on"),
+                        (position_set_x, pos1, ":checkbox_x"),
+                        (position_set_y, pos1, ":checkbox_y"),
+                        (overlay_set_position, reg0, pos1),
+                        (troop_set_slot, ":lord_no", slot_troop_temp_slot, reg0),
+
+                        (store_add, ":picture_x", ":x", 35),
+                        (store_add, ":picture_y", ":line_text_y", 5),
+                        (create_mesh_overlay_with_tableau_material, reg0, -1, "tableau_troop_note_mesh", ":lord_no"),
+                        (position_set_x, pos1, ":picture_x"),
+                        (position_set_y, pos1, ":picture_y"),
                         (overlay_set_position, reg0, pos1),
                         (position_set_x, pos1, 380),
                         (position_set_y, pos1, 380),
                         (overlay_set_size, reg0, pos1),
-
-                        (assign, ":line_text_y", ":cur_y"),
 
                         (troop_get_slot, ":culture", ":lord_no", slot_troop_culture),
                         (str_store_faction_name, s10, ":culture"),
@@ -1750,6 +1783,7 @@ presentations = [
                         (position_set_x, pos1, 1000),
                         (position_set_y, pos1, 1000),
                         (overlay_set_size, reg0, pos1),
+                        (overlay_set_color, reg0, text_color_white),
 
                         (val_add, ":line_text_y", line_height),
 
@@ -1762,6 +1796,7 @@ presentations = [
                         (position_set_x, pos1, 1000),
                         (position_set_y, pos1, 1000),
                         (overlay_set_size, reg0, pos1),
+                        (overlay_set_color, reg0, text_color_white),
 
                         (troop_get_slot, reg10, ":lord_no", slot_troop_renown),
                         (create_text_overlay, reg0, "@{reg10} renown"),
@@ -1771,6 +1806,7 @@ presentations = [
                         (position_set_x, pos1, 1000),
                         (position_set_y, pos1, 1000),
                         (overlay_set_size, reg0, pos1),
+                        (overlay_set_color, reg0, text_color_white),
 
                         (val_add, ":line_text_y", line_height),
 
@@ -1782,6 +1818,7 @@ presentations = [
                         (position_set_x, pos1, 1000),
                         (position_set_y, pos1, 1000),
                         (overlay_set_size, reg0, pos1),
+                        (overlay_set_color, reg0, text_color_white),
 
                         (assign, ":num_fiefs", 0),
                         (try_for_range, ":center_no", centers_begin, centers_end),
@@ -1796,6 +1833,7 @@ presentations = [
                         (position_set_x, pos1, 1000),
                         (position_set_y, pos1, 1000),
                         (overlay_set_size, reg0, pos1),
+                        (overlay_set_color, reg0, text_color_white),
 
                         (val_add, ":line_text_y", line_height),
 
@@ -1807,6 +1845,7 @@ presentations = [
                         (position_set_x, pos1, 1000),
                         (position_set_y, pos1, 1000),
                         (overlay_set_size, reg0, pos1),
+                        (overlay_set_color, reg0, text_color_white),
 
                         (try_begin),
                             (eq, ":i", 1),
@@ -1829,12 +1868,38 @@ presentations = [
             (ti_on_presentation_event_state_change,
                 [
                     (store_trigger_param_1, ":object"),
-                    # (store_trigger_param_2, ":value"),
+                    (store_trigger_param_2, ":value"),
 
                     (try_begin),
+
                         (eq, ":object", "$g_presentation_ok"),
 
+                        (try_begin),
+                            (ge, "$g_presentation_selected_lord", 0),
+                            (call_script, "$callback", "$g_presentation_selected_lord"),
+                        (try_end),
+
                         (presentation_set_duration, 0),
+                    (else_try),
+                        (assign, ":selected_lord", -1),
+                        (try_for_range, ":lord_no", lords_begin, lords_end),
+                            (troop_slot_eq, ":lord_no", slot_troop_temp_slot, ":object"),
+                            (assign, ":selected_lord", ":lord_no"),
+                            (try_begin),
+                                (eq, ":value", 1),
+                                (assign, "$g_presentation_selected_lord", ":selected_lord"),
+                            (else_try),
+                                (assign, "$g_presentation_selected_lord", -1),
+                            (try_end),
+                        (try_end),
+                        (ge, ":selected_lord", 0),
+                        
+                        (try_for_range, ":lord_no", lords_begin, lords_end),
+                            (troop_get_slot, ":overlay_id", ":lord_no", slot_troop_temp_slot),
+                            (neq, ":overlay_id", ":object"),
+                            (ge, ":overlay_id", 0),
+                            (overlay_set_val, ":overlay_id", 0),
+                        (try_end),
                     (try_end),
                 ]),
         ]),

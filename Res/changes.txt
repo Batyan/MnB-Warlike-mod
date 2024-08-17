@@ -1,5 +1,6 @@
 v0.530:
 	-Features:
+		* add the ability to grant fief to vassals
 	-Balance:
 		* increase khergit_light_mounted_skirmisher powerstrike (2 -> 4)
 		* decrease khergit_mounted_skirmisher shield (1 -> 0)
