@@ -536,5 +536,7 @@ mesh_tableau_mesh_rich_tunic_a_herald = 534
 mesh_tableau_mesh_surcoat_over_mail_herald = 535
 mesh_tableau_mesh_peasant_man_a_herald = 536
 mesh_tableau_mesh_ragged_leather_jerkin_herald = 537
+mesh_tableau_mesh_hauberk_a_herald = 538
+mesh_tableau_mesh_shirt_a_herald = 539
 
 
