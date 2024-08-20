@@ -365,7 +365,7 @@ simple_triggers = [
                                 (call_script, "script_find_free_lord"),
                                 (assign, ":new_lord", reg0),
                                 (gt, ":new_lord", 0),
-                                (call_script, "script_ready_lord", ":new_lord", ":faction"),
+                                (call_script, "script_ready_lord", ":new_lord", ":faction", 1),
                                 (call_script, "script_troop_give_center_to_troop", ":lord_no", ":surplus_fief", ":new_lord"),
                             (try_end),
                         (try_end),

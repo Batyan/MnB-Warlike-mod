@@ -1185,6 +1185,8 @@ troop_slots = 0
 slot_troop_temp_slot				= 0
 slot_troop_temp_hire_number			= slot_troop_temp_slot
 
+slot_troop_temp_array_begin			= 1
+
 slot_troop_banner_scene_prop		= 1
 
 slot_troop_type						= 2
@@ -1238,6 +1240,8 @@ tko_none = 0
 tko_kingdom_hero = 1
 tko_mercenary = 2
 tko_bandit = 3
+tko_reserved = 4
+
 slot_troop_personality 				= 13
 tp_default = 0x0000
 

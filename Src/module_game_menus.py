@@ -52,7 +52,7 @@ game_menus = [
                 ], "Start as male character",
                 [
                     (troop_set_type, "$g_player_troop", tf_male),
-                    (troop_set_type, "trp_player", tf_female),
+                    (troop_set_type, "trp_player", tf_male),
                     (display_message, "@Player is male"),
                     (jump_to_menu, "mnu_start_game_0"),
                 ]),

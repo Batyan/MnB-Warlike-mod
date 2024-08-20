@@ -85,7 +85,7 @@ scripts = [
                 (assign, ":lord_no", reg0),
                 (gt, ":lord_no", 0),
                 
-                (call_script, "script_ready_lord", ":lord_no", ":faction_no"),
+                (call_script, "script_ready_lord", ":lord_no", ":faction_no", 1),
                 (call_script, "script_troop_get_rank", ":lord_no"),
                 (assign, ":rank", reg0),
                 (troop_set_slot, ":lord_no", slot_troop_rank, ":rank"),
@@ -12124,11 +12124,13 @@ scripts = [
         # input:
         #   arg1: lord_no
         #   arg2: faction_no
+        #   arg3: activate
         # output: none
     ("ready_lord",
         [
             (store_script_param, ":lord_no", 1),
             (store_script_param, ":faction_no", 2),
+            (store_script_param, ":activate", 3),
             
             (troop_set_faction, ":lord_no", ":faction_no"),
 
@@ -12143,14 +12145,23 @@ scripts = [
             (troop_set_slot, ":lord_no", slot_troop_renown, 50),
             (troop_set_slot, ":lord_no", slot_troop_num_vassal, 0),
             
-            (troop_set_slot, ":lord_no", slot_troop_kingdom_occupation, tko_kingdom_hero),
+            (try_begin),
+                (eq, ":activate", 1),
+                (troop_set_slot, ":lord_no", slot_troop_kingdom_occupation, tko_kingdom_hero),
+            (else_try),
+                (troop_set_slot, ":lord_no", slot_troop_kingdom_occupation, tko_reserved),
+            (try_end),
             
             (call_script, "script_troop_set_equip_type", ":lord_no"),
             (call_script, "script_troop_change_level", ":lord_no", 0),
             (troop_set_slot, ":lord_no", slot_troop_rank, rank_none),
             (call_script, "script_troop_set_name", ":lord_no"),
             (call_script, "script_troop_update_name", ":lord_no"),
-            (call_script, "script_troop_update_home", ":lord_no"),
+
+            (try_begin),
+                (eq, ":activate", 1),
+                (call_script, "script_troop_update_home", ":lord_no"),
+            (try_end),
             
             # ToDo: refine banner selection
             (store_random_in_range, ":banner", banner_scene_props_begin, banner_scene_props_end),
@@ -12165,9 +12176,65 @@ scripts = [
             (troop_set_slot, ":lord_no", slot_troop_last_attack, ":current_day"),
             (troop_set_slot, ":lord_no", slot_troop_last_rest, ":current_day"),
             
+            (try_begin),
+                (eq, ":activate", 1),
+                (faction_get_slot, ":num_vassals", ":faction_no", slot_faction_num_vassals),
+                (val_add, ":num_vassals", 1),
+                (faction_set_slot, ":faction_no", slot_faction_num_vassals, ":num_vassals"),
+            (try_end),
+        ]),
+
+    # script_activate_lord
+        # input:
+        #   arg1: troop_no
+        # output: none
+    ("activate_lord",
+        [
+            (store_script_param, ":lord_no", 1),
+
+            (troop_set_slot, ":lord_no", slot_troop_kingdom_occupation, tko_kingdom_hero),
+            (call_script, "script_troop_update_home", ":lord_no"),
+
+            (store_troop_faction, ":faction_no", ":lord_no"),
             (faction_get_slot, ":num_vassals", ":faction_no", slot_faction_num_vassals),
             (val_add, ":num_vassals", 1),
             (faction_set_slot, ":faction_no", slot_faction_num_vassals, ":num_vassals"),
+        ]),
+
+    # script_faction_get_notables
+        # input:
+        #   arg1: faction_no
+        # output:
+        #   reg0: num_notables
+        #   result in temp_troop slots slot_troop_temp_array_begin
+    ("faction_get_notables",
+        [
+            (store_script_param, ":faction_no", 1),
+
+            (assign, ":slot", slot_troop_temp_array_begin),
+
+            (assign, ":num_notables", 0),
+            (try_for_range, ":lord_no", lords_begin, lords_end),
+                (troop_get_slot, ":occupation", ":lord_no", slot_troop_kingdom_occupation),
+                (eq, ":occupation", tko_reserved),
+                (store_troop_faction, ":lord_faction", ":lord_no"),
+                (eq, ":lord_faction", ":faction_no"),
+                (troop_set_slot, "trp_temp_troop", ":slot", ":lord_no"),
+                (val_add, ":num_notables", 1),
+            (try_end),
+            (try_begin),
+                (lt, ":num_notables", 6),
+                (store_sub, ":missing", 6,  ":num_notables"),
+                (try_for_range, ":unused", 0, ":missing"),
+                    (call_script, "script_find_free_lord"),
+                    (assign, ":lord_no", reg0),
+                    (call_script, "script_ready_lord", ":lord_no", ":faction_no", 0),
+                    (store_add, ":slot", ":num_notables", slot_troop_temp_array_begin),
+                    (troop_set_slot, "trp_temp_troop", ":slot", ":lord_no"),
+                    (val_add, ":num_notables", 1),
+                (try_end),
+            (try_end),
+            (assign, reg0, ":num_notables"),
         ]),
 
     # script_troop_death
@@ -14849,7 +14916,7 @@ scripts = [
                     (call_script, "script_find_free_lord"),
                     (assign, ":new_lord", reg0),
                     (gt, ":new_lord", 0),
-                    (call_script, "script_ready_lord", ":new_lord", ":faction_no"),
+                    (call_script, "script_ready_lord", ":new_lord", ":faction_no", 1),
                     (try_begin),
                         (call_script, "script_cf_debug", debug_faction|debug_simple),
                         (str_store_troop_name, s10, ":new_lord"),
@@ -22918,6 +22985,11 @@ scripts = [
         [
             (store_script_param, ":lord", 1),
 
+            (try_begin),
+                (troop_slot_eq, ":lord", slot_troop_kingdom_occupation, tko_reserved),
+                (call_script, "script_activate_lord", ":lord"),
+            (try_end),
+
             (call_script, "script_troop_give_center_to_troop", "$g_player_troop", "$temp", ":lord"),
         ]),
 
@@ -22945,7 +23017,127 @@ scripts = [
                 (assign, ":filtered", 0),
             (try_end),
 
-
             (assign, reg0, ":filtered"),
+        ]),
+
+    # script_presentation_generate_select_lord_card
+        # input:
+        #   arg1: troop_no
+        #   arg2: x
+        #   arg3: values_x
+        #   arg4: values2_x
+        #   arg5: cur_y
+        # output: none
+    ("presentation_generate_select_lord_card",
+        [
+            (store_script_param, ":lord_no", 1),
+
+            (store_script_param, ":x", 2),
+            (store_script_param, ":values_x", 3),
+            (store_script_param, ":values2_x", 4),
+            (store_script_param, ":cur_y", 5),
+
+            (assign, ":line_height", 30),
+
+            (create_mesh_overlay, reg0, "mesh_mp_ingame_menu"),
+            (position_set_x, pos1, ":x"),
+            (position_set_y, pos1, ":cur_y"),
+            (overlay_set_position, reg0, pos1),
+            (position_set_x, pos1, 775),
+            (position_set_y, pos1, 225),
+            (overlay_set_size, reg0, pos1),
+
+            (store_add, ":line_text_y", ":cur_y", 10),
+
+            (store_add, ":checkbox_y", ":line_text_y", 45),
+            (store_add, ":checkbox_x", ":x", 25),
+            (create_check_box_overlay, reg0, "mesh_checkbox_off", "mesh_checkbox_on"),
+            (position_set_x, pos1, ":checkbox_x"),
+            (position_set_y, pos1, ":checkbox_y"),
+            (overlay_set_position, reg0, pos1),
+            (troop_set_slot, ":lord_no", slot_troop_temp_slot, reg0),
+
+            (store_add, ":picture_x", ":x", 35),
+            (store_add, ":picture_y", ":line_text_y", 5),
+            (create_mesh_overlay_with_tableau_material, reg0, -1, "tableau_troop_note_mesh", ":lord_no"),
+            (position_set_x, pos1, ":picture_x"),
+            (position_set_y, pos1, ":picture_y"),
+            (overlay_set_position, reg0, pos1),
+            (position_set_x, pos1, 380),
+            (position_set_y, pos1, 380),
+            (overlay_set_size, reg0, pos1),
+
+            (troop_get_slot, ":culture", ":lord_no", slot_troop_culture),
+            (str_store_faction_name, s10, ":culture"),
+            (create_text_overlay, reg0, "@{s10}"),
+            (position_set_x, pos1, ":values_x"),
+            (position_set_y, pos1, ":line_text_y"),
+            (overlay_set_position, reg0, pos1),
+            (position_set_x, pos1, 1000),
+            (position_set_y, pos1, 1000),
+            (overlay_set_size, reg0, pos1),
+            (overlay_set_color, reg0, text_color_white),
+
+            (val_add, ":line_text_y", ":line_height"),
+
+            (call_script, "script_troop_get_relation_with_troop", ":lord_no", "$g_player_troop"),
+            (assign, reg10, reg0),
+            (create_text_overlay, reg0, "@{reg10} relation"),
+            (position_set_x, pos1, ":values_x"),
+            (position_set_y, pos1, ":line_text_y"),
+            (overlay_set_position, reg0, pos1),
+            (position_set_x, pos1, 1000),
+            (position_set_y, pos1, 1000),
+            (overlay_set_size, reg0, pos1),
+            (overlay_set_color, reg0, text_color_white),
+
+            (troop_get_slot, reg10, ":lord_no", slot_troop_renown),
+            (create_text_overlay, reg0, "@{reg10} renown"),
+            (position_set_x, pos1, ":values2_x"),
+            (position_set_y, pos1, ":line_text_y"),
+            (overlay_set_position, reg0, pos1),
+            (position_set_x, pos1, 1000),
+            (position_set_y, pos1, 1000),
+            (overlay_set_size, reg0, pos1),
+            (overlay_set_color, reg0, text_color_white),
+
+            (val_add, ":line_text_y", ":line_height"),
+
+            (troop_get_slot, reg10, ":lord_no", slot_troop_num_vassal),
+            (create_text_overlay, reg0, "@{reg10} vassals"),
+            (position_set_x, pos1, ":values_x"),
+            (position_set_y, pos1, ":line_text_y"),
+            (overlay_set_position, reg0, pos1),
+            (position_set_x, pos1, 1000),
+            (position_set_y, pos1, 1000),
+            (overlay_set_size, reg0, pos1),
+            (overlay_set_color, reg0, text_color_white),
+
+            (assign, ":num_fiefs", 0),
+            (try_for_range, ":center_no", centers_begin, centers_end),
+                (party_slot_eq, ":center_no", slot_party_lord, ":lord_no"),
+                (val_add, ":num_fiefs", 1),
+            (try_end),
+            (assign, reg10, ":num_fiefs"),
+            (create_text_overlay, reg0, "@{reg10} fiefs"),
+            (position_set_x, pos1, ":values2_x"),
+            (position_set_y, pos1, ":line_text_y"),
+            (overlay_set_position, reg0, pos1),
+            (position_set_x, pos1, 1000),
+            (position_set_y, pos1, 1000),
+            (overlay_set_size, reg0, pos1),
+            (overlay_set_color, reg0, text_color_white),
+
+            (val_add, ":line_text_y", ":line_height"),
+
+            (str_store_troop_name, s10, ":lord_no"),
+            (create_text_overlay, reg0, "@{s10}"),
+            (position_set_x, pos1, ":values_x"),
+            (position_set_y, pos1, ":line_text_y"),
+            (overlay_set_position, reg0, pos1),
+            (position_set_x, pos1, 1000),
+            (position_set_y, pos1, 1000),
+            (overlay_set_size, reg0, pos1),
+            (overlay_set_color, reg0, text_color_white),
         ]),
 ]
