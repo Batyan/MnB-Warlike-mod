@@ -464,6 +464,8 @@ items = [
 
     ["khergit_elite_armor", "Khergit Elite Armor", [("lamellar_armor_d",0)], itp_merchandise| itp_type_body_armor  |itp_covers_legs ,0,
      4930 , weight(25)|head_armor(0)|body_armor(59)|leg_armor(19)|difficulty(13) ,imodbits_armor , [], [fac_kingdom_3] ],
+    ["khergit_elite_armor_herald", "Khergit Elite Armor", [("lamellar_armor_d_herald",0)], itp_merchandise| itp_type_body_armor  |itp_covers_legs ,0,
+     4930 , weight(25)|head_armor(0)|body_armor(59)|leg_armor(19)|difficulty(13) ,imodbits_armor , [(ti_on_init_item, [(store_trigger_param_1, ":agent_no"),(store_trigger_param_2, ":troop_no"),(call_script, "script_shield_item_set_banner", "tableau_heraldic_lamellar_armor_d_plain", ":agent_no", ":troop_no")])], [fac_kingdom_3] ],
     ["vaegir_elite_armor", "Vaegir Elite Armor", [("lamellar_armor_c",0)], itp_merchandise| itp_type_body_armor  |itp_covers_legs ,0,
      3900 , weight(25)|head_armor(0)|body_armor(58)|leg_armor(20)|difficulty(13) ,imodbits_armor , [], [fac_kingdom_2] ],
     ["sarranid_elite_armor", "Sarranid Elite Armor", [("tunic_armor_a",0)], itp_merchandise| itp_type_body_armor  |itp_covers_legs |itp_civilian ,0,

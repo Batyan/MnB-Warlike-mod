@@ -577,4 +577,5 @@ meshes = [
   ("tableau_mesh_ragged_leather_jerkin_herald", 0, "tableau_mesh_ragged_leather_jerkin_herald",  0, 0, 0, 0, 0, 0, 1, 1, 1),
   ("tableau_mesh_hauberk_a_herald", 0, "tableau_mesh_hauberk_a_herald",  0, 0, 0, 0, 0, 0, 1, 1, 1),
   ("tableau_mesh_shirt_a_herald", 0, "tableau_mesh_shirt_a_herald",  0, 0, 0, 0, 0, 0, 1, 1, 1),
+  ("tableau_mesh_lamellar_armor_d_herald", 0, "tableau_mesh_lamellar_armor_d_herald",  0, 0, 0, 0, 0, 0, 1, 1, 1),
 ]
