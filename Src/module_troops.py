@@ -5056,7 +5056,7 @@ troops = [
     itm_heavy_lance, itm_javelin, itm_khergit_bow, itm_khergit_arrows,
     itm_tab_shield_small_round_c, itm_tab_shield_kite_d,
     itm_splinted_greaves, itm_lamellar_gauntlets,
-    itm_khergit_elite_armor,
+    itm_khergit_elite_armor_herald,
     itm_khergit_guard_helmet,
     itm_warhorse_steppe],
    def_lord_7_agi|level(4), wp_khergit(wp_template_7), knows_lord_khergit_7, 0, 0 ],
