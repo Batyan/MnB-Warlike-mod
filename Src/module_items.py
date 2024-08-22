@@ -624,8 +624,12 @@ items = [
      1040 , weight(2.75)|head_armor(54)|body_armor(0)|leg_armor(0)|difficulty(12) ,imodbits_plate ],
     ["full_helm", "Full Helm", [("great_helmet_new_b",0)], itp_merchandise| itp_type_head_armor |itp_covers_head ,0, 
      1110 , weight(3.1)|head_armor(56)|body_armor(0)|leg_armor(0)|difficulty(12) ,imodbits_plate , [], [fac_kingdom_1, fac_kingdom_5] ],
+    ["full_helm_herald", "Full Helm", [("great_helmet_new_b_herald",0)], itp_merchandise| itp_type_head_armor |itp_covers_head ,0, 
+     1110 , weight(3.1)|head_armor(56)|body_armor(0)|leg_armor(0)|difficulty(12) ,imodbits_plate , [(ti_on_init_item, [(store_trigger_param_1, ":agent_no"),(store_trigger_param_2, ":troop_no"),(call_script, "script_shield_item_set_banner", "tableau_heraldic_helmets_new_h_plain", ":agent_no", ":troop_no")])], [fac_kingdom_1, fac_kingdom_5] ],
     ["great_helmet", "Great Helmet", [("great_helmet_new",0)], itp_merchandise| itp_type_head_armor|itp_covers_head,0, 
      1280 , weight(3.0)|head_armor(58)|body_armor(0)|leg_armor(0)|difficulty(12) ,imodbits_plate , [], [fac_kingdom_1, fac_kingdom_5] ],
+    ["great_helmet_herald", "Great Helmet", [("great_helmet_new_herald",0)], itp_merchandise| itp_type_head_armor|itp_covers_head,0, 
+     1280 , weight(3.0)|head_armor(58)|body_armor(0)|leg_armor(0)|difficulty(12) ,imodbits_plate , [(ti_on_init_item, [(store_trigger_param_1, ":agent_no"),(store_trigger_param_2, ":troop_no"),(call_script, "script_shield_item_set_banner", "tableau_heraldic_helmets_new_f_plain", ":agent_no", ":troop_no")])], [fac_kingdom_1, fac_kingdom_5] ],
     ["winged_great_helmet", "Winged Great Helmet", [("maciejowski_helmet_new",0)], itp_merchandise|itp_type_head_armor|itp_covers_head,0, 
      1440 , weight(3.3)|head_armor(60)|body_armor(0)|leg_armor(0)|difficulty(12) ,imodbits_plate , [], [fac_kingdom_1, fac_kingdom_5] ],
     
