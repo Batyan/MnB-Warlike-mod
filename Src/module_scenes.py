@@ -102,12 +102,28 @@ scenes = [
 	("castle_snow_01_outside", sf_generate, "none", "none", (0,0), (240,240),-0.5,"0x0000000040c391af0005fd1100007c4900007ef600007fea",
 		[],[], "outer_terrain_snow"),
 		
+	("castle_snow_02_outside", sf_generate, "none", "none", (0,0), (240,240),-0.5,"0x000000034b80d252800882250000173200005ca30000598f",
+		[],[], "outer_terrain_snow"),
+		
 	("castle_snow_wood_01_outside", sf_generate, "none", "none", (0,0), (240,240),-0.5,"0x00000000c7a745630005a16a0000493f00002d040000207f",
 		[],[], "outer_terrain_snow"),
 	
 	("castle_desert_01_outside", sf_generate, "none", "none", (0,0), (240,240),-0.5,"0x0000000355e350e30004912200003bf800006d9e00005ab9",
 		[],[], "outer_terrain_desert"),
 	
+
+
+	("castle_castle_garden_outside", sf_generate, "none", "none", (0,0), (240,240),-0.5,"0x00000002500596228002589600007fa68000600c00004bc1",
+		[],[], "outer_terrain_desert"),
+	
+	("castle_plain_river_outside", sf_generate, "none", "none", (0,0), (240,240),-0.5,"0x0000000220040e938007edf10000324780004421000038cf",
+		[],[], "outer_terrain_plain"),
+	
+	("castle_dross_delnoch_outside", sf_generate, "none", "none", (0,0), (240,240),-0.5,"0x0000000240027763800815f500006a510000730c00002ce0",
+		[],[], "outer_terrain_snow"),
+	
+
+
 	("meeting_scene_steppe",0,"ch_meet_steppe_a", "bo_encounter_spot", (-40,-40),(40,40),-100,"0",
 		[],[]),
 	("meeting_scene_plain",0,"ch_meet_plain_a", "bo_encounter_spot", (-40,-40),(40,40),-100,"0",

@@ -550,14 +550,17 @@ game_menus = [
         ]),
     
     ("siege_battle_select", mnf_scale_picture,
-        "Select a siege scene, cur scene: scene {reg10}",
+        "Select a siege scene, cur scene: scene {reg10} {s10}",
         "none",
         [
             (try_begin),
                 (neg|is_between, "$g_cur_selected", castle_scene_begin, castle_scene_end),
                 (assign, "$g_cur_selected", castle_scene_begin),
             (try_end),
+
             (store_sub, reg10, "$g_cur_selected", castle_scene_begin),
+            (store_add, ":str_id", reg10, "str_castle_name_plain_01"),
+            (str_store_string, s10, ":str_id"),
         ],
         [
             ("scene_select_plus", [], "Select next scene",

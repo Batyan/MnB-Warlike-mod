@@ -1174,6 +1174,8 @@ slot_scene_num_attack_spawn = 2
 
 slot_scene_num_archer_points = 3
 
+slot_scene_enabled = 4
+
 
 
 #################
