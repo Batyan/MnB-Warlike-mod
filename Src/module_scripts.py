@@ -886,6 +886,7 @@ scripts = [
             (else_try),
                 (call_script, "script_party_group_defeated", ":defeated_party", ":winner_party"),
             (try_end),
+            (call_script, "script_party_group_process_renown", ":winner_party", ":defeated_party", ":allied_party"),
             (call_script, "script_party_group_loot_party_group", ":winner_party", ":defeated_party", ":allied_party"),
             (call_script, "script_party_group_take_party_group_prisoner", ":winner_party", ":defeated_party", ":allied_party"),
 
@@ -896,6 +897,10 @@ scripts = [
             # /!\ Defeated_party should be considered no longer referenced! (unless it is a center) /!\
             
             (party_set_slot, ":winner_party", slot_party_battle_stage, bs_approach),
+            (try_begin),
+                (ge, ":allied_party", 0),
+                (party_set_slot, ":allied_party", slot_party_battle_stage, bs_approach),
+            (try_end),
             
             (try_begin),
                 (is_between, ":party_type", spt_village, spt_fort + 1),
@@ -3520,7 +3525,7 @@ scripts = [
             (store_random_in_range, ":scene", ":start", ":finish"),
             (try_begin),
                 (scene_slot_eq, ":scene", slot_scene_enabled, 0),
-                (assign, ":end", 100)
+                (assign, ":end", 100),
                 (try_for_range, ":unused", 0, ":end"),
                     (val_add, ":scene", 1),
                     (try_begin),
@@ -4159,6 +4164,189 @@ scripts = [
                 (party_add_prisoners, ":receiving_party", ":troop_id", ":i_stack_size"),
                 (assign, ":really_added", reg0),
                 (party_remove_prisoners, ":party_to_transfer", ":troop_id", ":really_added"),
+            (try_end),
+        ]),
+
+    # script_party_group_process_renown
+        # input:
+        #   arg1: winner_party
+        #   arg2: defeated_party
+        #   arg3: allied_party
+        # output: none
+    ("party_group_process_renown",
+        [
+            (store_script_param, ":winner_party", 1),
+            (store_script_param, ":defeated_party", 2),
+            (store_script_param, ":allied_party", 3),
+
+            (call_script, "script_party_group_get_renown_value", ":winner_party"),
+            (assign, ":winner_value", reg0),
+            (call_script, "script_party_group_get_renown_value", ":defeated_party"),
+            (assign, ":defeated_value", reg0),
+            (call_script, "script_party_group_get_renown_value", ":allied_party"),
+            (assign, ":allied_value", reg0),
+
+            (store_add, ":total_value", ":winner_value", ":defeated_value"),
+            (val_add, ":total_value", ":allied_value"),
+
+            (set_fixed_point_multiplier, 1),
+            (store_sqrt, ":renown_gain", ":total_value"),
+
+            (store_mul, ":winner_ratio", ":winner_value", 100),
+            (val_div, ":winner_ratio", ":total_value"),
+            (store_mul, ":defeated_ratio", ":defeated_value", 100),
+            (val_div, ":defeated_ratio", ":total_value"),
+            (store_mul, ":allied_ratio", ":allied_value", 100),
+            (val_div, ":allied_ratio", ":total_value"),
+
+            (store_sub, ":winner_gains", 100, ":winner_ratio"),
+            (store_sub, ":defeated_gains", 100, ":defeated_ratio"),
+            (store_sub, ":allied_gains", 100, ":allied_ratio"),
+
+            (store_mul, ":winner_share", ":winner_gains", ":renown_gain"),
+            (val_div, ":winner_share", 100),
+            (store_mul, ":defeated_share", ":defeated_gains", ":renown_gain"),
+            (val_div, ":defeated_share", 100),
+            (store_mul, ":allied_share", ":allied_gains", ":renown_gain"),
+            (val_div, ":allied_share", 100),
+
+            # Defeated party receives less renown
+            (val_div, ":defeated_share", 4),
+
+            (call_script, "script_party_group_share_renown", ":winner_party", ":winner_share"),
+            (call_script, "script_party_group_share_renown", ":defeated_party", ":defeated_share"),
+            (call_script, "script_party_group_share_renown", ":allied_party", ":allied_share"),
+        ]),
+
+    # script_party_group_get_renown_value
+        # input:
+        #   arg1: party_group_no
+        # output: 
+        #   reg0: total_renown_value
+    ("party_group_get_renown_value",
+        [
+            (store_script_param, ":party_group_no", 1),
+
+            (assign, ":total_value", 0),
+            (try_begin),
+                (ge, ":party_group_no", 0),
+
+                (call_script, "script_party_get_renown_value", ":party_group_no"),
+                (val_add, ":total_value", reg0),
+
+                (party_get_num_attached_parties, ":num_attached_parties", ":party_group_no"),
+                (try_for_range, ":cur_party_index", 0, ":num_attached_parties"),
+                    (party_get_attached_party_with_rank, ":cur_party", ":party_group_no", ":cur_party_index"),
+                    (call_script, "script_party_group_get_renown_value", ":cur_party"),
+                    (val_add, ":total_value", reg0),
+                (try_end),
+            (try_end),
+            (assign, reg0, ":total_value"),
+        ]),
+
+    # script_party_get_renown_value
+        # input:
+        #   arg1: party_no
+        # output: 
+        #   reg0: renown_value
+    ("party_get_renown_value",
+        [
+            (store_script_param, ":party_no", 1),
+
+            (try_begin),
+                (ge, ":party_no", 0),
+                (assign, ":total_value", 0),
+
+                (party_get_slot, ":party_type", ":party_no", slot_party_type),
+                (try_begin),
+                    (eq, ":party_type", spt_village),
+                    (val_add, ":total_value", 300),
+                (else_try),
+                    (eq, ":party_type", spt_castle),
+                    (val_add, ":total_value", 750),
+                (else_try),
+                    (eq, ":party_type", spt_town),
+                    (val_add, ":total_value", 1500),
+                (else_try),
+                    (eq, ":party_type", spt_caravan),
+                    (val_add, ":total_value", 30),
+                (else_try),
+                    (eq, ":party_type", spt_patrol),
+                    (val_add, ":total_value", 50),
+                (else_try),
+                    (eq, ":party_type", spt_war_party),
+                    (party_get_slot, ":leader", ":party_no", slot_party_leader),
+                    (try_begin),
+                        (ge, ":leader", 0),
+                        (troop_get_slot, ":leader_renown", ":leader", slot_troop_renown),
+                        (val_div, ":leader_renown", 2),
+                        (val_add, ":total_value", ":leader_renown"),
+                        (val_add, ":total_value", 50),
+                    (try_end),
+                (else_try),
+                    (val_add, ":total_value", 20),
+                (try_end),
+                (assign, reg0, ":total_value"),
+            (else_try),
+                (assign, reg0, 0),
+            (try_end),
+        ]),
+
+    # script_party_group_share_renown
+    ("party_group_share_renown",
+        [
+            (store_script_param, ":party_group_no", 1),
+            (store_script_param, ":renown_amount", 2),
+
+            (try_begin),
+                (ge, ":party_group_no", 0),
+
+                (assign, ":total_value", 0),
+                (call_script, "script_party_get_renown_value", ":party_group_no"),
+                (assign, ":value", reg0),
+                (try_begin),
+                    (party_slot_eq, ":party_group_no", slot_party_type, spt_war_party),
+                    (party_get_slot, ":leader", ":party_group_no", slot_party_leader),
+                    (ge, ":leader", 0),
+                    (troop_set_slot, ":leader", slot_troop_temp_slot, ":value"),
+                    (val_add, ":total_value", ":value"),
+                (try_end),
+
+                (party_get_num_attached_parties, ":num_attached_parties", ":party_group_no"),
+                (try_for_range, ":cur_party_index", 0, ":num_attached_parties"),
+                    (party_get_attached_party_with_rank, ":cur_party", ":party_group_no", ":cur_party_index"),
+
+                    (call_script, "script_party_get_renown_value", ":cur_party"),
+                    (assign, ":value", reg0),
+                    (party_slot_eq, ":cur_party", slot_party_type, spt_war_party),
+                    (party_get_slot, ":leader", ":cur_party", slot_party_leader),
+                    (ge, ":leader", 0),
+                    (troop_set_slot, ":leader", slot_troop_temp_slot, ":value"),
+                    (val_add, ":total_value", ":value"),
+                (try_end),
+
+                (try_begin),
+                    (party_slot_eq, ":party_group_no", slot_party_type, spt_war_party),
+                    (party_get_slot, ":leader", ":party_group_no", slot_party_leader),
+                    (ge, ":leader", 0),
+                    (troop_get_slot, ":value", ":leader", slot_troop_temp_slot),
+                    (gt, ":value", 0),
+                    (store_mul, ":renown", ":value", ":renown_amount"),
+                    (val_div, ":renown", ":total_value"),
+                    (call_script, "script_troop_change_renown", ":leader", ":renown"),
+                (try_end),
+
+                (try_for_range, ":cur_party_index", 0, ":num_attached_parties"),
+                    (party_get_attached_party_with_rank, ":cur_party", ":party_group_no", ":cur_party_index"),
+                    (party_slot_eq, ":cur_party", slot_party_type, spt_war_party),
+                    (party_get_slot, ":leader", ":cur_party", slot_party_leader),
+                    (ge, ":leader", 0),
+                    (troop_get_slot, ":value", ":leader", slot_troop_temp_slot),
+                    (gt, ":value", 0),
+                    (store_mul, ":renown", ":value", ":renown_amount"),
+                    (val_div, ":renown", ":total_value"),
+                    (call_script, "script_troop_change_renown", ":leader", ":renown"),
+                (try_end),
             (try_end),
         ]),
 
@@ -19246,18 +19434,41 @@ scripts = [
             (store_script_param, ":amount", 2),
 
             (troop_get_slot, ":current", ":troop_id", slot_troop_renown),
-            (store_add, ":new", ":current", ":amount"),
-            (val_max, ":new", 0),
 
-            (troop_set_slot, ":troop_id", slot_troop_renown, ":new"),
-
+            (assign, ":subsctractor", 0),
             (try_begin),
-                (this_or_next|eq, ":troop_id", "$g_player_troop"),
-                (call_script, "script_cf_debug", debug_all),
-                (call_script, "script_cf_debug", debug_simple),
-                (assign, reg10, ":current"),
-                (assign, reg11, ":new"),
-                (display_message, "@Renown changed from {reg10} to {reg11}."),
+                (gt, ":current", 50),
+                (set_fixed_point_multiplier, 1),
+                (store_sqrt, ":subsctractor", ":current"),
+                (store_sqrt, ":subsctractor", ":subsctractor"),
+                (val_sub, ":subsctractor", 2),
+            (try_end),
+
+            (store_sub, ":real_change", ":amount", ":subsctractor"),
+            (try_begin),
+                (le, ":real_change", 0),
+                (store_random_in_range, ":rand", ":real_change", ":amount"),
+                (gt, ":rand", 0),
+                (assign, ":real_change", 1),
+            (try_end),
+
+            (assign, ":new", ":current"),
+            (try_begin),
+                (gt, ":real_change", 0),
+                (store_add, ":new", ":current", ":real_change"),
+                (val_max, ":new", 0),
+                (troop_set_slot, ":troop_id", slot_troop_renown, ":new"),
+
+                (try_begin),
+                    (this_or_next|eq, ":troop_id", "$g_player_troop"),
+                    (call_script, "script_cf_debug", debug_all),
+                    (call_script, "script_cf_debug", debug_simple),
+                    (assign, reg10, ":current"),
+                    (assign, reg11, ":new"),
+                    (assign, reg12, ":amount"),
+                    (str_store_troop_name, s10, ":troop_id"),
+                    (display_message, "@{s10} renown changed from {reg10} to {reg11} ({reg12})."),
+                (try_end),
             (try_end),
 
             (assign, reg0, ":new"),
