@@ -41,7 +41,10 @@ v0.530:
 		* increase ratio of rhodok_militia for rhodok culture
 		* decrease ratio of khergit_clansman for khergit culture
 		* decrease ratio of khergit_levy_horseman for khergit culture
-		* add total change to budget presentation
+		* add total money change to budget presentation
+		* add vaegir_militia to fac_small_kingdom_23
+		* add vaegir levy to fac_small_kingdom_23
+		* remove vaegir_hunter from fac_small_kingdom_23
 	-Fixes:
 		* fix fief promised to player could be given to another lord
 		* fix incorrect quest giver for vassalage offer quest
@@ -274,7 +277,7 @@ v 0.410:
 		* increase khergit_horse_archer ironflesh (1 -> 2)
 		* increase khergit_light_horse_archer ironflesh (0 -> 1)
 		* give warhorse to rhodok_noble_lancer
-		* increase vaegir_militia charisma (6 -> 7)
+		* increase vaegir_hunter charisma (6 -> 7)
 		The following changes aim to improve the khergit's ability to fight battles
 		Levy and common troops have reduced level (thus reduced wages)
 		Elite troops are stronger

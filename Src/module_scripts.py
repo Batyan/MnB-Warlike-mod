@@ -12537,7 +12537,8 @@ scripts = [
 
             (troop_set_slot, "trp_swadian_levy_spearman", slot_troop_faction_reserved_2, "fac_small_kingdom_15"),
             (troop_set_slot, "trp_swadian_foot_knight", slot_troop_faction_reserved_2, "fac_small_kingdom_15"),
-            
+
+            (troop_set_slot, "trp_vaegir_hunter", slot_troop_faction_not_1, "fac_small_kingdom_23"), # Has Militia instead
             (troop_set_slot, "trp_vaegir_heavy_cavalry", slot_troop_faction_not_1, "fac_small_kingdom_22"), # Has Horseman instead
             (troop_set_slot, "trp_vaegir_light_infantry", slot_troop_faction_not_2, "fac_small_kingdom_22"), # Has Light Club Infantry instead
             (troop_set_slot, "trp_vaegir_heavy_infantry", slot_troop_faction_not_2, "fac_small_kingdom_22"), # Has Club Infantry instead
@@ -12619,6 +12620,8 @@ scripts = [
             (troop_set_slot, "trp_rhodok_militia", slot_troop_ratio_special_multiplier, 300),
             (troop_set_slot, "trp_khergit_clansman", slot_troop_ratio_special_multiplier, 25),
             (troop_set_slot, "trp_khergit_levy_horseman", slot_troop_ratio_special_multiplier, 30),
+            (troop_set_slot, "trp_vaegir_militia", slot_troop_ratio_special_multiplier, 40),
+            (troop_set_slot, "trp_vaegir_levy_infantry", slot_troop_ratio_special_multiplier, 80),
         ]),
     
     # script_init_troops_types

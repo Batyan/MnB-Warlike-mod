@@ -1945,7 +1945,7 @@ troops = [
    str_10|agi_8|int_5|cha_6|level(6), wpex(55,65,90,60,20,35), knows_common|knows_ironflesh_3|knows_power_strike_3|knows_power_draw_1|knows_athletics_3|knows_riding_1, vaegir_face_young_1, vaegir_face_old_2 ],
   
   # Basic ranged, axes, daggers, bows
-  ["vaegir_militia", "Vaegir Hunter", "Vaegir Hunters", tf_guarantee_recruit_armor, no_scene, reserved, fac_kingdom_2,
+  ["vaegir_hunter", "Vaegir Hunter", "Vaegir Hunters", tf_guarantee_recruit_armor, no_scene, reserved, fac_kingdom_2,
    [itm_hatchet, itm_axe, itm_butchering_knife, itm_hunting_bow, itm_barbed_arrows,
     itm_nomad_boots, itm_hide_boots,
     itm_rawhide_coat, itm_leather_vest_herald, itm_linen_tunic_herald, itm_fur_coat,
@@ -1965,13 +1965,33 @@ troops = [
   
   # Basic infantry, axes, shields
   # SPECIAL
-  ["vaegir_levy_axeman", "Vaegir Levy Axeman", "Vaegir Levies Axemen", tf_guarantee_recruit_armor|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_21,
+  ["vaegir_levy_axeman", "Vaegir Levy Axeman", "Vaegir Levy Axemen", tf_guarantee_recruit_armor|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_21,
    [itm_one_handed_war_axe_a, itm_tab_shield_kite_a,itm_tab_shield_kite_a_plain_1,itm_tab_shield_kite_a_plain_2,
     itm_hide_boots, itm_nomad_boots,
     itm_fur_coat, itm_leather_vest_herald, itm_linen_tunic_herald,
     itm_vaegir_fur_cap, itm_leather_cap, itm_leather_warrior_cap,
     ],
    str_10|agi_9|int_6|cha_6|level(8), wpex(75,70,65,60,20,40), knows_common|knows_ironflesh_2|knows_power_strike_3|knows_power_draw_1|knows_athletics_4|knows_riding_1, vaegir_face_young_1, vaegir_face_old_2 ],
+  
+  # Basic infantry, axes, swords, shields
+  # SPECIAL
+  ["vaegir_levy_infantry", "Vaegir Levy", "Vaegir Levies", tf_guarantee_recruit_armor|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_23,
+   [itm_one_handed_war_axe_a, itm_sword_khergit_1, itm_tab_shield_kite_a,itm_tab_shield_kite_a_plain_1,itm_tab_shield_kite_a_plain_2,
+    itm_hide_boots, itm_nomad_boots,
+    itm_fur_coat, itm_leather_vest_herald, itm_linen_tunic_herald, itm_fur_coat, itm_rawhide_coat,
+    itm_vaegir_fur_cap, itm_leather_cap, itm_leather_warrior_cap,
+    ],
+   str_9|agi_9|int_6|cha_6|level(7), wpex(65,60,55,55,20,40), knows_common|knows_ironflesh_2|knows_power_strike_3|knows_power_draw_1|knows_athletics_4|knows_riding_1, vaegir_face_young_1, vaegir_face_old_2 ],
+  
+  # Basic ranged, axes, daggers, bows
+  # SPECIAL
+  ["vaegir_militia", "Vaegir Militia", "Vaegir Militias", tf_guarantee_recruit_armor|tf_guarantee_ranged, no_scene, reserved, fac_small_kingdom_23,
+   [itm_hatchet, itm_butchering_knife, itm_hunting_bow, itm_barbed_arrows,
+    itm_nomad_boots, itm_hide_boots,
+    itm_leather_vest_herald, itm_linen_tunic_herald,
+    itm_vaegir_fur_cap, itm_leather_cap, itm_leather_warrior_cap,
+    ],
+   str_8|agi_8|int_6|cha_6|level(5), wpex(55,50,45,75,20,40), knows_common|knows_ironflesh_1|knows_power_strike_2|knows_power_draw_4|knows_athletics_3|knows_riding_2|knows_horse_archery_1, vaegir_face_young_1, vaegir_face_old_2 ],
   
   # Common
   # Light infantry, sabres, axes, 2h axes, shields
