@@ -112,8 +112,7 @@ scenes = [
 		[],[], "outer_terrain_desert"),
 	
 
-
-	("castle_castle_garden_outside", sf_generate, "none", "none", (0,0), (240,240),-0.5,"0x00000002500596228002589600007fa68000600c00004bc1",
+	("castle_garden_outside", sf_generate, "none", "none", (0,0), (240,240),-0.5,"0x00000002500596228002589600007fa68000600c00004bc1",
 		[],[], "outer_terrain_desert"),
 	
 	("castle_plain_river_outside", sf_generate, "none", "none", (0,0), (240,240),-0.5,"0x0000000220040e938007edf10000324780004421000038cf",
