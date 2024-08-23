@@ -12436,8 +12436,7 @@ scripts = [
     ("faction_get_notables",
         [
             (store_script_param, ":faction_no", 1),
-
-            (assign, ":slot", slot_troop_temp_array_begin),
+            (assign, ":begin", slot_troop_temp_array_begin),
 
             (assign, ":num_notables", 0),
             (try_for_range, ":lord_no", lords_begin, lords_end),
@@ -12445,6 +12444,7 @@ scripts = [
                 (eq, ":occupation", tko_reserved),
                 (store_troop_faction, ":lord_faction", ":lord_no"),
                 (eq, ":lord_faction", ":faction_no"),
+                (store_add, ":slot", ":begin", ":num_notables"),
                 (troop_set_slot, "trp_temp_troop", ":slot", ":lord_no"),
                 (val_add, ":num_notables", 1),
             (try_end),
