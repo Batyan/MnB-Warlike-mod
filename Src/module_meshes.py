@@ -578,6 +578,8 @@ meshes = [
   ("tableau_mesh_hauberk_a_herald", 0, "tableau_mesh_hauberk_a_herald",  0, 0, 0, 0, 0, 0, 1, 1, 1),
   ("tableau_mesh_shirt_a_herald", 0, "tableau_mesh_shirt_a_herald",  0, 0, 0, 0, 0, 0, 1, 1, 1),
   ("tableau_mesh_lamellar_armor_d_herald", 0, "tableau_mesh_lamellar_armor_d_herald",  0, 0, 0, 0, 0, 0, 1, 1, 1),
+  ("tableau_mesh_tunic_armor_a_herald", 0, "tableau_mesh_tunic_armor_a_herald",  0, 0, 0, 0, 0, 0, 1, 1, 1),
+  ("tableau_mesh_lamellar_armor_c_herald", 0, "tableau_mesh_lamellar_armor_c_herald",  0, 0, 0, 0, 0, 0, 1, 1, 1),
 
   ## HELMETS
   ("tableau_mesh_helmets_new_h_herald", 0, "tableau_mesh_helmets_new_h_herald",  0, 0, 0, 0, 0, 0, 1, 1, 1),

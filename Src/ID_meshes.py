@@ -539,7 +539,9 @@ mesh_tableau_mesh_ragged_leather_jerkin_herald = 537
 mesh_tableau_mesh_hauberk_a_herald = 538
 mesh_tableau_mesh_shirt_a_herald = 539
 mesh_tableau_mesh_lamellar_armor_d_herald = 540
-mesh_tableau_mesh_helmets_new_h_herald = 541
-mesh_tableau_mesh_helmets_new_f_herald = 542
+mesh_tableau_mesh_tunic_armor_a_herald = 541
+mesh_tableau_mesh_lamellar_armor_c_herald = 542
+mesh_tableau_mesh_helmets_new_h_herald = 543
+mesh_tableau_mesh_helmets_new_f_herald = 544
 
 
