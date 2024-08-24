@@ -457,6 +457,12 @@ goods_ratio_transformation_castle = 20
 goods_ratio_production_town = 10
 goods_ratio_transformation_town = 10
 
+renown_value_village = 300
+renown_value_castle = 750
+renown_value_town = 1500
+renown_value_caravan = 30
+renown_value_patrol = 50
+
 ################
 ## Item Slots ##
 ################

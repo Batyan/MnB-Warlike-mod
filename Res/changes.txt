@@ -49,6 +49,7 @@ v0.530:
 		* remove vaegir_hunter from fac_small_kingdom_23
 		* gain renown on battles fought
 		* gain renown on receiving a fief
+		* gain renown on becoming faction leader
 	-Fixes:
 		* fix fief promised to player could be given to another lord
 		* fix incorrect quest giver for vassalage offer quest
