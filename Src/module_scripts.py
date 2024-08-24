@@ -12605,6 +12605,28 @@ scripts = [
                 (display_log_message, "@{s10} grants {s12} to {s11}", text_color_freed),
             (try_end),
 
+            (troop_get_slot, ":rank", ":receiver_troop", slot_troop_rank),
+            (call_script, "script_party_get_renown_value", ":center"),
+            (store_div, ":renown_bonus", reg0, 4),
+            (try_begin),
+                (ge, ":rank", rank_city),
+                (val_sub, ":renown_bonus", 350),
+            (else_try),
+                (ge, ":rank", rank_castle),
+                (val_sub, ":renown_bonus", 150),
+            (else_try),
+                (ge, ":rank", rank_two_village),
+                (val_sub, ":renown_bonus", 70),
+            (else_try),
+                (ge, ":rank", rank_village),
+                (val_sub, ":renown_bonus", 25),
+            (try_end),
+
+            (try_begin),
+                (gt, ":renown_bonus", 0),
+                (call_script, "script_troop_change_renown", ":receiver_troop", ":renown_bonus"),
+            (try_end),
+
             (call_script, "script_troop_become_vassal", ":receiver_troop", ":giver_troop_no"),
             
             (call_script, "script_give_center_to_troop", ":center", ":receiver_troop"),
