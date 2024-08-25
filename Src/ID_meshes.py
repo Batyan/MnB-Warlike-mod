@@ -541,7 +541,9 @@ mesh_tableau_mesh_shirt_a_herald = 539
 mesh_tableau_mesh_lamellar_armor_d_herald = 540
 mesh_tableau_mesh_tunic_armor_a_herald = 541
 mesh_tableau_mesh_lamellar_armor_c_herald = 542
-mesh_tableau_mesh_helmets_new_h_herald = 543
-mesh_tableau_mesh_helmets_new_f_herald = 544
+mesh_tableau_mesh_coarse_tunic_a_herald = 543
+mesh_tableau_mesh_lamellar_vest_a_herald = 544
+mesh_tableau_mesh_helmets_new_h_herald = 545
+mesh_tableau_mesh_helmets_new_f_herald = 546
 
 
