@@ -38,6 +38,10 @@ v0.530:
 		* update sarranid_elite_armor to use heraldic colors
 		* update coarse_tunic to use heraldic colors
 		* update lamellar_vest to use heraldic colors
+		* update red_gambeson to use heraldic colors
+		* update coat_of_plates to use heraldic colors
+		* update common_hood to use heraldic colors
+		* update woolen_cap to use heraldic colors
 		* add vaegir_knight to small_kingdom_23
 		* move vaegir_pikman and vaegit_heavy_pikeman to small_kingdom_25 from small_kingdom_23
 		* increase rhodok_levy_spearman athletics (0 -> 1)

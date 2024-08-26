@@ -582,8 +582,11 @@ meshes = [
   ("tableau_mesh_lamellar_armor_c_herald", 0, "tableau_mesh_lamellar_armor_c_herald",  0, 0, 0, 0, 0, 0, 1, 1, 1),
   ("tableau_mesh_coarse_tunic_a_herald", 0, "tableau_mesh_coarse_tunic_a_herald",  0, 0, 0, 0, 0, 0, 1, 1, 1),
   ("tableau_mesh_lamellar_vest_a_herald", 0, "tableau_mesh_lamellar_vest_a_herald",  0, 0, 0, 0, 0, 0, 1, 1, 1),
+  ("tableau_mesh_coat_of_plates_herald", 0, "tableau_mesh_coat_of_plates_herald",  0, 0, 0, 0, 0, 0, 1, 1, 1),
+  ("tableau_mesh_gambeson_a_herald", 0, "tableau_mesh_gambeson_a_herald",  0, 0, 0, 0, 0, 0, 1, 1, 1),
 
   ## HELMETS
   ("tableau_mesh_helmets_new_h_herald", 0, "tableau_mesh_helmets_new_h_herald",  0, 0, 0, 0, 0, 0, 1, 1, 1),
   ("tableau_mesh_helmets_new_f_herald", 0, "tableau_mesh_helmets_new_f_herald",  0, 0, 0, 0, 0, 0, 1, 1, 1),
+  ("tableau_mesh_helmets_new_e_herald", 0, "tableau_mesh_helmets_new_e_herald",  0, 0, 0, 0, 0, 0, 1, 1, 1),
 ]
