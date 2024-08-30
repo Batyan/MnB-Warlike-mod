@@ -2,6 +2,7 @@ v0.530:
 	-Features:
 		* add the ability to grant fief to vassals
 		* add the ability to promote prominent local noble to a vassal
+		* add the ability to set the garrison size for owned centers
 	-Balance:
 		* increase khergit_light_mounted_skirmisher powerstrike (2 -> 4)
 		* decrease khergit_mounted_skirmisher shield (1 -> 0)

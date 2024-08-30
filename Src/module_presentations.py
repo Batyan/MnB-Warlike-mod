@@ -22,6 +22,7 @@ import string
 
 numberbox_padding = 5
 numberbox_size = 65
+checkbox_size = 20
 
 button_padding = 12
 
@@ -1227,7 +1228,9 @@ presentations = [
                 (overlay_set_size, reg0, pos1),
 
                 (call_script, "script_party_get_expected_taxes", ":current_center"),
-                (store_mul, reg10, reg0, 12),
+                (assign, ":expected_taxes", reg0),
+                (val_mul, ":expected_taxes", 12),
+                (assign, reg10, ":expected_taxes"),
 
                 (assign, ":max", 100),
                 (create_text_overlay, reg0, "@{reg10}", tf_right_align),
@@ -1245,6 +1248,107 @@ presentations = [
                 # Center garrison selling
                 # Center garrison sending
                 # Center garrison size
+                (try_begin),
+                    (eq, "$g_presentation_readonly", 0),
+
+                    (party_get_slot, ":wages_limit", ":current_center", slot_party_player_wages_limit),
+
+                    (assign, ":enable_garrison_management", 0),
+                    (try_begin),
+                        (ge, ":wages_limit", 0),
+                        (assign, ":enable_garrison_management", 1),
+                    (try_end),
+
+                    (create_text_overlay, reg0, "@Percentage of expected taxes", tf_left_align),
+                    (position_set_x, pos1, ":right_panel_x"),
+                    (position_set_y, pos1, ":cur_y"),
+                    (overlay_set_position, reg0, pos1),
+                    (position_set_x, pos1, 1000),
+                    (position_set_y, pos1, 1000),
+                    (overlay_set_size, reg0, pos1),
+                    (try_begin),
+                        (eq, ":enable_garrison_management", 0),
+                        (overlay_set_display, reg0, 0),
+                    (try_end),
+                    (assign, "$g_presentation_center_wages_percent_label", reg0),
+
+                    (try_begin),
+                        (eq, ":enable_garrison_management", 1),
+                        (store_mul, reg10, ":wages_limit", 100),
+                        (val_div, reg10, ":expected_taxes"),
+                        (str_store_string, s10, "@{reg10}%"),
+                    (else_try),
+                        (str_store_string, s10, "@-"),
+                    (try_end),
+                    (create_text_overlay, reg0, s10, tf_right_align),
+                    (position_set_x, pos1, ":right_panel_values_x"),
+                    (position_set_y, pos1, ":cur_y"),
+                    (overlay_set_position, reg0, pos1),
+                    (position_set_x, pos1, 1000),
+                    (position_set_y, pos1, 1000),
+                    (overlay_set_size, reg0, pos1),
+                    (try_begin),
+                        (eq, ":enable_garrison_management", 0),
+                        (overlay_set_display, reg0, 0),
+                    (try_end),
+                    (assign, "$g_presentation_center_wages_percent", reg0),
+
+                    (val_add, ":cur_y", ":line_height"),
+
+                    (create_text_overlay, reg0, "@Automatic garrison size manager", tf_left_align),
+                    (position_set_x, pos1, ":left_panel_x"),
+                    (position_set_y, pos1, ":cur_y"),
+                    (overlay_set_position, reg0, pos1),
+                    (position_set_x, pos1, 1000),
+                    (position_set_y, pos1, 1000),
+                    (overlay_set_size, reg0, pos1),
+
+                    (create_check_box_overlay, reg0,  "mesh_checkbox_off", "mesh_checkbox_on"),
+                    (store_sub, ":pos", ":left_panel_values_x", checkbox_size),
+                    (position_set_x, pos1, ":pos"),
+                    (position_set_y, pos1, ":cur_y"),
+                    (overlay_set_position, reg0, pos1),
+                    (assign, "$g_presentation_center_garrison_manager", reg0),
+                    (try_begin),
+                        (eq, ":enable_garrison_management", 0),
+                        (overlay_set_val, "$g_presentation_center_garrison_manager", 1),
+                    (else_try),
+                        (overlay_set_val, "$g_presentation_center_garrison_manager", 0),
+                    (try_end),
+
+                    (create_text_overlay, reg0, "@Wanted garrison wages", tf_left_align),
+                    (position_set_x, pos1, ":right_panel_x"),
+                    (position_set_y, pos1, ":cur_y"),
+                    (overlay_set_position, reg0, pos1),
+                    (position_set_x, pos1, 1000),
+                    (position_set_y, pos1, 1000),
+                    (overlay_set_size, reg0, pos1),
+                    (try_begin),
+                        (eq, ":enable_garrison_management", 0),
+                        (overlay_set_display, reg0, 0),
+                    (try_end),
+                    (assign, "$g_presentation_center_garrison_wages_label", reg0),
+
+                    (store_mul, ":max", ":expected_taxes", 100),
+                    (val_add, ":max", 1),
+                    (create_number_box_overlay, reg0, 0, ":max"),
+                    (store_sub, ":pos", ":right_panel_values_x", numberbox_size),
+                    (position_set_x, pos1, ":pos"),
+                    (position_set_y, pos1, ":cur_y"),
+                    (overlay_set_position, reg0, pos1),
+                    (position_set_x, pos1, 1000),
+                    (position_set_y, pos1, 1000),
+                    (overlay_set_size, reg0, pos1),
+                    (try_begin),
+                        (eq, ":enable_garrison_management", 1),
+                        (overlay_set_val, reg0, ":wages_limit"),
+                    (else_try),
+                        (overlay_set_display, reg0, 0),
+                    (try_end),
+                    (assign, "$g_presentation_center_garrison_wages", reg0),
+
+                    (val_add, ":cur_y", ":category_height"),
+                (try_end),
 
                 ## CENTER WEALTH
                 # Center treasury
@@ -1473,6 +1577,40 @@ presentations = [
                     (assign, "$filter_method", "script_filter_lord_vassal_grant"),
 
                     (start_presentation, "prsnt_select_lord"),
+                (else_try),
+                    (eq, ":object", "$g_presentation_center_garrison_manager"),
+                    (try_begin),
+                        (eq, ":value", 1),
+
+                        (overlay_set_display, "$g_presentation_center_wages_percent", 0),
+                        (overlay_set_display, "$g_presentation_center_garrison_wages_label", 0),
+                        (overlay_set_display, "$g_presentation_center_garrison_wages", 0),
+                        (overlay_set_display, "$g_presentation_center_wages_percent_label", 0),
+
+                        (party_set_slot, ":current_center", slot_party_player_wages_limit, -1),
+                    (else_try),
+                        (overlay_set_display, "$g_presentation_center_wages_percent", 1),
+                        (overlay_set_display, "$g_presentation_center_garrison_wages_label", 1),
+                        (overlay_set_display, "$g_presentation_center_garrison_wages", 1),
+                        (overlay_set_display, "$g_presentation_center_wages_percent_label", 1),
+
+                        (party_set_slot, ":current_center", slot_party_player_wages_limit, 0),
+                        (overlay_set_val, "$g_presentation_center_garrison_wages", 0),
+                        (overlay_set_text, "$g_presentation_center_wages_percent", "@0%"),
+                    (try_end),
+                (else_try),
+                    (eq, ":object", "$g_presentation_center_garrison_wages"),
+
+                    (party_set_slot, ":current_center", slot_party_player_wages_limit, ":value"),
+
+                    (call_script, "script_party_get_expected_taxes", ":current_center"),
+                    (assign, ":expected_taxes", reg0),
+                    (val_mul, ":expected_taxes", 12),
+
+                    (store_mul, reg10, ":value", 100),
+                    (val_div, reg10, ":expected_taxes"),
+
+                    (overlay_set_text, "$g_presentation_center_wages_percent", "@{reg10}%"),
                 (try_end),
 
                 (try_begin),
@@ -1504,7 +1642,7 @@ presentations = [
                     (assign, ":center_name_x", 50),
                     (assign, ":mesh_pic_x", 0),
                     (assign, ":current_lord_x", 230),
-                    (assign, ":current_governor_x", 380),
+                    (assign, ":current_governor_x", 430),
                     (assign, ":actions_x", 700),
                     (assign, ":container_x", 50),
                     (assign, ":container_y", 100),
@@ -1736,7 +1874,7 @@ presentations = [
                     (str_clear, s0),
                     (create_text_overlay, reg0, s0, tf_scrollable),
                     (position_set_x, pos1, 50),
-                    (position_set_y, pos1, 100),
+                    (position_set_y, pos1, 150),
                     (overlay_set_position, reg0, pos1),
                     (position_set_x, pos1, 880),
                     (position_set_y, pos1, 550),
@@ -1770,7 +1908,6 @@ presentations = [
                     (try_for_range, ":slot", slot_troop_temp_array_begin, ":end"),
                         (troop_get_slot, ":lord_no", "trp_temp_troop", ":slot"),
 
-                        (val_mod, ":i", 2),
                         (try_begin),
                             (eq, ":i", 0),
                             (assign, ":x", ":left_panel_x"),
@@ -1789,14 +1926,23 @@ presentations = [
                             (val_add, ":cur_y", 140),
                         (try_end),
                         (val_add, ":i", 1),
+                        (val_mod, ":i", 2),
                     (try_end),
 
                     (try_begin),
-                        (eq, ":i", 0),
-                        (val_add, ":cur_y", 170),
-                    (else_try),
-                        (val_add, ":cur_y", 30),
+                        (eq, ":i", 1),
+                        (val_add, ":cur_y", 140),
                     (try_end),
+
+                    (create_text_overlay, reg0, "@Notables"),
+                    (position_set_x, pos1, ":left_panel_x"),
+                    (position_set_y, pos1, ":cur_y"),
+                    (overlay_set_position, reg0, pos1),
+                    (position_set_x, pos1, 1000),
+                    (position_set_y, pos1, 1000),
+                    (overlay_set_size, reg0, pos1),
+
+                    (val_add, ":cur_y", line_height),
 
                     (assign, ":i", 0),
 
@@ -1804,7 +1950,6 @@ presentations = [
                         (call_script, "$filter_method", ":lord_no"),
                         (eq, reg0, 0),
 
-                        (val_mod, ":i", 2),
                         (try_begin),
                             (eq, ":i", 0),
                             (assign, ":x", ":left_panel_x"),
@@ -1823,15 +1968,37 @@ presentations = [
                             (val_add, ":cur_y", 140),
                         (try_end),
                         (val_add, ":i", 1),
+                        (val_mod, ":i", 2),
                     (try_end),
+
+                    (try_begin),
+                        (eq, ":i", 1),
+                        (val_add, ":cur_y", 140),
+                    (try_end),
+
+                    (str_store_troop_name, s10, "$g_player_troop"),
+                    (create_text_overlay, reg0, "@{s10}'s vassals"),
+                    (position_set_x, pos1, ":left_panel_x"),
+                    (position_set_y, pos1, ":cur_y"),
+                    (overlay_set_position, reg0, pos1),
+                    (position_set_x, pos1, 1000),
+                    (position_set_y, pos1, 1000),
+                    (overlay_set_size, reg0, pos1),
+
+                    (val_add, ":cur_y", line_height),
 
                     (set_container_overlay, -1),
 
                     # Actions panel
                     (create_game_button_overlay, "$g_presentation_ok", "@Continue"),
                     (position_set_x, pos1, 150),
-                    (position_set_y, pos1, 50),
+                    (position_set_y, pos1, 100),
                     (overlay_set_position, "$g_presentation_ok", pos1),
+
+                    (create_game_button_overlay, "$g_presentation_cancel", "@Cancel"),
+                    (position_set_x, pos1, 150),
+                    (position_set_y, pos1, 50),
+                    (overlay_set_position, "$g_presentation_cancel", pos1),
 
                     (presentation_set_duration, 999999),
                 ]),
@@ -1842,13 +2009,16 @@ presentations = [
                     (store_trigger_param_2, ":value"),
 
                     (try_begin),
-
                         (eq, ":object", "$g_presentation_ok"),
 
                         (try_begin),
                             (ge, "$g_presentation_selected_lord", 0),
                             (call_script, "$callback", "$g_presentation_selected_lord"),
                         (try_end),
+
+                        (presentation_set_duration, 0),
+                    (else_try),
+                        (eq, ":object", "$g_presentation_cancel"),
 
                         (presentation_set_duration, 0),
                     (else_try),
