@@ -63,6 +63,7 @@ v0.530:
 		* fix incorrect quest giver for vassalage offer quest
 		* prevent lords from spawning inside a besieged center
 		* fix impossibility to go back to male character after selecting female
+		* prevent appearance of unspent skill points
 v0.520:
 	-Features:
 		* add restrictions on allowing recruitment of troops of certain quality
