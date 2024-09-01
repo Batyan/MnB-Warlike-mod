@@ -1166,6 +1166,56 @@ slot_party_governor = slot_party_player_shakedown + 1
 
 slot_party_player_wages_limit = slot_party_governor + 1
 
+slot_party_player_garrison_flags = slot_party_player_wages_limit + 1
+
+pgf_sell_none = 0x000000
+
+pgf_sell_levy_unknown = 0x000001
+pgf_sell_common_unknown = 0x000002
+pgf_sell_veteran_unknown = 0x000004
+pgf_sell_elite_unknown = 0x000008
+pgf_sell_noble_unknown = 0x000010
+
+pgf_sell_unknown_mask = 0x00001F
+
+pgf_sell_levy_faction = 0x000020
+pgf_sell_common_faction = 0x000040
+pgf_sell_veteran_faction = 0x000080
+pgf_sell_elite_faction = 0x000100
+pgf_sell_noble_faction = 0x000200
+
+pgf_sell_faction_mask = 0x0003E0
+
+pgf_sell_levy_vassals = 0x000400
+pgf_sell_common_vassals = 0x000800
+pgf_sell_veteran_vassals = 0x001000
+pgf_sell_elite_vassals = 0x002000
+pgf_sell_noble_vassals = 0x004000
+
+pgf_sell_vassals_mask = pgf_sell_levy_vassals | pgf_sell_common_vassals | pgf_sell_veteran_vassals | pgf_sell_elite_vassals | pgf_sell_noble_vassals
+
+pgf_sell_mask = pgf_sell_unknown_mask | pgf_sell_faction_mask | pgf_sell_vassals_mask
+
+pgf_sell_levy_mask = pgf_sell_levy_unknown | pgf_sell_levy_faction | pgf_sell_levy_vassals
+pgf_sell_common_mask = pgf_sell_common_unknown | pgf_sell_common_faction | pgf_sell_common_vassals
+pgf_sell_veteran_mask = pgf_sell_veteran_unknown | pgf_sell_veteran_faction | pgf_sell_veteran_vassals
+pgf_sell_elite_mask = pgf_sell_elite_unknown | pgf_sell_elite_faction | pgf_sell_elite_vassals
+pgf_sell_noble_mask = pgf_sell_noble_unknown | pgf_sell_noble_faction | pgf_sell_noble_vassals
+
+pgf_send_none = 0x000000
+pgf_send_levy = 0x010000
+pgf_send_common = 0x020000
+pgf_send_veteran = 0x040000
+pgf_send_elite = 0x080000
+pgf_send_noble = 0x100000
+
+pgf_send_mask = 0x1F0000
+
+pgf_default_village_mask = pgf_sell_levy_mask|pgf_send_levy
+pgf_default_castle_mask = pgf_sell_levy_mask|pgf_sell_common_faction|pgf_sell_common_vassals|pgf_send_levy|pgf_send_common
+pgf_default_town_mask = pgf_sell_levy_mask|pgf_sell_common_faction|pgf_sell_common_vassals|pgf_send_levy|pgf_send_common
+
+
 #################
 ## Scene Slots ##
 #################

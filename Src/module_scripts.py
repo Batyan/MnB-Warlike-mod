@@ -3422,6 +3422,8 @@ scripts = [
                 (party_set_slot, ":party_no", slot_party_taxes_fixed, default_fixed_tax_rate_village),
                 (party_set_slot, ":party_no", slot_party_taxes_buy, default_buy_tax_rate_village),
                 (party_set_slot, ":party_no", slot_party_taxes_sell, default_sell_tax_rate_village),
+
+                (party_set_slot, ":party_no", slot_party_player_garrison_flags, pgf_default_village_mask),
             (else_try),
                 (eq, ":party_type", spt_castle),
                 (party_set_slot, ":party_no", slot_party_population_noble, population_max_castle * population_growth_castle_noble / 100),
@@ -3434,6 +3436,8 @@ scripts = [
                 (party_set_slot, ":party_no", slot_party_taxes_fixed, default_fixed_tax_rate_castle),
                 (party_set_slot, ":party_no", slot_party_taxes_buy, default_buy_tax_rate_castle),
                 (party_set_slot, ":party_no", slot_party_taxes_sell, default_sell_tax_rate_castle),
+
+                (party_set_slot, ":party_no", slot_party_player_garrison_flags, pgf_default_castle_mask),
             (else_try),
                 (party_set_slot, ":party_no", slot_party_population_noble, population_max_town * population_growth_town_noble / 100),
                 (party_set_slot, ":party_no", slot_party_population_artisan, population_max_town * population_growth_town_artisan / 100),
@@ -3445,6 +3449,8 @@ scripts = [
                 (party_set_slot, ":party_no", slot_party_taxes_fixed, default_fixed_tax_rate_town),
                 (party_set_slot, ":party_no", slot_party_taxes_buy, default_buy_tax_rate_town),
                 (party_set_slot, ":party_no", slot_party_taxes_sell, default_sell_tax_rate_town),
+
+                (party_set_slot, ":party_no", slot_party_player_garrison_flags, pgf_default_town_mask),
             (try_end),
 
             (party_set_slot, ":party_no", slot_party_taxes_visit, 20),
@@ -10666,7 +10672,7 @@ scripts = [
                     (val_max, ":num_reinforcements", 6),
                     (val_min, ":num_reinforcements", 15),
 
-                    (call_script, "script_cf_center_can_give_troops", ":cur_town"),
+                    (call_script, "script_cf_center_can_give_troops", ":cur_town", ":party_no"),
                     
                     (try_begin),
                         (neg|party_slot_eq, ":cur_town", slot_party_lord, ":leader"),
@@ -10680,8 +10686,11 @@ scripts = [
                     (val_min, ":num_reinforcements", 18),
                     (gt, ":num_reinforcements", 0),
                     (call_script, "script_party_give_troops_to_party", ":cur_town", ":party_no", ":num_reinforcements"),
-                    # (assign, ":num_added", reg0),
-                    # ToDo: remove gold
+                    (assign, ":total_cost", reg1),
+                    (try_begin),
+                        (neg|party_slot_eq, ":cur_town", slot_party_lord, ":leader"),
+                        (call_script, "script_party_transfer_wealth", ":party_no", ":cur_town", ":total_cost", tax_type_troops_buying),
+                    (try_end),
                 (try_end),
 
                 (try_begin),
@@ -11774,10 +11783,13 @@ scripts = [
             (store_script_param, ":num_troops", 3),
             (store_script_param, ":priority", 4),
             (store_script_param, ":move_heroes", 5),
-            
+
             (assign, ":num_added", 0),
             (assign, ":total_cost", 0),
-            
+
+            (call_script, "script_party_get_masked_garrison_flags", ":giver_party", ":receiver_party"),
+            (assign, ":garrison_flags", reg0),
+
             (party_get_num_companion_stacks, ":num_stacks", ":giver_party"),
             (assign, ":cur_value", 0),
             (try_for_range, ":cur_stack", 0, ":num_stacks"),
@@ -11789,8 +11801,6 @@ scripts = [
                     (assign, ":value", 2),
                     (try_begin),
                         (gt, ":troop_quality", ":priority"),
-                        # (assign, ":value", -1),
-                        # Assign last value
                         (troop_set_slot, ":cur_troop", slot_troop_temp_slot, ":cur_value"),
                     (else_try),
                         (party_stack_get_size, ":stack_size", ":giver_party", ":cur_stack"),
@@ -11808,8 +11818,28 @@ scripts = [
                                 (val_div, ":value", 3),
                             (try_end),
                         (try_end),
+                        (assign, ":flags", 0),
+                        (try_begin),
+                            (eq, ":troop_quality", tq_peasant),
+                            (store_and, ":flags", ":garrison_flags", pgf_sell_levy_mask),
+                        (else_try),
+                            (eq, ":troop_quality", tq_common),
+                            (store_and, ":flags", ":garrison_flags", pgf_sell_common_mask),
+                        (else_try),
+                            (eq, ":troop_quality", tq_veteran),
+                            (store_and, ":flags", ":garrison_flags", pgf_sell_veteran_mask),
+                        (else_try),
+                            (eq, ":troop_quality", tq_elite),
+                            (store_and, ":flags", ":garrison_flags", pgf_sell_elite_mask),
+                        (else_try),
+                            (eq, ":troop_quality", tq_noble),
+                            (store_and, ":flags", ":garrison_flags", pgf_sell_noble_mask),
+                        (try_end),
+                        (gt, ":flags", 0),
                         (val_add, ":cur_value", ":value"),
                         (troop_set_slot, ":cur_troop", slot_troop_temp_slot, ":cur_value"),
+                    (else_try),
+                        (troop_set_slot, ":cur_troop", slot_troop_temp_slot, ":cur_value"),    
                     (try_end),
                 (else_try),
                     (troop_set_slot, ":cur_troop", slot_troop_temp_slot, ":cur_value"),
@@ -19505,8 +19535,7 @@ scripts = [
 
                 (try_begin),
                     (this_or_next|eq, ":troop_id", "$g_player_troop"),
-                    (call_script, "script_cf_debug", debug_all),
-                    (call_script, "script_cf_debug", debug_simple),
+                    (call_script, "script_cf_debug", debug_faction),
                     (assign, reg10, ":current"),
                     (assign, reg11, ":new"),
                     (assign, reg12, ":amount"),
@@ -20973,7 +21002,7 @@ scripts = [
                 (is_between, ":slot", slot_party_attached_party_1, slot_party_attached_party_3 + 1),
 
                 (try_begin),
-                    (call_script, "script_cf_center_can_give_troops", ":party_no"),
+                    (call_script, "script_cf_center_can_give_troops", ":party_no", -1),
 
                     (store_faction_of_party, ":current_faction", ":party_no"),
                     (party_get_slot, ":party_faction", ":party_no", slot_party_faction),
@@ -21026,7 +21055,7 @@ scripts = [
                 (is_between, ":slot", slot_party_attached_party_1, slot_party_attached_party_3 + 1),
             
                 (try_begin),
-                    (call_script, "script_cf_center_can_give_troops", ":party_no"),
+                    (call_script, "script_cf_center_can_give_troops", ":party_no", -1),
 
                     (assign, ":end", goods_end),
                     (assign, ":continue", 0),
@@ -21100,10 +21129,12 @@ scripts = [
     # script_cf_center_can_give_troops
         # input:
         #   arg1: center_no
+        #   arg2: party_to_give
         # output: none
     ("cf_center_can_give_troops",
         [
             (store_script_param, ":center_no", 1),
+            (store_script_param, ":party_receiver", 2),
 
             (call_script, "script_party_get_wages", ":center_no"),
             (assign, ":center_wages", reg0),
@@ -21118,6 +21149,65 @@ scripts = [
             (lt, ":besieger", 0),
 
             (gt, ":center_wages", ":center_limit"), # Do not give troops if not enough men in the center
+
+            (assign, ":continue", 1),
+            (try_begin),
+                (neq, ":party_receiver", -1),
+                (call_script, "script_party_get_masked_garrison_flags", ":center_no", ":party_receiver"),
+                (assign, ":flags", reg0),
+                (eq, ":flags", 0),
+                (assign, ":continue", 0),
+            (try_end),
+            (eq, ":continue", 1),
+        ]),
+
+    # script_party_get_masked_garrison_flags
+        # input:
+        #   arg1: party_no
+        #   arg2: related_party
+        # output:
+        #   reg0: garrison_flag_masked
+    ("party_get_masked_garrison_flags",
+        [
+            (store_script_param, ":party_no", 1),
+            (store_script_param, ":related_party", 2),
+
+            (assign, ":garrison_flags", 0),
+            (try_begin),
+                (party_slot_eq, ":party_no", slot_party_lord, "$g_player_troop"),
+                (party_get_slot, ":garrison_flags", ":party_no", slot_party_player_garrison_flags),
+            (else_try),
+                (party_get_slot, ":party_type", ":party_no", slot_party_type),
+                (try_begin),
+                    (eq, ":party_type", spt_village),
+                    (assign, ":garrison_flags", pgf_default_village_mask),
+                (else_try),
+                    (eq, ":party_type", spt_castle),
+                    (assign, ":garrison_flags", pgf_default_castle_mask),
+                (else_try),
+                    (eq, ":party_type", spt_town),
+                    (assign, ":garrison_flags", pgf_default_town_mask),
+                (try_end),
+            (try_end),
+            (assign, ":mask", pgf_sell_unknown_mask),
+            (try_begin),
+                (neq, ":related_party", -1),
+                (store_faction_of_party, ":related_faction", ":related_party"),
+                (store_faction_of_party, ":party_faction", ":party_no"),
+                (try_begin),
+                    (eq, ":related_faction", ":party_faction"),
+                    (assign, ":mask", pgf_sell_faction_mask),
+                    (party_slot_eq, ":related_party", slot_party_type, spt_war_party),
+                    (party_get_slot, ":related_leader", ":related_party", slot_party_leader),
+                    (party_get_slot, ":party_leader", ":party_no", slot_party_leader),
+                    (neq, ":party_leader", -1),
+                    (neq, ":related_leader", -1),
+                    (call_script, "script_cf_troop_is_vassal_of", ":related_leader", ":party_leader", 1),
+                    (assign, ":mask", pgf_sell_vassals_mask),
+                (try_end),
+            (try_end),
+            (store_and, ":active_flags", ":garrison_flags", ":mask"),
+            (assign, reg0, ":active_flags"),
         ]),
 
     # script_party_give_prisoners_to_party
@@ -21214,7 +21304,7 @@ scripts = [
                         (le, ":current_wages", ":wanted_wages"),
                         (assign, ":go_home", 1),
 
-                        (call_script, "script_cf_center_can_give_troops", ":cur_town"),
+                        (call_script, "script_cf_center_can_give_troops", ":cur_town", ":party_no"),
                         (store_random_in_range, ":num_troops", 3, 7),
                         (call_script, "script_party_give_troops_to_party", ":cur_town", ":party_no", ":num_troops"),
                     (else_try),
@@ -21277,7 +21367,7 @@ scripts = [
                         (le, ":current_wages", ":wanted_wages"),
                         (eq, ":cur_town", ":home"),
                         (try_begin),
-                            (call_script, "script_cf_center_can_give_troops", ":cur_town"),
+                            (call_script, "script_cf_center_can_give_troops", ":cur_town", ":party_no"),
                             (store_random_in_range, ":num_troops", 3, 7),
                             (call_script, "script_party_give_troops_to_party", ":cur_town", ":party_no", ":num_troops"),
                         (try_end),
