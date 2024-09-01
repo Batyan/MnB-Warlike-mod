@@ -10653,7 +10653,7 @@ scripts = [
                 (try_begin),
                     (gt, ":wages", ":limit_max"),
                     # TODO: refine number of troops to give
-                    (call_script, "script_party_give_troops_to_party", ":party_no", ":cur_town", 10),
+                    (call_script, "script_party_give_troops_to_party", ":party_no", ":cur_town", 6),
                 (else_try),
                     (lt, ":wages", ":limit"),
                     
