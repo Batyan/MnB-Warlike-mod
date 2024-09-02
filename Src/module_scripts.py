@@ -23455,48 +23455,27 @@ scripts = [
 
             (troop_get_slot, ":culture", ":lord_no", slot_troop_culture),
             (str_store_faction_name, s10, ":culture"),
-            (create_text_overlay, reg0, "@{s10}"),
-            (position_set_x, pos1, ":values_x"),
-            (position_set_y, pos1, ":line_text_y"),
-            (overlay_set_position, reg0, pos1),
-            (position_set_x, pos1, 1000),
-            (position_set_y, pos1, 1000),
-            (overlay_set_size, reg0, pos1),
+            (call_script, "script_presentation_create_text_overlay", 0, ":values_x", ":line_text_y", 1000, 1000),
             (overlay_set_color, reg0, text_color_white),
 
             (val_add, ":line_text_y", ":line_height"),
 
             (call_script, "script_troop_get_relation_with_troop", ":lord_no", "$g_player_troop"),
             (assign, reg10, reg0),
-            (create_text_overlay, reg0, "@{reg10} relation"),
-            (position_set_x, pos1, ":values_x"),
-            (position_set_y, pos1, ":line_text_y"),
-            (overlay_set_position, reg0, pos1),
-            (position_set_x, pos1, 1000),
-            (position_set_y, pos1, 1000),
-            (overlay_set_size, reg0, pos1),
+            (str_store_string, s10, "@{reg10} relation"),
+            (call_script, "script_presentation_create_text_overlay", 0, ":values_x", ":line_text_y", 1000, 1000),
             (overlay_set_color, reg0, text_color_white),
 
             (troop_get_slot, reg10, ":lord_no", slot_troop_renown),
-            (create_text_overlay, reg0, "@{reg10} renown"),
-            (position_set_x, pos1, ":values2_x"),
-            (position_set_y, pos1, ":line_text_y"),
-            (overlay_set_position, reg0, pos1),
-            (position_set_x, pos1, 1000),
-            (position_set_y, pos1, 1000),
-            (overlay_set_size, reg0, pos1),
+            (str_store_string, s10, "@{reg10} renown"),
+            (call_script, "script_presentation_create_text_overlay", 0, ":values2_x", ":line_text_y", 1000, 1000),
             (overlay_set_color, reg0, text_color_white),
 
             (val_add, ":line_text_y", ":line_height"),
 
             (troop_get_slot, reg10, ":lord_no", slot_troop_num_vassal),
-            (create_text_overlay, reg0, "@{reg10} vassals"),
-            (position_set_x, pos1, ":values_x"),
-            (position_set_y, pos1, ":line_text_y"),
-            (overlay_set_position, reg0, pos1),
-            (position_set_x, pos1, 1000),
-            (position_set_y, pos1, 1000),
-            (overlay_set_size, reg0, pos1),
+            (str_store_string, s10, "@{reg10} vassals"),
+            (call_script, "script_presentation_create_text_overlay", 0, ":values_x", ":line_text_y", 1000, 1000),
             (overlay_set_color, reg0, text_color_white),
 
             (assign, ":num_fiefs", 0),
@@ -23505,25 +23484,39 @@ scripts = [
                 (val_add, ":num_fiefs", 1),
             (try_end),
             (assign, reg10, ":num_fiefs"),
-            (create_text_overlay, reg0, "@{reg10} fiefs"),
-            (position_set_x, pos1, ":values2_x"),
-            (position_set_y, pos1, ":line_text_y"),
-            (overlay_set_position, reg0, pos1),
-            (position_set_x, pos1, 1000),
-            (position_set_y, pos1, 1000),
-            (overlay_set_size, reg0, pos1),
+            (str_store_string, s10, "@{reg10} fiefs"),
+            (call_script, "script_presentation_create_text_overlay", 0, ":values2_x", ":line_text_y", 1000, 1000),
             (overlay_set_color, reg0, text_color_white),
 
             (val_add, ":line_text_y", ":line_height"),
 
             (str_store_troop_name, s10, ":lord_no"),
-            (create_text_overlay, reg0, "@{s10}"),
-            (position_set_x, pos1, ":values_x"),
-            (position_set_y, pos1, ":line_text_y"),
-            (overlay_set_position, reg0, pos1),
-            (position_set_x, pos1, 1000),
-            (position_set_y, pos1, 1000),
-            (overlay_set_size, reg0, pos1),
+            (call_script, "script_presentation_create_text_overlay", 0, ":values_x", ":line_text_y", 1000, 1000),
             (overlay_set_color, reg0, text_color_white),
+        ]),
+
+    # script_presentation_create_text_overlay
+        # input:
+        #   s10: text_string_register
+        #   arg1: text_overlay_options
+        #   arg2: x_position
+        #   arg3: y_position
+        #   arg4: x_size
+        #   arg5: y_size
+    ("presentation_create_text_overlay",
+        [
+            (store_script_param, ":options", 1),
+            (store_script_param, ":x_pos", 2),
+            (store_script_param, ":y_pos", 3),
+            (store_script_param, ":x_size", 4),
+            (store_script_param, ":y_size", 5),
+
+            (create_text_overlay, reg0, s10, ":options"),
+            (position_set_x, pos1, ":x_pos"),
+            (position_set_y, pos1, ":y_pos"),
+            (overlay_set_position, reg0, pos1),
+            (position_set_x, pos1, ":x_size"),
+            (position_set_y, pos1, ":y_size"),
+            (overlay_set_size, reg0, pos1),
         ]),
 ]
