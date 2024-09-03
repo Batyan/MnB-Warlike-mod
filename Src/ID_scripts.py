@@ -469,5 +469,6 @@ script_cf_troop_is_vassal_of = 467
 script_assign_selected_lord = 468
 script_filter_lord_vassal_grant = 469
 script_presentation_generate_select_lord_card = 470
+script_presentation_create_text_overlay = 471
 
 
