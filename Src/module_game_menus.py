@@ -52,7 +52,7 @@ game_menus = [
                 ], "Start as male character",
                 [
                     (troop_set_type, "$g_player_troop", tf_male),
-                    (troop_set_type, "trp_player", tf_female),
+                    (troop_set_type, "trp_player", tf_male),
                     (display_message, "@Player is male"),
                     (jump_to_menu, "mnu_start_game_0"),
                 ]),
@@ -550,14 +550,17 @@ game_menus = [
         ]),
     
     ("siege_battle_select", mnf_scale_picture,
-        "Select a siege scene, cur scene: scene {reg10}",
+        "Select a siege scene, cur scene: scene {reg10} {s10}",
         "none",
         [
             (try_begin),
                 (neg|is_between, "$g_cur_selected", castle_scene_begin, castle_scene_end),
                 (assign, "$g_cur_selected", castle_scene_begin),
             (try_end),
+
             (store_sub, reg10, "$g_cur_selected", castle_scene_begin),
+            (store_add, ":str_id", reg10, "str_castle_name_plain_01"),
+            (str_store_string, s10, ":str_id"),
         ],
         [
             ("scene_select_plus", [], "Select next scene",
@@ -992,13 +995,18 @@ game_menus = [
         ]),
     
     ("town_keep", mnf_scale_picture,
-        "You are in the military section of the center",
+        "You are in the political and military section of the center",
         "none",
         [
             (set_background_mesh, "mesh_pic_camp"),
             
         ],
         [
+            ("center_manage_clan", [(party_slot_eq, "$g_encountered_party", slot_party_leader, "$g_player_troop"),(troop_slot_eq, "$g_player_troop", slot_troop_home, "$g_encountered_party"),], "Manage clan",
+                [
+                    (start_presentation, "prsnt_clan_management"),
+                ]),
+
             ("center_manage", [(party_slot_eq, "$g_encountered_party", slot_party_leader, "$g_player_troop"),], "Manage the center",
                 [
                     (jump_to_menu, "mnu_town_manage"),

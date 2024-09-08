@@ -1193,4 +1193,32 @@ strings = [
   ("party_tax_description_expenses", "Diverse expenses"),
   ("party_tax_description_late_wages", "Old Wages"),
   ("party_tax_description_wages", "Wages"),
+  ("party_tax_description_private_expenses", "Personal withdrawal"),
+  ("party_tax_description_troops_hiring", "Troops training"),
+  ("party_tax_description_troops_nuying", "Troops hiring"),
+  ("party_tax_description_troops_selling", "Tropps selling"),
+
+
+  ("castle_name_plain_01", "plain_01"),
+  ("castle_name_plain_02", "plain_02"),
+  ("castle_name_plain_03", "plain_03"),
+
+  ("castle_name_plain_wood_01", "plain_wood_01"),
+
+  ("castle_name_plain_dark_01", "plain_dark_01"),
+
+  ("castle_name_sea_01", "sea_01"),
+
+  ("castle_name_steppe_01", "steppe_01"),
+
+  ("castle_name_snow_01", "snow_01"),
+  ("castle_name_snow_02", "snow_02"),
+
+  ("castle_name_snow_wood_01", "snow_wood_01"),
+
+  ("castle_name_desert_01", "desert_01"),
+
+  ("castle_name_garden", "Castle Garden"),
+  ("castle_name_plain_river", "Plane & River"),
+  ("castle_name_dross_delnoch", "Dross Delnoch"),
 ]

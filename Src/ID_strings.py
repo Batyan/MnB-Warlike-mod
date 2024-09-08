@@ -906,5 +906,23 @@ str_party_tax_description_debts = 904
 str_party_tax_description_expenses = 905
 str_party_tax_description_late_wages = 906
 str_party_tax_description_wages = 907
+str_party_tax_description_private_expenses = 908
+str_party_tax_description_troops_hiring = 909
+str_party_tax_description_troops_nuying = 910
+str_party_tax_description_troops_selling = 911
+str_castle_name_plain_01 = 912
+str_castle_name_plain_02 = 913
+str_castle_name_plain_03 = 914
+str_castle_name_plain_wood_01 = 915
+str_castle_name_plain_dark_01 = 916
+str_castle_name_sea_01 = 917
+str_castle_name_steppe_01 = 918
+str_castle_name_snow_01 = 919
+str_castle_name_snow_02 = 920
+str_castle_name_snow_wood_01 = 921
+str_castle_name_desert_01 = 922
+str_castle_name_garden = 923
+str_castle_name_plain_river = 924
+str_castle_name_dross_delnoch = 925
 
 

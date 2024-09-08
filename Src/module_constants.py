@@ -277,6 +277,7 @@ text_color_debug = 0xCCCCCC
 text_color_war = 0xBB0101
 text_color_default = 0x000000
 text_color_light = 0x222222
+text_color_white = 0xFFFFFF
 
 text_color_budget_positive = 0x20a020
 text_color_budget_negative = 0xa02020
@@ -455,6 +456,12 @@ goods_ratio_transformation_castle = 20
 
 goods_ratio_production_town = 10
 goods_ratio_transformation_town = 10
+
+renown_value_village = 300
+renown_value_castle = 750
+renown_value_town = 1500
+renown_value_caravan = 30
+renown_value_patrol = 50
 
 ################
 ## Item Slots ##
@@ -965,17 +972,17 @@ slot_party_taxes_fixed		= 131 # Fixed taxes paid by everyone
 slot_party_taxes_wealth		= 132 # Taxes paid upon earning money inside the city (also applied to buying and selling)
 slot_party_taxes_visit		= 133 # Taxes paid upon entering the city (not paid by residents)
 
-default_fixed_tax_rate_village = 5
-default_fixed_tax_rate_castle = 10
-default_fixed_tax_rate_town = 5
+default_fixed_tax_rate_village = 20
+default_fixed_tax_rate_castle = 40
+default_fixed_tax_rate_town = 20
 
-default_buy_tax_rate_village = 5
-default_buy_tax_rate_castle = 7
-default_buy_tax_rate_town = 10
+default_buy_tax_rate_village = 20
+default_buy_tax_rate_castle = 28
+default_buy_tax_rate_town = 40
 
-default_sell_tax_rate_village = 2
-default_sell_tax_rate_castle = 4
-default_sell_tax_rate_town = 6
+default_sell_tax_rate_village = 8
+default_sell_tax_rate_castle = 16
+default_sell_tax_rate_town = 12
 
 slot_party_speak_allowed = 134
 
@@ -1037,6 +1044,10 @@ slot_party_budget_debts = slot_party_budget_pay_occupation + 1
 slot_party_budget_expenses = slot_party_budget_debts + 1
 slot_party_budget_late_wages = slot_party_budget_expenses + 1
 slot_party_budget_wages = slot_party_budget_late_wages + 1
+slot_party_budget_private_expenses = slot_party_budget_wages + 1
+slot_party_budget_troops_hiring = slot_party_budget_private_expenses + 1
+slot_party_budget_troops_buying = slot_party_budget_troops_hiring + 1
+slot_party_budget_troops_selling = slot_party_budget_troops_hiring + 1
 
 tax_type_none = -1
 tax_type_population = 0
@@ -1058,11 +1069,15 @@ tax_type_debts = 15
 tax_type_expenses = 16
 tax_type_late_wages = 17
 tax_type_wages = 18
+tax_type_private_expenses = 19
+tax_type_troops_hiring = 20
+tax_type_troops_buying = 21
+tax_type_troops_selling = 22
 
 slot_party_buget_taxes_begin = slot_party_budget_taxes
-slot_party_buget_taxes_end = slot_party_budget_wages + 1
+slot_party_buget_taxes_end = slot_party_budget_troops_selling + 1
 
-slot_party_budget_reserved_party = slot_party_budget_wages + 1
+slot_party_budget_reserved_party = slot_party_buget_taxes_end
 slot_party_budget_reserved_auxiliaries = slot_party_budget_reserved_party + 1
 slot_party_budget_reserved_expenses = slot_party_budget_reserved_auxiliaries + 1
 slot_party_budget_reserved_other = slot_party_budget_reserved_expenses + 1
@@ -1147,6 +1162,60 @@ slot_party_override_production_target = slot_party_production_target_end + 1
 
 slot_party_player_shakedown = slot_party_override_production_target + 1
 
+slot_party_governor = slot_party_player_shakedown + 1
+
+slot_party_player_wages_limit = slot_party_governor + 1
+
+slot_party_player_garrison_flags = slot_party_player_wages_limit + 1
+
+pgf_sell_none = 0x000000
+
+pgf_sell_levy_unknown = 0x000001
+pgf_sell_common_unknown = 0x000002
+pgf_sell_veteran_unknown = 0x000004
+pgf_sell_elite_unknown = 0x000008
+pgf_sell_noble_unknown = 0x000010
+
+pgf_sell_unknown_mask = 0x00001F
+
+pgf_sell_levy_faction = 0x000020
+pgf_sell_common_faction = 0x000040
+pgf_sell_veteran_faction = 0x000080
+pgf_sell_elite_faction = 0x000100
+pgf_sell_noble_faction = 0x000200
+
+pgf_sell_faction_mask = 0x0003E0
+
+pgf_sell_levy_vassals = 0x000400
+pgf_sell_common_vassals = 0x000800
+pgf_sell_veteran_vassals = 0x001000
+pgf_sell_elite_vassals = 0x002000
+pgf_sell_noble_vassals = 0x004000
+
+pgf_sell_vassals_mask = pgf_sell_levy_vassals | pgf_sell_common_vassals | pgf_sell_veteran_vassals | pgf_sell_elite_vassals | pgf_sell_noble_vassals
+
+pgf_sell_mask = pgf_sell_unknown_mask | pgf_sell_faction_mask | pgf_sell_vassals_mask
+
+pgf_sell_levy_mask = pgf_sell_levy_unknown | pgf_sell_levy_faction | pgf_sell_levy_vassals
+pgf_sell_common_mask = pgf_sell_common_unknown | pgf_sell_common_faction | pgf_sell_common_vassals
+pgf_sell_veteran_mask = pgf_sell_veteran_unknown | pgf_sell_veteran_faction | pgf_sell_veteran_vassals
+pgf_sell_elite_mask = pgf_sell_elite_unknown | pgf_sell_elite_faction | pgf_sell_elite_vassals
+pgf_sell_noble_mask = pgf_sell_noble_unknown | pgf_sell_noble_faction | pgf_sell_noble_vassals
+
+pgf_send_none = 0x000000
+pgf_send_levy = 0x010000
+pgf_send_common = 0x020000
+pgf_send_veteran = 0x040000
+pgf_send_elite = 0x080000
+pgf_send_noble = 0x100000
+
+pgf_send_mask = 0x1F0000
+
+pgf_default_village_mask = pgf_sell_levy_mask|pgf_send_levy
+pgf_default_castle_mask = pgf_sell_levy_mask|pgf_sell_common_faction|pgf_sell_common_vassals|pgf_send_levy|pgf_send_common
+pgf_default_town_mask = pgf_sell_levy_mask|pgf_sell_common_faction|pgf_sell_common_vassals|pgf_send_levy|pgf_send_common
+
+
 #################
 ## Scene Slots ##
 #################
@@ -1163,6 +1232,8 @@ slot_scene_num_attack_spawn = 2
 
 slot_scene_num_archer_points = 3
 
+slot_scene_enabled = 4
+
 
 
 #################
@@ -1173,6 +1244,8 @@ troop_slots = 0
 
 slot_troop_temp_slot				= 0
 slot_troop_temp_hire_number			= slot_troop_temp_slot
+
+slot_troop_temp_array_begin			= 1
 
 slot_troop_banner_scene_prop		= 1
 
@@ -1227,6 +1300,8 @@ tko_none = 0
 tko_kingdom_hero = 1
 tko_mercenary = 2
 tko_bandit = 3
+tko_reserved = 4
+
 slot_troop_personality 				= 13
 tp_default = 0x0000
 
@@ -1359,9 +1434,11 @@ slot_troop_budget_reserved_other = slot_troop_budget_reserved_party + 1
 slot_troop_budget_debt = slot_troop_budget_reserved_other + 1
 slot_troop_budget_perceived_debt = slot_troop_budget_debt + 1
 
-slot_troop_last_met 				= slot_troop_budget_perceived_debt + 1
+slot_troop_last_met = slot_troop_budget_perceived_debt + 1
 
 slot_troop_culture = slot_troop_last_met + 1
+
+slot_troop_ratio_special_multiplier = slot_troop_culture + 1
 
 slot_troop_relations_begin = 400
 
