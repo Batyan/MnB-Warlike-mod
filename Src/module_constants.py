@@ -1196,12 +1196,6 @@ pgf_sell_vassals_mask = pgf_sell_levy_vassals | pgf_sell_common_vassals | pgf_se
 
 pgf_sell_mask = pgf_sell_unknown_mask | pgf_sell_faction_mask | pgf_sell_vassals_mask
 
-pgf_sell_levy_mask = pgf_sell_levy_unknown | pgf_sell_levy_faction | pgf_sell_levy_vassals
-pgf_sell_common_mask = pgf_sell_common_unknown | pgf_sell_common_faction | pgf_sell_common_vassals
-pgf_sell_veteran_mask = pgf_sell_veteran_unknown | pgf_sell_veteran_faction | pgf_sell_veteran_vassals
-pgf_sell_elite_mask = pgf_sell_elite_unknown | pgf_sell_elite_faction | pgf_sell_elite_vassals
-pgf_sell_noble_mask = pgf_sell_noble_unknown | pgf_sell_noble_faction | pgf_sell_noble_vassals
-
 pgf_send_none = 0x000000
 pgf_send_levy = 0x010000
 pgf_send_common = 0x020000
@@ -1211,6 +1205,18 @@ pgf_send_noble = 0x100000
 
 pgf_send_mask = 0x1F0000
 
+pgf_sell_levy_mask = pgf_sell_levy_unknown | pgf_sell_levy_faction | pgf_sell_levy_vassals | pgf_send_levy
+pgf_sell_common_mask = pgf_sell_common_unknown | pgf_sell_common_faction | pgf_sell_common_vassals | pgf_send_common
+pgf_sell_veteran_mask = pgf_sell_veteran_unknown | pgf_sell_veteran_faction | pgf_sell_veteran_vassals | pgf_send_veteran
+pgf_sell_elite_mask = pgf_sell_elite_unknown | pgf_sell_elite_faction | pgf_sell_elite_vassals | pgf_send_elite
+pgf_sell_noble_mask = pgf_sell_noble_unknown | pgf_sell_noble_faction | pgf_sell_noble_vassals | pgf_send_noble
+
+pgf_levy_mask = pgf_sell_levy_mask | pgf_send_levy
+pgf_common_mask = pgf_sell_common_mask | pgf_send_common
+pgf_veteran_mask = pgf_sell_veteran_mask | pgf_send_veteran
+pgf_elite_mask = pgf_sell_elite_mask | pgf_send_elite
+pgf_noble_mask = pgf_sell_noble_mask | pgf_send_noble
+
 pgf_all_mask = pgf_sell_mask | pgf_send_mask
 
 pgf_sell_noble_clean = pgf_all_mask - pgf_sell_noble_mask
@@ -1218,6 +1224,12 @@ pgf_sell_elite_clean = pgf_all_mask - pgf_sell_elite_mask
 pgf_sell_veteran_clean = pgf_all_mask - pgf_sell_veteran_mask
 pgf_sell_common_clean = pgf_all_mask - pgf_sell_common_mask
 pgf_sell_levy_clean = pgf_all_mask - pgf_sell_levy_mask
+
+pgf_send_noble_clean = pgf_all_mask - pgf_send_noble
+pgf_send_elite_clean = pgf_all_mask - pgf_send_elite
+pgf_send_veteran_clean = pgf_all_mask - pgf_send_veteran
+pgf_send_common_clean = pgf_all_mask - pgf_send_common
+pgf_send_levy_clean = pgf_all_mask - pgf_send_levy
 
 pgf_default_village_mask = pgf_sell_levy_mask|pgf_send_levy
 pgf_default_castle_mask = pgf_sell_levy_mask|pgf_sell_common_faction|pgf_sell_common_vassals|pgf_send_levy|pgf_send_common

@@ -1184,22 +1184,121 @@ presentations = [
 
                 ## CENTER GARRISON
                 # Center garrison sending
-                # Center garrison selling
                 (party_get_slot, ":garrison_masks", ":current_center", slot_party_player_garrison_flags),
-
-                (val_add, ":cur_y", ":line_height"),
 
                 (str_store_string, s10, "@Noble troops"),
                 (call_script, "script_presentation_create_text_overlay", tf_left_align, ":left_panel_x", ":cur_y", 1000, 1000),
 
-                (create_combo_button_overlay, reg0),
                 (store_sub, ":x", ":left_panel_values_x", 20),
-                (position_set_x, pos1, ":x"),
-                (position_set_y, pos1, ":cur_y"),
-                (overlay_set_position, reg0, pos1),
-                (position_set_x, pos1, 550),
-                (position_set_y, pos1, 700),
-                (overlay_set_size, reg0, pos1),
+                (call_script, "script_presentation_create_combo_button_overlay", ":x", ":cur_y", 550, 700),
+
+                (overlay_add_item, reg0, "@Disabled"),
+                (overlay_add_item, reg0, "@Allowed"),
+
+                (assign, "$g_presentation_center_garrison_flags_send_noble", reg0),
+
+                (try_begin),
+                    (store_and, ":noble_flags", ":garrison_masks", pgf_send_noble),
+                    (gt, ":noble_flags", 0),
+                    (overlay_set_val, "$g_presentation_center_garrison_flags_send_noble", 1),
+                (else_try),
+                    (overlay_set_val, "$g_presentation_center_garrison_flags_send_noble", 0),
+                (try_end),
+
+                (val_add, ":cur_y", ":line_height"),
+
+                (str_store_string, s10, "@Elite troops"),
+                (call_script, "script_presentation_create_text_overlay", tf_left_align, ":right_panel_x", ":cur_y", 1000, 1000),
+
+                (store_sub, ":x", ":right_panel_values_x", 20),
+                (call_script, "script_presentation_create_combo_button_overlay", ":x", ":cur_y", 550, 700),
+
+                (overlay_add_item, reg0, "@Disabled"),
+                (overlay_add_item, reg0, "@Allowed"),
+
+                (assign, "$g_presentation_center_garrison_flags_send_elite", reg0),
+
+                (try_begin),
+                    (store_and, ":elite_flags", ":garrison_masks", pgf_send_elite),
+                    (gt, ":elite_flags", 0),
+                    (overlay_set_val, "$g_presentation_center_garrison_flags_send_elite", 1),
+                (else_try),
+                    (overlay_set_val, "$g_presentation_center_garrison_flags_send_elite", 0),
+                (try_end),
+
+                (str_store_string, s10, "@Veteran troops"),
+                (call_script, "script_presentation_create_text_overlay", tf_left_align, ":left_panel_x", ":cur_y", 1000, 1000),
+
+                (store_sub, ":x", ":left_panel_values_x", 20),
+                (call_script, "script_presentation_create_combo_button_overlay", ":x", ":cur_y", 550, 700),
+
+                (overlay_add_item, reg0, "@Disabled"),
+                (overlay_add_item, reg0, "@Allowed"),
+
+                (assign, "$g_presentation_center_garrison_flags_send_veteran", reg0),
+
+                (try_begin),
+                    (store_and, ":veteran_flags", ":garrison_masks", pgf_send_veteran),
+                    (gt, ":veteran_flags", 0),
+                    (overlay_set_val, "$g_presentation_center_garrison_flags_send_veteran", 1),
+                (else_try),
+                    (overlay_set_val, "$g_presentation_center_garrison_flags_send_veteran", 0),
+                (try_end),
+
+                (val_add, ":cur_y", ":line_height"),
+
+                (str_store_string, s10, "@Common troops"),
+                (call_script, "script_presentation_create_text_overlay", tf_left_align, ":right_panel_x", ":cur_y", 1000, 1000),
+
+                (store_sub, ":x", ":right_panel_values_x", 20),
+                (call_script, "script_presentation_create_combo_button_overlay", ":x", ":cur_y", 550, 700),
+
+                (overlay_add_item, reg0, "@Disabled"),
+                (overlay_add_item, reg0, "@Allowed"),
+
+                (assign, "$g_presentation_center_garrison_flags_send_common", reg0),
+
+                (try_begin),
+                    (store_and, ":common_flags", ":garrison_masks", pgf_send_common),
+                    (gt, ":common_flags", 0),
+                    (overlay_set_val, "$g_presentation_center_garrison_flags_send_common", 1),
+                (else_try),
+                    (overlay_set_val, "$g_presentation_center_garrison_flags_send_common", 0),
+                (try_end),
+
+                (str_store_string, s10, "@Levy troops"),
+                (call_script, "script_presentation_create_text_overlay", tf_left_align, ":left_panel_x", ":cur_y", 1000, 1000),
+
+                (store_sub, ":x", ":left_panel_values_x", 20),
+                (call_script, "script_presentation_create_combo_button_overlay", ":x", ":cur_y", 550, 700),
+
+                (overlay_add_item, reg0, "@Disabled"),
+                (overlay_add_item, reg0, "@Allowed"),
+
+                (assign, "$g_presentation_center_garrison_flags_send_levy", reg0),
+
+                (try_begin),
+                    (store_and, ":levy_flags", ":garrison_masks", pgf_send_levy),
+                    (gt, ":levy_flags", 0),
+                    (overlay_set_val, "$g_presentation_center_garrison_flags_send_levy", 1),
+                (else_try),
+                    (overlay_set_val, "$g_presentation_center_garrison_flags_send_levy", 0),
+                (try_end),
+
+                (val_add, ":cur_y", ":line_height"),
+
+                (str_store_string, s10, "@Allow sending troops to other centers from garrison"),
+                (call_script, "script_presentation_create_text_overlay", tf_left_align, ":left_panel_x", ":cur_y", 1000, 1000),
+
+                (val_add, ":cur_y", ":category_height"),
+
+                # Center garrison selling
+
+                (str_store_string, s10, "@Noble troops"),
+                (call_script, "script_presentation_create_text_overlay", tf_left_align, ":left_panel_x", ":cur_y", 1000, 1000),
+
+                (store_sub, ":x", ":left_panel_values_x", 20),
+                (call_script, "script_presentation_create_combo_button_overlay", ":x", ":cur_y", 550, 700),
 
                 (overlay_add_item, reg0, "@Disabled"),
                 (overlay_add_item, reg0, "@Allow vassals"),
@@ -1226,14 +1325,8 @@ presentations = [
                 (str_store_string, s10, "@Elite troops"),
                 (call_script, "script_presentation_create_text_overlay", tf_left_align, ":right_panel_x", ":cur_y", 1000, 1000),
 
-                (create_combo_button_overlay, reg0),
                 (store_sub, ":x", ":right_panel_values_x", 20),
-                (position_set_x, pos1, ":x"),
-                (position_set_y, pos1, ":cur_y"),
-                (overlay_set_position, reg0, pos1),
-                (position_set_x, pos1, 550),
-                (position_set_y, pos1, 700),
-                (overlay_set_size, reg0, pos1),
+                (call_script, "script_presentation_create_combo_button_overlay", ":x", ":cur_y", 550, 700),
 
                 (overlay_add_item, reg0, "@Disabled"),
                 (overlay_add_item, reg0, "@Allow vassals"),
@@ -1258,14 +1351,8 @@ presentations = [
                 (str_store_string, s10, "@Veteran troops"),
                 (call_script, "script_presentation_create_text_overlay", tf_left_align, ":left_panel_x", ":cur_y", 1000, 1000),
 
-                (create_combo_button_overlay, reg0),
                 (store_sub, ":x", ":left_panel_values_x", 20),
-                (position_set_x, pos1, ":x"),
-                (position_set_y, pos1, ":cur_y"),
-                (overlay_set_position, reg0, pos1),
-                (position_set_x, pos1, 550),
-                (position_set_y, pos1, 700),
-                (overlay_set_size, reg0, pos1),
+                (call_script, "script_presentation_create_combo_button_overlay", ":x", ":cur_y", 550, 700),
 
                 (overlay_add_item, reg0, "@Disabled"),
                 (overlay_add_item, reg0, "@Allow vassals"),
@@ -1292,14 +1379,8 @@ presentations = [
                 (str_store_string, s10, "@Common troops"),
                 (call_script, "script_presentation_create_text_overlay", tf_left_align, ":right_panel_x", ":cur_y", 1000, 1000),
 
-                (create_combo_button_overlay, reg0),
                 (store_sub, ":x", ":right_panel_values_x", 20),
-                (position_set_x, pos1, ":x"),
-                (position_set_y, pos1, ":cur_y"),
-                (overlay_set_position, reg0, pos1),
-                (position_set_x, pos1, 550),
-                (position_set_y, pos1, 700),
-                (overlay_set_size, reg0, pos1),
+                (call_script, "script_presentation_create_combo_button_overlay", ":x", ":cur_y", 550, 700),
 
                 (overlay_add_item, reg0, "@Disabled"),
                 (overlay_add_item, reg0, "@Allow vassals"),
@@ -1324,14 +1405,8 @@ presentations = [
                 (str_store_string, s10, "@Levies"),
                 (call_script, "script_presentation_create_text_overlay", tf_left_align, ":left_panel_x", ":cur_y", 1000, 1000),
 
-                (create_combo_button_overlay, reg0),
                 (store_sub, ":x", ":left_panel_values_x", 20),
-                (position_set_x, pos1, ":x"),
-                (position_set_y, pos1, ":cur_y"),
-                (overlay_set_position, reg0, pos1),
-                (position_set_x, pos1, 550),
-                (position_set_y, pos1, 700),
-                (overlay_set_size, reg0, pos1),
+                (call_script, "script_presentation_create_combo_button_overlay", ":x", ":cur_y", 550, 700),
 
                 (overlay_add_item, reg0, "@Disabled"),
                 (overlay_add_item, reg0, "@Allow vassals"),
@@ -1744,9 +1819,6 @@ presentations = [
                     (try_end),
                     (val_or, ":flags", ":new_flags"),
                     (party_set_slot, ":current_center", slot_party_player_garrison_flags, ":flags"),
-
-                    (assign, reg10, ":flags"),
-                    (display_message, "@flags: {reg10}"),
                 (else_try),
                     (eq, ":object", "$g_presentation_center_garrison_flags_elite"),
 
@@ -1767,9 +1839,6 @@ presentations = [
                     (try_end),
                     (val_or, ":flags", ":new_flags"),
                     (party_set_slot, ":current_center", slot_party_player_garrison_flags, ":flags"),
-
-                    (assign, reg10, ":flags"),
-                    (display_message, "@flags: {reg10}"),
                 (else_try),
                     (eq, ":object", "$g_presentation_center_garrison_flags_veteran"),
 
@@ -1790,9 +1859,6 @@ presentations = [
                     (try_end),
                     (val_or, ":flags", ":new_flags"),
                     (party_set_slot, ":current_center", slot_party_player_garrison_flags, ":flags"),
-
-                    (assign, reg10, ":flags"),
-                    (display_message, "@flags: {reg10}"),
                 (else_try),
                     (eq, ":object", "$g_presentation_center_garrison_flags_common"),
 
@@ -1813,9 +1879,6 @@ presentations = [
                     (try_end),
                     (val_or, ":flags", ":new_flags"),
                     (party_set_slot, ":current_center", slot_party_player_garrison_flags, ":flags"),
-
-                    (assign, reg10, ":flags"),
-                    (display_message, "@flags: {reg10}"),
                 (else_try),
                     (eq, ":object", "$g_presentation_center_garrison_flags_levy"),
 
@@ -1836,9 +1899,61 @@ presentations = [
                     (try_end),
                     (val_or, ":flags", ":new_flags"),
                     (party_set_slot, ":current_center", slot_party_player_garrison_flags, ":flags"),
+                (else_try),
+                    (eq, ":object", "$g_presentation_center_garrison_flags_send_noble"),
 
-                    (assign, reg10, ":flags"),
-                    (display_message, "@flags: {reg10}"),
+                    (party_get_slot, ":flags", ":current_center", slot_party_player_garrison_flags),
+                    (try_begin),
+                        (eq, ":value", 0),
+                        (val_and, ":flags", pgf_send_noble_clean),
+                    (else_try),
+                        (val_or, ":flags", pgf_send_noble),
+                    (try_end),
+                    (party_set_slot, ":current_center", slot_party_player_garrison_flags, ":flags"),
+                (else_try),
+                    (eq, ":object", "$g_presentation_center_garrison_flags_send_elite"),
+
+                    (party_get_slot, ":flags", ":current_center", slot_party_player_garrison_flags),
+                    (try_begin),
+                        (eq, ":value", 0),
+                        (val_and, ":flags", pgf_send_elite_clean),
+                    (else_try),
+                        (val_or, ":flags", pgf_send_elite),
+                    (try_end),
+                    (party_set_slot, ":current_center", slot_party_player_garrison_flags, ":flags"),
+                (else_try),
+                    (eq, ":object", "$g_presentation_center_garrison_flags_send_veteran"),
+
+                    (party_get_slot, ":flags", ":current_center", slot_party_player_garrison_flags),
+                    (try_begin),
+                        (eq, ":value", 0),
+                        (val_and, ":flags", pgf_send_veteran_clean),
+                    (else_try),
+                        (val_or, ":flags", pgf_send_veteran),
+                    (try_end),
+                    (party_set_slot, ":current_center", slot_party_player_garrison_flags, ":flags"),
+                (else_try),
+                    (eq, ":object", "$g_presentation_center_garrison_flags_send_common"),
+
+                    (party_get_slot, ":flags", ":current_center", slot_party_player_garrison_flags),
+                    (try_begin),
+                        (eq, ":value", 0),
+                        (val_and, ":flags", pgf_send_common_clean),
+                    (else_try),
+                        (val_or, ":flags", pgf_send_common),
+                    (try_end),
+                    (party_set_slot, ":current_center", slot_party_player_garrison_flags, ":flags"),
+                (else_try),
+                    (eq, ":object", "$g_presentation_center_garrison_flags_send_levy"),
+
+                    (party_get_slot, ":flags", ":current_center", slot_party_player_garrison_flags),
+                    (try_begin),
+                        (eq, ":value", 0),
+                        (val_and, ":flags", pgf_send_levy_clean),
+                    (else_try),
+                        (val_or, ":flags", pgf_send_levy),
+                    (try_end),
+                    (party_set_slot, ":current_center", slot_party_player_garrison_flags, ":flags"),
                 (try_end),
 
                 (try_begin),

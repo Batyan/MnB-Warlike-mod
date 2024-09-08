@@ -10948,6 +10948,10 @@ scripts = [
                 # ToDo: Allow allies with reduced likelyness
                 (eq, ":center_faction", ":party_faction"),
 
+                (party_get_slot, ":garrison_flags", ":center_no", slot_party_player_garrison_flags),
+                (store_and, ":send_flags", ":garrison_flags", pgf_send_mask),
+                (gt, ":send_flags", 0),
+
                 (assign, ":continue", 0),
                 (party_get_slot, ":center_type", ":center_no", slot_party_type),
                 (try_begin),
@@ -11821,19 +11825,19 @@ scripts = [
                         (assign, ":flags", 0),
                         (try_begin),
                             (eq, ":troop_quality", tq_peasant),
-                            (store_and, ":flags", ":garrison_flags", pgf_sell_levy_mask),
+                            (store_and, ":flags", ":garrison_flags", pgf_levy_mask),
                         (else_try),
                             (eq, ":troop_quality", tq_common),
-                            (store_and, ":flags", ":garrison_flags", pgf_sell_common_mask),
+                            (store_and, ":flags", ":garrison_flags", pgf_common_mask),
                         (else_try),
                             (eq, ":troop_quality", tq_veteran),
-                            (store_and, ":flags", ":garrison_flags", pgf_sell_veteran_mask),
+                            (store_and, ":flags", ":garrison_flags", pgf_veteran_mask),
                         (else_try),
                             (eq, ":troop_quality", tq_elite),
-                            (store_and, ":flags", ":garrison_flags", pgf_sell_elite_mask),
+                            (store_and, ":flags", ":garrison_flags", pgf_elite_mask),
                         (else_try),
                             (eq, ":troop_quality", tq_noble),
-                            (store_and, ":flags", ":garrison_flags", pgf_sell_noble_mask),
+                            (store_and, ":flags", ":garrison_flags", pgf_noble_mask),
                         (try_end),
                         (gt, ":flags", 0),
                         (val_add, ":cur_value", ":value"),
@@ -21173,11 +21177,11 @@ scripts = [
             (store_script_param, ":related_party", 2),
 
             (assign, ":garrison_flags", 0),
+            (party_get_slot, ":party_type", ":party_no", slot_party_type),
             (try_begin),
                 (party_slot_eq, ":party_no", slot_party_lord, "$g_player_troop"),
                 (party_get_slot, ":garrison_flags", ":party_no", slot_party_player_garrison_flags),
             (else_try),
-                (party_get_slot, ":party_type", ":party_no", slot_party_type),
                 (try_begin),
                     (eq, ":party_type", spt_village),
                     (assign, ":garrison_flags", pgf_default_village_mask),
@@ -21197,13 +21201,18 @@ scripts = [
                 (try_begin),
                     (eq, ":related_faction", ":party_faction"),
                     (assign, ":mask", pgf_sell_faction_mask),
-                    (party_slot_eq, ":related_party", slot_party_type, spt_war_party),
-                    (party_get_slot, ":related_leader", ":related_party", slot_party_leader),
-                    (party_get_slot, ":party_leader", ":party_no", slot_party_leader),
-                    (neq, ":party_leader", -1),
-                    (neq, ":related_leader", -1),
-                    (call_script, "script_cf_troop_is_vassal_of", ":related_leader", ":party_leader", 1),
-                    (assign, ":mask", pgf_sell_vassals_mask),
+                    (try_begin),
+                        (eq, ":party_type", spt_war_party),
+                        (party_get_slot, ":related_leader", ":related_party", slot_party_leader),
+                        (party_get_slot, ":party_leader", ":party_no", slot_party_leader),
+                        (neq, ":party_leader", -1),
+                        (neq, ":related_leader", -1),
+                        (call_script, "script_cf_troop_is_vassal_of", ":related_leader", ":party_leader", 1),
+                        (assign, ":mask", pgf_sell_vassals_mask),
+                    (else_try),
+                        (eq, ":party_type", spt_convoy),
+                        (assign, ":mask", pgf_send_mask),
+                    (try_end),
                 (try_end),
             (try_end),
             (store_and, ":active_flags", ":garrison_flags", ":mask"),
@@ -23503,6 +23512,8 @@ scripts = [
         #   arg3: y_position
         #   arg4: x_size
         #   arg5: y_size
+        # output:
+        #   reg0: overlay_id
     ("presentation_create_text_overlay",
         [
             (store_script_param, ":options", 1),
@@ -23512,6 +23523,30 @@ scripts = [
             (store_script_param, ":y_size", 5),
 
             (create_text_overlay, reg0, s10, ":options"),
+            (position_set_x, pos1, ":x_pos"),
+            (position_set_y, pos1, ":y_pos"),
+            (overlay_set_position, reg0, pos1),
+            (position_set_x, pos1, ":x_size"),
+            (position_set_y, pos1, ":y_size"),
+            (overlay_set_size, reg0, pos1),
+        ]),
+
+    # script_presentation_create_combo_button_overlay
+        # input:
+        #   arg1: x_position
+        #   arg2: y_position
+        #   arg3: x_size
+        #   arg4: y_size
+        # output:
+        #   reg0: overlay_id
+    ("presentation_create_combo_button_overlay",
+        [
+            (store_script_param, ":x_pos", 1),
+            (store_script_param, ":y_pos", 2),
+            (store_script_param, ":x_size", 3),
+            (store_script_param, ":y_size", 4),
+
+            (create_combo_button_overlay, reg0),
             (position_set_x, pos1, ":x_pos"),
             (position_set_y, pos1, ":y_pos"),
             (overlay_set_position, reg0, pos1),
