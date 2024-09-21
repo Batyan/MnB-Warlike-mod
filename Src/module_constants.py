@@ -1460,7 +1460,24 @@ slot_troop_culture = slot_troop_last_met + 1
 
 slot_troop_ratio_special_multiplier = slot_troop_culture + 1
 
-slot_troop_relations_begin = 400
+troop_log_num_slots = 10
+
+slot_troop_log_event_begin = slot_troop_ratio_special_multiplier + 1
+slot_troop_log_event_end = slot_troop_log_event_begin + troop_log_num_slots
+
+slot_troop_log_value_begin = slot_troop_log_event_end + 1
+slot_troop_log_value_end = slot_troop_log_value_begin + troop_log_num_slots
+
+slot_troop_log_date_begin = slot_troop_log_value_end + 1
+slot_troop_log_date_end = slot_troop_log_date_begin + troop_log_num_slots
+
+slot_troop_log_object_begin = slot_troop_log_date_end + 1
+slot_troop_log_object_end = slot_troop_log_object_begin + troop_log_num_slots
+
+slot_troop_log_target_begin = slot_troop_log_object_end + 1
+slot_troop_log_target_end = slot_troop_log_target_begin + troop_log_num_slots
+
+slot_troop_relations_begin = slot_troop_log_object_end + 1
 
 
 # # # ToDo: remove test slots

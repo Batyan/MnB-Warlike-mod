@@ -23415,6 +23415,159 @@ scripts = [
             (assign, reg0, ":filtered"),
         ]),
 
+    # script_troop_add_event
+        # input:
+        #   arg1: troop_no
+        #   arg2: event_type
+        #   arg3: event_object
+        #   arg4: event_target
+        #   arg5: event_value
+        #   arg6: event_date
+        # output:
+        #   reg0: event_offset
+    ("troop_add_event",
+        [
+            (store_script_param, ":troop_no", 1),
+            (store_script_param, ":event_type", 2),
+            (store_script_param, ":event_object", 3),
+            (store_script_param, ":event_target", 4),
+            (store_script_param, ":event_value", 5),
+            (store_script_param, ":event_date", 6),
+
+            (assign, ":event_number", -1),
+            (assign, ":end", troop_log_num_slots),
+            (store_sub, ":no_resend", troop_log_num_slots, 1),
+            (try_for_range, ":offset", 0, ":end"),
+                (store_add, ":value_slot", ":offset", slot_troop_log_value_begin),
+                (troop_get_slot, ":value", ":troop_no", ":value_slot"),
+                (ge, ":event_value", ":value"),
+
+                (store_add, ":event_slot", ":offset", slot_troop_log_event_begin),
+                (store_add, ":date_slot", ":offset", slot_troop_log_date_begin),
+                (store_add, ":object_slot", ":offset", slot_troop_log_object_begin),
+                (store_add, ":target_slot", ":offset", slot_troop_log_target_begin),
+
+                (troop_get_slot, ":event", ":troop_no", ":event_slot"),
+                (troop_get_slot, ":date", ":troop_no", ":date_slot"),
+                (troop_get_slot, ":object", ":troop_no", ":object_slot"),
+                (troop_get_slot, ":target", ":troop_no", ":target_slot"),
+
+                (call_script, "script_troop_add_event_offset", ":troop_no", ":offset", ":event_type", ":event_object", ":event_target", ":event_value", ":event_date"),
+
+                (try_begin),
+                    (neq, ":offset", ":no_resend"),
+                    (call_script, "script_troop_add_event", ":troop_no", ":event", ":object", ":target", ":value", ":date"),
+                (try_end),
+
+                (assign, ":event_number", ":offset"),
+                (assign, ":end", 0),
+            (try_end),
+
+            (assign, reg0, ":event_number"),
+        ]),
+
+    # script_troop_add_event_offset
+        # input:
+        #   arg1: troop_no
+        #   arg2: offset
+        #   arg3: event_type
+        #   arg4: event_object
+        #   arg5: event_target
+        #   arg6: event_value
+        #   arg7: event_date
+        # output: none
+    ("troop_add_event_offset",
+        [
+            (store_script_param, ":troop_no", 1),
+            (store_script_param, ":offset", 2),
+            (store_script_param, ":event_type", 3),
+            (store_script_param, ":event_object", 4),
+            (store_script_param, ":event_target", 5),
+            (store_script_param, ":event_value", 6),
+            (store_script_param, ":event_date", 7),
+
+            (store_add, ":value_slot", ":offset", slot_troop_log_value_begin),
+            (store_add, ":event_slot", ":offset", slot_troop_log_event_begin),
+            (store_add, ":date_slot", ":offset", slot_troop_log_date_begin),
+            (store_add, ":object_slot", ":offset", slot_troop_log_object_begin),
+            (store_add, ":target_slot", ":offset", slot_troop_log_target_begin),
+
+            (troop_set_slot, ":troop_no", ":value_slot", ":event_value"),
+            (troop_set_slot, ":troop_no", ":event_slot", ":event_type"),
+            (troop_set_slot, ":troop_no", ":date_slot", ":event_date"),
+            (troop_set_slot, ":troop_no", ":object_slot", ":event_object"),
+            (troop_set_slot, ":troop_no", ":target_slot", ":event_target"),
+        ]),
+
+    # script_troop_remove_event
+        # input:
+        #   arg1: troop_no
+        #   arg2: event_type
+        #   arg3: event_object
+        #   arg4: event_target
+        #   arg5: event_value
+        # output:
+        #   reg0: event_offset_removed
+    ("troop_remove_event",
+        [
+            (store_script_param, ":troop_no", 1),
+            (store_script_param, ":event_type", 2),
+            (store_script_param, ":event_object", 3),
+            (store_script_param, ":event_target", 4),
+            (store_script_param, ":event_value", 5),
+
+            (assign, ":removed", -1),
+            (assign, ":end", troop_log_num_slots),
+            (try_for_range, ":offset", 0, ":end"),
+                (store_add, ":event_slot", ":offset", slot_troop_log_event_begin),
+                (troop_get_slot, ":event", ":troop_no", ":event_slot"),
+                (gt, ":event", 0),
+
+                (store_add, ":value_slot", ":offset", slot_troop_log_value_begin),
+                (store_add, ":object_slot", ":offset", slot_troop_log_object_begin),
+                (store_add, ":target_slot", ":offset", slot_troop_log_target_begin),
+
+                (troop_get_slot, ":value", ":troop_no", ":value_slot"),
+                (troop_get_slot, ":object", ":troop_no", ":object_slot"),
+                (troop_get_slot, ":target", ":troop_no", ":target_slot"),
+
+                (eq, ":event_type", ":event"),
+                (eq, ":event_object", ":object"),
+                (eq, ":event_target", ":target"),
+                (eq, ":event_value", ":value"),
+
+                (assign, ":removed", ":offset"),
+                (assign, ":end", ":offset"),
+            (try_end),
+
+            (try_begin),
+                (ge, ":removed", ":offset"),
+
+                (val_add, ":end", 1),
+                (try_for_range, ":offset", ":end", troop_log_num_slots),
+                    (store_sub, ":new_offset", ":offset", 1),
+
+                    (store_add, ":value_slot", ":offset", slot_troop_log_value_begin),
+                    (store_add, ":event_slot", ":offset", slot_troop_log_event_begin),
+                    (store_add, ":date_slot", ":offset", slot_troop_log_date_begin),
+                    (store_add, ":object_slot", ":offset", slot_troop_log_object_begin),
+                    (store_add, ":target_slot", ":offset", slot_troop_log_target_begin),
+
+                    (troop_get_slot, ":value", ":troop_no", ":value_slot"),
+                    (troop_get_slot, ":event", ":troop_no", ":event_slot"),
+                    (troop_get_slot, ":date", ":troop_no", ":date_slot"),
+                    (troop_get_slot, ":object", ":troop_no", ":object_slot"),
+                    (troop_get_slot, ":target", ":troop_no", ":target_slot"),
+
+                    (call_script, "script_troop_add_event_offset", ":troop_no", ":new_offset", ":event", ":object", ":target", ":value", ":date"),
+                (try_end),
+
+                (store_sub, ":last_offset", troop_log_num_slots, 1),
+                (call_script, "script_troop_add_event_offset", ":troop_no", ":last_offset", -1, -1, -1, -1, -1),
+            (try_end),
+            (assign, reg0, ":removed"),
+        ]),
+
     # script_presentation_generate_select_lord_card
         # input:
         #   arg1: troop_no

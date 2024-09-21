@@ -468,8 +468,11 @@ script_cf_clan_management_can_display_center = 466
 script_cf_troop_is_vassal_of = 467
 script_assign_selected_lord = 468
 script_filter_lord_vassal_grant = 469
-script_presentation_generate_select_lord_card = 470
-script_presentation_create_text_overlay = 471
-script_presentation_create_combo_button_overlay = 472
+script_troop_add_event = 470
+script_troop_add_event_offset = 471
+script_troop_remove_event = 472
+script_presentation_generate_select_lord_card = 473
+script_presentation_create_text_overlay = 474
+script_presentation_create_combo_button_overlay = 475
 
 
