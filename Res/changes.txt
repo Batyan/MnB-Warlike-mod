@@ -64,6 +64,8 @@ v0.530:
 		* prevent lords from spawning inside a besieged center
 		* fix impossibility to go back to male character after selecting female
 		* prevent appearance of unspent skill points
+		* update center names
+		* move some center to spread them out slightly
 v0.520:
 	-Features:
 		* add restrictions on allowing recruitment of troops of certain quality
