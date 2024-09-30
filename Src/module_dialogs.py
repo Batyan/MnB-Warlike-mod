@@ -162,10 +162,111 @@ dialogs = [
 	[anyone|plyr, "player_lord_talk",
 		[], "Did you hear any rumors recently?", "lord_rumors", []],
 	[anyone|plyr, "player_lord_talk",
+		[
+			(troop_get_slot, ":lord", "$g_talk_troop", slot_troop_vassal_of),
+			(gt, ":lord", 0),
+			(str_store_troop_name, s10, ":lord"),
+		], "How do you feel about your relation with your lord {s10}?", "lord_become_vassal", []],
+	[anyone|plyr, "player_lord_talk",
+		[
+			(troop_get_slot, ":lord", "$g_talk_troop", slot_troop_vassal_of),
+			(eq, ":lord", -1),
+		], "Have you considered pledging your loyalty to someone?", "lord_become_vassal", []],
+	[anyone|plyr, "player_lord_talk",
 		[], "Nevermind", "lord_main_return", []],
 
 	[anyone, "lord_rumors",
 		[], "Nothing new I'm afraid.", "lord_main_return", []],
+
+	[anyone, "lord_become_vassal",
+		[
+			(call_script, "script_troop_get_vassalage_dialog_availability", "$g_talk_troop"),
+			(assign, "$g_dialog_outcome", reg0),
+			(eq, "$g_dialog_outcome", outcome_failure),
+		], "I'd rather not speak of this matter with you.", "lord_main_return", []],
+	[anyone, "lord_become_vassal",
+		[
+			(eq, "$g_dialog_outcome", outcome_neutral),
+		], "I don't think this is the right time to speak of this matter. Find me at another time.", "lord_main_return", []],
+	# [anyone, "lord_become_vassal",
+	# 	[
+	# 		(store_troop_faction, ":troop_faction", "$g_talk_troop"),
+	# 		(faction_slot_eq, ":troop_faction", slot_faction_leader, "$g_talk_troop"),
+	# 		(call_script, "script_get_dialog_lord_opinion", "$g_talk_troop"),
+	# 	], "{s0}", "lord_become_vassal_2", []],
+	[anyone, "lord_become_vassal",
+		[(call_script, "script_get_dialog_lord_opinion", "$g_talk_troop"),], "{s0}", "lord_become_vassal_2", []],
+
+	[anyone, "lord_become_vassal_2", [], "Did you have something in mind?", "lord_become_vassal_propose", []],
+
+	[anyone|plyr, "lord_become_vassal_propose",
+		[], "Would you be interested in becoming my vassal?", "lord_become_vassal_response",
+		[
+			(quest_set_slot, "qst_persuade_lord_vassalage", slot_quest_object, "$g_player_troop"),
+			(call_script, "script_start_quest", "qst_persuade_lord_vassalage", "$g_talk_troop"),
+		]],
+	# [anyone|plyr, "lord_become_vassal_propose",
+	# 	[
+	# 		(troop_get_slot, ":player_lord", "$g_player_troop", slot_troop_vassal_of),
+	# 		(gt,  ":player_lord", 0),
+	# 		(neq, ":player_lord", "$g_talk_troop"),
+	# 		(str_store_troop_name, s10, ":player_lord"),
+	# 	], "Would you be interested in becoming the vassal of {s10}?", "lord_become_vassal_response",
+	# 	[
+	# 		(troop_get_slot, ":player_lord", "$g_player_troop", slot_troop_vassal_of),
+	# 		(quest_set_slot, "qst_persuade_lord_vassalage", slot_quest_object, ":player_lord"),
+	# 		(call_script, "script_start_quest", "qst_persuade_lord_vassalage", "$g_talk_troop"),
+	# 	]],
+	# [anyone|plyr, "lord_become_vassal_propose",
+	# 	[
+	# 		(store_troop_faction, ":player_faction", "$g_player_troop"),
+	# 		(is_between, ":player_faction", kingdoms_begin, kingdoms_end),
+	# 		(faction_get_slot, ":faction_leader", ":player_faction", slot_faction_leader),
+	# 		(gt, ":faction_leader", 0),
+	# 		(troop_get_slot, ":player_lord", "$g_player_troop", slot_troop_vassal_of),
+	# 		(neq,  ":player_lord", ":faction_leader"),
+	# 		(neq, ":faction_leader", "$g_talk_troop"),
+	# 		(str_store_troop_name, s10, ":faction_leader"),
+	# 	], "Would you be interested in becoming the vassal of {s10}?", "lord_become_vassal_response",
+	# 	[
+	# 		(store_troop_faction, ":player_faction", "$g_player_troop"),
+	# 		(faction_get_slot, ":faction_leader", ":player_faction", slot_faction_leader),
+	# 		(quest_set_slot, "qst_persuade_lord_vassalage", slot_quest_object, ":faction_leader"),
+	# 		(call_script, "script_start_quest", "qst_persuade_lord_vassalage", "$g_talk_troop"),
+	# 	]],
+	[anyone|plyr, "lord_become_vassal_propose",
+		[], "Nevermind", "lord_main_return", []],
+
+	[anyone, "lord_become_vassal_response",
+		[
+			(call_script, "script_troop_get_become_vassal_answer"),
+			(assign, "$g_dialog_outcome", reg0),
+			(eq, "$g_dialog_outcome", outcome_success),
+		], "You've convinced me.", "player_lord_ask_opinion",
+		[
+			(quest_get_slot, ":lord", "qst_persuade_lord_vassalage", slot_quest_object),
+			(call_script, "script_troop_become_vassal", "$g_talk_troop", ":lord"),
+			(call_script, "script_succeed_quest", "qst_persuade_lord_vassalage"),
+			(call_script, "script_complete_quest", "qst_persuade_lord_vassalage"),
+		]],
+
+	[anyone, "lord_become_vassal_response",
+		[
+			(eq, "$g_dialog_outcome", outcome_neutral),
+		], "I'm not certain about that proposition, I'll need some time to think about it.", "player_lord_ask_opinion",
+		[
+			(call_script, "script_conclude_quest", "qst_persuade_lord_vassalage"),
+			(call_script, "script_complete_quest", "qst_persuade_lord_vassalage"),
+		]],
+
+	[anyone, "lord_become_vassal_response",
+		[
+			(eq, "$g_dialog_outcome", outcome_failure),
+		], "This won't do.", "player_lord_ask_opinion",
+		[
+			(call_script, "script_fail_quest", "qst_persuade_lord_vassalage"),
+			(call_script, "script_complete_quest", "qst_persuade_lord_vassalage"),
+		]],
 
 	[anyone, "lord_ask_opinion",
 		[], "Very well.", "player_lord_ask_opinion", []],
@@ -173,9 +274,21 @@ dialogs = [
 	[anyone|plyr, "player_lord_ask_opinion",
 		[], "What do you think of the war ?", "lord_ask_opinion_war", []],
 	[anyone|plyr, "player_lord_ask_opinion",
-		[], "What do you think of our liege ?", "lord_ask_opinion_liege", []], # our liege as in the leader of the faction
+		[
+			(store_troop_faction, ":troop_faction", "$g_talk_troop"),
+			(is_between, ":troop_faction", kingdoms_begin, kingdoms_end),
+			(store_troop_faction, ":player_faction", "$g_player_troop"),
+			(eq, ":troop_faction", ":player_faction"),
+			(faction_get_slot, ":leader", ":troop_faction", slot_faction_leader),
+			(gt, ":leader", 0),
+			(str_store_troop_name, s10, ":leader"),
+		], "What do you think of your liege {s10} ?", "lord_ask_opinion_liege", []], # our liege as in the leader of the faction
 	[anyone|plyr, "player_lord_ask_opinion",
-		[], "What do you think of your liege ?", "lord_ask_opinion_leader", []], # His liege as in his direct superior
+		[
+			(troop_get_slot, ":leader", "$g_talk_troop", slot_troop_vassal_of),
+			(gt, ":leader", 0),
+			(str_store_troop_name, s10, ":leader"),
+		], "What do you think of your lord {s10} ?", "lord_ask_opinion_leader", []], # His liege as in his direct superior
 	[anyone|plyr, "player_lord_ask_opinion",
 		[], "What do you think of our marshall ?", "lord_ask_opinion_marshall", []],
 	# [anyone|plyr, "",

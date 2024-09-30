@@ -2687,10 +2687,6 @@ scripts = [
             (cur_tableau_add_sun_light, pos8, 175,150,125),
         ]),
      
-     
-     
-     
-     
     ########### 
     ## Other ##
     ###########
@@ -16699,6 +16695,36 @@ scripts = [
             (is_between, ":current_war", war_storages_begin, war_storages_end),
         ]),
 
+    # script_cf_faction_is_at_war
+        # input:
+        #   arg1: faction_no
+        # output:
+        #   reg0: war_storage
+        #   fails if no war found
+    ("cf_faction_is_at_war",
+        [
+            (store_script_param, ":faction_no", 1),
+
+            (assign, ":current_war", -1),
+            (assign, ":end", war_storages_end),
+            (try_for_range, ":war_storage", war_storages_begin, ":end"),
+                (faction_slot_eq, ":war_storage", slot_war_active, 1),
+                (faction_slot_eq, ":war_storage", slot_war_ended, 0),
+                (call_script, "script_faction_is_war_participant", ":faction_no", ":war_storage"),
+                (assign, ":faction_participant", reg0),
+
+                (try_begin),
+                    (neq, ":faction_participant", swkp_bystander),
+
+                    (assign, ":current_war", ":war_storage"),
+                    (assign, ":end", war_storages_begin),
+                (try_end),
+            (try_end),
+
+            (assign, reg0, ":current_war"),
+            (is_between, ":current_war", war_storages_begin, war_storages_end),
+        ]),
+
     # script_faction_process_peace_proposal
         # input:
         #   arg1: faction_no
@@ -23566,6 +23592,173 @@ scripts = [
                 (call_script, "script_troop_add_event_offset", ":troop_no", ":last_offset", -1, -1, -1, -1, -1),
             (try_end),
             (assign, reg0, ":removed"),
+        ]),
+
+    # script_troop_get_vassalage_dialog_availability
+        # input:
+        #   arg1: troop_no
+        # output:
+        #   reg0: outcome
+    ("troop_get_vassalage_dialog_availability",
+        [
+            (store_script_param, ":troop_no", 1),
+
+            (call_script, "script_troop_get_relation_with_troop", ":troop_no", "$g_player_troop"),
+            (assign, ":player_relation", reg0),
+            (assign, ":lord_relation", 0),
+            (troop_get_slot, ":troop_lord", ":troop_no", slot_troop_vassal_of),
+            (try_begin),
+                (ge, ":troop_lord", 0),
+                (call_script, "script_troop_get_relation_with_troop", ":troop_no", ":troop_lord"),
+                (assign, ":lord_relation", reg0),
+            (try_end),
+
+            (assign, ":outcome", outcome_success),
+            (assign, ":outcome_value", 0),
+
+            (try_begin),
+                (lt, ":player_relation", 20),
+                (gt, ":lord_relation", 20),
+                (assign, ":outcome", outcome_failure),
+            (else_try),
+                (call_script, "script_troop_get_vassalage_availability_score", ":troop_no", "$g_player_troop"),
+                (assign, ":outcome_value", reg0),
+
+                (val_max, ":outcome_value", 0),
+
+                (troop_get_slot, ":mission", ":troop_no", slot_troop_mission),
+                (try_begin),
+                    (eq, ":mission", tm_escorting),
+                    (val_sub, ":outcome_value", 1),
+                    (troop_slot_eq, ":troop_no", slot_troop_mission_object, ":troop_lord"),
+                    (val_sub, ":outcome_value", 2),
+                (try_end),
+                (try_begin),
+                    (store_troop_faction, ":troop_faction", ":troop_no"),
+                    (call_script, "script_cf_faction_is_at_war", ":troop_faction"),
+                    (val_sub, ":outcome_value", 2),
+                (try_end),
+            (try_end),
+
+            (try_begin),
+                (lt, ":outcome_value", 0),
+                (assign, ":outcome", outcome_neutral),
+            (try_end),
+
+            (assign, reg0, ":outcome"),
+        ]),
+
+    # script_troop_get_vassalage_availability_score
+        # input:
+        #   arg1: troop_no
+        #   arg2: asking_troop
+        # output:
+        #   reg0: score
+    ("troop_get_vassalage_availability_score",
+        [
+            (store_script_param, ":troop_no", 1),
+            (store_script_param, ":troop_asking", 2),
+
+            (call_script, "script_troop_get_relation_with_troop", ":troop_no", ":troop_asking"),
+            (assign, ":asking_relation", reg0),
+            (assign, ":lord_relation", 0),
+            (troop_get_slot, ":troop_lord", ":troop_no", slot_troop_vassal_of),
+            (try_begin),
+                (ge, ":troop_lord", 0),
+                (call_script, "script_troop_get_relation_with_troop", ":troop_no", ":troop_lord"),
+                (assign, ":lord_relation", reg0),
+            (try_end),
+
+            (assign, ":outcome_value", 0),
+
+            (try_begin),
+                (lt, ":troop_lord", 0),
+                (val_add, ":outcome_value", 1),
+            (try_end),
+
+            (try_begin),
+                (gt, ":asking_relation", ":lord_relation"),
+                (val_add, ":outcome_value", 1),
+            (else_try),
+                (lt, ":asking_relation", ":lord_relation"),
+                (val_sub, ":outcome_value", 1),
+            (try_end),
+
+            (try_begin),
+                (lt, ":asking_relation", 0),
+                (store_div, ":relation_malus", ":asking_relation", 30),
+                (val_sub, ":relation_malus", 1),
+                (val_add, ":outcome_value", ":relation_malus"),
+            (else_try),
+                (store_div, ":relation_bonus", ":asking_relation", 30),
+                (val_add, ":outcome_value", ":relation_bonus"),
+            (try_end),
+
+            (assign, reg0, ":outcome_value"),
+        ]),
+
+    # script_get_dialog_lord_opinion
+        # input:
+        #   arg1: troop_no
+        # output:
+        #   s0: dialog_string
+    ("get_dialog_lord_opinion",
+        [
+            (store_script_param, ":troop_no", 1),
+
+            (troop_get_slot, ":lord", ":troop_no", slot_troop_vassal_of),
+            (try_begin),
+                (eq, ":lord", -1),
+
+                (try_begin),
+                    (store_troop_faction, ":troop_faction", ":troop_no"),
+                    (faction_slot_eq, ":troop_faction", slot_faction_leader, ":troop_no"),
+                    (str_store_string, s0, "@It has not, my position affords me opportunities to do without."),
+                (else_try),
+                    (str_store_string, s0, "@It crossed my mind but I have not yet found someone to pledge an oath to."),
+                (try_end),
+            (else_try),
+                (call_script, "script_troop_get_relation_with_troop", ":troop_no", ":lord"),
+                (assign, ":relation", reg0),
+
+                (try_begin),
+                    (lt, ":relation", -50),
+                    (str_store_string, s0, "@Well... let's just say that we are not on the best terms."),
+                (else_try),
+                    (lt, ":relation", -20),
+                    (str_store_troop_name, s10, ":lord"),
+                    (str_store_string, s0, "@{s10} and I try to keep at a reasonable distance and I think we are both faring better for it."),
+                (else_try),
+                    (lt, ":relation", 0),
+                    (str_store_troop_name, s10, ":lord"),
+                    (str_store_string, s0, "@{s10} and I have had a few disputes over the years but nothing that can't be overcome."),
+                (else_try),
+                    (lt, ":relation", 10),
+                    (str_store_troop_name, s10, ":lord"),
+                    (str_store_string, s0, "@I can't say I'm close enough to {s10} to really give a reliable impression of him."),
+                (else_try),
+                    (lt, ":relation", 30),
+                    (str_store_troop_name, s10, ":lord"),
+                    (str_store_string, s0, "@{s10} is a good leader of men and is agreable to be with."),
+                (else_try),
+                    (lt, ":relation", 50),
+                    (str_store_troop_name, s10, ":lord"),
+                    (str_store_string, s0, "@I am quite content with my oath to {s10}."),
+                (else_try),
+                    (str_store_troop_name, s10, ":lord"),
+                    (str_store_string, s0, "@{s10} is a dear friend of mine and I am proud to serve him."),
+                (try_end),
+            (try_end),
+        ]),
+
+    # script_troop_get_become_vassal_answer
+        # input:
+        #   arg1: troop_no
+        # output:
+        #   reg0: outcome
+    ("troop_get_become_vassal_answer",
+        [
+            (assign, reg0, outcome_success),
         ]),
 
     # script_presentation_generate_select_lord_card
