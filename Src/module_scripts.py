@@ -20307,6 +20307,9 @@ scripts = [
                     (call_script, "script_party_ransom_troop", ":ransomer_party", ":troop_no", ":prisoner_of", ":ransom_value"),
                 (else_try),
                     # Escape chance
+                    (store_troop_health, ":troop_health", ":troop_no", 0),
+                    (gt, ":troop_health", 66),
+
                     (store_random_in_range, ":rand", 0, 100),
                     (lt, ":rand", prisoner_escape_chance),
                     (assign, ":freed", 1),
