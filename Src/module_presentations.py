@@ -390,11 +390,10 @@ presentations = [
         						(display_message, "@Total cost has been adjusted.", 0xbb0000),
         					(try_end),
         				(try_end),
-        				(party_get_slot, ":center_wealth", ":current_city", slot_party_wealth),
-        				(val_add, ":center_wealth", ":total_cost"),
-        				(party_set_slot, ":current_city", slot_party_wealth, ":center_wealth"),
-        				
-        				(troop_remove_gold, "$g_player_troop", ":total_cost"),
+
+                        (call_script, "script_party_add_accumulated_taxes", ":current_city", ":total_cost", tax_type_troops_selling),
+                        (store_mul, ":player_cost", ":total_cost", -1),
+                        (call_script, "script_party_modify_wealth", "$g_player_party", ":player_cost"),
         				# Restart the presentation
         				(assign, "$temp", ":current_city"),
         				(start_presentation, "prsnt_recruit_from_town_garrison"),
