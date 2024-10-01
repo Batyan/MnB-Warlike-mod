@@ -58,6 +58,7 @@ v0.530:
 		* gain renown on battles fought
 		* gain renown on receiving a fief
 		* gain renown on becoming faction leader
+		* change starting renown to 0
 	-Fixes:
 		* fix fief promised to player could be given to another lord
 		* fix incorrect quest giver for vassalage offer quest
@@ -66,6 +67,7 @@ v0.530:
 		* prevent appearance of unspent skill points
 		* update center names
 		* move some center to spread them out slightly
+		* fix unable to get a fief with 0 renown
 v0.520:
 	-Features:
 		* add restrictions on allowing recruitment of troops of certain quality

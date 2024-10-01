@@ -30,7 +30,7 @@ scripts = [
             (party_set_slot, "$g_player_party", slot_party_autosort_options, autosort_low_level_first|autosort_foreign_first),
             (troop_set_slot, "$g_player_troop", slot_troop_kingdom_occupation, tko_kingdom_hero),
             (troop_set_slot, "$g_player_troop", slot_troop_vassal_of, -1),
-            (troop_set_slot, "$g_player_troop", slot_troop_renown, 100),
+            (troop_set_slot, "$g_player_troop", slot_troop_renown, 0),
 
             (assign, "$g_cur_free_lord", lords_begin),
 
@@ -12409,7 +12409,7 @@ scripts = [
             
             (troop_set_slot, ":lord_no", slot_troop_original_faction, ":faction_no"),
             (troop_set_slot, ":lord_no", slot_troop_culture, ":culture"),
-            (troop_set_slot, ":lord_no", slot_troop_renown, 50),
+            (troop_set_slot, ":lord_no", slot_troop_renown, 0),
             (troop_set_slot, ":lord_no", slot_troop_num_vassal, 0),
             
             (try_begin),
@@ -13293,7 +13293,7 @@ scripts = [
             (store_script_param, ":giver", 3),
             
             (assign, ":best_candidate", -1),
-            (assign, ":best_score", 0),
+            (assign, ":best_score", -1),
 
             (party_get_slot, ":party_type", ":center_no", slot_party_type),
 
@@ -13397,7 +13397,7 @@ scripts = [
 
             (party_get_slot, ":party_type", ":center_candidate", slot_party_type),
 
-            (assign, ":score", 0),
+            (assign, ":score", -1),
             (try_begin),
                 (troop_slot_eq, ":troop_no", slot_troop_kingdom_occupation, tko_kingdom_hero),
                 (store_troop_faction, ":troop_faction", ":troop_no"),
@@ -13451,7 +13451,7 @@ scripts = [
             (try_begin),
                 (eq, ":troop_no", "$g_player_troop"),
                 (check_quest_active, "qst_swear_vassalage_fief"),
-                (assign, ":score", 0),
+                (assign, ":score", -1),
             (try_end),
 
             (assign, reg0, ":score"),
@@ -13474,11 +13474,12 @@ scripts = [
 
             (party_get_slot, ":party_type", ":center_candidate", slot_party_type),
 
-            (assign, ":score", 0),
+            (assign, ":score", -1),
             (try_begin),
                 (store_troop_faction, ":troop_faction", ":troop_no"),
                 (eq, ":troop_faction", ":faction_owner"),
                 (troop_slot_eq, ":troop_no", slot_troop_kingdom_occupation, tko_kingdom_hero),
+                (assign, ":score", 0),
                 (troop_get_slot, ":rank", ":troop_no", slot_troop_rank),
 
                 (call_script, "script_troop_get_relation_with_troop", ":troop_giver", ":troop_no"),
@@ -13533,14 +13534,14 @@ scripts = [
                     (troop_slot_eq, ":troop_no", slot_troop_vassal_of, -1),
                     (eq, ":rank", rank_none),
                 (else_try),
-                    (assign, ":score", 0),
+                    (assign, ":score", -1),
                 (try_end),
             (try_end),
 
             (try_begin),
                 (eq, ":troop_no", "$g_player_troop"),
                 (check_quest_active, "qst_swear_vassalage_fief"),
-                (assign, ":score", 0),
+                (assign, ":score", -1),
             (try_end),
 
 
