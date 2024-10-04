@@ -239,10 +239,10 @@ dialogs = [
 
 	[anyone, "lord_become_vassal_response",
 		[
-			(call_script, "script_troop_get_become_vassal_answer"),
+			(call_script, "script_troop_get_become_vassal_answer", "$g_talk_troop"),
 			(assign, "$g_dialog_outcome", reg0),
 			(eq, "$g_dialog_outcome", outcome_success),
-		], "You've convinced me.", "player_lord_ask_opinion",
+		], "You've convinced me.", "lord_main_return",
 		[
 			(quest_get_slot, ":lord", "qst_persuade_lord_vassalage", slot_quest_object),
 			(call_script, "script_troop_become_vassal", "$g_talk_troop", ":lord"),
@@ -253,7 +253,7 @@ dialogs = [
 	[anyone, "lord_become_vassal_response",
 		[
 			(eq, "$g_dialog_outcome", outcome_neutral),
-		], "I'm not certain about that proposition, I'll need some time to think about it.", "player_lord_ask_opinion",
+		], "I'm not certain about that proposition, I'll need some time to think about it.", "lord_main_return",
 		[
 			(call_script, "script_conclude_quest", "qst_persuade_lord_vassalage"),
 			(call_script, "script_complete_quest", "qst_persuade_lord_vassalage"),
@@ -262,7 +262,7 @@ dialogs = [
 	[anyone, "lord_become_vassal_response",
 		[
 			(eq, "$g_dialog_outcome", outcome_failure),
-		], "This won't do.", "player_lord_ask_opinion",
+		], "This won't do.", "lord_main_return",
 		[
 			(call_script, "script_fail_quest", "qst_persuade_lord_vassalage"),
 			(call_script, "script_complete_quest", "qst_persuade_lord_vassalage"),

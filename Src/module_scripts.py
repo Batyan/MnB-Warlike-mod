@@ -23762,7 +23762,75 @@ scripts = [
         #   reg0: outcome
     ("troop_get_become_vassal_answer",
         [
-            (assign, reg0, outcome_success),
+            (store_script_param, ":troop_no", 1),
+
+            (quest_get_slot, ":asked_lord", "qst_persuade_lord_vassalage", slot_quest_object),
+
+            (assign, ":score", -100),
+
+            (call_script, "script_troop_get_relation_with_troop", ":troop_no", ":asked_lord"),
+            (store_div, ":relation", reg0, 4),
+            (val_add, ":score", ":relation"),
+
+            (troop_get_slot, ":existing_lord", ":troop_no", slot_troop_vassal_of),
+            (assign, ":existing_lord_relation", 0),
+            (try_begin),
+                (ge, ":existing_lord", 0),
+
+                (call_script, "script_troop_get_relation_with_troop", ":troop_no", ":existing_lord"),
+                (store_div, ":existing_lord_relation", reg0, 5),
+                (val_sub, ":score", ":existing_lord_relation"),
+            (try_end),
+
+            (troop_get_slot, ":rank", ":troop_no", slot_troop_rank),
+            (troop_get_slot, ":asked_lord_rank", ":asked_lord", slot_troop_rank),
+            (store_sub, ":rank_bonus", ":asked_lord_rank", ":rank"),
+            (val_mul, ":rank_bonus", 8),
+
+            (val_add, ":score", ":rank_bonus"),
+
+            (troop_get_slot, ":num_vassals", ":troop_no", slot_troop_num_vassal),
+            (troop_get_slot, ":num_vassals_asked", ":asked_lord", slot_troop_num_vassal),
+
+            (store_mul, ":vassals_malus", ":num_vassals", 25),
+            (store_mul, ":vassals_asked_malus", ":num_vassals_asked", 5),
+
+            (val_sub, ":score", ":vassals_malus"),
+            (val_sub, ":score", ":vassals_asked_malus"),
+
+            (store_skill_level, ":persuasion_skill", skl_persuasion, "$g_player_troop"),
+            (val_mul, ":persuasion_skill", 3),
+            (val_add, ":score", ":persuasion_skill"),
+
+            (try_begin),
+                (call_script, "script_cf_debug", debug_ai|debug_current),
+                (assign, reg11, ":relation"),
+                (display_message, "@Relation +{reg11}"),
+                (assign, reg12, ":existing_lord_relation"),
+                (display_message, "@Other relation -{reg12}"),
+                (assign, reg13, ":rank_bonus"),
+                (display_message, "@Rank +{reg13}"),
+                (assign, reg14, ":num_vassals"),
+                (display_message, "@Num vassals -{reg14}"),
+                (assign, reg15, ":num_vassals_asked"),
+                (display_message, "@Other num vassals -{reg15}"),
+                (assign, reg16, ":persuasion_skill"),
+                (display_message, "@Persuasion skill +{reg16}"),
+
+                (assign, reg10, ":score"),
+                (display_message, "@Total score: {reg10}"),
+            (try_end),
+
+            (try_begin),
+                (ge, ":score", 100),
+                (assign, reg0, outcome_success),
+            (else_try),
+                (gt, ":score", -100),
+                (assign, reg0, outcome_neutral),
+            (else_try),
+                (assign, reg0, outcome_failure),
+            (try_end),
+
         ]),
 
     # script_presentation_generate_select_lord_card
