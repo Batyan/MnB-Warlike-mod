@@ -100,8 +100,17 @@
 	0.620: Strength
 		Give out fiefs
 		Hire lords
+		Mercenaries
 	0.630: Player kingdom
 		Possible for player to lead a kingdom
+	0.640: Player foreign diplomacy
+		Player declare war
+		Player create alliances
+		Player accept treaty
+	0.650: Treaties
+		Allow player to set war victory conditions
+		Player truce
+		Ai truces (to negociate treaties)
 0.700: NPCs
 	Add kingdom women
 	Basic dialogs
