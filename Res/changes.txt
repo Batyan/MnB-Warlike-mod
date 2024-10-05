@@ -68,6 +68,7 @@ v0.530:
 		* update center names
 		* move some center to spread them out slightly
 		* fix unable to get a fief with 0 renown
+		* minor fixes to scenes to prevent troops getting stuck in scenery
 v0.520:
 	-Features:
 		* add restrictions on allowing recruitment of troops of certain quality

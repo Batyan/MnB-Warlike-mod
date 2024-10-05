@@ -102,7 +102,7 @@ scenes = [
 	("castle_snow_01_outside", sf_generate, "none", "none", (0,0), (240,240),-0.5,"0x0000000040c391af0005fd1100007c4900007ef600007fea",
 		[],[], "outer_terrain_snow"),
 		
-	("castle_snow_02_outside", sf_generate, "none", "none", (0,0), (240,240),-0.5,"0x000000034b80d252800882250000173200005ca30000598f",
+	("castle_snow_02_outside", sf_generate, "none", "none", (0,0), (240,240),-0.5,"0x0000000341c0d252800882250000173200005ca30000598f",
 		[],[], "outer_terrain_snow"),
 		
 	("castle_snow_wood_01_outside", sf_generate, "none", "none", (0,0), (240,240),-0.5,"0x00000000c7a745630005a16a0000493f00002d040000207f",
