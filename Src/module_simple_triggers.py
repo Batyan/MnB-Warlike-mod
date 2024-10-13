@@ -87,7 +87,7 @@ simple_triggers = [
                 (call_script, "script_party_sort_troops", ":party_no", 2),
             (try_end),
 
-            (store_random_in_range, "$g_daily_random", 0, 10000),
+            (store_random_in_range, "$g_daily_random", 0, daily_random_max),
         ]),
     
     (daily*6, # Sieges

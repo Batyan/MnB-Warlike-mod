@@ -200,10 +200,36 @@ dialogs = [
 	[anyone, "lord_become_vassal_2", [], "Did you have something in mind?", "lord_become_vassal_propose", []],
 
 	[anyone|plyr, "lord_become_vassal_propose",
-		[], "Would you be interested in becoming my vassal?", "lord_become_vassal_response",
+		[
+			(assign, ":continue", 0),
+			(try_begin),
+				(call_script, "script_cf_troop_has_event", "$g_talk_troop", event_type_proposed_vassalage),
+			(else_try),
+				(assign, ":continue", 1),
+			(try_end),
+			(eq, ":continue", 1),
+
+		], "Would you be interested in becoming my vassal?", "lord_become_vassal_response",
 		[
 			(quest_set_slot, "qst_persuade_lord_vassalage", slot_quest_object, "$g_player_troop"),
 			(call_script, "script_start_quest", "qst_persuade_lord_vassalage", "$g_talk_troop"),
+			(quest_set_slot, "qst_persuade_lord_vassalage", slot_quest_value, 0),
+		]],
+	[anyone|plyr, "lord_become_vassal_propose",
+		[
+			(call_script, "script_cf_troop_has_event", "$g_talk_troop", event_type_proposed_vassalage),
+		], "Have you considered my previous proposition?", "lord_become_vassal_persuasion_begin",
+		[
+			(quest_set_slot, "qst_persuade_lord_vassalage", slot_quest_object, "$g_player_troop"),
+			(call_script, "script_start_quest", "qst_persuade_lord_vassalage", "$g_talk_troop"),
+			(quest_set_slot, "qst_persuade_lord_vassalage", slot_quest_value, 0),
+
+			(store_random_in_range, ":rand", 0, "$g_daily_random"),
+			(val_div, ":rand", daily_random_max/20),
+			(call_script, "script_troop_get_vassalage_availability_score", "$g_talk_troop", "$g_player_troop"),
+			(store_add, ":value", reg0, ":rand"),
+			(quest_set_slot, "qst_persuade_lord_vassalage", slot_quest_value, ":value"),
+			(quest_set_slot, "qst_persuade_lord_vassalage", slot_quest_num_tries, 5),
 		]],
 	# [anyone|plyr, "lord_become_vassal_propose",
 	# 	[
@@ -248,24 +274,177 @@ dialogs = [
 			(call_script, "script_troop_become_vassal", "$g_talk_troop", ":lord"),
 			(call_script, "script_succeed_quest", "qst_persuade_lord_vassalage"),
 			(call_script, "script_complete_quest", "qst_persuade_lord_vassalage"),
+			(troop_set_slot, "$g_talk_troop", slot_troop_become_vassal_tried, 0),
 		]],
 
 	[anyone, "lord_become_vassal_response",
 		[
 			(eq, "$g_dialog_outcome", outcome_neutral),
-		], "I'm not certain about that proposition, I'll need some time to think about it.", "lord_main_return",
-		[
-			(call_script, "script_conclude_quest", "qst_persuade_lord_vassalage"),
-			(call_script, "script_complete_quest", "qst_persuade_lord_vassalage"),
-		]],
+		], "I'm not certain about that proposition, I'll need some time to think about it.",
+		"lord_become_vassal_undecided", []],
 
 	[anyone, "lord_become_vassal_response",
 		[
 			(eq, "$g_dialog_outcome", outcome_failure),
-		], "This won't do.", "lord_main_return",
+		], "I feel your proposition gives me too little and offers you too much. ^Don't speak of this matter to me again.",
+		"lord_main_return",
 		[
 			(call_script, "script_fail_quest", "qst_persuade_lord_vassalage"),
 			(call_script, "script_complete_quest", "qst_persuade_lord_vassalage"),
+			(troop_set_slot, "$g_talk_troop", slot_troop_become_vassal_tried, become_vassal_try_negative_answer),
+			(call_script, "script_get_current_day"),
+			(troop_set_slot, "$g_talk_troop", slot_troop_become_vassal_last_try, reg0),
+		]],
+
+	[anyone|plyr, "lord_become_vassal_undecided",
+		[], "Very well, keep it in mind.", "lord_main_return",
+		[
+			(quest_get_slot, ":lord", "qst_persuade_lord_vassalage", slot_quest_object),
+			(call_script, "script_conclude_quest", "qst_persuade_lord_vassalage"),
+			(call_script, "script_complete_quest", "qst_persuade_lord_vassalage"),
+			(call_script, "script_troop_change_relation_with_troop", "$g_player_troop", "$g_talk_troop", 2),
+
+			(call_script, "script_troop_add_event", "$g_talk_troop", event_type_proposed_vassalage, "$g_player_troop", ":lord", event_value_proposed_vassalage, -1),
+		]],
+
+	[anyone|plyr, "lord_become_vassal_undecided",
+		[], "I need you to give me an answer now.", "lord_become_vassal_persuasion_begin",
+		[
+			(call_script, "script_troop_get_vassalage_availability_score", "$g_talk_troop", "$g_player_troop"),
+			(quest_set_slot, "qst_persuade_lord_vassalage", slot_quest_value, reg0),
+			(quest_set_slot, "qst_persuade_lord_vassalage", slot_quest_num_tries, quest_persuade_vassalge_max_proposition),
+
+			(call_script, "script_troop_change_relation_with_troop", "$g_player_troop", "$g_talk_troop", -5),
+		]],
+
+	[anyone, "lord_become_vassal_persuasion_begin",
+		[
+			(troop_get_slot, ":vassal_of", "$g_talk_troop", slot_troop_vassal_of),
+			(try_begin),
+				(ge, ":vassal_of", 0),
+				(str_store_string, s10, "@I feel like breaking my current oath with {s11} requires proper consideration."),
+			(else_try),
+				(str_store_string, s10, "@Swearing an oath is a serious matter that requires proper consideration."),
+			(try_end),
+		], "Your proposision has some merit but I don't feel I get enough out of it.^{s10}.^^Do you have something to persuade me.", "lord_become_vassal_persuasion_player_loop",
+		[]],
+
+	[anyone|plyr, "lord_become_vassal_persuasion_player_loop",
+		[], "I would grant you a fief.", "lord_become_vassal_persuasion_grant_fief",
+		[
+		]],
+	[anyone|plyr, "lord_become_vassal_persuasion_player_loop",
+		[], "I would promise you a fief.", "lord_become_vassal_persuasion_answer_loop",
+		[
+			(call_script, "script_troop_become_vassal_promise_fief", "$g_talk_troop"),
+		]],
+	[anyone|plyr, "lord_become_vassal_persuasion_player_loop",
+		[], "I would give you a title of nobility.", "lord_become_vassal_persuasion_answer_loop",
+		[
+			(call_script, "script_troop_become_vassal_grant_title", "$g_talk_troop"),
+		]],
+	[anyone|plyr, "lord_become_vassal_persuasion_player_loop",
+		[], "I would garrantee your safety and that of your domain.", "lord_become_vassal_persuasion_answer_loop",
+		[
+			(call_script, "script_troop_become_vassal_promise_safety", "$g_talk_troop"),
+		]],
+	[anyone|plyr, "lord_become_vassal_persuasion_player_loop",
+		[], "I would garrantee your prosperity and improve your financial situation.", "lord_become_vassal_persuasion_answer_loop",
+		[
+			(call_script, "script_troop_become_vassal_promise_prosperity", "$g_talk_troop"),
+		]],
+	[anyone|plyr, "lord_become_vassal_persuasion_player_loop",
+		[], "I would improve your political standing.", "lord_become_vassal_persuasion_answer_loop",
+		[
+			(call_script, "script_troop_become_vassal_promise_standing", "$g_talk_troop"),
+		]],
+	[anyone|plyr, "lord_become_vassal_persuasion_player_loop",
+		[], "I would give you many opportunities to prove your worth.", "lord_become_vassal_persuasion_answer_loop",
+		[
+			(call_script, "script_troop_become_vassal_promise_glory", "$g_talk_troop"),
+		]],
+	[anyone|plyr, "lord_become_vassal_persuasion_player_loop",
+		[], "I would in turn give you opportunities to have your own vassals.", "lord_become_vassal_persuasion_answer_loop",
+		[
+			(call_script, "script_troop_become_vassal_promise_vassals", "$g_talk_troop"),
+		]],
+	[anyone|plyr, "lord_become_vassal_persuasion_player_loop",
+		[], "If you are not with me, you are against me.", "lord_become_vassal_persuasion_answer_loop",
+		[
+			(call_script, "script_troop_become_vassal_threaten", "$g_talk_troop"),
+		]],
+	[anyone|plyr, "lord_become_vassal_persuasion_player_loop",
+		[], "Let's leave it at that.", "lord_become_vassal_persuasion_answer_loop",
+		[
+			(quest_get_slot, ":num_tries", "qst_persuade_lord_vassalage", slot_quest_num_tries),
+
+			(store_mul, ":value_bonus", ":num_tries", 5),
+			(store_div, ":relation_bonus", ":num_tries", 2),
+
+            (call_script, "script_quest_add_value", "qst_persuade_lord_vassalage", ":value_bonus"),
+
+			(call_script, "script_troop_change_relation_with_troop", "$g_player_troop", "$g_talk_troop", ":relation_bonus"),
+
+			(quest_set_slot, "qst_persuade_lord_vassalage", slot_quest_num_tries, 0),
+		]],
+
+	[anyone, "lord_become_vassal_persuasion_grant_fief",
+		[], "I suppose you have a specific one in mind ?.", "lord_become_vassal_persuasion_grant_fief_player_choice",
+		[
+		]],
+	[anyone|plyr|repeat_for_parties, "lord_become_vassal_persuasion_grant_fief_player_choice",
+		[
+			(store_repeat_object, ":party_repeat"),
+			(is_between, ":party_repeat", centers_begin, centers_end),
+			(party_slot_eq, ":party_repeat", slot_party_leader, "$g_player_troop"),
+			(neg|troop_slot_eq, "$g_player_troop", slot_troop_home, ":party_repeat"),
+			(str_store_party_name, s10, ":party_repeat"),
+		], "{s10}", "lord_become_vassal_persuasion_answer_loop",
+		[
+			(store_repeat_object, ":party_repeat"),
+			(call_script, "script_troop_become_vassal_grant_fief", "$g_talk_troop", ":party_repeat"),
+		]],
+	[anyone|plyr, "lord_become_vassal_persuasion_grant_fief_player_choice",
+		[], "Nevermind", "lord_become_vassal_persuasion_answer_loop",
+		[]],
+
+	[anyone, "lord_become_vassal_persuasion_answer_loop",
+		[
+			(quest_get_slot, ":num_tries", "qst_persuade_lord_vassalage", slot_quest_num_tries),
+			(call_script, "script_troop_get_become_vassal_answer", "$g_talk_troop"),
+			(this_or_next|eq, reg0, outcome_failure),
+			(le, ":num_tries", 0),
+			(le, reg0, outcome_neutral),
+		], "I've heard enough, we should stop wasting each others's time.", "lord_main_return",
+		[
+			(call_script, "script_troop_change_relation_with_troop", "$g_player_troop", "$g_talk_troop", -5),
+			(call_script, "script_fail_quest", "qst_persuade_lord_vassalage"),
+			(call_script, "script_complete_quest", "qst_persuade_lord_vassalage"),
+			(troop_set_slot, "$g_talk_troop", slot_troop_become_vassal_tried, become_vassal_try_failed_persuasion),
+			(call_script, "script_get_current_day"),
+			(troop_set_slot, "$g_talk_troop", slot_troop_become_vassal_last_try, reg0),
+		]],
+
+	[anyone, "lord_become_vassal_persuasion_answer_loop",
+		[
+			(call_script, "script_troop_get_become_vassal_answer", "$g_talk_troop"),
+			(eq, reg0, outcome_success),
+		], "You've convinced me.", "lord_main_return",
+		[
+			(quest_get_slot, ":lord", "qst_persuade_lord_vassalage", slot_quest_object),
+			(call_script, "script_troop_become_vassal", "$g_talk_troop", ":lord"),
+			(call_script, "script_troop_apply_persuade_vassal_quest", "$g_talk_troop"),
+			(call_script, "script_succeed_quest", "qst_persuade_lord_vassalage"),
+			(call_script, "script_complete_quest", "qst_persuade_lord_vassalage"),
+			(troop_set_slot, "$g_talk_troop", slot_troop_become_vassal_tried, 0),
+		]],
+
+	[anyone, "lord_become_vassal_persuasion_answer_loop",
+		[(str_store_string, s10, "@Interesting, keep going")], "{s10}.", "lord_become_vassal_persuasion_player_loop",
+		[
+			(quest_get_slot, ":num_tries", "qst_persuade_lord_vassalage", slot_quest_num_tries),
+			(val_sub, ":num_tries", 1),
+			(quest_set_slot, "qst_persuade_lord_vassalage", slot_quest_num_tries, ":num_tries"),
 		]],
 
 	[anyone, "lord_ask_opinion",
@@ -320,8 +499,8 @@ dialogs = [
 	[anyone, "lord_ask_vassal",
 		[
 			(eq, "$g_dialog_outcome", vassal_outcome_accepted),
-            (call_script, "script_troop_get_relation_with_troop", "$g_talk_troop", "$g_player_troop"),
-            (assign, ":relation", reg0),
+			(call_script, "script_troop_get_relation_with_troop", "$g_talk_troop", "$g_player_troop"),
+			(assign, ":relation", reg0),
 			(lt, ":relation", 20),
 		], "I think you could make use of your skills.", "lord_ask_vassal_no_fief",
 		[
@@ -343,8 +522,8 @@ dialogs = [
 	[anyone, "lord_ask_vassal_no_fief", [], "Keep in mind I do generously reward my most loyal followers, if you work hard and make a better name for yourself you will be granted a fief in due time.", "lord_ask_vassal_ready_pledge", []],
 
 	[anyone, "lord_ask_vassal_ready_pledge", [
-        (quest_set_slot, "qst_swear_vassalage_fief", slot_quest_object, "$g_object_outcome"),
-        (call_script, "script_start_quest", "qst_swear_vassalage_fief", "$g_talk_troop"),
+		(quest_set_slot, "qst_swear_vassalage_fief", slot_quest_object, "$g_object_outcome"),
+		(call_script, "script_start_quest", "qst_swear_vassalage_fief", "$g_talk_troop"),
 	], "Are you ready to take the oath then?", "player_lord_offer_vassal_answer", []],
 
 	[anyone, "duel_request",
@@ -375,7 +554,7 @@ dialogs = [
 		[], "Debug party variables", "lord_debug", [
 			(call_script, "script_party_get_prefered_wages_limit", "$g_encountered_party"),
 			(display_message, "@Wanted wages: {reg0}; Min wages: {reg1}; Max wages: {reg2}"),
-            (call_script, "script_party_get_wages", "$g_encountered_party"),
+			(call_script, "script_party_get_wages", "$g_encountered_party"),
 			(display_message, "@Current wages: {reg0}"),
 			(store_faction_of_party, ":current_party_faction", "$g_encountered_party"),
 			(str_store_faction_name, s10, ":current_party_faction"),
@@ -399,8 +578,8 @@ dialogs = [
 				(store_troop_faction, ":troop_faction", ":leader"),
 				(str_store_faction_name, s10, ":troop_faction"),
 				(display_message, "@Faction: {s10}"),
-                (troop_get_slot, reg10, ":leader", slot_troop_kingdom_occupation),
-                (display_message, "@Occupation {reg10}"),
+				(troop_get_slot, reg10, ":leader", slot_troop_kingdom_occupation),
+				(display_message, "@Occupation {reg10}"),
 			(try_end),
 		]],
 	[anyone|plyr, "player_lord_debug",
@@ -415,14 +594,14 @@ dialogs = [
 
 	[anyone, "lord_offer_vassal",
 		[
- 			(quest_get_slot, ":fief", "qst_swear_vassalage_fief", slot_quest_object),
- 			(str_store_party_name, s11, ":fief"),
+			(quest_get_slot, ":fief", "qst_swear_vassalage_fief", slot_quest_object),
+			(str_store_party_name, s11, ":fief"),
 		], "You know then of my offer, your oath of vassalage, with the fief of {s11} to lord over. Are you ready to pledge your oath to me?", "player_lord_offer_vassal_answer", []],
 	[anyone, "lord_offer_vassal_explain",
 		[
- 			(quest_get_slot, ":fief", "qst_swear_vassalage_fief", slot_quest_object),
- 			(str_store_party_name, s11, ":fief"),
- 			], "That is most unfortunate... To be brief I would like your sword by my side, an offer to pledge your vassalage to me.^On top of this you would be granted the fief of {s11} to lord over. Are you ready to give me your oath?", "player_lord_offer_vassal_answer", []],
+			(quest_get_slot, ":fief", "qst_swear_vassalage_fief", slot_quest_object),
+			(str_store_party_name, s11, ":fief"),
+			], "That is most unfortunate... To be brief I would like your sword by my side, an offer to pledge your vassalage to me.^On top of this you would be granted the fief of {s11} to lord over. Are you ready to give me your oath?", "player_lord_offer_vassal_answer", []],
 
 	[anyone|plyr, "player_lord_offer_vassal_answer",
 		[], "I am, my Lord.", "lord_offer_vassal_accept", []],
@@ -484,15 +663,15 @@ dialogs = [
 		], "Very well. You have given me your solemn oath, {playername}. May you uphold it always, with proper courage and devotion.", "lord_offer_vassal_oath_end_2", []],
 	[anyone, "lord_offer_vassal_oath_end_2",
 		[
- 			(quest_get_slot, ":fief", "qst_swear_vassalage_fief", slot_quest_object),
- 			(try_begin),
- 				(is_between, ":fief", centers_begin, centers_end),
- 				(str_store_party_name, s11, ":fief"),
- 				(assign, reg10, 1),
- 			(else_try),
- 				(str_clear, s11),
- 				(assign, reg10, 0),
- 			(try_end),
+			(quest_get_slot, ":fief", "qst_swear_vassalage_fief", slot_quest_object),
+			(try_begin),
+				(is_between, ":fief", centers_begin, centers_end),
+				(str_store_party_name, s11, ":fief"),
+				(assign, reg10, 1),
+			(else_try),
+				(str_clear, s11),
+				(assign, reg10, 0),
+			(try_end),
 		], "Let it be known that from this day forward, you are my sworn {man/follower} and vassal.\
  I give you my protection and grant you the right to bear arms in my name, and I pledge that I shall not deprive you of your life, liberty or properties except by the lawful judgment of your peers or by the law and custom of the land. {reg10?Furthermore I give you the fief of {s11} with all its rents and revenues.:}", "lord_offer_vassal_oath_end_3", []],
 	[anyone, "lord_offer_vassal_oath_end_3",
@@ -502,25 +681,25 @@ dialogs = [
 	[anyone, "lord_offer_vassal_oath_conclude",
 		[], "I have great hopes for you {playername}.\
  I know you shall prove yourself worthy of the trust I have placed in you.", "close_window",
- 		[
- 			(quest_get_slot, ":center", "qst_swear_vassalage_fief", slot_quest_object),
- 			(try_begin),
- 				(is_between, ":center", centers_begin, centers_end),
-            	(call_script, "script_troop_give_center_to_troop", "$g_talk_troop", ":center", "$g_player_troop"),
-            (else_try),
-            	(call_script, "script_troop_become_vassal", "$g_player_troop", "$g_talk_troop"),
-            (try_end),
+		[
+			(quest_get_slot, ":center", "qst_swear_vassalage_fief", slot_quest_object),
+			(try_begin),
+				(is_between, ":center", centers_begin, centers_end),
+				(call_script, "script_troop_give_center_to_troop", "$g_talk_troop", ":center", "$g_player_troop"),
+			(else_try),
+				(call_script, "script_troop_become_vassal", "$g_player_troop", "$g_talk_troop"),
+			(try_end),
 			(call_script, "script_complete_quest", "qst_swear_vassalage_fief"),
- 		]],
+		]],
 
 	[anyone, "lord_offer_vassal_refused",
 		[], "A shame, I had expected more from you... Nevermind, it's probably for the best.", "close_window",
 		[
- 			(quest_get_slot, ":center", "qst_swear_vassalage_fief", slot_quest_object),
- 			(try_begin),
- 				(is_between, ":center", centers_begin, centers_end),
- 				(party_set_slot, ":center", slot_party_reserved, -1),
- 			(try_end),
+			(quest_get_slot, ":center", "qst_swear_vassalage_fief", slot_quest_object),
+			(try_begin),
+				(is_between, ":center", centers_begin, centers_end),
+				(party_set_slot, ":center", slot_party_reserved, -1),
+			(try_end),
 			(call_script, "script_troop_change_relation_with_troop", "$g_talk_troop", "$g_player_troop", -5),
 			(call_script, "script_cancel_quest", "qst_swear_vassalage_fief"),
 		]],
@@ -529,11 +708,11 @@ dialogs = [
 			(call_script, "script_fail_quest", "qst_swear_vassalage_fief"),
 		], "What are you playing at, {playername}? Go and make up your mind, and stop wasting my time.", "close_window",
 		[
- 			(quest_get_slot, ":center", "qst_swear_vassalage_fief", slot_quest_object),
- 			(try_begin),
- 				(is_between, ":center", centers_begin, centers_end),
- 				(party_set_slot, ":center", slot_party_reserved, -1),
- 			(try_end),
+			(quest_get_slot, ":center", "qst_swear_vassalage_fief", slot_quest_object),
+			(try_begin),
+				(is_between, ":center", centers_begin, centers_end),
+				(party_set_slot, ":center", slot_party_reserved, -1),
+			(try_end),
 			(call_script, "script_troop_change_relation_with_troop", "$g_talk_troop", "$g_player_troop", -25),
 			(call_script, "script_complete_quest", "qst_swear_vassalage_fief"),
 		]],
@@ -939,9 +1118,9 @@ dialogs = [
 	[anyone|plyr, "caravan_toll_player_swear", [], "Nevermind, keep your gold.", "caravan_toll_back", []],
 
 	[anyone, "caravan_toll_pay", [
-        (call_script, "script_party_transfer_wealth", "$g_encountered_party", "$g_player_party", reg1, tax_type_none),
-        (party_set_slot, "$g_encountered_party", slot_party_speak_allowed, 0),
-        (party_set_slot, "$g_encountered_party", slot_party_player_shakedown, 1),
+		(call_script, "script_party_transfer_wealth", "$g_encountered_party", "$g_player_party", reg1, tax_type_none),
+		(party_set_slot, "$g_encountered_party", slot_party_speak_allowed, 0),
+		(party_set_slot, "$g_encountered_party", slot_party_player_shakedown, 1),
 	], "Here is your money, I will not bid you farewell and hope we don't see each other again.", "close_window", []],
 
 	[anyone|plyr, "caravan_toll_player_failed", [], "I'll just have to take it from your corpse then.", "caravan_toll_attack", []],
@@ -958,7 +1137,7 @@ dialogs = [
 	[anyone, "start",
 		[], "Hello there traveller! [WARNING: MISSING DIALOG]", "error_dialog", []],
 
-    [anyone|plyr, "error_dialog", [], "Dialog Error. No dialog found.", "close_window", []],
+	[anyone|plyr, "error_dialog", [], "Dialog Error. No dialog found.", "close_window", []],
 	
 	# [anyone, "event_triggered",
 		# [(display_debug_message, "@Event triggered"),], "Hail traveller. It's a pleasure to meet you, what is your name?.", "player_greeting", []],

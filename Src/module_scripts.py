@@ -19085,7 +19085,7 @@ scripts = [
                 (store_div, ":strength_change", ":center_prosperity", 30),
                 (val_add, ":max_strength", ":strength_change"),
             (try_end),
-            (store_random_in_range, ":bandit_strength", 1, ":max_strength"),
+            (store_random_in_range, ":bandit_strength", -5, ":max_strength"),
 
             # Low prosperity will increase the chance of having bandits
             (store_sub, ":chance_modifier", 100, ":center_prosperity"),
@@ -19095,7 +19095,7 @@ scripts = [
             (store_random_in_range, ":rand", 0, 1000),
             (try_begin),
                 (le, ":bandit_chance", ":rand"),
-                (assign, ":bandit_strength", 0),
+                # (assign, ":bandit_strength", 0),
                 (assign, ":desert_bandit", 0),
                 (assign, ":plain_bandit", 0),
                 (assign, ":forest_bandit", 0),
@@ -19204,13 +19204,15 @@ scripts = [
                     (party_set_slot, ":bandit_party", slot_party_type, spt_bandit),
                     (party_set_ai_behavior, ":bandit_party", ai_bhvr_patrol_location),
 
+                    (val_max, ":bandit_strength", 1),
+                    
                     (store_random_in_range, ":chance_leader", 0, 100),
                     (try_begin),
                         # Chance for a bandit leader
                         (le, ":chance_leader", 10),
                         (neq, ":bandit_leader", -1),
                         (party_add_members, ":bandit_party", ":bandit_leader", 1),
-                        (val_add, ":bandit_strength", 2),
+                        (val_add, ":bandit_strength", 3),
                     # (else_try),
                         # Need to count so that not too many heroes are present before adding a new one
                         # Possibly needs to increase odds if there are few heroes
@@ -19218,7 +19220,6 @@ scripts = [
                         #(eq, ":chance_leader", 99),
                     (try_end),
 
-                    (val_max, ":bandit_strength", 1),
                     (try_for_range, ":unused", 0, ":bandit_strength"),
                         (call_script, "script_party_add_reinforcements", ":bandit_party"),
                         # (assign, ":num_added", reg0),
@@ -22768,6 +22769,10 @@ scripts = [
             (store_script_param, ":quest_no", 1),
             (store_script_param, ":giver_troop_no", 2),
 
+            (try_for_range, ":slot", last_generic_quest_slot, last_quest_slot),
+                (quest_set_slot, ":quest_no", ":slot", -1),
+            (try_end),
+
             (quest_set_slot, ":quest_no", slot_quest_giver_troop, ":giver_troop_no"),
             (quest_get_slot, ":quest_description_index", ":quest_no", slot_quest_description),
             (quest_get_slot, ":quest_object", ":quest_no", slot_quest_object),
@@ -22809,7 +22814,6 @@ scripts = [
                 (quest_get_slot, ":dont_give_again_period", ":quest_no", slot_quest_dont_give_again_period),
                 (quest_set_slot, ":quest_no", slot_quest_dont_give_again_remaining_days, ":dont_give_again_period"),
             (try_end),
-
             (assign, reg60, ":quest_object"),
             
             (setup_quest_text, ":quest_no"),
@@ -23464,6 +23468,12 @@ scripts = [
             (store_script_param, ":event_value", 5),
             (store_script_param, ":event_date", 6),
 
+            (try_begin),
+                (eq, ":event_date", -1),
+                (call_script, "script_get_current_day"),
+                (assign, ":event_date", reg0),
+            (try_end),
+
             (assign, ":event_number", -1),
             (assign, ":end", troop_log_num_slots),
             (store_sub, ":no_resend", troop_log_num_slots, 1),
@@ -23596,6 +23606,31 @@ scripts = [
                 (call_script, "script_troop_add_event_offset", ":troop_no", ":last_offset", -1, -1, -1, -1, -1),
             (try_end),
             (assign, reg0, ":removed"),
+        ]),
+
+    # script_cf_troop_has_event
+        # input:
+        #   arg1: troop_no
+        #   arg2: event_type
+        # output: none
+        # fails if event is not present
+    ("cf_troop_has_event",
+        [
+            (store_script_param, ":troop_no", 1),
+            (store_script_param, ":event_type", 2),
+
+            (assign, ":continue", 0),
+
+            (assign, ":end", troop_log_num_slots),
+            (try_for_range, ":offset", 0, ":end"),
+                (store_add, ":event_slot", ":offset", slot_troop_log_event_begin),
+                (troop_get_slot, ":event", ":troop_no", ":event_slot"),
+                (eq, ":event", ":event_type"),
+                (assign, ":continue", 1),
+                (assign, ":end", 0),
+            (try_end),
+
+            (eq, ":continue", 1),
         ]),
 
     # script_troop_get_vassalage_dialog_availability
@@ -23766,6 +23801,8 @@ scripts = [
 
             (quest_get_slot, ":asked_lord", "qst_persuade_lord_vassalage", slot_quest_object),
 
+            (quest_get_slot, ":value", "qst_persuade_lord_vassalage", slot_quest_value),
+
             (assign, ":score", -100),
 
             (call_script, "script_troop_get_relation_with_troop", ":troop_no", ":asked_lord"),
@@ -23802,6 +23839,8 @@ scripts = [
             (val_mul, ":persuasion_skill", 3),
             (val_add, ":score", ":persuasion_skill"),
 
+            (val_add, ":score", ":value"),
+
             (try_begin),
                 (call_script, "script_cf_debug", debug_ai|debug_current),
                 (assign, reg11, ":relation"),
@@ -23810,12 +23849,14 @@ scripts = [
                 (display_message, "@Other relation -{reg12}"),
                 (assign, reg13, ":rank_bonus"),
                 (display_message, "@Rank +{reg13}"),
-                (assign, reg14, ":num_vassals"),
+                (assign, reg14, ":vassals_malus"),
                 (display_message, "@Num vassals -{reg14}"),
-                (assign, reg15, ":num_vassals_asked"),
+                (assign, reg15, ":vassals_asked_malus"),
                 (display_message, "@Other num vassals -{reg15}"),
                 (assign, reg16, ":persuasion_skill"),
                 (display_message, "@Persuasion skill +{reg16}"),
+                (assign, reg17, ":value"),
+                (display_message, "@Quest value +{reg16}"),
 
                 (assign, reg10, ":score"),
                 (display_message, "@Total score: {reg10}"),
@@ -23830,7 +23871,199 @@ scripts = [
             (else_try),
                 (assign, reg0, outcome_failure),
             (try_end),
+        ]),
 
+    # script_persuade_vassal_quest_add_proposition
+        # input:
+        #   arg1: proposition
+        # output: none
+    ("persuade_vassal_quest_add_proposition",
+        [
+            (store_script_param, ":proposition", 1),
+
+            (assign, ":end", slot_quest_proposition_end),
+            (try_for_range, ":slot", slot_quest_proposition_begin, ":end"),
+                (quest_get_slot, ":value", "qst_persuade_lord_vassalage", ":slot"),
+                (try_begin),
+                    (eq, ":value", -1),
+
+                    (quest_set_slot, "qst_persuade_lord_vassalage", ":slot", ":proposition"),
+
+                    (assign, ":end", 0),
+                (try_end),
+            (try_end),
+        ]),
+
+    # script_quest_add_value
+        # input:
+        #   arg1: quest_no
+        #   arg2: value
+        # output: none
+    ("quest_add_value",
+        [
+            (store_script_param, ":quest_no", 1),
+            (store_script_param, ":value", 2),
+
+            (quest_get_slot, ":current_value", ":quest_no", slot_quest_value),
+            (val_add, ":current_value", ":value"),
+            (quest_set_slot, ":quest_no", slot_quest_value, ":current_value"),
+
+            (try_begin),
+                (call_script, "script_cf_debug", debug_current|debug_simple),
+                (str_store_quest_name, s10, ":quest_no"),
+                (assign, reg10, ":value"),
+                (assign, reg11, ":current_value"),
+                (display_message, "@Adding {reg10} value to quest {s10} up to {reg11}"),
+            (try_end),
+        ]),
+
+    # script_troop_become_vassal_grant_fief
+        # input:
+        #   arg1: troop_no
+        #   arg2: fief
+        # output: none
+    ("troop_become_vassal_grant_fief",
+        [
+            # (store_script_param, ":troop_no", 1),
+            (store_script_param, ":fief", 2),
+
+            (call_script, "script_quest_add_value", "qst_persuade_lord_vassalage", 50),
+
+            (call_script, "script_persuade_vassal_quest_add_proposition", event_type_proposed_fief),
+            (quest_set_slot, "qst_persuade_lord_vassalage", slot_quest_proposed_fief, ":fief"),
+        ]),
+
+    # script_troop_become_vassal_promise_fief
+        # input:
+        #   arg1: troop_no
+        # output: none
+    ("troop_become_vassal_promise_fief",
+        [
+            # (store_script_param, ":troop_no", 1),
+
+            (call_script, "script_quest_add_value", "qst_persuade_lord_vassalage", 50),
+
+            (call_script, "script_persuade_vassal_quest_add_proposition", event_type_promised_fief),
+        ]),
+
+    # script_troop_become_vassal_grant_title
+        # input:
+        #   arg1: troop_no
+        # output: none
+    ("troop_become_vassal_grant_title",
+        [
+            # (store_script_param, ":troop_no", 1),
+
+            (call_script, "script_quest_add_value", "qst_persuade_lord_vassalage", 50),
+            
+            (call_script, "script_persuade_vassal_quest_add_proposition", event_type_proposed_title),
+        ]),
+
+    # script_troop_become_vassal_promise_safety
+        # input:
+        #   arg1: troop_no
+        # output: none
+    ("troop_become_vassal_promise_safety",
+        [
+            # (store_script_param, ":troop_no", 1),
+
+            (call_script, "script_quest_add_value", "qst_persuade_lord_vassalage", 50),
+            
+            (call_script, "script_persuade_vassal_quest_add_proposition", event_type_promised_safety),
+        ]),
+
+    # script_troop_become_vassal_promise_prosperity
+        # input:
+        #   arg1: troop_no
+        # output: none
+    ("troop_become_vassal_promise_prosperity",
+        [
+            # (store_script_param, ":troop_no", 1),
+
+            (call_script, "script_quest_add_value", "qst_persuade_lord_vassalage", 50),
+            
+            (call_script, "script_persuade_vassal_quest_add_proposition", event_type_promised_prosperity),
+        ]),
+
+    # script_troop_become_vassal_promise_standing
+        # input:
+        #   arg1: troop_no
+        # output: none
+    ("troop_become_vassal_promise_standing",
+        [
+            # (store_script_param, ":troop_no", 1),
+
+            (call_script, "script_quest_add_value", "qst_persuade_lord_vassalage", 50),
+            
+            (call_script, "script_persuade_vassal_quest_add_proposition", event_type_promised_standing),
+        ]),
+
+    # script_troop_become_vassal_promise_glory
+        # input:
+        #   arg1: troop_no
+        # output: none
+    ("troop_become_vassal_promise_glory",
+        [
+            # (store_script_param, ":troop_no", 1),
+
+            (call_script, "script_quest_add_value", "qst_persuade_lord_vassalage", 50),
+            
+            (call_script, "script_persuade_vassal_quest_add_proposition", event_type_promised_glory),
+        ]),
+
+    # script_troop_become_vassal_promise_vassals
+        # input:
+        #   arg1: troop_no
+        # output: none
+    ("troop_become_vassal_promise_vassals",
+        [
+            # (store_script_param, ":troop_no", 1),
+
+            (call_script, "script_quest_add_value", "qst_persuade_lord_vassalage", 50),
+            
+            (call_script, "script_persuade_vassal_quest_add_proposition", event_type_promised_vassals),
+        ]),
+
+    # script_troop_become_vassal_threaten
+        # input:
+        #   arg1: troop_no
+        # output: none
+    ("troop_become_vassal_threaten",
+        [
+            # (store_script_param, ":troop_no", 1),
+
+            (call_script, "script_quest_add_value", "qst_persuade_lord_vassalage", 50),
+            
+            (call_script, "script_persuade_vassal_quest_add_proposition", event_type_promised_threat),
+        ]),
+
+    # script_troop_apply_persuade_vassal_quest
+        # input:
+        #   arg1: troop_no
+        # output: none
+    ("troop_apply_persuade_vassal_quest",
+        [
+            (store_script_param, ":troop_no", 1),
+
+            (assign, ":end", slot_quest_proposition_end),
+            (try_for_range, ":slot", slot_quest_proposition_begin, ":end"),
+                (quest_get_slot, ":value", "qst_persuade_lord_vassalage", ":slot"),
+                (try_begin),
+                    (neq, ":value", -1),
+                    (try_begin),
+                        (eq, ":value", event_type_proposed_fief),
+                        (quest_get_slot, ":fief", "qst_persuade_lord_vassalage", slot_quest_proposed_fief),
+                        (call_script, "script_give_center_to_troop", ":fief", ":troop_no"),
+                    (else_try),
+                        (eq, ":value", event_type_proposed_title),
+                        # TODO: grant title
+                    (else_try),
+                        (call_script, "script_troop_add_event", ":troop_no", ":value", -1, "$g_player_troop", 50, -1),
+                    (try_end),
+                (else_try),
+                    (assign, ":end", 0),
+                (try_end),
+            (try_end),
         ]),
 
     # script_presentation_generate_select_lord_card

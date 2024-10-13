@@ -463,6 +463,19 @@ renown_value_town = 1500
 renown_value_caravan = 30
 renown_value_patrol = 50
 
+event_type_proposed_vassalage = 1
+event_type_proposed_fief = 2
+event_type_promised_fief = 3
+event_type_proposed_title = 4
+event_type_promised_safety = 5
+event_type_promised_prosperity = 6
+event_type_promised_standing = 7
+event_type_promised_glory = 8
+event_type_promised_vassals = 9
+event_type_promised_threat = 10
+
+event_value_proposed_vassalage = 100
+
 ################
 ## Item Slots ##
 ################
@@ -1477,7 +1490,13 @@ slot_troop_log_object_end = slot_troop_log_object_begin + troop_log_num_slots
 slot_troop_log_target_begin = slot_troop_log_object_end + 1
 slot_troop_log_target_end = slot_troop_log_target_begin + troop_log_num_slots
 
-slot_troop_relations_begin = slot_troop_log_object_end + 1
+become_vassal_try_negative_answer = 1
+become_vassal_try_failed_persuasion = 2
+
+slot_troop_become_vassal_tried = slot_troop_log_target_end + 1
+slot_troop_become_vassal_last_try = slot_troop_become_vassal_tried + 1
+
+slot_troop_relations_begin = slot_troop_become_vassal_last_try + 1
 
 
 # # # ToDo: remove test slots
@@ -1595,6 +1614,8 @@ grc_reinforcement_infantry = 6
 grc_reinforcement_archer = 7
 grc_reinforcement_cavalry = 8
 
+daily_random_max = 10000
+
 #################
 ## Quest Slots ##
 #################
@@ -1607,10 +1628,22 @@ slot_quest_dont_give_again_period = slot_quest_expiration_days + 1
 slot_quest_dont_give_again_remaining_days = slot_quest_dont_give_again_period + 1
 
 slot_quest_description = slot_quest_dont_give_again_remaining_days + 1
-
 slot_quest_object = slot_quest_description + 1
+slot_quest_value = slot_quest_object + 1
 
+last_generic_quest_slot = slot_quest_value + 1
 
+# qst_persuade_lord_vassalage
+
+quest_persuade_vassalge_max_proposition = 5
+
+slot_quest_num_tries = slot_quest_value + 1
+slot_quest_proposition_begin = slot_quest_num_tries + 1
+slot_quest_proposition_end = slot_quest_proposition_begin + quest_persuade_vassalge_max_proposition
+
+slot_quest_proposed_fief = slot_quest_proposition_end + 1
+
+last_quest_slot = max(100, slot_quest_proposed_fief + 1)
 
 ##########################
 ## Party Template Slots ##
