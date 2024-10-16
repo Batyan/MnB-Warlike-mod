@@ -369,6 +369,11 @@ dialogs = [
 			(call_script, "script_troop_become_vassal_promise_vassals", "$g_talk_troop"),
 		]],
 	[anyone|plyr, "lord_become_vassal_persuasion_player_loop",
+		[], "I am the rightfull ruler of these lands.", "lord_become_vassal_persuasion_answer_loop",
+		[
+			(call_script, "script_troop_become_vassal_right_to_rule", "$g_talk_troop"),
+		]],
+	[anyone|plyr, "lord_become_vassal_persuasion_player_loop",
 		[], "If you are not with me, you are against me.", "lord_become_vassal_persuasion_answer_loop",
 		[
 			(call_script, "script_troop_become_vassal_threaten", "$g_talk_troop"),
@@ -390,8 +395,7 @@ dialogs = [
 
 	[anyone, "lord_become_vassal_persuasion_grant_fief",
 		[], "I suppose you have a specific one in mind ?.", "lord_become_vassal_persuasion_grant_fief_player_choice",
-		[
-		]],
+		[]],
 	[anyone|plyr|repeat_for_parties, "lord_become_vassal_persuasion_grant_fief_player_choice",
 		[
 			(store_repeat_object, ":party_repeat"),
@@ -429,7 +433,7 @@ dialogs = [
 		[
 			(call_script, "script_troop_get_become_vassal_answer", "$g_talk_troop"),
 			(eq, reg0, outcome_success),
-		], "You've convinced me.", "lord_main_return",
+		], "You've convinced me.", "lord_become_vassal_give_oath",
 		[
 			(quest_get_slot, ":lord", "qst_persuade_lord_vassalage", slot_quest_object),
 			(call_script, "script_troop_become_vassal", "$g_talk_troop", ":lord"),
@@ -440,12 +444,118 @@ dialogs = [
 		]],
 
 	[anyone, "lord_become_vassal_persuasion_answer_loop",
-		[(str_store_string, s10, "@Interesting, keep going")], "{s10}.", "lord_become_vassal_persuasion_player_loop",
+		[], "{s0}.", "lord_become_vassal_persuasion_player_loop",
 		[
 			(quest_get_slot, ":num_tries", "qst_persuade_lord_vassalage", slot_quest_num_tries),
 			(val_sub, ":num_tries", 1),
 			(quest_set_slot, "qst_persuade_lord_vassalage", slot_quest_num_tries, ":num_tries"),
 		]],
+
+	[anyone|plyr, "lord_become_vassal_give_oath",
+		[], "Are you ready to pledge the oath ?", "lord_become_vassal_give_oath_answer",
+		[]],
+
+	[anyone|plyr, "lord_become_vassal_give_oath",
+		[], "We will do without the usual pledge, serve me well and you'll be rewarded.", "lord_main_return",
+		[]],
+
+	[anyone, "lord_become_vassal_give_oath_answer",
+		[], "I am, my Lord", "lord_become_vassal_give_oath_start",
+		[]],
+
+	[anyone|plyr, "lord_become_vassal_give_oath_start",
+		[
+			(store_troop_faction, ":troop_faction", "$g_player_troop"),
+			(str_store_faction_name, s11, ":troop_faction"),
+			(try_begin),
+				(faction_slot_eq, ":troop_faction", slot_faction_leader, "$g_player_troop"),
+				(str_store_string, s10, "@lawful ruler of {s11}"),
+			(else_try),
+				(neq, ":troop_faction", "fac_player_faction"),
+				# (faction_slot_eq, ":troop_faction", slot_faction_leader, "$g_player_troop"),
+				(str_store_string, s10, "@vassal of {s11}"),
+			(else_try),
+				(str_store_string, s10, "@lawful ruler of Calradia"),
+			(try_end),
+		], "Good. Then repeat the words of the oath with me: I swear homage to you as {s10}.", "lord_become_vassal_give_oath_start_response",
+		[]],
+
+	[anyone, "lord_become_vassal_give_oath_start_response",
+		[
+			(store_troop_faction, ":troop_faction", "$g_player_troop"),
+			(str_store_faction_name, s11, ":troop_faction"),
+			(try_begin),
+				(faction_slot_eq, ":troop_faction", slot_faction_leader, "$g_player_troop"),
+				(str_store_string, s10, "@lawful ruler of {s11}"),
+			(else_try),
+				(neq, ":troop_faction", "fac_player_faction"),
+				# (faction_slot_eq, ":troop_faction", slot_faction_leader, "$g_player_troop"),
+				(str_store_string, s10, "@vassal of {s11}"),
+			(else_try),
+				(str_store_string, s10, "@lawful ruler of Calradia"),
+			(try_end),
+		], "I swear homage to you as {s10}.", "lord_become_vassal_give_oath_1",
+		[]],
+
+	[anyone|plyr, "lord_become_vassal_give_oath_1",
+		[], "I will remain as your loyal and devoted {man/follower} as long as my breath remains....", "lord_become_vassal_give_oath_1_response",
+		[]],
+
+	[anyone, "lord_become_vassal_give_oath_1_response",
+		[], "I will remain as your loyal and devoted {man/follower} as long as my breath remains....", "lord_become_vassal_give_oath_2",
+		[]],
+
+	[anyone|plyr, "lord_become_vassal_give_oath_2",
+		[], "...and I will be at your side to fight your enemies should you need my sword.", "lord_become_vassal_give_oath_2_response",
+		[]],
+
+	[anyone, "lord_become_vassal_give_oath_2_response",
+		[], "...and I will be at your side to fight your enemies should you need my sword.", "lord_become_vassal_give_oath_3",
+		[]],
+
+	[anyone|plyr, "lord_become_vassal_give_oath_3",
+		[], "Finally, I will uphold your lawful claims and those of your legitimate heirs.", "lord_become_vassal_give_oath_3_response",
+		[]],
+
+	[anyone, "lord_become_vassal_give_oath_3_response",
+		[], "Finally, I will uphold your lawful claims and those of your legitimate heirs.", "lord_become_vassal_give_oath_end_1",
+		[]],
+
+	[anyone|plyr, "lord_become_vassal_give_oath_end_1",
+		[
+			(str_store_troop_name, s10, "$g_talk_troop"),
+		], "Very well. You have given me your solemn oath, {s10}. May you uphold it always, with proper courage and devotion.", "lord_become_vassal_give_oath_end_2", []],
+
+	[anyone|plyr, "lord_become_vassal_give_oath_end_2",
+		[
+            (quest_get_slot, ":fief", "qst_persuade_lord_vassalage", slot_quest_proposed_fief),
+            (try_begin),
+            	(is_between, ":fief", centers_begin, centers_end),
+            	(assign, reg10, 1),
+            	(str_store_party_name, s11, ":fief"),
+            (else_try),
+				(assign, reg10, 0),
+            (try_end),
+		], "Let it be known that from this day forward, you are my sworn {man/follower} and vassal.\
+ I give you my protection and grant you the right to bear arms in my name, and I pledge that I shall not deprive you of your life, liberty or properties except by the lawful judgment of your peers or by the law and custom of the land. {reg10?Furthermore I give you the fief of {s11} with all its rents and revenues.:}", "lord_become_vassal_give_oath_end_3",
+		[]],
+	[anyone|plyr, "lord_become_vassal_give_oath_end_3",
+		[
+			(str_store_troop_name, s10, "$g_talk_troop"),
+		], "You have done a wise thing, {s10}. Serve me well and I promise, you will rise high.", "lord_become_vassal_give_oath_end",
+		[]],
+	[anyone, "lord_become_vassal_give_oath_end",
+		[
+		], "I thank you my lord.", "lord_become_vassal_give_oath_conclude",
+		[]],
+
+	[anyone|plyr, "lord_become_vassal_give_oath_conclude",
+		[
+			(str_store_troop_name, s10, "$g_talk_troop"),
+		], "I have great hopes for you {s10}.\
+ I know you shall prove yourself worthy of the trust I have placed in you.", "lord_main_return",
+		[]],
+
 
 	[anyone, "lord_ask_opinion",
 		[], "Very well.", "player_lord_ask_opinion", []],
@@ -629,7 +739,7 @@ dialogs = [
 				(faction_slot_eq, ":troop_faction", slot_faction_leader, "$g_talk_troop"),
 				(str_store_string, s10, "@lawful ruler of {s11}"),
 			(else_try),
-				(faction_slot_eq, ":troop_faction", slot_faction_leader, "$g_talk_troop"),
+				# (faction_slot_eq, ":troop_faction", slot_faction_leader, "$g_talk_troop"),
 				(str_store_string, s10, "@vassal of {s11}"),
 			(try_end),
 		], "I swear homage to you as {s10}.", "lord_offer_vassal_oath_1", []],

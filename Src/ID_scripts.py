@@ -487,10 +487,11 @@ script_troop_become_vassal_promise_prosperity = 485
 script_troop_become_vassal_promise_standing = 486
 script_troop_become_vassal_promise_glory = 487
 script_troop_become_vassal_promise_vassals = 488
-script_troop_become_vassal_threaten = 489
-script_troop_apply_persuade_vassal_quest = 490
-script_presentation_generate_select_lord_card = 491
-script_presentation_create_text_overlay = 492
-script_presentation_create_combo_button_overlay = 493
+script_troop_become_vassal_right_to_rule = 489
+script_troop_become_vassal_threaten = 490
+script_troop_apply_persuade_vassal_quest = 491
+script_presentation_generate_select_lord_card = 492
+script_presentation_create_text_overlay = 493
+script_presentation_create_combo_button_overlay = 494
 
 

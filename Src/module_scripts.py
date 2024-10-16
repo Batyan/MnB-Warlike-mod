@@ -23921,120 +23921,278 @@ scripts = [
         # input:
         #   arg1: troop_no
         #   arg2: fief
-        # output: none
+        # output:
+        #   s0: output_string
     ("troop_become_vassal_grant_fief",
         [
-            # (store_script_param, ":troop_no", 1),
+            (store_script_param, ":troop_no", 1),
             (store_script_param, ":fief", 2),
-
-            (call_script, "script_quest_add_value", "qst_persuade_lord_vassalage", 50),
 
             (call_script, "script_persuade_vassal_quest_add_proposition", event_type_proposed_fief),
             (quest_set_slot, "qst_persuade_lord_vassalage", slot_quest_proposed_fief, ":fief"),
+
+            (troop_get_slot, ":rank", ":troop_no", slot_troop_rank),
+            (party_get_slot, ":party_type", ":fief", slot_party_type),
+
+            (assign, ":change", 0),
+
+            (try_begin),
+                (ge, ":rank", rank_city),
+                (try_begin),
+                    (eq, ":party_type", spt_town),
+                    (str_store_string, s0, "@That would be the least that I would require"),
+                    (assign, ":change", 5),
+                (else_try),
+                    (eq, ":party_type", spt_castle),
+                    (str_store_string, s0, "@I see that as a disadvantage from my current position..."),
+                    (assign, ":change", -10),
+                (else_try),
+                    (eq, ":party_type", spt_village),
+                    (str_store_string, s0, "@I feel insulted that you would offer this and think I would appreciate..."),
+                    (assign, ":change", -30),
+                (try_end),
+            (else_try),
+                (eq, ":rank", rank_castle),
+                (try_begin),
+                    (eq, ":party_type", spt_town),
+                    (str_store_string, s0, "@That's interesting"),
+                    (assign, ":change", 35),
+                (else_try),
+                    (eq, ":party_type", spt_castle),
+                    (str_store_string, s0, "@That would be the least that I would require"),
+                    (assign, ":change", 10),
+                (else_try),
+                    (eq, ":party_type", spt_village),
+                    (str_store_string, s0, "@I see that as a disadvantage from my current position..."),
+                    (assign, ":change", -5),
+                (try_end),
+            (else_try),
+                (ge, ":rank", rank_village),
+                (try_begin),
+                    (eq, ":party_type", spt_town),
+                    (str_store_string, s0, "@This is a very good proposition"),
+                    (assign, ":change", 65),
+                (else_try),
+                    (eq, ":party_type", spt_castle),
+                    (str_store_string, s0, "@That's interesting"),
+                    (assign, ":change", 40),
+                (else_try),
+                    (eq, ":party_type", spt_village),
+                    (str_store_string, s0, "@That would be the least that I would require"),
+                    (assign, ":change", 15),
+                (try_end),
+            (else_try),
+                (try_begin),
+                    (eq, ":party_type", spt_town),
+                    (str_store_string, s0, "@This far exceeds my expectations"),
+                    (assign, ":change", 100),
+                (else_try),
+                    (eq, ":party_type", spt_castle),
+                    (str_store_string, s0, "@This is a very good proposition"),
+                    (assign, ":change", 75),
+                (else_try),
+                    (eq, ":party_type", spt_village),
+                    (str_store_string, s0, "@That's interesting"),
+                    (assign, ":change", 50),
+                (try_end),
+            (try_end),
+
+            (call_script, "script_quest_add_value", "qst_persuade_lord_vassalage", ":change"),
         ]),
 
     # script_troop_become_vassal_promise_fief
         # input:
         #   arg1: troop_no
-        # output: none
+        # output:
+        #   s0: output_string
     ("troop_become_vassal_promise_fief",
         [
-            # (store_script_param, ":troop_no", 1),
+            (store_script_param, ":troop_no", 1),
 
-            (call_script, "script_quest_add_value", "qst_persuade_lord_vassalage", 50),
+            (troop_get_slot, ":rank", ":troop_no", slot_troop_rank),
+            (store_sub, ":change", 3, ":rank"),
+            (val_mul, ":change", 10),
+
+            (store_skill_level, ":persuasion_skill", "$g_player_troop", skl_persuasion),
+            (val_mul, ":persuasion_skill", 2),
+            (val_add, ":change", ":persuasion_skill"),
+
+            (call_script, "script_quest_add_value", "qst_persuade_lord_vassalage", ":change"),
 
             (call_script, "script_persuade_vassal_quest_add_proposition", event_type_promised_fief),
+
+            (str_store_string, s0, "@Interesting, keep going"),
         ]),
 
     # script_troop_become_vassal_grant_title
         # input:
         #   arg1: troop_no
-        # output: none
+        # output:
+        #   s0: output_string
     ("troop_become_vassal_grant_title",
         [
-            # (store_script_param, ":troop_no", 1),
+            (store_script_param, ":troop_no", 1),
 
-            (call_script, "script_quest_add_value", "qst_persuade_lord_vassalage", 50),
+            (troop_get_slot, ":rank", ":troop_no", slot_troop_rank),
+            (store_sub, ":change", 7, ":rank"),
+            (val_mul, ":change", 5),
+
+            (store_skill_level, ":persuasion_skill", "$g_player_troop", skl_persuasion),
+            (val_add, ":change", ":persuasion_skill"),
+
+            (call_script, "script_quest_add_value", "qst_persuade_lord_vassalage", ":change"),
             
             (call_script, "script_persuade_vassal_quest_add_proposition", event_type_proposed_title),
+
+            (str_store_string, s0, "@Interesting, keep going"),
         ]),
 
     # script_troop_become_vassal_promise_safety
         # input:
         #   arg1: troop_no
-        # output: none
+        # output:
+        #   s0: output_string
     ("troop_become_vassal_promise_safety",
         [
             # (store_script_param, ":troop_no", 1),
 
-            (call_script, "script_quest_add_value", "qst_persuade_lord_vassalage", 50),
+            (assign, ":change", 30),
+
+            (store_skill_level, ":persuasion_skill", "$g_player_troop", skl_persuasion),
+            (val_add, ":change", ":persuasion_skill"),
+
+            (call_script, "script_quest_add_value", "qst_persuade_lord_vassalage", ":change"),
             
             (call_script, "script_persuade_vassal_quest_add_proposition", event_type_promised_safety),
+
+            (str_store_string, s0, "@Interesting, keep going"),
         ]),
 
     # script_troop_become_vassal_promise_prosperity
         # input:
         #   arg1: troop_no
-        # output: none
+        # output:
+        #   s0: output_string
     ("troop_become_vassal_promise_prosperity",
         [
             # (store_script_param, ":troop_no", 1),
 
-            (call_script, "script_quest_add_value", "qst_persuade_lord_vassalage", 50),
+            (assign, ":change", 30),
+
+            (store_skill_level, ":persuasion_skill", "$g_player_troop", skl_persuasion),
+            (val_add, ":change", ":persuasion_skill"),
+
+            (call_script, "script_quest_add_value", "qst_persuade_lord_vassalage", ":change"),
             
             (call_script, "script_persuade_vassal_quest_add_proposition", event_type_promised_prosperity),
+
+            (str_store_string, s0, "@Interesting, keep going"),
         ]),
 
     # script_troop_become_vassal_promise_standing
         # input:
         #   arg1: troop_no
-        # output: none
+        # output:
+        #   s0: output_string
     ("troop_become_vassal_promise_standing",
         [
             # (store_script_param, ":troop_no", 1),
 
-            (call_script, "script_quest_add_value", "qst_persuade_lord_vassalage", 50),
+            (assign, ":change", 30),
+
+            (store_skill_level, ":persuasion_skill", "$g_player_troop", skl_persuasion),
+            (val_add, ":change", ":persuasion_skill"),
+
+            (call_script, "script_quest_add_value", "qst_persuade_lord_vassalage", ":change"),
             
             (call_script, "script_persuade_vassal_quest_add_proposition", event_type_promised_standing),
+
+            (str_store_string, s0, "@Interesting, keep going"),
         ]),
 
     # script_troop_become_vassal_promise_glory
         # input:
         #   arg1: troop_no
-        # output: none
+        # output:
+        #   s0: output_string
     ("troop_become_vassal_promise_glory",
         [
             # (store_script_param, ":troop_no", 1),
 
-            (call_script, "script_quest_add_value", "qst_persuade_lord_vassalage", 50),
+            (assign, ":change", 30),
+
+            (store_skill_level, ":persuasion_skill", "$g_player_troop", skl_persuasion),
+            (val_add, ":change", ":persuasion_skill"),
+
+            (call_script, "script_quest_add_value", "qst_persuade_lord_vassalage", ":change"),
             
             (call_script, "script_persuade_vassal_quest_add_proposition", event_type_promised_glory),
+
+            (str_store_string, s0, "@Interesting, keep going"),
         ]),
 
     # script_troop_become_vassal_promise_vassals
         # input:
         #   arg1: troop_no
-        # output: none
+        # output:
+        #   s0: output_string
     ("troop_become_vassal_promise_vassals",
         [
             # (store_script_param, ":troop_no", 1),
 
-            (call_script, "script_quest_add_value", "qst_persuade_lord_vassalage", 50),
+            (assign, ":change", 30),
+
+            (store_skill_level, ":persuasion_skill", "$g_player_troop", skl_persuasion),
+            (val_add, ":change", ":persuasion_skill"),
+
+            (call_script, "script_quest_add_value", "qst_persuade_lord_vassalage", ":change"),
             
             (call_script, "script_persuade_vassal_quest_add_proposition", event_type_promised_vassals),
+
+            (str_store_string, s0, "@Interesting, keep going"),
+        ]),
+
+    # script_troop_become_vassal_right_to_rule
+        # input:
+        #   arg1: troop_no
+        # output:
+        #   s0: output_string
+    ("troop_become_vassal_right_to_rule",
+        [
+            # (store_script_param, ":troop_no", 1),
+
+            (assign, ":change", 30),
+
+            (store_skill_level, ":persuasion_skill", "$g_player_troop", skl_persuasion),
+            (val_add, ":change", ":persuasion_skill"),
+
+            (call_script, "script_quest_add_value", "qst_persuade_lord_vassalage", ":change"),
+            
+            (call_script, "script_persuade_vassal_quest_add_proposition", event_type_promised_right_to_rule),
+
+            (str_store_string, s0, "@Interesting, keep going"),
         ]),
 
     # script_troop_become_vassal_threaten
         # input:
         #   arg1: troop_no
-        # output: none
+        # output:
+        #   s0: output_string
     ("troop_become_vassal_threaten",
         [
             # (store_script_param, ":troop_no", 1),
 
-            (call_script, "script_quest_add_value", "qst_persuade_lord_vassalage", 50),
+            (assign, ":change", 25),
+
+            (store_skill_level, ":skill", "$g_player_troop", skl_intimidation),
+            (val_mul, ":skill", 2),
+            (val_add, ":change", ":skill"),
+
+            (call_script, "script_quest_add_value", "qst_persuade_lord_vassalage", ":change"),
             
             (call_script, "script_persuade_vassal_quest_add_proposition", event_type_promised_threat),
+
+            (str_store_string, s0, "@Interesting, keep going"),
         ]),
 
     # script_troop_apply_persuade_vassal_quest

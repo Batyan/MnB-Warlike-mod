@@ -473,6 +473,7 @@ event_type_promised_standing = 7
 event_type_promised_glory = 8
 event_type_promised_vassals = 9
 event_type_promised_threat = 10
+event_type_promised_right_to_rule = 11
 
 event_value_proposed_vassalage = 100
 
