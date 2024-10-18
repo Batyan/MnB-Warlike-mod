@@ -23997,6 +23997,9 @@ scripts = [
                 (try_end),
             (try_end),
 
+            (store_skill_level, ":persuasion_skill", "$g_player_troop", skl_persuasion),
+            (val_add, ":change", ":persuasion_skill"),
+
             (call_script, "script_quest_add_value", "qst_persuade_lord_vassalage", ":change"),
         ]),
 
@@ -24054,12 +24057,23 @@ scripts = [
         #   s0: output_string
     ("troop_become_vassal_promise_safety",
         [
-            # (store_script_param, ":troop_no", 1),
+            (store_script_param, ":troop_no", 1),
 
-            (assign, ":change", 30),
+            (quest_get_slot, ":target_troop", "qst_persuade_lord_vassalage", slot_quest_object),
+            (store_troop_faction, ":target_faction", ":target_troop"),
+            (store_troop_faction, ":troop_faction", ":troop_no"),
+
+            (faction_get_slot, ":safety", ":troop_faction", slot_faction_safety),
+            (faction_get_slot, ":proposed_safety", ":target_faction", slot_faction_safety),
+
+            (store_sub, ":change", ":proposed_safety", ":safety"),
+            (val_div, ":change", 3),
 
             (store_skill_level, ":persuasion_skill", "$g_player_troop", skl_persuasion),
             (val_add, ":change", ":persuasion_skill"),
+
+            (store_skill_level, ":intimidation_skill", "$g_player_troop", skl_intimidation),
+            (val_add, ":change", ":intimidation_skill"),
 
             (call_script, "script_quest_add_value", "qst_persuade_lord_vassalage", ":change"),
             
@@ -24077,10 +24091,16 @@ scripts = [
         [
             # (store_script_param, ":troop_no", 1),
 
-            (assign, ":change", 30),
+            (assign, ":change", -5),
 
             (store_skill_level, ":persuasion_skill", "$g_player_troop", skl_persuasion),
             (val_add, ":change", ":persuasion_skill"),
+
+            (store_skill_level, ":trade_skill", "$g_player_troop", skl_trade),
+            (val_add, ":change", ":trade_skill"),
+
+            (store_skill_level, ":looting_skill", "$g_player_troop", skl_looting),
+            (val_add, ":change", ":looting_skill"),
 
             (call_script, "script_quest_add_value", "qst_persuade_lord_vassalage", ":change"),
             
@@ -24096,12 +24116,20 @@ scripts = [
         #   s0: output_string
     ("troop_become_vassal_promise_standing",
         [
-            # (store_script_param, ":troop_no", 1),
+            (store_script_param, ":troop_no", 1),
 
-            (assign, ":change", 30),
+            (troop_get_slot, ":renown", ":troop_no", slot_troop_renown),
+            (quest_get_slot, ":target_troop", "qst_persuade_lord_vassalage", slot_quest_object),
+            (troop_get_slot, ":target_renown", ":target_troop", slot_troop_renown),
+
+            (store_sub, ":change", ":target_renown", ":renown"),
+            (val_div, ":change", 20),
 
             (store_skill_level, ":persuasion_skill", "$g_player_troop", skl_persuasion),
             (val_add, ":change", ":persuasion_skill"),
+
+            (store_skill_level, ":leadership_skill", "$g_player_troop", skl_leadership),
+            (val_add, ":change", ":leadership_skill"),
 
             (call_script, "script_quest_add_value", "qst_persuade_lord_vassalage", ":change"),
             
@@ -24117,9 +24145,25 @@ scripts = [
         #   s0: output_string
     ("troop_become_vassal_promise_glory",
         [
-            # (store_script_param, ":troop_no", 1),
+            (store_script_param, ":troop_no", 1),
 
-            (assign, ":change", 30),
+            (quest_get_slot, ":target_troop", "qst_persuade_lord_vassalage", slot_quest_object),
+            (store_troop_faction, ":target_faction", ":target_troop"),
+            (store_troop_faction, ":troop_faction", ":troop_no"),
+
+            (faction_get_slot, ":safety", ":troop_faction", slot_faction_safety),
+            (faction_get_slot, ":proposed_safety", ":target_faction", slot_faction_safety),
+
+            (store_sub, ":change", ":safety", ":proposed_safety"),
+            (val_div, ":change", 10),
+
+            (faction_get_slot, ":faction_size", ":troop_faction", slot_faction_size),
+            (faction_get_slot, ":proposed_faction_size", ":target_faction", slot_faction_size),
+
+            (store_sub, ":diff", ":faction_size", ":proposed_faction_size"),
+            (val_div, ":diff", 10),
+
+            (val_add, ":change", ":diff"),
 
             (store_skill_level, ":persuasion_skill", "$g_player_troop", skl_persuasion),
             (val_add, ":change", ":persuasion_skill"),
@@ -24138,9 +24182,12 @@ scripts = [
         #   s0: output_string
     ("troop_become_vassal_promise_vassals",
         [
-            # (store_script_param, ":troop_no", 1),
+            (store_script_param, ":troop_no", 1),
 
-            (assign, ":change", 30),
+            (troop_get_slot, ":num_vassals", ":troop_no", slot_troop_num_vassal),
+            (store_sub, ":change", 3, ":num_vassals"),
+
+            (val_mul, ":change", 10),
 
             (store_skill_level, ":persuasion_skill", "$g_player_troop", skl_persuasion),
             (val_add, ":change", ":persuasion_skill"),
@@ -24161,10 +24208,19 @@ scripts = [
         [
             # (store_script_param, ":troop_no", 1),
 
-            (assign, ":change", 30),
+            (assign, ":change", -10),
 
             (store_skill_level, ":persuasion_skill", "$g_player_troop", skl_persuasion),
+            (val_mul, ":persuasion_skill", 3),
             (val_add, ":change", ":persuasion_skill"),
+
+            (store_skill_level, ":leadership_skill", "$g_player_troop", skl_leadership),
+            (val_mul, ":leadership_skill", 2),
+            (val_add, ":change", ":leadership_skill"),
+
+            (store_skill_level, ":intimidation_skill", "$g_player_troop", skl_intimidation),
+            (val_div, ":intimidation_skill", 2),
+            (val_add, ":change", ":intimidation_skill"),
 
             (call_script, "script_quest_add_value", "qst_persuade_lord_vassalage", ":change"),
             
@@ -24180,9 +24236,25 @@ scripts = [
         #   s0: output_string
     ("troop_become_vassal_threaten",
         [
-            # (store_script_param, ":troop_no", 1),
+            (store_script_param, ":troop_no", 1),
 
-            (assign, ":change", 25),
+            (quest_get_slot, ":target_troop", "qst_persuade_lord_vassalage", slot_quest_object),
+            (store_troop_faction, ":target_faction", ":target_troop"),
+            (store_troop_faction, ":troop_faction", ":troop_no"),
+
+            (faction_get_slot, ":faction_size", ":troop_faction", slot_faction_size),
+            (faction_get_slot, ":proposed_faction_size", ":target_faction", slot_faction_size),
+
+            (store_sub, ":change", ":proposed_faction_size", ":faction_size"),
+            (val_div, ":change", 6),
+
+            (faction_get_slot, ":safety", ":troop_faction", slot_faction_safety),
+            (faction_get_slot, ":proposed_safety", ":target_faction", slot_faction_safety),
+
+            (store_sub, ":diff", ":proposed_safety", ":safety"),
+            (val_div, ":diff", 6),
+
+            (val_add, ":change", ":diff"),
 
             (store_skill_level, ":skill", "$g_player_troop", skl_intimidation),
             (val_mul, ":skill", 2),
