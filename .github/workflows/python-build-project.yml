@@ -13,8 +13,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    - name: Set up Python 2.7.13
-      uses: actions/setup-python@v2
+    - name: setup python 2.7.13
+      uses: MatteoH2O1999/setup-python@v4
       with:
         python-version: '2.7.13'
     - name: Replace string in file
