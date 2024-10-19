@@ -1,3 +1,76 @@
+v0.530:
+	-Features:
+		* add the ability to grant fief to vassals
+		* add the ability to promote prominent local noble to a vassal
+		* add the ability to set the garrison size for owned centers
+		* add the ability to disallow sending or selling troops from garrison
+		* add the ability to persuade an existing npc to join the player as vassal
+	-Balance:
+		* increase khergit_light_mounted_skirmisher powerstrike (2 -> 4)
+		* decrease khergit_mounted_skirmisher shield (1 -> 0)
+		* change swadian_militia type (archer to crossbow)
+			This change intends to fix small_kingdom_11 lack of militia ranged units
+		* update padded_leather to use heraldic colors
+		* update mail_shirt to use heraldic colors
+		* update byrnie to use heraldic colors
+		* update steppe_armor to use heraldic colors
+		* update cuir_bouilli to use heraldic colors
+		* update haubergeon to use heraldic colors
+		* update lamellar_armor to use heraldic colors
+		* update scale_armor to use heraldic colors
+		* update aketon_green_herald to use heraldic colors
+		* update studded_leather_coat to use heraldic colors
+		* update mamluke_mail to use heraldic colors
+		* update plate_armor to use heraldic colors
+		* update mail_long_surcoat to use heraldic colors
+		* update tattered_leather_armor to use heraldic colors
+		* update arabian_armor_b to use heraldic colors
+		* update tabard to use heraldic colors
+		* update leather_vest to use heraldic colors
+		* update tunic to use heraldic colors
+		* update rich_shirt to use heraldic colors
+		* update tunic_with_green_cape to use heraldic colors
+		* update leather_jerkin to use heraldic colors
+		* update surcoat_over_mail to use heraldic colors
+		* update hauberk to use heraldic colors
+		* update linen_tunic to use heraldic colors
+		* update khergit_elite_armor to use heraldic colors
+		* update great_helm to use heraldic colors
+		* update full_helm to use heraldic colors
+		* update vaegir_elite_armor to use heraldic colors
+		* update sarranid_elite_armor to use heraldic colors
+		* update coarse_tunic to use heraldic colors
+		* update lamellar_vest to use heraldic colors
+		* update red_gambeson to use heraldic colors
+		* update coat_of_plates to use heraldic colors
+		* update common_hood to use heraldic colors
+		* update woolen_cap to use heraldic colors
+		* add vaegir_knight to small_kingdom_23
+		* move vaegir_pikman and vaegit_heavy_pikeman to small_kingdom_25 from small_kingdom_23
+		* increase rhodok_levy_spearman athletics (0 -> 1)
+		* add rhodok_hunter to small_kingdom_51
+		* increase ratio of rhodok_militia for rhodok culture
+		* decrease ratio of khergit_clansman for khergit culture
+		* decrease ratio of khergit_levy_horseman for khergit culture
+		* add total money change to budget presentation
+		* add vaegir_militia to fac_small_kingdom_23
+		* add vaegir levy to fac_small_kingdom_23
+		* remove vaegir_hunter from fac_small_kingdom_23
+		* gain renown on battles fought
+		* gain renown on receiving a fief
+		* gain renown on becoming faction leader
+		* change starting renown to 0
+	-Fixes:
+		* fix fief promised to player could be given to another lord
+		* fix incorrect quest giver for vassalage offer quest
+		* prevent lords from spawning inside a besieged center
+		* fix impossibility to go back to male character after selecting female
+		* prevent appearance of unspent skill points
+		* update center names
+		* move some center to spread them out slightly
+		* fix unable to get a fief with 0 renown
+		* minor fixes to scenes to prevent troops getting stuck in scenery
+		* fix bandit party size being too small
 v0.520:
 	-Features:
 		* add restrictions on allowing recruitment of troops of certain quality
@@ -225,7 +298,7 @@ v 0.410:
 		* increase khergit_horse_archer ironflesh (1 -> 2)
 		* increase khergit_light_horse_archer ironflesh (0 -> 1)
 		* give warhorse to rhodok_noble_lancer
-		* increase vaegir_militia charisma (6 -> 7)
+		* increase vaegir_hunter charisma (6 -> 7)
 		The following changes aim to improve the khergit's ability to fight battles
 		Levy and common troops have reduced level (thus reduced wages)
 		Elite troops are stronger

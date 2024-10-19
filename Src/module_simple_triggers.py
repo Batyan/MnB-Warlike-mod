@@ -87,7 +87,7 @@ simple_triggers = [
                 (call_script, "script_party_sort_troops", ":party_no", 2),
             (try_end),
 
-            (store_random_in_range, "$g_daily_random", 0, 10000),
+            (store_random_in_range, "$g_daily_random", 0, daily_random_max),
         ]),
     
     (daily*6, # Sieges
@@ -352,6 +352,7 @@ simple_triggers = [
                             (ge, ":real_rank", rank_two_village),
                             (troop_get_slot, ":surplus_fief", ":lord_no", slot_troop_surplus_center),
                             (gt, ":surplus_fief", 0),
+                            (party_slot_eq, ":surplus_fief", slot_party_reserved, -1),
                             (store_troop_faction, ":faction", ":lord_no"),
 
                             (call_script, "script_faction_get_best_candidate_for_center", ":faction", ":surplus_fief", ":lord_no"),
@@ -364,7 +365,7 @@ simple_triggers = [
                                 (call_script, "script_find_free_lord"),
                                 (assign, ":new_lord", reg0),
                                 (gt, ":new_lord", 0),
-                                (call_script, "script_ready_lord", ":new_lord", ":faction"),
+                                (call_script, "script_ready_lord", ":new_lord", ":faction", 1),
                                 (call_script, "script_troop_give_center_to_troop", ":lord_no", ":surplus_fief", ":new_lord"),
                             (try_end),
                         (try_end),

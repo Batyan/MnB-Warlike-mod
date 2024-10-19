@@ -61,11 +61,11 @@ factions = [
 	("small_kingdom_16", "Tilbaut", 0, 0.9, [("outlaws",-0.5),], [], 0xBB5500), # Mounted Skirmisher + Levy Skirmisher
 	("small_kingdom_17", "Burglen", 0, 0.9, [("outlaws",-0.5),], [], 0x8a3656), # Squire + Foot Knight
 	
-	("small_kingdom_21", "Slezhk", 0, 0.9, [("outlaws",-0.5),], [], 0xcbdb5e), # Royal Lancer + Heavy Lancer + Levy Axeman + Hussar + Heavy Hussar
+	("small_kingdom_21", "Slezhk", 0, 0.9, [("outlaws",-0.5),], [], 0xcbdb5e), # Royal Lancer + Heavy Lancer + Levy Axeman + Hussar + Heavy Hussar + Levy Axeman
 	("small_kingdom_22", "Khudan", 0, 0.9, [("outlaws",-0.5),], [], 0xC4A285), # Club Levy + Horseman + Royal Horseman + Light Club Infantry + Club Infantry + Heavy Club Infantry
-	("small_kingdom_23", "Rivacheg", 0, 0.9, [("outlaws",-0.5),], [], 0x466346), # Pikeman + Heavy Pikeman + Footman + Heavy Footman + Warrior
+	("small_kingdom_23", "Rivacheg", 0, 0.9, [("outlaws",-0.5),], [], 0x466346), # Militia + Levy Infantry + Footman + Heavy Footman + Warrior + Knight
 	("small_kingdom_24", "Yruma", 0, 0.9, [("outlaws",-0.5),], [], 0x88dd88), # Light Skirmisher + Heavy Skirmisher + Champion + Royal Skirmisher
-	("small_kingdom_25", "the Southern Taiga", 0, 0.9, [("outlaws",-0.5),], [], 0x885500), # Scout + Heavy Mounted Longbowman + Mounted Longbowman + Longbowman + Royal Longbowman
+	("small_kingdom_25", "the Southern Taiga", 0, 0.9, [("outlaws",-0.5),], [], 0x885500), # Pikeman + Heavy Pikeman + Scout + Heavy Mounted Longbowman + Mounted Longbowman + Longbowman + Royal Longbowman + Royal Mounted Longbowman
 	
 	("small_kingdom_31", "Eastern", 0, 0.9, [("outlaws",-0.5),], [], 0xbb88bb), # Noble Mounted Skirmisher + Mounted Skirmisher + Heavy Mounted Skirmisher
 	("small_kingdom_32", "Warriors of Sungetche", 0, 0.9, [("outlaws",-0.5),], [], 0x997A99), # Champion + Light Skirmisher + Warrior + Heavy Skirmisher + Noble Skirmisher?
