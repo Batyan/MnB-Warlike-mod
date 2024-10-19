@@ -161,16 +161,51 @@ dialogs = [
 		[], "I want your opinion on a certain matter.", "lord_ask_opinion", []],
 	[anyone|plyr, "player_lord_talk",
 		[], "Did you hear any rumors recently?", "lord_rumors", []],
+
+
+
+	
+	[anyone|plyr, "player_lord_talk",
+		[
+			(call_script, "script_cf_troop_has_event", "$g_talk_troop", event_type_proposed_vassalage),
+		], "Have you considered my previous proposition?", "lord_become_vassal_persuasion_begin",
+		[
+			(quest_set_slot, "qst_persuade_lord_vassalage", slot_quest_object, "$g_player_troop"),
+			(call_script, "script_start_quest", "qst_persuade_lord_vassalage", "$g_talk_troop"),
+			(quest_set_slot, "qst_persuade_lord_vassalage", slot_quest_value, 0),
+
+			(store_random_in_range, ":rand", 0, "$g_daily_random"),
+			(val_div, ":rand", daily_random_max/20),
+			(call_script, "script_troop_get_vassalage_availability_score", "$g_talk_troop", "$g_player_troop"),
+			(store_add, ":value", reg0, ":rand"),
+			(quest_set_slot, "qst_persuade_lord_vassalage", slot_quest_value, ":value"),
+			(quest_set_slot, "qst_persuade_lord_vassalage", slot_quest_num_tries, 5),
+		]],		
 	[anyone|plyr, "player_lord_talk",
 		[
 			(troop_get_slot, ":lord", "$g_talk_troop", slot_troop_vassal_of),
 			(gt, ":lord", 0),
 			(str_store_troop_name, s10, ":lord"),
+
+			(assign, ":continue", 1),
+			(try_begin),
+				(call_script, "script_cf_troop_has_event", "$g_talk_troop", event_type_proposed_vassalage),
+				(assign, ":continue", 0),
+			(try_end),
+			(eq, ":continue", 1),
+
 		], "How do you feel about your relation with your lord {s10}?", "lord_become_vassal", []],
 	[anyone|plyr, "player_lord_talk",
 		[
 			(troop_get_slot, ":lord", "$g_talk_troop", slot_troop_vassal_of),
 			(eq, ":lord", -1),
+
+			(assign, ":continue", 1),
+			(try_begin),
+				(call_script, "script_cf_troop_has_event", "$g_talk_troop", event_type_proposed_vassalage),
+				(assign, ":continue", 0),
+			(try_end),
+			(eq, ":continue", 1),
 		], "Have you considered pledging your loyalty to someone?", "lord_become_vassal", []],
 	[anyone|plyr, "player_lord_talk",
 		[], "Nevermind", "lord_main_return", []],
@@ -200,36 +235,11 @@ dialogs = [
 	[anyone, "lord_become_vassal_2", [], "Did you have something in mind?", "lord_become_vassal_propose", []],
 
 	[anyone|plyr, "lord_become_vassal_propose",
-		[
-			(assign, ":continue", 0),
-			(try_begin),
-				(call_script, "script_cf_troop_has_event", "$g_talk_troop", event_type_proposed_vassalage),
-			(else_try),
-				(assign, ":continue", 1),
-			(try_end),
-			(eq, ":continue", 1),
-
-		], "Would you be interested in becoming my vassal?", "lord_become_vassal_response",
+		[], "Would you be interested in becoming my vassal?", "lord_become_vassal_response",
 		[
 			(quest_set_slot, "qst_persuade_lord_vassalage", slot_quest_object, "$g_player_troop"),
 			(call_script, "script_start_quest", "qst_persuade_lord_vassalage", "$g_talk_troop"),
 			(quest_set_slot, "qst_persuade_lord_vassalage", slot_quest_value, 0),
-		]],
-	[anyone|plyr, "lord_become_vassal_propose",
-		[
-			(call_script, "script_cf_troop_has_event", "$g_talk_troop", event_type_proposed_vassalage),
-		], "Have you considered my previous proposition?", "lord_become_vassal_persuasion_begin",
-		[
-			(quest_set_slot, "qst_persuade_lord_vassalage", slot_quest_object, "$g_player_troop"),
-			(call_script, "script_start_quest", "qst_persuade_lord_vassalage", "$g_talk_troop"),
-			(quest_set_slot, "qst_persuade_lord_vassalage", slot_quest_value, 0),
-
-			(store_random_in_range, ":rand", 0, "$g_daily_random"),
-			(val_div, ":rand", daily_random_max/20),
-			(call_script, "script_troop_get_vassalage_availability_score", "$g_talk_troop", "$g_player_troop"),
-			(store_add, ":value", reg0, ":rand"),
-			(quest_set_slot, "qst_persuade_lord_vassalage", slot_quest_value, ":value"),
-			(quest_set_slot, "qst_persuade_lord_vassalage", slot_quest_num_tries, 5),
 		]],
 	# [anyone|plyr, "lord_become_vassal_propose",
 	# 	[
