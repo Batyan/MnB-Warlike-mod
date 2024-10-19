@@ -1,3 +1,7 @@
+v0.540:
+	-Features:
+	-Balance:
+	-Fixes:
 v0.530:
 	-Features:
 		* add the ability to grant fief to vassals
