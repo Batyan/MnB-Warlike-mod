@@ -23,7 +23,7 @@ jobs:
       with:
         file: Src/build_module.bat
         old-string: 'export_dir = *$'
-        new-string: export_dir = .\Output/
+        new-string: 'export_dir = .\\Output/'
         
     - name: Run bat file
       run: ./Src/build_module.bat
