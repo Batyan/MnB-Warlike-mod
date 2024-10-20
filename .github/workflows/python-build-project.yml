@@ -13,17 +13,18 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+    
+    - name: Replace string in file
+      uses: thiagodnf/string-replacer@v1.0.2
+      with:
+        find: "export_dir = *$"
+        replace: "export_dir = .\\Output/"
+        include: "Src/build_module.bat"
+        
     - name: setup python 2.7.13
       uses: LizardByte/setup-python-action@master
       with:
         python-version: '2.7'
-    
-    - name: Replace string in file
-      uses: MathieuSoysal/replace-string-in-file@v1.0.0
-      with:
-        file: Src/build_module.bat
-        old-string: 'export_dir = *$'
-        new-string: 'export_dir = .\\Output/'
         
     - name: Run bat file
       run: ./Src/build_module.bat
