@@ -10685,7 +10685,7 @@ scripts = [
                     (assign, ":total_cost", reg1),
                     (try_begin),
                         (neg|party_slot_eq, ":cur_town", slot_party_lord, ":leader"),
-                        (call_script, "script_party_transfer_wealth", ":party_no", ":cur_town", ":total_cost", tax_type_troops_buying),
+                        (call_script, "script_party_transfer_wealth", ":party_no", ":cur_town", ":total_cost", tax_type_troops_selling, tax_type_troops_buying),
                     (try_end),
                 (try_end),
 
@@ -19528,6 +19528,109 @@ scripts = [
             # Process special building effects
         ]),
 
+    # script_party_process_prisoners
+        # input: 
+        #   arg1: party_no
+        # output: none
+    ("party_process_prisoners",
+        [
+            (store_script_param, ":party_no", 1),
+
+            (try_begin),
+                (party_slot_eq, ":party_no", slot_party_besieged_by, -1),
+
+                (party_get_num_prisoners, ":total_prisoners", ":party_no"),
+                (party_get_num_companions, ":total_party_size", ":party_no"),
+
+                (assign, ":remove_prisoners", 0),
+                (try_begin),
+                    (gt, ":total_party_size", 0),
+
+                    (store_mul, ":ratio", ":total_prisoners", 100),
+                    (val_div, ":ratio", ":total_party_size"),
+
+                    (party_get_slot, ":max_prisoner_ratio", ":party_no", slot_party_max_prisoner_ratio),
+                    (gt, ":ratio", ":max_prisoner_ratio"),
+                    (assign, ":remove_prisoners", 1),
+                (else_try),
+                    (assign, ":remove_prisoners", 1),
+                (try_end),
+
+                (try_begin),
+                    (gt, ":remove_prisoners", 0),
+
+                    (party_get_slot, ":party_type", ":party_no", slot_party_type),
+                    (try_begin),
+                        (eq, ":party_type", spt_village),
+                        (assign, ":remove_prisoners", 3),
+                    (else_try),
+                        (eq, ":party_type", spt_castle),
+                        (assign, ":remove_prisoners", 5),
+                    (else_try),
+                        (eq, ":party_type", spt_town),
+                        (assign, ":remove_prisoners", 6),
+                    (try_end),
+
+                    (party_get_slot, ":max_prisoner_outcome", ":party_no", slot_party_max_prisoner_outcome),
+
+                    (store_and, ":ransom", ":max_prisoner_outcome", mpo_ransom),
+                    (store_and, ":slave", ":max_prisoner_outcome", mpo_slave),
+                    (store_and, ":exchange", ":max_prisoner_outcome", mpo_exchange),
+                    (store_and, ":release", ":max_prisoner_outcome", mpo_release),
+                    (store_and, ":recruit", ":max_prisoner_outcome", mpo_recruit),
+
+                    (assign, ":max_rand", 0),
+                    (assign, ":ransom_value", -1),
+                    (assign, ":slave_value", -1),
+                    (assign, ":exchange_value", -1),
+                    (assign, ":release_value", -1),
+                    (assign, ":recruit_value", -1),
+
+                    # If all options are disabled we do not process prisoners
+                    (gt, ":max_rand", 0),
+
+                    (try_begin),
+                        (gt, ":ransom", 0),
+                        (assign, ":ransom_value", ":max_rand"),
+                        (val_add, ":max_rand", 1),
+                    (try_end),
+                    (try_begin),
+                        (gt, ":slave", 0),
+                        (assign, ":slave_value", ":max_rand"),
+                        (val_add, ":max_rand", 1),
+                    (try_end),
+                    (try_begin),
+                        (gt, ":exchange", 0),
+                        (assign, ":exchange_value", ":max_rand"),
+                        (val_add, ":max_rand", 1),
+                    (try_end),
+                    (try_begin),
+                        (gt, ":release", 0),
+                        (assign, ":release_value", ":max_rand"),
+                        (val_add, ":max_rand", 1),
+                    (try_end),
+                    (try_begin),
+                        (gt, ":recruit", 0),
+                        (assign, ":recruit_value", ":max_rand"),
+                        (val_add, ":max_rand", 1),
+                    (try_end),
+
+                    (store_random_in_range, ":rand", 0, ":max_rand"),
+                    (try_begin),
+                        (eq, ":rand", ":ransom_value"),
+                    (else_try),
+                        (eq, ":rand", ":slave_value"),
+                    (else_try),
+                        (eq, ":rand", ":exchange_value"),
+                    (else_try),
+                        (eq, ":rand", ":release_value"),
+                    (else_try),
+                        (eq, ":rand", ":recruit_value"),
+                    (try_end),
+                (try_end),
+            (try_end),
+        ]),
+
     # script_troop_change_renown
         # input: 
         #   arg1: troop_id
@@ -19791,7 +19894,7 @@ scripts = [
                     (gt, ":linked_party", 0),
                     (party_get_attached_to, ":attached", ":party_no"),
                     (eq, ":attached", ":linked_party"),
-                    (call_script, "script_party_transfer_wealth", ":attached", ":party_no", ":unpaid_wages", tax_type_late_wages),
+                    (call_script, "script_party_transfer_wealth", ":attached", ":party_no", ":unpaid_wages", tax_type_late_wages, tax_type_none),
                     # (call_script, "script_party_remove_gold", ":party_no", ":unpaid_wages"),
                     (assign, ":unpaid_wages", 0),
                 (try_end),
@@ -20472,7 +20575,7 @@ scripts = [
             (store_script_param, ":ransom_value", 4),
 
             # TODO: send convoy party
-            (call_script, "script_party_transfer_wealth", ":party_no", ":ransom_from", ":ransom_value", tax_type_none),
+            (call_script, "script_party_transfer_wealth", ":party_no", ":ransom_from", ":ransom_value", tax_type_leader_ransom, tax_type_leader_ransom),
             (call_script, "script_troop_released", ":ransom_troop"),
         ]),
 
@@ -21862,7 +21965,7 @@ scripts = [
             (call_script, "script_party_get_wages", ":party_caravan"),
             (assign, ":wages_caravan", reg0),
             (store_mul, ":needed_wages", ":wages_caravan", 4),
-            (call_script, "script_party_transfer_wealth", ":origin", ":party_caravan", ":needed_wages", tax_type_none),
+            (call_script, "script_party_transfer_wealth", ":origin", ":party_caravan", ":needed_wages", tax_type_caravan_wages, tax_type_caravan_wages),
 
             (try_begin),
                 (gt, ":remaining_cargo", 0),
@@ -22020,7 +22123,7 @@ scripts = [
                 (party_set_slot, ":party_buyer", ":amount_slot", ":buyer_amount"),
 
                 (call_script, "script_party_modify_wealth", ":party_buyer", ":total_cost"),
-                (call_script, "script_party_transfer_wealth", ":party_buyer", ":party_seller", ":total_tax", tax_type_trade),
+                (call_script, "script_party_transfer_wealth", ":party_buyer", ":party_seller", ":total_tax", tax_type_trade, tax_type_none),
 
                 (val_add, ":amount_bought", ":amount_wanted"),
 
@@ -22093,7 +22196,7 @@ scripts = [
 
                 (eq, ":is_leader", 0),
 
-                (call_script, "script_party_transfer_wealth", ":party_no", ":center_no", ":taxes", tax_type_visitor),
+                (call_script, "script_party_transfer_wealth", ":party_no", ":center_no", ":taxes", tax_type_visitor, tax_type_visitor),
             (try_end),
         ]),
 
@@ -22102,28 +22205,28 @@ scripts = [
         #   arg1: party_giver
         #   arg2: party_receiver
         #   arg3: amount
-        #   arg4: tax_type - optional if transfer is not part of a tax
+        #   arg4: receiver_tax_type - optional if transfer is not part of a tax
+        #   arg5: giver_tax_type - optional if transfer is not part of a tax
         # output: none
     ("party_transfer_wealth",
         [
             (store_script_param, ":party_giver", 1),
             (store_script_param, ":party_receiver", 2),
             (store_script_param, ":amount", 3),
-            (store_script_param, ":tax_type", 4),
+            (store_script_param, ":receiver_tax_type", 4),
+            (store_script_param, ":giver_tax_type", 5),
 
             (try_begin),
                 (is_between, ":party_receiver", centers_begin, centers_end),
-                (gt, ":tax_type", tax_type_none),
-                (call_script, "script_party_add_accumulated_taxes", ":party_receiver", ":amount", ":tax_type"),
+                (gt, ":receiver_tax_type", tax_type_none),
+                (call_script, "script_party_add_accumulated_taxes", ":party_receiver", ":amount", ":receiver_tax_type"),
             (else_try),
                 (call_script, "script_party_modify_wealth", ":party_receiver", ":amount"),
             (try_end),
             (store_mul, ":payment", ":amount", -1),
-            (call_script, "script_get_tax_inverse", ":tax_type"),
-            (assign, ":inverse_tax", reg0),
             (try_begin),
-                (gt, ":inverse_tax", tax_type_none),
-                (call_script, "script_party_add_accumulated_taxes", ":party_giver", ":payment", ":inverse_tax"),
+                (gt, ":giver_tax_type", tax_type_none),
+                (call_script, "script_party_add_accumulated_taxes", ":party_giver", ":payment", ":giver_tax_type"),
             (else_try),
                 (call_script, "script_party_modify_wealth", ":party_giver", ":payment"),
             (try_end),
@@ -22741,6 +22844,10 @@ scripts = [
                 (eq, ":tax_type", tax_type_tribute_pay),
 
                 (store_add, ":inverse_tax", ":tax_type", -1),
+            (else_try),
+                (eq, ":tax_type", tax_type_caravan_wages),
+
+                (assign, ":inverse_tax", ":tax_type"),
             (try_end),
 
             (assign, reg0, ":inverse_tax"),

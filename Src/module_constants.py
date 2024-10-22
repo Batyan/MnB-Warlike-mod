@@ -1062,6 +1062,9 @@ slot_party_budget_private_expenses = slot_party_budget_wages + 1
 slot_party_budget_troops_hiring = slot_party_budget_private_expenses + 1
 slot_party_budget_troops_buying = slot_party_budget_troops_hiring + 1
 slot_party_budget_troops_selling = slot_party_budget_troops_hiring + 1
+slot_party_budget_prisoner_ransom = slot_party_budget_troops_selling + 1
+slot_party_budget_leader_ransom = slot_party_budget_prisoner_ransom + 1
+slot_party_budget_caravan_wages = slot_party_budget_prisoner_ransom + 1
 
 tax_type_none = -1
 tax_type_population = 0
@@ -1087,9 +1090,12 @@ tax_type_private_expenses = 19
 tax_type_troops_hiring = 20
 tax_type_troops_buying = 21
 tax_type_troops_selling = 22
+tax_type_prisoner_ransom = 23
+tax_type_leader_ransom = 24
+tax_type_caravan_wages = 25
 
 slot_party_buget_taxes_begin = slot_party_budget_taxes
-slot_party_buget_taxes_end = slot_party_budget_troops_selling + 1
+slot_party_buget_taxes_end = slot_party_budget_leader_ransom + 1
 
 slot_party_budget_reserved_party = slot_party_buget_taxes_end
 slot_party_budget_reserved_auxiliaries = slot_party_budget_reserved_party + 1
@@ -1249,6 +1255,14 @@ pgf_default_village_mask = pgf_sell_levy_mask|pgf_send_levy
 pgf_default_castle_mask = pgf_sell_levy_mask|pgf_sell_common_faction|pgf_sell_common_vassals|pgf_send_levy|pgf_send_common
 pgf_default_town_mask = pgf_sell_levy_mask|pgf_sell_common_faction|pgf_sell_common_vassals|pgf_send_levy|pgf_send_common
 
+slot_party_max_prisoner_ratio = slot_party_player_garrison_flags + 1
+slot_party_max_prisoner_outcome = slot_party_max_prisoner_ratio + 1
+
+mpo_ransom = 0x01
+mpo_slave = 0x02
+mpo_exchange = 0x04
+mpo_release = 0x08
+mpo_recruit = 0x10
 
 #################
 ## Scene Slots ##
