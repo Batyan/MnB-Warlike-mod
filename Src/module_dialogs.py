@@ -1238,7 +1238,7 @@ dialogs = [
 	[anyone|plyr, "caravan_toll_player_swear", [], "Nevermind, keep your gold.", "caravan_toll_back", []],
 
 	[anyone, "caravan_toll_pay", [
-		(call_script, "script_party_transfer_wealth", "$g_encountered_party", "$g_player_party", reg1, tax_type_none),
+		(call_script, "script_party_transfer_wealth", "$g_encountered_party", "$g_player_party", reg1, tax_type_none, tax_type_none),
 		(party_set_slot, "$g_encountered_party", slot_party_speak_allowed, 0),
 		(party_set_slot, "$g_encountered_party", slot_party_player_shakedown, 1),
 	], "Here is your money, I will not bid you farewell and hope we don't see each other again.", "close_window", []],

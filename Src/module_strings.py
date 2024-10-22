@@ -1197,7 +1197,9 @@ strings = [
   ("party_tax_description_troops_hiring", "Troops training"),
   ("party_tax_description_troops_nuying", "Troops hiring"),
   ("party_tax_description_troops_selling", "Tropps selling"),
-
+  ("party_tax_description_prisoner_ransom", "Prisoner ransom"),
+  ("party_tax_description_leader_ransom", "Leader ransom"),
+  ("party_tax_description_caravan_wages", "Caravan wages"),
 
   ("castle_name_plain_01", "plain_01"),
   ("castle_name_plain_02", "plain_02"),
@@ -1219,6 +1221,6 @@ strings = [
   ("castle_name_desert_01", "desert_01"),
 
   ("castle_name_garden", "Castle Garden"),
-  ("castle_name_plain_river", "Plane & River"),
+  ("castle_name_plain_river", "Plain & River"),
   ("castle_name_dross_delnoch", "Dross Delnoch"),
 ]
