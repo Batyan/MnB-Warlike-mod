@@ -1264,6 +1264,8 @@ mpo_exchange = 0x04
 mpo_release = 0x08
 mpo_recruit = 0x10
 
+mpo_default = mpo_ransom|mpo_slave|mpo_recruit
+
 #################
 ## Scene Slots ##
 #################

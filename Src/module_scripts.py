@@ -3405,6 +3405,9 @@ scripts = [
 
             (party_set_slot, ":party_no", slot_party_autosort_options, autosort_low_level_first|autosort_foreign_first),
 
+            (party_set_slot, ":party_no", slot_party_max_prisoner_ratio, 25),
+            (party_set_slot, ":party_no", slot_party_max_prisoner_outcome, mpo_default),
+
             (party_get_slot, ":party_type", ":party_no", slot_party_type),
             (try_begin),
                 (eq, ":party_type", spt_village),
@@ -19550,8 +19553,10 @@ scripts = [
                     (val_div, ":ratio", ":total_party_size"),
 
                     (party_get_slot, ":max_prisoner_ratio", ":party_no", slot_party_max_prisoner_ratio),
-                    (gt, ":ratio", ":max_prisoner_ratio"),
-                    (assign, ":remove_prisoners", 1),
+                    (try_begin),
+                        (gt, ":ratio", ":max_prisoner_ratio"),
+                        (assign, ":remove_prisoners", 1),
+                    (try_end),
                 (else_try),
                     (assign, ":remove_prisoners", 1),
                 (try_end),
@@ -19586,9 +19591,6 @@ scripts = [
                     (assign, ":release_value", -1),
                     (assign, ":recruit_value", -1),
 
-                    # If all options are disabled we do not process prisoners
-                    (gt, ":max_rand", 0),
-
                     (try_begin),
                         (gt, ":ransom", 0),
                         (assign, ":ransom_value", ":max_rand"),
@@ -19615,18 +19617,226 @@ scripts = [
                         (val_add, ":max_rand", 1),
                     (try_end),
 
+                    # If all options are disabled we do not process prisoners
+                    (gt, ":max_rand", 0),
+
                     (store_random_in_range, ":rand", 0, ":max_rand"),
                     (try_begin),
                         (eq, ":rand", ":ransom_value"),
+                        (call_script, "script_party_process_prisoners_loop", ":party_no", ":remove_prisoners", "script_party_process_prisoners_ransom"),
                     (else_try),
                         (eq, ":rand", ":slave_value"),
+                        (call_script, "script_party_process_prisoners_loop", ":party_no", ":remove_prisoners", "script_party_process_prisoners_slave"),
                     (else_try),
                         (eq, ":rand", ":exchange_value"),
+                        (call_script, "script_party_process_prisoners_loop", ":party_no", ":remove_prisoners", "script_party_process_prisoners_exchange"),
                     (else_try),
                         (eq, ":rand", ":release_value"),
+                        (call_script, "script_party_process_prisoners_loop", ":party_no", ":remove_prisoners", "script_party_process_prisoners_release"),
                     (else_try),
                         (eq, ":rand", ":recruit_value"),
+                        (call_script, "script_party_process_prisoners_loop", ":party_no", ":remove_prisoners", "script_party_process_prisoners_recruit"),
                     (try_end),
+                (try_end),
+            (try_end),
+        ]),
+
+    # script_party_process_prisoners_ransom
+        # input: 
+        #   arg1: party_no
+        #   arg2: stack_no
+        #   arg3: amount
+        # output: none
+    ("party_process_prisoners_ransom",
+        [
+            (store_script_param, ":party_no", 1),
+            (store_script_param, ":stack_no", 2),
+            (store_script_param, ":amount", 3),
+
+            (party_prisoner_stack_get_troop_id, ":troop_no", ":party_no", ":stack_no"),
+            (party_remove_prisoners, ":party_no", ":troop_no", ":amount"),
+
+            (call_script, "script_troop_get_cost", ":troop_no"),
+            (assign, ":cost", reg0),
+            (val_mul, ":cost", 3),
+            (val_div, ":cost", 2),
+
+            (val_mul, ":cost", ":amount"),
+            (call_script, "script_party_add_accumulated_taxes", ":party_no", ":cost", tax_type_prisoner_ransom),
+
+            (try_begin),
+                (call_script, "script_cf_debug", debug_current),
+                (str_store_party_name, s10, ":party_no"),
+                (str_store_troop_name, s11, ":troop_no"),
+                (assign, reg10, ":amount"),
+
+                (display_message, "@{s10} ransoming {reg10} {s11}"),
+            (try_end),
+        ]),
+
+    # script_party_process_prisoners_slave
+        # input: 
+        #   arg1: party_no
+        #   arg2: stack_no
+        #   arg3: amount
+        # output: none
+    ("party_process_prisoners_slave",
+        [
+            (store_script_param, ":party_no", 1),
+            (store_script_param, ":stack_no", 2),
+            (store_script_param, ":amount", 3),
+
+            (party_prisoner_stack_get_troop_id, ":troop_no", ":party_no", ":stack_no"),
+
+            (party_get_slot, ":num_slaves", ":party_no", slot_party_population_slave),
+            (val_add, ":num_slaves", ":amount"),
+            (party_set_slot, ":party_no", slot_party_population_slave, ":num_slaves"),
+            (party_remove_prisoners, ":party_no", ":troop_no", ":amount"),
+
+            (try_begin),
+                (call_script, "script_cf_debug", debug_current),
+                (str_store_party_name, s10, ":party_no"),
+                (str_store_troop_name, s11, ":troop_no"),
+                (assign, reg10, ":amount"),
+
+                (display_message, "@{s10} enslaving {reg10} {s11}"),
+            (try_end),
+        ]),
+
+    # script_party_process_prisoners_exchange
+        # input: 
+        #   arg1: party_no
+        #   arg2: stack_no
+        #   arg3: amount
+        # output: none
+    ("party_process_prisoners_exchange",
+        [
+            (store_script_param, ":party_no", 1),
+            (store_script_param, ":stack_no", 2),
+            (store_script_param, ":amount", 3),
+
+            (party_prisoner_stack_get_troop_id, ":troop_no", ":party_no", ":stack_no"),
+
+            (try_begin),
+                (call_script, "script_cf_debug", debug_current),
+                (str_store_party_name, s10, ":party_no"),
+                (str_store_troop_name, s11, ":troop_no"),
+                (assign, reg10, ":amount"),
+
+                (display_message, "@{s10} exchanging {reg10} {s11}"),
+            (try_end),
+        ]),
+
+    # script_party_process_prisoners_release
+        # input: 
+        #   arg1: party_no
+        #   arg2: stack_no
+        #   arg3: amount
+        # output: none
+    ("party_process_prisoners_release",
+        [
+            (store_script_param, ":party_no", 1),
+            (store_script_param, ":stack_no", 2),
+            (store_script_param, ":amount", 3),
+
+            (party_prisoner_stack_get_troop_id, ":troop_no", ":party_no", ":stack_no"),
+            (party_remove_prisoners, ":party_no", ":troop_no", ":amount"),
+
+            (try_begin),
+                (call_script, "script_cf_debug", debug_current),
+                (str_store_party_name, s10, ":party_no"),
+                (str_store_troop_name, s11, ":troop_no"),
+                (assign, reg10, ":amount"),
+
+                (display_message, "@{s10} releasing {reg10} {s11}"),
+            (try_end),
+        ]),
+
+    # script_party_process_prisoners_recruit
+        # input: 
+        #   arg1: party_no
+        #   arg2: stack_no
+        #   arg3: amount
+        # output: none
+    ("party_process_prisoners_recruit",
+        [
+            (store_script_param, ":party_no", 1),
+            (store_script_param, ":stack_no", 2),
+            (store_script_param, ":amount", 3),
+
+            (party_prisoner_stack_get_troop_id, ":troop_no", ":party_no", ":stack_no"),
+
+            (party_force_add_members, ":party_no", ":troop_no", ":amount"),
+            (party_remove_prisoners, ":party_no", ":troop_no", ":amount"),
+
+            (try_begin),
+                (call_script, "script_cf_debug", debug_current),
+                (str_store_party_name, s10, ":party_no"),
+                (str_store_troop_name, s11, ":troop_no"),
+                (assign, reg10, ":amount"),
+
+                (display_message, "@{s10} recruiting {reg10} {s11}"),
+            (try_end),
+        ]),
+
+    # script_party_process_prisoners_loop
+        # input: 
+        #   arg1: party_no
+        #   arg2: amount
+        # output: none
+    ("party_process_prisoners_loop",
+        [
+            (store_script_param, ":party_no", 1),
+            (store_script_param, ":amount", 2),
+            (store_script_param, ":process_script", 3),
+
+            (store_faction_of_party, ":party_faction", ":party_no"),
+            (faction_get_slot, ":party_culture", ":party_faction", slot_faction_culture),
+
+            (party_get_num_prisoner_stacks, ":max_stack", ":party_no"),
+
+            (assign, ":current_score", 0),
+
+            (try_for_range, ":stack_no", 0, ":max_stack"),
+                (party_prisoner_stack_get_troop_id, ":troop_no", ":party_no", ":stack_no"),
+                (party_prisoner_stack_get_size, ":size", ":party_no", ":stack_no"),
+
+                (try_begin),
+                    (troop_is_hero, ":troop_no"),
+                    (troop_set_slot, ":troop_no", slot_troop_temp_slot, 0),
+                (else_try),
+
+                    (store_character_level, ":troop_level", ":troop_no"),
+                    (store_sub, ":score", 50, ":troop_level"),
+
+                    (store_sub, ":size_sub", 50, ":size"),
+                    (val_sub, ":score", ":size_sub"),
+
+                    (store_troop_faction, ":troop_faction", ":troop_no"),
+                    (faction_get_slot, ":troop_culture", ":troop_faction", slot_faction_culture),
+
+                    (try_begin),
+                        (neq, ":troop_culture", ":party_culture"),
+                        (val_add, ":score", 25),
+                    (try_end),
+
+                    (val_max, ":score", 1),
+                    (troop_set_slot, ":troop_no", slot_troop_temp_slot, ":current_score"),
+                    (val_add, ":current_score", ":score"),
+                (try_end),
+            (try_end),
+
+            (try_for_range, ":unused", 0, ":amount"),
+                (store_random_in_range, ":rand", 0, ":current_score"),
+                (party_get_num_prisoner_stacks, ":end", ":party_no"),
+                (assign, ":begin", 0),
+                (try_for_range_backwards, ":cur_stack", ":begin", ":end"),
+                    (party_prisoner_stack_get_troop_id, ":troop_no", ":party_no", ":cur_stack"),
+                    (neg|troop_is_hero, ":troop_no"),
+                    (troop_get_slot, ":score", ":troop_no", slot_troop_temp_slot),
+                    (gt, ":rand", ":score"),
+                    (assign, ":begin", ":end"),
+                    (call_script, ":process_script", ":party_no", ":cur_stack", 1),
                 (try_end),
             (try_end),
         ]),
