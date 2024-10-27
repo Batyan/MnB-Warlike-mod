@@ -376,6 +376,10 @@ game_menus = [
                     (store_faction_of_party, "$g_test_player_faction", "$g_player_party"),
                     (jump_to_menu, "mnu_test_faction_join"),
                 ]),
+
+            ("go_back",
+                [], "Go back",
+                [(jump_to_menu, "mnu_camp"),]),
         ]),
 
     ("test_stats", 0,
@@ -708,7 +712,7 @@ game_menus = [
                     (jump_to_menu, "mnu_test_faction_join"),
                 ]),
 
-            ("join_back", [], "Back to camp",
+            ("go_back", [], "Go back",
                 [
                     (jump_to_menu, "mnu_camp"),
                 ]),
@@ -724,7 +728,30 @@ game_menus = [
                     (change_screen_return),
                     (change_screen_map),
                 ]),
-            
+
+            ("camp_gather_vassals",
+                [
+                    (troop_get_slot, ":gathering", "$g_player_troop", slot_troop_gathering),
+                    (try_begin),
+                        (eq, ":gathering", 0),
+                        (str_store_string, s10, "@Off"),
+                    (else_try),
+                        (str_store_string, s10, "@On"),
+                    (try_end),
+                ], "Gather vassals ({s10})",
+                [
+                    (troop_get_slot, ":gathering", "$g_player_troop", slot_troop_gathering),
+                    (store_sub, ":gathering", 1, ":gathering"),
+                    (troop_set_slot, "$g_player_troop", slot_troop_gathering, ":gathering"),
+                    (try_begin),
+                        (eq, ":gathering", 0),
+                        (display_message, "@Leaving vassals to their business...", text_color_info),
+                    (else_try),
+                        (display_message, "@Gathering vassals...", text_color_info),
+                    (try_end),
+
+                ]),
+
             ("camp_train_levies", [(disable_menu_option),], "Initiate a training session",
                 [
                     # ToDo: training
@@ -744,6 +771,10 @@ game_menus = [
                     #   mounted skirmishing (throwing weapons)
                     # (jump_to_menu, "mnu_levy_train"),
                 ]),
+            
+            ("go_back",
+                [], "Go back",
+                [(jump_to_menu, "mnu_camp"),]),
         ]),
 
     ("settings_autosort",mnf_scale_picture,

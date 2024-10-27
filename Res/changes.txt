@@ -5,7 +5,10 @@ v0.540:
 		* add player center management of prisoners
 		* move some camp menu interactions
 	-Balance:
+		* update small_kingdom_22 to use vaegir_militia instead of vaegir_hunter
+		* reduce ratio of vaegir_levy_axeman for vaegir culture
 	-Fixes:
+		* fix vassals automatically following player
 v0.530:
 	-Features:
 		* add the ability to grant fief to vassals

@@ -907,13 +907,17 @@ scripts = [
                 
                 # (party_get_slot, ":leader", ":winner_party", slot_party_leader),
                 # (troop_set_slot, ":leader", slot_troop_mission, -1),
-                (call_script, "script_party_process_mission", ":winner_party", 1),
-                (call_script, "script_party_process_ai", ":winner_party"),
+                (try_begin),
+                    (neq, ":winner_party", "$g_player_party"),
+                    (call_script, "script_party_process_mission", ":winner_party", 1),
+                    (call_script, "script_party_process_ai", ":winner_party"),
+                (try_end),
                 
                 (party_get_num_attached_parties, ":num_attached_parties", ":winner_party"),
                 (try_for_range, ":attached_party_rank", 0, ":num_attached_parties"),
                     (party_get_attached_party_with_rank, ":attached_party", ":winner_party", ":attached_party_rank"),
                     (gt, ":attached_party", 0),
+                    (neq, ":attached_party", "$g_player_party"),
                     (call_script, "script_party_process_mission", ":attached_party", 1),
                     (call_script, "script_party_process_ai", ":attached_party"),
                 (try_end),
@@ -12793,6 +12797,7 @@ scripts = [
             (troop_set_slot, "trp_swadian_foot_knight", slot_troop_faction_reserved_2, "fac_small_kingdom_15"),
 
             (troop_set_slot, "trp_vaegir_hunter", slot_troop_faction_not_1, "fac_small_kingdom_23"), # Has Militia instead
+            (troop_set_slot, "trp_vaegir_hunter", slot_troop_faction_not_2, "fac_small_kingdom_22"), # Has Militia instead
             (troop_set_slot, "trp_vaegir_heavy_cavalry", slot_troop_faction_not_1, "fac_small_kingdom_22"), # Has Horseman instead
             (troop_set_slot, "trp_vaegir_light_infantry", slot_troop_faction_not_2, "fac_small_kingdom_22"), # Has Light Club Infantry instead
             (troop_set_slot, "trp_vaegir_heavy_infantry", slot_troop_faction_not_2, "fac_small_kingdom_22"), # Has Club Infantry instead
@@ -12804,7 +12809,7 @@ scripts = [
             (troop_set_slot, "trp_vaegir_mounted_bowman", slot_troop_faction_not_2, "fac_small_kingdom_25"), # Has Mounted Longbowman instead
             (troop_set_slot, "trp_vaegir_royal_hussar", slot_troop_faction_not_1, "fac_small_kingdom_25"), # Has Royal Mounted Longbowman instead
             
-            (troop_set_slot, "trp_khergit_noble_cavalry", slot_troop_faction_reserved_2, "fac_small_kingdom_31"), # Has Noble Mounted Skirmisher
+            (troop_set_slot, "trp_vaegir_militia", slot_troop_faction_reserved_2, "fac_small_kingdom_22"),
 
             (troop_set_slot, "trp_khergit_noble", slot_troop_faction_not_1, "fac_small_kingdom_31"), # Has Noble Mounted Skirmisher
             (troop_set_slot, "trp_khergit_light_lancer", slot_troop_faction_not_1, "fac_small_kingdom_31"), # Has Light Mounted Skirmisher instead
@@ -12822,6 +12827,8 @@ scripts = [
             (troop_set_slot, "trp_khergit_light_lancer", slot_troop_faction_not_2, "fac_small_kingdom_35"), # Has Light Horseman instead
             (troop_set_slot, "trp_khergit_lancer", slot_troop_faction_not_2, "fac_small_kingdom_35"), # Has Heavy Horseman instead
             (troop_set_slot, "trp_khergit_guard", slot_troop_faction_not_2, "fac_small_kingdom_36"), # Has Blade-Master instead
+            
+            (troop_set_slot, "trp_khergit_noble_cavalry", slot_troop_faction_reserved_2, "fac_small_kingdom_31"), # Has Noble Mounted Skirmisher
             
             (troop_set_slot, "trp_nord_horseman", slot_troop_faction_not_3, "fac_small_kingdom_41"), # Has Cavalry instead
             (troop_set_slot, "trp_nord_militia", slot_troop_faction_not_1, "fac_small_kingdom_44"), # Has Levy Crossbowman instead
@@ -12876,6 +12883,7 @@ scripts = [
             (troop_set_slot, "trp_khergit_levy_horseman", slot_troop_ratio_special_multiplier, 25),
             (troop_set_slot, "trp_vaegir_militia", slot_troop_ratio_special_multiplier, 40),
             (troop_set_slot, "trp_vaegir_levy_infantry", slot_troop_ratio_special_multiplier, 80),
+            (troop_set_slot, "trp_vaegir_levy_axeman", slot_troop_ratio_special_multiplier, 40),
         ]),
     
     # script_init_troops_types
