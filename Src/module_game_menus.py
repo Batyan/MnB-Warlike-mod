@@ -149,6 +149,7 @@ game_menus = [
         [
             ("camp_settings", [], "Customize game settings",
                 [(jump_to_menu, "mnu_settings"),]),
+
             ("camp_debug_settings", [(call_script, "script_cf_debug", debug_all),], "Debug settings",
                 [
                     (jump_to_menu, "mnu_debug_settings"),
@@ -157,73 +158,14 @@ game_menus = [
                 [
                     (jump_to_menu, "mnu_debug_menu"),
                 ]),
-            ("camp_siege_battle", [(call_script, "script_cf_debug", debug_all),], "Start a siege battle",
+            ("camp_debug_actions", [(call_script, "script_cf_debug", debug_all),], "Debug actions",
                 [
-                    (jump_to_menu, "mnu_siege_battle_select"),
-                ]),
-            
-            ("camp_test_face_keys", [(call_script, "script_cf_debug", debug_all),], "Test Face Keys",
-                [
-                    (call_script, "script_troop_get_face_code", "$g_player_troop"),
-                    (troop_set_face_keys, "$g_player_troop", s0),
-                    (display_message, "@Face key: {s0}"),
-                ]),
-            
-            ("camp_test_battle_plain", [(call_script, "script_cf_debug", debug_all),], "Go to plain battle test",
-                [
-                    (store_random_in_range, ":scene", "scn_test_battle_plain", castle_scene_begin),
-                    (assign, "$g_player_team", 0),
-                    (set_jump_mission, "mt_battle_test_plain"),
-                    (jump_to_scene, ":scene"),
-                    (change_screen_mission),
-                ]),
-            
-            ("camp_wait_here", [], "Rest",
-                [
-                    (rest_for_hours_interactive, 24 * 365, 5, 1),
-                    (change_screen_return),
-                    (change_screen_map),
-                ]),
-            
-            ("camp_test_stats", [(call_script, "script_cf_debug", debug_all),], "Display stats",
-                [
-                    (jump_to_menu, "mnu_test_stats"),
-                ]),
-            
-            ("camp_test_faction_relations", [(call_script, "script_cf_debug", debug_all),], "Modify faction relations",
-                [
-                    (jump_to_menu, "mnu_test_faction_relations"),
-                ]),
-                
-            ("camp_test_join_faction", [(call_script, "script_cf_debug", debug_all),], "Join a faction",
-                [
-                    (store_faction_of_party, "$g_test_player_faction", "$g_player_party"),
-                    (jump_to_menu, "mnu_test_faction_join"),
-                ]),
-            
-            ("camp_train_levies", [(disable_menu_option),], "Initiate a training session",
-                [
-                    # ToDo: training
-                    # Training allows player to duel his companions/troops
-                    # Also allows to train recruits if player/companion has at least 1 point in trainer
-                    # Trained recruits will most likely end up being the troop type trained by the different trainings
-                    # Available trainings:
-                    #   horseback
-                    #   lancing
-                    #   spear cavalry (only rhodoks, swadians-iven and nords-rizi)
-                    #   ranged (bow or crossbow depending on faction)
-                    #   horse archery
-                    #   melee fights (shield and sword)
-                    #   melee fights (shield and spear)
-                    #   melee fights (two handed swords)
-                    #   skirmishing (throwing weapons)
-                    #   mounted skirmishing (throwing weapons)
-                    # (jump_to_menu, "mnu_levy_train"),
+                    (jump_to_menu, "mnu_debug_actions"),
                 ]),
 
-            ("camp_autosort_options", [], "Autosort options",
+            ("camp_actions", [], "Take an action",
                 [
-                    (jump_to_menu, "mnu_settings_autosort"),
+                    (jump_to_menu, "mnu_camp_actions"),
                 ]),
             
             ("resume_travelling",[], "Dismantle camp",
@@ -258,6 +200,12 @@ game_menus = [
                     (try_end),
                     (jump_to_menu, "mnu_settings"),
                 ]),
+
+            ("settings_autosort_options", [], "Autosort options",
+                [
+                    (jump_to_menu, "mnu_settings_autosort"),
+                ]),
+
             ("setting_shield",
                 [], "Shield painting",
                 [(start_presentation, "prsnt_setting_shield_painting"),]),
@@ -385,6 +333,49 @@ game_menus = [
             ("debug_return",
                 [], "Go back",
                 [(jump_to_menu, "mnu_camp"),]),
+        ]),
+
+    ("debug_actions", 0,
+        "Debug actions",
+        "none",
+        [],
+        [
+            ("camp_siege_battle", [(call_script, "script_cf_debug", debug_all),], "Start a siege battle",
+                [
+                    (jump_to_menu, "mnu_siege_battle_select"),
+                ]),
+            
+            ("camp_test_face_keys", [(call_script, "script_cf_debug", debug_all),], "Test Face Keys",
+                [
+                    (call_script, "script_troop_get_face_code", "$g_player_troop"),
+                    (troop_set_face_keys, "$g_player_troop", s0),
+                    (display_message, "@Face key: {s0}"),
+                ]),
+            
+            ("camp_test_battle_plain", [(call_script, "script_cf_debug", debug_all),], "Go to plain battle test",
+                [
+                    (store_random_in_range, ":scene", "scn_test_battle_plain", castle_scene_begin),
+                    (assign, "$g_player_team", 0),
+                    (set_jump_mission, "mt_battle_test_plain"),
+                    (jump_to_scene, ":scene"),
+                    (change_screen_mission),
+                ]),
+            
+            ("camp_test_stats", [(call_script, "script_cf_debug", debug_all),], "Display stats",
+                [
+                    (jump_to_menu, "mnu_test_stats"),
+                ]),
+            
+            ("camp_test_faction_relations", [(call_script, "script_cf_debug", debug_all),], "Modify faction relations",
+                [
+                    (jump_to_menu, "mnu_test_faction_relations"),
+                ]),
+                
+            ("camp_test_join_faction", [(call_script, "script_cf_debug", debug_all),], "Join a faction",
+                [
+                    (store_faction_of_party, "$g_test_player_faction", "$g_player_party"),
+                    (jump_to_menu, "mnu_test_faction_join"),
+                ]),
         ]),
 
     ("test_stats", 0,
@@ -720,6 +711,38 @@ game_menus = [
             ("join_back", [], "Back to camp",
                 [
                     (jump_to_menu, "mnu_camp"),
+                ]),
+        ]),
+
+    ("camp_actions", mnf_scale_picture,
+        "Take an action",
+        "none", [],
+        [
+            ("camp_wait_here", [], "Rest",
+                [
+                    (rest_for_hours_interactive, 24 * 365, 5, 1),
+                    (change_screen_return),
+                    (change_screen_map),
+                ]),
+            
+            ("camp_train_levies", [(disable_menu_option),], "Initiate a training session",
+                [
+                    # ToDo: training
+                    # Training allows player to duel his companions/troops
+                    # Also allows to train recruits if player/companion has at least 1 point in trainer
+                    # Trained recruits will most likely end up being the troop type trained by the different trainings
+                    # Available trainings:
+                    #   horseback
+                    #   lancing
+                    #   spear cavalry (only rhodoks, swadians-iven and nords-rizi)
+                    #   ranged (bow or crossbow depending on faction)
+                    #   horse archery
+                    #   melee fights (shield and sword)
+                    #   melee fights (shield and spear)
+                    #   melee fights (two handed swords)
+                    #   skirmishing (throwing weapons)
+                    #   mounted skirmishing (throwing weapons)
+                    # (jump_to_menu, "mnu_levy_train"),
                 ]),
         ]),
 
