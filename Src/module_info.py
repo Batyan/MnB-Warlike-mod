@@ -1,6 +1,2 @@
-# export_dir = "C:/Games/Mount&Blade Warband/Modules/Whatever/"
-# export_dir = "E:/Games/Mount&Blade Warband/Modules/Whatever/"
 export_dir = "F:\Games\Mount&Blade Warband 1.166\Modules\Whatever/"
-# export_dir = "C:/Games/Steam/steamapps/common/mountblade warband/Modules/Whatever/"
-# export_dir = "C:/Program Files (x86)/Mount&Blade Warband/Modules/Whatever/"
-# export_dir = "D:/Games/Steam/steamapps/common/MountBlade Warband/Modules/Kingdoms/"
+# export_dir = "F:\Program Files (x86)\Steam\steamapps\common\mountblade warband\Modules\Whatever/"
