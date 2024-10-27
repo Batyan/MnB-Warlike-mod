@@ -1264,6 +1264,14 @@ mpo_exchange = 0x04
 mpo_release = 0x08
 mpo_recruit = 0x10
 
+mpo_all = mpo_ransom | mpo_slave | mpo_exchange | mpo_release | mpo_recruit
+
+mpo_ransom_clear = mpo_all - mpo_ransom
+mpo_slave_clear = mpo_all - mpo_slave
+mpo_exchange_clear = mpo_all - mpo_exchange
+mpo_release_clear = mpo_all - mpo_release
+mpo_recruit_clear = mpo_all - mpo_recruit
+
 mpo_default = mpo_ransom|mpo_slave|mpo_recruit
 
 #################

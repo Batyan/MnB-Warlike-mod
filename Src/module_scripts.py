@@ -19576,7 +19576,8 @@ scripts = [
                         (assign, ":remove_prisoners", 6),
                     (try_end),
 
-                    (party_get_slot, ":max_prisoner_outcome", ":party_no", slot_party_max_prisoner_outcome),
+                    (call_script, "script_party_get_max_prisoner_outcome", ":party_no"),
+                    (assign, ":max_prisoner_outcome", reg0),
 
                     (store_and, ":ransom", ":max_prisoner_outcome", mpo_ransom),
                     (store_and, ":slave", ":max_prisoner_outcome", mpo_slave),
@@ -19638,6 +19639,24 @@ scripts = [
                         (call_script, "script_party_process_prisoners_loop", ":party_no", ":remove_prisoners", "script_party_process_prisoners_recruit"),
                     (try_end),
                 (try_end),
+            (try_end),
+        ]),
+
+    # scruot_party_get_max_prisoner_outcome
+        # input:
+        #   arg1: party_no
+        # output:
+        #   reg0: outcome
+    ("party_get_max_prisoner_outcome",
+        [
+            (store_script_param, ":party_no", 1),
+
+            (party_get_slot, ":leader", ":party_no", slot_party_leader),
+            (try_begin),
+                (eq, ":leader", "$g_player_troop"),
+                (party_get_slot, reg0, ":party_no", slot_party_max_prisoner_outcome),
+            (else_try),
+                (assign, reg0, mpo_default),
             (try_end),
         ]),
 
@@ -24751,5 +24770,25 @@ scripts = [
             (position_set_x, pos1, ":x_size"),
             (position_set_y, pos1, ":y_size"),
             (overlay_set_size, reg0, pos1),
+        ]),
+
+    # script_presentation_create_check_box_overlay
+        # input:
+        #   arg1: x_position
+        #   arg2: y_position
+        #   arg3: value
+        # output:
+        #   reg0: overlay_id
+    ("presentation_create_check_box_overlay",
+        [
+            (store_script_param, ":x_pos", 1),
+            (store_script_param, ":y_pos", 2),
+            (store_script_param, ":value", 3),
+
+            (create_check_box_overlay, reg0,  "mesh_checkbox_off", "mesh_checkbox_on"),
+            (position_set_x, pos1, ":x_pos"),
+            (position_set_y, pos1, ":y_pos"),
+            (overlay_set_position, reg0, pos1),
+            (overlay_set_val, reg0, ":value"),
         ]),
 ]
