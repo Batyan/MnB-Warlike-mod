@@ -3,6 +3,7 @@ v0.540:
 		* add automatic management of prisoners
 			prisoners can be released, ransomed, enslaved or released
 		* add player center management of prisoners
+		* move some camp menu interactions
 	-Balance:
 	-Fixes:
 v0.530:
