@@ -13352,7 +13352,7 @@ scripts = [
                     (display_message, "@{s10} is the best candidate for {s11}", text_color_freed),
                 (else_try),
                     (eq, ":best_candidate", -1),
-                    (call_script, "script_cf_debug", debug_faction|debug_simple|debug_current),
+                    (call_script, "script_cf_debug", debug_faction|debug_simple),
                     (str_store_party_name, s11, ":center_no"),
                     (display_message, "@Unable to find best candidate for {s11}", text_color_impossible),
                 (try_end),
@@ -15355,7 +15355,7 @@ scripts = [
                     (try_end),
 
                     (try_begin),
-                        (call_script, "script_cf_debug", debug_current|debug_economy),
+                        (call_script, "script_cf_debug", debug_economy),
                         (str_store_faction_name, s10, ":faction_no"),
                         (assign, reg10, ":funds_tax"),
                         (assign, reg11, ":new_tax"),
@@ -15661,7 +15661,7 @@ scripts = [
                             (call_script, "script_faction_relation_change_event", ":want_war", ":faction_no", relation_change_submit),
 
                             (try_begin),
-                                (call_script, "script_cf_debug", debug_current),
+                                (call_script, "script_cf_debug", debug_simple),
                                 (str_store_faction_name, s10, ":faction_no"),
                                 (str_store_faction_name, s11, ":want_war"),
                                 (display_message, "@{s10} vassalize {s11} under threat of war", text_color_war),
@@ -15732,7 +15732,7 @@ scripts = [
             (try_begin),
                 (gt, ":ally_faction", kingdoms_begin),
                 (try_begin),
-                    (call_script, "script_cf_debug", debug_faction|debug_current),
+                    (call_script, "script_cf_debug", debug_faction),
                     (assign, reg10, ":ally_score"),
                     (str_store_faction_name, s10, ":faction_no"),
                     (str_store_faction_name, s11, ":ally_faction"),
@@ -15742,7 +15742,7 @@ scripts = [
             (try_begin),
                 (gt, ":enemy_faction", kingdoms_begin),
                 (try_begin),
-                    (call_script, "script_cf_debug", debug_faction|debug_current),
+                    (call_script, "script_cf_debug", debug_faction),
                     (assign, reg10, ":enemy_score"),
                     (str_store_faction_name, s10, ":faction_no"),
                     (str_store_faction_name, s11, ":enemy_faction"),
@@ -16420,7 +16420,7 @@ scripts = [
                 (is_between, ":other_faction", kingdoms_begin, kingdoms_end),
 
                 (try_begin),
-                    (call_script, "script_cf_debug", debug_faction|debug_current),
+                    (call_script, "script_cf_debug", debug_faction|debug_simple),
                     (str_store_faction_name, s10, ":faction_no"),
                     (str_store_faction_name, s11, ":other_faction"),
                     (display_message, "@{s10} propose peace with {s11}"),
@@ -16437,7 +16437,7 @@ scripts = [
                     (call_script, "script_update_faction_war_count"),
                 (else_try),
                     (try_begin),
-                        (call_script, "script_cf_debug", debug_faction|debug_current),
+                        (call_script, "script_cf_debug", debug_faction|debug_simple),
                         (str_store_faction_name, s10, ":other_faction"),
                         (str_store_faction_name, s11, ":faction_no"),
                         (display_message, "@{s10} refuses peace with {s11}"),
@@ -16823,7 +16823,7 @@ scripts = [
                         (call_script, "script_faction_create_tribute", ":object", ":target", ":value", ":war_storage"),
 
                         (try_begin),
-                            (call_script, "script_cf_debug", debug_war|debug_economy|debug_current),
+                            (call_script, "script_cf_debug", debug_war|debug_economy),
                             (str_store_faction_name, s10, ":faction_no"),
                             (str_store_faction_name, s11, ":object"),
                             (assign, reg11, ":value"),
@@ -16918,7 +16918,7 @@ scripts = [
                 (val_add, ":total_strength", ":distance"),
 
                 (try_begin),
-                    (call_script, "script_cf_debug", debug_current),
+                    (call_script, "script_cf_debug", debug_faction),
                     (str_store_faction_name, s10, ":treaty_target"),
                     (str_store_faction_name, s11, ":faction_no"),
                     (assign, reg10, ":min_strength"),
@@ -18658,7 +18658,7 @@ scripts = [
             (call_script, "script_faction_reset_relations", ":faction_1", ":faction_2"),
 
             (try_begin),
-                (call_script, "script_cf_debug", debug_faction|debug_current),
+                (call_script, "script_cf_debug", debug_faction|debug_simple),
                 (str_store_faction_name, s10, ":faction_1"),
                 (str_store_faction_name, s11, ":faction_2"),
                 (assign, reg10, ":treaty_type"),
@@ -18705,7 +18705,7 @@ scripts = [
             (call_script, "script_faction_reset_relations", ":faction_1", ":faction_2"),
 
             (try_begin),
-                (call_script, "script_cf_debug", debug_faction|debug_current),
+                (call_script, "script_cf_debug", debug_faction|debug_simple),
                 (str_store_faction_name, s10, ":faction_1"),
                 (str_store_faction_name, s11, ":faction_2"),
                 (assign, reg10, ":treaty_type"),
@@ -19692,7 +19692,7 @@ scripts = [
             (call_script, "script_party_add_accumulated_taxes", ":party_no", ":cost", tax_type_prisoner_ransom),
 
             (try_begin),
-                (call_script, "script_cf_debug", debug_current),
+                (call_script, "script_cf_debug", debug_war),
                 (str_store_party_name, s10, ":party_no"),
                 (str_store_troop_name, s11, ":troop_no"),
                 (assign, reg10, ":amount"),
@@ -19721,7 +19721,7 @@ scripts = [
             (party_remove_prisoners, ":party_no", ":troop_no", ":amount"),
 
             (try_begin),
-                (call_script, "script_cf_debug", debug_current),
+                (call_script, "script_cf_debug", debug_war),
                 (str_store_party_name, s10, ":party_no"),
                 (str_store_troop_name, s11, ":troop_no"),
                 (assign, reg10, ":amount"),
@@ -19745,7 +19745,7 @@ scripts = [
             (party_prisoner_stack_get_troop_id, ":troop_no", ":party_no", ":stack_no"),
 
             (try_begin),
-                (call_script, "script_cf_debug", debug_current),
+                (call_script, "script_cf_debug", debug_war),
                 (str_store_party_name, s10, ":party_no"),
                 (str_store_troop_name, s11, ":troop_no"),
                 (assign, reg10, ":amount"),
@@ -19770,7 +19770,7 @@ scripts = [
             (party_remove_prisoners, ":party_no", ":troop_no", ":amount"),
 
             (try_begin),
-                (call_script, "script_cf_debug", debug_current),
+                (call_script, "script_cf_debug", debug_war),
                 (str_store_party_name, s10, ":party_no"),
                 (str_store_troop_name, s11, ":troop_no"),
                 (assign, reg10, ":amount"),
@@ -19797,7 +19797,7 @@ scripts = [
             (party_remove_prisoners, ":party_no", ":troop_no", ":amount"),
 
             (try_begin),
-                (call_script, "script_cf_debug", debug_current),
+                (call_script, "script_cf_debug", debug_war),
                 (str_store_party_name, s10, ":party_no"),
                 (str_store_troop_name, s11, ":troop_no"),
                 (assign, reg10, ":amount"),
