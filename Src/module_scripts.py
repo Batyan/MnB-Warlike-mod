@@ -5521,6 +5521,11 @@ scripts = [
             (party_get_slot, ":total_resources", ":party_no", slot_party_total_resources),
             (party_get_slot, ":party_type", ":party_no", slot_party_type),
 
+            (party_get_slot, ":population_slave", ":party_no", slot_party_population_slave),
+            (val_mul, ":population_slave", 2),
+
+            (val_add, ":population", ":population_slave"),
+
             (try_begin),
                 (eq, ":party_type", spt_village),
                 (val_mul, ":population", goods_ratio_production_village),
@@ -5572,6 +5577,11 @@ scripts = [
 
             (party_get_slot, ":population", ":party_no", slot_party_population_artisan),
             (party_get_slot, ":party_type", ":party_no", slot_party_type),
+
+            (party_get_slot, ":population_slave", ":party_no", slot_party_population_slave),
+            (val_div, ":population_slave", 2),
+
+            (val_add, ":population", ":population_slave"),
 
             (try_begin),
                 (eq, ":party_type", spt_village),
@@ -19102,6 +19112,42 @@ scripts = [
             (store_sub, ":chance_modifier", 100, ":center_prosperity"),
             (val_div, ":chance_modifier", 10),
             (val_add, ":bandit_chance", ":chance_modifier"),
+
+            (party_get_slot, ":population", ":center_no", slot_party_population),
+            (party_get_slot, ":artisan", ":center_no", slot_party_population_artisan),
+            (party_get_slot, ":nobles", ":center_no", slot_party_population_noble),
+            (val_add, ":population", ":artisan"),
+            (val_add, ":population", ":nobles"),
+            (party_get_slot, ":slave_population", ":center_no", slot_party_population_slave),
+            (assign, ":slave_ratio", 0),
+            (try_begin),
+                (gt, ":population", 0),
+                (store_mul, ":slave_ratio", ":slave_population", 100),
+                (val_div, ":slave_ratio", ":population"),
+            (try_end),
+            (try_begin),
+                # Slaves increase banditry in the region
+                (gt, ":slave_ratio", 0),
+                (store_mul, ":slave_chance_ratio", ":bandit_chance", ":slave_ratio"),
+                (store_div, ":slave_change_modifier", ":slave_chance_ratio", 100),
+                (store_mod, ":slave_chance_offset", ":slave_chance_modifier", 100),
+                (store_random_in_range, ":rand", 0, 100),
+                (try_begin),
+                    (le, ":rand", ":slave_chance_offset"),
+                    (val_add, ":slave_chance_modifier", 1),
+                (try_end),
+                (val_add, ":bandit_chance", ":slave_chance_modifier"),
+
+                (store_mul, ":slave_strength_ratio", ":bandit_strength", ":slave_ratio"),
+                (store_div, ":slave_strength_modifier", ":slave_strength_ratio", 100),
+                (store_mod, ":slave_strength_offset", ":slave_strength_modifier", 100),
+                (store_random_in_range, ":rand", 0, 100),
+                (try_begin),
+                    (lt, ":rand", ":slave_strength_offset"),
+                    (val_add, ":slave_strength_modifier", 1),
+                (try_end),
+                (val_add, ":bandit_strength", ":slave_strength_modifier"),
+            (try_end),
 
             (store_random_in_range, ":rand", 0, 1000),
             (try_begin),
