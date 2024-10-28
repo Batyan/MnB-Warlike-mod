@@ -19129,7 +19129,7 @@ scripts = [
                 # Slaves increase banditry in the region
                 (gt, ":slave_ratio", 0),
                 (store_mul, ":slave_chance_ratio", ":bandit_chance", ":slave_ratio"),
-                (store_div, ":slave_change_modifier", ":slave_chance_ratio", 100),
+                (store_div, ":slave_chance_modifier", ":slave_chance_ratio", 100),
                 (store_mod, ":slave_chance_offset", ":slave_chance_modifier", 100),
                 (store_random_in_range, ":rand", 0, 100),
                 (try_begin),
