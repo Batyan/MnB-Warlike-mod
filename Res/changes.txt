@@ -8,6 +8,9 @@ v0.540:
 	-Balance:
 		* update small_kingdom_22 to use vaegir_militia instead of vaegir_hunter
 		* reduce ratio of vaegir_levy_axeman for vaegir culture
+		* update factions troop composition
+			This change aims to increase the overall amount of infantry fielded by cavalry factions (vaegirs, khergit, sarranid)
+			It also increases the uniqueness of small factions by leaning more on their special troops
 	-Fixes:
 		* fix vassals automatically following player
 v0.530:
