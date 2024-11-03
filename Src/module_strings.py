@@ -1196,7 +1196,7 @@ strings = [
   ("party_tax_description_private_expenses", "Personal withdrawal"),
   ("party_tax_description_troops_hiring", "Troops training"),
   ("party_tax_description_troops_nuying", "Troops hiring"),
-  ("party_tax_description_troops_selling", "Tropps selling"),
+  ("party_tax_description_troops_selling", "Troops selling"),
   ("party_tax_description_prisoner_ransom", "Prisoner ransom"),
   ("party_tax_description_leader_ransom", "Leader ransom"),
   ("party_tax_description_caravan_wages", "Caravan wages"),
