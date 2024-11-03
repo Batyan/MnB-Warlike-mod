@@ -7546,6 +7546,14 @@ scripts = [
             (faction_set_slot, "fac_culture_4", slot_faction_template_troops_begin, "trp_nord_lord_template_0"),
             (faction_set_slot, "fac_culture_5", slot_faction_template_troops_begin, "trp_rhodok_lord_template_0"),
             (faction_set_slot, "fac_culture_6", slot_faction_template_troops_begin, "trp_sarranid_lord_template_0"),
+
+            (faction_set_slot, "fac_culture_1", slot_faction_peasant_troop, "trp_swadian_peasant"),
+            (faction_set_slot, "fac_culture_2", slot_faction_peasant_troop, "trp_vaegir_peasant"),
+            (faction_set_slot, "fac_culture_3", slot_faction_peasant_troop, "trp_khergit_peasant"),
+            (faction_set_slot, "fac_culture_4", slot_faction_peasant_troop, "trp_nord_peasant"),
+            (faction_set_slot, "fac_culture_5", slot_faction_peasant_troop, "trp_rhodok_peasant"),
+            (faction_set_slot, "fac_culture_6", slot_faction_peasant_troop, "trp_sarranid_peasant"),
+            (faction_set_slot, "fac_culture_7", slot_faction_peasant_troop, "trp_common_peasant"),
             
             (faction_set_slot, "fac_culture_1", slot_faction_names_begin, swadian_names_begin),
             (faction_set_slot, "fac_culture_1", slot_faction_names_end, swadian_names_end),
@@ -7642,13 +7650,13 @@ scripts = [
             (faction_set_slot, "fac_faction_1", slot_faction_noble_begin, "trp_bandit_forest_leader"),
             (faction_set_slot, "fac_faction_1", slot_faction_troops_end, "trp_bandit_looter"),
             
-            (faction_set_slot, "fac_faction_1", slot_faction_troop_ratio_infantry, 75),
+            (faction_set_slot, "fac_faction_1", slot_faction_troop_ratio_infantry, 85),
             (faction_set_slot, "fac_faction_1", slot_faction_troop_ratio_spearman, 10),
             (faction_set_slot, "fac_faction_1", slot_faction_troop_ratio_pikeman, 10),
             (faction_set_slot, "fac_faction_1", slot_faction_troop_ratio_skirmisher, 30),
             (faction_set_slot, "fac_faction_1", slot_faction_troop_ratio_shock_infantry, 60),
-            (faction_set_slot, "fac_faction_1", slot_faction_troop_ratio_archer, 100),
-            (faction_set_slot, "fac_faction_1", slot_faction_troop_ratio_crossbow, 90),
+            (faction_set_slot, "fac_faction_1", slot_faction_troop_ratio_archer, 85),
+            (faction_set_slot, "fac_faction_1", slot_faction_troop_ratio_crossbow, 70),
             (faction_set_slot, "fac_faction_1", slot_faction_troop_ratio_cavalry, 20),
             (faction_set_slot, "fac_faction_1", slot_faction_troop_ratio_lancer, 5),
             (faction_set_slot, "fac_faction_1", slot_faction_troop_ratio_horse_archer, 25),
@@ -7665,9 +7673,9 @@ scripts = [
             (faction_set_slot, "fac_faction_2", slot_faction_troop_ratio_spearman, 10),
             (faction_set_slot, "fac_faction_2", slot_faction_troop_ratio_pikeman, 10),
             (faction_set_slot, "fac_faction_2", slot_faction_troop_ratio_skirmisher, 10),
-            (faction_set_slot, "fac_faction_2", slot_faction_troop_ratio_shock_infantry, 65),
+            (faction_set_slot, "fac_faction_2", slot_faction_troop_ratio_shock_infantry, 55),
             (faction_set_slot, "fac_faction_2", slot_faction_troop_ratio_archer, 20),
-            (faction_set_slot, "fac_faction_2", slot_faction_troop_ratio_crossbow, 50),
+            (faction_set_slot, "fac_faction_2", slot_faction_troop_ratio_crossbow, 40),
             (faction_set_slot, "fac_faction_2", slot_faction_troop_ratio_cavalry, 25),
             (faction_set_slot, "fac_faction_2", slot_faction_troop_ratio_lancer, 5),
             (faction_set_slot, "fac_faction_2", slot_faction_troop_ratio_horse_archer, 15),
@@ -7685,7 +7693,7 @@ scripts = [
             (faction_set_slot, "fac_faction_3", slot_faction_troop_ratio_pikeman, 10),
             (faction_set_slot, "fac_faction_3", slot_faction_troop_ratio_skirmisher, 80),
             (faction_set_slot, "fac_faction_3", slot_faction_troop_ratio_shock_infantry, 50),
-            (faction_set_slot, "fac_faction_3", slot_faction_troop_ratio_archer, 50),
+            (faction_set_slot, "fac_faction_3", slot_faction_troop_ratio_archer, 40),
             (faction_set_slot, "fac_faction_3", slot_faction_troop_ratio_crossbow, 10),
             (faction_set_slot, "fac_faction_3", slot_faction_troop_ratio_cavalry, 35),
             (faction_set_slot, "fac_faction_3", slot_faction_troop_ratio_lancer, 10),
@@ -7718,7 +7726,7 @@ scripts = [
             (faction_set_slot, "fac_faction_5", slot_faction_noble_begin, "trp_bandit_steppe_chief"),
             (faction_set_slot, "fac_faction_5", slot_faction_troops_end, "trp_bandit_tundra_bandit"),
             
-            (faction_set_slot, "fac_faction_5", slot_faction_troop_ratio_infantry, 35),
+            (faction_set_slot, "fac_faction_5", slot_faction_troop_ratio_infantry, 45),
             (faction_set_slot, "fac_faction_5", slot_faction_troop_ratio_spearman, 5),
             (faction_set_slot, "fac_faction_5", slot_faction_troop_ratio_pikeman, 5),
             (faction_set_slot, "fac_faction_5", slot_faction_troop_ratio_skirmisher, 50),
@@ -7737,12 +7745,12 @@ scripts = [
             (faction_set_slot, "fac_faction_6", slot_faction_noble_begin, "trp_bandit_taiga_chieftain"),
             (faction_set_slot, "fac_faction_6", slot_faction_troops_end, "trp_bandit_desert_bandit"),
             
-            (faction_set_slot, "fac_faction_6", slot_faction_troop_ratio_infantry, 50),
+            (faction_set_slot, "fac_faction_6", slot_faction_troop_ratio_infantry, 70),
             (faction_set_slot, "fac_faction_6", slot_faction_troop_ratio_spearman, 10),
             (faction_set_slot, "fac_faction_6", slot_faction_troop_ratio_pikeman, 10),
             (faction_set_slot, "fac_faction_6", slot_faction_troop_ratio_skirmisher, 100),
             (faction_set_slot, "fac_faction_6", slot_faction_troop_ratio_shock_infantry, 50),
-            (faction_set_slot, "fac_faction_6", slot_faction_troop_ratio_archer, 80),
+            (faction_set_slot, "fac_faction_6", slot_faction_troop_ratio_archer, 70),
             (faction_set_slot, "fac_faction_6", slot_faction_troop_ratio_crossbow, 5),
             (faction_set_slot, "fac_faction_6", slot_faction_troop_ratio_cavalry, 15),
             (faction_set_slot, "fac_faction_6", slot_faction_troop_ratio_lancer, 5),
@@ -7756,12 +7764,12 @@ scripts = [
             (faction_set_slot, "fac_faction_7", slot_faction_noble_begin, "trp_bandit_desert_chief"),
             (faction_set_slot, "fac_faction_7", slot_faction_troops_end, bandits_end),
             
-            (faction_set_slot, "fac_faction_7", slot_faction_troop_ratio_infantry, 65),
+            (faction_set_slot, "fac_faction_7", slot_faction_troop_ratio_infantry, 75),
             (faction_set_slot, "fac_faction_7", slot_faction_troop_ratio_spearman, 10),
             (faction_set_slot, "fac_faction_7", slot_faction_troop_ratio_pikeman, 10),
             (faction_set_slot, "fac_faction_7", slot_faction_troop_ratio_skirmisher, 80),
             (faction_set_slot, "fac_faction_7", slot_faction_troop_ratio_shock_infantry, 50),
-            (faction_set_slot, "fac_faction_7", slot_faction_troop_ratio_archer, 45),
+            (faction_set_slot, "fac_faction_7", slot_faction_troop_ratio_archer, 40),
             (faction_set_slot, "fac_faction_7", slot_faction_troop_ratio_crossbow, 5),
             (faction_set_slot, "fac_faction_7", slot_faction_troop_ratio_cavalry, 80),
             (faction_set_slot, "fac_faction_7", slot_faction_troop_ratio_lancer, 75),
@@ -21404,7 +21412,26 @@ scripts = [
             (else_try),
                 (eq, ":party_type", spt_village),
                 # villagers
-                # patrols
+                (try_begin),
+                    (le, ":attached_party_1", 0),
+                    (party_get_slot, ":cooldown", ":party_no", slot_party_attached_party_cooldown),
+                    (try_begin),
+                        (le, ":cooldown", 0),
+                        (call_script, "script_cf_party_create_villager", ":party_no", slot_party_attached_party_1),
+                    (else_try),
+                        (val_sub, ":cooldown", 1),
+                        (party_set_slot, ":party_no", slot_party_attached_party_cooldown, ":cooldown"),
+                    (try_end),
+                (else_try),
+                    (neg|party_is_active, ":attached_party_1"),
+                    (party_set_slot, ":party_no", slot_party_attached_party_1, -1),
+                    (party_set_slot, ":party_no", slot_party_attached_party_cooldown, 6),
+                    (try_begin),
+                        (call_script, "script_cf_debug", debug_war),
+                        (str_store_party_name, s10, ":party_no"),
+                        (display_message, "@{s10} releasing inactive attached party"),
+                    (try_end),
+                (try_end),
             (try_end),
         ]),
 
@@ -21543,6 +21570,61 @@ scripts = [
                 (call_script, "script_cf_debug", debug_simple),
                 (assign, reg10, ":slot"),
                 (display_message, "@Generating incorrect slot {reg10} for caravan spawn", text_color_impossible),
+            (try_end),
+        ]),
+
+    # script_cf_party_create_villager
+        # input:
+        #   arg1: party_no
+        #   arg2: store_slot
+        # output: none
+    ("cf_party_create_villager",
+        [
+            (store_script_param, ":party_no", 1),
+            (store_script_param, ":slot", 2),
+
+            (try_begin),
+                (is_between, ":slot", slot_party_attached_party_1, slot_party_attached_party_3 + 1),
+
+                (try_begin),
+                    (store_faction_of_party, ":current_faction", ":party_no"),
+                    (party_get_slot, ":party_faction", ":party_no", slot_party_faction),
+                    (eq, ":current_faction", ":party_faction"),
+
+                    (call_script, "script_spawn_party_around_party", ":party_no", "pt_peasants"),
+                    (assign, ":spawned_party", reg0),
+
+                    (party_set_faction, ":spawned_party", ":party_faction"),
+                    (party_set_slot, ":spawned_party", slot_party_type, spt_civilian),
+                    (party_set_slot, ":spawned_party", slot_party_linked_party, ":party_no"),
+
+                    (party_set_slot, ":spawned_party", slot_party_autosort_options, autosort_no_sort),
+
+                    (party_set_slot, ":spawned_party", slot_party_mission_target_1, -1),
+                    (party_set_slot, ":spawned_party", slot_party_mission_target_2, -1),
+                    (party_set_slot, ":spawned_party", slot_party_mission_target_3, -1),
+
+                    # (party_attach_to_party, ":spawned_party", ":party_no"),
+                    (party_set_slot, ":party_no", ":slot", ":spawned_party"),
+
+                    (store_random_in_range, ":num_troops", 9, 15),
+                    (try_begin),
+                        (call_script, "script_cf_center_can_give_troops", ":party_no", -1),
+                        (call_script, "script_party_give_troops_to_party", ":party_no", ":spawned_party", 4),
+                        (val_sub, ":num_troops", 4),
+                    (try_end),
+
+                    (faction_get_slot, ":culture", ":party_faction", slot_faction_culture),
+                    (faction_get_slot, ":peasant_troop", ":culture", slot_faction_peasant_troop),
+
+                    (party_add_members, ":spawned_party", ":peasant_troop", ":num_troops"),
+                    (store_mul, ":population_change", ":num_troops", -1),
+                    (call_script, "script_party_modify_population", ":party_no", ":population_change"),
+                (try_end),
+            (else_try),
+                (call_script, "script_cf_debug", debug_simple),
+                (assign, reg10, ":slot"),
+                (display_message, "@Generating incorrect slot {reg10} for peasants spawn", text_color_impossible),
             (try_end),
         ]),
 
@@ -22263,6 +22345,242 @@ scripts = [
             (try_end),
         ]),
 
+    # script_party_civilian_process
+        # input:
+        #   arg1: party_no
+        # output: none
+    ("party_civilian_process",
+        [
+            (store_script_param, ":party_no", 1),
+
+            (party_get_slot, ":target_1", ":party_no", slot_party_mission_target_1),
+            (party_get_slot, ":target_2", ":party_no", slot_party_mission_target_2),
+            (party_get_slot, ":target_3", ":party_no", slot_party_mission_target_3),
+
+            (party_get_slot, ":home", ":party_no", slot_party_linked_party),
+            (party_get_slot, ":linked_center", ":home", slot_party_linked_party),
+            (party_get_cur_town, ":cur_town", ":party_no"),
+
+            (call_script, "script_get_current_day"),
+            (assign, ":current_day", reg0),
+
+            (try_begin),
+                (eq, ":target_1", -1),
+                (eq, ":target_2", -1),
+                (eq, ":target_3", -1),
+                (try_begin),
+                    (eq, ":cur_town", ":home"),
+                    (assign, ":nearest_trader", -1),
+                    (party_get_slot, ":linked_center_party_type", ":linked_center", slot_party_type),
+                    (try_begin),
+                        (neq, ":linked_center_party_type", spt_town),
+
+                        (call_script, "script_party_get_nearest_trade_town", ":home"),
+                        (assign, ":nearest_trader", reg0),
+                    (try_end),
+
+                    (assign, ":target_1", ":linked_center"),
+                    (assign, ":target_2", ":home"),
+                    (assign, ":target_3", ":nearest_trader"),
+
+                    (party_set_slot, ":party_no", slot_party_mission_target_1, ":target_1"),
+                    (party_set_slot, ":party_no", slot_party_mission_target_2, ":target_2"),
+                    (party_set_slot, ":party_no", slot_party_mission_target_3, ":target_3"),
+
+                    # Load cargo
+                    # Heading to linked center
+                    (call_script, "script_party_empty_goods", ":party_no", ":home"),
+                    (call_script, "script_party_civilian_load_goods", ":party_no", ":home", ":linked_center"),
+
+                    (party_set_slot, ":party_no", slot_party_last_rest, ":current_day"),
+                (else_try),
+                    (party_set_slot, ":party_no", slot_party_mission, spm_trade),
+                    (party_set_slot, ":party_no", slot_party_mission_object, ":home"),
+                    (call_script, "script_party_set_behavior", ":party_no", tai_traveling_to_party, ":home"),
+                (try_end),
+            (else_try),
+                (party_get_slot, ":last_rest", ":party_no", slot_party_last_rest),
+                (store_sub, ":rest_time", ":current_day", ":last_rest"),
+                (le, ":rest_time", 12),
+                # We still want to rest
+            (else_try),
+                (is_between, ":target_1", centers_begin, centers_end),
+                (try_begin),
+                    (eq, ":cur_town", ":target_1"),
+                    # Do trade
+                    (call_script, "script_party_empty_goods", ":party_no", ":target_1"),
+                    (try_begin),
+                        (is_between, ":target_2", centers_begin, centers_end),
+                        (call_script, "script_party_civilian_load_goods", ":party_no", ":target_1", ":target_2"),
+                    (else_try),
+                        (neq, ":target_1", ":home"),
+                        (call_script, "script_party_civilian_load_goods", ":party_no", ":target_1", ":home"),
+                    (try_end),
+
+                    (party_set_slot, ":party_no", slot_party_last_rest, ":current_day"),
+                    (party_set_slot, ":party_no", slot_party_mission_target_1, -1),
+                (else_try),
+                    (call_script, "script_party_set_behavior", ":party_no", tai_traveling_to_party, ":target_1"),
+                (try_end),
+            (else_try),
+                (is_between, ":target_2", centers_begin, centers_end),
+                (try_begin),
+                    (eq, ":cur_town", ":target_2"),
+                    # Do trade
+                    (call_script, "script_party_empty_goods", ":party_no", ":target_2"),
+                    (try_begin),
+                        (is_between, ":target_3", centers_begin, centers_end),
+                        (call_script, "script_party_civilian_load_goods", ":party_no", ":target_2", ":target_3"),
+                    (else_try),
+                        (neq, ":target_2", ":home"),
+                        (call_script, "script_party_civilian_load_goods", ":party_no", ":target_2", ":home"),
+                    (try_end),
+
+                    (party_set_slot, ":party_no", slot_party_last_rest, ":current_day"),
+                    (party_set_slot, ":party_no", slot_party_mission_target_2, -1),
+                (else_try),
+                    (call_script, "script_party_set_behavior", ":party_no", tai_traveling_to_party, ":target_2"),
+                (try_end),
+            (else_try),
+                (is_between, ":target_3", centers_begin, centers_end),
+                (try_begin),
+                    (eq, ":cur_town", ":target_3"),
+                    # Do trade
+                    (call_script, "script_party_empty_goods", ":party_no", ":target_3"),
+                    (call_script, "script_party_civilian_load_goods", ":party_no", ":target_3", ":home"),
+
+                    (party_set_slot, ":party_no", slot_party_last_rest, ":current_day"),
+                    (party_set_slot, ":party_no", slot_party_mission_target_3, -1),
+                (else_try),
+                    (call_script, "script_party_set_behavior", ":party_no", tai_traveling_to_party, ":target_3"),
+                (try_end),
+            (else_try),
+
+            (try_end),
+
+            # (party_get_slot, ":mission_object", ":party_no", slot_party_mission_object),
+            # (party_get_slot, ":mission", ":party_no", slot_party_mission),
+        ]),
+
+    # script_party_civilian_load_goods
+        # input:
+        #   arg1: party_no
+        #   arg2: origin
+        #   arg3: destination
+        # output: none
+    ("party_civilian_load_goods",
+        [
+            (store_script_param, ":party_no", 1),
+            (store_script_param, ":origin", 2),
+            (store_script_param, ":destination", 3),
+
+            (party_get_slot, ":origin_party_type", ":origin", slot_party_type),
+            (party_get_slot, ":destination_party_type", ":destination", slot_party_type),
+
+            (assign, ":origin_ratio", 100),
+            (assign, ":destination_ratio", 100),
+            (try_begin),
+                (neq, ":origin_party_type", spt_town),
+                (assign, ":origin_ratio", 10),
+            (try_end),
+            (try_begin),
+                (neq, ":destination_party_type", spt_town),
+                (assign, ":destination_ratio", 10),
+            (try_end),
+
+            (assign, ":max_score", 0),
+            (assign, ":best_good", -1),
+            (try_for_range, ":good", goods_begin, goods_end),
+                (call_script, "script_party_item_get_caravan_score", ":origin", ":good"),
+                (assign, ":origin_score", reg0),
+                (call_script, "script_party_item_get_caravan_score", ":destination", ":good"),
+                (store_mul, ":destination_score", reg0, -1),
+
+                (val_mul, ":origin_score", ":origin_ratio"),
+                (val_div, ":origin_score", 100),
+                (val_mul, ":destination_score", ":destination_ratio"),
+                (val_div, ":destination_score", 100),
+
+                (store_add, ":total_score", ":origin_score", ":destination_score"),
+                (gt, ":total_score", ":max_score"),
+                (assign, ":max_score", ":total_score"),
+                (assign, ":best_good", ":good"),
+            (try_end),
+
+            (try_begin),
+                (is_between, ":best_good", goods_begin, goods_end),
+                (store_sub, ":offset", ":best_good", goods_begin),
+                (store_add, ":amount_slot", slot_party_ressources_current_amount_begin, ":offset"),
+                (party_get_slot, ":origin_amount", ":origin", ":amount_slot"),
+                (val_min, ":origin_amount", civilian_max_cargo_size),
+                (call_script, "script_party_buy_item_from_party", ":party_no", ":best_good", ":origin", ":origin_amount"),
+                (try_begin),
+                    (call_script, "script_cf_debug", debug_trade|debug_economy),
+                    (str_store_party_name, s10, ":origin"),
+                    (str_store_party_name, s11, ":party_no"),
+                    (str_store_item_name, s12, ":best_good"),
+                    (assign, reg10, ":origin_amount"),
+                    (display_message, "@{s10} loading {reg10} {s12} into {s11}"),
+                (try_end),
+            (try_end),
+        ]),
+
+    # script_party_get_nearest_trade_town
+        # input:
+        #   arg1: party_no
+        # output:
+        #   reg0: nearest_town
+    ("party_get_nearest_trade_town",
+        [
+            (store_script_param, ":party_no", 1),
+
+            (assign, ":min_distance", 9999),
+            (assign, ":nearest_trader", -1),
+            (store_faction_of_party, ":party_faction", ":party_no"),
+            (try_for_range, ":cur_center", towns_begin, towns_end),
+                (store_faction_of_party, ":cur_center_faction", ":cur_center"),
+                (assign, ":ratio", 0),
+                (try_begin),
+                    (eq, ":cur_center_faction", ":party_faction"),
+                    (assign, ":ratio", 20),
+                (else_try),
+                    (call_script, "script_cf_factions_are_at_war", ":cur_center_faction", ":party_faction"),
+                    (assign, ":ratio", 0),
+                (else_try),
+                    (call_script, "script_faction_get_treaties", ":party_faction", ":cur_center_faction"),
+                    (assign, ":treaties", reg0),
+
+                    (store_and, ":trade_exclusivity", ":treaties", sfkt_trade_exclusivity),
+                    (store_and, ":trade_preference", ":treaties", sfkt_trade_preference),
+                    (store_and, ":open_trade", ":treaties", sfkt_open_trade),
+
+                    (try_begin),
+                        (gt, ":trade_exclusivity", 0),
+                        (assign, ":ratio", 30),
+                    (else_try),
+                        (gt, ":trade_preference", 0),
+                        (assign, ":ratio", 50),
+                    (else_try),
+                        (gt, ":open_trade", 0),
+                        (assign, ":ratio", 100),
+                    (else_try),
+                        (assign, ":ratio", 200),
+                    (try_end),
+                (try_end),
+
+                (gt, ":ratio", 0),
+
+                (store_distance_to_party_from_party, ":distance", ":cur_center", ":party_no"),
+                (val_mul, ":distance", ":ratio"),
+                (val_div, ":distance", 100),
+
+                (lt, ":distance", ":min_distance"),
+                (assign, ":nearest_trader", ":cur_center"),
+                (assign, ":min_distance", ":distance"),
+            (try_end),
+            (assign, reg0, ":nearest_trader"),
+        ]),
+
     # script_item_get_buy_price_factor_from_party
         # input:
         #   arg1: item_no
@@ -22451,7 +22769,11 @@ scripts = [
             (store_script_param, ":party_no", 1),
             (store_script_param, ":center_no", 2),
 
-            (party_attach_to_party, ":party_no", ":center_no"),
+            (party_get_slot, ":party_type", ":party_no", slot_party_type),
+            (try_begin),
+                (neq, ":party_type", spt_civilian),
+                (party_attach_to_party, ":party_no", ":center_no"),
+            (try_end),
 
             (try_begin),
                 (is_between, ":center_no", centers_begin, centers_end),
@@ -22560,6 +22882,16 @@ scripts = [
                 (party_get_slot, ":container_good_amount", ":party_container", ":amount_slot"),
                 (val_add, ":container_good_amount", ":good_amount"),
                 (party_set_slot, ":party_container", ":amount_slot", ":container_good_amount"),
+
+                (try_begin),
+                    (gt, ":good_amount", 0),
+                    (call_script, "script_item_get_sell_price", ":item", ":party", ":party_container"),
+                    # (assign, ":price", reg0),
+                    (assign, ":tax", reg1),
+
+                    (store_mul, ":total_tax", ":tax", ":good_amount"),
+                    (call_script, "script_party_add_accumulated_taxes", ":party_container", ":total_tax", tax_type_trade),
+                (try_end),
 
                 (try_begin),
                     (call_script, "script_cf_debug", debug_trade|debug_economy),

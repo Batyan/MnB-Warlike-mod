@@ -4856,6 +4856,48 @@ troops = [
     ],
    str_9|agi_7|int_5|cha_5|level(2), wpex(50,55,45,80,65,35), knows_common|knows_ironflesh_1|knows_power_strike_2|knows_power_draw_4|knows_athletics_2|knows_riding_1, man_face_young_1, man_face_old_2 ],
   
+  ["swadian_peasant", "Peasant", "Peasants", tf_guarantee_recruit_armor, no_scene, reserved, fac_commoners,
+   [itm_pitch_fork, itm_sickle, itm_hatchet,
+    itm_wrapping_boots, itm_hide_boots,
+    itm_coarse_tunic, itm_leather_apron, itm_red_shirt
+    
+    ],
+   str_9|agi_7|int_5|cha_5|level(2), wpex(50,55,45,80,65,35), knows_common|knows_ironflesh_1|knows_power_strike_2|knows_power_draw_4|knows_athletics_2|knows_riding_1, swadian_face_young_1, swadian_face_old_2 ],
+  ["vaegir_peasant", "Peasant", "Peasants", tf_guarantee_recruit_armor, no_scene, reserved, fac_commoners,
+   [itm_pitch_fork, itm_sickle, itm_hatchet,
+    itm_wrapping_boots, itm_hide_boots,
+    itm_fur_coat, itm_leather_apron, itm_linen_tunic
+    
+    ],
+   str_9|agi_7|int_5|cha_5|level(2), wpex(50,55,45,80,65,35), knows_common|knows_ironflesh_1|knows_power_strike_2|knows_power_draw_4|knows_athletics_2|knows_riding_1, vaegir_face_young_1, vaegir_face_old_2 ],
+  ["khergit_peasant", "Peasant", "Peasants", tf_guarantee_recruit_armor, no_scene, reserved, fac_commoners,
+   [itm_pitch_fork, itm_sickle, itm_hatchet,
+    itm_wrapping_boots, itm_hide_boots,
+    itm_coarse_tunic, itm_linen_tunic
+    
+    ],
+   str_9|agi_7|int_5|cha_5|level(2), wpex(50,55,45,80,65,35), knows_common|knows_ironflesh_1|knows_power_strike_2|knows_power_draw_4|knows_athletics_2|knows_riding_1, khergit_face_young_1, khergit_face_old_2 ],
+  ["nord_peasant", "Peasant", "Peasants", tf_guarantee_recruit_armor, no_scene, reserved, fac_commoners,
+   [itm_pitch_fork, itm_sickle, itm_hatchet,
+    itm_wrapping_boots, itm_hide_boots,
+    itm_coarse_tunic, itm_leather_apron, itm_fur_coat
+    
+    ],
+   str_9|agi_7|int_5|cha_5|level(2), wpex(50,55,45,80,65,35), knows_common|knows_ironflesh_1|knows_power_strike_2|knows_power_draw_4|knows_athletics_2|knows_riding_1, nord_face_young_1, nord_face_old_2 ],
+  ["rhodok_peasant", "Peasant", "Peasants", tf_guarantee_recruit_armor, no_scene, reserved, fac_commoners,
+   [itm_pitch_fork, itm_sickle, itm_butchering_knife,
+    itm_wrapping_boots, itm_hide_boots,
+    itm_coarse_tunic, itm_tabard, itm_tunic_with_green_cape
+    
+    ],
+   str_9|agi_7|int_5|cha_5|level(2), wpex(50,55,45,80,65,35), knows_common|knows_ironflesh_1|knows_power_strike_2|knows_power_draw_4|knows_athletics_2|knows_riding_1, rhodok_face_young_1, rhodok_face_old_2 ],
+  ["sarranid_peasant", "Peasant", "Peasants", tf_guarantee_recruit_armor, no_scene, reserved, fac_commoners,
+   [itm_pitch_fork, itm_sickle, itm_hatchet,
+    itm_wrapping_boots, itm_hide_boots,
+    itm_sarranid_cloth_robe, itm_sarranid_cloth_robe_b
+    
+    ],
+   str_9|agi_7|int_5|cha_5|level(2), wpex(50,55,45,80,65,35), knows_common|knows_ironflesh_1|knows_power_strike_2|knows_power_draw_4|knows_athletics_2|knows_riding_1, sarranid_face_young_1, sarranid_face_old_2 ],
   
   #############
   # Templates #

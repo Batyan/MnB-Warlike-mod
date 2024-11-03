@@ -78,17 +78,30 @@ simple_triggers = [
                         (ge, ":cur_town", centers_begin),
                         (call_script, "script_party_does_center_business", ":party_no", ":cur_town"),
                     (try_end),
-                (else_try),
-                    (eq, ":party_type", spt_patrol),
-                    (call_script, "script_party_patrol_process", ":party_no"),
-                (else_try),
-                    (eq, ":party_type", spt_caravan),
-                    (call_script, "script_party_caravan_process", ":party_no"),
                 (try_end),
                 (call_script, "script_party_sort_troops", ":party_no", 2),
             (try_end),
 
             (store_random_in_range, "$g_daily_random", 0, daily_random_max),
+        ]),
+
+    (weekly, 
+        [
+            (try_for_parties, ":party_no"),
+                (party_is_active, ":party_no"),
+                (party_get_slot, ":party_type", ":party_no", slot_party_type),
+
+                (try_begin),
+                    (eq, ":party_type", spt_patrol),
+                    (call_script, "script_party_patrol_process", ":party_no"),
+                (else_try),
+                    (eq, ":party_type", spt_caravan),
+                    (call_script, "script_party_caravan_process", ":party_no"),
+                (else_try),
+                    (eq, ":party_type", spt_civilian),
+                    (call_script, "script_party_civilian_process", ":party_no"),
+                (try_end),
+            (try_end),
         ]),
     
     (daily*6, # Sieges

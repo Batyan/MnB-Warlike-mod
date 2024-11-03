@@ -5,6 +5,7 @@ v0.540:
 		* add player center management of prisoners
 		* move some camp menu interactions
 		* slaves increase banditry, resource production and resource transformation
+		* add peasant parties to trade goods between villages, castles and towns
 	-Balance:
 		* update small_kingdom_22 to use vaegir_militia instead of vaegir_hunter
 		* reduce ratio of vaegir_levy_axeman for vaegir culture

@@ -366,6 +366,7 @@ type_slight = 1
 type_none = 0
 
 caravan_max_cargo_size = 60
+civilian_max_cargo_size = 12
 
 caravan_score_distance_ratio = 3
 caravan_score_resource_production_ratio = 500
@@ -799,6 +800,8 @@ slot_faction_budget_funds_payment = slot_faction_budget_funds + 1
 slot_faction_wealth_shared_ratio = slot_faction_budget_funds_payment + 1
 
 slot_faction_tmp = slot_faction_wealth_shared_ratio + 1
+
+slot_faction_peasant_troop = slot_faction_tmp + 1
 
 #######################
 ## War Storage Slots ##
@@ -1275,6 +1278,8 @@ mpo_release_clear = mpo_all - mpo_release
 mpo_recruit_clear = mpo_all - mpo_recruit
 
 mpo_default = mpo_ransom|mpo_slave|mpo_recruit
+
+slot_party_attached_party_cooldown = slot_party_max_prisoner_outcome + 1
 
 #################
 ## Scene Slots ##
