@@ -10909,7 +10909,6 @@ scripts = [
                 (store_mul, ":gold_cost", reg1, -1),
 
                 (call_script, "script_party_add_accumulated_taxes", ":party_no", ":gold_cost", tax_type_troops_hiring),
-                # (call_script, "script_party_modify_wealth", ":party_no", ":gold_cost"),
 
                 (try_begin),
                     # We do not want to buy expensive troops from other centers when we don't need it
@@ -20171,7 +20170,6 @@ scripts = [
 
                     (store_mul, ":payment", ":max_payment", -1),
                     (call_script, "script_party_add_accumulated_taxes", ":party_no", ":payment", tax_type_debts),
-                    # (call_script, "script_party_remove_gold", ":party_no", ":max_payment"),
                     (val_sub, ":unpaid_wages", ":max_payment"),
                     (val_add, ":paid_debts", ":max_payment"),
                 (try_end),
@@ -20182,8 +20180,7 @@ scripts = [
                     (gt, ":linked_party", 0),
                     (party_get_attached_to, ":attached", ":party_no"),
                     (eq, ":attached", ":linked_party"),
-                    (call_script, "script_party_transfer_wealth", ":attached", ":party_no", ":unpaid_wages", tax_type_late_wages, tax_type_none),
-                    # (call_script, "script_party_remove_gold", ":party_no", ":unpaid_wages"),
+                    (call_script, "script_party_transfer_wealth", ":attached", ":party_no", ":unpaid_wages", tax_type_late_wages, tax_type_late_wages),
                     (assign, ":unpaid_wages", 0),
                 (try_end),
                 (party_set_slot, ":party_no", slot_party_unpaid_wages, ":unpaid_wages"),
@@ -21347,8 +21344,6 @@ scripts = [
             (store_script_param, ":creditor", 2),
             (store_script_param, ":amount", 3),
 
-            (store_mul, ":debtor_amount", ":amount", -1),
-
             (try_begin),
                 (call_script, "script_cf_debug", debug_economy),
 
@@ -21360,8 +21355,7 @@ scripts = [
             (try_end),
 
             # TODO: for now we transfer the gold directly
-            (call_script, "script_party_modify_wealth", ":debtor", ":debtor_amount"),
-            (call_script, "script_party_modify_wealth", ":creditor", ":amount"),
+            (call_script, "script_party_transfer_wealth", ":debtor", ":creditor", ":amount", tax_type_debt_collection, tax_type_debts),
         ]),
 
     # script_party_process_attached_parties
@@ -22411,7 +22405,7 @@ scripts = [
                 (party_set_slot, ":party_buyer", ":amount_slot", ":buyer_amount"),
 
                 (call_script, "script_party_modify_wealth", ":party_buyer", ":total_cost"),
-                (call_script, "script_party_transfer_wealth", ":party_buyer", ":party_seller", ":total_tax", tax_type_trade, tax_type_none),
+                (call_script, "script_party_transfer_wealth", ":party_buyer", ":party_seller", ":total_tax", tax_type_trade, tax_type_trade),
 
                 (val_add, ":amount_bought", ":amount_wanted"),
 
@@ -23061,7 +23055,7 @@ scripts = [
         #   arg1: faction_giver
         #   arg2: faction_receiver
         #   arg3: amount
-        #   arg5: tax_type - optional if transfer is not part of a tax
+        #   arg4: tax_type - optional if transfer is not part of a tax
         # output: none
     ("faction_transfer_wealth",
         [
