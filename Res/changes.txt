@@ -11,6 +11,11 @@ v0.540:
 		* update factions troop composition
 			This change aims to increase the overall amount of infantry fielded by cavalry factions (vaegirs, khergit, sarranid)
 			It also increases the uniqueness of small factions by leaning more on their special troops
+		* increase khergit_warrior weapon tier
+		* increase khergit_warrior athletics (3 -> 4)
+		* increase khergit_warrior ironflesh (3 -> 5)
+		* increase khergit_heavy_skirmisher ironflesh (3 -> 5)
+		* set nord_armoured_lancer horse to warhorse (from hunter)
 	-Fixes:
 		* fix vassals automatically following player
 v0.530:
