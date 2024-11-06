@@ -377,6 +377,9 @@ caravan_score_type_selling = 1
 caravan_score_type_buying = 2
 caravan_score_type_all = 0
 
+civilian_party_min_size = 9
+civilian_party_max_size = 15
+
 political_event_relation_change = 1
 political_event_war_declared = 2
 political_event_treaty_signed = 3

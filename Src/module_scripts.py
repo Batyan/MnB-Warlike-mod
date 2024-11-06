@@ -21608,12 +21608,7 @@ scripts = [
                     # (party_attach_to_party, ":spawned_party", ":party_no"),
                     (party_set_slot, ":party_no", ":slot", ":spawned_party"),
 
-                    (store_random_in_range, ":num_troops", 9, 15),
-                    (try_begin),
-                        (call_script, "script_cf_center_can_give_troops", ":party_no", -1),
-                        (call_script, "script_party_give_troops_to_party", ":party_no", ":spawned_party", 4),
-                        (val_sub, ":num_troops", 4),
-                    (try_end),
+                    (store_random_in_range, ":num_troops", civilian_party_min_size, civilian_party_max_size),
 
                     (faction_get_slot, ":culture", ":party_faction", slot_faction_culture),
                     (faction_get_slot, ":peasant_troop", ":culture", slot_faction_peasant_troop),
@@ -22392,6 +22387,7 @@ scripts = [
                     # Heading to linked center
                     (call_script, "script_party_empty_goods", ":party_no", ":home"),
                     (call_script, "script_party_civilian_load_goods", ":party_no", ":home", ":linked_center"),
+                    (call_script, "script_party_civilian_manage_party_size", ":party_no", ":home"),
 
                     (party_set_slot, ":party_no", slot_party_last_rest, ":current_day"),
                 (else_try),
@@ -22524,6 +22520,56 @@ scripts = [
                     (display_message, "@{s10} loading {reg10} {s12} into {s11}"),
                 (try_end),
             (try_end),
+        ]),
+
+    # script_party_civilian_manage_party_size
+        # input:
+        #   arg1: party_no
+        # output: none
+    ("party_civilian_manage_party_size",
+        [
+            (store_script_param, ":party_no", 1),
+            (store_script_param, ":attached_center", 2),
+
+            (party_get_num_prisoners, ":prisoners", ":party_no"),
+            (try_begin),
+                (gt, ":prisoners", 0),
+                (call_script, "script_party_transfer_prisoners_to_prisoners", ":party_no", ":attached_center", 1),
+            (try_end),
+
+            (store_faction_of_party, ":party_faction", ":party_no"),
+            (faction_get_slot, ":culture", ":party_faction", slot_faction_culture),
+            (faction_get_slot, ":peasant_troop", ":culture", slot_faction_peasant_troop),
+
+            (party_get_num_companion_stacks, ":num_stacks", ":party_no"),
+            (try_for_range_backwards, ":cur_stack", 0, ":num_stacks"),
+                (party_stack_get_troop_id, ":troop_id", ":party_no", ":cur_stack"),
+                (neq, ":troop_id", ":peasant_troop"),
+                (party_stack_get_size, ":stack_size", ":party_no", ":cur_stack"),
+
+                (party_add_members, ":attached_center", ":troop_id", ":stack_size"),
+                (assign, ":really_added", reg0),
+                (party_remove_members, ":party_no", ":troop_id", ":really_added"),
+            (try_end),
+
+            (party_get_num_companions, ":current_troops", ":party_no"),
+
+            (store_random_in_range, ":num_troops", civilian_party_min_size, civilian_party_max_size),
+            
+            (try_begin),
+                (lt, ":num_troops", civilian_party_min_size),
+                (store_sub, ":offset", ":num_troops", ":current_troops"),
+                (party_add_members, ":party_no", ":peasant_troop", ":offset"),
+                (store_mul, ":population_change", ":offset", -1),
+                (call_script, "script_party_modify_population", ":attached_center", ":population_change"),
+            (try_end),
+
+            # TODO: BUILDING
+            # We need to gate this part behind a building
+            # (try_begin),
+            #     (call_script, "script_cf_center_can_give_troops", ":attached_center", -1),
+            #     (call_script, "script_party_give_troops_to_party", ":attached_center", ":spawned_party", 4),
+            # (try_end),
         ]),
 
     # script_party_get_nearest_trade_town
