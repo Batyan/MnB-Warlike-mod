@@ -17,6 +17,7 @@ v0.540:
 		* increase khergit_warrior ironflesh (3 -> 5)
 		* increase khergit_heavy_skirmisher ironflesh (3 -> 5)
 		* set nord_armoured_lancer horse to warhorse (from hunter)
+		* increase prisoner management skill effectivness to add a flat +5 to each level
 	-Fixes:
 		* fix vassals automatically following player
 v0.530:

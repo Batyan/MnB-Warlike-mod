@@ -2049,11 +2049,12 @@ scripts = [
                 (troop_is_hero, ":leader"),
                 (store_skill_level, ":prisoner_level", skl_prisoner_management, ":leader"),
 
-                (val_mul, ":prisoner_level", 10),
+                (store_mul, ":prisoner_mult", ":prisoner_level", 10),
+                (store_mul, ":flat_bonus", ":prisoner_level", 5),
 
-                (val_mul, ":limit", ":prisoner_level"),
+                (val_mul, ":limit", ":prisoner_mult"),
                 (val_div, ":limit", 100),
-                (val_add, ":limit", 1),
+                (val_add, ":limit", ":flat_bonus"),
             (else_try),
                 # Parties with no leader or non-hero leaders are considered having 1 in prisoner management
                 # Means 10% of party size max can be prisoners
