@@ -116,6 +116,8 @@ scripts = [
             (try_for_range, ":merchant", merchants_begin, merchants_end),
                 (troop_set_slot, ":merchant", slot_troop_last_met, -24*7*5), # Around 5 weeks' worth of goods
             (try_end),
+
+            (faction_set_slot, "fac_small_kingdom_45", slot_faction_leader, "$g_player_troop"),
             
             (party_set_slot, "$g_player_party", slot_party_leader, "$g_player_troop"),
             (troop_add_gold, "$g_player_troop", 10000),
@@ -24208,8 +24210,7 @@ scripts = [
                 (eq, ":player_faction", ":lord_faction"),
 
                 (troop_get_slot, ":vassal_of", ":lord", slot_troop_vassal_of),
-                (this_or_next|eq, ":vassal_of", "$g_player_troop"),
-                (lt, ":vassal_of", 0),
+                (eq, ":vassal_of", "$g_player_troop"),
 
                 (assign, ":filtered", 0),
             (try_end),
