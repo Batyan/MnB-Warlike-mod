@@ -25087,7 +25087,7 @@ scripts = [
             (position_set_x, pos1, ":x"),
             (position_set_y, pos1, ":cur_y"),
             (overlay_set_position, reg0, pos1),
-            (position_set_x, pos1, 775),
+            (position_set_x, pos1, 800),
             (position_set_y, pos1, 225),
             (overlay_set_size, reg0, pos1),
 
@@ -25110,6 +25110,24 @@ scripts = [
             (position_set_x, pos1, 380),
             (position_set_y, pos1, 380),
             (overlay_set_size, reg0, pos1),
+
+            (troop_get_slot, ":banner_spr", ":lord_no", slot_troop_banner_scene_prop),
+            (try_begin),
+                (is_between, ":banner_spr", banner_scene_props_begin, banner_scene_props_end),
+                (store_sub, ":banner_mesh", ":banner_spr", banner_scene_props_begin),
+                (val_add, ":banner_mesh", banner_meshes_begin),
+
+                (store_sub, ":banner_x", ":values_x", 25),
+                (store_add, ":banner_y", ":line_text_y", 100),
+                (create_mesh_overlay, reg0, ":banner_mesh"),
+                (position_set_x, pos1, ":banner_x"),
+                (position_set_y, pos1, ":banner_y"),
+                (overlay_set_position, reg0, pos1),
+                (position_set_x, pos1, 45),
+                (position_set_y, pos1, 45),
+                (overlay_set_size, reg0, pos1),
+                (overlay_set_additional_render_height, reg0, 100),
+            (try_end),
 
             (troop_get_slot, ":culture", ":lord_no", slot_troop_culture),
             (str_store_faction_name, s10, ":culture"),

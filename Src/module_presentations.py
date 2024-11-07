@@ -2292,11 +2292,11 @@ presentations = [
                     (assign, ":cur_y", 10),
 
                     (assign, ":left_panel_x", 10),
-                    (assign, ":left_panel_values_x", 175),
-                    (assign, ":left_panel_values2_x", 275),
+                    (assign, ":left_panel_values_x", 190),
+                    (assign, ":left_panel_values2_x", 290),
                     (assign, ":right_panel_x", 445),
-                    (assign, ":right_panel_values_x", 610),
-                    (assign, ":right_panel_values2_x", 710),
+                    (assign, ":right_panel_values_x", 625),
+                    (assign, ":right_panel_values2_x", 725),
 
                     (try_for_range, ":lord_no", lords_begin, lords_end),
                         (troop_set_slot, ":lord_no", slot_troop_temp_slot, -1),
