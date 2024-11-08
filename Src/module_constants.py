@@ -1284,6 +1284,8 @@ mpo_default = mpo_ransom|mpo_slave|mpo_recruit
 
 slot_party_attached_party_cooldown = slot_party_max_prisoner_outcome + 1
 
+slot_party_visiting_center = slot_party_attached_party_cooldown + 1
+
 #################
 ## Scene Slots ##
 #################

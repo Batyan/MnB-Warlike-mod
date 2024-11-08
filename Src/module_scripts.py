@@ -22824,6 +22824,8 @@ scripts = [
                 (party_attach_to_party, ":party_no", ":center_no"),
             (try_end),
 
+            (party_set_slot, ":party_no", slot_party_visiting_center, ":center_no"),
+
             (try_begin),
                 (is_between, ":center_no", centers_begin, centers_end),
                 (party_get_slot, ":taxes", ":center_no", slot_party_taxes_visit),
