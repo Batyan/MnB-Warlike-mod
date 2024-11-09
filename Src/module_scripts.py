@@ -6564,12 +6564,12 @@ scripts = [
 
             (try_begin),
                 (eq, ":party_type", spt_town),
-                (assign, ":ratio_party", 45),
-                (assign, ":ratio_auxiliaries", 15),
+                (assign, ":ratio_party", 50),
+                (assign, ":ratio_auxiliaries", 10),
                 (assign, ":ratio_spendings", 10),
             (else_try),
                 (eq, ":party_type", spt_castle),
-                (assign, ":ratio_party", 45),
+                (assign, ":ratio_party", 50),
                 (assign, ":ratio_auxiliaries", 10),
                 (assign, ":ratio_spendings", 8),
             (else_try),
@@ -20175,6 +20175,9 @@ scripts = [
                     (try_begin),
                         (is_between, ":party_type", spt_village, spt_fort + 1),
                         (store_div, ":max_payment", ":wealth", 5),
+                    (else_try),
+                        (eq, ":party_type", spt_caravan),
+                        (assign, ":max_payment", ":wealth"),
                     (try_end),
 
                     (val_min, ":max_payment", ":unpaid_wages"),
@@ -21563,6 +21566,11 @@ scripts = [
                     (else_try),
                         (party_force_add_members, ":spawned_party", "trp_swadian_caravan_master", 1),
                     (try_end),
+
+                    (call_script, "script_party_get_wages", ":spawned_party"),
+                    (assign, ":current_wages", reg0),
+                    (call_script, "script_party_transfer_wealth", ":party_no", ":spawned_party", ":current_wages", tax_type_caravan_wages, tax_type_caravan_wages),
+
                     (try_begin),
                         (call_script, "script_cf_debug", debug_trade|debug_ai),
                         (str_store_party_name, s10, ":party_no"),
@@ -21858,6 +21866,7 @@ scripts = [
                     (assign, ":current_wages", reg0),
                     (call_script, "script_party_get_prefered_wages_limit", ":party_no"),
                     (assign, ":wanted_wages", reg0),
+                    (assign, ":max_wages", reg2),
 
                     (party_get_num_prisoners, ":num_prisoners", ":party_no"),
                     (try_begin),
@@ -21870,18 +21879,28 @@ scripts = [
                     (assign, ":new_destination", reg0),
                     (try_begin),
                         (le, ":current_wages", ":wanted_wages"),
-                        (eq, ":cur_town", ":home"),
                         (try_begin),
                             (call_script, "script_cf_center_can_give_troops", ":cur_town", ":party_no"),
                             (store_random_in_range, ":num_troops", 3, 7),
                             (call_script, "script_party_give_troops_to_party", ":cur_town", ":party_no", ":num_troops"),
                         (try_end),
                     (else_try),
+                        # We try to remove members if we have too many
+                        (gt, ":current_wages", ":max_wages"),
+                        (store_random_in_range, ":num_troops", 2, 5),
+                        (call_script, "script_party_give_troops_to_party", ":party_no", ":cur_town", ":num_troops"),
+                    (else_try),
                         (eq, ":new_destination", ":home"),
                         (call_script, "script_party_caravan_set_objectives", ":party_no"),
                         (try_begin),
                             (party_slot_ge, ":party_no", slot_party_mission_objective_1, goods_begin),
                             (call_script, "script_party_caravan_set_destination", ":party_no"),
+
+                            # We pay potential debts and current wages to the caravan
+                            (party_get_slot, ":debts", ":party_no", slot_party_unpaid_wages),
+                            (val_add, ":debts", ":current_wages"),
+                            (call_script, "script_party_transfer_wealth", ":home", ":party_no", ":debts", tax_type_caravan_wages, tax_type_caravan_wages),
+
                         (else_try),
                             (call_script, "script_cf_debug", debug_trade),
                             (str_store_party_name, s10, ":party_no"),
@@ -22323,11 +22342,6 @@ scripts = [
                     (try_end),
                 (try_end),
             (try_end),
-
-            (call_script, "script_party_get_wages", ":party_caravan"),
-            (assign, ":wages_caravan", reg0),
-            (store_mul, ":needed_wages", ":wages_caravan", 4),
-            (call_script, "script_party_transfer_wealth", ":origin", ":party_caravan", ":needed_wages", tax_type_caravan_wages, tax_type_caravan_wages),
 
             (try_begin),
                 (gt, ":remaining_cargo", 0),

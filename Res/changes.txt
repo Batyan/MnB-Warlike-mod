@@ -20,8 +20,10 @@ v0.540:
 		* set nord_armoured_lancer horse to warhorse (from hunter)
 		* increase prisoner management skill effectivness to add a flat +5 to each level
 		* block already selected choice in vassal persuasion dialog
+		* increase slightly garrison strength
 	-Fixes:
 		* fix vassals automatically following player
+		* fix caravan charging cities for their wages
 v0.530:
 	-Features:
 		* add the ability to grant fief to vassals
