@@ -24798,7 +24798,7 @@ scripts = [
             (store_script_param, ":troop_no", 1),
 
             (troop_get_slot, ":rank", ":troop_no", slot_troop_rank),
-            (store_sub, ":change", 3, ":rank"),
+            (store_sub, ":change", 4, ":rank"),
             (val_mul, ":change", 10),
 
             (store_skill_level, ":persuasion_skill", "$g_player_troop", skl_persuasion),
@@ -24809,7 +24809,24 @@ scripts = [
 
             (call_script, "script_persuade_vassal_quest_add_proposition", event_type_promised_fief),
 
-            (str_store_string, s0, "@Interesting, keep going"),
+            (try_begin),
+                (ge, ":change", 40),
+                (str_store_string, s0, "@This far exceeds my expectations"),
+            (else_try),
+                (ge, ":change", 20),
+                (str_store_string, s0, "@Interesting, keep going"),
+            (else_try),
+                (ge, ":change", 0),
+                (str_store_string, s0, "@That would be the least that I would require"),
+            (else_try),
+                (ge, ":change", -20),
+                (str_store_string, s0, "@I see that as a disadvantage from my current position..."),
+            (else_try),
+                (ge, ":change", -40),
+                (str_store_string, s0, "@I feel insulted that you would offer this and think I would appreciate..."),
+            (else_try),
+                (str_store_string, s0, "@This is outrageous, don't think I that would like that"),
+            (try_end),
         ]),
 
     # script_troop_become_vassal_grant_title
@@ -24832,7 +24849,21 @@ scripts = [
             
             (call_script, "script_persuade_vassal_quest_add_proposition", event_type_proposed_title),
 
-            (str_store_string, s0, "@Interesting, keep going"),
+            (try_begin),
+                (ge, ":change", 45),
+                (str_store_string, s0, "@This far exceeds my expectations"),
+            (else_try),
+                (ge, ":change", 30),
+                (str_store_string, s0, "@This is a very good proposition"),
+            (else_try),
+                (ge, ":change", 10),
+                (str_store_string, s0, "@Interesting, keep going"),
+            (else_try),
+                (ge, ":change", 0),
+                (str_store_string, s0, "@That would be the least that I would require"),
+            (else_try),
+                (str_store_string, s0, "@I see that as a disadvantage from my current position..."),
+            (try_end),
         ]),
 
     # script_troop_become_vassal_promise_safety
@@ -24852,7 +24883,11 @@ scripts = [
             (faction_get_slot, ":proposed_safety", ":target_faction", slot_faction_safety),
 
             (store_sub, ":change", ":proposed_safety", ":safety"),
-            (val_div, ":change", 3),
+            (val_div, ":change", 2),
+            (try_begin),
+                (lt, ":change", 0),
+                (val_div, ":change", 3),
+            (try_end),
 
             (store_skill_level, ":persuasion_skill", "$g_player_troop", skl_persuasion),
             (val_add, ":change", ":persuasion_skill"),
@@ -24864,7 +24899,60 @@ scripts = [
             
             (call_script, "script_persuade_vassal_quest_add_proposition", event_type_promised_safety),
 
-            (str_store_string, s0, "@Interesting, keep going"),
+            (assign, ":attitude", 0),
+
+            (try_begin),
+                (gt, ":safety", 60),
+                (str_store_string, s10, "@I feel safe in my current position"),
+                (val_add, ":attitude", -1),
+            (else_try),
+                (gt, ":safety", 40),
+                (str_store_string, s10, "@I feel somewhat safe in my current position"),
+            (else_try),
+                (str_store_string, s10, "@I feel unsafe in my current position"),
+                (val_add, ":attitude", 1),
+            (try_end),
+
+            (try_begin),
+                (gt, ":proposed_safety", 60),
+                (str_store_string, s11, "@your proposition would make me feel safe"),
+                (val_add, ":attitude", 1),
+            (else_try),
+                (gt, ":proposed_safety", 40),
+                (str_store_string, s11, "@your proposition would make me feel somewhat safe"),
+            (else_try),
+                (str_store_string, s11, "@your proposition would make me feel unsafe"),
+                (val_add, ":attitude", -1),
+            (try_end),
+
+            (try_begin),
+                (lt, ":change", -20),
+                (str_store_string, s12, "@Switching to your side would be to the detriment of my and my realm's safety."),
+            (else_try),
+                (lt, ":change", -5),
+                (str_store_string, s12, "@I feel I would end up worse off than I currently am."),
+            (else_try),
+                (lt, ":change", 5),
+                (str_store_string, s12, "@I see no impact to my safety."),
+            (else_try),
+                (lt, ":change", 15),
+                (str_store_string, s12, "@It could somewhat improve my situation."),
+            (else_try),
+                (lt, ":change", 25),
+                (str_store_string, s12, "@It would improve my situation overall"),
+            (else_try),
+                (str_store_string, s12, "@It would greatly improve my situation"),
+            (try_end),
+
+            (try_begin),
+                (gt, ":attitude", 0),
+                (str_store_string, s0, "@While {s10}, {s11}^^{s12}"),
+            (else_try),
+                (lt, ":attitude", 0),
+                (str_store_string, s0, "@{s10} and {s11}^^{s12}"),
+            (else_try),
+                (str_store_string, s0, "@While {s11}, {s10}^^{s12}"),
+            (try_end),
         ]),
 
     # script_troop_become_vassal_promise_prosperity
@@ -24882,6 +24970,7 @@ scripts = [
             (val_add, ":change", ":persuasion_skill"),
 
             (store_skill_level, ":trade_skill", "$g_player_troop", skl_trade),
+            (val_mul, ":trade_skill", 2),
             (val_add, ":change", ":trade_skill"),
 
             (store_skill_level, ":looting_skill", "$g_player_troop", skl_looting),
@@ -24891,7 +24980,21 @@ scripts = [
             
             (call_script, "script_persuade_vassal_quest_add_proposition", event_type_promised_prosperity),
 
-            (str_store_string, s0, "@Interesting, keep going"),
+            (try_begin),
+                (ge, ":change", 45),
+                (str_store_string, s0, "@This far exceeds my expectations"),
+            (else_try),
+                (ge, ":change", 30),
+                (str_store_string, s0, "@This is a very good proposition"),
+            (else_try),
+                (ge, ":change", 10),
+                (str_store_string, s0, "@Interesting, keep going"),
+            (else_try),
+                (ge, ":change", 0),
+                (str_store_string, s0, "@That would be the least that I would require"),
+            (else_try),
+                (str_store_string, s0, "@I see that as a disadvantage from my current position..."),
+            (try_end),
         ]),
 
     # script_troop_become_vassal_promise_standing
@@ -24920,7 +25023,21 @@ scripts = [
             
             (call_script, "script_persuade_vassal_quest_add_proposition", event_type_promised_standing),
 
-            (str_store_string, s0, "@Interesting, keep going"),
+            (try_begin),
+                (lt, ":change", -25),
+                (str_store_string, s0, "@I feel you are in no position to fullfill that promise."),
+            (else_try),
+                (lt, ":change", -5),
+                (str_store_string, s0, "@I don't think I would benefit much from your help in that matter."),
+            (else_try),
+                (lt, ":change", 5),
+                (str_store_string, s0, "@I have mixed feelings about that."),
+            (else_try),
+                (lt, ":change", 25),
+                (str_store_string, s0, "@Interesting, keep going."),
+            (else_try),
+                (str_store_string, s0, "@This is a very good proposition"),
+            (try_end),
         ]),
 
     # script_troop_become_vassal_promise_glory
@@ -24957,7 +25074,21 @@ scripts = [
             
             (call_script, "script_persuade_vassal_quest_add_proposition", event_type_promised_glory),
 
-            (str_store_string, s0, "@Interesting, keep going"),
+            (try_begin),
+                (lt, ":change", -25),
+                (str_store_string, s0, "@I feel you are in no position to fullfill that promise."),
+            (else_try),
+                (lt, ":change", -5),
+                (str_store_string, s0, "@I don't think I would benefit much from your help in that matter."),
+            (else_try),
+                (lt, ":change", 5),
+                (str_store_string, s0, "@I have mixed feelings about that."),
+            (else_try),
+                (lt, ":change", 25),
+                (str_store_string, s0, "@Interesting, keep going."),
+            (else_try),
+                (str_store_string, s0, "@This is a very good proposition"),
+            (try_end),
         ]),
 
     # script_troop_become_vassal_promise_vassals
@@ -24970,9 +25101,17 @@ scripts = [
             (store_script_param, ":troop_no", 1),
 
             (troop_get_slot, ":num_vassals", ":troop_no", slot_troop_num_vassal),
-            (store_sub, ":change", 3, ":num_vassals"),
+            (val_mul, ":num_vassals", ":num_vassals"),
 
-            (val_mul, ":change", 10),
+            (quest_get_slot, ":target_troop", "qst_persuade_lord_vassalage", slot_quest_object),
+            (troop_get_slot, ":rank", ":target_troop", slot_troop_rank),
+            (store_sub, ":rank", rank_king, ":rank"),
+            (val_mul, ":rank", 2),
+
+            (store_sub, ":change", 50, ":num_vassals"),
+            (val_sub, ":change", ":rank"),
+
+            (val_max, ":change", -50),
 
             (store_skill_level, ":persuasion_skill", "$g_player_troop", skl_persuasion),
             (val_add, ":change", ":persuasion_skill"),
@@ -24981,7 +25120,21 @@ scripts = [
             
             (call_script, "script_persuade_vassal_quest_add_proposition", event_type_promised_vassals),
 
-            (str_store_string, s0, "@Interesting, keep going"),
+            (try_begin),
+                (lt, ":change", -25),
+                (str_store_string, s0, "@I feel you are in no position to fullfill that promise."),
+            (else_try),
+                (lt, ":change", -5),
+                (str_store_string, s0, "@I don't think I would benefit much from your help in that matter."),
+            (else_try),
+                (lt, ":change", 5),
+                (str_store_string, s0, "@I have mixed feelings about that."),
+            (else_try),
+                (lt, ":change", 25),
+                (str_store_string, s0, "@Interesting, keep going."),
+            (else_try),
+                (str_store_string, s0, "@This is a very good proposition"),
+            (try_end),
         ]),
 
     # script_troop_become_vassal_right_to_rule
@@ -24995,23 +25148,43 @@ scripts = [
 
             (assign, ":change", -10),
 
-            (store_skill_level, ":persuasion_skill", "$g_player_troop", skl_persuasion),
+            (quest_get_slot, ":target_troop", "qst_persuade_lord_vassalage", slot_quest_object),
+
+            (store_skill_level, ":persuasion_skill", ":target_troop", skl_persuasion),
             (val_mul, ":persuasion_skill", 3),
             (val_add, ":change", ":persuasion_skill"),
 
-            (store_skill_level, ":leadership_skill", "$g_player_troop", skl_leadership),
+            (store_skill_level, ":leadership_skill", ":target_troop", skl_leadership),
             (val_mul, ":leadership_skill", 2),
             (val_add, ":change", ":leadership_skill"),
 
-            (store_skill_level, ":intimidation_skill", "$g_player_troop", skl_intimidation),
+            (store_skill_level, ":intimidation_skill", ":target_troop", skl_intimidation),
             (val_div, ":intimidation_skill", 2),
             (val_add, ":change", ":intimidation_skill"),
+
+            (troop_get_slot, ":renown", ":target_troop", slot_troop_renown),
+            (val_div, ":renown", 100),
+            (val_add, ":change", ":renown"),
 
             (call_script, "script_quest_add_value", "qst_persuade_lord_vassalage", ":change"),
             
             (call_script, "script_persuade_vassal_quest_add_proposition", event_type_promised_right_to_rule),
 
-            (str_store_string, s0, "@Interesting, keep going"),
+            (try_begin),
+                (lt, ":change", 0),
+                (str_store_string, s0, "@I don't think your claim has any merit."),
+            (else_try),
+                (lt, ":change", 10),
+                (str_store_string, s0, "@While you do have some legitimacy I think you are overestimating your claim."),
+            (else_try),
+                (lt, ":change", 25),
+                (str_store_string, s0, "@Interesting, keep going."),
+            (else_try),
+                (lt, ":change", 50),
+                (str_store_string, s0, "@You do have a valid claim."),
+            (else_try),
+                (str_store_string, s0, "@I think only few would contest this claim."),
+            (try_end),
         ]),
 
     # script_troop_become_vassal_threaten
@@ -25031,7 +25204,7 @@ scripts = [
             (faction_get_slot, ":proposed_faction_size", ":target_faction", slot_faction_size),
 
             (store_sub, ":change", ":proposed_faction_size", ":faction_size"),
-            (val_div, ":change", 6),
+            (val_div, ":change", 3),
 
             (faction_get_slot, ":safety", ":troop_faction", slot_faction_safety),
             (faction_get_slot, ":proposed_safety", ":target_faction", slot_faction_safety),
@@ -25041,15 +25214,63 @@ scripts = [
 
             (val_add, ":change", ":diff"),
 
+            (troop_get_slot, ":target_rank", ":target_troop", slot_troop_rank),
+            (troop_get_slot, ":rank", ":troop_no", slot_troop_rank),
+            (store_sub, ":diff", ":target_rank", ":rank"),
+            (try_begin),
+                (neq, ":target_troop", "$g_player_troop"),
+                (troop_get_slot, ":player_rank", "$g_player_troop", slot_troop_rank),
+                (val_add, ":diff", ":player_rank"),
+            (try_end),
+            (val_mul, ":diff", 2),
+            (val_add, ":change", ":diff"),
+
             (store_skill_level, ":skill", "$g_player_troop", skl_intimidation),
-            (val_mul, ":skill", 2),
+            (val_mul, ":skill", 3),
             (val_add, ":change", ":skill"),
 
             (call_script, "script_quest_add_value", "qst_persuade_lord_vassalage", ":change"),
             
             (call_script, "script_persuade_vassal_quest_add_proposition", event_type_promised_threat),
 
-            (str_store_string, s0, "@Interesting, keep going"),
+            (assign, ":relation_hit", 0),
+            (try_begin),
+                (lt, ":change", -30),
+                (str_store_string, s0, "@You unwashed rag, get out of my sight."),
+                (assign, ":relation_hit", -50),
+                (assign, ":change", -500),
+            (else_try),
+                (lt, ":change", -15),
+                (str_store_string, s0, "@I don't take kindly to idle threats."),
+                (store_sub, ":relation_hit", ":change", -15),
+            (else_try),
+                (lt, ":change", -5),
+                (str_store_string, s0, "@Your threats don't impress me."),
+                (store_sub, ":relation_hit", ":change", -10),
+            (else_try),
+                (lt, ":change", 5),
+                (str_store_string, s0, "@I don't think this is the right way to go about this."),
+                (store_sub, ":relation_hit", ":change", -5),
+            (else_try),
+                (lt, ":change", 15),
+                (str_store_string, s0, "@Right, it does hold some merit."),
+            (else_try),
+                (lt, ":change", 30),
+                (str_store_string, s0, "@This makes sense."),
+            (else_try),
+                (str_store_string, s0, "@And I know where I would prefer to be."),
+            (try_end),
+
+            (try_begin),
+                (lt, ":relation_hit", 0),
+                (call_script, "script_troop_change_relation_with_troop", ":troop_no", "$g_player_troop", ":relation_hit"),
+                (try_begin),
+                    (neq, ":target_troop", "$g_player_troop"),
+                    (store_div, ":target_relation_hit", ":relation_hit", 3),
+                    (lt, ":target_relation_hit", 0),
+                    (call_script, "script_troop_change_relation_with_troop", ":troop_no", ":target_troop", ":target_relation_hit"),
+                (try_end),
+            (try_end),
         ]),
 
     # script_troop_apply_persuade_vassal_quest

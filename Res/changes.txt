@@ -7,6 +7,7 @@ v0.540:
 		* slaves increase banditry, resource production and resource transformation
 		* add peasant parties to trade goods between villages, castles and towns
 		* add lord heralrdy in select lord presentation
+		* add dialog feedback for lord become vassal persuasion
 	-Balance:
 		* update small_kingdom_22 to use vaegir_militia instead of vaegir_hunter
 		* reduce ratio of vaegir_levy_axeman for vaegir culture
