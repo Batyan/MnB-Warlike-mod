@@ -14,6 +14,9 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
+    - name: Change directory
+      run: cd Src
+
     - name: Create output directory
       run: mkdir Output
     
