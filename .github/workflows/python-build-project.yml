@@ -20,9 +20,9 @@ jobs:
     - name: Replace string in file
       uses: thiagodnf/string-replacer@v1.0.2
       with:
-        find: "export_dir = .*$"
-        replace: "export_dir = .\\Output/"
-        include: "Src/module_info.py"
+        find: 'export_dir = .*$'
+        replace: 'export_dir = ".\\Output/"'
+        include: 'Src/module_info.py'
         
     - name: setup python 2.7.13
       uses: LizardByte/setup-python-action@master
