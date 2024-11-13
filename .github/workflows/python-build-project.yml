@@ -14,16 +14,13 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Change directory
-      run: cd Src
-
     - name: Create output directory
       run: mkdir Output
     
     - name: Replace string in file
       uses: thiagodnf/string-replacer@v1.0.2
       with:
-        find: "export_dir = *$"
+        find: "export_dir = .*$"
         replace: "export_dir = .\\Output/"
         include: "Src/build_module.bat"
         
@@ -33,4 +30,5 @@ jobs:
         python-version: '2.7'
         
     - name: Run bat file
-      run: ./Src/build_module.bat
+      working-directory: ./Src
+      run: ./build_module.bat
