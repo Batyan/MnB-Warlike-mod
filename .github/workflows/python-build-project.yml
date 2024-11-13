@@ -22,7 +22,7 @@ jobs:
       with:
         find: "export_dir = .*$"
         replace: "export_dir = .\\Output/"
-        include: "Src/build_module.bat"
+        include: "Src/module_info.py"
         
     - name: setup python 2.7.13
       uses: LizardByte/setup-python-action@master
