@@ -432,10 +432,12 @@ simple_triggers = [
                 (call_script, "script_party_process_debts", ":party_no"),
                 (call_script, "script_party_pay_debts", ":party_no"),
                 (call_script, "script_party_pay_wages", ":party_no", -1),
+                (call_script, "script_party_unpaid_wages_penalties", ":party_no"),
             (try_end),
 
             # For player we call the budget menu
             (assign, "$g_process_effects", 1),
+            (call_script, "script_party_process_debts", "$g_player_party"),
             (start_presentation, "prsnt_budget_report"),
         ]),
     

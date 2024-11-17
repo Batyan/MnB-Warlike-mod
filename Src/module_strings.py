@@ -1201,6 +1201,7 @@ strings = [
   ("party_tax_description_prisoner_ransom", "Prisoner ransom"),
   ("party_tax_description_leader_ransom", "Leader ransom"),
   ("party_tax_description_caravan_wages", "Caravan wages"),
+  ("party_tax_description_loot", "Loot"),
 
   ("castle_name_plain_01", "plain_01"),
   ("castle_name_plain_02", "plain_02"),

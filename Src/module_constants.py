@@ -1072,6 +1072,7 @@ slot_party_budget_troops_selling = slot_party_budget_troops_buying + 1
 slot_party_budget_prisoner_ransom = slot_party_budget_troops_selling + 1
 slot_party_budget_leader_ransom = slot_party_budget_prisoner_ransom + 1
 slot_party_budget_caravan_wages = slot_party_budget_leader_ransom + 1
+slot_party_budget_loot = slot_party_budget_caravan_wages + 1
 
 tax_type_none = -1
 tax_type_population = 0
@@ -1101,9 +1102,10 @@ tax_type_troops_selling = 23
 tax_type_prisoner_ransom = 24
 tax_type_leader_ransom = 25
 tax_type_caravan_wages = 26
+tax_type_loot = 27
 
 slot_party_buget_taxes_begin = slot_party_budget_taxes
-slot_party_buget_taxes_end = slot_party_budget_caravan_wages + 1
+slot_party_buget_taxes_end = slot_party_budget_loot + 1
 
 slot_party_budget_reserved_party = slot_party_buget_taxes_end
 slot_party_budget_reserved_auxiliaries = slot_party_budget_reserved_party + 1
@@ -1494,8 +1496,8 @@ slot_troop_num_followers_ready = 61 # Stores number of parties currently nearby 
 slot_troop_wanted_party_wages = 62
 slot_troop_accumulated_taxes = 63
 
-slot_troop_budget_vassal_taxes = 64
-slot_troop_budget_faction_member_taxes = 65
+slot_troop_budget_vassal_taxes = slot_troop_accumulated_taxes + 1
+slot_troop_budget_faction_member_taxes = slot_troop_budget_vassal_taxes + 1
 slot_troop_budget_faction_funds = slot_troop_budget_faction_member_taxes + 1
 
 slot_troop_budget_reserved_party = slot_troop_budget_faction_funds + 1

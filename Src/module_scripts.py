@@ -1259,7 +1259,13 @@ scripts = [
                 (display_message, "@{s10} receives {reg10} denars (looting, {reg11}%)"),
             (try_end),
 
-            (call_script, "script_party_receive_gold", ":party_no", ":gold_amount"),
+            (party_get_slot, ":party_type", ":party_no", slot_party_type),
+            (try_begin),
+                (is_between, ":party_type", spt_village, spt_fort + 1),
+                (call_script, "script_party_add_accumulated_taxes", ":party_no", ":gold_amount", tax_type_loot),
+            (else_try),
+                (call_script, "script_party_receive_gold", ":party_no", ":gold_amount"),
+            (try_end),
         ]),
 
     # script_party_receive_gold
@@ -6345,26 +6351,38 @@ scripts = [
                 (troop_set_slot, ":troop_no", slot_troop_budget_reserved_party, ":budget_party"),
                 (troop_set_slot, ":troop_no", slot_troop_budget_reserved_other, ":budget_other"),
 
-                (try_begin),
-                    (eq, ":tax_type", tax_type_vassal),
-                    (troop_get_slot, ":budget", ":troop_no", slot_troop_budget_vassal_taxes),
-                    (val_add, ":budget", ":amount"),
-                    (troop_set_slot, ":troop_no", slot_troop_budget_vassal_taxes, ":budget"),
-                (else_try),
-                    (eq, ":tax_type", tax_type_member),
-                    (troop_get_slot, ":budget", ":troop_no", slot_troop_budget_faction_member_taxes),
-                    (val_add, ":budget", ":amount"),
-                    (troop_set_slot, ":troop_no", slot_troop_budget_faction_member_taxes, ":budget"),
-                (else_try),
-                    (eq, ":tax_type", tax_type_funds),
-                    (troop_get_slot, ":budget", ":troop_no", slot_troop_budget_faction_funds),
-                    (val_add, ":budget", ":amount"),
-                    (troop_set_slot, ":troop_no", slot_troop_budget_faction_funds, ":budget"),
-                (try_end),
+                (assign, ":update_budget", 0),
 
                 (try_begin),
                     (eq, ":direct", 1),
-                    (call_script, "script_troop_change_wealth", ":troop_no", ":amount"),
+                    (try_begin),
+                        (neq, ":troop_no", "$g_player_troop"),
+                        (call_script, "script_troop_change_wealth", ":troop_no", ":amount"),
+                    (else_try),
+                        (assign, ":update_budget", 1),
+                    (try_end),
+                (else_try),
+                    (assign, ":update_budget", 1),
+                (try_end),
+
+                (try_begin),
+                    (eq, ":update_budget", 1),
+                    (try_begin),
+                        (eq, ":tax_type", tax_type_vassal),
+                        (troop_get_slot, ":budget", ":troop_no", slot_troop_budget_vassal_taxes),
+                        (val_add, ":budget", ":amount"),
+                        (troop_set_slot, ":troop_no", slot_troop_budget_vassal_taxes, ":budget"),
+                    (else_try),
+                        (eq, ":tax_type", tax_type_member),
+                        (troop_get_slot, ":budget", ":troop_no", slot_troop_budget_faction_member_taxes),
+                        (val_add, ":budget", ":amount"),
+                        (troop_set_slot, ":troop_no", slot_troop_budget_faction_member_taxes, ":budget"),
+                    (else_try),
+                        (eq, ":tax_type", tax_type_funds),
+                        (troop_get_slot, ":budget", ":troop_no", slot_troop_budget_faction_funds),
+                        (val_add, ":budget", ":amount"),
+                        (troop_set_slot, ":troop_no", slot_troop_budget_faction_funds, ":budget"),
+                    (try_end),
                 (try_end),
             (try_end),
         ]),
@@ -10749,48 +10767,17 @@ scripts = [
                         (store_div, ":max_transfer", ":center_wealth", 3), # We try to keep some gold inside center
                         (val_min, ":amount", ":max_transfer"),
 
-                        (call_script, "script_move_gold_from_party_to_party", ":cur_town", ":party_no", ":amount"),
+                        (call_script, "script_party_transfer_wealth", ":cur_town", ":party_no", ":amount", tax_type_private_expenses, tax_type_private_expenses),
                     (else_try),
                         (gt, ":total_party_wealth", ":max_wealth"),
                         (store_sub, ":amount", ":total_party_wealth", ":max_wealth"),
                         (store_div, ":transfer", ":party_wage", 4),
                         (val_add, ":amount", ":transfer"),
 
-                        (call_script, "script_move_gold_from_party_to_party", ":party_no", ":cur_town", ":amount"),
+                        (call_script, "script_party_transfer_wealth", ":party_no", ":cur_town", ":amount", tax_type_private_expenses, tax_type_private_expenses),
                     (try_end),
                 (try_end),
             (try_end),
-
-            
-        ]),
-
-    # script_move_gold_from_party_to_party
-    # input:
-    #   arg1: party_from
-    #   arg2: party_to
-    #   arg3: amount
-    # output:
-    #   reg0: gold_moved
-    ("move_gold_from_party_to_party",
-        [
-            (store_script_param, ":party_from", 1),
-            (store_script_param, ":party_to", 2),
-            (store_script_param, ":amount", 3),
-
-            (call_script, "script_party_remove_gold", ":party_from", ":amount"),
-            (assign, ":removed", reg0),
-            (call_script, "script_party_receive_gold", ":party_to", ":removed"),
-
-            (try_begin),
-                (call_script, "script_cf_debug", debug_economy),
-                (str_store_party_name, s10, ":party_from"),
-                (str_store_party_name, s11, ":party_to"),
-                (assign, reg10, ":amount"),
-                (assign, reg11, ":removed"),
-                (display_message, "@{s10} move gold to {s11} (wanted: {reg10} - real {reg11})"),
-            (try_end),
-
-            (assign, reg0, 0),
         ]),
     
     # script_party_set_behavior
@@ -20142,9 +20129,11 @@ scripts = [
                 (try_end),
 
                 (try_begin),
-                    (neq, ":amount_paid", ":party_wages"),
+                    (lt, ":paid_wages", ":party_wages"),
                     (store_sub, ":unpaid_wages", ":party_wages", ":paid_wages"),
-                    (call_script, "script_party_unpaid_wages_penalties", ":party_no", ":unpaid_wages", ":party_wages"),
+                    (party_get_slot, ":current_unpaid_wages", ":party_no", slot_party_unpaid_wages),
+                    (val_add, ":current_unpaid_wages", ":unpaid_wages"),
+                    (party_set_slot, ":party_no", slot_party_unpaid_wages, ":current_unpaid_wages"),
                 (try_end),
             (try_end),
 
@@ -20213,9 +20202,19 @@ scripts = [
 
             (party_get_slot, ":party_type", ":party_no", slot_party_type),
 
+            (assign, ":debt_rate", 0),
             (try_begin),
+                # Debts accumulate at a rate of 1% for centers
                 (is_between, ":party_type", spt_village, spt_fort + 1),
+                (assign, ":debt_rate", 10),
+            (else_try),
+                # Debts accumulate at a rate of 0.1% for war parties
+                (eq, ":party_type", spt_war_party),
+                (assign, ":debt_rate", 1),
+            (try_end),
 
+            (try_begin),
+                (gt, ":debt_rate", 0),
                 (party_get_slot, ":wealth", ":party_no", slot_party_wealth),
                 (party_get_slot, ":unpaid_wages", ":party_no", slot_party_unpaid_wages),
 
@@ -20226,8 +20225,8 @@ scripts = [
                 (try_end),
                 (try_begin),
                     (lt, ":total_debts", 0),
-                    # Debts accumulate at a rate of 1%
-                    (store_div, ":debt_interests", ":total_debts", 100),
+                    (store_mul, ":debt_interests", ":total_debts", ":debt_rate"),
+                    (val_div, ":debt_interests", 1000),
                     (lt, ":debt_interests", 0),
                     (call_script, "script_party_add_accumulated_taxes", ":party_no", ":debt_interests", tax_type_debts),
                 (try_end),
@@ -20372,32 +20371,30 @@ scripts = [
     # script_party_unpaid_wages_penalties
         # input:
         #   arg1: party_no
-        #   arg2: unpaid_wages
-        #   arg3: total_wages
         # output: none
     ("party_unpaid_wages_penalties",
         [
             (store_script_param, ":party_no", 1),
-            (store_script_param, ":unpaid_wages", 2),
-            (store_script_param, ":total_wages", 3),
 
-            (party_get_slot, ":old_debts", ":party_no", slot_party_unpaid_wages),
+            (call_script, "script_party_get_wages", ":party_no"),
+            (assign, ":total_wages", reg0),
+
+            (party_get_slot, ":unpaid_wages", ":party_no", slot_party_unpaid_wages),
             
             # Lose morale equals to 1/10th of the percentage of unpaid wages
             (store_mul, ":morale_penalties", ":unpaid_wages", 10),
-            (val_div, ":morale_penalties", ":total_wages"),
-            (val_mul, ":morale_penalties", -1),
             (try_begin),
-                (call_script, "script_cf_debug", debug_economy),
-                (str_store_party_name, s10, ":party_no"),
-                (assign, reg10, ":unpaid_wages"),
-                (assign, reg11, ":old_debts"),
-                (display_message, "@{s10} has unpaid wages: {reg10} (old debts: {reg11})"),
+                (gt, ":total_wages", 0),
+                (val_div, ":morale_penalties", ":total_wages"),
+                (val_mul, ":morale_penalties", -1),
+                (try_begin),
+                    (call_script, "script_cf_debug", debug_economy),
+                    (str_store_party_name, s10, ":party_no"),
+                    (assign, reg10, ":unpaid_wages"),
+                    (display_message, "@{s10} has unpaid wages: {reg10}"),
+                (try_end),
+                (call_script, "script_party_change_morale", ":party_no", ":morale_penalties"),
             (try_end),
-            (call_script, "script_party_change_morale", ":party_no", ":morale_penalties"),
-            
-            (val_add, ":old_debts", ":unpaid_wages"),
-            (party_set_slot, ":party_no", slot_party_unpaid_wages, ":old_debts"),
         ]),
 
     # script_party_get_wages

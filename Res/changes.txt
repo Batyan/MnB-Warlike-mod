@@ -25,6 +25,8 @@ v0.540:
 	-Fixes:
 		* fix vassals automatically following player
 		* fix caravan charging cities for their wages
+		* fix player receiving direct gold from vassal and faction taxes
+		* fix player receiving direct gold from owned center looting
 v0.530:
 	-Features:
 		* add the ability to grant fief to vassals
