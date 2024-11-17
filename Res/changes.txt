@@ -1,3 +1,7 @@
+v0.550:
+	-Features:
+	-Balance:
+	-Fixes:
 v0.540:
 	-Features:
 		* add automatic management of prisoners
