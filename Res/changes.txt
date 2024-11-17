@@ -1,3 +1,32 @@
+v0.540:
+	-Features:
+		* add automatic management of prisoners
+			prisoners can be released, ransomed, enslaved or released
+		* add player center management of prisoners
+		* move some camp menu interactions
+		* slaves increase banditry, resource production and resource transformation
+		* add peasant parties to trade goods between villages, castles and towns
+		* add lord heralrdy in select lord presentation
+		* add dialog feedback for lord become vassal persuasion
+	-Balance:
+		* update small_kingdom_22 to use vaegir_militia instead of vaegir_hunter
+		* reduce ratio of vaegir_levy_axeman for vaegir culture
+		* update factions troop composition
+			This change aims to increase the overall amount of infantry fielded by cavalry factions (vaegirs, khergit, sarranid)
+			It also increases the uniqueness of small factions by leaning more on their special troops
+		* increase khergit_warrior weapon tier
+		* increase khergit_warrior athletics (3 -> 4)
+		* increase khergit_warrior ironflesh (3 -> 5)
+		* increase khergit_heavy_skirmisher ironflesh (3 -> 5)
+		* set nord_armoured_lancer horse to warhorse (from hunter)
+		* increase prisoner management skill effectivness to add a flat +5 to each level
+		* block already selected choice in vassal persuasion dialog
+		* increase slightly garrison strength
+	-Fixes:
+		* fix vassals automatically following player
+		* fix caravan charging cities for their wages
+		* fix player receiving direct gold from vassal and faction taxes
+		* fix player receiving direct gold from owned center looting
 v0.530:
 	-Features:
 		* add the ability to grant fief to vassals

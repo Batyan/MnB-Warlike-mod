@@ -33,7 +33,7 @@ party_templates = [
 	
 	("hunters", "Hunters", icon_axeman|carries_goods(4), 0, fac_commoners, aggressiveness_1|courage_6, [(trp_common_hunter_bow, 2, 6),]),
 	("caravan", "Caravan", icon_mule|carries_goods(30), 0, fac_commoners, 0, []),
-	("peasants", "Peasants", icon_peasant|carries_goods(15), 0, fac_commoners, 0, []),
+	("peasants", "Peasants", icon_peasant|carries_goods(25), 0, fac_commoners, 0, []),
 	("patrol", "Patrol", icon_vaegir_knight|carries_goods(15), pf_show_faction, fac_commoners, 0, []),
 	("scout", "Scout", icon_player_horseman|carries_goods(10), pf_show_faction, fac_commoners, 0, []),
 	("war_party", "War Party", icon_gray_knight|carries_goods(20), pf_show_faction|pf_default_behavior, fac_commoners, 0, []),

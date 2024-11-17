@@ -219,7 +219,7 @@ parties = [
 	("village_1c1","Ryibelet", icon_village_a|pf_village, 0, pt_none, fac_kingdom_1,0,ai_bhvr_hold,0,(-70.5, 40.1),[], 170),
 	("village_1d1","Veigar", icon_village_a|pf_village, 0, pt_none, fac_kingdom_1,0,ai_bhvr_hold,0,(-119.6, 19.5),[], 170),
 	("village_1e1","Ryindyar", icon_village_a|pf_village, 0, pt_none, fac_kingdom_1,0,ai_bhvr_hold,0,(-73.6, 12.2),[], 170),
-	("village_1f1","New Village", icon_village_a|pf_village, 0, pt_none, fac_kingdom_1,0,ai_bhvr_hold,0,(-37.5, 30.7),[], 170),
+	("village_1f1","Serdini", icon_village_a|pf_village, 0, pt_none, fac_kingdom_1,0,ai_bhvr_hold,0,(-37.5, 30.7),[], 170),
 	("village_1g1","New Village", icon_village_a|pf_village, 0, pt_none, fac_kingdom_1,0,ai_bhvr_hold,0,(-76.7, 29),[], 170),
 	
 	("village_11a1","Balanli", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_11,0,ai_bhvr_hold,0,(-131.1, 42.9),[], 170),
@@ -351,9 +351,9 @@ parties = [
 	("village_42a1","Raeth", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_42,0,ai_bhvr_hold,0,(-0.3, 34.3),[], 170),
 	
 	("village_43a1","Jayek", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_43,0,ai_bhvr_hold,0,(-0.5, 107.9),[], 170),
-	("village_43a2","New Village", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_43,0,ai_bhvr_hold,0,(-17, 123.6),[], 170),
-	("village_43a3","New Village", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_43,0,ai_bhvr_hold,0,(-0.2, 120.2),[], 170),
-	("village_43a4","New Village", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_43,0,ai_bhvr_hold,0,(-14.8, 113.9),[], 170),
+	("village_43a2","Morye", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_43,0,ai_bhvr_hold,0,(-22.0, 125.4),[], 170),
+	("village_43a3","Jorbe", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_43,0,ai_bhvr_hold,0,(5.5, 118.8),[], 170),
+	("village_43a4","Chelwynn", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_43,0,ai_bhvr_hold,0,(-14.8, 113.9),[], 170),
 	("village_43b1","Odasan", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_43,0,ai_bhvr_hold,0,(-39.2, 111.2),[], 170),
 	("village_43c1","Albruq", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_43,0,ai_bhvr_hold,0,(22.6, 98.6),[], 170),
 	("village_43d1","Kurs", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_43,0,ai_bhvr_hold,0,(18.2, 117.5),[], 170),

@@ -366,6 +366,7 @@ type_slight = 1
 type_none = 0
 
 caravan_max_cargo_size = 60
+civilian_max_cargo_size = 12
 
 caravan_score_distance_ratio = 3
 caravan_score_resource_production_ratio = 500
@@ -375,6 +376,9 @@ caravan_score_war_penatly = 100
 caravan_score_type_selling = 1
 caravan_score_type_buying = 2
 caravan_score_type_all = 0
+
+civilian_party_min_size = 9
+civilian_party_max_size = 15
 
 political_event_relation_change = 1
 political_event_war_declared = 2
@@ -800,6 +804,8 @@ slot_faction_wealth_shared_ratio = slot_faction_budget_funds_payment + 1
 
 slot_faction_tmp = slot_faction_wealth_shared_ratio + 1
 
+slot_faction_peasant_troop = slot_faction_tmp + 1
+
 #######################
 ## War Storage Slots ##
 ## ####################
@@ -1055,13 +1061,18 @@ slot_party_budget_pay_tribute = slot_party_budget_tribute + 1
 slot_party_budget_occupation = slot_party_budget_pay_tribute + 1
 slot_party_budget_pay_occupation = slot_party_budget_occupation + 1
 slot_party_budget_debts = slot_party_budget_pay_occupation + 1
-slot_party_budget_expenses = slot_party_budget_debts + 1
+slot_party_budget_debt_collection = slot_party_budget_debts + 1
+slot_party_budget_expenses = slot_party_budget_debt_collection + 1
 slot_party_budget_late_wages = slot_party_budget_expenses + 1
 slot_party_budget_wages = slot_party_budget_late_wages + 1
 slot_party_budget_private_expenses = slot_party_budget_wages + 1
 slot_party_budget_troops_hiring = slot_party_budget_private_expenses + 1
 slot_party_budget_troops_buying = slot_party_budget_troops_hiring + 1
-slot_party_budget_troops_selling = slot_party_budget_troops_hiring + 1
+slot_party_budget_troops_selling = slot_party_budget_troops_buying + 1
+slot_party_budget_prisoner_ransom = slot_party_budget_troops_selling + 1
+slot_party_budget_leader_ransom = slot_party_budget_prisoner_ransom + 1
+slot_party_budget_caravan_wages = slot_party_budget_leader_ransom + 1
+slot_party_budget_loot = slot_party_budget_caravan_wages + 1
 
 tax_type_none = -1
 tax_type_population = 0
@@ -1080,16 +1091,21 @@ tax_type_tribute_pay = 12
 tax_type_occupation = 13
 tax_type_occupation_pay = 14
 tax_type_debts = 15
-tax_type_expenses = 16
-tax_type_late_wages = 17
-tax_type_wages = 18
-tax_type_private_expenses = 19
-tax_type_troops_hiring = 20
-tax_type_troops_buying = 21
-tax_type_troops_selling = 22
+tax_type_debt_collection = 16
+tax_type_expenses = 17
+tax_type_late_wages = 18
+tax_type_wages = 19
+tax_type_private_expenses = 20
+tax_type_troops_hiring = 21
+tax_type_troops_buying = 22
+tax_type_troops_selling = 23
+tax_type_prisoner_ransom = 24
+tax_type_leader_ransom = 25
+tax_type_caravan_wages = 26
+tax_type_loot = 27
 
 slot_party_buget_taxes_begin = slot_party_budget_taxes
-slot_party_buget_taxes_end = slot_party_budget_troops_selling + 1
+slot_party_buget_taxes_end = slot_party_budget_loot + 1
 
 slot_party_budget_reserved_party = slot_party_buget_taxes_end
 slot_party_budget_reserved_auxiliaries = slot_party_budget_reserved_party + 1
@@ -1249,6 +1265,28 @@ pgf_default_village_mask = pgf_sell_levy_mask|pgf_send_levy
 pgf_default_castle_mask = pgf_sell_levy_mask|pgf_sell_common_faction|pgf_sell_common_vassals|pgf_send_levy|pgf_send_common
 pgf_default_town_mask = pgf_sell_levy_mask|pgf_sell_common_faction|pgf_sell_common_vassals|pgf_send_levy|pgf_send_common
 
+slot_party_max_prisoner_ratio = slot_party_player_garrison_flags + 1
+slot_party_max_prisoner_outcome = slot_party_max_prisoner_ratio + 1
+
+mpo_ransom = 0x01
+mpo_slave = 0x02
+mpo_exchange = 0x04
+mpo_release = 0x08
+mpo_recruit = 0x10
+
+mpo_all = mpo_ransom | mpo_slave | mpo_exchange | mpo_release | mpo_recruit
+
+mpo_ransom_clear = mpo_all - mpo_ransom
+mpo_slave_clear = mpo_all - mpo_slave
+mpo_exchange_clear = mpo_all - mpo_exchange
+mpo_release_clear = mpo_all - mpo_release
+mpo_recruit_clear = mpo_all - mpo_recruit
+
+mpo_default = mpo_ransom|mpo_slave|mpo_recruit
+
+slot_party_attached_party_cooldown = slot_party_max_prisoner_outcome + 1
+
+slot_party_visiting_center = slot_party_attached_party_cooldown + 1
 
 #################
 ## Scene Slots ##
@@ -1458,8 +1496,8 @@ slot_troop_num_followers_ready = 61 # Stores number of parties currently nearby 
 slot_troop_wanted_party_wages = 62
 slot_troop_accumulated_taxes = 63
 
-slot_troop_budget_vassal_taxes = 64
-slot_troop_budget_faction_member_taxes = 65
+slot_troop_budget_vassal_taxes = slot_troop_accumulated_taxes + 1
+slot_troop_budget_faction_member_taxes = slot_troop_budget_vassal_taxes + 1
 slot_troop_budget_faction_funds = slot_troop_budget_faction_member_taxes + 1
 
 slot_troop_budget_reserved_party = slot_troop_budget_faction_funds + 1
