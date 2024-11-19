@@ -25301,7 +25301,6 @@ scripts = [
                         (ge, reg0, 10),
                         (assign, ":new_merchant", ":cur_merchant"),
                         (assign, ":end", 0),
-                    (else_try),
                     (try_end),
                 (try_end),
 
@@ -25322,6 +25321,8 @@ scripts = [
                     (troop_clear_inventory, ":new_merchant"),
                     (party_set_slot, ":party_no", ":merchant_slot", ":new_merchant"),
                     (assign, ":merchant", ":new_merchant"),
+                (else_try),
+                    (display_message, "@ERROR: unable to find unused merchant troop", text_color_impossible),
                 (try_end),
             (try_end),
             (party_set_slot, ":party_no", ":merchant_slot", ":merchant"),
