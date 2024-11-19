@@ -3,6 +3,7 @@ v0.550:
 		* add trader types for all centers
 	-Balance:
 	-Fixes:
+		* fix debt interest text color in budget presentation
 v0.540:
 	-Features:
 		* add automatic management of prisoners

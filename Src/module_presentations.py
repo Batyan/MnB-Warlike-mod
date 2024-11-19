@@ -838,12 +838,12 @@ presentations = [
 
                     (str_store_string, s10, "@Debt interests:"),
                     (call_script, "script_presentation_create_text_overlay", tf_left_align, ":current_effects_x", ":cur_y", 1000, 1000),
-                    (overlay_set_color, reg0, text_color_budget_negative),
+                    (overlay_set_color, reg0, text_color_budget_neutral),
 
                     (assign, reg10, ":debt_interests"),
                     (str_store_string, s10, "@{reg10}"),
                     (call_script, "script_presentation_create_text_overlay", tf_right_align, ":current_effects_values_x", ":cur_y", 1000, 1000),
-                    (overlay_set_color, reg0, text_color_budget_neutral),
+                    (overlay_set_color, reg0, text_color_budget_negative),
                 (try_end),
 
                 (str_store_string, s10, "@Current debt:"),
