@@ -1117,95 +1117,44 @@ game_menus = [
             (assign, "$g_trading", 0),
         ],
         [
-            ("center_buy_goods", [(disable_menu_option),], "Buy goods",
+            ("center_buy_goods",
                 [
-                    #ToDo: buy goods
+                    (call_script, "script_cf_party_has_merchant", "$g_encountered_party", merchant_type_goods),
+                ], "Buy goods",
+                [
                     (assign, "$g_trading", 1),
+                    (call_script, "script_cf_party_has_merchant", "$g_encountered_party", merchant_type_goods),
+                    (change_screen_trade, reg0),
                 ]),
             
             ("center_buy_weapons", 
                 [
-                    # (call_script, "script_party_has_building", "$g_encountered_party", "itm_building_smithy"),
-                    # (assign, ":has_building", reg0),
-                    
-                    # (this_or_next|party_slot_eq, "$g_encountered_party", slot_party_type, spt_castle),
-                    # (this_or_next|party_slot_eq, "$g_encountered_party", slot_party_type, spt_town),
-                    (is_between, "$g_encountered_party", towns_begin, towns_end),
-                    # (ge, ":has_building", 1),
+                    (call_script, "script_cf_party_has_merchant", "$g_encountered_party", merchant_type_weapon),
                 ], "Buy weapons",
                 [
-                    #ToDo: buy weapons
-                    # (party_get_slot, ":party_type", "$g_encountered_party", slot_party_type),
-                    # (eq, ":party_type", spt_town),
-                    (store_sub, ":offset", "$g_encountered_party", towns_begin),
-                    (store_add, ":merchant", merchants_weapons_begin, ":offset"),
-                    # (assign, "$current_trader", ":merchant"),
                     (assign, "$g_trading", 1),
-                    (change_screen_trade, ":merchant"),
-                    # (assign, "$current_trader", -1),
-                ]),
-            
-            ("center_buy_smith", 
-                [
-                    (party_slot_eq, "$g_encountered_party", slot_party_type, spt_castle),
-                ], "Buy gear",
-                [
-                    (store_sub, ":offset", "$g_encountered_party", castles_begin),
-                    (store_add, ":merchant", merchants_smiths_begin, ":offset"),
-                    # (assign, "$current_trader", ":merchant"),
-                    (assign, "$g_trading", 1),
-                    (change_screen_trade, ":merchant"),
-                    # (assign, "$current_trader", -1),
+                    (call_script, "script_cf_party_has_merchant", "$g_encountered_party", merchant_type_weapon),
+                    (change_screen_trade, reg0),
                 ]),
             
             ("center_buy_armors", 
                 [
-                    # (call_script, "script_party_has_building", "$g_encountered_party", "itm_building_smithy"),
-                    # (assign, ":has_building", reg0),
-                    
-                    # (this_or_next|party_slot_eq, "$g_encountered_party", slot_party_type, spt_castle),
-                    # (party_slot_eq, "$g_encountered_party", slot_party_type, spt_town),
-                    (is_between, "$g_encountered_party", towns_begin, towns_end),
-                    # (ge, ":has_building", 1),
+                    (call_script, "script_cf_party_has_merchant", "$g_encountered_party", merchant_type_armor),
                 ], "Buy armors",
                 [
-                    # ToDo: buy armors
-                    (store_sub, ":offset", "$g_encountered_party", towns_begin),
-                    (store_add, ":merchant", merchants_armors_begin, ":offset"),
-                    # (assign, "$current_trader", ":merchant"),
                     (assign, "$g_trading", 1),
-                    (change_screen_trade, ":merchant"),
-                    # (assign, "$current_trader", -1),
+                    (call_script, "script_cf_party_has_merchant", "$g_encountered_party", merchant_type_armor),
+                    (change_screen_trade, reg0),
                 ]),
             
             ("center_buy_horses", 
-                [(disable_menu_option),
-                    (call_script, "script_party_has_building", "$g_encountered_party", "itm_building_stables"),
-                    (assign, ":has_building", reg0),
-                    
-                    (this_or_next|party_slot_eq, "$g_encountered_party", slot_party_type, spt_castle),
-                    (this_or_next|party_slot_eq, "$g_encountered_party", slot_party_type, spt_town),
-                    (ge, ":has_building", 1),
+                [   
+                    (call_script, "script_cf_party_has_merchant", "$g_encountered_party", merchant_type_horse),
                 ], "Buy horses",
                 [
-                    #ToDo: buy horses
                     (assign, "$g_trading", 1),
-                ]),
-            
-            ("center_buy_general", 
-                [
-                    # (party_slot_eq, "$g_encountered_party", slot_party_type, spt_town),
-                    (this_or_next|party_slot_eq, "$g_encountered_party", slot_party_type, spt_castle),
-                    (party_slot_eq, "$g_encountered_party", slot_party_type, spt_town),
-                ], "Go to the general store",
-                [
-                    #ToDo: pawnbroker
-                    (store_sub, ":offset", "$g_encountered_party", towns_begin),
-                    (store_add, ":merchant", merchants_general_begin, ":offset"),
-                    # (assign, "$current_trader", ":merchant"),
-                    (assign, "$g_trading", 1),
-                    (change_screen_trade, ":merchant"),
-                    # (assign, "$current_trader", -1),
+                    (call_script, "script_cf_party_has_merchant", "$g_encountered_party", merchant_type_horse),
+                    (change_screen_trade, reg0),
                 ]),
             
             ("center_back", [], "Head back to the center",

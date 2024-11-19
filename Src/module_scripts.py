@@ -114,7 +114,8 @@ scripts = [
             (call_script, "script_init_quests"),
 
             (try_for_range, ":merchant", merchants_begin, merchants_end),
-                (troop_set_slot, ":merchant", slot_troop_last_met, -24*7*5), # Around 5 weeks' worth of goods
+                (troop_set_slot, ":merchant", slot_troop_last_met, -50000),
+                (troop_set_slot, ":merchant", slot_troop_merchant_center, -1),
             (try_end),
 
             (faction_set_slot, "fac_small_kingdom_45", slot_faction_leader, "$g_player_troop"),
@@ -14566,105 +14567,70 @@ scripts = [
     ("party_update_merchants",
         [
             (store_script_param, ":party_no", 1),
-            
+
+            (assign, ":merchant_slot", slot_party_merchant_1),
+
+            (call_script, "script_get_current_day"),
+            (assign, ":current_day", reg0),
+
             (party_get_slot, ":party_type", ":party_no", slot_party_type),
+            (try_begin),
+                (this_or_next|eq, ":party_type", spt_village),
+                (eq, ":party_type", spt_town),
+
+                (call_script, "script_party_get_merchant", ":party_no", ":merchant_slot", merchant_type_goods),
+                (assign, ":merchant", reg0),
+
+                (try_begin),
+                    (call_script, "script_cf_merchant_can_update", ":merchant"),
+                    (assign, ":num_tries", reg0),
+                    (try_for_range, ":unused", 0, ":num_tries"),
+                        (call_script, "script_troop_add_merchant_items_from_party", ":merchant", ":party_no", items_good),
+                    (try_end),
+                (try_end),
+                (troop_set_slot, ":merchant", slot_troop_last_met, ":current_day"),
+                (val_add, ":merchant_slot", 1),
+            (try_end),
+
             (try_begin),
                 (this_or_next|eq, ":party_type", spt_town),
                 (eq, ":party_type", spt_castle),
-                (store_sub, ":offset", ":party_no", towns_begin),
-                (store_add, ":merchant", merchants_general_begin, ":offset"),
+
+                (call_script, "script_party_get_merchant", ":party_no", ":merchant_slot", merchant_type_armor),
+                (assign, ":merchant", reg0),
                 (try_begin),
                     (call_script, "script_cf_merchant_can_update", ":merchant"),
                     (assign, ":num_times", reg0),
                     (try_for_range, ":unused", 0, ":num_times"),
-                        (call_script, "script_troop_add_merchant_items_from_party", ":merchant", ":party_no", items_weapon|items_armor|items_good|items_horse),
+                        (call_script, "script_troop_add_merchant_items_from_party", ":merchant", ":party_no", items_armor),
                     (try_end),
                 (try_end),
-            (try_end),
-            (try_begin),
-                (eq, ":party_type", spt_town),
-                (store_sub, ":offset", ":party_no", towns_begin),
-                (store_add, ":merchant", merchants_weapons_begin, ":offset"),
-                
-                (call_script, "script_cf_merchant_can_update", ":merchant"),
-                (assign, ":num_times", reg0),
-                (store_faction_of_party, ":party_faction", ":party_no"),
-                (party_set_faction, "p_temp_party", ":party_faction"),
-                (party_clear, "p_temp_party"),
-            
-                (troop_clear_inventory, "trp_temp_troop"),
-                (store_mul, ":num_tries", ":num_times", 2),
-                (try_for_range, ":unused", 0, ":num_tries"),
-                    #(call_script, "script_troop_add_merchant_items_from_party", ":merchant", ":party_no", items_weapon),
-                    (call_script, "script_party_add_reinforcements", "p_temp_party"),
-                (try_end),
-                (party_get_num_companion_stacks, ":num_stacks", "p_temp_party"),
-                (try_for_range, ":cur_stack", 0, ":num_stacks"),
-                    (party_stack_get_troop_id, ":cur_troop", "p_temp_party", ":cur_stack"),
-                    (party_stack_get_size, ":size", "p_temp_party", ":cur_stack"),
-                    (val_div, ":size", 3), # We reduce the number of troops in each stack to prevent peasant items from bloating the inventory
-                    (val_add, ":size", 1), # 
-                    (try_for_range, ":unused", 0, ":size"),
-                        (troop_loot_troop, "trp_temp_troop", ":cur_troop", 100),
+                (troop_set_slot, ":merchant", slot_troop_last_met, ":current_day"),
+                (val_add, ":merchant_slot", 1),
+
+                (call_script, "script_party_get_merchant", ":party_no", ":merchant_slot", merchant_type_weapon),
+                (assign, ":merchant", reg0),
+                (try_begin),
+                    (call_script, "script_cf_merchant_can_update", ":merchant"),
+                    (assign, ":num_times", reg0),
+                    (try_for_range, ":unused", 0, ":num_times"),
+                        (call_script, "script_troop_add_merchant_items_from_party", ":merchant", ":party_no", items_weapon),
                     (try_end),
                 (try_end),
-                (troop_get_inventory_capacity, ":num_items", "trp_temp_troop"),
+                (troop_set_slot, ":merchant", slot_troop_last_met, ":current_day"),
+                (val_add, ":merchant_slot", 1),
 
-                (store_sub, ":offset", ":party_no", towns_begin),
-                (store_add, ":merchant", merchants_weapons_begin, ":offset"),
-                # Adding weapons
-
-                (troop_get_inventory_capacity, ":capacity", ":merchant"),
-                (val_div, ":capacity", 2),
-                (troop_sort_inventory, ":merchant"),
-                (troop_ensure_inventory_space, ":merchant", ":capacity"),
-
-                (try_for_range, ":i", 0, ":num_items"),
-                    (troop_get_inventory_slot, ":item", "trp_temp_troop", ":i"),
-                    (gt, ":item", 0),
-                    (troop_get_inventory_slot_modifier, ":modifier", "trp_temp_troop", ":i"),
-                    (item_get_type, ":item_type", ":item"),
-                    (is_between, ":item_type", itp_type_one_handed_wpn, itp_type_goods),
-                    (troop_add_item, ":merchant", ":item", ":modifier"),
+                (call_script, "script_party_get_merchant", ":party_no", ":merchant_slot", merchant_type_horse),
+                (assign, ":merchant", reg0),
+                (try_begin),
+                    (call_script, "script_cf_merchant_can_update", ":merchant"),
+                    (assign, ":num_times", reg0),
+                    (try_for_range, ":unused", 0, ":num_times"),
+                        (call_script, "script_troop_add_merchant_items_from_party", ":merchant", ":party_no", items_horse),
+                    (try_end),
                 (try_end),
-                (troop_sort_inventory, ":merchant"),
-                
-                (store_sub, ":offset", ":party_no", towns_begin),
-                (store_add, ":merchant", merchants_armors_begin, ":offset"),
-                # Adding armors
-                
-                (troop_get_inventory_capacity, ":capacity", ":merchant"),
-                (val_div, ":capacity", 2),
-                (troop_sort_inventory, ":merchant"),
-                (troop_ensure_inventory_space, ":merchant", ":capacity"),
-
-                (try_for_range, ":i", 0, ":num_items"),
-                    (troop_get_inventory_slot, ":item", "trp_temp_troop", ":i"),
-                    (gt, ":item", 0),
-                    (troop_get_inventory_slot_modifier, ":modifier", "trp_temp_troop", ":i"),
-                    (item_get_type, ":item_type", ":item"),
-                    (is_between, ":item_type", itp_type_head_armor, itp_type_pistol),
-                    (troop_add_item, ":merchant", ":item", ":modifier"),
-                (try_end),
-                (troop_sort_inventory, ":merchant"),
-
-                # (call_script, "script_cf_merchant_can_update", ":merchant"),
-                # (assign, ":num_times", reg0),
-
-                # (try_for_range, ":unused", 0, ":num_times"),
-                #     (call_script, "script_troop_add_merchant_items_from_party", ":merchant", ":party_no", items_armor),
-                # (try_end),
-            (try_end),
-            (try_begin),
-                (eq, ":party_type", spt_castle),
-                (store_sub, ":offset", ":party_no", castles_begin),
-                (store_add, ":merchant", merchants_smiths_begin, ":offset"),
-                
-                (call_script, "script_cf_merchant_can_update", ":merchant"),
-                (assign, ":num_times", reg0),
-                (try_for_range, ":unused", 0, ":num_times"),
-                    (call_script, "script_troop_add_merchant_items_from_party", ":merchant", ":party_no", items_weapon|items_armor),
-                (try_end),
+                (troop_set_slot, ":merchant", slot_troop_last_met, ":current_day"),
+                (val_add, ":merchant_slot", 1),
             (try_end),
         ]),
     
@@ -17721,7 +17687,7 @@ scripts = [
             (troop_get_slot, ":last_met", ":merchant", slot_troop_last_met),
             (call_script, "script_get_current_day"),
             (assign, ":current_day", reg0),
-            (troop_set_slot, ":merchant", slot_troop_last_met, ":current_day"),
+            # (troop_set_slot, ":merchant", slot_troop_last_met, ":current_day"),
             (store_div, ":last_met_mod", ":last_met", merchants_update_rate),
             (val_div, ":current_day", merchants_update_rate),
             
@@ -17731,7 +17697,7 @@ scripts = [
             (try_begin),
                 (call_script, "script_cf_debug", debug_economy|debug_simple),
                 (assign, reg0, ":time_passed"),
-                (display_message, "@Updating merchant goods ({reg0} times)."),
+                (display_message, "@Merchant can update goods ({reg0} times)."),
             (try_end),
             (assign, reg0, ":time_passed"),
         ]),
@@ -25297,6 +25263,107 @@ scripts = [
                     (assign, ":end", 0),
                 (try_end),
             (try_end),
+        ]),
+
+    # script_party_get_merchant
+        # input:
+        #   arg1: party_no
+        #   arg2: merchant_slot
+        #   arg3: merchant_type
+        # output:
+        #   reg0: merchant_troop
+    ("party_get_merchant",
+        [
+            (store_script_param, ":party_no", 1),
+            (store_script_param, ":merchant_slot", 2),
+            (store_script_param, ":merchant_type", 3),
+
+            (party_get_slot, ":merchant", ":party_no", ":merchant_slot"),
+            (try_begin),
+                (is_between, ":merchant", merchants_begin, merchants_end),
+                (troop_get_slot, ":merchant_center", ":merchant", slot_troop_merchant_center),
+                (eq, ":merchant_center", ":party_no"),
+                (troop_get_slot, ":merchant_type", ":merchant", slot_troop_merchant_type),
+                (eq, ":merchant_type", ":merchant_type"),
+
+                (assign, reg0, ":merchant"),
+            (else_try),
+                (assign, ":new_merchant", -1),
+                (assign, ":end", merchants_end),
+                (try_for_range, ":cur_merchant", merchants_begin, ":end"),
+                    (troop_get_slot, ":center", ":cur_merchant", slot_troop_merchant_center),
+                    (try_begin),
+                        (eq, ":center", -1),
+                        (assign, ":new_merchant", ":cur_merchant"),
+                        (assign, ":end", 0),
+                    (else_try),
+                        (call_script, "script_cf_merchant_can_update", ":cur_merchant"),
+                        (ge, reg0, 10),
+                        (assign, ":new_merchant", ":cur_merchant"),
+                        (assign, ":end", 0),
+                    (else_try),
+                    (try_end),
+                (try_end),
+
+                (try_begin),
+                    (is_between, ":new_merchant", merchants_begin, merchants_end),
+
+                    (try_begin),
+                        (call_script, "script_cf_debug", debug_current),
+                        (str_store_party_name, s10, ":party_no"),
+                        (assign, reg10, ":new_merchant"),
+                        (assign, reg11, ":merchant_type"),
+                        (display_message, "@Generating new merchant {reg10} for {s10} of type {reg11}"),
+                    (try_end),
+
+                    (troop_set_slot, ":new_merchant", slot_troop_merchant_center, ":party_no"),
+                    (troop_set_slot, ":new_merchant", slot_troop_merchant_type, ":merchant_type"),
+                    (troop_set_slot, ":new_merchant", slot_troop_last_met, -50000),
+                    (troop_clear_inventory, ":new_merchant"),
+                    (party_set_slot, ":party_no", ":merchant_slot", ":new_merchant"),
+                    (assign, ":merchant", ":new_merchant"),
+                (try_end),
+            (try_end),
+            (party_set_slot, ":party_no", ":merchant_slot", ":merchant"),
+            (assign, reg0, ":merchant"),
+        ]),
+
+    # script_cf_party_has_merchant
+        # input:
+        #   arg1: party_no
+        #   arg2: merchant_type
+        # output:
+        #   reg0: merchant_troop
+    ("cf_party_has_merchant",
+        [
+            (store_script_param, ":party_no", 1),
+            (store_script_param, ":merchant_type", 2),
+
+            (assign, ":merchant", -1),
+            (assign, ":end", slot_party_merchant_4 + 1),
+            (try_for_range, ":merchant_slot", slot_party_merchant_1, ":end"),
+                (party_get_slot, ":cur_merchant", ":party_no", ":merchant_slot"),
+                (try_begin),
+                    (is_between, ":cur_merchant", merchants_begin, merchants_end),
+                    (troop_get_slot, ":merchant_center", ":cur_merchant", slot_troop_merchant_center),
+                    (eq, ":merchant_center", ":party_no"),
+                    (troop_get_slot, ":cur_merchant_type", ":cur_merchant", slot_troop_merchant_type),
+                    (eq, ":merchant_type", ":cur_merchant_type"),
+
+                    (assign, ":merchant", ":cur_merchant"),
+                    (assign, ":end", 0),
+                (try_end),
+            (try_end),
+            (is_between, ":merchant", merchants_begin, merchants_end),
+
+            (try_begin),
+                (call_script, "script_cf_debug", debug_current),
+                (str_store_party_name, s10, ":party_no"),
+                (assign, reg10, ":merchant"),
+                (assign, reg11, ":merchant_type"),
+                (display_message, "@{s10} has merchant {reg10} of type {reg11}"),
+            (try_end),
+            (assign, reg0, ":merchant"),
         ]),
 
     # script_presentation_generate_select_lord_card

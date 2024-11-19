@@ -1288,6 +1288,11 @@ slot_party_attached_party_cooldown = slot_party_max_prisoner_outcome + 1
 
 slot_party_visiting_center = slot_party_attached_party_cooldown + 1
 
+slot_party_merchant_1 = slot_party_visiting_center + 1
+slot_party_merchant_2 = slot_party_merchant_1 + 1
+slot_party_merchant_3 = slot_party_merchant_2 + 1
+slot_party_merchant_4 = slot_party_merchant_3 + 1
+
 #################
 ## Scene Slots ##
 #################
@@ -1317,11 +1322,23 @@ troop_slots = 0
 slot_troop_temp_slot				= 0
 slot_troop_temp_hire_number			= slot_troop_temp_slot
 
+
+# ONLY trp_temp_troop
 slot_troop_temp_array_begin			= 1
 
+# ONLY merchants
+slot_troop_merchant_center			= 1
+slot_troop_merchant_type			= slot_troop_merchant_center + 1
+
+merchant_type_goods = 1
+merchant_type_armor = 2
+merchant_type_weapon = 3
+merchant_type_horse = 4
+
+# Regular troops
 slot_troop_banner_scene_prop		= 1
 
-slot_troop_type						= 2
+slot_troop_type						= slot_troop_banner_scene_prop + 1
 tt_infantry				= 1
 tt_spearman				= 2
 tt_pikeman				= 3
@@ -1334,7 +1351,7 @@ tt_lancer				= 9
 tt_horse_archer			= 10
 tt_mounted_skirmisher	= 11
 
-slot_troop_quality					= 3
+slot_troop_quality					= slot_troop_type + 1
 tq_peasant		= 0
 tq_common		= 1
 tq_veteran		= 2
@@ -1342,7 +1359,7 @@ tq_elite		= 3
 tq_noble		= 4
 
 
-slot_troop_lord_equipement 			= 4
+slot_troop_lord_equipement 			= slot_troop_quality + 1
 tle_none = 0
 tle_light_bow = 1
 tle_heavy_bow = 2
@@ -1351,20 +1368,20 @@ tle_heavy_crossbow = 4
 tle_throwing = 5
 tle_polearm = 6
 
-slot_troop_lord_horse 				= 5
+slot_troop_lord_horse 				= slot_troop_lord_equipement + 1
 
-slot_troop_original_faction 		= 6
+slot_troop_original_faction 		= slot_troop_lord_horse + 1
 
 # Real rank is based on the number of fiefs a lord holds
 # Current rank slowly changes to match real rank
-slot_troop_rank 					= 7 # real rank
-slot_troop_level					= 8 # current rank
-slot_troop_equipement_level			= 9 # current rank
+slot_troop_rank 					= slot_troop_original_faction + 1 # real rank
+slot_troop_level					= slot_troop_rank + 1 # current rank
+slot_troop_equipement_level			= slot_troop_level + 1 # current rank
 
-slot_troop_mercenary_captain_1		= slot_troop_level				# Only troops
-slot_troop_mercenary_captain_2		= slot_troop_equipement_level	# Only troops
+slot_troop_mercenary_captain_1		= slot_troop_level						# Only troops
+slot_troop_mercenary_captain_2		= slot_troop_mercenary_captain_1 + 1	# Only troops
 
-slot_troop_kingdom_occupation 		= 12
+slot_troop_kingdom_occupation 		= slot_troop_equipement_level + 1
 tko_dead = -1 	# Dead people are not the same as not living ones
 				# Dead people are still shown in character notes
 				# And can be mentionned in conversations
@@ -1374,7 +1391,7 @@ tko_mercenary = 2
 tko_bandit = 3
 tko_reserved = 4
 
-slot_troop_personality 				= 13
+slot_troop_personality 				= slot_troop_kingdom_occupation + 1
 tp_default = 0x0000
 
 tp_mercyfull = 0x0001
@@ -1391,7 +1408,7 @@ tp_renega = 0x0080 # ToDO
 
 # tp_
 
-slot_troop_leaded_party				= 14
+slot_troop_leaded_party				= slot_troop_personality + 1
 slot_troop_garrisoned 				= slot_troop_leaded_party + 1
 
 slot_troop_building_one 			= slot_troop_garrisoned + 1
