@@ -1,6 +1,7 @@
 v0.550:
 	-Features:
 		* add trader types for all centers
+		* add gold to merchants
 	-Balance:
 	-Fixes:
 		* fix debt interest text color in budget presentation

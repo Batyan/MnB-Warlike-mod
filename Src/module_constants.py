@@ -307,11 +307,10 @@ items_weapon = 0x2
 items_armor = 0x4
 items_horse = 0x8
 
-merchant_base_gold_earn_weaponsmith = 500
-merchant_base_gold_earn_armorsmith = 600
-merchant_base_gold_earn_goods = 400
-merchant_base_gold_earn_horses = 650
-merchant_base_gold_earn_general = 350
+merchant_base_gold_weapon = 3000
+merchant_base_gold_armor = 3200
+merchant_base_gold_goods = 2400
+merchant_base_gold_horse = 2000
 
 train_levies_cost = 25
 
