@@ -615,7 +615,7 @@ presentations = [
                     # (store_mul, ":center_wages", reg0, -1),
 
                     (assign, ":total_budget", 0),
-                    (try_for_range, ":tax_slot", slot_party_buget_taxes_begin, slot_party_buget_taxes_end),
+                    (try_for_range_backwards, ":tax_slot", slot_party_buget_taxes_begin, slot_party_buget_taxes_end),
                         (store_sub, ":offset", ":tax_slot", slot_party_buget_taxes_begin),
                         (store_add, ":tax_description", ":offset", "str_party_tax_description_taxes"),
 

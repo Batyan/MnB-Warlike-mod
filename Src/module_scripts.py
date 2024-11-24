@@ -6288,7 +6288,6 @@ scripts = [
                 (store_mul, ":linked_taxes_payment", ":linked_taxes", -1),
                 (call_script, "script_party_add_accumulated_taxes", ":party_no", ":linked_taxes_payment", tax_type_protection_pay),
                 (call_script, "script_party_add_accumulated_taxes", ":linked_party", ":linked_taxes", tax_type_protection),
-
             (try_end),
 
             (try_begin),
@@ -6301,6 +6300,53 @@ scripts = [
             (val_sub, ":taxes", ":member_tax"),
             (val_sub, ":taxes", ":vassal_tax"),
             (call_script, "script_party_add_accumulated_taxes", ":party_no", ":taxes", tax_type_population),
+
+            (assign, ":trade_base", 0),
+            (call_script, "script_merchant_type_get_gold_normalization", merchant_type_armor, ":party_no"),
+            (try_begin),
+                (this_or_next|eq, ":party_type", spt_village),
+                (eq, ":party_type", spt_town),
+
+                (call_script, "script_merchant_type_get_gold_normalization", merchant_type_goods, ":party_no"),
+                (val_add, ":trade_base", reg0),
+            (try_end),
+            (try_begin),
+                (this_or_next|eq, ":party_type", spt_town),
+                (eq, ":party_type", spt_castle),
+                
+                (call_script, "script_merchant_type_get_gold_normalization", merchant_type_armor, ":party_no"),
+                (val_add, ":trade_base", reg0),
+                (call_script, "script_merchant_type_get_gold_normalization", merchant_type_weapon, ":party_no"),
+                (val_add, ":trade_base", reg0),
+                (call_script, "script_merchant_type_get_gold_normalization", merchant_type_horse, ":party_no"),
+                (val_add, ":trade_base", reg0),
+            (try_end),
+
+            (try_begin),
+                (gt, ":trade_base", 0),
+
+                (party_get_slot, ":sell_tax_rate", ":party_no", slot_party_taxes_sell),
+                (party_get_slot, ":buy_tax_rate", ":party_no", slot_party_taxes_buy),
+
+                (try_begin),
+                    (gt, ":sell_tax_rate", 0),
+
+                    (store_mul, ":sell_tax", ":trade_base", ":sell_tax_rate"),
+                    (val_div, ":sell_tax", 100),
+
+                    (val_div, ":sell_tax", 20),
+                    (call_script, "script_party_add_accumulated_taxes", ":party_no", ":sell_tax", tax_type_export),
+                (try_end),
+                (try_begin),
+                    (gt, ":buy_tax_rate", 0),
+
+                    (store_mul, ":buy_tax", ":trade_base", ":buy_tax_rate"),
+                    (val_div, ":buy_tax", 100),
+
+                    (val_div, ":buy_tax", 10),
+                    (call_script, "script_party_add_accumulated_taxes", ":party_no", ":buy_tax", tax_type_import),
+                (try_end),
+            (try_end),
         ]),
 
     # script_troop_add_accumulated_taxes
@@ -6424,7 +6470,9 @@ scripts = [
                 (this_or_next|eq, ":tax_type", tax_type_tribute_pay),
                 (this_or_next|eq, ":tax_type", tax_type_occupation),
                 (this_or_next|eq, ":tax_type", tax_type_occupation_pay),
-                (eq, ":tax_type", tax_type_debts),
+                (this_or_next|eq, ":tax_type", tax_type_debts),
+                (this_or_next|eq, ":tax_type", tax_type_export),
+                (eq, ":tax_type", tax_type_import),
                 
                 (party_get_slot, ":accumulated_taxes", ":party_no", slot_party_accumulated_taxes),
                 (val_add, ":accumulated_taxes", ":amount"),
@@ -14655,9 +14703,10 @@ scripts = [
         ]),
     
     # script_troop_update_merchant_gold
-        ## Select the amount of gold that has to be given to troop_no depending on the merchant type he his
         # input:
-        #   arg1: troop_no
+        #   arg1: merchant_troop
+        #   arg2: merchant_type
+        #   arg3: party_no
         # output: none
     ("troop_update_merchant_gold",
         [
@@ -14665,7 +14714,45 @@ scripts = [
             (store_script_param, ":merchant_type", 2),
             (store_script_param, ":party_no", 3),
             
-            (assign, ":target_gold", 2500),
+            (call_script, "script_merchant_type_get_gold_normalization", ":merchant_type", ":party_no"),
+            (assign, ":target_gold", reg0),
+
+            (store_div, ":max_change", ":target_gold", 10),
+            
+            (store_troop_gold, ":cur_gold", ":merchant"),
+
+            (store_random_in_range, ":gold_change", -1000, 1001),
+            (try_begin),
+                (gt, ":target_gold", ":cur_gold"),
+                (store_sub, ":diff", ":target_gold", ":cur_gold"),
+                (try_begin),
+                    (gt, ":diff", ":max_change"),
+                    (val_add, ":gold_change", ":max_change"),
+                (try_end),
+            (else_try),
+                (lt, ":target_gold", ":cur_gold"),
+                (store_sub, ":diff", ":cur_gold", ":target_gold"),
+                (try_begin),
+                    (gt, ":diff", ":max_change"),
+                    (val_sub, ":gold_change", ":max_change"),
+                (try_end),
+            (try_end),
+            
+            (call_script, "script_troop_add_merchant_gold", ":merchant", ":gold_change"),
+        ]),
+
+    # script_merchant_type_get_gold_normalization
+        # input:
+        #   arg1: merchant_type
+        #   arg2: party_no
+        # output:
+        #   reg0: target_gold
+    ("merchant_type_get_gold_normalization",
+        [
+            (store_script_param, ":merchant_type", 1),
+            (store_script_param, ":party_no", 2),
+
+            (assign, ":target_gold", 20000),
             
             (try_begin),
                 (eq, ":merchant_type", merchant_type_armor),
@@ -14684,11 +14771,10 @@ scripts = [
             (party_get_slot, ":party_type", ":party_no", slot_party_type),
             (try_begin),
                 (eq, ":party_type", spt_village),
-                (val_div, ":target_gold", 2),
+                (val_div, ":target_gold", 5),
             (else_try),
                 (eq, ":party_type", spt_castle),
-                (val_mul, ":target_gold", 2),
-                (val_div, ":target_gold", 3),
+                (val_div, ":target_gold", 2),
             (try_end),
 
             (party_get_slot, ":prosperity", ":party_no", slot_party_prosperity),
@@ -14698,28 +14784,7 @@ scripts = [
             (val_mul, ":target_gold", ":prosperity"),
             (val_div, ":target_gold", 300),
 
-            (store_div, ":max_change", ":target_gold", 10),
-            
-            (store_troop_gold, ":cur_gold", ":merchant"),
-
-            (store_random_in_range, ":gold_change", -100, 101),
-            (try_begin),
-                (gt, ":target_gold", ":cur_gold"),
-                (store_sub, ":diff", ":target_gold", ":cur_gold"),
-                (try_begin),
-                    (gt, ":diff", ":max_change"),
-                    (val_add, ":gold_change", ":max_change"),
-                (try_end),
-            (else_try),
-                (lt, ":target_gold", ":cur_gold"),
-                (store_sub, ":diff", ":cur_gold", ":target_gold"),
-                (try_begin),
-                    (gt, ":diff", ":max_change"),
-                    (val_sub, ":gold_change", ":max_change"),
-                (try_end),
-            (try_end),
-            
-            (call_script, "script_troop_add_merchant_gold", ":merchant", ":gold_change"),
+            (assign, reg0, ":target_gold"),
         ]),
     
     # script_troop_add_merchant_gold

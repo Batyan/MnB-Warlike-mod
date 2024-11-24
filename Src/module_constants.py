@@ -307,10 +307,10 @@ items_weapon = 0x2
 items_armor = 0x4
 items_horse = 0x8
 
-merchant_base_gold_weapon = 3000
-merchant_base_gold_armor = 3200
-merchant_base_gold_goods = 2400
-merchant_base_gold_horse = 2000
+merchant_base_gold_weapon = 30000
+merchant_base_gold_armor = 32000
+merchant_base_gold_goods = 24000
+merchant_base_gold_horse = 20000
 
 train_levies_cost = 25
 
@@ -934,8 +934,8 @@ population_growth_village_artisan = 4
 population_growth_village_serf = 95
 population_growth_village_slave = 0
 
-taxes_noble_amount = 20
-taxes_artisan_amount = 5
+taxes_noble_amount = 16
+taxes_artisan_amount = 4
 taxes_serf_amount = 2
 
 slot_party_wanted_party_wages = 13
@@ -991,13 +991,13 @@ slot_party_taxes_fixed		= 131 # Fixed taxes paid by everyone
 slot_party_taxes_wealth		= 132 # Taxes paid upon earning money inside the city (also applied to buying and selling)
 slot_party_taxes_visit		= 133 # Taxes paid upon entering the city (not paid by residents)
 
-default_fixed_tax_rate_village = 20
+default_fixed_tax_rate_village = 25
 default_fixed_tax_rate_castle = 40
-default_fixed_tax_rate_town = 20
+default_fixed_tax_rate_town = 15
 
 default_buy_tax_rate_village = 20
 default_buy_tax_rate_castle = 28
-default_buy_tax_rate_town = 40
+default_buy_tax_rate_town = 36
 
 default_sell_tax_rate_village = 8
 default_sell_tax_rate_castle = 16
@@ -1072,6 +1072,8 @@ slot_party_budget_prisoner_ransom = slot_party_budget_troops_selling + 1
 slot_party_budget_leader_ransom = slot_party_budget_prisoner_ransom + 1
 slot_party_budget_caravan_wages = slot_party_budget_leader_ransom + 1
 slot_party_budget_loot = slot_party_budget_caravan_wages + 1
+slot_party_budget_export = slot_party_budget_loot + 1
+slot_party_budget_import = slot_party_budget_export + 1
 
 tax_type_none = -1
 tax_type_population = 0
@@ -1102,9 +1104,11 @@ tax_type_prisoner_ransom = 24
 tax_type_leader_ransom = 25
 tax_type_caravan_wages = 26
 tax_type_loot = 27
+tax_type_export = 28
+tax_type_import = 29
 
 slot_party_buget_taxes_begin = slot_party_budget_taxes
-slot_party_buget_taxes_end = slot_party_budget_loot + 1
+slot_party_buget_taxes_end = slot_party_budget_import + 1
 
 slot_party_budget_reserved_party = slot_party_buget_taxes_end
 slot_party_budget_reserved_auxiliaries = slot_party_budget_reserved_party + 1

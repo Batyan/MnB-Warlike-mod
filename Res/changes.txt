@@ -2,7 +2,9 @@ v0.550:
 	-Features:
 		* add trader types for all centers
 		* add gold to merchants
+		* add taxes for goods export / import
 	-Balance:
+		* update order of taxes in budget report
 	-Fixes:
 		* fix debt interest text color in budget presentation
 v0.540:

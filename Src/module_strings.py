@@ -1202,6 +1202,8 @@ strings = [
   ("party_tax_description_leader_ransom", "Leader ransom"),
   ("party_tax_description_caravan_wages", "Caravan wages"),
   ("party_tax_description_loot", "Loot"),
+  ("party_tax_description_export", "Export taxes"),
+  ("party_tax_description_import", "Import taxes"),
 
   ("castle_name_plain_01", "plain_01"),
   ("castle_name_plain_02", "plain_02"),
