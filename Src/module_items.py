@@ -1220,7 +1220,7 @@ items = [
     ["strong_bow",         "Strong Bow", [("strong_bow",0),("strong_bow_case", ixmesh_carry)], itp_type_bow |itp_merchandise|itp_primary|itp_two_handed ,itcf_shoot_bow|itcf_carry_bowcase_left|itcf_show_holster_when_drawn, 
      690 , weight(4.0)|difficulty(1)|spd_rtng(49) | shoot_speed(50) |accuracy(85) | thrust_damage(25, pierce),imodbits_bow_wo_strong , [], [fac_kingdom_2] ],
     ["strong_bow2",         "Strong Bow", [("strong_bow2",0),("strong_bow2_case", ixmesh_carry)], itp_type_bow |itp_merchandise|itp_primary|itp_two_handed ,itcf_shoot_bow|itcf_carry_bowcase_left|itcf_show_holster_when_drawn, 
-     690 , weight(4.0)|difficulty(1)|spd_rtng(49) | shoot_speed(50) |accuracy(85) | thrust_damage(25, pierce),imodbits_bow_wo_strong , [], [fac_kingdom_2] ],
+     690 , weight(4.0)|difficulty(1)|spd_rtng(49) | shoot_speed(50) |accuracy(85) | thrust_damage(25, pierce),imodbits_bow_wo_strong , [], [fac_kingdom_6] ],
     
     ["long_bow",         "Long Bow", [("long_bow",0),("long_bow_carry",ixmesh_carry)], itp_type_bow |itp_merchandise|itp_cant_use_on_horseback|itp_primary|itp_two_handed ,itcf_shoot_bow|itcf_carry_bow_back, 
      785 , weight(4.8)|difficulty(2)|spd_rtng(40) | shoot_speed(56) |accuracy(75) | thrust_damage(35, pierce),imodbits_bow , [], [fac_kingdom_4] ],
