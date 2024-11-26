@@ -14788,13 +14788,13 @@ scripts = [
         ]),
     
     # script_troop_add_merchant_gold
-    ## Modify the amount of gold of a certain merchant
-    ## ToDo: will need to be used for taxes
-    # input:
-    #   arg1: troop_no
-    #   arg2: base_gold
-    # output:
-    #   reg0: gold_added
+        ## Modify the amount of gold of a certain merchant
+        ## ToDo: will need to be used for taxes
+        # input:
+        #   arg1: troop_no
+        #   arg2: base_gold
+        # output:
+        #   reg0: gold_added
     ("troop_add_merchant_gold",
         [
             (store_script_param, ":merchant", 1),
@@ -14806,11 +14806,11 @@ scripts = [
     
     
     # script_troop_add_merchant_items_from_party
-    # input:
-    #   arg1: merchant
-    #   arg2: party_no
-    #   arg3: items
-    # output: none
+        # input:
+        #   arg1: merchant
+        #   arg2: party_no
+        #   arg3: items
+        # output: none
     ("troop_add_merchant_items_from_party",
         [
             (store_script_param, ":merchant", 1),
@@ -14826,74 +14826,59 @@ scripts = [
             (store_and, ":horse", ":items", items_horse),
             
             (troop_get_inventory_capacity, ":capacity", ":merchant"),
-            (val_div, ":capacity", 2),
+
+            (party_get_slot, ":prosperity", ":party_no", slot_party_prosperity),
+            (store_add, ":ratio", ":prosperity", 50),
+
+            (party_get_slot, ":party_type", ":party_no", slot_party_type),
+            (try_begin),
+                (eq, ":party_type", spt_village),
+                (val_div, ":ratio", 3),
+            (else_try),
+                (eq, ":party_type", spt_castle),
+                (val_div, ":ratio", 2),
+            (try_end),
+
+            (try_begin),
+                (gt, ":horse", 0),
+                (val_mul, ":ratio", 2),
+                (val_div, ":ratio", 3),
+            (try_end),
+
+            (val_mul, ":capacity", ":ratio"),
+            (val_div, ":capacity", 300),
+
+            (store_div, ":amount", ":capacity", 10),
+            (val_add, ":amount", 1),
+
             (troop_sort_inventory, ":merchant"),
             (troop_ensure_inventory_space, ":merchant", ":capacity"),
             
-            (assign, ":num_items", 0),
             (try_begin),
                 (gt, ":weapons", 0),
-                (val_add, ":num_items", 1),
+                (call_script, "script_troop_add_merchant_items_weapons", ":merchant", ":culture", ":amount"),
             (try_end),
             (try_begin),
                 (gt, ":armor", 0),
-                (val_add, ":num_items", 1),
+                (call_script, "script_troop_add_merchant_items_armors", ":merchant", ":culture", ":amount"),
             (try_end),
             (try_begin),
                 (gt, ":horse", 0),
-                (val_add, ":num_items", 1),
+                (call_script, "script_troop_add_merchant_items_horses", ":merchant", ":culture", ":amount"),
             (try_end),
             (try_begin),
                 (gt, ":goods", 0),
-                (val_add, ":num_items", 1),
-            (try_end),
-            
-            (try_begin),
-                (gt, ":weapons", 0),
-                (store_div, ":items", 15, ":num_items"),
-                (try_begin),
-                    (gt, ":goods", 0),
-                    (val_div, ":items", 2),
-                (try_end),
-                (call_script, "script_troop_add_merchant_items_weapons", ":merchant", ":culture", ":items"),
-            (try_end),
-            (try_begin),
-                (gt, ":armor", 0),
-                
-                (store_div, ":items", 15, ":num_items"),
-                (try_begin),
-                    (gt, ":goods", 0),
-                    (val_div, ":items", 2),
-                (try_end),
-                (call_script, "script_troop_add_merchant_items_armors", ":merchant", ":culture", ":items"),
-            (try_end),
-            (try_begin),
-                (gt, ":horse", 0),
-                
-                (store_div, ":items", 6, ":num_items"),
-                (try_begin),
-                    (gt, ":goods", 0),
-                    (val_div, ":items", 2),
-                (try_end),
-                (call_script, "script_troop_add_merchant_items_horses", ":merchant", ":culture", ":items"),
-            (try_end),
-            (try_begin),
-                (gt, ":goods", 0),
-                
-                (store_div, ":items", 15, ":num_items"),
-                (val_mul, ":items", 3),
-                (val_div, ":items", 2),
-                (call_script, "script_troop_add_merchant_items_goods", ":merchant", ":culture", ":items"),
+                (call_script, "script_troop_add_merchant_items_goods", ":merchant", ":party_no", ":amount"),
             (try_end),
             (troop_sort_inventory, ":merchant"),
         ]),
     
     # script_troop_add_merchant_items_weapons
-    # input:
-    #   arg1: merchant
-    #   arg2: culture
-    #   zrg3: num_items
-    # output: none
+        # input:
+        #   arg1: merchant
+        #   arg2: culture
+        #   zrg3: num_items
+        # output: none
     ("troop_add_merchant_items_weapons",
         [
             (store_script_param, ":merchant", 1),
@@ -15203,46 +15188,47 @@ scripts = [
         ]),
     
     # script_troop_add_merchant_items_goods
-    # input: 
-    #   arg1: troop_no
-    #   arg2: culture
-    #   arg3: num_items
-    # output: none
+        # input: 
+        #   arg1: troop_no
+        #   arg2: party_no
+        #   arg3: num_items
+        # output: none
     ("troop_add_merchant_items_goods",
         [
             (store_script_param, ":merchant", 1),
-            (store_script_param, ":culture", 2),
+            (store_script_param, ":party_no", 2),
             (store_script_param, ":num_items", 3),
-            
-            (try_begin),
-                (eq, ":culture", "fac_culture_1"),
-                (assign, ":culture", "fac_kingdom_1"),
-            (else_try),
-                (eq, ":culture", "fac_culture_2"),
-                (assign, ":culture", "fac_kingdom_2"),
-            (else_try),
-                (eq, ":culture", "fac_culture_3"),
-                (assign, ":culture", "fac_kingdom_3"),
-            (else_try),
-                (eq, ":culture", "fac_culture_4"),
-                (assign, ":culture", "fac_kingdom_4"),
-            (else_try),
-                (eq, ":culture", "fac_culture_5"),
-                (assign, ":culture", "fac_kingdom_5"),
-            (else_try),
-                (eq, ":culture", "fac_culture_6"),
-                (assign, ":culture", "fac_kingdom_6"),
-            (else_try),
-                (assign, ":culture", "fac_commoners"),
+
+            (assign, ":total_items", 0),
+            (try_for_range, ":good", goods_begin, goods_end),
+                (store_sub, ":offset", ":good", goods_begin),
+                (store_add, ":slot", ":offset", slot_party_ressources_current_amount_begin),
+                (party_get_slot, ":amount", ":party_no", ":slot"),
+                (val_add, ":total_items", ":amount"),
             (try_end),
-            
-            (troop_add_merchandise_with_faction, ":merchant", ":culture", itp_type_goods, ":num_items"),
+
+            (try_for_range, ":unused", 0, ":num_items"),
+                (store_random_in_range, ":rand", 0, ":total_items"),
+                (assign, ":acc", -1),
+
+                (assign, ":end", goods_end),
+                (try_for_range, ":good", goods_begin, ":end"),
+                    (store_sub, ":offset", ":good", goods_begin),
+                    (store_add, ":slot", ":offset", slot_party_ressources_current_amount_begin),
+                    (party_get_slot, ":amount", ":party_no", ":slot"),
+                    (gt, ":amount", 0),
+                    (val_add, ":acc", ":amount"),
+                    (ge, ":acc", ":rand"),
+                    (assign, ":end", 0),
+                    (troop_add_item, ":merchant", ":good"),
+                (try_end),
+            (try_end),
         ]),
     
     # script_faction_process_politics
-    # input:
-    #   arg1: faction_no
-    # output: none
+        # input:
+        #   arg1: faction_no
+        # output: none
     ("faction_process_politics",
         [
             (store_script_param, ":faction_no", 1),

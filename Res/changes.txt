@@ -3,6 +3,7 @@ v0.550:
 		* add trader types for all centers
 		* add gold to merchants
 		* add taxes for goods export / import
+		* set available goods in center traders with center production
 	-Balance:
 		* update order of taxes in budget report
 	-Fixes:
