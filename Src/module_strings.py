@@ -1227,4 +1227,7 @@ strings = [
   ("castle_name_garden", "Castle Garden"),
   ("castle_name_plain_river", "Plain & River"),
   ("castle_name_dross_delnoch", "Dross Delnoch"),
+
+  ("playername", "{playername}"),
+  ("my_lord|my_lady", "{my Lord/my Lady}"),
 ]

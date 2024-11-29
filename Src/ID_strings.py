@@ -931,5 +931,7 @@ str_castle_name_desert_01 = 929
 str_castle_name_garden = 930
 str_castle_name_plain_river = 931
 str_castle_name_dross_delnoch = 932
+str_playername = 933
+str_my_lordmy_lady = 934
 
 

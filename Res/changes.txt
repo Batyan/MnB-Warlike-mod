@@ -4,6 +4,7 @@ v0.550:
 		* add gold to merchants
 		* add taxes for goods export / import
 		* set available goods in center traders with center production
+		* add system to handle correct playername in conversations
 	-Balance:
 		* update order of taxes in budget report
 	-Fixes:

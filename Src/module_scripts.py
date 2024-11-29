@@ -23975,12 +23975,14 @@ scripts = [
     # script_get_dialog_caravan_intro
         # input:
         #   arg1: caravan_party
+        #   arg2: caravan_leader
         # output:
         #   s0: caravan_intro_dialog
         #   reg0: dialog_outcome
     ("get_dialog_caravan_intro",
         [
             (store_script_param, ":caravan_party", 1),
+            (store_script_param, ":caravan_leader", 2),
 
             (assign, ":dialog_outcome", outcome_neutral),
 
@@ -24004,12 +24006,14 @@ scripts = [
             (else_try),
                 # Caravan originates from player center
                 (eq, ":caravan_leader", "$g_player_troop"),
-                (str_store_string, s0, "@{my Lord/my Lady}, you grace us with your presence. How can we be of service ?"),
+                (call_script, "script_troop_get_player_name", ":caravan_leader", ":caravan_party"),
+                (str_store_string, s0, "@{s60}, you grace us with your presence. How can we be of service ?"),
                 (assign, ":dialog_outcome", outcome_success),
             (else_try),
                 # Same faction
                 (eq, ":caravan_faction", ":player_faction"),
-                (str_store_string, s0, "@Greetings {my Lord/my Lady}. What brings you here ?"),
+                (call_script, "script_troop_get_player_name", ":caravan_leader", ":caravan_party"),
+                (str_store_string, s0, "@Greetings {s60y}. What brings you here ?"),
                 (assign, ":dialog_outcome", outcome_success),
             (else_try),
                 # Factions at war
@@ -24018,21 +24022,25 @@ scripts = [
                     (ge, ":caravan_leader", 0),
                     (str_store_troop_name, s10, ":caravan_leader"),
                 (try_end),
-                (str_store_string, s0, "@Be mindful that this caravan is under the protection of {s10}. Now, what do you need {playername} ?"),
+                (call_script, "script_troop_get_player_name", ":caravan_leader", ":caravan_party"),
+                (str_store_string, s0, "@Be mindful that this caravan is under the protection of {s10}. Now, what do you need {s60} ?"),
                 (assign, ":dialog_outcome", outcome_neutral),
             (else_try),
                 # Allied faction
                 (ge, ":relation", relation_positive),
-                (str_store_string, s0, "@Greetings {playername}. What brings you here ?"),
+                (call_script, "script_troop_get_player_name", ":caravan_leader", ":caravan_party"),
+                (str_store_string, s0, "@Greetings {s60}. What brings you here ?"),
                 (assign, ":dialog_outcome", outcome_success),
             (else_try),
                 # Enemy faction
                 (le, ":relation", relation_tense),
-                (str_store_string, s0, "@{playername}, what do you need ?"),
+                (call_script, "script_troop_get_player_name", ":caravan_leader", ":caravan_party"),
+                (str_store_string, s0, "@{s60}, what do you need ?"),
                 (assign, ":dialog_outcome", outcome_success),
             (else_try),
                 # Neutral faction
-                (str_store_string, s0, "@Hail traveller. What brings you here ?"),
+                (call_script, "script_troop_get_player_name", ":caravan_leader", ":caravan_party"),
+                (str_store_string, s0, "@Hail {s60}. What brings you here ?"),
                 (assign, ":dialog_outcome", outcome_success),
             (try_end),
             (assign, reg0, ":dialog_outcome"),
@@ -25446,6 +25454,54 @@ scripts = [
                 (display_message, "@{s10} has merchant {reg10} of type {reg11}"),
             (try_end),
             (assign, reg0, ":merchant"),
+        ]),
+
+    # script_troop_get_player_name
+        # input:
+        #   arg1: troop_no
+        #   arg2: troop_party
+        # output:
+        #   s60: playername
+    ("troop_get_player_name",
+        [
+            (store_script_param, ":troop_no", 1),
+            (store_script_param, ":party_no", 2),
+
+            (try_begin),
+                (gt, ":party_no", 0),
+                (party_get_slot, ":party_type", ":party_no", slot_party_type),
+
+                (store_faction_of_party, ":party_faction", ":party_no"),
+                (store_faction_of_party, ":player_faction", "$g_player_party"),
+
+                (call_script, "script_faction_get_relation_with_faction", ":party_faction", ":player_faction"),
+                (assign, ":relation", reg0),
+
+                (try_begin),
+                    (eq, ":party_type", spt_war_party),
+                    (try_begin),
+                        (troop_slot_eq, ":troop_no", slot_troop_last_met, -1),
+                        (str_store_string, s60, "@traveller"),
+                    (else_try),
+                        (str_store_string, s60, "str_playername"),
+                    (try_end),
+                (else_try),
+                    (try_begin),
+                        (eq, ":party_faction", ":player_faction"),
+                        (str_store_string, s60, "str_my_lord|my_lady"),
+                    (else_try),
+                        (ge, ":relation", relation_positive),
+                        (str_store_string, s60, "str_playername"),
+                    (else_try),
+                        (le, ":relation", relation_tense),
+                        (str_store_string, s60, "str_playername"),
+                    (else_try),
+                        (str_store_string, s60, "@traveller"),
+                    (try_end),
+                (try_end),
+            (try_end),
+
+            (str_store_string, s60, "str_playername"),
         ]),
 
     # script_presentation_generate_select_lord_card

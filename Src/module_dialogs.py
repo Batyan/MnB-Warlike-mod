@@ -70,7 +70,8 @@ dialogs = [
 		[ 
 			(encountered_party_is_attacker),
 			(is_between, "$g_talk_troop", lords_begin, lords_end),
-		], "{playername}... We meet again, do you have anything to say before I crush you?", "player_lord_greeting_attacked", []],
+			(call_script, "script_troop_get_player_name", "$g_talk_troop", "$g_talk_party"),
+		], "{s60}... We meet again, do you have anything to say before I crush you?", "player_lord_greeting_attacked", []],
 
 	#############
 	# Lord Talk #
@@ -80,7 +81,8 @@ dialogs = [
 			(is_between, "$g_talk_troop", lords_begin, lords_end),
 			(check_quest_active, "qst_swear_vassalage_fief"),
 			(quest_slot_eq, "qst_swear_vassalage_fief", slot_quest_giver_troop, "$g_talk_troop"),
-		], "Ah {playername}, I was waiting for your arrival. My messenger has delivered the offer then?", "player_lord_offer_vassal", []],
+			(call_script, "script_troop_get_player_name", "$g_talk_troop", "$g_talk_party"),
+		], "Ah {s60}, I was waiting for your arrival. My messenger has delivered the offer then?", "player_lord_offer_vassal", []],
 	
 	[anyone, "start", 
 		[
@@ -89,7 +91,8 @@ dialogs = [
 			(call_script, "script_troop_get_title_string", "$g_talk_troop"),
 			(str_store_string_reg, s11, s0),
 			(str_store_troop_name, s10, "$g_talk_troop"),
-		], "Hail traveller. It's a pleasure to meet you, I am {s10}, {s11}. What is your name?", "player_lord_greeting", 
+			(call_script, "script_troop_get_player_name", "$g_talk_troop", "$g_talk_party"),
+		], "Hail {s60}. It's a pleasure to meet you, I am {s10}, {s11}. What is your name?", "player_lord_greeting", 
 		[
 			(call_script, "script_get_current_day"),
 			(assign, ":date", reg0),
@@ -100,11 +103,13 @@ dialogs = [
 		[
 			(le, "$g_last_met_hours", 6),
 			(is_between, "$g_talk_troop", lords_begin, lords_end),
-		], "Hello again traveller. What is it that you need?", "player_lord_main", []],
+			(call_script, "script_troop_get_player_name", "$g_talk_troop", "$g_talk_party"),
+		], "Hello again {s60}. What is it that you need?", "player_lord_main", []],
 	
 	[anyone, "start", 
 		[(is_between, "$g_talk_troop", lords_begin, lords_end),
-		], "Hmm... {playername}, yes? What do you need?", "player_lord_main", []],
+			(call_script, "script_troop_get_player_name", "$g_talk_troop", "$g_talk_party"),
+		], "Hmm... {s60}, yes? What do you need?", "player_lord_main", []],
 	
 	[anyone|plyr, "player_lord_greeting",
 		[], "My name is {playername}, the pleasure is shared.", "player_lord_greeting_after", []],
@@ -862,7 +867,8 @@ dialogs = [
 	[anyone, "lord_offer_vassal_oath_end_1",
 		[
 			(call_script, "script_succeed_quest", "qst_swear_vassalage_fief"),
-		], "Very well. You have given me your solemn oath, {playername}. May you uphold it always, with proper courage and devotion.", "lord_offer_vassal_oath_end_2", []],
+			(call_script, "script_troop_get_player_name", "$g_talk_troop", "$g_talk_party"),
+		], "Very well. You have given me your solemn oath, {s60}. May you uphold it always, with proper courage and devotion.", "lord_offer_vassal_oath_end_2", []],
 	[anyone, "lord_offer_vassal_oath_end_2",
 		[
 			(quest_get_slot, ":fief", "qst_swear_vassalage_fief", slot_quest_object),
@@ -877,11 +883,15 @@ dialogs = [
 		], "Let it be known that from this day forward, you are my sworn {man/follower} and vassal.\
  I give you my protection and grant you the right to bear arms in my name, and I pledge that I shall not deprive you of your life, liberty or properties except by the lawful judgment of your peers or by the law and custom of the land. {reg10?Furthermore I give you the fief of {s11} with all its rents and revenues.:}", "lord_offer_vassal_oath_end_3", []],
 	[anyone, "lord_offer_vassal_oath_end_3",
-		[], "You have done a wise thing, {playername}. Serve me well and I promise, you will rise high.", "player_lord_offer_vassal_oath_end", []],
+		[
+			(call_script, "script_troop_get_player_name", "$g_talk_troop", "$g_talk_party"),
+		], "You have done a wise thing, {s60}. Serve me well and I promise, you will rise high.", "player_lord_offer_vassal_oath_end", []],
 	[anyone|plyr, "player_lord_offer_vassal_oath_end",
 		[], "I thank you my lord.", "lord_offer_vassal_oath_conclude", []],
 	[anyone, "lord_offer_vassal_oath_conclude",
-		[], "I have great hopes for you {playername}.\
+		[
+			(call_script, "script_troop_get_player_name", "$g_talk_troop", "$g_talk_party"),
+		], "I have great hopes for you {s60}.\
  I know you shall prove yourself worthy of the trust I have placed in you.", "close_window",
 		[
 			(quest_get_slot, ":center", "qst_swear_vassalage_fief", slot_quest_object),
@@ -908,7 +918,8 @@ dialogs = [
 	[anyone, "lord_offer_vassal_give_up",
 		[
 			(call_script, "script_fail_quest", "qst_swear_vassalage_fief"),
-		], "What are you playing at, {playername}? Go and make up your mind, and stop wasting my time.", "close_window",
+			(call_script, "script_troop_get_player_name", "$g_talk_troop", "$g_talk_party"),
+		], "What are you playing at, {s60}? Go and make up your mind, and stop wasting my time.", "close_window",
 		[
 			(quest_get_slot, ":center", "qst_swear_vassalage_fief", slot_quest_object),
 			(try_begin),
@@ -1213,8 +1224,8 @@ dialogs = [
 			(store_faction_of_party, ":party_faction", "$g_talk_party"),
 			(store_faction_of_party, ":player_faction", "p_main_party"),
 			(eq, ":player_faction", ":party_faction"),
-			(str_store_troop_name, s10, "trp_player"),
-		], "Greetings {s10}, what brings you here ?", "patrol_player_friendly", 
+			(call_script, "script_troop_get_player_name", "$g_talk_troop", "$g_talk_party"),
+		], "Greetings {s60}, what brings you here ?", "patrol_player_friendly", 
 		[]],
 
 	[anyone|plyr, "patrol_player_friendly",
@@ -1244,7 +1255,8 @@ dialogs = [
 				(str_store_faction_name, s11, ":party_faction"),
 				(str_store_string, s10, "@the {s11}"),
 			(try_end),
-		], "These men are under the protection of {s10}. State your business traveller.", "patrol_player_neutral",
+			(call_script, "script_troop_get_player_name", "$g_talk_troop", "$g_talk_party"),
+		], "These men are under the protection of {s10}. State your business {s60}.", "patrol_player_neutral",
 		[]],
 
 	[anyone|plyr, "patrol_player_neutral",
@@ -1277,7 +1289,7 @@ dialogs = [
 				(display_message, "@{s10} from {s11} heading for {s12}"),
 			(try_end),
 
-			(call_script, "script_get_dialog_caravan_intro", "$g_encountered_party"),
+			(call_script, "script_get_dialog_caravan_intro", "$g_encountered_party", "$g_talk_troop"),
 		], "{s0}", "caravan_player",
 		[]],
 
