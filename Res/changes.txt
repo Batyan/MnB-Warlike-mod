@@ -8,6 +8,11 @@ v0.550:
 		* add roaming peasants dialog
 	-Balance:
 		* update order of taxes in budget report
+		* reduce hunting_crossbow damage (40 -> 32)
+		* reduce light_crossbow damage (46 -> 38)
+		* reduce crossbow damage (62 -> 46) -- should have been 52 -> 46
+		* reduce heavy_crossbow damage (60 -> 54)
+		* reduce siege crossbow damage (68 -> 62)
 	-Fixes:
 		* fix debt interest text color in budget presentation
 		* fix incorrect faction tag on strong_bow2

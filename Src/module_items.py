@@ -1233,17 +1233,17 @@ items = [
     
     #CROSSBOWS
     ["hunting_crossbow", "Hunting Crossbow", [("crossbow_b",0)], itp_type_crossbow |itp_merchandise|itp_primary|itp_two_handed ,itcf_shoot_crossbow|itcf_carry_crossbow_back, 
-     100 , weight(4.4)|difficulty(6)|spd_rtng(31) | shoot_speed(55) |accuracy(93) | thrust_damage(40, pierce)|max_ammo(1),imodbits_crossbow , [], [fac_kingdom_1, fac_kingdom_4, fac_kingdom_5, fac_kingdom_6] ],
+     100 , weight(4.4)|difficulty(6)|spd_rtng(31) | shoot_speed(55) |accuracy(93) | thrust_damage(32, pierce)|max_ammo(1),imodbits_crossbow , [], [fac_kingdom_1, fac_kingdom_4, fac_kingdom_5, fac_kingdom_6] ],
     ["light_crossbow", "Light Crossbow", [("crossbow_b",0)], itp_type_crossbow |itp_merchandise|itp_primary|itp_two_handed ,itcf_shoot_crossbow|itcf_carry_crossbow_back, 
-     280 , weight(4.5)|difficulty(8)|spd_rtng(35) | shoot_speed(56) |accuracy(92) | thrust_damage(46, pierce)|max_ammo(1),imodbits_crossbow , [], [fac_kingdom_1, fac_kingdom_4, fac_kingdom_5, fac_kingdom_6] ],
+     280 , weight(4.5)|difficulty(8)|spd_rtng(35) | shoot_speed(56) |accuracy(92) | thrust_damage(38, pierce)|max_ammo(1),imodbits_crossbow , [], [fac_kingdom_1, fac_kingdom_4, fac_kingdom_5, fac_kingdom_6] ],
     
     ["crossbow",         "Crossbow",         [("crossbow_a",0)], itp_type_crossbow |itp_merchandise|itp_primary|itp_two_handed|itp_cant_reload_on_horseback ,itcf_shoot_crossbow|itcf_carry_crossbow_back, 
-     420 , weight(5.0)|difficulty(10)|spd_rtng(32) | shoot_speed(58) |accuracy(90) | thrust_damage(62, pierce)|max_ammo(1),imodbits_crossbow , [], [fac_kingdom_1, fac_kingdom_5, fac_kingdom_6] ],
+     420 , weight(5.0)|difficulty(10)|spd_rtng(32) | shoot_speed(58) |accuracy(90) | thrust_damage(46, pierce)|max_ammo(1),imodbits_crossbow , [], [fac_kingdom_1, fac_kingdom_5, fac_kingdom_6] ],
     
     ["heavy_crossbow", "Heavy Crossbow", [("crossbow_c",0)], itp_type_crossbow |itp_merchandise|itp_primary|itp_two_handed|itp_cant_reload_on_horseback ,itcf_shoot_crossbow|itcf_carry_crossbow_back, 
-     610 , weight(5.3)|difficulty(12)|spd_rtng(29) | shoot_speed(59) |accuracy(89) | thrust_damage(60, pierce)|max_ammo(1),imodbits_crossbow , [], [fac_kingdom_5] ],
+     610 , weight(5.3)|difficulty(12)|spd_rtng(29) | shoot_speed(59) |accuracy(89) | thrust_damage(54, pierce)|max_ammo(1),imodbits_crossbow , [], [fac_kingdom_5] ],
     ["siege_crossbow", "Siege Crossbow", [("crossbow_c",0)], itp_type_crossbow |itp_merchandise|itp_primary|itp_two_handed|itp_cant_reload_on_horseback ,itcf_shoot_crossbow|itcf_carry_crossbow_back, 
-     880 , weight(5.5)|difficulty(14)|spd_rtng(26) | shoot_speed(60) |accuracy(88) | thrust_damage(68, pierce)|max_ammo(1),imodbits_crossbow , [], [fac_kingdom_5] ],
+     880 , weight(5.5)|difficulty(14)|spd_rtng(26) | shoot_speed(60) |accuracy(88) | thrust_damage(62, pierce)|max_ammo(1),imodbits_crossbow , [], [fac_kingdom_5] ],
 
     ["items_end", "Items End", [("shield_round_a",0)], 0, 0, 1, 0, 0 ],
     
