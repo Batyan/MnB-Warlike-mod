@@ -24,13 +24,7 @@ simple_triggers = [
                 (assign, ":num_recruited", reg0),
                 (val_mul, ":num_recruited", -1),
                 (call_script, "script_party_modify_population", ":party_no", ":num_recruited"),
-                (party_get_slot, ":party_type", ":party_no", slot_party_type),
                 
-                (try_begin),
-                    (eq, ":party_type", spt_town),
-                    (call_script, "script_party_update_merchants_gold", ":party_no"),
-                (try_end),
-
                 (try_begin),
                     (lt, ":num_parties", max_bandit_party),
                     # Generate bandits
