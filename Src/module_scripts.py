@@ -22441,6 +22441,8 @@ scripts = [
                     (party_set_slot, ":party_no", slot_party_mission_target_2, ":target_2"),
                     (party_set_slot, ":party_no", slot_party_mission_target_3, ":target_3"),
 
+                    (party_set_slot, ":party_no", slot_party_player_shakedown, 0),
+
                     # Load cargo
                     # Heading to linked center
                     (call_script, "script_party_empty_goods", ":party_no", ":home"),
@@ -22509,12 +22511,7 @@ scripts = [
                 (else_try),
                     (call_script, "script_party_set_behavior", ":party_no", tai_traveling_to_party, ":target_3"),
                 (try_end),
-            (else_try),
-
             (try_end),
-
-            # (party_get_slot, ":mission_object", ":party_no", slot_party_mission_object),
-            # (party_get_slot, ":mission", ":party_no", slot_party_mission),
         ]),
 
     # script_party_civilian_load_goods
@@ -24129,6 +24126,32 @@ scripts = [
             (assign, reg1, ":payment_amount"),
         ]),
 
+    # script_get_dialog_civilian_intro
+        # input:
+        #   arg1: civilian_party
+        #   arg2: civilian_party_leader
+        # output:
+        #   s0: civilian_dialog
+    ("get_dialog_civilian_intro",
+        [
+            (store_script_param, ":civilian_party", 1),
+            (store_script_param, ":civilian_party_leader", 2),
+
+            (store_faction_of_party, ":player_faction", "$g_player_party"),
+            (store_faction_of_party, ":civilian_faction", ":civilian_party"),
+
+            (call_script, "script_troop_get_player_name", ":civilian_party_leader", ":civilian_party"),
+            (try_begin),
+                (party_slot_eq, ":civilian_party", slot_party_player_shakedown, 1),
+                (str_store_string, s0, "@{s60}, did you need something else?"),
+            (else_try),
+                (call_script, "script_cf_factions_are_at_war", ":civilian_faction", ":player_faction"),
+                (str_store_string, s0, "@{s60}, we are but humble farmers from the village of {s10}, please have mercy."),
+            (else_try),
+                (str_store_string, s0, "@Welcome {s60}, is there something you require of us?"),
+            (try_end),
+        ]),
+
     # script_party_get_picture_mesh
         # input:
         #   arg1: party_no
@@ -25486,6 +25509,9 @@ scripts = [
                         (str_store_string, s60, "str_playername"),
                     (try_end),
                 (else_try),
+                    (eq, ":party_type", spt_civilian),
+                    (str_store_string, s60, "str_my_lord|my_lady"),
+                (else_try),
                     (try_begin),
                         (eq, ":party_faction", ":player_faction"),
                         (str_store_string, s60, "str_my_lord|my_lady"),
@@ -25499,9 +25525,9 @@ scripts = [
                         (str_store_string, s60, "@traveller"),
                     (try_end),
                 (try_end),
+            (else_try),
+                (str_store_string, s60, "str_playername"),
             (try_end),
-
-            (str_store_string, s60, "str_playername"),
         ]),
 
     # script_presentation_generate_select_lord_card

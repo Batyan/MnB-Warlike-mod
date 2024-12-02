@@ -1229,5 +1229,5 @@ strings = [
   ("castle_name_dross_delnoch", "Dross Delnoch"),
 
   ("playername", "{playername}"),
-  ("my_lord|my_lady", "{my Lord/my Lady}"),
+  ("my_lord|my_lady", "{My Lord/My Lady}"),
 ]

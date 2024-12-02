@@ -759,16 +759,16 @@ dialogs = [
 
 	[anyone|plyr, "player_lord_debug",
 		[], "Debug party variables", "lord_debug", [
-			(call_script, "script_party_get_prefered_wages_limit", "$g_encountered_party"),
+			(call_script, "script_party_get_prefered_wages_limit", "$g_talk_party"),
 			(display_message, "@Wanted wages: {reg0}; Min wages: {reg1}; Max wages: {reg2}"),
-			(call_script, "script_party_get_wages", "$g_encountered_party"),
+			(call_script, "script_party_get_wages", "$g_talk_party"),
 			(display_message, "@Current wages: {reg0}"),
-			(store_faction_of_party, ":current_party_faction", "$g_encountered_party"),
+			(store_faction_of_party, ":current_party_faction", "$g_talk_party"),
 			(str_store_faction_name, s10, ":current_party_faction"),
 			(display_message, "@Party faction: {s10}"),
 			(faction_get_slot, reg10, ":current_party_faction", slot_faction_is_at_war),
 			(display_message, "@Faction at war: {reg10}"),
-			(party_get_slot, ":leader", "$g_encountered_party", slot_party_leader),
+			(party_get_slot, ":leader", "$g_talk_party", slot_party_leader),
 			(try_begin),
 				(ge, ":leader", 0),
 				(troop_get_slot, ":home", ":leader", slot_troop_home),
@@ -1276,10 +1276,10 @@ dialogs = [
 
 			(try_begin),
 				(call_script, "script_cf_debug", debug_current|debug_economy),
-				(str_store_party_name, s10, "$g_encountered_party"),
-				(party_get_slot, ":origin_center", "$g_encountered_party", slot_party_linked_party),
+				(str_store_party_name, s10, "$g_talk_party"),
+				(party_get_slot, ":origin_center", "$g_talk_party", slot_party_linked_party),
 				(str_store_party_name, s11, ":origin_center"),
-				(party_get_slot, ":mission_objective", "$g_encountered_party", slot_party_mission_object),
+				(party_get_slot, ":mission_objective", "$g_talk_party", slot_party_mission_object),
 				(try_begin),
 					(is_between, ":mission_objective", centers_begin, centers_end),
 					(str_store_party_name, s12, ":mission_objective"),
@@ -1289,20 +1289,20 @@ dialogs = [
 				(display_message, "@{s10} from {s11} heading for {s12}"),
 			(try_end),
 
-			(call_script, "script_get_dialog_caravan_intro", "$g_encountered_party", "$g_talk_troop"),
+			(call_script, "script_get_dialog_caravan_intro", "$g_talk_party", "$g_talk_troop"),
 		], "{s0}", "caravan_player",
 		[]],
 
 	[anyone|plyr, "caravan_player", [], "What goods are you trading ?", "caravan_trade", []],
 
-	[anyone|plyr, "caravan_player", [(party_slot_eq, "$g_encountered_party", slot_party_player_shakedown, 1),], "I've changed my mind, I'll take everything from you", "caravan_toll_attack", []],
+	[anyone|plyr, "caravan_player", [(party_slot_eq, "$g_talk_party", slot_party_player_shakedown, 1),], "I've changed my mind, I'll take everything from you", "caravan_toll_attack", []],
 
 	[anyone|plyr, "caravan_player",
 		[
 			(store_troop_faction, ":player_faction", "$g_player_troop"),
-			(store_faction_of_party, ":party_faction", "$g_encountered_party"),
+			(store_faction_of_party, ":party_faction", "$g_talk_party"),
 			(neq, ":player_faction", ":party_faction"),
-			(party_slot_eq, "$g_encountered_party", slot_party_player_shakedown, 0),
+			(party_slot_eq, "$g_talk_party", slot_party_player_shakedown, 0),
 		], "This road has a toll, you need to pay up.", "caravan_toll", []],
 
 	[anyone|plyr, "caravan_player",
@@ -1312,10 +1312,10 @@ dialogs = [
 		]],
 
 	[anyone, "caravan_trade",
-		[(call_script, "script_get_dialog_caravan_trade", "$g_encountered_party"),], "{s0}", "caravan_player", []],
+		[(call_script, "script_get_dialog_caravan_trade", "$g_talk_party"),], "{s0}", "caravan_player", []],
 
 	[anyone, "caravan_toll",
-		[(call_script, "script_get_dialog_caravan_toll", "$g_encountered_party"),(eq, 1, 0),], "[INVALID DIALOG]", "close_window", []],
+		[(call_script, "script_get_dialog_caravan_toll", "$g_talk_party"),(eq, 1, 0),], "[INVALID DIALOG]", "close_window", []],
 	[anyone, "caravan_toll",
 		[(eq, reg0, outcome_success),], "{s0}", "caravan_toll_player_success", []],
 	[anyone, "caravan_toll",
@@ -1332,9 +1332,9 @@ dialogs = [
 	[anyone|plyr, "caravan_toll_player_swear", [], "Nevermind, keep your gold.", "caravan_toll_back", []],
 
 	[anyone, "caravan_toll_pay", [
-		(call_script, "script_party_transfer_wealth", "$g_encountered_party", "$g_player_party", reg1, tax_type_none, tax_type_none),
-		(party_set_slot, "$g_encountered_party", slot_party_speak_allowed, 0),
-		(party_set_slot, "$g_encountered_party", slot_party_player_shakedown, 1),
+		(call_script, "script_party_transfer_wealth", "$g_talk_party", "$g_player_party", reg1, tax_type_none, tax_type_none),
+		(party_set_slot, "$g_talk_party", slot_party_speak_allowed, 0),
+		(party_set_slot, "$g_talk_party", slot_party_player_shakedown, 1),
 	], "Here is your money, I will not bid you farewell and hope we don't see each other again.", "close_window", []],
 
 	[anyone|plyr, "caravan_toll_player_failed", [], "I'll just have to take it from your corpse then.", "caravan_toll_attack", []],
@@ -1344,6 +1344,161 @@ dialogs = [
 		(encounter_attack),
 	]],
 	[anyone, "caravan_toll_back", [], "Fine then, did you have something else in mind ?", "caravan_player", []],
+
+	##################
+	# Civilian talks #
+	##################
+	[anyone, "start",
+		[
+			(party_get_slot, ":party_type", "$g_talk_party", slot_party_type),
+			(eq, ":party_type", spt_civilian),
+
+			(call_script, "script_get_dialog_civilian_intro", "$g_talk_party", "$g_talk_troop"),
+		], "{s0}", "civilian_player",
+		[]],
+
+	[anyone|plyr, "civilian_player",
+		[], "What are you doing out here?", "civilian_current_task",
+		[]],
+	[anyone|plyr, "civilian_player",
+		[], "You will give me all your belongings or you will give me your lives", "civilian_rob",
+		[]],
+	[anyone|plyr, "civilian_player",
+		[], "Carry on", "close_window",
+		[]],
+
+	[anyone, "civilian_current_task",
+		[
+			(assign, ":destination", -1),
+			(assign, ":end", slot_party_mission_target_3 + 1),
+			(try_for_range, ":slot", slot_party_mission_target_1, ":end"),
+				(party_get_slot, ":target", "$g_talk_party", ":slot"),
+				(is_between, ":target", centers_begin, centers_end),
+				(assign, ":destination", ":target"),
+				(assign, ":end", 0),
+			(try_end),
+			(party_get_slot, ":linked_party", "$g_talk_party", slot_party_linked_party),
+			(try_begin),
+				(is_between, ":destination", centers_begin, centers_end),
+				(neq, ":destination", ":linked_party"),
+				(str_store_party_name, s10, ":destination"),
+				(str_store_string, s0, "@We are on our way to {s10} to trade some goods."),
+			(else_try),
+				(str_store_party_name, s10, ":linked_party"),
+				(str_store_string, s0, "@We are heading back to our village of {s10}."),
+			(try_end),
+
+		], "{s0}", "civilian_player",
+		[]],
+
+	[anyone, "civilian_rob",
+		[
+			(party_slot_eq, "$g_talk_party", slot_party_player_shakedown, 1),
+		], "{s60}, we have given you all we have, we can't give you anything more.", "civilian_rob_player",
+		[]],
+	[anyone, "civilian_rob",
+		[], "{s60}, please reconsider, we are not warriors and are simply trying to keep fed.", "civilian_rob_player",
+		[]],
+
+	[anyone|plyr, "civilian_rob_player",
+		[
+			(party_slot_eq, "$g_talk_party", slot_party_player_shakedown, 0),
+		], "Last warning, pay up or else.", "civilian_rob_go_through",
+		[]],
+	[anyone|plyr, "civilian_rob_player",
+		[], "You will give up on your life then.", "close_window",
+		[(encounter_attack),]],
+	[anyone|plyr, "civilian_rob_player",
+		[], "Fine, get out of my sight before I change my mind.", "civilian_rob_let_go",
+		[]],
+
+	[anyone, "civilian_rob_let_go",
+		[
+			(call_script, "script_troop_get_player_name", "$g_talk_troop", "$g_talk_party"),
+		], "Thank you {s60}, thank you so much. We will depart immediatly.", "close_window",
+		[
+			(leave_encounter),
+		]],
+
+	[anyone, "civilian_rob_go_through",
+		[
+			(str_clear, s10),
+			(assign, ":num_item_types", 0),
+			(assign, ":last_item", -1),
+			(try_for_range, ":item", goods_begin, goods_end),
+                (store_sub, ":offset", ":item", goods_begin),
+                (store_add, ":amount_slot", ":offset", slot_party_ressources_current_amount_begin),
+                (party_get_slot, ":item_amount", "$g_talk_party", ":amount_slot"),
+
+                (gt, ":item_amount", 0),
+                (val_add, ":num_item_types", 1),
+                (assign, ":last_item", ":item"),
+			(try_end),
+
+			(try_begin),
+				(gt, ":num_item_types", 1),
+				(str_store_string, s10, "@a few items of value"),
+			(else_try),
+				(eq, ":num_item_types", 1),
+				(str_store_item_name, s11, ":last_item"),
+				(str_store_string, s10, "@a few items of {s11}"),
+			(else_try),
+				(str_store_string, s10, "@a few septims"),
+			(try_end),
+		], "We only have {s10}. Please take it {s60}", "civilian_rob_end",
+		[
+			(troop_clear_inventory, "trp_temp_troop"),
+			(assign, ":num_items", 0),
+			(try_for_range, ":item", goods_begin, goods_end),
+                (store_sub, ":offset", ":item", goods_begin),
+                (store_add, ":amount_slot", ":offset", slot_party_ressources_current_amount_begin),
+                (party_get_slot, ":item_amount", "$g_talk_party", ":amount_slot"),
+
+                (gt, ":item_amount", 0),
+                (troop_add_items, "trp_temp_troop", ":item", ":item_amount"),
+                (val_add, ":num_items", ":item_amount"),
+                (troop_set_slot, "$g_talk_party", ":amount_slot", 0),
+			(try_end),
+
+			(party_set_slot, "$g_talk_party", slot_party_player_shakedown, 1),
+			(party_get_slot, ":linked_center", "$g_talk_party", slot_party_linked_party),
+			(party_get_slot, ":prosperity", ":linked_center", slot_party_prosperity),
+			(store_skill_level, ":intimidation", "$g_player_troop", skl_intimidation),
+			(val_mul, ":intimidation", 2),
+			(val_add, ":prosperity", ":intimidation"),
+
+			(assign, ":base_rob", 1000),
+			(val_mul, ":base_rob", ":prosperity"),
+			(val_div, ":base_rob", 100),
+			(val_add, ":base_rob", 500),
+			(store_random_in_range, ":rand", 0, 200),
+			(val_add, ":base_rob", ":rand"),
+			(call_script, "script_party_transfer_wealth", "$g_talk_party", "$g_player_party", ":base_rob", tax_type_none, tax_type_none),
+
+			(try_begin),
+				(ge, ":num_items", 1),
+				(change_screen_loot, "trp_temp_troop"),
+			(try_end),
+		]],
+
+	[anyone, "civilian_rob_end",
+		[], "We will be on our way then", "close_window",
+		[
+			(troop_get_inventory_capacity, ":num_slots", "trp_temp_troop"),
+			(try_for_range, ":slot", 0, ":num_slots"),
+				(troop_get_inventory_slot, ":item", "trp_temp_troop", ":slot"),
+				(is_between, ":item", goods_begin, goods_end),
+                (store_sub, ":offset", ":item", goods_begin),
+                (store_add, ":amount_slot", ":offset", slot_party_ressources_current_amount_begin),
+
+                (party_get_slot, ":amount", "$g_talk_party", ":amount_slot"),
+                (val_add, ":amount", 1),
+                (party_set_slot, "$g_talk_party", ":amount_slot", ":amount"),
+			(try_end),
+
+			(leave_encounter),
+		]],
+
 
 	#################
 	# Error dialogs #
