@@ -6,6 +6,7 @@ v0.550:
 		* set available goods in center traders with center production
 		* add system to handle correct playername in conversations
 		* add roaming peasants dialog
+		* set merchants items to match center faction
 	-Balance:
 		* update order of taxes in budget report
 		* reduce hunting_crossbow damage (40 -> 32)
