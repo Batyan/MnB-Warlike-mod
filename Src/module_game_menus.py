@@ -70,6 +70,7 @@ game_menus = [
         [
             ("continue", [], "Continue",
                 [
+                    (call_script, "script_troop_use_template_troop", "$g_player_troop", "trp_current_player"),
                     (jump_to_menu, "mnu_start_game_3"),
                 ]),
         ]),
@@ -1220,10 +1221,21 @@ game_menus = [
                     (party_clear, "p_temp_party"),
                     (party_set_faction, "p_temp_party", ":faction"),
 
-                    (call_script, "script_party_add_troops", "p_temp_party", ":peasant_begin", ":common_begin", "$g_num_levies"),
-                    (store_div, ":cost", reg1, 5),
+                    (assign, ":num_levies", 1000),
+
+                    (call_script, "script_party_add_troops", "p_temp_party", ":peasant_begin", ":common_begin", ":num_levies"),
+                    (store_div, ":cost", reg1, ":num_levies"),
+                    (val_mul, ":cost", "$g_num_levies"),
+                    (val_div, ":cost", 5),
+                    (assign, reg11, ":cost"),
+
                     (call_script, "script_game_get_money_text", ":cost"),
                     (str_store_string_reg, s10, s0),
+
+                    (party_clear, "p_temp_party"),
+                    (party_set_faction, "p_temp_party", ":faction"),
+
+                    (call_script, "script_party_add_troops", "p_temp_party", ":peasant_begin", ":common_begin", "$g_num_levies"),
 
                     (party_set_faction, "p_temp_party", fac_commoners),
                     
@@ -1232,11 +1244,11 @@ game_menus = [
                     
                     (store_mul, ":num_levies_5", "$g_num_levies", 5),
                     
-                    (store_skill_level, ":trainer", skl_trainer, "$g_player_troop"),
+                    (store_skill_level, ":trainer", skl_trainer_2, "$g_player_troop"),
                     (store_add, ":div", 20, ":trainer"),
                     
                     (store_mul, ":sub", ":num_levies_5", ":div"),
-                    (store_div, ":sub", ":num_levies_5", 40),
+                    (val_div, ":sub", 40),
                     (store_sub, ":rest_time", ":num_levies_5", ":sub"),
                     (val_div, ":rest_time", 3),
                     
@@ -1251,7 +1263,7 @@ game_menus = [
                         (assign, ":total_cost", reg11),
                         (try_begin),
                             (gt, ":total_gold", ":total_cost"),
-                            
+
                             (distribute_party_among_party_group, "p_temp_party", "$g_player_party"),
                             (troop_remove_gold, "$g_player_troop", ":total_cost"),
                             
@@ -1262,11 +1274,11 @@ game_menus = [
                             
                             (store_mul, ":num_levies_5", "$g_num_levies", 5),
                             
-                            (store_skill_level, ":trainer", skl_trainer, "$g_player_troop"),
+                            (store_skill_level, ":trainer", skl_trainer_2, "$g_player_troop"),
                             (store_add, ":div", 20, ":trainer"),
-                            
+                    
                             (store_mul, ":sub", ":num_levies_5", ":div"),
-                            (store_div, ":sub", ":num_levies_5", 40),
+                            (val_div, ":sub", 40),
                             (store_sub, ":rest_time", ":num_levies_5", ":sub"),
                             (val_div, ":rest_time", 3),
                             
