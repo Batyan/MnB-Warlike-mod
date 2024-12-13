@@ -414,8 +414,7 @@ undead_face1  = 0x00000000002000000000000000000000
 undead_face2  = 0x000000000020010000001fffffffffff
 
 
-
-
+base_troop_attributes = str_7|agi_7|int_6|cha_5
 
 ############
 ## Troops ##
@@ -447,7 +446,7 @@ troops = [
    def_attrib, wp(70), knows_common, 0, 0 ],
   ["current_player","Player","Player",tf_hero|tf_unmoveable_in_party_window,no_scene,reserved,fac_player_faction,
    [itm_sword_medieval_b, itm_tab_shield_heater_cav_a, itm_light_lance, itm_leather_boots, itm_leather_gloves, itm_leather_armor_herald, itm_saddle_horse],
-   str_12|agi_12|int_12|cha_12|level(1),wp(10),0,0x000000018000000136db6db6db6db6db00000000001db6db0000000000000000 ],
+   base_troop_attributes|level(1),wp(10),0,0x000000018000000136db6db6db6db6db00000000001db6db0000000000000000 ],
   #########
   # Lords #
   #########
