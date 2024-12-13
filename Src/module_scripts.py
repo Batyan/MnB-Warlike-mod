@@ -114,11 +114,10 @@ scripts = [
             (call_script, "script_init_quests"),
 
             (try_for_range, ":merchant", merchants_begin, merchants_end),
-                (troop_set_slot, ":merchant", slot_troop_last_met, -24*7*5), # Around 5 weeks' worth of goods
+                (troop_set_slot, ":merchant", slot_troop_last_met, -50000),
+                (troop_set_slot, ":merchant", slot_troop_merchant_center, -1),
             (try_end),
 
-            (faction_set_slot, "fac_small_kingdom_45", slot_faction_leader, "$g_player_troop"),
-            
             (party_set_slot, "$g_player_party", slot_party_leader, "$g_player_troop"),
             (troop_add_gold, "$g_player_troop", 10000),
             
@@ -6287,7 +6286,6 @@ scripts = [
                 (store_mul, ":linked_taxes_payment", ":linked_taxes", -1),
                 (call_script, "script_party_add_accumulated_taxes", ":party_no", ":linked_taxes_payment", tax_type_protection_pay),
                 (call_script, "script_party_add_accumulated_taxes", ":linked_party", ":linked_taxes", tax_type_protection),
-
             (try_end),
 
             (try_begin),
@@ -6300,6 +6298,53 @@ scripts = [
             (val_sub, ":taxes", ":member_tax"),
             (val_sub, ":taxes", ":vassal_tax"),
             (call_script, "script_party_add_accumulated_taxes", ":party_no", ":taxes", tax_type_population),
+
+            (assign, ":trade_base", 0),
+            (call_script, "script_merchant_type_get_gold_normalization", merchant_type_armor, ":party_no"),
+            (try_begin),
+                (this_or_next|eq, ":party_type", spt_village),
+                (eq, ":party_type", spt_town),
+
+                (call_script, "script_merchant_type_get_gold_normalization", merchant_type_goods, ":party_no"),
+                (val_add, ":trade_base", reg0),
+            (try_end),
+            (try_begin),
+                (this_or_next|eq, ":party_type", spt_town),
+                (eq, ":party_type", spt_castle),
+                
+                (call_script, "script_merchant_type_get_gold_normalization", merchant_type_armor, ":party_no"),
+                (val_add, ":trade_base", reg0),
+                (call_script, "script_merchant_type_get_gold_normalization", merchant_type_weapon, ":party_no"),
+                (val_add, ":trade_base", reg0),
+                (call_script, "script_merchant_type_get_gold_normalization", merchant_type_horse, ":party_no"),
+                (val_add, ":trade_base", reg0),
+            (try_end),
+
+            (try_begin),
+                (gt, ":trade_base", 0),
+
+                (party_get_slot, ":sell_tax_rate", ":party_no", slot_party_taxes_sell),
+                (party_get_slot, ":buy_tax_rate", ":party_no", slot_party_taxes_buy),
+
+                (try_begin),
+                    (gt, ":sell_tax_rate", 0),
+
+                    (store_mul, ":sell_tax", ":trade_base", ":sell_tax_rate"),
+                    (val_div, ":sell_tax", 100),
+
+                    (val_div, ":sell_tax", 20),
+                    (call_script, "script_party_add_accumulated_taxes", ":party_no", ":sell_tax", tax_type_export),
+                (try_end),
+                (try_begin),
+                    (gt, ":buy_tax_rate", 0),
+
+                    (store_mul, ":buy_tax", ":trade_base", ":buy_tax_rate"),
+                    (val_div, ":buy_tax", 100),
+
+                    (val_div, ":buy_tax", 10),
+                    (call_script, "script_party_add_accumulated_taxes", ":party_no", ":buy_tax", tax_type_import),
+                (try_end),
+            (try_end),
         ]),
 
     # script_troop_add_accumulated_taxes
@@ -6423,7 +6468,9 @@ scripts = [
                 (this_or_next|eq, ":tax_type", tax_type_tribute_pay),
                 (this_or_next|eq, ":tax_type", tax_type_occupation),
                 (this_or_next|eq, ":tax_type", tax_type_occupation_pay),
-                (eq, ":tax_type", tax_type_debts),
+                (this_or_next|eq, ":tax_type", tax_type_debts),
+                (this_or_next|eq, ":tax_type", tax_type_export),
+                (eq, ":tax_type", tax_type_import),
                 
                 (party_get_slot, ":accumulated_taxes", ":party_no", slot_party_accumulated_taxes),
                 (val_add, ":accumulated_taxes", ":amount"),
@@ -14566,192 +14613,215 @@ scripts = [
     ("party_update_merchants",
         [
             (store_script_param, ":party_no", 1),
-            
+
+            (assign, ":merchant_slot", slot_party_merchant_1),
+
+            (call_script, "script_get_current_day"),
+            (assign, ":current_day", reg0),
+
             (party_get_slot, ":party_type", ":party_no", slot_party_type),
+            (try_begin),
+                (this_or_next|eq, ":party_type", spt_village),
+                (eq, ":party_type", spt_town),
+
+                (call_script, "script_party_get_merchant", ":party_no", ":merchant_slot", merchant_type_goods),
+                (assign, ":merchant", reg0),
+
+                (call_script, "script_merchant_update", ":merchant", merchant_type_goods, ":party_no"),
+
+                (troop_set_slot, ":merchant", slot_troop_last_met, ":current_day"),
+                (val_add, ":merchant_slot", 1),
+            (try_end),
+
             (try_begin),
                 (this_or_next|eq, ":party_type", spt_town),
                 (eq, ":party_type", spt_castle),
-                (store_sub, ":offset", ":party_no", towns_begin),
-                (store_add, ":merchant", merchants_general_begin, ":offset"),
-                (try_begin),
-                    (call_script, "script_cf_merchant_can_update", ":merchant"),
-                    (assign, ":num_times", reg0),
-                    (try_for_range, ":unused", 0, ":num_times"),
-                        (call_script, "script_troop_add_merchant_items_from_party", ":merchant", ":party_no", items_weapon|items_armor|items_good|items_horse),
-                    (try_end),
-                (try_end),
-            (try_end),
-            (try_begin),
-                (eq, ":party_type", spt_town),
-                (store_sub, ":offset", ":party_no", towns_begin),
-                (store_add, ":merchant", merchants_weapons_begin, ":offset"),
+
+                (call_script, "script_party_get_merchant", ":party_no", ":merchant_slot", merchant_type_armor),
+                (assign, ":merchant", reg0),
+
+                (call_script, "script_merchant_update", ":merchant", merchant_type_armor, ":party_no"),
+
+                (troop_set_slot, ":merchant", slot_troop_last_met, ":current_day"),
+                (val_add, ":merchant_slot", 1),
+
+                (call_script, "script_party_get_merchant", ":party_no", ":merchant_slot", merchant_type_weapon),
+                (assign, ":merchant", reg0),
+
+                (call_script, "script_merchant_update", ":merchant", merchant_type_weapon, ":party_no"),
+
+                (troop_set_slot, ":merchant", slot_troop_last_met, ":current_day"),
+                (val_add, ":merchant_slot", 1),
+
+                (call_script, "script_party_get_merchant", ":party_no", ":merchant_slot", merchant_type_horse),
+                (assign, ":merchant", reg0),
                 
-                (call_script, "script_cf_merchant_can_update", ":merchant"),
-                (assign, ":num_times", reg0),
-                (store_faction_of_party, ":party_faction", ":party_no"),
-                (party_set_faction, "p_temp_party", ":party_faction"),
-                (party_clear, "p_temp_party"),
-            
-                (troop_clear_inventory, "trp_temp_troop"),
-                (store_mul, ":num_tries", ":num_times", 2),
-                (try_for_range, ":unused", 0, ":num_tries"),
-                    #(call_script, "script_troop_add_merchant_items_from_party", ":merchant", ":party_no", items_weapon),
-                    (call_script, "script_party_add_reinforcements", "p_temp_party"),
-                (try_end),
-                (party_get_num_companion_stacks, ":num_stacks", "p_temp_party"),
-                (try_for_range, ":cur_stack", 0, ":num_stacks"),
-                    (party_stack_get_troop_id, ":cur_troop", "p_temp_party", ":cur_stack"),
-                    (party_stack_get_size, ":size", "p_temp_party", ":cur_stack"),
-                    (val_div, ":size", 3), # We reduce the number of troops in each stack to prevent peasant items from bloating the inventory
-                    (val_add, ":size", 1), # 
-                    (try_for_range, ":unused", 0, ":size"),
-                        (troop_loot_troop, "trp_temp_troop", ":cur_troop", 100),
-                    (try_end),
-                (try_end),
-                (troop_get_inventory_capacity, ":num_items", "trp_temp_troop"),
+                (call_script, "script_merchant_update", ":merchant", merchant_type_horse, ":party_no"),
 
-                (store_sub, ":offset", ":party_no", towns_begin),
-                (store_add, ":merchant", merchants_weapons_begin, ":offset"),
-                # Adding weapons
-
-                (troop_get_inventory_capacity, ":capacity", ":merchant"),
-                (val_div, ":capacity", 2),
-                (troop_sort_inventory, ":merchant"),
-                (troop_ensure_inventory_space, ":merchant", ":capacity"),
-
-                (try_for_range, ":i", 0, ":num_items"),
-                    (troop_get_inventory_slot, ":item", "trp_temp_troop", ":i"),
-                    (gt, ":item", 0),
-                    (troop_get_inventory_slot_modifier, ":modifier", "trp_temp_troop", ":i"),
-                    (item_get_type, ":item_type", ":item"),
-                    (is_between, ":item_type", itp_type_one_handed_wpn, itp_type_goods),
-                    (troop_add_item, ":merchant", ":item", ":modifier"),
-                (try_end),
-                (troop_sort_inventory, ":merchant"),
-                
-                (store_sub, ":offset", ":party_no", towns_begin),
-                (store_add, ":merchant", merchants_armors_begin, ":offset"),
-                # Adding armors
-                
-                (troop_get_inventory_capacity, ":capacity", ":merchant"),
-                (val_div, ":capacity", 2),
-                (troop_sort_inventory, ":merchant"),
-                (troop_ensure_inventory_space, ":merchant", ":capacity"),
-
-                (try_for_range, ":i", 0, ":num_items"),
-                    (troop_get_inventory_slot, ":item", "trp_temp_troop", ":i"),
-                    (gt, ":item", 0),
-                    (troop_get_inventory_slot_modifier, ":modifier", "trp_temp_troop", ":i"),
-                    (item_get_type, ":item_type", ":item"),
-                    (is_between, ":item_type", itp_type_head_armor, itp_type_pistol),
-                    (troop_add_item, ":merchant", ":item", ":modifier"),
-                (try_end),
-                (troop_sort_inventory, ":merchant"),
-
-                # (call_script, "script_cf_merchant_can_update", ":merchant"),
-                # (assign, ":num_times", reg0),
-
-                # (try_for_range, ":unused", 0, ":num_times"),
-                #     (call_script, "script_troop_add_merchant_items_from_party", ":merchant", ":party_no", items_armor),
-                # (try_end),
-            (try_end),
-            (try_begin),
-                (eq, ":party_type", spt_castle),
-                (store_sub, ":offset", ":party_no", castles_begin),
-                (store_add, ":merchant", merchants_smiths_begin, ":offset"),
-                
-                (call_script, "script_cf_merchant_can_update", ":merchant"),
-                (assign, ":num_times", reg0),
-                (try_for_range, ":unused", 0, ":num_times"),
-                    (call_script, "script_troop_add_merchant_items_from_party", ":merchant", ":party_no", items_weapon|items_armor),
-                (try_end),
+                (troop_set_slot, ":merchant", slot_troop_last_met, ":current_day"),
+                (val_add, ":merchant_slot", 1),
             (try_end),
         ]),
-    
-    # script_party_update_merchants_gold
-    ## Gives merchants from party_no some gold
-    # input:
-    #   arg1: party_no
-    # output: none
-    ("party_update_merchants_gold",
+
+    # script_merchant_update
+        # input:
+        #   arg1: merchant_troop
+        #   arg2: merchant_type
+        #   arg3: party_no
+        # output: none
+    ("merchant_update",
         [
-            (store_script_param, ":party_no", 1),
-            
-            # (party_get_slot, ":party_type", ":party_no", slot_party_type),
-            
-            (store_sub, ":offset", ":party_no", towns_begin),
+            (store_script_param, ":merchant_troop", 1),
+            (store_script_param, ":merchant_type", 2),
+            (store_script_param, ":party_no", 3),
+
+            (assign, ":items_type", 0),
             (try_begin),
-                (is_between, ":party_no", towns_begin, towns_end),
-                (store_add, ":weapon_merchant", merchants_weapons_begin, ":offset"),
-                (call_script, "script_troop_update_merchant_gold", ":weapon_merchant"),
+                (eq, ":merchant_type", merchant_type_armor),
+                (assign, ":items_type", items_armor),
+            (else_try),
+                (eq, ":merchant_type", merchant_type_weapon),
+                (assign, ":items_type", items_weapon),
+            (else_try),
+                (eq, ":merchant_type", merchant_type_horse),
+                (assign, ":items_type", items_horse),
+            (else_try),
+                (eq, ":merchant_type", merchant_type_goods),
+                (assign, ":items_type", items_good),
             (try_end),
-            
-            (store_add, ":general_merchant", merchants_general_begin, ":offset"),
-            
-            (call_script, "script_troop_update_merchant_gold", ":general_merchant"),
+
+            (try_begin),
+                (call_script, "script_cf_merchant_can_update", ":merchant_troop"),
+                (assign, ":num_times", reg0),
+                (assign, ":update_script", "script_troop_add_merchant_items_from_party"),
+                (try_begin),
+                    (this_or_next|eq, ":items_type", items_weapon),
+                    (this_or_next|eq, ":items_type", items_armor),
+                    (eq, ":items_type", items_horse),
+
+                    (assign, ":update_script", "script_troop_add_merchant_template_items"),
+                (try_end),
+                (try_for_range, ":unused", 0, ":num_times"),
+                    (store_random_in_range, ":rand", 0, 3),
+                    (try_begin),
+                        (eq, ":rand", 0),
+                        (call_script, "script_troop_add_merchant_items_from_party", ":merchant_troop", ":party_no", ":items_type"),
+                    (else_try),
+                        (call_script, ":update_script", ":merchant_troop", ":party_no", ":items_type"),
+                    (try_end),
+                    (call_script, "script_troop_update_merchant_gold", ":merchant_troop", ":merchant_type", ":party_no"),
+                (try_end),
+            (try_end),
         ]),
     
     # script_troop_update_merchant_gold
-    ## Select the amount of gold that has to be given to troop_no depending on the merchant type he his
-    # input:
-    #   arg1: troop_no
-    # output: none
+        # input:
+        #   arg1: merchant_troop
+        #   arg2: merchant_type
+        #   arg3: party_no
+        # output: none
     ("troop_update_merchant_gold",
         [
             (store_script_param, ":merchant", 1),
+            (store_script_param, ":merchant_type", 2),
+            (store_script_param, ":party_no", 3),
             
-            (assign, ":base_gold", 100),
+            (call_script, "script_merchant_type_get_gold_normalization", ":merchant_type", ":party_no"),
+            (assign, ":target_gold", reg0),
+
+            (store_div, ":max_change", ":target_gold", 10),
             
+            (store_troop_gold, ":cur_gold", ":merchant"),
+
+            (store_random_in_range, ":gold_change", -1000, 1001),
             (try_begin),
-                (is_between, ":merchant", merchants_general_begin, merchants_general_end),
-                (assign, ":base_gold", merchant_base_gold_earn_general),
+                (gt, ":target_gold", ":cur_gold"),
+                (store_sub, ":diff", ":target_gold", ":cur_gold"),
+                (try_begin),
+                    (gt, ":diff", ":max_change"),
+                    (val_add, ":gold_change", ":max_change"),
+                (try_end),
             (else_try),
-                # (is_between, ":merchant", merchants_weapons_begin, merchants_weapons_end),
-                (assign, ":base_gold", merchant_base_gold_earn_weaponsmith),
-            # (else_try),
-                # (is_between, ":merchant", merchants_armors_begin, merchants_armors_end),
-                # (assign, ":base_gold", merchant_base_gold_earn_armorsmith),
-            # (else_try),
-                # (is_between, ":merchant", merchants_goods_begin, merchants_goods_end),
-                # (assign, ":base_gold", merchant_base_gold_earn_goods),
-            # (else_try),
-                # (is_between, ":merchant", merchants_horses_begin, merchants_horses_end),
-                # (assign, ":base_gold", merchant_base_gold_earn_horses),
+                (lt, ":target_gold", ":cur_gold"),
+                (store_sub, ":diff", ":cur_gold", ":target_gold"),
+                (try_begin),
+                    (gt, ":diff", ":max_change"),
+                    (val_sub, ":gold_change", ":max_change"),
+                (try_end),
             (try_end),
             
-            (call_script, "script_troop_add_merchant_gold", ":merchant", ":base_gold"),
+            (call_script, "script_troop_add_merchant_gold", ":merchant", ":gold_change"),
+        ]),
+
+    # script_merchant_type_get_gold_normalization
+        # input:
+        #   arg1: merchant_type
+        #   arg2: party_no
+        # output:
+        #   reg0: target_gold
+    ("merchant_type_get_gold_normalization",
+        [
+            (store_script_param, ":merchant_type", 1),
+            (store_script_param, ":party_no", 2),
+
+            (assign, ":target_gold", 20000),
+            
+            (try_begin),
+                (eq, ":merchant_type", merchant_type_armor),
+                (assign, ":target_gold", merchant_base_gold_armor),
+            (else_try),
+                (eq, ":merchant_type", merchant_type_weapon),
+                (assign, ":target_gold", merchant_base_gold_weapon),
+            (else_try),
+                (eq, ":merchant_type", merchant_type_goods),
+                (assign, ":target_gold", merchant_base_gold_goods),
+            (else_try),
+                (eq, ":merchant_type", merchant_type_horse),
+                (assign, ":target_gold", merchant_base_gold_horse),
+            (try_end),
+
+            (party_get_slot, ":party_type", ":party_no", slot_party_type),
+            (try_begin),
+                (eq, ":party_type", spt_village),
+                (val_div, ":target_gold", 5),
+            (else_try),
+                (eq, ":party_type", spt_castle),
+                (val_div, ":target_gold", 2),
+            (try_end),
+
+            (party_get_slot, ":prosperity", ":party_no", slot_party_prosperity),
+            # Low prosperity can reduce max gold by 33%
+            (val_add, ":prosperity", 200),
+
+            (val_mul, ":target_gold", ":prosperity"),
+            (val_div, ":target_gold", 300),
+
+            (assign, reg0, ":target_gold"),
         ]),
     
     # script_troop_add_merchant_gold
-    ## Modify the amount of gold of a certain merchant
-    ## ToDo: will need to be used for taxes
-    # input:
-    #   arg1: troop_no
-    #   arg2: base_gold
-    # output:
-    #   reg0: gold_added
+        ## Modify the amount of gold of a certain merchant
+        ## ToDo: will need to be used for taxes
+        # input:
+        #   arg1: troop_no
+        #   arg2: base_gold
+        # output:
+        #   reg0: gold_added
     ("troop_add_merchant_gold",
         [
             (store_script_param, ":merchant", 1),
             (store_script_param, ":base_gold", 2),
             
-            (store_troop_gold, ":cur_gold", ":merchant"),
-            (store_div, ":sub", ":cur_gold", 5),
-            (store_sub, ":gold_added", ":base_gold", ":sub"),
-            (store_random_in_range, ":bonus_gold", 0, 10),
-            (val_add, ":gold_added", ":bonus_gold"),
-            (troop_add_gold, ":merchant", ":gold_added"),
-            
-            (assign, reg0, ":gold_added"),
+            (troop_add_gold, ":merchant", ":base_gold"),
+            (assign, reg0, ":base_gold"),
         ]),
     
-    
     # script_troop_add_merchant_items_from_party
-    # input:
-    #   arg1: merchant
-    #   arg2: party_no
-    #   arg3: items
-    # output: none
+        # input:
+        #   arg1: merchant
+        #   arg2: party_no
+        #   arg3: items
+        # output: none
     ("troop_add_merchant_items_from_party",
         [
             (store_script_param, ":merchant", 1),
@@ -14767,74 +14837,44 @@ scripts = [
             (store_and, ":horse", ":items", items_horse),
             
             (troop_get_inventory_capacity, ":capacity", ":merchant"),
-            (val_div, ":capacity", 2),
+
+            (call_script, "script_party_get_merchant_capacity_ratio", ":party_no", ":items"),
+            (assign, ":ratio", reg0),
+
+            (val_mul, ":capacity", ":ratio"),
+            (val_div, ":capacity", 100),
+
+            (store_div, ":amount", ":capacity", 10),
+            (val_add, ":amount", 1),
+
             (troop_sort_inventory, ":merchant"),
             (troop_ensure_inventory_space, ":merchant", ":capacity"),
             
-            (assign, ":num_items", 0),
             (try_begin),
                 (gt, ":weapons", 0),
-                (val_add, ":num_items", 1),
+                (call_script, "script_troop_add_merchant_items_weapons", ":merchant", ":culture", ":amount"),
             (try_end),
             (try_begin),
                 (gt, ":armor", 0),
-                (val_add, ":num_items", 1),
+                (call_script, "script_troop_add_merchant_items_armors", ":merchant", ":culture", ":amount"),
             (try_end),
             (try_begin),
                 (gt, ":horse", 0),
-                (val_add, ":num_items", 1),
+                (call_script, "script_troop_add_merchant_items_horses", ":merchant", ":culture", ":amount"),
             (try_end),
             (try_begin),
                 (gt, ":goods", 0),
-                (val_add, ":num_items", 1),
-            (try_end),
-            
-            (try_begin),
-                (gt, ":weapons", 0),
-                (store_div, ":items", 15, ":num_items"),
-                (try_begin),
-                    (gt, ":goods", 0),
-                    (val_div, ":items", 2),
-                (try_end),
-                (call_script, "script_troop_add_merchant_items_weapons", ":merchant", ":culture", ":items"),
-            (try_end),
-            (try_begin),
-                (gt, ":armor", 0),
-                
-                (store_div, ":items", 15, ":num_items"),
-                (try_begin),
-                    (gt, ":goods", 0),
-                    (val_div, ":items", 2),
-                (try_end),
-                (call_script, "script_troop_add_merchant_items_armors", ":merchant", ":culture", ":items"),
-            (try_end),
-            (try_begin),
-                (gt, ":horse", 0),
-                
-                (store_div, ":items", 6, ":num_items"),
-                (try_begin),
-                    (gt, ":goods", 0),
-                    (val_div, ":items", 2),
-                (try_end),
-                (call_script, "script_troop_add_merchant_items_horses", ":merchant", ":culture", ":items"),
-            (try_end),
-            (try_begin),
-                (gt, ":goods", 0),
-                
-                (store_div, ":items", 15, ":num_items"),
-                (val_mul, ":items", 3),
-                (val_div, ":items", 2),
-                (call_script, "script_troop_add_merchant_items_goods", ":merchant", ":culture", ":items"),
+                (call_script, "script_troop_add_merchant_items_goods", ":merchant", ":party_no", ":amount"),
             (try_end),
             (troop_sort_inventory, ":merchant"),
         ]),
     
     # script_troop_add_merchant_items_weapons
-    # input:
-    #   arg1: merchant
-    #   arg2: culture
-    #   zrg3: num_items
-    # output: none
+        # input:
+        #   arg1: merchant
+        #   arg2: culture
+        #   zrg3: num_items
+        # output: none
     ("troop_add_merchant_items_weapons",
         [
             (store_script_param, ":merchant", 1),
@@ -15144,46 +15184,261 @@ scripts = [
         ]),
     
     # script_troop_add_merchant_items_goods
-    # input: 
-    #   arg1: troop_no
-    #   arg2: culture
-    #   arg3: num_items
-    # output: none
+        # input: 
+        #   arg1: troop_no
+        #   arg2: party_no
+        #   arg3: num_items
+        # output: none
     ("troop_add_merchant_items_goods",
         [
             (store_script_param, ":merchant", 1),
-            (store_script_param, ":culture", 2),
+            (store_script_param, ":party_no", 2),
             (store_script_param, ":num_items", 3),
-            
-            (try_begin),
-                (eq, ":culture", "fac_culture_1"),
-                (assign, ":culture", "fac_kingdom_1"),
-            (else_try),
-                (eq, ":culture", "fac_culture_2"),
-                (assign, ":culture", "fac_kingdom_2"),
-            (else_try),
-                (eq, ":culture", "fac_culture_3"),
-                (assign, ":culture", "fac_kingdom_3"),
-            (else_try),
-                (eq, ":culture", "fac_culture_4"),
-                (assign, ":culture", "fac_kingdom_4"),
-            (else_try),
-                (eq, ":culture", "fac_culture_5"),
-                (assign, ":culture", "fac_kingdom_5"),
-            (else_try),
-                (eq, ":culture", "fac_culture_6"),
-                (assign, ":culture", "fac_kingdom_6"),
-            (else_try),
-                (assign, ":culture", "fac_commoners"),
+
+            (assign, ":total_items", 0),
+            (try_for_range, ":good", goods_begin, goods_end),
+                (store_sub, ":offset", ":good", goods_begin),
+                (store_add, ":slot", ":offset", slot_party_ressources_current_amount_begin),
+                (party_get_slot, ":amount", ":party_no", ":slot"),
+                (val_add, ":total_items", ":amount"),
             (try_end),
-            
-            (troop_add_merchandise_with_faction, ":merchant", ":culture", itp_type_goods, ":num_items"),
+
+            (try_for_range, ":unused", 0, ":num_items"),
+                (store_random_in_range, ":rand", 0, ":total_items"),
+                (assign, ":acc", -1),
+
+                (assign, ":end", goods_end),
+                (try_for_range, ":good", goods_begin, ":end"),
+                    (store_sub, ":offset", ":good", goods_begin),
+                    (store_add, ":slot", ":offset", slot_party_ressources_current_amount_begin),
+                    (party_get_slot, ":amount", ":party_no", ":slot"),
+                    (gt, ":amount", 0),
+                    (val_add, ":acc", ":amount"),
+                    (ge, ":acc", ":rand"),
+                    (assign, ":end", 0),
+                    (troop_add_item, ":merchant", ":good"),
+                (try_end),
+            (try_end),
         ]),
     
+    # script_troop_add_merchant_template_items
+        # input:
+        #   arg1: merchant
+        #   arg2: party_no
+        #   arg3: items
+        # output: none
+    ("troop_add_merchant_template_items",
+        [
+            (store_script_param, ":merchant", 1),
+            (store_script_param, ":party_no", 2),
+            (store_script_param, ":items", 3),
+
+            (party_clear, "p_temp_party"),
+
+            (party_get_slot, ":original_faction", ":party_no", slot_party_original_faction),
+            (party_set_slot, "p_temp_party", slot_party_original_faction, ":original_faction"),
+            (party_get_slot, ":party_type", ":party_no", slot_party_type),
+            (party_set_slot, "p_temp_party", slot_party_type, ":party_type"),
+            (store_faction_of_party, ":party_faction", ":party_no"),
+            (party_set_faction, "p_temp_party", ":party_faction"),
+
+            (faction_get_slot, ":leader", ":party_faction", slot_faction_leader),
+            (try_begin),
+                (ge, ":leader", 0),
+                (troop_get_slot, ":leader_home", ":leader", slot_troop_home),
+                (is_between, ":leader_home", centers_begin, centers_end),
+                (party_get_position, pos1, ":leader_home"),
+                (party_set_position, "p_temp_party", pos1),
+            (try_end),
+
+            (try_for_range, ":unused", 0, 10),
+                (call_script, "script_party_add_reinforcements", "p_temp_party"),
+            (try_end),
+            
+            (party_set_faction, "p_temp_party", fac_commoners),
+
+            (troop_get_inventory_capacity, ":capacity", ":merchant"),
+
+            (call_script, "script_party_get_merchant_capacity_ratio", ":party_no", ":items"),
+            (assign, ":ratio", reg0),
+
+            (val_mul, ":capacity", ":ratio"),
+            (val_div, ":capacity", 100),
+
+            (troop_sort_inventory, ":merchant"),
+            (troop_ensure_inventory_space, ":merchant", ":capacity"),
+
+            (store_div, ":amount", ":capacity", 10),
+            (val_add, ":amount", 1),
+
+            (try_for_range, ":item", items_begin, items_end),
+                (item_set_slot, ":item", slot_item_temp, 0),
+            (try_end),
+
+            (party_get_num_companion_stacks, ":num_stacks", "p_temp_party"),
+            (try_for_range, ":stack", 0, ":num_stacks"),
+                (party_stack_get_troop_id, ":troop_id", "p_temp_party", ":stack"),
+
+                (troop_get_inventory_capacity, ":inventory_capacity", ":troop_id"),
+                (try_for_range, ":inv_slot", 0, ":inventory_capacity"),
+                    (troop_get_inventory_slot, ":item", ":troop_id", ":inv_slot"),
+
+                    (is_between, ":item", items_begin, items_end),
+                    (item_get_type, ":item_type", ":item"),
+
+                    (assign, ":is_wanted", 0),
+                    (try_begin),
+                        (eq, ":items", items_weapon),
+
+                        (this_or_next|eq, ":item_type", itp_type_one_handed_wpn),
+                        (this_or_next|eq, ":item_type", itp_type_two_handed_wpn),
+                        (this_or_next|eq, ":item_type", itp_type_polearm),
+                        (this_or_next|eq, ":item_type", itp_type_arrows),
+                        (this_or_next|eq, ":item_type", itp_type_bolts),
+                        (this_or_next|eq, ":item_type", itp_type_shield),
+                        (this_or_next|eq, ":item_type", itp_type_bow),
+                        (this_or_next|eq, ":item_type", itp_type_crossbow),
+                        (eq, ":item_type", itp_type_thrown),
+
+                        (assign, ":is_wanted", 1),
+                    (else_try),
+                        (eq, ":items", items_horse),
+                        (eq, ":item_type", itp_type_horse),
+
+                        (assign, ":is_wanted", 1),
+                    (else_try),
+                        (eq, ":items", items_armor),
+
+                        (this_or_next|eq, ":item_type", itp_type_head_armor),
+                        (this_or_next|eq, ":item_type", itp_type_body_armor),
+                        (this_or_next|eq, ":item_type", itp_type_foot_armor),
+                        (eq, ":item_type", itp_type_hand_armor),
+
+                        (assign, ":is_wanted", 1),
+                    (try_end),
+
+                    (try_begin),
+                        (gt, ":is_wanted", 0),
+
+                        (item_get_slot, ":tmp", ":item", slot_item_temp),
+                        (val_add, ":tmp", 1),
+                        (item_set_slot, ":item", slot_item_temp, ":tmp"),
+
+                    (try_end),
+                (try_end),
+            (try_end),
+
+            (assign, ":total_normalized_amount", 0),
+            (set_fixed_point_multiplier, 1),
+            (try_for_range, ":item", items_begin, items_end),
+                (item_get_slot, ":tmp", ":item", slot_item_temp),
+                (ge, ":tmp", 1),
+                (store_sqrt, ":sqrt", ":tmp"),
+                (item_set_slot, ":item", slot_item_temp, ":sqrt"),
+                (val_add, ":total_normalized_amount", ":sqrt"),
+            (try_end),
+
+            (try_for_range, ":unused", 0, ":amount"),
+                (store_random_in_range, ":rand", 0, ":total_normalized_amount"),
+
+                (assign, ":value", 0),
+                (assign, ":end", items_end),
+                (try_for_range, ":item", items_begin, ":end"),
+                    (item_get_slot, ":tmp", ":item", slot_item_temp),
+                    (val_add, ":value", ":tmp"),
+                    (lt, ":rand", ":value"),
+
+                    (call_script, "script_troop_add_item_with_random_modifier", ":merchant", ":item"),
+                    (assign, ":end", 0),
+                (try_end),
+            (try_end),
+            (troop_sort_inventory, ":merchant"),
+        ]),
+
+    # script_troop_add_item_with_random_modifier
+        # input:
+        #   arg1: troop_no
+        #   arg2: item
+        # output: none
+    ("troop_add_item_with_random_modifier",
+        [
+            (store_script_param, ":troop_no", 1),
+            (store_script_param, ":item", 2),
+
+            (assign, ":imod", -1),
+            (store_random_in_range, ":use_imod", 0, 2),
+
+            (try_begin),
+                (neq, ":use_imod", 0),
+                (store_random_in_range, ":rand", imod_plain, imod_large_bag + 1),
+                (assign, ":cur_value", 0),
+                (assign, ":end", 100),
+                (try_for_range, ":unused", 0, ":end"),
+                    (assign, ":imod_end", imod_large_bag + 1),
+                    (try_for_range, ":cur_imod", imod_plain, ":imod_end"),
+                        (item_has_modifier, ":item", ":cur_imod"),
+                        (try_begin),
+                            (eq, ":rand", ":cur_value"),
+                            (assign, ":end", 0),
+                            (assign, ":imod", ":cur_imod"),
+                            (assign, ":imod_end", 0),
+                        (else_try),
+                            (val_add, ":cur_value", 1),
+                        (try_end),
+                    (try_end),
+                (try_end),
+            (try_end),
+
+            (try_begin),
+                (eq, ":imod", -1),
+                (troop_add_item, ":troop_no", ":item"),
+            (else_try),
+                (troop_add_item, ":troop_no", ":item", ":imod"),
+            (try_end),
+        ]),
+
+    # script_party_get_merchant_capacity_ratio
+        # input:
+        #   arg1: party_no
+        #   arg2: items
+        # output:
+        #   reg0: ratio
+    ("party_get_merchant_capacity_ratio",
+        [
+            (store_script_param, ":party_no", 1),
+            (store_script_param, ":items", 2),
+
+            (store_and, ":horse", ":items", items_horse),
+
+            (party_get_slot, ":prosperity", ":party_no", slot_party_prosperity),
+            (store_add, ":ratio", ":prosperity", 50),
+
+            (party_get_slot, ":party_type", ":party_no", slot_party_type),
+            (try_begin),
+                (eq, ":party_type", spt_village),
+                (val_div, ":ratio", 3),
+            (else_try),
+                (eq, ":party_type", spt_castle),
+                (val_div, ":ratio", 2),
+            (try_end),
+
+            (try_begin),
+                (gt, ":horse", 0),
+                (val_mul, ":ratio", 2),
+                (val_div, ":ratio", 3),
+            (try_end),
+
+            # We use this to compensate for the 50 added to prosperity and to use only 50% of total capacity
+            # (100 + 50) * 2/3 / 2 = 50
+            (val_div, ":ratio", 3),
+
+            (assign, reg0, ":ratio"),
+        ]),
+
     # script_faction_process_politics
-    # input:
-    #   arg1: faction_no
-    # output: none
+        # input:
+        #   arg1: faction_no
+        # output: none
     ("faction_process_politics",
         [
             (store_script_param, ":faction_no", 1),
@@ -15441,10 +15696,10 @@ scripts = [
                 (assign, ":renown_gain", renown_value_castle/3),
                 (try_begin),
                     (eq, ":size", sfs_large),
-                    (assign, ":renown_gain", renown_value_town/3),
+                    (assign, ":renown_gain", renown_value_town/2),
                 (else_try),
                     (eq, ":size", sfs_medium),
-                    (assign, ":renown_gain", renown_value_town/2),
+                    (assign, ":renown_gain", renown_value_town/3),
                 (try_end),
                 (call_script, "script_troop_change_renown", ":best_candidate", ":renown_gain"),
 
@@ -17721,7 +17976,7 @@ scripts = [
             (troop_get_slot, ":last_met", ":merchant", slot_troop_last_met),
             (call_script, "script_get_current_day"),
             (assign, ":current_day", reg0),
-            (troop_set_slot, ":merchant", slot_troop_last_met, ":current_day"),
+            # (troop_set_slot, ":merchant", slot_troop_last_met, ":current_day"),
             (store_div, ":last_met_mod", ":last_met", merchants_update_rate),
             (val_div, ":current_day", merchants_update_rate),
             
@@ -17731,7 +17986,7 @@ scripts = [
             (try_begin),
                 (call_script, "script_cf_debug", debug_economy|debug_simple),
                 (assign, reg0, ":time_passed"),
-                (display_message, "@Updating merchant goods ({reg0} times)."),
+                (display_message, "@Merchant can update goods ({reg0} times)."),
             (try_end),
             (assign, reg0, ":time_passed"),
         ]),
@@ -22396,6 +22651,8 @@ scripts = [
                     (party_set_slot, ":party_no", slot_party_mission_target_2, ":target_2"),
                     (party_set_slot, ":party_no", slot_party_mission_target_3, ":target_3"),
 
+                    (party_set_slot, ":party_no", slot_party_player_shakedown, 0),
+
                     # Load cargo
                     # Heading to linked center
                     (call_script, "script_party_empty_goods", ":party_no", ":home"),
@@ -22464,12 +22721,7 @@ scripts = [
                 (else_try),
                     (call_script, "script_party_set_behavior", ":party_no", tai_traveling_to_party, ":target_3"),
                 (try_end),
-            (else_try),
-
             (try_end),
-
-            # (party_get_slot, ":mission_object", ":party_no", slot_party_mission_object),
-            # (party_get_slot, ":mission", ":party_no", slot_party_mission),
         ]),
 
     # script_party_civilian_load_goods
@@ -23653,26 +23905,26 @@ scripts = [
         # output: none
     ("player_add_starting_items",
         [
-            (troop_get_slot, ":culture", "$g_player_troop", slot_troop_culture),
-            (try_begin),
-                (eq, ":culture", "fac_culture_1"),
-                (call_script, "script_troop_use_template_troop", "$g_player_troop", "trp_swadian_lord_template_0"),
-            (else_try),
-                (eq, ":culture", "fac_culture_2"),
-                (call_script, "script_troop_use_template_troop", "$g_player_troop", "trp_vaegir_lord_template_0"),
-            (else_try),
-                (eq, ":culture", "fac_culture_3"),
-                (call_script, "script_troop_use_template_troop", "$g_player_troop", "trp_khergit_lord_template_0"),
-            (else_try),
-                (eq, ":culture", "fac_culture_4"),
-                (call_script, "script_troop_use_template_troop", "$g_player_troop", "trp_nord_lord_template_0"),
-            (else_try),
-                (eq, ":culture", "fac_culture_5"),
-                (call_script, "script_troop_use_template_troop", "$g_player_troop", "trp_rhodok_lord_template_0"),
-            (else_try),
-                (eq, ":culture", "fac_culture_6"),
-                (call_script, "script_troop_use_template_troop", "$g_player_troop", "trp_sarranid_lord_template_0"),
-            (try_end),
+            # (troop_get_slot, ":culture", "$g_player_troop", slot_troop_culture),
+            # (try_begin),
+            #     (eq, ":culture", "fac_culture_1"),
+            #     (call_script, "script_troop_use_template_troop", "$g_player_troop", "trp_swadian_lord_template_0"),
+            # (else_try),
+            #     (eq, ":culture", "fac_culture_2"),
+            #     (call_script, "script_troop_use_template_troop", "$g_player_troop", "trp_vaegir_lord_template_0"),
+            # (else_try),
+            #     (eq, ":culture", "fac_culture_3"),
+            #     (call_script, "script_troop_use_template_troop", "$g_player_troop", "trp_khergit_lord_template_0"),
+            # (else_try),
+            #     (eq, ":culture", "fac_culture_4"),
+            #     (call_script, "script_troop_use_template_troop", "$g_player_troop", "trp_nord_lord_template_0"),
+            # (else_try),
+            #     (eq, ":culture", "fac_culture_5"),
+            #     (call_script, "script_troop_use_template_troop", "$g_player_troop", "trp_rhodok_lord_template_0"),
+            # (else_try),
+            #     (eq, ":culture", "fac_culture_6"),
+            #     (call_script, "script_troop_use_template_troop", "$g_player_troop", "trp_sarranid_lord_template_0"),
+            # (try_end),
         ]),
 
     # script_cf_troop_can_join_faction
@@ -23930,12 +24182,14 @@ scripts = [
     # script_get_dialog_caravan_intro
         # input:
         #   arg1: caravan_party
+        #   arg2: caravan_leader
         # output:
         #   s0: caravan_intro_dialog
         #   reg0: dialog_outcome
     ("get_dialog_caravan_intro",
         [
             (store_script_param, ":caravan_party", 1),
+            (store_script_param, ":caravan_leader", 2),
 
             (assign, ":dialog_outcome", outcome_neutral),
 
@@ -23959,12 +24213,14 @@ scripts = [
             (else_try),
                 # Caravan originates from player center
                 (eq, ":caravan_leader", "$g_player_troop"),
-                (str_store_string, s0, "@{my Lord/my Lady}, you grace us with your presence. How can we be of service ?"),
+                (call_script, "script_troop_get_player_name", ":caravan_leader", ":caravan_party"),
+                (str_store_string, s0, "@{s60}, you grace us with your presence. How can we be of service ?"),
                 (assign, ":dialog_outcome", outcome_success),
             (else_try),
                 # Same faction
                 (eq, ":caravan_faction", ":player_faction"),
-                (str_store_string, s0, "@Greetings {my Lord/my Lady}. What brings you here ?"),
+                (call_script, "script_troop_get_player_name", ":caravan_leader", ":caravan_party"),
+                (str_store_string, s0, "@Greetings {s60y}. What brings you here ?"),
                 (assign, ":dialog_outcome", outcome_success),
             (else_try),
                 # Factions at war
@@ -23973,21 +24229,25 @@ scripts = [
                     (ge, ":caravan_leader", 0),
                     (str_store_troop_name, s10, ":caravan_leader"),
                 (try_end),
-                (str_store_string, s0, "@Be mindful that this caravan is under the protection of {s10}. Now, what do you need {playername} ?"),
+                (call_script, "script_troop_get_player_name", ":caravan_leader", ":caravan_party"),
+                (str_store_string, s0, "@Be mindful that this caravan is under the protection of {s10}. Now, what do you need {s60} ?"),
                 (assign, ":dialog_outcome", outcome_neutral),
             (else_try),
                 # Allied faction
                 (ge, ":relation", relation_positive),
-                (str_store_string, s0, "@Greetings {playername}. What brings you here ?"),
+                (call_script, "script_troop_get_player_name", ":caravan_leader", ":caravan_party"),
+                (str_store_string, s0, "@Greetings {s60}. What brings you here ?"),
                 (assign, ":dialog_outcome", outcome_success),
             (else_try),
                 # Enemy faction
                 (le, ":relation", relation_tense),
-                (str_store_string, s0, "@{playername}, what do you need ?"),
+                (call_script, "script_troop_get_player_name", ":caravan_leader", ":caravan_party"),
+                (str_store_string, s0, "@{s60}, what do you need ?"),
                 (assign, ":dialog_outcome", outcome_success),
             (else_try),
                 # Neutral faction
-                (str_store_string, s0, "@Hail traveller. What brings you here ?"),
+                (call_script, "script_troop_get_player_name", ":caravan_leader", ":caravan_party"),
+                (str_store_string, s0, "@Hail {s60}. What brings you here ?"),
                 (assign, ":dialog_outcome", outcome_success),
             (try_end),
             (assign, reg0, ":dialog_outcome"),
@@ -24063,17 +24323,48 @@ scripts = [
                     (call_script, "script_party_get_wages", "$g_player_party"),
                     (gt, ":payment_amount", reg0),
                     (assign, ":dialog_outcome", outcome_success),
+                    (call_script, "script_troop_get_player_name", -1, ":caravan_party"),
+
+                    (call_script, "script_game_get_money_text", ":payment_amount"),
+                        (str_store_string, s0, "@Of course {s60}, here, we can part with {s0}."),
                 (else_try),
                     (assign, ":dialog_outcome", outcome_neutral),
+                    (call_script, "script_game_get_money_text", ":payment_amount"),
+                    (str_store_string, s0, "@Very well, you will be given {s0} if you can promise to let these men go unharmed."),
                 (try_end),
             (else_try),
                 (assign, ":dialog_outcome", outcome_failure),
+                (str_store_string, s0, "@Surely you jest, you won't get anything from me."),
             (try_end),
 
-            (call_script, "script_game_get_money_text", ":payment_amount"),
-            (str_store_string, s0, "@Very well, you will be given {s0} if you can promise to let these men go unharmed."),
             (assign, reg0, ":dialog_outcome"),
             (assign, reg1, ":payment_amount"),
+        ]),
+
+    # script_get_dialog_civilian_intro
+        # input:
+        #   arg1: civilian_party
+        #   arg2: civilian_party_leader
+        # output:
+        #   s0: civilian_dialog
+    ("get_dialog_civilian_intro",
+        [
+            (store_script_param, ":civilian_party", 1),
+            (store_script_param, ":civilian_party_leader", 2),
+
+            (store_faction_of_party, ":player_faction", "$g_player_party"),
+            (store_faction_of_party, ":civilian_faction", ":civilian_party"),
+
+            (call_script, "script_troop_get_player_name", ":civilian_party_leader", ":civilian_party"),
+            (try_begin),
+                (party_slot_eq, ":civilian_party", slot_party_player_shakedown, 1),
+                (str_store_string, s0, "@{s60}, did you need something else?"),
+            (else_try),
+                (call_script, "script_cf_factions_are_at_war", ":civilian_faction", ":player_faction"),
+                (str_store_string, s0, "@{s60}, we are but humble farmers from the village of {s10}, please have mercy."),
+            (else_try),
+                (str_store_string, s0, "@Welcome {s60}, is there something you require of us?"),
+            (try_end),
         ]),
 
     # script_party_get_picture_mesh
@@ -25296,6 +25587,161 @@ scripts = [
                 (else_try),
                     (assign, ":end", 0),
                 (try_end),
+            (try_end),
+        ]),
+
+    # script_party_get_merchant
+        # input:
+        #   arg1: party_no
+        #   arg2: merchant_slot
+        #   arg3: merchant_type
+        # output:
+        #   reg0: merchant_troop
+    ("party_get_merchant",
+        [
+            (store_script_param, ":party_no", 1),
+            (store_script_param, ":merchant_slot", 2),
+            (store_script_param, ":merchant_type", 3),
+
+            (party_get_slot, ":merchant", ":party_no", ":merchant_slot"),
+            (try_begin),
+                (is_between, ":merchant", merchants_begin, merchants_end),
+                (troop_get_slot, ":merchant_center", ":merchant", slot_troop_merchant_center),
+                (eq, ":merchant_center", ":party_no"),
+                (troop_get_slot, ":merchant_type", ":merchant", slot_troop_merchant_type),
+                (eq, ":merchant_type", ":merchant_type"),
+
+                (assign, reg0, ":merchant"),
+            (else_try),
+                (assign, ":new_merchant", -1),
+                (assign, ":end", merchants_end),
+                (try_for_range, ":cur_merchant", merchants_begin, ":end"),
+                    (troop_get_slot, ":center", ":cur_merchant", slot_troop_merchant_center),
+                    (try_begin),
+                        (eq, ":center", -1),
+                        (assign, ":new_merchant", ":cur_merchant"),
+                        (assign, ":end", 0),
+                    (else_try),
+                        (call_script, "script_cf_merchant_can_update", ":cur_merchant"),
+                        (ge, reg0, 10),
+                        (assign, ":new_merchant", ":cur_merchant"),
+                        (assign, ":end", 0),
+                    (try_end),
+                (try_end),
+
+                (try_begin),
+                    (is_between, ":new_merchant", merchants_begin, merchants_end),
+
+                    (try_begin),
+                        (call_script, "script_cf_debug", debug_current),
+                        (str_store_party_name, s10, ":party_no"),
+                        (assign, reg10, ":new_merchant"),
+                        (assign, reg11, ":merchant_type"),
+                        (display_message, "@Generating new merchant {reg10} for {s10} of type {reg11}"),
+                    (try_end),
+
+                    (troop_set_slot, ":new_merchant", slot_troop_merchant_center, ":party_no"),
+                    (troop_set_slot, ":new_merchant", slot_troop_merchant_type, ":merchant_type"),
+                    (troop_set_slot, ":new_merchant", slot_troop_last_met, -50000),
+                    (troop_clear_inventory, ":new_merchant"),
+                    (store_troop_gold, ":merchant_gold", ":new_merchant"),
+                    (troop_remove_gold, ":new_merchant", ":merchant_gold"),
+                    (party_set_slot, ":party_no", ":merchant_slot", ":new_merchant"),
+                    (assign, ":merchant", ":new_merchant"),
+                (else_try),
+                    (display_message, "@ERROR: unable to find unused merchant troop", text_color_impossible),
+                (try_end),
+            (try_end),
+            (party_set_slot, ":party_no", ":merchant_slot", ":merchant"),
+            (assign, reg0, ":merchant"),
+        ]),
+
+    # script_cf_party_has_merchant
+        # input:
+        #   arg1: party_no
+        #   arg2: merchant_type
+        # output:
+        #   reg0: merchant_troop
+    ("cf_party_has_merchant",
+        [
+            (store_script_param, ":party_no", 1),
+            (store_script_param, ":merchant_type", 2),
+
+            (assign, ":merchant", -1),
+            (assign, ":end", slot_party_merchant_4 + 1),
+            (try_for_range, ":merchant_slot", slot_party_merchant_1, ":end"),
+                (party_get_slot, ":cur_merchant", ":party_no", ":merchant_slot"),
+                (try_begin),
+                    (is_between, ":cur_merchant", merchants_begin, merchants_end),
+                    (troop_get_slot, ":merchant_center", ":cur_merchant", slot_troop_merchant_center),
+                    (eq, ":merchant_center", ":party_no"),
+                    (troop_get_slot, ":cur_merchant_type", ":cur_merchant", slot_troop_merchant_type),
+                    (eq, ":merchant_type", ":cur_merchant_type"),
+
+                    (assign, ":merchant", ":cur_merchant"),
+                    (assign, ":end", 0),
+                (try_end),
+            (try_end),
+            (is_between, ":merchant", merchants_begin, merchants_end),
+
+            (try_begin),
+                (call_script, "script_cf_debug", debug_current),
+                (str_store_party_name, s10, ":party_no"),
+                (assign, reg10, ":merchant"),
+                (assign, reg11, ":merchant_type"),
+                (display_message, "@{s10} has merchant {reg10} of type {reg11}"),
+            (try_end),
+            (assign, reg0, ":merchant"),
+        ]),
+
+    # script_troop_get_player_name
+        # input:
+        #   arg1: troop_no
+        #   arg2: troop_party
+        # output:
+        #   s60: playername
+    ("troop_get_player_name",
+        [
+            (store_script_param, ":troop_no", 1),
+            (store_script_param, ":party_no", 2),
+
+            (try_begin),
+                (gt, ":party_no", 0),
+                (party_get_slot, ":party_type", ":party_no", slot_party_type),
+
+                (store_faction_of_party, ":party_faction", ":party_no"),
+                (store_faction_of_party, ":player_faction", "$g_player_party"),
+
+                (call_script, "script_faction_get_relation_with_faction", ":party_faction", ":player_faction"),
+                (assign, ":relation", reg0),
+
+                (try_begin),
+                    (eq, ":party_type", spt_war_party),
+                    (try_begin),
+                        (troop_slot_eq, ":troop_no", slot_troop_last_met, -1),
+                        (str_store_string, s60, "@traveller"),
+                    (else_try),
+                        (str_store_string, s60, "str_playername"),
+                    (try_end),
+                (else_try),
+                    (eq, ":party_type", spt_civilian),
+                    (str_store_string, s60, "str_my_lord|my_lady"),
+                (else_try),
+                    (try_begin),
+                        (eq, ":party_faction", ":player_faction"),
+                        (str_store_string, s60, "str_my_lord|my_lady"),
+                    (else_try),
+                        (ge, ":relation", relation_positive),
+                        (str_store_string, s60, "str_playername"),
+                    (else_try),
+                        (le, ":relation", relation_tense),
+                        (str_store_string, s60, "str_playername"),
+                    (else_try),
+                        (str_store_string, s60, "@traveller"),
+                    (try_end),
+                (try_end),
+            (else_try),
+                (str_store_string, s60, "str_playername"),
             (try_end),
         ]),
 

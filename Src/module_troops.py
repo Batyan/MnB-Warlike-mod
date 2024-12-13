@@ -414,8 +414,7 @@ undead_face1  = 0x00000000002000000000000000000000
 undead_face2  = 0x000000000020010000001fffffffffff
 
 
-
-
+base_troop_attributes = str_7|agi_7|int_6|cha_5
 
 ############
 ## Troops ##
@@ -447,7 +446,7 @@ troops = [
    def_attrib, wp(70), knows_common, 0, 0 ],
   ["current_player","Player","Player",tf_hero|tf_unmoveable_in_party_window,no_scene,reserved,fac_player_faction,
    [itm_sword_medieval_b, itm_tab_shield_heater_cav_a, itm_light_lance, itm_leather_boots, itm_leather_gloves, itm_leather_armor_herald, itm_saddle_horse],
-   str_12|agi_12|int_12|cha_12|level(1),wp(10),0,0x000000018000000136db6db6db6db6db00000000001db6db0000000000000000 ],
+   base_troop_attributes|level(1),wp(10),0,0x000000018000000136db6db6db6db6db00000000001db6db0000000000000000 ],
   #########
   # Lords #
   #########
@@ -4501,12 +4500,12 @@ troops = [
   ["bandit_poacher", "Bandit Poacher", "Bandit Poachers", tf_guarantee_recruit_armor|tf_guarantee_ranged, no_scene, reserved, fac_faction_2,
    [itm_hunting_crossbow, itm_bolts, itm_falchion, itm_hatchet, itm_club, itm_mace_1, itm_wooden_shield, itm_nordic_shield,
     itm_nomad_boots, itm_wrapping_boots,
-    itm_pelt_coat, itm_leather_armor, itm_leather_jerkin, itm_fur_coat, itm_coarse_tunic, itm_tabard,
+    itm_pelt_coat, itm_leather_armor, itm_fur_coat, itm_coarse_tunic, itm_tabard,
     itm_head_wrappings, itm_common_hood, itm_black_hood,
     ],
    str_8|agi_13|int_8|cha_6|level(12), wpex(60,50,50,45,60,40), knows_common|knows_ironflesh_1|knows_power_strike_2|knows_athletics_4|knows_riding_1, man_face_young_1, man_face_old_2 ],
   
-  ["bandit_rider", "Bandit Rider", "Bandit Riders", tf_guarantee_recruit_armor|tf_guarantee_horseman, no_scene, reserved, fac_faction_2,
+  ["bandit_rider", "Bandit Rider", "Bandit Riders", tf_guarantee_recruit_armor|tf_guarantee_horseman|tf_guarantee_shield, no_scene, reserved, fac_faction_2,
    [itm_falchion, itm_club, itm_mace_1, itm_spear, itm_wooden_shield, itm_nordic_shield,
     itm_nomad_boots, itm_wrapping_boots,
     itm_pelt_coat, itm_leather_armor, itm_leather_jerkin, itm_fur_coat, itm_coarse_tunic, itm_tabard,
@@ -4514,7 +4513,7 @@ troops = [
     itm_sumpter_horse],
    str_10|agi_12|int_6|cha_7|level(12), wpex(60,50,65,25,35,30), knows_common|knows_ironflesh_2|knows_power_strike_2|knows_athletics_2|knows_riding_4, man_face_young_1, man_face_old_2 ],
   
-  ["bandit_marauder", "Bandit Marauder", "Bandit Marauders", tf_guarantee_recruit_armor|tf_guarantee_shield, no_scene, reserved, fac_faction_2,
+  ["bandit_marauder", "Bandit Marauder", "Bandit Marauders", tf_guarantee_trained_armor|tf_guarantee_shield, no_scene, reserved, fac_faction_2,
    [itm_sword_medieval_a, itm_mace_3, itm_fighting_pick, itm_falchion, itm_scythe, itm_wooden_shield, itm_nordic_shield, itm_plate_covered_round_shield,
     itm_leather_boots, itm_nomad_boots, itm_leather_gloves,
     itm_haubergeon, itm_mail_hauberk, itm_mail_shirt,
@@ -4522,7 +4521,7 @@ troops = [
     ],
    str_16|agi_12|int_6|cha_9|level(20), wpex(75,60,60,25,30,30), knows_common|knows_ironflesh_5|knows_power_strike_2|knows_athletics_3|knows_riding_1, man_face_young_1, man_face_old_2 ],
   
-  ["bandit_thug", "Bandit Thug", "Bandit Thugs", tf_guarantee_recruit_armor, no_scene, reserved, fac_faction_2,
+  ["bandit_thug", "Bandit Thug", "Bandit Thugs", tf_guarantee_recruit_armor|tf_guarantee_shield, no_scene, reserved, fac_faction_2,
    [itm_falchion, itm_mace_2, itm_hatchet, itm_club, itm_spiked_club, itm_mace_1, itm_wooden_shield, itm_nordic_shield, itm_hunting_crossbow, itm_bolts,
     itm_leather_boots, itm_nomad_boots, itm_leather_gloves,
     itm_leather_armor, itm_leather_jerkin, itm_fur_coat, itm_coarse_tunic, itm_tabard,
@@ -4530,7 +4529,7 @@ troops = [
     ],
    str_13|agi_14|int_7|cha_8|level(19), wpex(80,70,70,30,45,40), knows_common|knows_ironflesh_2|knows_power_strike_4|knows_athletics_4|knows_riding_2, man_face_young_1, man_face_old_2 ],
   
-  ["bandit_leader", "Bandit Leader", "Bandit Leaders", tf_guarantee_common_armor|tf_guarantee_shield|tf_guarantee_horseman, no_scene, reserved, fac_faction_2,
+  ["bandit_leader", "Bandit Leader", "Bandit Leaders", tf_guarantee_trained_armor|tf_guarantee_shield|tf_guarantee_horseman, no_scene, reserved, fac_faction_2,
    [itm_sword_medieval_a, itm_mace_3, itm_fighting_pick, itm_falchion, itm_spear, itm_plate_covered_round_shield,
     itm_leather_boots, itm_leather_gloves,
     itm_haubergeon, itm_mail_hauberk, itm_mail_shirt,
@@ -4547,7 +4546,7 @@ troops = [
     itm_sumpter_horse, itm_saddle_horse],
    str_11|agi_9|int_6|cha_6|level(9), wpex(55,65,50,35,30,60), knows_common|knows_ironflesh_3|knows_power_strike_2|knows_power_throw_2|knows_power_draw_1|knows_athletics_2|knows_riding_4|knows_horse_archery_2, man_face_young_1, man_face_old_2 ],
   
-  ["bandit_mountain_bandit", "Mountain Bandit", "Mountain Bandits", tf_guarantee_recruit_armor, no_scene, reserved, fac_faction_3,
+  ["bandit_mountain_bandit", "Mountain Bandit", "Mountain Bandits", tf_guarantee_recruit_armor|tf_guarantee_shield, no_scene, reserved, fac_faction_3,
    [itm_falchion, itm_one_handed_war_axe_a, itm_sword_medieval_a, itm_hide_covered_round_shield, itm_fur_covered_shield, itm_javelin,
     itm_nomad_boots, itm_leather_boots, itm_hide_boots,
     itm_leather_jerkin, itm_tribal_warrior_outfit, itm_ragged_outfit,
@@ -4555,7 +4554,7 @@ troops = [
     ],
    str_10|agi_10|int_7|cha_5|level(9), wpex(65,60,55,35,30,60), knows_common|knows_ironflesh_3|knows_power_strike_3|knows_power_throw_2|knows_power_draw_2|knows_athletics_3|knows_riding_1, man_face_young_1, man_face_old_2 ],
   
-  ["bandit_mountain_warrior", "Mountain Warrior", "Mountain Warriors", tf_guarantee_common_armor|tf_guarantee_shield, no_scene, reserved, fac_faction_3,
+  ["bandit_mountain_warrior", "Mountain Warrior", "Mountain Warriors", tf_guarantee_trained_armor|tf_guarantee_shield, no_scene, reserved, fac_faction_3,
    [itm_falchion, itm_maul, itm_one_handed_battle_axe_a, itm_sword_medieval_a, itm_hide_covered_round_shield, itm_fur_covered_shield,
     itm_nomad_boots, itm_leather_boots, itm_leather_gloves,
     itm_tribal_warrior_outfit, itm_studded_leather_coat,
@@ -4563,7 +4562,7 @@ troops = [
     ],
    str_13|agi_11|int_7|cha_7|level(15), wpex(70,75,65,40,35,50), knows_common|knows_ironflesh_5|knows_power_strike_5|knows_power_throw_1|knows_power_draw_2|knows_athletics_3|knows_riding_1, man_face_young_1, man_face_old_2 ],
   
-  ["bandit_mountain_raider", "Mountain Raider", "Mountain Raiders", tf_guarantee_common_armor|tf_guarantee_ranged, no_scene, reserved, fac_faction_3,
+  ["bandit_mountain_raider", "Mountain Raider", "Mountain Raiders", tf_guarantee_common_armor|tf_guarantee_ranged|tf_guarantee_shield, no_scene, reserved, fac_faction_3,
    [itm_falchion, itm_maul, itm_one_handed_battle_axe_a, itm_sword_medieval_a, itm_hide_covered_round_shield, itm_javelin, itm_short_bow2, itm_arrows_b,
     itm_nomad_boots, itm_leather_boots, itm_hide_boots, itm_leather_gloves,
     itm_leather_jerkin, itm_tribal_warrior_outfit, itm_ragged_outfit, itm_studded_leather_coat,
@@ -4579,7 +4578,7 @@ troops = [
     ],
    str_11|agi_11|int_7|cha_6|level(12), wpex(60,55,50,75,40,50), knows_common|knows_ironflesh_2|knows_power_strike_2|knows_power_throw_1|knows_power_draw_4|knows_athletics_3|knows_riding_1, man_face_young_1, man_face_old_2 ],
   
-  ["bandit_mountain_chieftain", "Mountain Chieftain", "Mountain Chieftains", tf_guarantee_common_armor|tf_guarantee_shield|tf_guarantee_horseman, no_scene, reserved, fac_faction_3,
+  ["bandit_mountain_chieftain", "Mountain Chieftain", "Mountain Chieftains", tf_guarantee_trained_armor|tf_guarantee_shield|tf_guarantee_horseman, no_scene, reserved, fac_faction_3,
    [itm_falchion, itm_maul, itm_one_handed_battle_axe_a, itm_sword_medieval_a, itm_hide_covered_round_shield, itm_javelin,
     itm_leather_boots, itm_leather_gloves,
     itm_studded_leather_coat,
@@ -4653,7 +4652,7 @@ troops = [
     itm_steppe_horse],
    str_9|agi_14|int_6|cha_7|level(13), wpex(75,60,80,65,25,65), knows_common|knows_ironflesh_2|knows_power_strike_3|knows_power_throw_2|knows_power_draw_3|knows_athletics_2|knows_riding_5|knows_horse_archery_4, man_face_young_1, man_face_old_2 ],
   
-  ["bandit_steppe_lancer", "Steppe Lancer", "Steppe Lancers", tf_guarantee_common_armor|tf_guarantee_horseman, no_scene, reserved, fac_faction_5,
+  ["bandit_steppe_lancer", "Steppe Lancer", "Steppe Lancers", tf_guarantee_common_armor|tf_guarantee_horseman|tf_guarantee_shield, no_scene, reserved, fac_faction_5,
    [itm_light_lance, itm_leather_covered_round_shield,
     itm_hide_boots, itm_nomad_boots, itm_leather_boots, itm_leather_gloves,
     itm_tribal_warrior_outfit, itm_nomad_robe, itm_nomad_vest,
@@ -4677,7 +4676,7 @@ troops = [
     ],
    str_9|agi_13|int_6|cha_6|level(11), wpex(50,40,55,75,35,55), knows_common|knows_power_strike_2|knows_power_throw_2|knows_power_draw_4|knows_athletics_4|knows_riding_4|knows_horse_archery_4, man_face_young_1, man_face_old_2 ],
   
-  ["bandit_steppe_chief", "Steppe Chief", "Steppe Chief", tf_guarantee_common_armor|tf_guarantee_shield|tf_guarantee_ranged|tf_guarantee_horseman, no_scene, reserved, fac_faction_5,
+  ["bandit_steppe_chief", "Steppe Chief", "Steppe Chief", tf_guarantee_trained_armor|tf_guarantee_shield|tf_guarantee_ranged|tf_guarantee_horseman, no_scene, reserved, fac_faction_5,
    [itm_sword_khergit_2, itm_winged_mace, itm_nomad_bow, itm_barbed_arrows, itm_leather_covered_round_shield,
     itm_nomad_boots, itm_leather_boots, itm_leather_gloves,
     itm_tribal_warrior_outfit, itm_nomad_robe,
@@ -4687,7 +4686,7 @@ troops = [
   
   # Tundra bandit
   ["bandit_tundra_bandit", "Tundra Bandit", "Tundra Bandits", tf_guarantee_recruit_armor, no_scene, reserved, fac_faction_6,
-   [itm_winged_mace, itm_sword_khergit_1, itm_javelin, itm_short_bow, itm_arrows,
+   [itm_winged_mace, itm_sword_khergit_1, itm_javelin, itm_short_bow, itm_arrows, itm_leather_covered_round_shield,
     itm_hide_boots, itm_nomad_boots,
     itm_fur_coat, itm_rawhide_coat, itm_leather_vest, itm_coarse_tunic,
     itm_nomad_cap, itm_vaegir_fur_cap, itm_vaegir_fur_cap, itm_leather_steppe_cap_b,
@@ -4695,7 +4694,7 @@ troops = [
    str_9|agi_10|int_7|cha_7|level(10), wpex(55,45,45,65,20,45), knows_common|knows_ironflesh_1|knows_power_strike_2|knows_power_throw_2|knows_power_draw_4|knows_athletics_3|knows_riding_2|knows_horse_archery_1, man_face_young_1, man_face_old_2 ],
   
   ["bandit_tundra_rider", "Tundra Rider", "Tundra Riders", tf_guarantee_recruit_armor|tf_guarantee_ranged|tf_guarantee_horseman, no_scene, reserved, fac_faction_6,
-   [itm_winged_mace, itm_sword_khergit_1, itm_javelin, itm_short_bow, itm_arrows,
+   [itm_winged_mace, itm_sword_khergit_1, itm_javelin, itm_short_bow, itm_arrows, itm_leather_covered_round_shield,
     itm_hide_boots, itm_nomad_boots,
     itm_fur_coat, itm_rawhide_coat, itm_leather_vest, itm_coarse_tunic,
     itm_nomad_cap, itm_vaegir_fur_cap, itm_vaegir_fur_cap, itm_leather_steppe_cap_b,
@@ -4710,7 +4709,7 @@ troops = [
     ],
    str_9|agi_12|int_7|cha_9|level(14), wpex(45,35,35,55,25,40), knows_common|knows_power_strike_2|knows_power_throw_1|knows_power_draw_5|knows_athletics_2|knows_riding_2|knows_horse_archery_1, man_face_young_1, man_face_old_2 ],
   
-  ["bandit_taiga_bandit", "Taiga Bandit", "Taiga Bandits", tf_guarantee_common_armor, no_scene, reserved, fac_faction_6,
+  ["bandit_taiga_bandit", "Taiga Bandit", "Taiga Bandits", tf_guarantee_common_armor|tf_guarantee_shield, no_scene, reserved, fac_faction_6,
    [itm_winged_mace, itm_spiked_mace, itm_sword_khergit_2, itm_scimitar, itm_jarid, itm_leather_covered_round_shield,
     itm_nomad_boots, itm_leather_boots, itm_leather_gloves,
     itm_fur_coat, itm_rawhide_coat, itm_khergit_armor, itm_nomad_armor, itm_leather_jerkin,
@@ -4726,7 +4725,7 @@ troops = [
     ],
    str_12|agi_13|int_8|cha_11|level(21), wpex(55,45,45,65,25,45), knows_common|knows_ironflesh_1|knows_power_strike_3|knows_power_throw_2|knows_power_draw_5|knows_athletics_3|knows_riding_2|knows_horse_archery_2, man_face_young_1, man_face_old_2 ],
   
-  ["bandit_taiga_chieftain", "Taiga Chieftain", "Taiga Chieftains", tf_guarantee_common_armor|tf_guarantee_shield|tf_guarantee_ranged|tf_guarantee_horseman, no_scene, reserved, fac_faction_6,
+  ["bandit_taiga_chieftain", "Taiga Chieftain", "Taiga Chieftains", tf_guarantee_trained_armor|tf_guarantee_shield|tf_guarantee_ranged|tf_guarantee_horseman, no_scene, reserved, fac_faction_6,
    [itm_winged_mace, itm_sword_khergit_2, itm_scimitar, itm_strong_bow, itm_barbed_arrows, itm_leather_covered_round_shield,
     itm_leather_boots, itm_leather_gloves,
     itm_leather_jerkin, itm_tribal_warrior_outfit,
@@ -4735,15 +4734,15 @@ troops = [
    str_16|agi_18|int_10|cha_13|level(34), wpex(65,60,60,70,25,45), knows_common|knows_ironflesh_3|knows_power_strike_3|knows_power_throw_2|knows_power_draw_5|knows_athletics_3|knows_riding_5|knows_horse_archery_4|knows_leadership_1, man_face_young_1, man_face_old_2 ],
   
   # Desert bandit
-  ["bandit_desert_bandit", "Desert Bandit", "Desert Bandits", tf_guarantee_recruit_armor|tf_guarantee_ranged, no_scene, reserved, fac_faction_7,
-   [itm_mace_2, itm_arabian_sword_a, itm_javelin,
+  ["bandit_desert_bandit", "Desert Bandit", "Desert Bandits", tf_guarantee_recruit_armor|tf_guarantee_ranged|tf_guarantee_shield, no_scene, reserved, fac_faction_7,
+   [itm_mace_2, itm_arabian_sword_a, itm_javelin, itm_leather_covered_round_shield,
     itm_sarranid_boots_a, itm_sarranid_boots_b,
     itm_sarranid_cloth_robe, itm_sarranid_cloth_robe_b,
     itm_sarranid_felt_hat, itm_turban, itm_desert_turban,
     ],
    str_9|agi_9|int_7|cha_6|level(8), wpex(40,35,35,40,30,65), knows_common|knows_power_strike_2|knows_power_throw_2|knows_athletics_2|knows_riding_1, man_face_young_1, man_face_old_2 ],
   
-  ["bandit_desert_rider", "Desert Rider", "Desert Riders", tf_guarantee_trained_armor|tf_guarantee_ranged|tf_guarantee_shield|tf_guarantee_horseman, no_scene, reserved, fac_faction_7,
+  ["bandit_desert_rider", "Desert Rider", "Desert Riders", tf_guarantee_common_armor|tf_guarantee_ranged|tf_guarantee_shield|tf_guarantee_horseman, no_scene, reserved, fac_faction_7,
    [itm_mace_2, itm_arabian_sword_a, itm_javelin, itm_spear, itm_leather_covered_round_shield,
     itm_sarranid_boots_a, itm_sarranid_boots_b,
     itm_skirmisher_armor, itm_archers_vest,
@@ -4751,7 +4750,7 @@ troops = [
     itm_arabian_horse_a],
    str_10|agi_14|int_7|cha_9|level(17), wpex(50,35,55,45,30,60), knows_common|knows_ironflesh_1|knows_power_strike_3|knows_power_throw_2|knows_athletics_2|knows_riding_4|knows_horse_archery_2, man_face_young_1, man_face_old_2 ],
   
-  ["bandit_desert_hunter", "Desert Hunter", "Desert Hunters", tf_guarantee_trained_armor|tf_guarantee_ranged|tf_guarantee_shield|tf_guarantee_horseman, no_scene, reserved, fac_faction_7,
+  ["bandit_desert_hunter", "Desert Hunter", "Desert Hunters", tf_guarantee_common_armor|tf_guarantee_ranged|tf_guarantee_shield|tf_guarantee_horseman, no_scene, reserved, fac_faction_7,
    [itm_mace_2, itm_arabian_sword_a, itm_hunting_bow2, itm_barbed_arrows, itm_leather_covered_round_shield,
     itm_sarranid_boots_a, itm_sarranid_boots_b,
     itm_sarranid_cloth_robe, itm_sarranid_cloth_robe_b, itm_skirmisher_armor,
@@ -4759,7 +4758,7 @@ troops = [
     itm_arabian_horse_a],
    str_9|agi_13|int_8|cha_8|level(15), wpex(40,35,35,60,30,55), knows_common|knows_power_strike_2|knows_power_throw_1|knows_power_draw_4|knows_athletics_3|knows_riding_4|knows_horse_archery_3, man_face_young_1, man_face_old_2 ],
   
-  ["bandit_desert_nomad", "Desert Nomad", "Desert Nomads", tf_guarantee_trained_armor|tf_guarantee_ranged|tf_guarantee_shield|tf_guarantee_horseman, no_scene, reserved, fac_faction_7,
+  ["bandit_desert_nomad", "Desert Nomad", "Desert Nomads", tf_guarantee_common_armor|tf_guarantee_ranged|tf_guarantee_shield|tf_guarantee_horseman, no_scene, reserved, fac_faction_7,
    [itm_mace_2, itm_arabian_sword_a, itm_javelin, itm_light_lance, itm_leather_covered_round_shield,
     itm_sarranid_boots_a, itm_sarranid_boots_b, itm_leather_gloves,
     itm_skirmisher_armor, itm_archers_vest,
@@ -4857,7 +4856,7 @@ troops = [
    str_9|agi_7|int_5|cha_5|level(2), wpex(50,55,45,80,65,35), knows_common|knows_ironflesh_1|knows_power_strike_2|knows_power_draw_4|knows_athletics_2|knows_riding_1, man_face_young_1, man_face_old_2 ],
   
   ["swadian_peasant", "Swadian Peasant", "Swadian Peasants", tf_guarantee_recruit_armor, no_scene, reserved, fac_kingdom_1,
-   [itm_pitch_fork, itm_sickle, itm_hatchet,
+   [itm_pitch_fork, itm_sickle, itm_scythe,
     itm_wrapping_boots, itm_hide_boots,
     itm_coarse_tunic, itm_leather_apron, itm_red_shirt
     
@@ -4866,19 +4865,19 @@ troops = [
   ["vaegir_peasant", "Vaegir Peasant", "Vaegir Peasants", tf_guarantee_recruit_armor, no_scene, reserved, fac_kingdom_2,
    [itm_pitch_fork, itm_sickle, itm_hatchet,
     itm_wrapping_boots, itm_hide_boots,
-    itm_fur_coat, itm_leather_apron, itm_linen_tunic
+    itm_fur_coat, itm_linen_tunic
     
     ],
    str_9|agi_7|int_5|cha_5|level(2), wpex(50,55,45,80,65,35), knows_common|knows_ironflesh_1|knows_power_strike_2|knows_power_draw_4|knows_athletics_2|knows_riding_1, vaegir_face_young_1, vaegir_face_old_2 ],
   ["khergit_peasant", "Khergit Peasant", "Khergit Peasants", tf_guarantee_recruit_armor, no_scene, reserved, fac_kingdom_3,
-   [itm_pitch_fork, itm_sickle, itm_hatchet,
+   [itm_pitch_fork, itm_sickle, itm_butchering_knife,
     itm_wrapping_boots, itm_hide_boots,
     itm_coarse_tunic, itm_linen_tunic
     
     ],
    str_9|agi_7|int_5|cha_5|level(2), wpex(50,55,45,80,65,35), knows_common|knows_ironflesh_1|knows_power_strike_2|knows_power_draw_4|knows_athletics_2|knows_riding_1, khergit_face_young_1, khergit_face_old_2 ],
   ["nord_peasant", "Nord Peasant", "Nord Peasants", tf_guarantee_recruit_armor, no_scene, reserved, fac_kingdom_4,
-   [itm_pitch_fork, itm_sickle, itm_hatchet,
+   [itm_pitch_fork, itm_cleaver, itm_hatchet,
     itm_wrapping_boots, itm_hide_boots,
     itm_coarse_tunic, itm_leather_apron, itm_fur_coat
     

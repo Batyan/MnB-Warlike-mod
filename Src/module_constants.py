@@ -113,6 +113,9 @@ throwing_weapons_end = "itm_hunting_bow"
 archers_weapons_begin = throwing_weapons_end
 archers_weapons_end = ranged_weapons_end
 
+items_begin = horses_begin
+items_end = "itm_items_end"
+
 # TROOPS
 soldiers_begin			= "trp_swadian_levy"
 soldiers_end			= "trp_common_hunter_bow"
@@ -307,11 +310,10 @@ items_weapon = 0x2
 items_armor = 0x4
 items_horse = 0x8
 
-merchant_base_gold_earn_weaponsmith = 500
-merchant_base_gold_earn_armorsmith = 600
-merchant_base_gold_earn_goods = 400
-merchant_base_gold_earn_horses = 650
-merchant_base_gold_earn_general = 350
+merchant_base_gold_weapon = 30000
+merchant_base_gold_armor = 32000
+merchant_base_gold_goods = 24000
+merchant_base_gold_horse = 20000
 
 train_levies_cost = 25
 
@@ -505,6 +507,8 @@ event_value_proposed_vassalage = 100
 # Chicken -> chicken meat
 
 item_slots = 0
+
+slot_item_temp = 1
 
 slot_building_cost_wood		= 1
 slot_building_cost_stone	= slot_building_cost_wood + 1
@@ -935,8 +939,8 @@ population_growth_village_artisan = 4
 population_growth_village_serf = 95
 population_growth_village_slave = 0
 
-taxes_noble_amount = 20
-taxes_artisan_amount = 5
+taxes_noble_amount = 16
+taxes_artisan_amount = 4
 taxes_serf_amount = 2
 
 slot_party_wanted_party_wages = 13
@@ -992,13 +996,13 @@ slot_party_taxes_fixed		= 131 # Fixed taxes paid by everyone
 slot_party_taxes_wealth		= 132 # Taxes paid upon earning money inside the city (also applied to buying and selling)
 slot_party_taxes_visit		= 133 # Taxes paid upon entering the city (not paid by residents)
 
-default_fixed_tax_rate_village = 20
+default_fixed_tax_rate_village = 25
 default_fixed_tax_rate_castle = 40
-default_fixed_tax_rate_town = 20
+default_fixed_tax_rate_town = 15
 
 default_buy_tax_rate_village = 20
 default_buy_tax_rate_castle = 28
-default_buy_tax_rate_town = 40
+default_buy_tax_rate_town = 36
 
 default_sell_tax_rate_village = 8
 default_sell_tax_rate_castle = 16
@@ -1073,6 +1077,8 @@ slot_party_budget_prisoner_ransom = slot_party_budget_troops_selling + 1
 slot_party_budget_leader_ransom = slot_party_budget_prisoner_ransom + 1
 slot_party_budget_caravan_wages = slot_party_budget_leader_ransom + 1
 slot_party_budget_loot = slot_party_budget_caravan_wages + 1
+slot_party_budget_export = slot_party_budget_loot + 1
+slot_party_budget_import = slot_party_budget_export + 1
 
 tax_type_none = -1
 tax_type_population = 0
@@ -1103,9 +1109,11 @@ tax_type_prisoner_ransom = 24
 tax_type_leader_ransom = 25
 tax_type_caravan_wages = 26
 tax_type_loot = 27
+tax_type_export = 28
+tax_type_import = 29
 
 slot_party_buget_taxes_begin = slot_party_budget_taxes
-slot_party_buget_taxes_end = slot_party_budget_loot + 1
+slot_party_buget_taxes_end = slot_party_budget_import + 1
 
 slot_party_budget_reserved_party = slot_party_buget_taxes_end
 slot_party_budget_reserved_auxiliaries = slot_party_budget_reserved_party + 1
@@ -1288,6 +1296,11 @@ slot_party_attached_party_cooldown = slot_party_max_prisoner_outcome + 1
 
 slot_party_visiting_center = slot_party_attached_party_cooldown + 1
 
+slot_party_merchant_1 = slot_party_visiting_center + 1
+slot_party_merchant_2 = slot_party_merchant_1 + 1
+slot_party_merchant_3 = slot_party_merchant_2 + 1
+slot_party_merchant_4 = slot_party_merchant_3 + 1
+
 #################
 ## Scene Slots ##
 #################
@@ -1317,11 +1330,23 @@ troop_slots = 0
 slot_troop_temp_slot				= 0
 slot_troop_temp_hire_number			= slot_troop_temp_slot
 
+
+# ONLY trp_temp_troop
 slot_troop_temp_array_begin			= 1
 
+# ONLY merchants
+slot_troop_merchant_center			= 1
+slot_troop_merchant_type			= slot_troop_merchant_center + 1
+
+merchant_type_goods = 1
+merchant_type_armor = 2
+merchant_type_weapon = 3
+merchant_type_horse = 4
+
+# Regular troops
 slot_troop_banner_scene_prop		= 1
 
-slot_troop_type						= 2
+slot_troop_type						= slot_troop_banner_scene_prop + 1
 tt_infantry				= 1
 tt_spearman				= 2
 tt_pikeman				= 3
@@ -1334,7 +1359,7 @@ tt_lancer				= 9
 tt_horse_archer			= 10
 tt_mounted_skirmisher	= 11
 
-slot_troop_quality					= 3
+slot_troop_quality					= slot_troop_type + 1
 tq_peasant		= 0
 tq_common		= 1
 tq_veteran		= 2
@@ -1342,7 +1367,7 @@ tq_elite		= 3
 tq_noble		= 4
 
 
-slot_troop_lord_equipement 			= 4
+slot_troop_lord_equipement 			= slot_troop_quality + 1
 tle_none = 0
 tle_light_bow = 1
 tle_heavy_bow = 2
@@ -1351,20 +1376,20 @@ tle_heavy_crossbow = 4
 tle_throwing = 5
 tle_polearm = 6
 
-slot_troop_lord_horse 				= 5
+slot_troop_lord_horse 				= slot_troop_lord_equipement + 1
 
-slot_troop_original_faction 		= 6
+slot_troop_original_faction 		= slot_troop_lord_horse + 1
 
 # Real rank is based on the number of fiefs a lord holds
 # Current rank slowly changes to match real rank
-slot_troop_rank 					= 7 # real rank
-slot_troop_level					= 8 # current rank
-slot_troop_equipement_level			= 9 # current rank
+slot_troop_rank 					= slot_troop_original_faction + 1 # real rank
+slot_troop_level					= slot_troop_rank + 1 # current rank
+slot_troop_equipement_level			= slot_troop_level + 1 # current rank
 
-slot_troop_mercenary_captain_1		= slot_troop_level				# Only troops
-slot_troop_mercenary_captain_2		= slot_troop_equipement_level	# Only troops
+slot_troop_mercenary_captain_1		= slot_troop_level						# Only troops
+slot_troop_mercenary_captain_2		= slot_troop_mercenary_captain_1 + 1	# Only troops
 
-slot_troop_kingdom_occupation 		= 12
+slot_troop_kingdom_occupation 		= slot_troop_equipement_level + 1
 tko_dead = -1 	# Dead people are not the same as not living ones
 				# Dead people are still shown in character notes
 				# And can be mentionned in conversations
@@ -1374,7 +1399,7 @@ tko_mercenary = 2
 tko_bandit = 3
 tko_reserved = 4
 
-slot_troop_personality 				= 13
+slot_troop_personality 				= slot_troop_kingdom_occupation + 1
 tp_default = 0x0000
 
 tp_mercyfull = 0x0001
@@ -1391,7 +1416,7 @@ tp_renega = 0x0080 # ToDO
 
 # tp_
 
-slot_troop_leaded_party				= 14
+slot_troop_leaded_party				= slot_troop_personality + 1
 slot_troop_garrisoned 				= slot_troop_leaded_party + 1
 
 slot_troop_building_one 			= slot_troop_garrisoned + 1

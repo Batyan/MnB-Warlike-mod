@@ -112,17 +112,17 @@ items = [
      1220,   weight(40)|   max_ammo(40),                       imodbits_none ],
 
     #DOMESTICATED
-    ["cattle",          "Cattle", [("wooden_stick",0)], itp_merchandise|itp_type_goods|itp_consumable, 0, 
+    ["cattle",          "Cattle", [("wooden_stick",0)], itp_merchandise|itp_type_animal|itp_consumable, 0, 
      350,   weight(40)|   max_ammo(10),                       imodbits_none ],
-    ["poultry",          "Poultry", [("wooden_stick",0)], itp_merchandise|itp_type_goods|itp_consumable, 0, 
+    ["poultry",          "Poultry", [("wooden_stick",0)], itp_merchandise|itp_type_animal|itp_consumable, 0, 
      110,   weight(40)|   max_ammo(10),                       imodbits_none ],
-    ["pig",          "Pig", [("wooden_stick",0)], itp_merchandise|itp_type_goods|itp_consumable, 0, 
+    ["pig",          "Pig", [("wooden_stick",0)], itp_merchandise|itp_type_animal|itp_consumable, 0, 
      180,   weight(40)|   max_ammo(10),                       imodbits_none ],
-    ["goat",          "Goat", [("wooden_stick",0)], itp_merchandise|itp_type_goods|itp_consumable, 0, 
+    ["goat",          "Goat", [("wooden_stick",0)], itp_merchandise|itp_type_animal|itp_consumable, 0, 
      220,   weight(40)|   max_ammo(10),                       imodbits_none ],
-    ["sheep",          "Sheep", [("wooden_stick",0)], itp_merchandise|itp_type_goods|itp_consumable, 0, 
+    ["sheep",          "Sheep", [("wooden_stick",0)], itp_merchandise|itp_type_animal|itp_consumable, 0, 
      250,   weight(40)|   max_ammo(10),                       imodbits_none ],
-    ["horse",          "Horse", [("sumpter_horse",0)], itp_merchandise|itp_type_goods|itp_consumable, 0, 
+    ["horse",          "Horse", [("sumpter_horse",0)], itp_merchandise|itp_type_animal|itp_consumable, 0, 
      250,   weight(40)|   max_ammo(10),                       imodbits_none ],
     
     #DRINKS
@@ -179,7 +179,7 @@ items = [
     ["steppe_horse","Steppe Horse", [("steppe_horse",0)],         itp_merchandise|itp_type_horse, 0, 
      860,   hit_points(55)|body_armor(10)|difficulty(2)|horse_speed(42)|horse_maneuver(52)|horse_charge(100)|horse_scale(98),imodbits_horse_basic, [], [fac_kingdom_2, fac_kingdom_3] ],
     ["arabian_horse_a","Desert Horse", [("arabian_horse_a",0)],   itp_merchandise|itp_type_horse, 0, 
-     900,   hit_points(50)|body_armor(8) |difficulty(2)|horse_speed(44)|horse_maneuver(50)|horse_charge(104)|horse_scale(101),imodbits_horse_basic|imodbit_champion, [], [fac_kingdom_3, fac_kingdom_6, fac_kingdom_5] ],
+     900,   hit_points(55)|body_armor(9) |difficulty(2)|horse_speed(44)|horse_maneuver(50)|horse_charge(104)|horse_scale(101),imodbits_horse_basic|imodbit_champion, [], [fac_kingdom_3, fac_kingdom_6, fac_kingdom_5] ],
     ["courser","Courser", [("courser",0)],                        itp_merchandise|itp_type_horse, 0, 
      1560,  hit_points(50)|body_armor(8) |difficulty(2)|horse_speed(52)|horse_maneuver(41)|horse_charge(96)|horse_scale(100),imodbits_horse_basic|imodbit_champion ],
     ["sumpter_horse","Sumpter Horse", [("sumpter_horse",0)],      itp_merchandise|itp_type_horse, 0, 
@@ -189,7 +189,7 @@ items = [
     ["pack_horse_black","Pack Horse", [("horse_a",0)],             itp_merchandise|itp_type_horse, 0, 
      1130,  hit_points(65)|body_armor(14)|difficulty(2)|horse_speed(44)|horse_maneuver(43)|horse_charge(108)|horse_scale(101),imodbits_horse_basic, [], [fac_kingdom_1, fac_kingdom_5, fac_kingdom_2] ],
     ["arabian_horse_b","Sarranid Horse", [("arabian_horse_b",0)], itp_merchandise|itp_type_horse, 0, 
-     1640,  hit_points(60)|body_armor(12)|difficulty(3)|horse_speed(46)|horse_maneuver(49)|horse_charge(156)|horse_scale(101),imodbits_horse_basic|imodbit_champion, [], [fac_kingdom_6] ],
+     1740,  hit_points(70)|body_armor(12)|difficulty(3)|horse_speed(48)|horse_maneuver(49)|horse_charge(156)|horse_scale(101),imodbits_horse_basic|imodbit_champion, [], [fac_kingdom_6] ],
     ["hunter","Hunter", [("hunting_horse",0)],                    itp_merchandise|itp_type_horse, 0, 
      1990,  hit_points(70)|body_armor(18)|difficulty(3)|horse_speed(44)|horse_maneuver(43)|horse_charge(184)|horse_scale(107),imodbits_horse_basic|imodbit_champion ],
     ["warhorse","War Horse", [("warhorse",0)],                    itp_merchandise|itp_type_horse, 0, 
@@ -1220,7 +1220,7 @@ items = [
     ["strong_bow",         "Strong Bow", [("strong_bow",0),("strong_bow_case", ixmesh_carry)], itp_type_bow |itp_merchandise|itp_primary|itp_two_handed ,itcf_shoot_bow|itcf_carry_bowcase_left|itcf_show_holster_when_drawn, 
      690 , weight(4.0)|difficulty(1)|spd_rtng(49) | shoot_speed(50) |accuracy(85) | thrust_damage(25, pierce),imodbits_bow_wo_strong , [], [fac_kingdom_2] ],
     ["strong_bow2",         "Strong Bow", [("strong_bow2",0),("strong_bow2_case", ixmesh_carry)], itp_type_bow |itp_merchandise|itp_primary|itp_two_handed ,itcf_shoot_bow|itcf_carry_bowcase_left|itcf_show_holster_when_drawn, 
-     690 , weight(4.0)|difficulty(1)|spd_rtng(49) | shoot_speed(50) |accuracy(85) | thrust_damage(25, pierce),imodbits_bow_wo_strong , [], [fac_kingdom_2] ],
+     690 , weight(4.0)|difficulty(1)|spd_rtng(49) | shoot_speed(50) |accuracy(85) | thrust_damage(25, pierce),imodbits_bow_wo_strong , [], [fac_kingdom_6] ],
     
     ["long_bow",         "Long Bow", [("long_bow",0),("long_bow_carry",ixmesh_carry)], itp_type_bow |itp_merchandise|itp_cant_use_on_horseback|itp_primary|itp_two_handed ,itcf_shoot_bow|itcf_carry_bow_back, 
      785 , weight(4.8)|difficulty(2)|spd_rtng(40) | shoot_speed(56) |accuracy(75) | thrust_damage(35, pierce),imodbits_bow , [], [fac_kingdom_4] ],
@@ -1233,17 +1233,17 @@ items = [
     
     #CROSSBOWS
     ["hunting_crossbow", "Hunting Crossbow", [("crossbow_b",0)], itp_type_crossbow |itp_merchandise|itp_primary|itp_two_handed ,itcf_shoot_crossbow|itcf_carry_crossbow_back, 
-     100 , weight(4.4)|difficulty(6)|spd_rtng(31) | shoot_speed(55) |accuracy(93) | thrust_damage(40, pierce)|max_ammo(1),imodbits_crossbow , [], [fac_kingdom_1, fac_kingdom_4, fac_kingdom_5, fac_kingdom_6] ],
+     100 , weight(4.4)|difficulty(6)|spd_rtng(31) | shoot_speed(55) |accuracy(93) | thrust_damage(32, pierce)|max_ammo(1),imodbits_crossbow , [], [fac_kingdom_1, fac_kingdom_4, fac_kingdom_5, fac_kingdom_6] ],
     ["light_crossbow", "Light Crossbow", [("crossbow_b",0)], itp_type_crossbow |itp_merchandise|itp_primary|itp_two_handed ,itcf_shoot_crossbow|itcf_carry_crossbow_back, 
-     280 , weight(4.5)|difficulty(8)|spd_rtng(35) | shoot_speed(56) |accuracy(92) | thrust_damage(46, pierce)|max_ammo(1),imodbits_crossbow , [], [fac_kingdom_1, fac_kingdom_4, fac_kingdom_5, fac_kingdom_6] ],
+     280 , weight(4.5)|difficulty(8)|spd_rtng(35) | shoot_speed(56) |accuracy(92) | thrust_damage(38, pierce)|max_ammo(1),imodbits_crossbow , [], [fac_kingdom_1, fac_kingdom_4, fac_kingdom_5, fac_kingdom_6] ],
     
     ["crossbow",         "Crossbow",         [("crossbow_a",0)], itp_type_crossbow |itp_merchandise|itp_primary|itp_two_handed|itp_cant_reload_on_horseback ,itcf_shoot_crossbow|itcf_carry_crossbow_back, 
-     420 , weight(5.0)|difficulty(10)|spd_rtng(32) | shoot_speed(58) |accuracy(90) | thrust_damage(62, pierce)|max_ammo(1),imodbits_crossbow , [], [fac_kingdom_1, fac_kingdom_5, fac_kingdom_6] ],
+     420 , weight(5.0)|difficulty(10)|spd_rtng(32) | shoot_speed(58) |accuracy(90) | thrust_damage(46, pierce)|max_ammo(1),imodbits_crossbow , [], [fac_kingdom_1, fac_kingdom_5, fac_kingdom_6] ],
     
     ["heavy_crossbow", "Heavy Crossbow", [("crossbow_c",0)], itp_type_crossbow |itp_merchandise|itp_primary|itp_two_handed|itp_cant_reload_on_horseback ,itcf_shoot_crossbow|itcf_carry_crossbow_back, 
-     610 , weight(5.3)|difficulty(12)|spd_rtng(29) | shoot_speed(59) |accuracy(89) | thrust_damage(60, pierce)|max_ammo(1),imodbits_crossbow , [], [fac_kingdom_5] ],
+     610 , weight(5.3)|difficulty(12)|spd_rtng(29) | shoot_speed(59) |accuracy(89) | thrust_damage(54, pierce)|max_ammo(1),imodbits_crossbow , [], [fac_kingdom_5] ],
     ["siege_crossbow", "Siege Crossbow", [("crossbow_c",0)], itp_type_crossbow |itp_merchandise|itp_primary|itp_two_handed|itp_cant_reload_on_horseback ,itcf_shoot_crossbow|itcf_carry_crossbow_back, 
-     880 , weight(5.5)|difficulty(14)|spd_rtng(26) | shoot_speed(60) |accuracy(88) | thrust_damage(68, pierce)|max_ammo(1),imodbits_crossbow , [], [fac_kingdom_5] ],
+     880 , weight(5.5)|difficulty(14)|spd_rtng(26) | shoot_speed(60) |accuracy(88) | thrust_damage(62, pierce)|max_ammo(1),imodbits_crossbow , [], [fac_kingdom_5] ],
 
     ["items_end", "Items End", [("shield_round_a",0)], 0, 0, 1, 0, 0 ],
     
