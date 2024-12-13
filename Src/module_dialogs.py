@@ -1323,7 +1323,7 @@ dialogs = [
 	[anyone, "caravan_toll",
 		[(eq, reg0, outcome_failure),], "{s0}", "caravan_toll_player_failed", []],
 
-	[anyone|plyr, "caravan_toll_player_success", [], "Hand it over and no one gets hurt.", "caravan_toll_pay", []],
+	[anyone|plyr, "caravan_toll_player_success", [], "Good, now hand it over.", "caravan_toll_pay", []],
 	[anyone|plyr, "caravan_toll_player_success", [], "No, I want everything you have and I'll take it from your corpse.", "caravan_toll_attack", []],
 	[anyone|plyr, "caravan_toll_player_success", [], "Nevermind, keep your gold.", "caravan_toll_back", []],
 

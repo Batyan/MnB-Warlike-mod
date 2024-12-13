@@ -113,6 +113,9 @@ throwing_weapons_end = "itm_hunting_bow"
 archers_weapons_begin = throwing_weapons_end
 archers_weapons_end = ranged_weapons_end
 
+items_begin = horses_begin
+items_end = "itm_items_end"
+
 # TROOPS
 soldiers_begin			= "trp_swadian_levy"
 soldiers_end			= "trp_common_hunter_bow"
@@ -504,6 +507,8 @@ event_value_proposed_vassalage = 100
 # Chicken -> chicken meat
 
 item_slots = 0
+
+slot_item_temp = 1
 
 slot_building_cost_wood		= 1
 slot_building_cost_stone	= slot_building_cost_wood + 1

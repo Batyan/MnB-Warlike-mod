@@ -118,8 +118,6 @@ scripts = [
                 (troop_set_slot, ":merchant", slot_troop_merchant_center, -1),
             (try_end),
 
-            (faction_set_slot, "fac_small_kingdom_45", slot_faction_leader, "$g_player_troop"),
-            
             (party_set_slot, "$g_player_party", slot_party_leader, "$g_player_troop"),
             (troop_add_gold, "$g_player_troop", 10000),
             
@@ -14695,8 +14693,22 @@ scripts = [
             (try_begin),
                 (call_script, "script_cf_merchant_can_update", ":merchant_troop"),
                 (assign, ":num_times", reg0),
+                (assign, ":update_script", "script_troop_add_merchant_items_from_party"),
+                (try_begin),
+                    (this_or_next|eq, ":items_type", items_weapon),
+                    (this_or_next|eq, ":items_type", items_armor),
+                    (eq, ":items_type", items_horse),
+
+                    (assign, ":update_script", "script_troop_add_merchant_template_items"),
+                (try_end),
                 (try_for_range, ":unused", 0, ":num_times"),
-                    (call_script, "script_troop_add_merchant_items_from_party", ":merchant_troop", ":party_no", ":items_type"),
+                    (store_random_in_range, ":rand", 0, 3),
+                    (try_begin),
+                        (eq, ":rand", 0),
+                        (call_script, "script_troop_add_merchant_items_from_party", ":merchant_troop", ":party_no", ":items_type"),
+                    (else_try),
+                        (call_script, ":update_script", ":merchant_troop", ":party_no", ":items_type"),
+                    (try_end),
                     (call_script, "script_troop_update_merchant_gold", ":merchant_troop", ":merchant_type", ":party_no"),
                 (try_end),
             (try_end),
@@ -14804,7 +14816,6 @@ scripts = [
             (assign, reg0, ":base_gold"),
         ]),
     
-    
     # script_troop_add_merchant_items_from_party
         # input:
         #   arg1: merchant
@@ -14827,26 +14838,11 @@ scripts = [
             
             (troop_get_inventory_capacity, ":capacity", ":merchant"),
 
-            (party_get_slot, ":prosperity", ":party_no", slot_party_prosperity),
-            (store_add, ":ratio", ":prosperity", 50),
-
-            (party_get_slot, ":party_type", ":party_no", slot_party_type),
-            (try_begin),
-                (eq, ":party_type", spt_village),
-                (val_div, ":ratio", 3),
-            (else_try),
-                (eq, ":party_type", spt_castle),
-                (val_div, ":ratio", 2),
-            (try_end),
-
-            (try_begin),
-                (gt, ":horse", 0),
-                (val_mul, ":ratio", 2),
-                (val_div, ":ratio", 3),
-            (try_end),
+            (call_script, "script_party_get_merchant_capacity_ratio", ":party_no", ":items"),
+            (assign, ":ratio", reg0),
 
             (val_mul, ":capacity", ":ratio"),
-            (val_div, ":capacity", 300),
+            (val_div, ":capacity", 100),
 
             (store_div, ":amount", ":capacity", 10),
             (val_add, ":amount", 1),
@@ -15225,6 +15221,220 @@ scripts = [
             (try_end),
         ]),
     
+    # script_troop_add_merchant_template_items
+        # input:
+        #   arg1: merchant
+        #   arg2: party_no
+        #   arg3: items
+        # output: none
+    ("troop_add_merchant_template_items",
+        [
+            (store_script_param, ":merchant", 1),
+            (store_script_param, ":party_no", 2),
+            (store_script_param, ":items", 3),
+
+            (party_clear, "p_temp_party"),
+
+            (party_get_slot, ":original_faction", ":party_no", slot_party_original_faction),
+            (party_set_slot, "p_temp_party", slot_party_original_faction, ":original_faction"),
+            (party_get_slot, ":party_type", ":party_no", slot_party_type),
+            (party_set_slot, "p_temp_party", slot_party_type, ":party_type"),
+            (store_faction_of_party, ":party_faction", ":party_no"),
+            (party_set_faction, "p_temp_party", ":party_faction"),
+
+            (faction_get_slot, ":leader", ":party_faction", slot_faction_leader),
+            (try_begin),
+                (ge, ":leader", 0),
+                (troop_get_slot, ":leader_home", ":leader", slot_troop_home),
+                (is_between, ":leader_home", centers_begin, centers_end),
+                (party_get_position, pos1, ":leader_home"),
+                (party_set_position, "p_temp_party", pos1),
+            (try_end),
+
+            (try_for_range, ":unused", 0, 10),
+                (call_script, "script_party_add_reinforcements", "p_temp_party"),
+            (try_end),
+            
+            (party_set_faction, "p_temp_party", fac_commoners),
+
+            (troop_get_inventory_capacity, ":capacity", ":merchant"),
+
+            (call_script, "script_party_get_merchant_capacity_ratio", ":party_no", ":items"),
+            (assign, ":ratio", reg0),
+
+            (val_mul, ":capacity", ":ratio"),
+            (val_div, ":capacity", 100),
+
+            (troop_sort_inventory, ":merchant"),
+            (troop_ensure_inventory_space, ":merchant", ":capacity"),
+
+            (store_div, ":amount", ":capacity", 10),
+            (val_add, ":amount", 1),
+
+            (try_for_range, ":item", items_begin, items_end),
+                (item_set_slot, ":item", slot_item_temp, 0),
+            (try_end),
+
+            (party_get_num_companion_stacks, ":num_stacks", "p_temp_party"),
+            (try_for_range, ":stack", 0, ":num_stacks"),
+                (party_stack_get_troop_id, ":troop_id", "p_temp_party", ":stack"),
+
+                (troop_get_inventory_capacity, ":inventory_capacity", ":troop_id"),
+                (try_for_range, ":inv_slot", 0, ":inventory_capacity"),
+                    (troop_get_inventory_slot, ":item", ":troop_id", ":inv_slot"),
+
+                    (is_between, ":item", items_begin, items_end),
+                    (item_get_type, ":item_type", ":item"),
+
+                    (assign, ":is_wanted", 0),
+                    (try_begin),
+                        (eq, ":items", items_weapon),
+
+                        (this_or_next|eq, ":item_type", itp_type_one_handed_wpn),
+                        (this_or_next|eq, ":item_type", itp_type_two_handed_wpn),
+                        (this_or_next|eq, ":item_type", itp_type_polearm),
+                        (this_or_next|eq, ":item_type", itp_type_arrows),
+                        (this_or_next|eq, ":item_type", itp_type_bolts),
+                        (this_or_next|eq, ":item_type", itp_type_shield),
+                        (this_or_next|eq, ":item_type", itp_type_bow),
+                        (this_or_next|eq, ":item_type", itp_type_crossbow),
+                        (eq, ":item_type", itp_type_thrown),
+
+                        (assign, ":is_wanted", 1),
+                    (else_try),
+                        (eq, ":items", items_horse),
+                        (eq, ":item_type", itp_type_horse),
+
+                        (assign, ":is_wanted", 1),
+                    (else_try),
+                        (eq, ":items", items_armor),
+
+                        (this_or_next|eq, ":item_type", itp_type_head_armor),
+                        (this_or_next|eq, ":item_type", itp_type_body_armor),
+                        (this_or_next|eq, ":item_type", itp_type_foot_armor),
+                        (eq, ":item_type", itp_type_hand_armor),
+
+                        (assign, ":is_wanted", 1),
+                    (try_end),
+
+                    (try_begin),
+                        (gt, ":is_wanted", 0),
+
+                        (item_get_slot, ":tmp", ":item", slot_item_temp),
+                        (val_add, ":tmp", 1),
+                        (item_set_slot, ":item", slot_item_temp, ":tmp"),
+
+                    (try_end),
+                (try_end),
+            (try_end),
+
+            (assign, ":total_normalized_amount", 0),
+            (set_fixed_point_multiplier, 1),
+            (try_for_range, ":item", items_begin, items_end),
+                (item_get_slot, ":tmp", ":item", slot_item_temp),
+                (ge, ":tmp", 1),
+                (store_sqrt, ":sqrt", ":tmp"),
+                (item_set_slot, ":item", slot_item_temp, ":sqrt"),
+                (val_add, ":total_normalized_amount", ":sqrt"),
+            (try_end),
+
+            (try_for_range, ":unused", 0, ":amount"),
+                (store_random_in_range, ":rand", 0, ":total_normalized_amount"),
+
+                (assign, ":value", 0),
+                (assign, ":end", items_end),
+                (try_for_range, ":item", items_begin, ":end"),
+                    (item_get_slot, ":tmp", ":item", slot_item_temp),
+                    (val_add, ":value", ":tmp"),
+                    (lt, ":rand", ":value"),
+
+                    (call_script, "script_troop_add_item_with_random_modifier", ":merchant", ":item"),
+                    (assign, ":end", 0),
+                (try_end),
+            (try_end),
+            (troop_sort_inventory, ":merchant"),
+        ]),
+
+    # script_troop_add_item_with_random_modifier
+        # input:
+        #   arg1: troop_no
+        #   arg2: item
+        # output: none
+    ("troop_add_item_with_random_modifier",
+        [
+            (store_script_param, ":troop_no", 1),
+            (store_script_param, ":item", 2),
+
+            (assign, ":imod", -1),
+            (store_random_in_range, ":use_imod", 0, 2),
+
+            (try_begin),
+                (neq, ":use_imod", 0),
+                (store_random_in_range, ":rand", imod_plain, imod_large_bag + 1),
+                (assign, ":cur_value", 0),
+                (assign, ":end", 100),
+                (try_for_range, ":unused", 0, ":end"),
+                    (assign, ":imod_end", imod_large_bag + 1),
+                    (try_for_range, ":cur_imod", imod_plain, ":imod_end"),
+                        (item_has_modifier, ":item", ":cur_imod"),
+                        (try_begin),
+                            (eq, ":rand", ":cur_value"),
+                            (assign, ":end", 0),
+                            (assign, ":imod", ":cur_imod"),
+                            (assign, ":imod_end", 0),
+                        (else_try),
+                            (val_add, ":cur_value", 1),
+                        (try_end),
+                    (try_end),
+                (try_end),
+            (try_end),
+
+            (try_begin),
+                (eq, ":imod", -1),
+                (troop_add_item, ":troop_no", ":item"),
+            (else_try),
+                (troop_add_item, ":troop_no", ":item", ":imod"),
+            (try_end),
+        ]),
+
+    # script_party_get_merchant_capacity_ratio
+        # input:
+        #   arg1: party_no
+        #   arg2: items
+        # output:
+        #   reg0: ratio
+    ("party_get_merchant_capacity_ratio",
+        [
+            (store_script_param, ":party_no", 1),
+            (store_script_param, ":items", 2),
+
+            (store_and, ":horse", ":items", items_horse),
+
+            (party_get_slot, ":prosperity", ":party_no", slot_party_prosperity),
+            (store_add, ":ratio", ":prosperity", 50),
+
+            (party_get_slot, ":party_type", ":party_no", slot_party_type),
+            (try_begin),
+                (eq, ":party_type", spt_village),
+                (val_div, ":ratio", 3),
+            (else_try),
+                (eq, ":party_type", spt_castle),
+                (val_div, ":ratio", 2),
+            (try_end),
+
+            (try_begin),
+                (gt, ":horse", 0),
+                (val_mul, ":ratio", 2),
+                (val_div, ":ratio", 3),
+            (try_end),
+
+            # We use this to compensate for the 50 added to prosperity and to use only 50% of total capacity
+            # (100 + 50) * 2/3 / 2 = 50
+            (val_div, ":ratio", 3),
+
+            (assign, reg0, ":ratio"),
+        ]),
+
     # script_faction_process_politics
         # input:
         #   arg1: faction_no
@@ -15486,10 +15696,10 @@ scripts = [
                 (assign, ":renown_gain", renown_value_castle/3),
                 (try_begin),
                     (eq, ":size", sfs_large),
-                    (assign, ":renown_gain", renown_value_town/3),
+                    (assign, ":renown_gain", renown_value_town/2),
                 (else_try),
                     (eq, ":size", sfs_medium),
-                    (assign, ":renown_gain", renown_value_town/2),
+                    (assign, ":renown_gain", renown_value_town/3),
                 (try_end),
                 (call_script, "script_troop_change_renown", ":best_candidate", ":renown_gain"),
 
@@ -23695,26 +23905,26 @@ scripts = [
         # output: none
     ("player_add_starting_items",
         [
-            (troop_get_slot, ":culture", "$g_player_troop", slot_troop_culture),
-            (try_begin),
-                (eq, ":culture", "fac_culture_1"),
-                (call_script, "script_troop_use_template_troop", "$g_player_troop", "trp_swadian_lord_template_0"),
-            (else_try),
-                (eq, ":culture", "fac_culture_2"),
-                (call_script, "script_troop_use_template_troop", "$g_player_troop", "trp_vaegir_lord_template_0"),
-            (else_try),
-                (eq, ":culture", "fac_culture_3"),
-                (call_script, "script_troop_use_template_troop", "$g_player_troop", "trp_khergit_lord_template_0"),
-            (else_try),
-                (eq, ":culture", "fac_culture_4"),
-                (call_script, "script_troop_use_template_troop", "$g_player_troop", "trp_nord_lord_template_0"),
-            (else_try),
-                (eq, ":culture", "fac_culture_5"),
-                (call_script, "script_troop_use_template_troop", "$g_player_troop", "trp_rhodok_lord_template_0"),
-            (else_try),
-                (eq, ":culture", "fac_culture_6"),
-                (call_script, "script_troop_use_template_troop", "$g_player_troop", "trp_sarranid_lord_template_0"),
-            (try_end),
+            # (troop_get_slot, ":culture", "$g_player_troop", slot_troop_culture),
+            # (try_begin),
+            #     (eq, ":culture", "fac_culture_1"),
+            #     (call_script, "script_troop_use_template_troop", "$g_player_troop", "trp_swadian_lord_template_0"),
+            # (else_try),
+            #     (eq, ":culture", "fac_culture_2"),
+            #     (call_script, "script_troop_use_template_troop", "$g_player_troop", "trp_vaegir_lord_template_0"),
+            # (else_try),
+            #     (eq, ":culture", "fac_culture_3"),
+            #     (call_script, "script_troop_use_template_troop", "$g_player_troop", "trp_khergit_lord_template_0"),
+            # (else_try),
+            #     (eq, ":culture", "fac_culture_4"),
+            #     (call_script, "script_troop_use_template_troop", "$g_player_troop", "trp_nord_lord_template_0"),
+            # (else_try),
+            #     (eq, ":culture", "fac_culture_5"),
+            #     (call_script, "script_troop_use_template_troop", "$g_player_troop", "trp_rhodok_lord_template_0"),
+            # (else_try),
+            #     (eq, ":culture", "fac_culture_6"),
+            #     (call_script, "script_troop_use_template_troop", "$g_player_troop", "trp_sarranid_lord_template_0"),
+            # (try_end),
         ]),
 
     # script_cf_troop_can_join_faction
@@ -24113,15 +24323,20 @@ scripts = [
                     (call_script, "script_party_get_wages", "$g_player_party"),
                     (gt, ":payment_amount", reg0),
                     (assign, ":dialog_outcome", outcome_success),
+                    (call_script, "script_troop_get_player_name", -1, ":caravan_party"),
+
+                    (call_script, "script_game_get_money_text", ":payment_amount"),
+                        (str_store_string, s0, "@Of course {s60}, here, we can part with {s0}."),
                 (else_try),
                     (assign, ":dialog_outcome", outcome_neutral),
+                    (call_script, "script_game_get_money_text", ":payment_amount"),
+                    (str_store_string, s0, "@Very well, you will be given {s0} if you can promise to let these men go unharmed."),
                 (try_end),
             (else_try),
                 (assign, ":dialog_outcome", outcome_failure),
+                (str_store_string, s0, "@Surely you jest, you won't get anything from me."),
             (try_end),
 
-            (call_script, "script_game_get_money_text", ":payment_amount"),
-            (str_store_string, s0, "@Very well, you will be given {s0} if you can promise to let these men go unharmed."),
             (assign, reg0, ":dialog_outcome"),
             (assign, reg1, ":payment_amount"),
         ]),
