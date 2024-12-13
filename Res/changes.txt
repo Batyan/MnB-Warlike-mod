@@ -1,3 +1,7 @@
+v0.560:
+	-Features:
+	-Balance:
+	-Fixes:
 v0.550:
 	-Features:
 		* add trader types for all centers
