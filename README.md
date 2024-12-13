@@ -13,3 +13,7 @@ It also mean that it will be easier to add them back one by one, to add complete
 * No more upgrading your troops from a peasant to a fully armored knight in a few days.
     * The troops you recruit will not be upgraded as easily.
     * Troops are recruited and trained from fiefs, they will not magically appear on the map.
+
+#### REQUIREMENTS
+
+Warband version 1.161+
