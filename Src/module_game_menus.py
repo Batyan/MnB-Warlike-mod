@@ -16,17 +16,10 @@ game_menus = [
     ## Hardcoded ##
     ###############
     ("start_game_0", menu_text_color(0xFF000000)|mnf_disable_all_keys,
-        "Start Game 0",
+        "{s0}",
         "none",
-        [],
-        [       
-            ("continue", [], "Accept",
-                [
-                    (assign, "$g_test_player_troop", -1),
-                    
-                    (jump_to_menu, "mnu_start_phase_2"),
-                ]),
-            
+        [(str_store_string, s0, "str_start_game_introduction_text"),],
+        [     
             ("start_female", 
                 [
                     (troop_get_type, ":player_gender", "$g_player_troop"),
@@ -34,11 +27,11 @@ game_menus = [
                         (eq, ":player_gender", tf_female),
                         (disable_menu_option),
                     (try_end),
-                ], "Start as female character",
+                ], "Female",
                 [
                     (troop_set_type, "$g_player_troop", tf_female),
                     (troop_set_type, "trp_player", tf_female),
-                    (display_message, "@Player is female"),
+                    # (display_message, "@Player is female"),
                     (jump_to_menu, "mnu_start_game_0"),
                 ]),
             
@@ -49,57 +42,151 @@ game_menus = [
                         (eq, ":player_gender", tf_male),
                         (disable_menu_option),
                     (try_end),
-                ], "Start as male character",
+                ], "Male",
                 [
                     (troop_set_type, "$g_player_troop", tf_male),
                     (troop_set_type, "trp_player", tf_male),
-                    (display_message, "@Player is male"),
+                    # (display_message, "@Player is male"),
                     (jump_to_menu, "mnu_start_game_0"),
                 ]),
+            
+            ("spacing", [(disable_menu_option),], " _ ", []),
 
-            ("go_back",[],"Go back",
+            ("continue", [], "Accept",  
+                [
+                    (assign, "$g_test_player_troop", -1),
+                    (call_script, "script_troop_use_template_troop", "$g_player_troop", "trp_current_player"),
+                    
+                    (jump_to_menu, "mnu_start_game_1"),
+                ]),
+
+            ("go_back",[],"Back to main menu",
                 [
                     (change_screen_quit),
                 ]),
         ]),
     
-    ("start_phase_2", mnf_disable_all_keys,
-        "Start Phase 2",
+    ("start_game_1", mnf_disable_all_keys,
+        "{s0}",
         "none",
-        [],
+        [
+            (try_begin),
+                (eq, "$g_test_player_troop", -1),
+                (str_store_string, s0, "@You are about to embark in an adventure in Calradia, but first what circumstances have led you to this point?"),
+            (else_try),
+                (neg|is_between, "$g_test_player_faction", kingdoms_begin, kingdoms_end),
+                (str_store_string, s0, "@You are ready to embark on your adventure."),
+            (try_end),
+        ],
         [
             ("continue", [], "Continue",
                 [
-                    (call_script, "script_troop_use_template_troop", "$g_player_troop", "trp_current_player"),
-                    (jump_to_menu, "mnu_start_game_3"),
-                ]),
-        ]),
-    
-    ("start_game_3", mnf_disable_all_keys,
-        "Start Game 3",
-        "none",
-        [],
-        [
-            ("continue", [], "Continue",
-                [
-                    (change_screen_return),
                     (try_begin),
                         (eq, "$g_test_player_troop", -1),
                         (assign, "$g_test_player_troop", "trp_swadian_light_cavalry"),
 
-                        # (store_random_in_range, ":banner", banner_scene_props_begin, banner_scene_props_end),
-                        (assign, ":banner", banner_scene_props_begin),
-                        (troop_set_slot, "$g_player_troop", slot_troop_banner_scene_prop, ":banner"),
+                        (assign, "$g_start_game_intro_culture", -1),
+
+                        (jump_to_menu, "mnu_start_game_intro_1"),
                     (else_try),
                         (neg|is_between, "$g_test_player_faction", kingdoms_begin, kingdoms_end),
                         (assign, "$g_test_player_faction", "fac_kingdom_1"),
-                        (start_presentation, "prsnt_intro_select_kingdom"),
 
-                        # (call_script, "script_troop_copy_face_code_from_troop", "$g_player_troop", "trp_player"),
-                        # (set_player_troop, "$g_player_troop"),
+                        (change_screen_return),
+
+                        (assign, ":banner", banner_scene_props_begin),
+                        (troop_set_slot, "$g_player_troop", slot_troop_banner_scene_prop, ":banner"),
+
+                        (str_store_troop_name, s10, "$g_player_troop"),
+                        (troop_set_plural_name, "$g_player_troop", s10),
                     (try_end),
-                    (str_store_troop_name, s10, "$g_player_troop"),
-                    (troop_set_plural_name, "$g_player_troop", s10),
+                ]),
+        ]),
+    
+    ("start_game_intro_1", mnf_disable_all_keys,
+        "{s0}",
+        "none",
+        [
+            (str_store_string, s10, "str_start_game_intro_1"),
+            (try_begin),
+                (eq, "$g_start_game_intro_culture", -1),
+            (else_try),
+                (is_between, "$g_start_game_intro_culture", cultures_begin, cultures_end),
+                (store_sub, ":offset", "$g_start_game_intro_culture", cultures_begin),
+
+                (store_add, ":str", "str_start_game_intro_1_choice_swadian", ":offset"),
+                (str_store_string, s11, ":str"),
+            (try_end),
+
+            (str_store_string, s0, "@{s10}^^{s11}"),
+        ],
+        [
+            ("continue", 
+                [], "In the plains of Swadia",
+                [
+                    (assign, "$g_start_game_intro_culture", "fac_culture_1"),
+                    (jump_to_menu, "mnu_start_game_intro_1"),
+                ]),
+            ("continue", 
+                [], "In the Vaegir tundra",
+                [
+                    (assign, "$g_start_game_intro_culture", "fac_culture_2"),
+                    (jump_to_menu, "mnu_start_game_intro_1"),
+                ]),
+            ("continue", 
+                [], "In the Khergit steppes",
+                [
+                    (assign, "$g_start_game_intro_culture", "fac_culture_3"),
+                    (jump_to_menu, "mnu_start_game_intro_1"),
+                ]),
+            ("continue", 
+                [], "On the Nordic coasts",
+                [
+                    (assign, "$g_start_game_intro_culture", "fac_culture_4"),
+                    (jump_to_menu, "mnu_start_game_intro_1"),
+                ]),
+            ("continue", 
+                [], "In the Rhodok hills",
+                [
+                    (assign, "$g_start_game_intro_culture", "fac_culture_5"),
+                    (jump_to_menu, "mnu_start_game_intro_1"),
+                ]),
+            ("continue", 
+                [], "In the Sarranid deserts",
+                [
+                    (assign, "$g_start_game_intro_culture", "fac_culture_6"),
+                    (jump_to_menu, "mnu_start_game_intro_1"),
+                ]),
+            ("continue", 
+                [], "In a far away land",
+                [
+                    (assign, "$g_start_game_intro_culture", "fac_culture_7"),
+                    (jump_to_menu, "mnu_start_game_intro_1"),
+                ]),
+
+            ("continue", 
+                [
+                    (try_begin),
+                        (eq, "$g_start_game_intro_culture", -1),
+                        (disable_menu_option),
+                    (try_end),
+                    ], "Continue",
+                [
+                    (jump_to_menu, "mnu_start_game_intro_end"),
+                ]),
+        ]),
+    
+    ("start_game_intro_end", mnf_disable_all_keys,
+        "In the next screen you will be able to create your own character, keep in mind that due to a technical limitation, you will be unable to spend skill points.",
+        "none",
+        [],
+        [
+            ("continue", 
+                [], "Continue",
+                [
+                    (call_script, "script_player_reset_stats"),
+                    (call_script, "script_player_apply_starting_choices"),
+                    (change_screen_return),
                 ]),
         ]),
     
