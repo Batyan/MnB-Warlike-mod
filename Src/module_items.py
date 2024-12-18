@@ -849,7 +849,7 @@ items = [
      495 , weight(4.5)|difficulty(10)|spd_rtng(91) | weapon_length(114)|swing_damage(41 , cut) | thrust_damage(0, pierce),imodbits_sword_high , [], [fac_kingdom_5] ],
     
     ["bamboo_spear",                "Bamboo Spear", [("arabian_spear_a_3m",0)], itp_couchable|itp_type_polearm|itp_offset_lance|itp_merchandise| itp_primary|itp_penalty_with_shield|itp_wooden_parry, itc_spear|itcf_carry_spear,
-     440 , weight(2.65)|difficulty(10)|spd_rtng(76) | weapon_length(200)|swing_damage(0, blunt) | thrust_damage(31, pierce),imodbits_polearm ],
+     440 , weight(2.65)|difficulty(10)|spd_rtng(76) | weapon_length(200)|swing_damage(0, blunt) | thrust_damage(31, pierce),imodbits_polearm, [], [fac_kingdom_6]],
     
     ["light_lance",                 "Light Lance", [("spear_b_2-75m",0)], itp_couchable|itp_type_polearm|itp_offset_lance|itp_merchandise| itp_primary|itp_penalty_with_shield|itp_wooden_parry, itc_spear|itcf_carry_spear,
      210 , weight(2.6)|difficulty(9)|spd_rtng(88) | weapon_length(175)|swing_damage(0, blunt) | thrust_damage(33, pierce),imodbits_polearm ],
