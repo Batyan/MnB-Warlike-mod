@@ -523,8 +523,6 @@ presentations = [
                     (troop_set_slot, "$g_player_troop", slot_troop_culture, "$g_presentation_culture"),
                     (troop_set_slot, "$g_player_troop", slot_troop_original_faction, "$g_test_player_faction"),
 
-                    (call_script, "script_player_add_starting_items"),
-        			
         			(assign, reg10, "$g_test_player_faction"),
         			(str_store_faction_name, s10, "$g_test_player_faction"),
         			(display_message, "@Faction is {reg10}: {s10}"),

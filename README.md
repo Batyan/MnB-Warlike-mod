@@ -3,6 +3,10 @@ MnB-Warlike-mod
 
 Mod for Mount and Blade Warband
 
+#### REQUIREMENTS
+
+Warband version 1.161+
+
 #### FEATURES
 The mod will feature numerous changes to the way the game is played.
 It has been restarted from scratch, it means that the mod will be missing features from the original game.
@@ -14,6 +18,7 @@ It also mean that it will be easier to add them back one by one, to add complete
     * The troops you recruit will not be upgraded as easily.
     * Troops are recruited and trained from fiefs, they will not magically appear on the map.
 
-#### REQUIREMENTS
+#### CREDITS
 
-Warband version 1.161+
+Melisandre
+Skealios

@@ -15,11 +15,11 @@ imodbits_armor              =                   imodbit_rusty | imodbit_battered
 imodbits_plate              = imodbit_cracked | imodbit_rusty | imodbit_battered | imodbit_crude | imodbit_thick | imodbit_reinforced |imodbit_lordly
 imodbits_polearm            = imodbit_cracked | imodbit_bent | imodbit_balanced
 imodbits_shield             = imodbit_cracked | imodbit_battered | imodbit_thick | imodbit_reinforced
-imodbits_sword              = imodbit_rusty | imodbit_chipped |                 imodbit_balanced | imodbit_tempered |   imodbit_fine
+imodbits_sword              = imodbit_rusty | imodbit_chipped | imodbit_balanced | imodbit_tempered | imodbit_fine
 imodbits_sword_high         = imodbits_sword | imodbit_masterwork
-imodbits_axe                = imodbit_rusty | imodbit_chipped | imodbit_heavy | imodbit_balanced |                      imodbit_fine
-imodbits_mace               = imodbit_rusty | imodbit_chipped | imodbit_heavy | imodbit_balanced |                      imodbit_fine
-imodbits_pick               = imodbit_rusty | imodbit_chipped | imodbit_heavy | imodbit_balanced |                      imodbit_fine
+imodbits_axe                = imodbit_rusty | imodbit_chipped | imodbit_heavy | imodbit_balanced | imodbit_fine
+imodbits_mace               = imodbit_rusty | imodbit_chipped | imodbit_heavy | imodbit_balanced | imodbit_fine
+imodbits_pick               = imodbit_rusty | imodbit_chipped | imodbit_heavy | imodbit_balanced | imodbit_fine
 imodbits_bow_wo_strong      = imodbit_cracked | imodbit_bent | imodbit_fine # | imodbit_masterwork
 imodbits_bow                = imodbits_bow_wo_strong # | imodbit_strong
 imodbits_crossbow           = imodbit_cracked | imodbit_bent | imodbit_masterwork | imodbit_fine
@@ -849,7 +849,7 @@ items = [
      495 , weight(4.5)|difficulty(10)|spd_rtng(91) | weapon_length(114)|swing_damage(41 , cut) | thrust_damage(0, pierce),imodbits_sword_high , [], [fac_kingdom_5] ],
     
     ["bamboo_spear",                "Bamboo Spear", [("arabian_spear_a_3m",0)], itp_couchable|itp_type_polearm|itp_offset_lance|itp_merchandise| itp_primary|itp_penalty_with_shield|itp_wooden_parry, itc_spear|itcf_carry_spear,
-     440 , weight(2.65)|difficulty(10)|spd_rtng(76) | weapon_length(200)|swing_damage(0, blunt) | thrust_damage(31, pierce),imodbits_polearm ],
+     440 , weight(2.65)|difficulty(10)|spd_rtng(76) | weapon_length(200)|swing_damage(0, blunt) | thrust_damage(31, pierce),imodbits_polearm, [], [fac_kingdom_6]],
     
     ["light_lance",                 "Light Lance", [("spear_b_2-75m",0)], itp_couchable|itp_type_polearm|itp_offset_lance|itp_merchandise| itp_primary|itp_penalty_with_shield|itp_wooden_parry, itc_spear|itcf_carry_spear,
      210 , weight(2.6)|difficulty(9)|spd_rtng(88) | weapon_length(175)|swing_damage(0, blunt) | thrust_damage(33, pierce),imodbits_polearm ],

@@ -1230,4 +1230,17 @@ strings = [
 
   ("playername", "{playername}"),
   ("my_lord|my_lady", "{My Lord/My Lady}"),
+
+  ("start_game_introduction_text", "Welcome to Calradia, a land torn with strife and conflicts.^\
+    It is an ideal situation for an ambitious person to climb the ranks of society.^^\
+    You will first need to select your character gender."),
+
+  ("start_game_intro_1", "Your family lived..."),
+  ("start_game_intro_1_choice_swadian", "In the plains of Swadia"),
+  ("start_game_intro_1_choice_vaegir", "In the Vaegir tundra"),
+  ("start_game_intro_1_choice_khergit", "In the Khergit steppes"),
+  ("start_game_intro_1_choice_nord", "On the Nordic coasts"),
+  ("start_game_intro_1_choice_rhodok", "In the Rhodok hills"),
+  ("start_game_intro_1_choice_sarranid", "In the Sarranid deserts"),
+  ("start_game_intro_1_choice_foreign", "In a far away land"),
 ]

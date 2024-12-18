@@ -933,5 +933,14 @@ str_castle_name_plain_river = 931
 str_castle_name_dross_delnoch = 932
 str_playername = 933
 str_my_lordmy_lady = 934
+str_start_game_introduction_text = 935
+str_start_game_intro_1 = 936
+str_start_game_intro_1_choice_swadian = 937
+str_start_game_intro_1_choice_vaegir = 938
+str_start_game_intro_1_choice_khergit = 939
+str_start_game_intro_1_choice_nord = 940
+str_start_game_intro_1_choice_rhodok = 941
+str_start_game_intro_1_choice_sarranid = 942
+str_start_game_intro_1_choice_foreign = 943
 
 
