@@ -119,7 +119,6 @@ scripts = [
             (try_end),
 
             (party_set_slot, "$g_player_party", slot_party_leader, "$g_player_troop"),
-            (troop_add_gold, "$g_player_troop", 10000),
             
             (assign, "$g_global_haze_amount", 0),
             (assign, "$g_global_cloud_amount", 0),
@@ -12943,6 +12942,7 @@ scripts = [
             (troop_set_slot, "trp_vaegir_militia", slot_troop_ratio_special_multiplier, 40),
             (troop_set_slot, "trp_vaegir_levy_infantry", slot_troop_ratio_special_multiplier, 80),
             (troop_set_slot, "trp_vaegir_levy_axeman", slot_troop_ratio_special_multiplier, 40),
+            (troop_set_slot, "trp_rhodok_levy_crossbowman", slot_troop_ratio_special_multiplier, 65),
         ]),
     
     # script_init_troops_types
@@ -17984,7 +17984,7 @@ scripts = [
             (gt, ":time_passed", 0),
             (val_min, ":time_passed", 10),
             (try_begin),
-                (call_script, "script_cf_debug", debug_economy|debug_simple),
+                (call_script, "script_cf_debug", debug_economy),
                 (assign, reg0, ":time_passed"),
                 (display_message, "@Merchant can update goods ({reg0} times)."),
             (try_end),
@@ -26243,7 +26243,7 @@ scripts = [
             (is_between, ":merchant", merchants_begin, merchants_end),
 
             (try_begin),
-                (call_script, "script_cf_debug", debug_current),
+                (call_script, "script_cf_debug", debug_economy),
                 (str_store_party_name, s10, ":party_no"),
                 (assign, reg10, ":merchant"),
                 (assign, reg11, ":merchant_type"),
