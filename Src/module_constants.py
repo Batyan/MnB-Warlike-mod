@@ -483,6 +483,53 @@ event_type_promised_right_to_rule = 11
 
 event_value_proposed_vassalage = 100
 
+player_starting_2_noble = 0
+player_starting_2_farmer = 1
+player_starting_2_hunter = 2
+player_starting_2_artisan = 3
+player_starting_2_advisor = 4
+player_starting_2_trader = 5
+player_starting_2_mercenary = 6
+player_starting_2_outlaw = 7
+
+player_starting_3_urchin = 0
+player_starting_3_apprentice = 1
+player_starting_3_stable = 2
+player_starting_3_farmer = 3
+player_starting_3_errand = 4
+player_starting_3_school = 5
+player_starting_3_squire = 6
+
+player_starting_4_generous = 0
+player_starting_4_ruthless = 1
+player_starting_4_caring = 2
+player_starting_4_charm = 3
+player_starting_4_shrewd = 4
+player_starting_4_strong = 5
+player_starting_4_energy = 6
+player_starting_4_calculating = 7
+
+player_starting_5_guard = 0
+player_starting_5_outlaw = 1
+player_starting_5_pickpocket = 2
+player_starting_5_messenger = 3
+player_starting_5_hunter = 4
+player_starting_5_farmer = 5
+player_starting_5_merchant = 6
+player_starting_5_mercenary = 7
+player_starting_5_artisan = 8
+player_starting_5_scout = 9
+player_starting_5_court = 10
+player_starting_5_beggar = 11
+player_starting_5_doctor = 12
+
+player_starting_6_adventure = 0
+player_starting_6_gold = 1
+player_starting_6_glory = 2
+player_starting_6_forced = 3
+player_starting_6_revenge = 4
+player_starting_6_loss = 5
+
 ################
 ## Item Slots ##
 ################
