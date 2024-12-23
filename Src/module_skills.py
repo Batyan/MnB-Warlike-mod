@@ -30,7 +30,7 @@ skills = [
   ("reserved_8","Reserved Skill 8",sf_base_att_int|sf_inactive,10,"This is a reserved skill."),
   ("looting","Looting",sf_base_att_agi|sf_effects_party,10,"This skill increases the amount of loot obtained by 10%% per skill level. (Party skill)"),
   ("horse_archery","Horse Archery",sf_base_att_agi,10,"Reduces damage and accuracy penalties for archery and throwing from horseback. (Personal skill)"),
-  ("riding","Riding",sf_base_att_agi,100,"Enables you to ride horses of higher difficulty levels and increases your riding speed and manuever. (Personal skill)"),
+  ("riding","Riding",sf_base_att_agi,10,"Enables you to ride horses of higher difficulty levels and increases your riding speed and manuever. (Personal skill)"),
   ("athletics","Athletics",sf_base_att_agi,10,"Improves your running speed. (Personal skill)"),
   ("shield","Shield",sf_base_att_agi,1,"Reduces damage to shields (by 8%% per skill level) and improves shield speed and coverage. (Personal skill)"),
   ("weapon_master","Weapon Master",sf_base_att_agi,10,"Makes it easier to learn weapon proficiencies. Decreases the weapon proficiencies decay over time. (Personnal skill)"),
