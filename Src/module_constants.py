@@ -530,6 +530,8 @@ player_starting_6_forced = 3
 player_starting_6_revenge = 4
 player_starting_6_loss = 5
 
+court_movement_cost = 50000
+
 ################
 ## Item Slots ##
 ################

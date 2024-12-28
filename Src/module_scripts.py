@@ -9640,16 +9640,6 @@ scripts = [
             (call_script, "script_troop_get_current_home", ":troop_no", 1),
             (assign, ":home", reg0),
             
-            # (store_troop_faction, ":troop_faction", ":troop_no"),
-            # (store_faction_of_party, ":party_faction", ":home"),
-            
-            # (try_begin),
-                # (this_or_next|le, ":home", 0),
-                # (neq, ":troop_faction", ":party_faction"),
-                
-                # (call_script, "script_troop_update_home", ":troop_no"),
-            # (try_end),
-
             (try_begin),
                 (is_between, ":home", centers_begin, centers_end),
                 (store_faction_of_party, ":center_faction", ":home"),
@@ -9759,94 +9749,104 @@ scripts = [
             (store_script_param, ":troop_no", 1),
 
             (troop_get_slot, ":old_home", ":troop_no", slot_troop_home),
-
             (assign, ":home", -1),
-            
-            (store_troop_faction, ":troop_faction", ":troop_no"),
 
-            (assign, ":old_home_type", -1),
+            (assign, ":allow_update", 1),
             (try_begin),
-                (is_between, ":old_home", centers_begin, centers_end),
-                (party_get_slot, ":old_home_faction", ":old_home", slot_party_faction),
-                (eq, ":old_home_faction", ":troop_faction"),
-                (party_slot_eq, ":old_home", slot_party_lord, ":troop_no"),
-                (party_get_slot, ":old_home_type", ":old_home", slot_party_type),
-            (try_end),
-            
-            (assign, ":first_center", -1),
-            
-            (assign, ":end", walled_centers_end),
-            # Take first owned center (towns first)
-            (try_for_range, ":cur_center", walled_centers_begin, ":end"),
-                (party_get_slot, ":center_faction", ":cur_center", slot_party_faction),
+                (eq, ":troop_no", "$g_player_troop"),
+                (assign, ":allow_update", 0),
 
-                (party_get_slot, ":center_type", ":cur_center", slot_party_type),
-
-                (try_begin),
-                    (party_slot_eq, ":cur_center", slot_party_lord, ":troop_no"),
-                    (eq, ":center_faction", ":troop_faction"),
-                    
-                    (this_or_next|eq, ":cur_center", ":old_home"),
-                    (gt, ":center_type", ":old_home_type"),
-                    
-                    (assign, ":home", ":cur_center"),
-                    (assign, ":end", 0),
-                (else_try),
-                    (eq, ":first_center", -1),
-                    # We take the first center of this faction in case the capital does not exist
-                    (eq, ":center_faction", ":troop_faction"),
-
-                    (assign, ":first_center", ":cur_center"),
-                (try_end),
-            (try_end),
-            (try_begin),
-                (eq, ":home", -1),
-                (neq, ":old_home_type", -1),
                 (assign, ":home", ":old_home"),
-            (else_try),
-                (eq, ":home", -1),
-                # Then check villages
-                (assign, ":end", villages_end),
-                (try_for_range, ":cur_center", villages_begin, ":end"),
-                    (party_slot_eq, ":cur_center", slot_party_lord, ":troop_no"),
+            (try_end),
 
+            (try_begin),
+                (eq, ":allow_update", 1),
+                (store_troop_faction, ":troop_faction", ":troop_no"),
+
+                (assign, ":old_home_type", -1),
+                (try_begin),
+                    (is_between, ":old_home", centers_begin, centers_end),
+                    (party_get_slot, ":old_home_faction", ":old_home", slot_party_faction),
+                    (eq, ":old_home_faction", ":troop_faction"),
+                    (party_slot_eq, ":old_home", slot_party_lord, ":troop_no"),
+                    (party_get_slot, ":old_home_type", ":old_home", slot_party_type),
+                (try_end),
+                
+                (assign, ":first_center", -1),
+                
+                (assign, ":end", walled_centers_end),
+                # Take first owned center (towns first)
+                (try_for_range, ":cur_center", walled_centers_begin, ":end"),
                     (party_get_slot, ":center_faction", ":cur_center", slot_party_faction),
-                    (eq, ":center_faction", ":troop_faction"),
-                    
-                    (assign, ":home", ":cur_center"),
-                    # (party_get_slot, ":home", ":cur_center", slot_party_linked_party),
-                    (assign, ":end", 0),
+
+                    (party_get_slot, ":center_type", ":cur_center", slot_party_type),
+
+                    (try_begin),
+                        (party_slot_eq, ":cur_center", slot_party_lord, ":troop_no"),
+                        (eq, ":center_faction", ":troop_faction"),
+                        
+                        (this_or_next|eq, ":cur_center", ":old_home"),
+                        (gt, ":center_type", ":old_home_type"),
+                        
+                        (assign, ":home", ":cur_center"),
+                        (assign, ":end", 0),
+                    (else_try),
+                        (eq, ":first_center", -1),
+                        # We take the first center of this faction in case the capital does not exist
+                        (eq, ":center_faction", ":troop_faction"),
+
+                        (assign, ":first_center", ":cur_center"),
+                    (try_end),
                 (try_end),
                 (try_begin),
                     (eq, ":home", -1),
-                    # If lord has no home, we take his leader's home
-                    (troop_get_slot, ":leader", ":troop_no", slot_troop_vassal_of),
+                    (neq, ":old_home_type", -1),
+                    (assign, ":home", ":old_home"),
+                (else_try),
+                    (eq, ":home", -1),
+                    # Then check villages
+                    (assign, ":end", villages_end),
+                    (try_for_range, ":cur_center", villages_begin, ":end"),
+                        (party_slot_eq, ":cur_center", slot_party_lord, ":troop_no"),
+
+                        (party_get_slot, ":center_faction", ":cur_center", slot_party_faction),
+                        (eq, ":center_faction", ":troop_faction"),
+                        
+                        (assign, ":home", ":cur_center"),
+                        # (party_get_slot, ":home", ":cur_center", slot_party_linked_party),
+                        (assign, ":end", 0),
+                    (try_end),
                     (try_begin),
-                        (ge, ":leader", 0),
-                        (troop_get_slot, ":home", ":leader", slot_troop_home),
-                        # (call_script, "script_troop_get_current_home", ":leader", 1),
-                        # (assign, ":home", reg0),
-                        (gt, ":home", 0),
-                    (else_try),
-                        (faction_get_slot, ":faction_leader", ":troop_faction", slot_faction_leader),
+                        (eq, ":home", -1),
+                        # If lord has no home, we take his leader's home
+                        (troop_get_slot, ":leader", ":troop_no", slot_troop_vassal_of),
                         (try_begin),
-                            (ge, ":faction_leader", 0),
-                            (neq, ":faction_leader", ":troop_no"),
-                            
-                            (troop_get_slot, ":home", ":faction_leader", slot_troop_home),
-                            # (call_script, "script_troop_get_current_home", ":faction_leader", 1),
+                            (ge, ":leader", 0),
+                            (troop_get_slot, ":home", ":leader", slot_troop_home),
+                            # (call_script, "script_troop_get_current_home", ":leader", 1),
                             # (assign, ":home", reg0),
+                            (gt, ":home", 0),
+                        (else_try),
+                            (faction_get_slot, ":faction_leader", ":troop_faction", slot_faction_leader),
+                            (try_begin),
+                                (ge, ":faction_leader", 0),
+                                (neq, ":faction_leader", ":troop_no"),
+                                
+                                (troop_get_slot, ":home", ":faction_leader", slot_troop_home),
+                                # (call_script, "script_troop_get_current_home", ":faction_leader", 1),
+                                # (assign, ":home", reg0),
+                            (try_end),
                         (try_end),
                     (try_end),
                 (try_end),
+                            
+                (try_begin),
+                    (le, ":home", 0),
+                    (assign, ":home", ":first_center"),
+                (try_end),
+                
+                (troop_set_slot, ":troop_no", slot_troop_home, ":home"),
             (try_end),
-                        
-            (try_begin),
-                (le, ":home", 0),
-                (assign, ":home", ":first_center"),
-            (try_end),
-            
-            (troop_set_slot, ":troop_no", slot_troop_home, ":home"),
             (assign, reg0, ":home"),
         ]),
 

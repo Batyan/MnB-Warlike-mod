@@ -908,7 +908,7 @@ items = [
     ["war_spear",                   "War Spear", [("spear_i_2-3m",0)], itp_type_polearm|itp_offset_lance|itp_merchandise| itp_primary|itp_wooden_parry, itc_staff|itcf_carry_spear,
      210 , weight(2.2)|difficulty(7)|spd_rtng(97) | weapon_length(150)|swing_damage(17, blunt) | thrust_damage(39, pierce),imodbits_polearm , [], [fac_kingdom_1, fac_kingdom_2, fac_kingdom_3, fac_kingdom_4, fac_kingdom_5] ],
     ["double_sided_spear",          "Double Sided Spear", [("lance_dblhead",0)], itp_type_polearm|itp_offset_lance|itp_merchandise| itp_primary|itp_wooden_parry, itc_staff|itcf_carry_spear, 
-     265 , weight(2.7)|difficulty(0)|spd_rtng(98) | weapon_length(129)|swing_damage(14, blunt) | thrust_damage(41, pierce),imodbits_polearm , [], [fac_kingdom_5] ],
+     265 , weight(2.7)|difficulty(7)|spd_rtng(98) | weapon_length(129)|swing_damage(14, blunt) | thrust_damage(41, pierce),imodbits_polearm , [], [fac_kingdom_5] ],
     
     ["awlpike",                     "Awlpike", [("awl_pike_b",0)], itp_type_polearm|itp_offset_lance|itp_merchandise|itp_cant_use_on_horseback| itp_primary|itp_wooden_parry, itc_spear|itcf_carry_spear,
      315 , weight(3.3)|difficulty(10)|spd_rtng(92) | weapon_length(164)|swing_damage(0, blunt) | thrust_damage(40, pierce),imodbits_polearm , [], [fac_kingdom_1] ],

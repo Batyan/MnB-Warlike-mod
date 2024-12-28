@@ -1,6 +1,7 @@
 v0.560:
 	-Features:
 		* add player character introduction choices and effects
+		* allow player to set the court location
 	-Balance:
 	-Fixes:
 v0.550:
