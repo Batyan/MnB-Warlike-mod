@@ -4,6 +4,7 @@ v0.560:
 		* allow player to set the court location
 	-Balance:
 	-Fixes:
+		* fix reports menu bringing up the character introduction menu
 v0.550:
 	-Features:
 		* add trader types for all centers

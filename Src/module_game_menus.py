@@ -182,6 +182,81 @@ game_menus = [
                 ]),
         ]),
     
+    ("tutorial", mnf_disable_all_keys,
+        "Tutorial",
+        "none",
+        [],
+        [
+            ("return", [], "Return",
+                [
+                    (change_screen_quit),
+                ]),
+        ]),
+
+    ("reports", 0,
+        "Reports",
+        "none",
+        [],
+        [
+            ## General reports - displays a large amount of general informations
+            # Global report shows party speed, current party size, max party size, prisoners, max prisoners, current morale, party wages
+            ("report_global", [(disable_menu_option),], "Global report", []),
+            # Personal report shows player traits, player stat boosts, current gold, current renown, current honor rating
+            ("report_personal", [(disable_menu_option),], "Personal report", []),
+
+            ## Detailed reports - displays specific informations about a particular topic
+            # Displays morale report
+            ("report_morale",[(disable_menu_option),],"Morale report",[]),
+            # Displays wages for the current party (not fiefs)
+            ("report_budget",[],"Budget report",
+                [
+                    (assign, "$g_process_effects", 0),
+                    (start_presentation, "prsnt_budget_report"),
+                ]),
+
+            ("resume_travelling",[],"Resume travelling",
+                [
+                    (change_screen_return),
+                ]),
+        ]),
+
+    ("camp", mnf_scale_picture,
+        "Camp",
+        "none",
+        [
+            (set_background_mesh, "mesh_pic_camp"),
+        ],
+        [
+            ("camp_settings", [], "Customize game settings",
+                [(jump_to_menu, "mnu_settings"),]),
+
+            ("camp_debug_settings", [(call_script, "script_cf_debug", debug_all),], "Debug settings",
+                [
+                    (jump_to_menu, "mnu_debug_settings"),
+                ]),
+            ("camp_debug_menu", [(call_script, "script_cf_debug", debug_all),], "Debug menu",
+                [
+                    (jump_to_menu, "mnu_debug_menu"),
+                ]),
+            ("camp_debug_actions", [(call_script, "script_cf_debug", debug_all),], "Debug actions",
+                [
+                    (jump_to_menu, "mnu_debug_actions"),
+                ]),
+
+            ("camp_actions", [], "Take an action",
+                [
+                    (jump_to_menu, "mnu_camp_actions"),
+                ]),
+            
+            ("resume_travelling",[], "Dismantle camp",
+                [
+                    (change_screen_return),
+                ]),
+        ]),
+    
+    ###########
+    ## Other ##
+    ###########
     ("start_game_intro_2", mnf_disable_all_keys,
         "{s0}",
         "none",
@@ -623,81 +698,6 @@ game_menus = [
                 ]),
         ]),
     
-    ("tutorial", mnf_disable_all_keys,
-        "Tutorial",
-        "none",
-        [],
-        [
-            ("return", [], "Return",
-                [
-                    (change_screen_quit),
-                ]),
-        ]),
-
-    ("reports", 0,
-        "Reports",
-        "none",
-        [],
-        [
-            ## General reports - displays a large amount of general informations
-            # Global report shows party speed, current party size, max party size, prisoners, max prisoners, current morale, party wages
-            ("report_global", [(disable_menu_option),], "Global report", []),
-            # Personal report shows player traits, player stat boosts, current gold, current renown, current honor rating
-            ("report_personal", [(disable_menu_option),], "Personal report", []),
-
-            ## Detailed reports - displays specific informations about a particular topic
-            # Displays morale report
-            ("report_morale",[(disable_menu_option),],"Morale report",[]),
-            # Displays wages for the current party (not fiefs)
-            ("report_budget",[],"Budget report",
-                [
-                    (assign, "$g_process_effects", 0),
-                    (start_presentation, "prsnt_budget_report"),
-                ]),
-
-            ("resume_travelling",[],"Resume travelling",
-                [
-                    (change_screen_return),
-                ]),
-        ]),
-
-    ("camp", mnf_scale_picture,
-        "Camp",
-        "none",
-        [
-            (set_background_mesh, "mesh_pic_camp"),
-        ],
-        [
-            ("camp_settings", [], "Customize game settings",
-                [(jump_to_menu, "mnu_settings"),]),
-
-            ("camp_debug_settings", [(call_script, "script_cf_debug", debug_all),], "Debug settings",
-                [
-                    (jump_to_menu, "mnu_debug_settings"),
-                ]),
-            ("camp_debug_menu", [(call_script, "script_cf_debug", debug_all),], "Debug menu",
-                [
-                    (jump_to_menu, "mnu_debug_menu"),
-                ]),
-            ("camp_debug_actions", [(call_script, "script_cf_debug", debug_all),], "Debug actions",
-                [
-                    (jump_to_menu, "mnu_debug_actions"),
-                ]),
-
-            ("camp_actions", [], "Take an action",
-                [
-                    (jump_to_menu, "mnu_camp_actions"),
-                ]),
-            
-            ("resume_travelling",[], "Dismantle camp",
-                [
-                    (change_screen_return),
-                ]),
-        ]),
-    
-    ###########
-    ## Other ##
-    ###########
 
     ("settings", 0,
         "Change the settings",
