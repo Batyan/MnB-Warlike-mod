@@ -317,7 +317,7 @@ dialogs = [
 			(quest_get_slot, ":lord", "qst_persuade_lord_vassalage", slot_quest_object),
 			(call_script, "script_conclude_quest", "qst_persuade_lord_vassalage"),
 			(call_script, "script_complete_quest", "qst_persuade_lord_vassalage"),
-			(call_script, "script_troop_change_relation_with_troop", "$g_player_troop", "$g_talk_troop", 2),
+			(call_script, "script_troop_change_relation_with_troop", "$g_player_troop", "$g_talk_troop", 5),
 
 			(call_script, "script_troop_add_event", "$g_talk_troop", event_type_proposed_vassalage, "$g_player_troop", ":lord", event_value_proposed_vassalage, -1),
 		]],
@@ -329,7 +329,7 @@ dialogs = [
 			(quest_set_slot, "qst_persuade_lord_vassalage", slot_quest_value, reg0),
 			(quest_set_slot, "qst_persuade_lord_vassalage", slot_quest_num_tries, quest_persuade_vassalge_max_proposition),
 
-			(call_script, "script_troop_change_relation_with_troop", "$g_player_troop", "$g_talk_troop", -5),
+			(call_script, "script_troop_change_relation_with_troop", "$g_player_troop", "$g_talk_troop", -2),
 		]],
 
 	[anyone, "lord_become_vassal_persuasion_begin",
@@ -480,8 +480,8 @@ dialogs = [
 		[
 			(quest_get_slot, ":num_tries", "qst_persuade_lord_vassalage", slot_quest_num_tries),
 
-			(store_mul, ":value_bonus", ":num_tries", 5),
-			(store_div, ":relation_bonus", ":num_tries", 2),
+			(store_mul, ":value_bonus", ":num_tries", 15),
+			(assign, ":relation_bonus", ":num_tries"),
 
             (call_script, "script_quest_add_value", "qst_persuade_lord_vassalage", ":value_bonus"),
 

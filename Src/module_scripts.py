@@ -25440,6 +25440,9 @@ scripts = [
             (store_div, ":relation", reg0, 4),
             (val_add, ":score", ":relation"),
 
+            (troop_get_slot, ":rank", ":troop_no", slot_troop_rank),
+            (troop_get_slot, ":asked_lord_rank", ":asked_lord", slot_troop_rank),
+
             (troop_get_slot, ":existing_lord", ":troop_no", slot_troop_vassal_of),
             (assign, ":existing_lord_relation", 0),
             (try_begin),
@@ -25447,11 +25450,14 @@ scripts = [
 
                 (call_script, "script_troop_get_relation_with_troop", ":troop_no", ":existing_lord"),
                 (store_div, ":existing_lord_relation", reg0, 5),
-                (val_sub, ":score", ":existing_lord_relation"),
+            (else_try),
+                # Lord with no lord and low rank are more likely to join a high rank lord
+                (lt, ":rank", rank_castle), 
+                (ge, ":asked_lord_rank", rank_castle),
+                (assign, ":existing_lord_relation", -20),
             (try_end),
+            (val_sub, ":score", ":existing_lord_relation"),
 
-            (troop_get_slot, ":rank", ":troop_no", slot_troop_rank),
-            (troop_get_slot, ":asked_lord_rank", ":asked_lord", slot_troop_rank),
             (store_sub, ":rank_bonus", ":asked_lord_rank", ":rank"),
             (val_mul, ":rank_bonus", 8),
 
