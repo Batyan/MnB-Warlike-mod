@@ -25,6 +25,7 @@ numberbox_size = 65
 checkbox_size = 20
 
 button_padding = 12
+button_size = 80
 
 line_height = 30
 category_height = line_height + 20
@@ -2228,10 +2229,11 @@ presentations = [
                         (call_script, "script_party_get_picture_mesh", ":cur_center"),
                         (assign, ":mesh", reg0),
 
-                        (create_mesh_overlay, reg0, ":mesh"),
-                        (position_set_x, pos1, ":mesh_pic_x"),
                         (store_div, ":offset", ":picture_height", 3),
                         (store_sub, ":mesh_pic_y", ":center_y", ":offset"),
+
+                        (create_mesh_overlay, reg0, ":mesh"),
+                        (position_set_x, pos1, ":mesh_pic_x"),
                         (position_set_y, pos1, ":mesh_pic_y"),
                         (overlay_set_position, reg0, pos1),
                         (position_set_x, pos1, 200),
@@ -2561,78 +2563,312 @@ presentations = [
                 ]),
         ]),
 
+    ("center_constructions", 0, mesh_load_window,
+        [
+            (ti_on_presentation_load,
+                [
+                    (set_fixed_point_multiplier, 1000),
+
+                    (assign, ":container_x", 50),
+                    (assign, ":container_y", 100),
+                    (assign, ":container_size_x", 605),
+                    (assign, ":container_size_y", 550),
+
+                    (assign, ":current_center", "$temp"),
+                    (party_get_slot, ":current_center_type", ":current_center", slot_party_type),
+
+                    (str_clear, s0),
+                    (create_text_overlay, reg0, s0, tf_scrollable),
+                    (position_set_x, pos1, ":container_x"),
+                    (position_set_y, pos1, ":container_y"),
+                    (overlay_set_position, reg0, pos1),
+                    (position_set_x, pos1, ":container_size_x"),
+                    (position_set_y, pos1, ":container_size_y"),
+                    (overlay_set_area_size, reg0, pos1),
+                    
+                    (assign, ":container", reg0),
+
+                    (str_clear, s0),
+                    (create_text_overlay, reg0, s0, tf_scrollable),
+                    (store_add, ":x", ":container_x", ":container_size_x"),
+                    (position_set_x, pos1, ":x"),
+                    (position_set_y, pos1, ":container_y"),
+                    (overlay_set_position, reg0, pos1),
+                    (store_sub, ":size_x", 960, ":x"),
+                    (position_set_x, pos1, ":size_x"),
+                    (position_set_y, pos1, ":container_size_y"),
+                    (overlay_set_area_size, reg0, pos1),
+                    (assign, ":side_panel", reg0),
+
+                    (set_container_overlay, ":container"),
+
+                    (assign, ":num_buildings", 0),
+                    (try_for_range_backwards, ":building", center_buildings_begin, center_buildings_end),
+                        (item_get_slot, ":enabled", ":building", slot_building_enabled),
+                        (eq, ":enabled", 1),
+
+                        (item_get_slot, ":building_types", ":building", slot_building_center_types),
+                        (store_mod, ":allowed", ":building_types", ":current_center_type"),
+                        (eq, ":allowed", 0),
+                        (val_add, ":num_buildings", 1),
+                    (try_end),
+
+                    (assign, ":columns", 3),
+
+                    (val_mod, ":num_buildings", ":columns"),
+                    (store_sub, ":mod", ":num_buildings", 1),
+                    (try_begin),
+                        (eq, ":mod", -1),
+                        (store_sub, ":mod", ":columns", 1),
+                    (try_end),
+
+                    (assign, ":padding_x", 10),
+                    (assign, ":y", 10),
+
+                    (assign, ":column_size", ":container_size_x"),
+
+                    (val_div, ":column_size", ":columns"),
+                    (assign, ":card_size", 100),
+
+                    (try_for_range_backwards, ":building", center_buildings_begin, center_buildings_end),
+                        (item_get_slot, ":enabled", ":building", slot_building_enabled),
+                        (item_set_slot, ":building", slot_building_presentation_card, -1),
+                        (item_set_slot, ":building", slot_building_presentation_button, -1),
+                        (eq, ":enabled", 1),
+
+                        (item_get_slot, ":building_types", ":building", slot_building_center_types),
+                        (store_mod, ":allowed", ":building_types", ":current_center_type"),
+                        (eq, ":allowed", 0),
+
+                        (store_mul, ":row_x", ":mod", ":column_size"),
+                        (store_add, ":cur_x", ":padding_x", ":row_x"),
+
+                        (store_add, ":cur_y", ":y", 5),
+
+                        (store_sub, ":offset", ":building", center_buildings_begin),
+                        (store_add, ":building_slot", ":offset", slot_party_building_slot_begin),
+                        (party_get_slot, ":building_state", ":current_center", ":building_slot"),
+
+                        (create_mesh_overlay, reg0, "mesh_mp_ui_command_panel"),
+                        (position_set_x, pos1, ":cur_x"),
+                        (position_set_y, pos1, ":cur_y"),
+                        (overlay_set_position, reg0, pos1),
+                        (position_set_x, pos1, 2000),
+                        (position_set_y, pos1, 1000),
+                        (overlay_set_size, reg0, pos1),
+                        (overlay_set_alpha, reg0, 0x7F),
+
+                        (item_set_slot, ":building", slot_building_presentation_card, reg0),
+
+                        (val_add, ":cur_y", 10),
+
+                        # efficiency
+                        (try_begin),
+                            (ge, ":building_state", 0),
+                            (assign, reg10, ":building_state"),
+                            (str_store_string, s10, "@{reg10}% efficiency"),
+
+                            (call_script, "script_presentation_create_text_overlay", tf_left_align, ":cur_x", ":cur_y", 850, 850),
+                            (overlay_set_color, reg0, text_color_light),
+                        (else_try),
+                            (gt, ":building_state", -100),
+                            (assign, ":efficiency", ":building_state"),
+                            (val_add, ":efficiency", 100),
+                            (val_min, ":efficiency", 100),
+                            (assign, reg10, ":efficiency"),
+                            (str_store_string, s10, "@Building in progress: {reg10}%"),
+
+                            (call_script, "script_presentation_create_text_overlay", tf_left_align, ":cur_x", ":cur_y", 850, 850),
+                            (overlay_set_color, reg0, text_color_light),
+                        (else_try),
+                            (create_game_button_overlay, reg0, "@Build"),
+                            (store_add, ":x", ":cur_x", button_padding),
+                            (val_add, ":x", button_size),
+                            (position_set_x, pos1, ":x"),
+                            (position_set_y, pos1, ":cur_y"),
+                            (overlay_set_position, reg0, pos1),
+                            (item_set_slot, ":building", slot_building_presentation_button, reg0),
+                        (try_end),
+
+                        (val_add, ":cur_y", 50),
+
+                        (str_store_item_name, s10, ":building"),
+                        (call_script, "script_presentation_create_text_overlay", tf_left_align, ":cur_x", ":cur_y", 900, 900),
+                        # (overlay_set_color, reg0, text_color_white),
+
+                        (val_add, ":cur_y", 25),
+
+                        (try_begin),
+                            (le, ":mod", 0),
+                            (val_add, ":y", ":card_size"),
+                            (assign, ":mod", ":columns"),
+                        (try_end),
+
+                        (val_sub, ":mod", 1),
+                    (try_end),
+
+                    (set_container_overlay, ":side_panel"),
+
+                    (str_store_string, s10, "@ _^ ^ ^ ^ ^"),
+                    (call_script, "script_presentation_create_text_overlay", tf_left_align, 25, 0, 800, 800),
+                    (assign, "$g_presentation_building_description", reg0),
+
+                    (str_store_string, s10, "@ _"),
+                    (call_script, "script_presentation_create_text_overlay", tf_left_align, 25, 100, 1000, 1000),
+                    (assign, "$g_presentation_building_name", reg0),
+
+                    (set_container_overlay, -1),
+
+                    # Actions panel
+                    (create_game_button_overlay, "$g_presentation_ok", "@Continue"),
+                    (position_set_x, pos1, 150),
+                    (position_set_y, pos1, 50),
+                    (overlay_set_position, "$g_presentation_ok", pos1),
+
+                    (presentation_set_duration, 999999),
+                ]),
+
+            (ti_on_presentation_event_state_change,
+                [
+                    (store_trigger_param_1, ":object"),
+                    # (store_trigger_param_2, ":value"),
+
+                    (assign, ":current_center", "$temp"),
+
+                    (assign, ":building_button", -1),
+                    (try_for_range, ":building", center_buildings_begin, center_buildings_end),
+                        (item_get_slot, ":button", ":building", slot_building_presentation_button),
+                        (eq, ":button", ":object"),
+                        (assign, ":building_button", ":building"),
+                    (try_end),
+
+                    (try_begin),
+                        (is_between, ":building_button", center_buildings_begin, center_buildings_end),
+
+                        (store_sub, ":offset", ":building_button", center_buildings_begin),
+                        (store_add, ":building_slot", ":offset", slot_party_building_slot_begin),
+                        (party_set_slot, ":current_center", ":building_slot", -99),
+
+                        (str_store_item_name, s10, ":building_button"),
+                        (display_message, "@Starting construction of {s10}"),
+                        (start_presentation, "prsnt_center_constructions"),
+
+                    (else_try),
+                        (eq, ":object", "$g_presentation_ok"),
+
+                        (presentation_set_duration, 0),
+                    (try_end),
+                ]),
+
+            
+            (ti_on_presentation_mouse_enter_leave,
+            [
+                (store_trigger_param_1, ":object"),
+                (store_trigger_param_2, ":value"),
+                
+                (set_fixed_point_multiplier, 1000),
+
+                (try_begin),
+                    (eq, ":value", 0),
+                    (assign, ":building_card", -1),
+                    (try_for_range, ":building", center_buildings_begin, center_buildings_end),
+                        (item_get_slot, ":card", ":building", slot_building_presentation_card),
+                        (eq, ":card", ":object"),
+                        (assign, ":building_card", ":building"),
+                    (try_end),
+                        
+                    (try_begin),
+                        (is_between, ":building_card", center_buildings_begin, center_buildings_end),
+                        (str_store_item_name, s10, ":building_card"),
+
+                        (store_sub, ":offset", ":building_card", center_buildings_begin),
+                        (store_add, ":building_description", ":offset", center_buildings_description_begin),
+                        (overlay_set_text, "$g_presentation_building_description", ":building_description"),
+
+                        (str_store_item_name, s10, ":building_card"),
+                        (overlay_set_text, "$g_presentation_building_name", s10),
+                    (try_end),
+                (try_end),
+            ]),
+        ]),
+
     ("setting_shield_painting", 0, mesh_load_window,
         [
             (ti_on_presentation_load,
+                [
+                    (set_fixed_point_multiplier, 1000),
+                    (presentation_set_duration, 999999),
+                ]),
+
+            (ti_on_presentation_run,
+                [
+                    (presentation_set_duration, 0),
+                ]),
+        ]),
+
+    ("setting_weather", 0, mesh_load_window, [
+        (ti_on_presentation_load,
             [
                 (set_fixed_point_multiplier, 1000),
                 (presentation_set_duration, 999999),
             ]),
 
-            (ti_on_presentation_run,
+        (ti_on_presentation_run,
+            [
+    	       (presentation_set_duration, 0),
+            ]),
+        ]),
+
+    ("setting_morale", 0, mesh_load_window, [
+        (ti_on_presentation_load,
+            [
+                (set_fixed_point_multiplier, 1000),
+                (presentation_set_duration, 999999),
+            ]),
+
+        (ti_on_presentation_run,
             [
                 (presentation_set_duration, 0),
             ]),
         ]),
 
-    ("setting_weather", 0, mesh_load_window, [
-        (ti_on_presentation_load,
-         [(set_fixed_point_multiplier, 1000),
-          (presentation_set_duration, 999999),
-          ]),
-
-        (ti_on_presentation_run,
-         [
-    	    (presentation_set_duration, 0),
-          ]),
-        ]),
-
-    ("setting_morale", 0, mesh_load_window, [
-        (ti_on_presentation_load,
-         [(set_fixed_point_multiplier, 1000),
-          (presentation_set_duration, 999999),
-          ]),
-
-        (ti_on_presentation_run,
-         [
-    	    (presentation_set_duration, 0),
-          ]),
-        ]),
-
     ("setting_death", 0, mesh_load_window, [
         (ti_on_presentation_load,
-         [(set_fixed_point_multiplier, 1000),
-          (presentation_set_duration, 999999),
-          ]),
+            [
+                (set_fixed_point_multiplier, 1000),
+                (presentation_set_duration, 999999),
+            ]),
 
         (ti_on_presentation_run,
-         [
-    	    (presentation_set_duration, 0),
-          ]),
+            [
+                (presentation_set_duration, 0),
+            ]),
         ]),
 
     ("setting_losing", 0, mesh_load_window, [
         (ti_on_presentation_load,
-         [(set_fixed_point_multiplier, 1000),
-          (presentation_set_duration, 999999),
-          ]),
+            [
+                (set_fixed_point_multiplier, 1000),
+                (presentation_set_duration, 999999),
+            ]),
 
         (ti_on_presentation_run,
-         [
-    	    (presentation_set_duration, 0),
-          ]),
+            [
+                (presentation_set_duration, 0),
+            ]),
         ]),
 
     ("setting_difficulty", 0, mesh_load_window, [
         (ti_on_presentation_load,
-         [(set_fixed_point_multiplier, 1000),
-          (presentation_set_duration, 999999),
-          ]),
+            [
+                (set_fixed_point_multiplier, 1000),
+                (presentation_set_duration, 999999),
+            ]),
 
         (ti_on_presentation_run,
-         [
-    	    (presentation_set_duration, 0),
-          ]),
+            [
+                (presentation_set_duration, 0),
+            ]),
         ]),
 
     ("setting_misc", 0, mesh_load_window,

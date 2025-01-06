@@ -1833,7 +1833,10 @@ game_menus = [
                 ]),
 
             ("manage_buildings", # View currently built buildings, their conditions, their upkeep
-                [(disable_menu_option),], "Manage constructions", []),
+                [], "Manage constructions", [
+                    (assign, "$temp", "$g_encountered_party"),
+                    (start_presentation, "prsnt_center_constructions"),
+                ]),
 
             ("manage_events", # Organize tournaments, festivals, plan special events
                 [(disable_menu_option),], "Manage events", []),
