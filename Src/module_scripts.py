@@ -19834,6 +19834,7 @@ scripts = [
                 (party_get_slot, ":state", ":party_no", ":building_slot"),
                 (is_between, ":state", -99, 100),
                 (store_sub, ":building", ":building_slot", slot_party_building_slot_begin),
+                (val_add, ":building", center_buildings_begin),
 
                 (assign, ":slot", ":building_slot"),
                 (party_get_slot, ":state", ":party_no", ":slot"),
