@@ -3420,7 +3420,7 @@ scripts = [
             (party_set_slot, ":party_no", slot_party_max_prisoner_outcome, mpo_default),
 
             (try_for_range, ":building_slot", slot_party_building_slot_begin, slot_party_building_slot_end),
-                (party_set_slot, ":party_no", ":building_slot", -100),
+                (party_set_slot, ":party_no", ":building_slot", 0),
             (try_end),
 
             (party_get_slot, ":party_type", ":party_no", slot_party_type),
@@ -19832,7 +19832,7 @@ scripts = [
             # Process buildings construction time
             (try_for_range, ":building_slot", slot_party_building_slot_begin, slot_party_building_slot_end),
                 (party_get_slot, ":state", ":party_no", ":building_slot"),
-                (is_between, ":state", -99, 100),
+                (neq, ":state", 0),
                 (store_sub, ":building", ":building_slot", slot_party_building_slot_begin),
                 (val_add, ":building", center_buildings_begin),
 
@@ -19842,7 +19842,7 @@ scripts = [
                 # (item_get_slot, ":wood_cost", ":building", ":wood_slot"),
                 # # (item_get_slot, ":stone_cost", ":building", ":stone_slot"),
                 # (item_get_slot, ":gold_cost", ":building", slot_building_cost_gold),
-                (item_get_slot, ":time", ":building", slot_building_build_time),
+                # (item_get_slot, ":time", ":building", slot_building_build_time),
 
                 # (store_mul, ":wood_added", ":wood_cost", 100),
                 # (val_div, ":wood_added", ":interval"),
@@ -19855,15 +19855,14 @@ scripts = [
 
                 (try_begin),
 
-                    (store_mul, ":time_added", ":time", 100),
-                    (val_div, ":time_added", ":interval"),
-
                     (try_begin),
                         # Building not constructed
                         # Drains ressources
                         (lt, ":state", 0),
 
                         (try_begin),
+                            (assign, ":time_added", ":interval"),
+
                             (val_add, ":state", ":time_added"),
                             (try_begin),
                                 (ge, ":state", 0),
@@ -19881,11 +19880,10 @@ scripts = [
                     (else_try),
                         # Building damaged
                         # Drains some ressources and barely works
-                        (is_between, ":state", 0, 50),
+                        (is_between, ":state", 1, 50),
 
                         (try_begin),
-                            (val_div, ":time_added", 2),
-                            (val_add, ":state", ":time_added"),
+                            (val_add, ":state", 1),
 
                             (try_begin),
                                 (ge, ":state", 50),
@@ -19906,9 +19904,7 @@ scripts = [
                         (is_between, ":state", 50, 100),
 
                         (try_begin),
-                            (val_div, ":time_added", 2),
-                            (val_add, ":state", ":time_added"),
-
+                            (val_add, ":state", 1),
                             (val_min, ":state", 100),
 
                             (party_set_slot, ":party_no", ":slot", ":state"),
@@ -26385,6 +26381,25 @@ scripts = [
             (else_try),
                 (str_store_string, s60, "str_playername"),
             (try_end),
+        ]),
+
+    # script_party_get_building_efficiency
+        # input:
+        #   arg1: party_no
+        #   arg2: building
+        # output:
+        #   reg0: efficiency
+    ("party_get_building_efficiency",
+        [
+            (store_script_param, ":party_no", 1),
+            (store_script_param, ":building", 2),
+
+            (store_sub, ":offset", ":building", center_buildings_begin),
+            (store_add, ":building_slot", ":offset", slot_party_building_slot_begin),
+
+            (party_get_slot, ":state", ":party_no", ":building_slot"),
+            (val_max, ":state", 0),
+            (assign, reg0, ":state"),
         ]),
 
     # script_presentation_generate_select_lord_card

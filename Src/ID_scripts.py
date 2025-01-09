@@ -511,9 +511,10 @@ script_troop_apply_persuade_vassal_quest = 509
 script_party_get_merchant = 510
 script_cf_party_has_merchant = 511
 script_troop_get_player_name = 512
-script_presentation_generate_select_lord_card = 513
-script_presentation_create_text_overlay = 514
-script_presentation_create_combo_button_overlay = 515
-script_presentation_create_check_box_overlay = 516
+script_party_get_building_efficiency = 513
+script_presentation_generate_select_lord_card = 514
+script_presentation_create_text_overlay = 515
+script_presentation_create_combo_button_overlay = 516
+script_presentation_create_check_box_overlay = 517
 
 

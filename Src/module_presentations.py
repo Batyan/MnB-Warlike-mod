@@ -2594,7 +2594,7 @@ presentations = [
                     (position_set_x, pos1, ":x"),
                     (position_set_y, pos1, ":container_y"),
                     (overlay_set_position, reg0, pos1),
-                    (store_sub, ":size_x", 960, ":x"),
+                    (store_sub, ":size_x", 980, ":x"),
                     (position_set_x, pos1, ":size_x"),
                     (position_set_y, pos1, ":container_size_y"),
                     (overlay_set_area_size, reg0, pos1),
@@ -2664,18 +2664,23 @@ presentations = [
 
                         # efficiency
                         (try_begin),
-                            (ge, ":building_state", 0),
-                            (assign, reg10, ":building_state"),
-                            (str_store_string, s10, "@{reg10}% efficiency"),
+                            (gt, ":building_state", 0),
+                            (call_script, "script_party_get_building_efficiency", ":current_center", ":building"),
+                            (str_store_string, s10, "@{reg0}% efficiency"),
 
                             (call_script, "script_presentation_create_text_overlay", tf_left_align, ":cur_x", ":cur_y", 850, 850),
                             (overlay_set_color, reg0, text_color_light),
                         (else_try),
-                            (gt, ":building_state", -100),
-                            (assign, ":efficiency", ":building_state"),
-                            (val_add, ":efficiency", 100),
-                            (val_min, ":efficiency", 100),
-                            (assign, reg10, ":efficiency"),
+                            (lt, ":building_state", 0),
+
+                            (item_get_slot, ":build_time", ":building", slot_building_build_time),
+
+                            (store_mul, ":time_left", ":building_state", -100),
+                            (val_div, ":time_left", ":build_time"),
+                            (val_min, ":time_left", 100),
+                            (val_max, ":time_left", 0),
+                            (store_sub, ":progress", 100, ":time_left"),
+                            (assign, reg10, ":progress"),
                             (str_store_string, s10, "@Building in progress: {reg10}%"),
 
                             (call_script, "script_presentation_create_text_overlay", tf_left_align, ":cur_x", ":cur_y", 850, 850),
@@ -2709,12 +2714,35 @@ presentations = [
 
                     (set_container_overlay, ":side_panel"),
 
+                    (assign, ":cur_y", 0),
+                    (assign, ":cur_x", 25),
+
                     (str_store_string, s10, "@ _^ ^ ^ ^ ^"),
-                    (call_script, "script_presentation_create_text_overlay", tf_left_align, 25, 0, 800, 800),
+                    (call_script, "script_presentation_create_text_overlay", tf_left_align, ":cur_x", ":cur_y", 800, 800),
                     (assign, "$g_presentation_building_description", reg0),
 
+                    (val_add, ":cur_y", 100),
+
                     (str_store_string, s10, "@ _"),
-                    (call_script, "script_presentation_create_text_overlay", tf_left_align, 25, 100, 1000, 1000),
+                    (call_script, "script_presentation_create_text_overlay", tf_left_align, ":cur_x", ":cur_y", 800, 800),
+                    (assign, "$g_presentation_building_requirements", reg0),
+
+                    (val_add, ":cur_y", line_height),
+
+                    (str_store_string, s10, "@ _"),
+                    (call_script, "script_presentation_create_text_overlay", tf_left_align, ":cur_x", ":cur_y", 800, 800),
+                    (assign, "$g_presentation_building_create_time", reg0),
+
+                    (val_add, ":cur_y", line_height),
+
+                    (str_store_string, s10, "@ _"),
+                    (call_script, "script_presentation_create_text_overlay", tf_left_align, ":cur_x", ":cur_y", 800, 800),
+                    (assign, "$g_presentation_building_create_cost", reg0),
+
+                    (val_add, ":cur_y", line_height),
+
+                    (str_store_string, s10, "@ _"),
+                    (call_script, "script_presentation_create_text_overlay", tf_left_align, ":cur_x", ":cur_y", 1000, 1000),
                     (assign, "$g_presentation_building_name", reg0),
 
                     (set_container_overlay, -1),
@@ -2745,9 +2773,12 @@ presentations = [
                     (try_begin),
                         (is_between, ":building_button", center_buildings_begin, center_buildings_end),
 
+                        (item_get_slot, ":build_time", ":building_button", slot_building_build_time),
+                        (val_mul, ":build_time", -1),
+
                         (store_sub, ":offset", ":building_button", center_buildings_begin),
                         (store_add, ":building_slot", ":offset", slot_party_building_slot_begin),
-                        (party_set_slot, ":current_center", ":building_slot", -99),
+                        (party_set_slot, ":current_center", ":building_slot", ":build_time"),
 
                         (str_store_item_name, s10, ":building_button"),
                         (display_message, "@Starting construction of {s10}"),
@@ -2783,7 +2814,27 @@ presentations = [
 
                         (store_sub, ":offset", ":building_card", center_buildings_begin),
                         (store_add, ":building_description", ":offset", center_buildings_description_begin),
+
+                        (item_get_slot, ":creation_time", ":building_card", slot_building_build_time),
+                        (item_get_slot, ":requirements", ":building_card", slot_building_required_building),
+                        (item_get_slot, ":cost", ":building_card", slot_building_cost_gold),
+
                         (overlay_set_text, "$g_presentation_building_description", ":building_description"),
+
+                        (assign, reg10, ":creation_time"),
+                        (str_store_string, s10, "@{reg10} days"),
+                        (overlay_set_text, "$g_presentation_building_create_time", s10),
+
+                        (try_begin),
+                            (is_between, ":requirements", center_buildings_begin, center_buildings_end),
+                            (str_store_item_name, s10, ":requirements"),
+                            (overlay_set_text, "$g_presentation_building_requirements", "@Requires {s10}"),
+                        (else_try),
+                            (overlay_set_text, "$g_presentation_building_requirements", "@ _"),
+                        (try_end),
+
+                        (call_script, "script_game_get_money_text", ":cost"),
+                        (overlay_set_text, "$g_presentation_building_create_cost", s0),
 
                         (str_store_item_name, s10, ":building_card"),
                         (overlay_set_text, "$g_presentation_building_name", s10),
