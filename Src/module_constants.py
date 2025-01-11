@@ -562,7 +562,8 @@ item_slots = 0
 slot_building_build_time				= 1
 slot_building_enabled 					= slot_building_build_time + 1
 slot_building_cost_gold					= slot_building_enabled + 1
-slot_building_cost_resources_begin		= slot_building_cost_gold + 1
+slot_building_cost_maintenance			= slot_building_cost_gold + 1
+slot_building_cost_resources_begin		= slot_building_cost_maintenance + 1
 slot_building_cost_resources_end  		= slot_building_cost_resources_begin + goods_end - goods_begin
 # following slot contains multiplicative value for each spt_* value it can be build on
 slot_building_center_types				= slot_building_cost_resources_end + 1
@@ -1137,6 +1138,8 @@ slot_party_budget_caravan_wages = slot_party_budget_leader_ransom + 1
 slot_party_budget_loot = slot_party_budget_caravan_wages + 1
 slot_party_budget_export = slot_party_budget_loot + 1
 slot_party_budget_import = slot_party_budget_export + 1
+slot_party_budget_building = slot_party_budget_import + 1
+slot_party_budget_building_maintenance = slot_party_budget_building + 1
 
 tax_type_none = -1
 tax_type_population = 0
@@ -1169,9 +1172,11 @@ tax_type_caravan_wages = 26
 tax_type_loot = 27
 tax_type_export = 28
 tax_type_import = 29
+tax_type_building = 30
+tax_type_building_maintenance = 31
 
 slot_party_buget_taxes_begin = slot_party_budget_taxes
-slot_party_buget_taxes_end = slot_party_budget_import + 1
+slot_party_buget_taxes_end = slot_party_budget_building_maintenance + 1
 
 slot_party_budget_reserved_party = slot_party_buget_taxes_end
 slot_party_budget_reserved_auxiliaries = slot_party_budget_reserved_party + 1

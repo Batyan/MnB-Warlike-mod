@@ -7185,20 +7185,20 @@ scripts = [
             (faction_set_slot, "fac_kingdom_1", slot_faction_troop_ratio_horse_archer, 15),
             (faction_set_slot, "fac_kingdom_1", slot_faction_troop_ratio_mounted_skirmisher, 5),
             
-            (faction_set_slot, "fac_kingdom_2", slot_faction_troop_ratio_infantry, 75),
-            (faction_set_slot, "fac_kingdom_2", slot_faction_troop_ratio_spearman, 25),
+            (faction_set_slot, "fac_kingdom_2", slot_faction_troop_ratio_infantry, 80),
+            (faction_set_slot, "fac_kingdom_2", slot_faction_troop_ratio_spearman, 30),
             (faction_set_slot, "fac_kingdom_2", slot_faction_troop_ratio_pikeman, 5),
             (faction_set_slot, "fac_kingdom_2", slot_faction_troop_ratio_skirmisher, 30),
             (faction_set_slot, "fac_kingdom_2", slot_faction_troop_ratio_shock_infantry, 25),
             (faction_set_slot, "fac_kingdom_2", slot_faction_troop_ratio_archer, 90),
             (faction_set_slot, "fac_kingdom_2", slot_faction_troop_ratio_crossbow, 5),
-            (faction_set_slot, "fac_kingdom_2", slot_faction_troop_ratio_cavalry, 100),
+            (faction_set_slot, "fac_kingdom_2", slot_faction_troop_ratio_cavalry, 90),
             (faction_set_slot, "fac_kingdom_2", slot_faction_troop_ratio_lancer, 25),
             (faction_set_slot, "fac_kingdom_2", slot_faction_troop_ratio_horse_archer, 25),
             (faction_set_slot, "fac_kingdom_2", slot_faction_troop_ratio_mounted_skirmisher, 30),
             
-            (faction_set_slot, "fac_kingdom_3", slot_faction_troop_ratio_infantry, 25),
-            (faction_set_slot, "fac_kingdom_3", slot_faction_troop_ratio_spearman, 65),
+            (faction_set_slot, "fac_kingdom_3", slot_faction_troop_ratio_infantry, 35),
+            (faction_set_slot, "fac_kingdom_3", slot_faction_troop_ratio_spearman, 75),
             (faction_set_slot, "fac_kingdom_3", slot_faction_troop_ratio_pikeman, 5),
             (faction_set_slot, "fac_kingdom_3", slot_faction_troop_ratio_skirmisher, 25),
             (faction_set_slot, "fac_kingdom_3", slot_faction_troop_ratio_shock_infantry, 10),
@@ -7233,17 +7233,17 @@ scripts = [
             (faction_set_slot, "fac_kingdom_5", slot_faction_troop_ratio_horse_archer, 15),
             (faction_set_slot, "fac_kingdom_5", slot_faction_troop_ratio_mounted_skirmisher, 10),
             
-            (faction_set_slot, "fac_kingdom_6", slot_faction_troop_ratio_infantry, 80),
+            (faction_set_slot, "fac_kingdom_6", slot_faction_troop_ratio_infantry, 100),
             (faction_set_slot, "fac_kingdom_6", slot_faction_troop_ratio_spearman, 10),
             (faction_set_slot, "fac_kingdom_6", slot_faction_troop_ratio_pikeman, 10),
-            (faction_set_slot, "fac_kingdom_6", slot_faction_troop_ratio_skirmisher, 100),
+            (faction_set_slot, "fac_kingdom_6", slot_faction_troop_ratio_skirmisher, 90),
             (faction_set_slot, "fac_kingdom_6", slot_faction_troop_ratio_shock_infantry, 20),
-            (faction_set_slot, "fac_kingdom_6", slot_faction_troop_ratio_archer, 40),
+            (faction_set_slot, "fac_kingdom_6", slot_faction_troop_ratio_archer, 50),
             (faction_set_slot, "fac_kingdom_6", slot_faction_troop_ratio_crossbow, 5),
-            (faction_set_slot, "fac_kingdom_6", slot_faction_troop_ratio_cavalry, 90),
+            (faction_set_slot, "fac_kingdom_6", slot_faction_troop_ratio_cavalry, 75),
             (faction_set_slot, "fac_kingdom_6", slot_faction_troop_ratio_lancer, 30),
             (faction_set_slot, "fac_kingdom_6", slot_faction_troop_ratio_horse_archer, 25),
-            (faction_set_slot, "fac_kingdom_6", slot_faction_troop_ratio_mounted_skirmisher, 100),
+            (faction_set_slot, "fac_kingdom_6", slot_faction_troop_ratio_mounted_skirmisher, 90),
 
             (faction_set_slot, "fac_faction_8", slot_faction_troop_ratio_infantry,          90),
             (faction_set_slot, "fac_faction_8", slot_faction_troop_ratio_spearman,          30),
@@ -7347,7 +7347,7 @@ scripts = [
             
             (call_script, "script_faction_change_slot", "fac_small_kingdom_33", slot_faction_troop_ratio_mounted_skirmisher, 30),
             (call_script, "script_faction_change_slot", "fac_small_kingdom_33", slot_faction_troop_ratio_cavalry, -30),
-            (call_script, "script_faction_change_slot", "fac_small_kingdom_33", slot_faction_troop_ratio_lancer, -10),
+            (call_script, "script_faction_change_slot", "fac_small_kingdom_33", slot_faction_troop_ratio_lancer, -30),
             
             (call_script, "script_faction_change_slot", "fac_small_kingdom_34", slot_faction_troop_ratio_horse_archer, -15),
             (call_script, "script_faction_change_slot", "fac_small_kingdom_34", slot_faction_troop_ratio_cavalry, -10),
@@ -7419,7 +7419,7 @@ scripts = [
             (call_script, "script_faction_change_slot", "fac_small_kingdom_55", slot_faction_troop_ratio_infantry, -5),
             
             (call_script, "script_faction_change_slot", "fac_small_kingdom_61", slot_faction_troop_ratio_horse_archer, 50),
-            (call_script, "script_faction_change_slot", "fac_small_kingdom_61", slot_faction_troop_ratio_mounted_skirmisher, -40),
+            (call_script, "script_faction_change_slot", "fac_small_kingdom_61", slot_faction_troop_ratio_mounted_skirmisher, -50),
             (call_script, "script_faction_change_slot", "fac_small_kingdom_61", slot_faction_troop_ratio_lancer, 5),
             
             (call_script, "script_faction_change_slot", "fac_small_kingdom_62", slot_faction_troop_ratio_archer, 40),
@@ -12251,6 +12251,12 @@ scripts = [
             (item_set_slot, "itm_building_trading_post_2", slot_building_enabled, 1),
             (item_set_slot, "itm_building_trading_post_2", slot_building_required_building, "itm_building_trading_post"),
 
+            (item_set_slot, "itm_building_bank", ":wood_slot", 450),
+            (item_set_slot, "itm_building_bank", ":stone_slot", 350),
+            (item_set_slot, "itm_building_bank", slot_building_cost_gold, 12500),
+            (item_set_slot, "itm_building_bank", slot_building_build_time, 700),
+            (item_set_slot, "itm_building_bank", slot_building_enabled, 1),
+
             (try_for_range, ":building", center_buildings_begin, center_buildings_end),
                 (assign, ":value", 1),
                 (try_begin),
@@ -12266,6 +12272,10 @@ scripts = [
                     (val_mul, ":value", spt_town),
                 (try_end),
                 (item_set_slot, ":building", slot_building_center_types, ":value"),
+
+                (item_get_slot, ":cost", ":building", slot_building_cost_gold),
+                (val_div, ":cost", 200),
+                (item_set_slot, ":building", slot_building_cost_maintenance, ":cost"),
             (try_end),
         ]),
     
@@ -26400,6 +26410,37 @@ scripts = [
             (party_get_slot, ":state", ":party_no", ":building_slot"),
             (val_max, ":state", 0),
             (assign, reg0, ":state"),
+        ]),
+
+    # script_party_create_building
+        # input:
+        #   arg1: party_no
+        #   arg2: building
+        # output: none
+    ("party_create_building",
+        [
+            (store_script_param, ":party_no", 1),
+            (store_script_param, ":building", 2),
+
+            (item_get_slot, ":build_time", ":building", slot_building_build_time),
+            (val_mul, ":build_time", -1),
+
+            (store_sub, ":offset", ":building", center_buildings_begin),
+            (store_add, ":building_slot", ":offset", slot_party_building_slot_begin),
+            (party_set_slot, ":party_no", ":building_slot", ":build_time"),
+
+            (item_get_slot, ":cost", ":building", slot_building_cost_gold),
+            (val_mul, ":cost", -1),
+
+            (call_script, "script_party_add_accumulated_taxes", ":party_no", ":cost", tax_type_building),
+
+            (try_begin),
+                (party_get_slot, ":leader", ":party_no", slot_party_leader),
+                (eq, ":leader", "$g_player_troop"),
+
+                (str_store_item_name, s10, ":building"),
+                (display_message, "@Starting construction of {s10}"),
+            (try_end),
         ]),
 
     # script_presentation_generate_select_lord_card

@@ -28,6 +28,7 @@ button_padding = 12
 button_size = 80
 
 line_height = 30
+line_small_height = 20
 category_height = line_height + 20
 
 presentations = [
@@ -2727,13 +2728,19 @@ presentations = [
                     (call_script, "script_presentation_create_text_overlay", tf_left_align, ":cur_x", ":cur_y", 800, 800),
                     (assign, "$g_presentation_building_requirements", reg0),
 
-                    (val_add, ":cur_y", line_height),
+                    (val_add, ":cur_y", line_small_height),
 
                     (str_store_string, s10, "@ _"),
                     (call_script, "script_presentation_create_text_overlay", tf_left_align, ":cur_x", ":cur_y", 800, 800),
                     (assign, "$g_presentation_building_create_time", reg0),
 
-                    (val_add, ":cur_y", line_height),
+                    (val_add, ":cur_y", line_small_height),
+
+                    (str_store_string, s10, "@ _"),
+                    (call_script, "script_presentation_create_text_overlay", tf_left_align, ":cur_x", ":cur_y", 800, 800),
+                    (assign, "$g_presentation_building_create_maintenance", reg0),
+
+                    (val_add, ":cur_y", line_small_height),
 
                     (str_store_string, s10, "@ _"),
                     (call_script, "script_presentation_create_text_overlay", tf_left_align, ":cur_x", ":cur_y", 800, 800),
@@ -2773,17 +2780,9 @@ presentations = [
                     (try_begin),
                         (is_between, ":building_button", center_buildings_begin, center_buildings_end),
 
-                        (item_get_slot, ":build_time", ":building_button", slot_building_build_time),
-                        (val_mul, ":build_time", -1),
+                        (call_script, "script_party_create_building", ":current_center", ":building_button"),
 
-                        (store_sub, ":offset", ":building_button", center_buildings_begin),
-                        (store_add, ":building_slot", ":offset", slot_party_building_slot_begin),
-                        (party_set_slot, ":current_center", ":building_slot", ":build_time"),
-
-                        (str_store_item_name, s10, ":building_button"),
-                        (display_message, "@Starting construction of {s10}"),
                         (start_presentation, "prsnt_center_constructions"),
-
                     (else_try),
                         (eq, ":object", "$g_presentation_ok"),
 
@@ -2818,6 +2817,7 @@ presentations = [
                         (item_get_slot, ":creation_time", ":building_card", slot_building_build_time),
                         (item_get_slot, ":requirements", ":building_card", slot_building_required_building),
                         (item_get_slot, ":cost", ":building_card", slot_building_cost_gold),
+                        (item_get_slot, ":maintenance", ":building_card", slot_building_cost_maintenance),
 
                         (overlay_set_text, "$g_presentation_building_description", ":building_description"),
 
@@ -2835,6 +2835,10 @@ presentations = [
 
                         (call_script, "script_game_get_money_text", ":cost"),
                         (overlay_set_text, "$g_presentation_building_create_cost", s0),
+
+                        (call_script, "script_game_get_money_text", ":maintenance"),
+                        (str_store_string, s10, "@{s0} per month"),
+                        (overlay_set_text, "$g_presentation_building_create_maintenance", s10),
 
                         (str_store_item_name, s10, ":building_card"),
                         (overlay_set_text, "$g_presentation_building_name", s10),

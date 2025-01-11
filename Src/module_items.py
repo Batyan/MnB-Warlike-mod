@@ -1295,6 +1295,7 @@ items = [
     ["building_order", "Order", [("shield_round_a",0)], 0, 0, 1, 0, 0 ],                        # Increases noble units trained, allows special mercenary units to appear
     ["building_tavern_2", "Tavern (2)", [("shield_round_a",0)], 0, 0, 1, 0, 0 ],                # Increases prosperity by 10% allows more people in taverns, increases frequency of people in tavern
     ["building_trading_post_2", "Trading Post (2)", [("shield_round_a",0)], 0, 0, 1, 0, 0 ],    # Increases trade profits of caravans by 10%, allows bigger escorts
+    ["building_bank", "Bank", [("shield_round_a",0)], 0, 0, 1, 0, 0 ],                          # Adds small income from bank taxes, adds the bank options
     
     ["buildings_end", "END", [("shield_round_a",0)], 0, 0, 1, 0, 0 ],
 
