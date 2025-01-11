@@ -3516,7 +3516,7 @@ troops = [
     itm_sarranid_cloth_robe, itm_sarranid_cloth_robe_b, itm_skirmisher_armor,
     itm_sarranid_felt_hat, itm_turban, itm_desert_turban,
     ],
-   str_9|agi_10|int_5|cha_6|level(7), wpex(70,60,65,25,15,40), knows_common|knows_ironflesh_1|knows_power_strike_4|knows_athletics_4|knows_riding_1, sarranid_face_young_1, sarranid_face_old_2 ],
+   str_9|agi_10|int_5|cha_6|level(7), wpex(70,60,65,25,15,40), knows_common|knows_ironflesh_2|knows_power_strike_3|knows_athletics_4|knows_riding_1, sarranid_face_young_1, sarranid_face_old_2 ],
   
   # Basic ranged, daggers, maces, bows
   ["sarranid_militia", "Sarranid Militia", "Sarranid Militias", tf_guarantee_recruit_armor|tf_guarantee_ranged, no_scene, reserved, fac_kingdom_6,

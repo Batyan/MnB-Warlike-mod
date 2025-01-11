@@ -6,6 +6,8 @@ v0.560:
 	-Balance:
 		* increase become vassal persuasion chance on selecting no promise (5 x choices left -> 15 x choices left)
 		* increase become vassal persuasion chance for low rank npcs with no lord
+		* reduce sarranid_levy powerstrike (4 -> 3)
+		* increase sarranid_levy ironflesh (1 -> 2)
 	-Fixes:
 		* fix reports menu bringing up the character introduction menu
 v0.550:
