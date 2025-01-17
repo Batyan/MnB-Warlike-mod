@@ -3,6 +3,7 @@ v0.560:
 		* add player character introduction choices and effects
 		* allow player to set the court location
 		* add building construction menu
+		* add starting equipment
 	-Balance:
 		* increase become vassal persuasion chance on selecting no promise (5 x choices left -> 15 x choices left)
 		* increase become vassal persuasion chance for low rank npcs with no lord
