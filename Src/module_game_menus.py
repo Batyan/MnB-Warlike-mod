@@ -1540,9 +1540,12 @@ game_menus = [
                     (jump_to_menu, "mnu_town_market"),
                 ]),
             
-            ("center_bank", [(disable_menu_option),], "Go to the bank",
+            ("center_bank", 
                 [
-                    # (jump_to_menu, "mnu_town_bank"),
+                    (call_script, "script_cf_party_has_building", "$g_encountered_party", "itm_building_bank"),
+                ], "Go to the bank",
+                [
+                    (jump_to_menu, "mnu_town_bank"),
                 ]),
             
             ("center_inn", 
@@ -1678,6 +1681,129 @@ game_menus = [
                     (change_screen_trade, reg0),
                 ]),
             
+            ("center_back", [], "Head back to the center",
+                [
+                    (jump_to_menu, "mnu_town_center"),
+                ]),
+        ]),
+
+    ("town_bank", mnf_scale_picture,
+        "You are in the bank of {s10}.^^You currently have {s11} in the bank.^You are expected to receive {s12} at the end of the year as interests.",
+        "none",
+        [
+            (str_store_party_name, s10, "$g_encountered_party"),
+            (party_get_slot, ":bank_amount", "$g_encountered_party", slot_party_bank_amount),
+            (call_script, "script_game_get_money_text", ":bank_amount"),
+            (str_store_string_reg, s11, s0),
+
+            (call_script, "script_party_get_bank_interests", "$g_encountered_party", ":bank_amount"),
+            (call_script, "script_game_get_money_text", reg0),
+            (str_store_string_reg, s12, s0),
+            
+        ],
+        [
+            ("bank_deposit_all",
+                [
+                    (store_troop_gold, ":player_gold", "$g_player_troop"),
+                    (try_begin),
+                        (le, ":player_gold", 0),
+                        (disable_menu_option),
+                    (try_end),
+                    (call_script, "script_game_get_money_text", ":player_gold"),
+                ], "Deposit all ({s0})",
+                [
+                    (store_troop_gold, ":player_gold", "$g_player_troop"),
+                    (party_get_slot, ":current_amount", "$g_encountered_party", slot_party_bank_amount),
+                    (val_add, ":current_amount", ":player_gold"),
+                    (party_set_slot, "$g_encountered_party", slot_party_bank_amount, ":current_amount"),
+                    (troop_remove_gold, "$g_player_troop", ":player_gold"),
+                    (jump_to_menu, "mnu_town_bank"),
+                ]),
+            ("bank_deposit_x10",
+                [
+                    (store_troop_gold, ":player_gold", "$g_player_troop"),
+                    (try_begin),
+                        (lt, ":player_gold", 10000),
+                        (disable_menu_option),
+                    (try_end),
+                    (call_script, "script_game_get_money_text", 10000),
+                ], "Deposit {s0}",
+                [
+                    (assign, ":player_gold", 10000),
+                    (party_get_slot, ":current_amount", "$g_encountered_party", slot_party_bank_amount),
+                    (val_add, ":current_amount", ":player_gold"),
+                    (party_set_slot, "$g_encountered_party", slot_party_bank_amount, ":current_amount"),
+                    (troop_remove_gold, "$g_player_troop", ":player_gold"),
+                    (jump_to_menu, "mnu_town_bank"),
+                ]),
+            ("bank_deposit",
+                [
+                    (store_troop_gold, ":player_gold", "$g_player_troop"),
+                    (try_begin),
+                        (lt, ":player_gold", 1000),
+                        (disable_menu_option),
+                    (try_end),
+                    (call_script, "script_game_get_money_text", 1000),
+                ], "Deposit {s0}",
+                [
+                    (assign, ":player_gold", 1000),
+                    (party_get_slot, ":current_amount", "$g_encountered_party", slot_party_bank_amount),
+                    (val_add, ":current_amount", ":player_gold"),
+                    (party_set_slot, "$g_encountered_party", slot_party_bank_amount, ":current_amount"),
+                    (troop_remove_gold, "$g_player_troop", ":player_gold"),
+                    (jump_to_menu, "mnu_town_bank"),
+                ]),
+
+            ("bank_withdraw",
+                [
+                    (party_get_slot, ":current_amount", "$g_encountered_party", slot_party_bank_amount),
+                    (try_begin),
+                        (lt, ":current_amount", 1000),
+                        (disable_menu_option),
+                    (try_end),
+                    (call_script, "script_game_get_money_text", 1000),
+                ], "Withdraw {s0}",
+                [
+                    (party_get_slot, ":current_amount", "$g_encountered_party", slot_party_bank_amount),
+                    (val_sub, ":current_amount", 1000),
+                    (party_set_slot, "$g_encountered_party", slot_party_bank_amount, ":current_amount"),
+                    (troop_add_gold, "$g_player_troop", 1000),
+                    (jump_to_menu, "mnu_town_bank"),
+                ]),
+            ("bank_withdraw_x10",
+                [
+                    (party_get_slot, ":current_amount", "$g_encountered_party", slot_party_bank_amount),
+                    (try_begin),
+                        (lt, ":current_amount", 10000),
+                        (disable_menu_option),
+                    (try_end),
+                    (call_script, "script_game_get_money_text", 10000),
+                ], "Withdraw {s0}",
+                [
+                    (party_get_slot, ":current_amount", "$g_encountered_party", slot_party_bank_amount),
+                    (val_sub, ":current_amount", 10000),
+                    (party_set_slot, "$g_encountered_party", slot_party_bank_amount, ":current_amount"),
+                    (troop_add_gold, "$g_player_troop", 10000),
+                    (jump_to_menu, "mnu_town_bank"),
+                ]),
+
+            ("bank_withdraw_all",
+                [
+                    (party_get_slot, ":current_amount", "$g_encountered_party", slot_party_bank_amount),
+                    (try_begin),
+                        (le, ":current_amount", 0),
+                        (disable_menu_option),
+                    (try_end),
+                    (call_script, "script_game_get_money_text", ":current_amount"),
+                ], "Withdraw all ({s0})",
+                [
+                    (party_get_slot, ":current_amount", "$g_encountered_party", slot_party_bank_amount),
+                    (party_set_slot, "$g_encountered_party", slot_party_bank_amount, 0),
+                    (troop_add_gold, "$g_player_troop", ":current_amount"),
+                    (jump_to_menu, "mnu_town_bank"),
+                ]),
+
+
             ("center_back", [], "Head back to the center",
                 [
                     (jump_to_menu, "mnu_town_center"),

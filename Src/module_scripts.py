@@ -12279,7 +12279,7 @@ scripts = [
             (try_end),
         ]),
     
-    # script_party_has_building
+    # script_cf_party_has_building
     # input:
     #   arg1: party_no
     #   arg2: building
@@ -12304,6 +12304,7 @@ scripts = [
             (try_end),
             
             (assign, reg0, ":has_building"),
+            (gt, ":has_building", 0),
         ]),
     
     # script_cf_party_need_troops
@@ -27620,6 +27621,30 @@ scripts = [
                 (str_store_item_name, s10, ":building"),
                 (display_message, "@Starting construction of {s10}"),
             (try_end),
+        ]),
+
+    # script_party_get_bank_interests
+        # input:
+        #   arg1: party_no
+        #   arg2: amount
+        # output:
+        #   reg0: interests
+    ("party_get_bank_interests",
+        [
+            (store_script_param, ":party_no", 1),
+            (store_script_param, ":amount", 2),
+
+            (party_get_slot, ":prosperity", ":party_no", slot_party_prosperity),
+            (val_div, ":prosperity", 10),
+
+            (assign, ":divider", 20),
+            (val_sub, ":divider", ":prosperity"),
+
+            (set_fixed_point_multiplier, 1),
+            (store_sqrt, ":interests", ":amount"),
+            (val_div, ":interests", ":divider"),
+
+            (assign, reg0, ":interests"),
         ]),
 
     # script_presentation_generate_select_lord_card

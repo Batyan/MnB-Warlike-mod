@@ -1343,6 +1343,8 @@ slot_party_merchant_2 = slot_party_merchant_1 + 1
 slot_party_merchant_3 = slot_party_merchant_2 + 1
 slot_party_merchant_4 = slot_party_merchant_3 + 1
 
+slot_party_bank_amount = slot_party_merchant_4 + 1
+
 #################
 ## Scene Slots ##
 #################
