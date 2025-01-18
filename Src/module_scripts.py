@@ -119,6 +119,16 @@ scripts = [
             (try_end),
 
             (party_set_slot, "$g_player_party", slot_party_leader, "$g_player_troop"),
+
+            # Initial buildings
+            (store_sub, ":bank_offset", "itm_building_bank", center_buildings_begin),
+            (store_add, ":bank_slot", ":bank_offset", slot_party_building_slot_begin),
+            (party_set_slot, "p_town_11", ":bank_slot", 100),
+            (party_set_slot, "p_town_21", ":bank_slot", 100),
+            (party_set_slot, "p_town_31", ":bank_slot", 100),
+            (party_set_slot, "p_town_41", ":bank_slot", 100),
+            (party_set_slot, "p_town_51", ":bank_slot", 100),
+            (party_set_slot, "p_town_61", ":bank_slot", 100),
             
             (assign, "$g_global_haze_amount", 0),
             (assign, "$g_global_cloud_amount", 0),
@@ -12285,24 +12295,15 @@ scripts = [
     #   arg2: building
     # output:
     #   reg0: building_state
-    ("party_has_building",
+    ("cf_party_has_building",
         [
             (store_script_param, ":party_no", 1),
             (store_script_param, ":building", 2),
-            
-            (assign, ":has_building", -1),
-            
-            (assign, ":end", slot_party_building_slot_end),
-            (try_for_range, ":building_slot", slot_party_building_slot_begin, ":end"),
-                (party_get_slot, ":cur_building", ":party_no", ":building_slot"),
-                (try_begin),
-                    (eq, ":cur_building", ":building"),
-                    (val_add, ":building_slot", num_building_slots),
-                    (party_get_slot, ":has_building", ":party_no", ":building_slot"), # gets building state
-                    (assign, ":end", 0),
-                (try_end),
-            (try_end),
-            
+
+            (store_sub, ":offset", ":building", center_buildings_begin),
+            (store_add, ":slot", ":offset", slot_party_building_slot_begin),
+            (party_get_slot, ":has_building", ":party_no", ":slot"),
+
             (assign, reg0, ":has_building"),
             (gt, ":has_building", 0),
         ]),
@@ -27634,15 +27635,26 @@ scripts = [
             (store_script_param, ":party_no", 1),
             (store_script_param, ":amount", 2),
 
-            (party_get_slot, ":prosperity", ":party_no", slot_party_prosperity),
-            (val_div, ":prosperity", 10),
+            (val_min, ":amount", 3000000), # interests are capped at 3000000
 
-            (assign, ":divider", 20),
-            (val_sub, ":divider", ":prosperity"),
+            (party_get_slot, ":prosperity", ":party_no", slot_party_prosperity),
+            # (val_div, ":prosperity", 10),
+
+            (store_add, ":base_rate", 100, ":prosperity"),
+            (val_div, ":base_rate", 2),
+            (val_mul, ":base_rate", 5), # We go from 5 to 2.5% base rate
 
             (set_fixed_point_multiplier, 1),
-            (store_sqrt, ":interests", ":amount"),
-            (val_div, ":interests", ":divider"),
+            (store_sqrt, ":modifier", ":amount"),
+            (store_sub, ":modifier", 2000, ":modifier"),
+
+            (store_mul, ":rate", ":modifier", 100),
+            (val_div, ":rate", 2000),
+
+            (val_mul, ":rate", ":base_rate"),
+
+            (store_mul, ":interests", ":amount", ":rate"),
+            (val_div, ":interests", 100*100*100),
 
             (assign, reg0, ":interests"),
         ]),

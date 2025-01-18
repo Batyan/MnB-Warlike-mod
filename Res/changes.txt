@@ -9,6 +9,7 @@ v0.560:
 		* increase become vassal persuasion chance for low rank npcs with no lord
 		* reduce sarranid_levy powerstrike (4 -> 3)
 		* increase sarranid_levy ironflesh (1 -> 2)
+		* add banks in main factions capital
 	-Fixes:
 		* fix reports menu bringing up the character introduction menu
 v0.550:
