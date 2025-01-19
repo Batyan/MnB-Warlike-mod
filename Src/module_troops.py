@@ -414,7 +414,7 @@ undead_face1  = 0x00000000002000000000000000000000
 undead_face2  = 0x000000000020010000001fffffffffff
 
 
-base_troop_attributes = str_7|agi_7|int_6|cha_5
+base_troop_attributes = str_6|agi_6|int_4|cha_4
 
 ############
 ## Troops ##
@@ -425,7 +425,7 @@ troops = [
     ## Hardcoded ##
     ###############
   ["player","Player","Player",tf_hero|tf_unmoveable_in_party_window,no_scene,reserved,fac_player_faction,
-   [itm_leather_boots, itm_leather_gloves, itm_leather_armor_herald],
+   [itm_leather_boots, itm_leather_gloves, itm_linen_tunic, itm_sword_medieval_a],
    str_5|agi_5|int_60|cha_5|level(1),wp(10),0,0x000000018000000136db6db6db6db6db00000000001db6db0000000000000000 ],
   ["multiplayer_profile_troop_male","multiplayer_profile_troop_male","multiplayer_profile_troop_male", tf_hero|tf_guarantee_all, 0, 0,fac_commoners,
    [itm_linen_tunic, itm_coarse_tunic, itm_tabard, itm_fur_coat, itm_leather_boots, itm_leather_gloves],
@@ -446,7 +446,7 @@ troops = [
    def_attrib, wp(70), knows_common, 0, 0 ],
   ["current_player","Player","Player",tf_hero|tf_unmoveable_in_party_window,no_scene,reserved,fac_player_faction,
    [itm_sword_medieval_b, itm_tab_shield_heater_cav_a, itm_light_lance, itm_leather_boots, itm_leather_gloves, itm_leather_armor_herald, itm_saddle_horse],
-   base_troop_attributes|level(1),wp(10),0,0x000000018000000136db6db6db6db6db00000000001db6db0000000000000000 ],
+   base_troop_attributes|level(1),wp(5),knows_power_strike_1|knows_power_draw_1|knows_athletics_1|knows_riding_1,0x000000018000000136db6db6db6db6db00000000001db6db0000000000000000 ],
   #########
   # Lords #
   #########
@@ -3516,7 +3516,7 @@ troops = [
     itm_sarranid_cloth_robe, itm_sarranid_cloth_robe_b, itm_skirmisher_armor,
     itm_sarranid_felt_hat, itm_turban, itm_desert_turban,
     ],
-   str_9|agi_10|int_5|cha_6|level(7), wpex(70,60,65,25,15,40), knows_common|knows_ironflesh_1|knows_power_strike_4|knows_athletics_4|knows_riding_1, sarranid_face_young_1, sarranid_face_old_2 ],
+   str_9|agi_10|int_5|cha_6|level(7), wpex(70,60,65,25,15,40), knows_common|knows_ironflesh_2|knows_power_strike_3|knows_athletics_4|knows_riding_1, sarranid_face_young_1, sarranid_face_old_2 ],
   
   # Basic ranged, daggers, maces, bows
   ["sarranid_militia", "Sarranid Militia", "Sarranid Militias", tf_guarantee_recruit_armor|tf_guarantee_ranged, no_scene, reserved, fac_kingdom_6,
@@ -4861,42 +4861,42 @@ troops = [
     itm_coarse_tunic, itm_leather_apron, itm_red_shirt
     
     ],
-   str_9|agi_7|int_5|cha_5|level(2), wpex(50,55,45,80,65,35), knows_common|knows_ironflesh_1|knows_power_strike_2|knows_power_draw_4|knows_athletics_2|knows_riding_1, swadian_face_young_1, swadian_face_old_2 ],
+   str_9|agi_7|int_5|cha_5|level(2), wpex(50,55,45,45,45,30), knows_common|knows_ironflesh_1|knows_power_strike_2|knows_athletics_2|knows_riding_1, swadian_face_young_1, swadian_face_old_2 ],
   ["vaegir_peasant", "Vaegir Peasant", "Vaegir Peasants", tf_guarantee_recruit_armor, no_scene, reserved, fac_kingdom_2,
    [itm_pitch_fork, itm_sickle, itm_hatchet,
     itm_wrapping_boots, itm_hide_boots,
     itm_fur_coat, itm_linen_tunic
     
     ],
-   str_9|agi_7|int_5|cha_5|level(2), wpex(50,55,45,80,65,35), knows_common|knows_ironflesh_1|knows_power_strike_2|knows_power_draw_4|knows_athletics_2|knows_riding_1, vaegir_face_young_1, vaegir_face_old_2 ],
+   str_9|agi_7|int_5|cha_5|level(2), wpex(50,55,45,50,40,35), knows_common|knows_ironflesh_1|knows_power_strike_2|knows_athletics_2|knows_riding_1, vaegir_face_young_1, vaegir_face_old_2 ],
   ["khergit_peasant", "Khergit Peasant", "Khergit Peasants", tf_guarantee_recruit_armor, no_scene, reserved, fac_kingdom_3,
    [itm_pitch_fork, itm_sickle, itm_butchering_knife,
     itm_wrapping_boots, itm_hide_boots,
     itm_coarse_tunic, itm_linen_tunic
     
     ],
-   str_9|agi_7|int_5|cha_5|level(2), wpex(50,55,45,80,65,35), knows_common|knows_ironflesh_1|knows_power_strike_2|knows_power_draw_4|knows_athletics_2|knows_riding_1, khergit_face_young_1, khergit_face_old_2 ],
+   str_9|agi_7|int_5|cha_5|level(2), wpex(50,55,45,50,40,35), knows_common|knows_ironflesh_1|knows_power_strike_2|knows_athletics_2|knows_riding_1, khergit_face_young_1, khergit_face_old_2 ],
   ["nord_peasant", "Nord Peasant", "Nord Peasants", tf_guarantee_recruit_armor, no_scene, reserved, fac_kingdom_4,
    [itm_pitch_fork, itm_cleaver, itm_hatchet,
     itm_wrapping_boots, itm_hide_boots,
     itm_coarse_tunic, itm_leather_apron, itm_fur_coat
     
     ],
-   str_9|agi_7|int_5|cha_5|level(2), wpex(50,55,45,80,65,35), knows_common|knows_ironflesh_1|knows_power_strike_2|knows_power_draw_4|knows_athletics_2|knows_riding_1, nord_face_young_1, nord_face_old_2 ],
+   str_9|agi_7|int_5|cha_5|level(2), wpex(50,55,45,45,40,40), knows_common|knows_ironflesh_1|knows_power_strike_2|knows_athletics_2|knows_riding_1, nord_face_young_1, nord_face_old_2 ],
   ["rhodok_peasant", "Rhodok Peasant", "Rhodok Peasants", tf_guarantee_recruit_armor, no_scene, reserved, fac_kingdom_5,
    [itm_pitch_fork, itm_sickle, itm_butchering_knife,
     itm_wrapping_boots, itm_hide_boots,
     itm_coarse_tunic, itm_tabard, itm_tunic_with_green_cape
     
     ],
-   str_9|agi_7|int_5|cha_5|level(2), wpex(50,55,45,80,65,35), knows_common|knows_ironflesh_1|knows_power_strike_2|knows_power_draw_4|knows_athletics_2|knows_riding_1, rhodok_face_young_1, rhodok_face_old_2 ],
+   str_9|agi_7|int_5|cha_5|level(2), wpex(50,55,45,45,50,30), knows_common|knows_ironflesh_1|knows_power_strike_2|knows_athletics_2|knows_riding_1, rhodok_face_young_1, rhodok_face_old_2 ],
   ["sarranid_peasant", "Sarranid Peasant", "Sarranid Peasants", tf_guarantee_recruit_armor, no_scene, reserved, fac_kingdom_6,
    [itm_pitch_fork, itm_sickle, itm_hatchet,
     itm_wrapping_boots, itm_hide_boots,
     itm_sarranid_cloth_robe, itm_sarranid_cloth_robe_b
     
     ],
-   str_9|agi_7|int_5|cha_5|level(2), wpex(50,55,45,80,65,35), knows_common|knows_ironflesh_1|knows_power_strike_2|knows_power_draw_4|knows_athletics_2|knows_riding_1, sarranid_face_young_1, sarranid_face_old_2 ],
+   str_9|agi_7|int_5|cha_5|level(2), wpex(50,55,45,50,40,40), knows_common|knows_ironflesh_1|knows_power_strike_2|knows_athletics_2|knows_riding_1, sarranid_face_young_1, sarranid_face_old_2 ],
   
   #############
   # Templates #

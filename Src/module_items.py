@@ -15,11 +15,11 @@ imodbits_armor              =                   imodbit_rusty | imodbit_battered
 imodbits_plate              = imodbit_cracked | imodbit_rusty | imodbit_battered | imodbit_crude | imodbit_thick | imodbit_reinforced |imodbit_lordly
 imodbits_polearm            = imodbit_cracked | imodbit_bent | imodbit_balanced
 imodbits_shield             = imodbit_cracked | imodbit_battered | imodbit_thick | imodbit_reinforced
-imodbits_sword              = imodbit_rusty | imodbit_chipped |                 imodbit_balanced | imodbit_tempered |   imodbit_fine
+imodbits_sword              = imodbit_rusty | imodbit_chipped | imodbit_balanced | imodbit_tempered | imodbit_fine
 imodbits_sword_high         = imodbits_sword | imodbit_masterwork
-imodbits_axe                = imodbit_rusty | imodbit_chipped | imodbit_heavy | imodbit_balanced |                      imodbit_fine
-imodbits_mace               = imodbit_rusty | imodbit_chipped | imodbit_heavy | imodbit_balanced |                      imodbit_fine
-imodbits_pick               = imodbit_rusty | imodbit_chipped | imodbit_heavy | imodbit_balanced |                      imodbit_fine
+imodbits_axe                = imodbit_rusty | imodbit_chipped | imodbit_heavy | imodbit_balanced | imodbit_fine
+imodbits_mace               = imodbit_rusty | imodbit_chipped | imodbit_heavy | imodbit_balanced | imodbit_fine
+imodbits_pick               = imodbit_rusty | imodbit_chipped | imodbit_heavy | imodbit_balanced | imodbit_fine
 imodbits_bow_wo_strong      = imodbit_cracked | imodbit_bent | imodbit_fine # | imodbit_masterwork
 imodbits_bow                = imodbits_bow_wo_strong # | imodbit_strong
 imodbits_crossbow           = imodbit_cracked | imodbit_bent | imodbit_masterwork | imodbit_fine
@@ -849,7 +849,7 @@ items = [
      495 , weight(4.5)|difficulty(10)|spd_rtng(91) | weapon_length(114)|swing_damage(41 , cut) | thrust_damage(0, pierce),imodbits_sword_high , [], [fac_kingdom_5] ],
     
     ["bamboo_spear",                "Bamboo Spear", [("arabian_spear_a_3m",0)], itp_couchable|itp_type_polearm|itp_offset_lance|itp_merchandise| itp_primary|itp_penalty_with_shield|itp_wooden_parry, itc_spear|itcf_carry_spear,
-     440 , weight(2.65)|difficulty(10)|spd_rtng(76) | weapon_length(200)|swing_damage(0, blunt) | thrust_damage(31, pierce),imodbits_polearm ],
+     440 , weight(2.65)|difficulty(10)|spd_rtng(76) | weapon_length(200)|swing_damage(0, blunt) | thrust_damage(31, pierce),imodbits_polearm, [], [fac_kingdom_6]],
     
     ["light_lance",                 "Light Lance", [("spear_b_2-75m",0)], itp_couchable|itp_type_polearm|itp_offset_lance|itp_merchandise| itp_primary|itp_penalty_with_shield|itp_wooden_parry, itc_spear|itcf_carry_spear,
      210 , weight(2.6)|difficulty(9)|spd_rtng(88) | weapon_length(175)|swing_damage(0, blunt) | thrust_damage(33, pierce),imodbits_polearm ],
@@ -908,7 +908,7 @@ items = [
     ["war_spear",                   "War Spear", [("spear_i_2-3m",0)], itp_type_polearm|itp_offset_lance|itp_merchandise| itp_primary|itp_wooden_parry, itc_staff|itcf_carry_spear,
      210 , weight(2.2)|difficulty(7)|spd_rtng(97) | weapon_length(150)|swing_damage(17, blunt) | thrust_damage(39, pierce),imodbits_polearm , [], [fac_kingdom_1, fac_kingdom_2, fac_kingdom_3, fac_kingdom_4, fac_kingdom_5] ],
     ["double_sided_spear",          "Double Sided Spear", [("lance_dblhead",0)], itp_type_polearm|itp_offset_lance|itp_merchandise| itp_primary|itp_wooden_parry, itc_staff|itcf_carry_spear, 
-     265 , weight(2.7)|difficulty(0)|spd_rtng(98) | weapon_length(129)|swing_damage(14, blunt) | thrust_damage(41, pierce),imodbits_polearm , [], [fac_kingdom_5] ],
+     265 , weight(2.7)|difficulty(7)|spd_rtng(98) | weapon_length(129)|swing_damage(14, blunt) | thrust_damage(41, pierce),imodbits_polearm , [], [fac_kingdom_5] ],
     
     ["awlpike",                     "Awlpike", [("awl_pike_b",0)], itp_type_polearm|itp_offset_lance|itp_merchandise|itp_cant_use_on_horseback| itp_primary|itp_wooden_parry, itc_spear|itcf_carry_spear,
      315 , weight(3.3)|difficulty(10)|spd_rtng(92) | weapon_length(164)|swing_damage(0, blunt) | thrust_damage(40, pierce),imodbits_polearm , [], [fac_kingdom_1] ],
@@ -1295,6 +1295,7 @@ items = [
     ["building_order", "Order", [("shield_round_a",0)], 0, 0, 1, 0, 0 ],                        # Increases noble units trained, allows special mercenary units to appear
     ["building_tavern_2", "Tavern (2)", [("shield_round_a",0)], 0, 0, 1, 0, 0 ],                # Increases prosperity by 10% allows more people in taverns, increases frequency of people in tavern
     ["building_trading_post_2", "Trading Post (2)", [("shield_round_a",0)], 0, 0, 1, 0, 0 ],    # Increases trade profits of caravans by 10%, allows bigger escorts
+    ["building_bank", "Bank", [("shield_round_a",0)], 0, 0, 1, 0, 0 ],                          # Adds small income from bank taxes, adds the bank options
     
     ["buildings_end", "END", [("shield_round_a",0)], 0, 0, 1, 0, 0 ],
 

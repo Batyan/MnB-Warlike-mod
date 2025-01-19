@@ -260,15 +260,17 @@ relation_change_war_declared = relation_change_factor * -25
 relation_change_joined_war = relation_change_factor * 5
 relation_change_submit = relation_change_factor * -50
 
-center_buildings_begin = "itm_building_hunter_camp"
-center_buildings_end = "itm_buildings_end"
+center_buildings_begin = itm_building_hunter_camp
+center_buildings_end = itm_buildings_end
 
 center_village_buildings_begin = center_buildings_begin
-center_village_buildings_end = "itm_building_barrack_2"
-center_castle_buildings_begin = "itm_building_militia_camp"
-center_castle_buildings_end = "itm_building_university"
-center_town_buildings_begin = "itm_building_slaver"
+center_village_buildings_end = itm_building_barrack_2
+center_castle_buildings_begin = itm_building_militia_camp
+center_castle_buildings_end = itm_building_university
+center_town_buildings_begin = itm_building_slaver
 center_town_buildings_end = center_buildings_end
+
+center_buildings_description_begin = "str_building_hunter_camp"
 
 text_color_impossible = 0xc01010
 text_color_gold = 0xffdd55
@@ -483,6 +485,55 @@ event_type_promised_right_to_rule = 11
 
 event_value_proposed_vassalage = 100
 
+player_starting_2_noble = 0
+player_starting_2_farmer = 1
+player_starting_2_hunter = 2
+player_starting_2_artisan = 3
+player_starting_2_advisor = 4
+player_starting_2_trader = 5
+player_starting_2_mercenary = 6
+player_starting_2_outlaw = 7
+
+player_starting_3_urchin = 0
+player_starting_3_apprentice = 1
+player_starting_3_stable = 2
+player_starting_3_farmer = 3
+player_starting_3_errand = 4
+player_starting_3_school = 5
+player_starting_3_squire = 6
+
+player_starting_4_generous = 0
+player_starting_4_ruthless = 1
+player_starting_4_caring = 2
+player_starting_4_charm = 3
+player_starting_4_shrewd = 4
+player_starting_4_strong = 5
+player_starting_4_energy = 6
+player_starting_4_calculating = 7
+
+player_starting_5_guard = 0
+player_starting_5_outlaw = 1
+player_starting_5_pickpocket = 2
+player_starting_5_messenger = 3
+player_starting_5_hunter = 4
+player_starting_5_farmer = 5
+player_starting_5_merchant = 6
+player_starting_5_mercenary = 7
+player_starting_5_artisan = 8
+player_starting_5_scout = 9
+player_starting_5_court = 10
+player_starting_5_beggar = 11
+player_starting_5_doctor = 12
+
+player_starting_6_adventure = 0
+player_starting_6_gold = 1
+player_starting_6_glory = 2
+player_starting_6_forced = 3
+player_starting_6_revenge = 4
+player_starting_6_loss = 5
+
+court_movement_cost = 50000
+
 ################
 ## Item Slots ##
 ################
@@ -508,14 +559,20 @@ event_value_proposed_vassalage = 100
 
 item_slots = 0
 
-slot_item_temp = 1
+slot_building_build_time				= 1
+slot_building_enabled 					= slot_building_build_time + 1
+slot_building_cost_gold					= slot_building_enabled + 1
+slot_building_cost_maintenance			= slot_building_cost_gold + 1
+slot_building_cost_resources_begin		= slot_building_cost_maintenance + 1
+slot_building_cost_resources_end  		= slot_building_cost_resources_begin + goods_end - goods_begin
+# following slot contains multiplicative value for each spt_* value it can be build on
+slot_building_center_types				= slot_building_cost_resources_end + 1
+slot_building_required_building			= slot_building_center_types + 1
 
-slot_building_cost_wood		= 1
-slot_building_cost_stone	= slot_building_cost_wood + 1
-slot_building_cost_gold		= slot_building_cost_stone + 1
-slot_building_build_time	= slot_building_cost_gold + 1
+slot_building_presentation_card = slot_building_required_building + 1
+slot_building_presentation_button = slot_building_presentation_card + 1
 
-slot_recipe_required_item = slot_building_build_time + 1
+slot_recipe_required_item = 1
 slot_recipe_required_item_quantity = slot_recipe_required_item + 1
 slot_recipe_workload = slot_recipe_required_item_quantity + 1
 slot_recipe_produced_item = slot_recipe_workload + 1
@@ -523,7 +580,9 @@ slot_recipe_produced_item_quantity = slot_recipe_produced_item + 1
 slot_recipe_consume = slot_recipe_produced_item_quantity + 1
 slot_recipe_produced_item_max_ratio = slot_recipe_consume + 1
 
-slot_item_perish_ratio = slot_recipe_produced_item_max_ratio + 1
+slot_item_temp = 1
+
+slot_item_perish_ratio = slot_item_temp + 1
 
 # Amount of items consumed per 1000000 pop
 slot_item_consumption_weight_serf = slot_item_perish_ratio + 1
@@ -1079,6 +1138,8 @@ slot_party_budget_caravan_wages = slot_party_budget_leader_ransom + 1
 slot_party_budget_loot = slot_party_budget_caravan_wages + 1
 slot_party_budget_export = slot_party_budget_loot + 1
 slot_party_budget_import = slot_party_budget_export + 1
+slot_party_budget_building = slot_party_budget_import + 1
+slot_party_budget_building_maintenance = slot_party_budget_building + 1
 
 tax_type_none = -1
 tax_type_population = 0
@@ -1111,9 +1172,11 @@ tax_type_caravan_wages = 26
 tax_type_loot = 27
 tax_type_export = 28
 tax_type_import = 29
+tax_type_building = 30
+tax_type_building_maintenance = 31
 
 slot_party_buget_taxes_begin = slot_party_budget_taxes
-slot_party_buget_taxes_end = slot_party_budget_import + 1
+slot_party_buget_taxes_end = slot_party_budget_building_maintenance + 1
 
 slot_party_budget_reserved_party = slot_party_buget_taxes_end
 slot_party_budget_reserved_auxiliaries = slot_party_budget_reserved_party + 1
@@ -1138,38 +1201,17 @@ slot_party_readiness = slot_party_mission_objective_3 + 1
 sfsr_unavailable = 0
 sfsr_ready = 0 # For now those are the same until we implement party readiness
 
-slot_party_building_slot_1	= slot_party_readiness + 1
-slot_party_building_slot_2	= slot_party_building_slot_1 + 1
-slot_party_building_slot_3	= slot_party_building_slot_2 + 1
-slot_party_building_slot_4	= slot_party_building_slot_3 + 1
-slot_party_building_slot_5	= slot_party_building_slot_4 + 1
-slot_party_building_slot_6	= slot_party_building_slot_5 + 1
-slot_party_building_slot_7	= slot_party_building_slot_6 + 1
-slot_party_building_slot_8	= slot_party_building_slot_7 + 1
-slot_party_building_slot_9	= slot_party_building_slot_8 + 1
-slot_party_building_slot_10	= slot_party_building_slot_9 + 1
-
-slot_party_building_slot_end = slot_party_building_slot_10 + 1
-num_building_slots = slot_party_building_slot_end - slot_party_building_slot_1
-
 # Tells the current state of the building
 # Some buildings only function at full stat (100)
 # Negative values indicate that the building is not yet constructed or has been damaged
 # No building does anything positive when state is negative
 # Values between 0 and 100 are for damaged buildings or buildings just built
 # During this time they function at a reduced rate
-slot_party_building_state_1 = slot_party_building_slot_10 + 1
-slot_party_building_state_2 = slot_party_building_state_1 + 1
-slot_party_building_state_3 = slot_party_building_state_2 + 1
-slot_party_building_state_4 = slot_party_building_state_3 + 1
-slot_party_building_state_5 = slot_party_building_state_4 + 1
-slot_party_building_state_6 = slot_party_building_state_5 + 1
-slot_party_building_state_7 = slot_party_building_state_6 + 1
-slot_party_building_state_8 = slot_party_building_state_7 + 1
-slot_party_building_state_9 = slot_party_building_state_8 + 1
-slot_party_building_state_10 = slot_party_building_state_9 + 1
+slot_party_building_slot_begin = slot_party_readiness + 1
+num_building_slots = center_buildings_end - center_buildings_begin
+slot_party_building_slot_end = slot_party_building_slot_begin + num_building_slots
 
-slot_party_autosort_options = slot_party_building_state_10 + 1
+slot_party_autosort_options = slot_party_building_slot_end
 
 autosort_no_sort = 0x00
 autosort_low_level_first = 0x01
@@ -1300,6 +1342,8 @@ slot_party_merchant_1 = slot_party_visiting_center + 1
 slot_party_merchant_2 = slot_party_merchant_1 + 1
 slot_party_merchant_3 = slot_party_merchant_2 + 1
 slot_party_merchant_4 = slot_party_merchant_3 + 1
+
+slot_party_bank_amount = slot_party_merchant_4 + 1
 
 #################
 ## Scene Slots ##

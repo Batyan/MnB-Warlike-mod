@@ -1,3 +1,18 @@
+v0.560:
+	-Features:
+		* add player character introduction choices and effects
+		* allow player to set the court location
+		* add building construction menu
+		* add starting equipment
+		* add banking features in cities with bank building
+	-Balance:
+		* increase become vassal persuasion chance on selecting no promise (5 x choices left -> 15 x choices left)
+		* increase become vassal persuasion chance for low rank npcs with no lord
+		* reduce sarranid_levy powerstrike (4 -> 3)
+		* increase sarranid_levy ironflesh (1 -> 2)
+		* add banks in main factions capital
+	-Fixes:
+		* fix reports menu bringing up the character introduction menu
 v0.550:
 	-Features:
 		* add trader types for all centers
