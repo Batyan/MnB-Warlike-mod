@@ -1,3 +1,7 @@
+v0.570:
+	-Features:
+	-Balances:
+	-Fixes:
 v0.560:
 	-Features:
 		* add player character introduction choices and effects
