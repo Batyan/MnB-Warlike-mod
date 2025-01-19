@@ -521,9 +521,10 @@ script_troop_get_player_name = 519
 script_party_get_building_efficiency = 520
 script_party_create_building = 521
 script_party_get_bank_interests = 522
-script_presentation_generate_select_lord_card = 523
-script_presentation_create_text_overlay = 524
-script_presentation_create_combo_button_overlay = 525
-script_presentation_create_check_box_overlay = 526
+script_process_bank_interests = 523
+script_presentation_generate_select_lord_card = 524
+script_presentation_create_text_overlay = 525
+script_presentation_create_combo_button_overlay = 526
+script_presentation_create_check_box_overlay = 527
 
 

@@ -1688,7 +1688,7 @@ game_menus = [
         ]),
 
     ("town_bank", mnf_scale_picture,
-        "You are in the bank of {s10}.^^You currently have {s11} in the bank.^You are expected to receive {s12} at the end of the year as interests.",
+        "You are in the bank of {s10}.^^You currently have {s11} in the bank.^You are expected to receive {s12} at the end of the fiscal year as interests.",
         "none",
         [
             (str_store_party_name, s10, "$g_encountered_party"),

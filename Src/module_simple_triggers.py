@@ -429,10 +429,12 @@ simple_triggers = [
                 (call_script, "script_party_unpaid_wages_penalties", ":party_no"),
             (try_end),
 
+            (call_script, "script_party_process_debts", "$g_player_party"),
             # For player we call the budget menu
             (assign, "$g_process_effects", 1),
-            (call_script, "script_party_process_debts", "$g_player_party"),
             (start_presentation, "prsnt_budget_report"),
+
+            (call_script, "script_process_bank_interests"),
         ]),
     
     (yearly, # Weapon proficiency decay

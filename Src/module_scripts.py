@@ -27659,6 +27659,22 @@ scripts = [
             (assign, reg0, ":interests"),
         ]),
 
+    # script_process_bank_interests
+        # input: none
+        # output: none
+    ("process_bank_interests",
+        [
+            (try_for_range, ":center", centers_begin, centers_end),
+                (call_script, "script_cf_party_has_building", ":center", "itm_building_bank"),
+                (party_get_slot, ":amount", ":center", slot_party_bank_amount),
+                (gt, ":amount", 0),
+                (call_script, "script_party_get_bank_interests", ":center", ":amount"),
+                (assign, ":interests", reg0),
+                (val_add, ":amount", ":interests"),
+                (party_set_slot, ":center", slot_party_bank_amount, ":amount"),
+            (try_end),
+        ]),
+
     # script_presentation_generate_select_lord_card
         # input:
         #   arg1: troop_no
