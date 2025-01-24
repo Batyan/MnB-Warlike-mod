@@ -1,5 +1,6 @@
 v0.570:
 	-Features:
+		* add building maintenance
 	-Balances:
 	-Fixes:
 v0.560:
