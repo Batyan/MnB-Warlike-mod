@@ -19928,6 +19928,23 @@ scripts = [
             # Process special building effects
         ]),
 
+    # script_party_process_buildings_maintenance
+        # input:
+        #   arg1: party_no
+        # output: none
+    ("party_process_buildings_maintenance",
+        [
+            (store_script_param, ":party_no", 1),
+
+            (try_for_range, ":building", center_buildings_begin, center_buildings_end),
+                (call_script, "script_cf_party_has_building", ":party_no", ":building"),
+                (item_get_slot, ":upkeep", ":building", slot_building_cost_maintenance),
+                (gt, ":upkeep", 0),
+                (val_mul, ":upkeep", -1),
+                (call_script, "script_party_add_accumulated_taxes", ":party_no", ":upkeep", tax_type_building_maintenance),
+            (try_end),
+        ]),
+
     # script_party_process_prisoners
         # input: 
         #   arg1: party_no

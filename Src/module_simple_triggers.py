@@ -418,6 +418,8 @@ simple_triggers = [
             (try_end),
             (try_for_range, ":center", centers_begin, centers_end),
                 (call_script, "script_party_process_ideal_party_wages", ":center"),
+
+                (call_script, "script_party_process_buildings_maintenance", ":center"),
             (try_end),
 
             (try_for_parties, ":party_no"),
