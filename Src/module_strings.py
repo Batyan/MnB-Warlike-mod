@@ -821,6 +821,7 @@ strings = [
   ("building_barrack",          "The barracks are a place of rest and training for soldiers.^Increases the chance for common units to be trained. When defending, adds a random number of common units, trained from the population."),
   ("building_food_store",       "The food stores allows a center to hold more during sieges."),
   ("building_recruitement_camp", "The recruitement camp, for each reinforcements, trains 10% of additionnal units of higher rank."),
+  ("building_mason_guild",      "Creates a guild for handling masonry work. ^^Increases building queue by 1.^Decreases building time by 10%"),
 
   ("building_barrack_2",        "The improved barracks are a place of rest and training for soldiers.^Increases the chance for veteran units to be trained. When defending, adds a random number of common and veteran units, trained from the population."),
   ("building_smithy_2",         "The improved smithy further increases the quality of weapons.^Increases melee damage by and additionnal 10%."),
@@ -832,6 +833,7 @@ strings = [
   ("building_trading_post",     "The trading post increases profits from trade by 5% and give caravans a small escort."),
   ("building_food_store_2",     "The increased food stores allows a center to hold even more during sieges."),
   ("building_recruitement_camp_2", "The improved recruitement camp, for each reinforcements, trains 20% of additional units of higher rank."),
+  ("building_mason_guild_2",    "Improves the mason's guild. ^^Decreases building cost and time by 10%"),
   
   ("building_university",       "The unversity educates the population.^It increases money gained from taxes and trade by 5% each. It also increases population growth by 10%."),
   ("building_slaver_2",         "The improved slaver allows slaves in the city to work harder.^They still don't get paid, but their master do. Increases prosperity and relation with the center. Also give a moderate income per slave working."),
@@ -842,6 +844,7 @@ strings = [
   ("building_tavern_2",         "The improved tavern is one of, if not the most important building in a center.^It increases prosperity by 10% and has more room for people to rent."),
   ("building_trading_post_2",   "The improved trading post increases profits from trade by 10% and gives caravans a big escort."),
   ("building_bank",             "The bank gives the capability for citizens to lend their money for safekeeping and to invest.^^Add a special income from bank taxes.^Add the bank features in town."),
+  ("building_mason_guild_3",    "Further improves the mason's guild. ^^Increases building queue by 1.^Decreases building cost by 10%"),
 
   ("item_taxes_sell", "Town selling taxes: {reg10}%"),
   ("item_taxes_buy", "Town buying taxes: {reg10}%"),

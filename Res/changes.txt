@@ -1,6 +1,7 @@
 v0.570:
 	-Features:
 		* add building maintenance
+		* add building build queue
 	-Balances:
 		* change swadian_scout weapon (spear -> light_lance)
 		* decrease swadian_scout powerstrike (4 -> 3)

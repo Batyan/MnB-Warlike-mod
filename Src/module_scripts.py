@@ -12143,6 +12143,12 @@ scripts = [
             (item_set_slot, "itm_building_recruitement_camp", slot_building_build_time, 300),
             (item_set_slot, "itm_building_recruitement_camp", slot_building_enabled, 0),
 
+            (item_set_slot, "itm_building_mason_guild", ":wood_slot", 150),
+            (item_set_slot, "itm_building_mason_guild", ":stone_slot", 90),
+            (item_set_slot, "itm_building_mason_guild", slot_building_cost_gold, 50000),
+            (item_set_slot, "itm_building_mason_guild", slot_building_build_time, 400),
+            (item_set_slot, "itm_building_mason_guild", slot_building_enabled, 1),
+
             (item_set_slot, "itm_building_barrack_2", ":wood_slot", 300),
             (item_set_slot, "itm_building_barrack_2", ":stone_slot", 510),
             (item_set_slot, "itm_building_barrack_2", slot_building_cost_gold, 45000),
@@ -12208,6 +12214,13 @@ scripts = [
             (item_set_slot, "itm_building_recruitement_camp_2", slot_building_build_time, 450),
             (item_set_slot, "itm_building_recruitement_camp_2", slot_building_enabled, 0),
             (item_set_slot, "itm_building_recruitement_camp_2", slot_building_required_building, "itm_building_recruitement_camp"),
+
+            (item_set_slot, "itm_building_mason_guild_2", ":wood_slot", 200),
+            (item_set_slot, "itm_building_mason_guild_2", ":stone_slot", 120),
+            (item_set_slot, "itm_building_mason_guild_2", slot_building_cost_gold, 85000),
+            (item_set_slot, "itm_building_mason_guild_2", slot_building_build_time, 550),
+            (item_set_slot, "itm_building_mason_guild_2", slot_building_enabled, 1),
+            (item_set_slot, "itm_building_mason_guild_2", slot_building_required_building, "itm_building_mason_guild"),
             
             (item_set_slot, "itm_building_university", ":wood_slot", 390),
             (item_set_slot, "itm_building_university", ":stone_slot", 600),
@@ -12267,6 +12280,13 @@ scripts = [
             (item_set_slot, "itm_building_bank", slot_building_build_time, 700),
             (item_set_slot, "itm_building_bank", slot_building_enabled, 1),
 
+            (item_set_slot, "itm_building_mason_guild_3", ":wood_slot", 350),
+            (item_set_slot, "itm_building_mason_guild_3", ":stone_slot", 250),
+            (item_set_slot, "itm_building_mason_guild_3", slot_building_cost_gold, 100000),
+            (item_set_slot, "itm_building_mason_guild_3", slot_building_build_time, 750),
+            (item_set_slot, "itm_building_mason_guild_3", slot_building_enabled, 1),
+            (item_set_slot, "itm_building_mason_guild_3", slot_building_required_building, "itm_building_mason_guild_2"),
+
             (try_for_range, ":building", center_buildings_begin, center_buildings_end),
                 (assign, ":value", 1),
                 (try_begin),
@@ -12290,11 +12310,11 @@ scripts = [
         ]),
     
     # script_cf_party_has_building
-    # input:
-    #   arg1: party_no
-    #   arg2: building
-    # output:
-    #   reg0: building_state
+        # input:
+        #   arg1: party_no
+        #   arg2: building
+        # output:
+        #   reg0: building_state
     ("cf_party_has_building",
         [
             (store_script_param, ":party_no", 1),
@@ -12307,12 +12327,88 @@ scripts = [
             (assign, reg0, ":has_building"),
             (gt, ":has_building", 0),
         ]),
+
+    # script_party_get_building_slots
+        # input:
+        #   arg1: party_no
+        # output:
+        #   reg0: building_slots
+    ("party_get_building_slots",
+        [
+            (store_script_param, ":party_no", 1),
+
+            (assign, ":num_building_slots", base_building_slots),
+
+            (try_begin),
+                (call_script, "script_cf_party_has_building", ":party_no", "itm_building_mason_guild"),
+                (val_add, ":num_building_slots", 1),
+            (else_try),
+                (call_script, "script_cf_party_has_building", ":party_no", "itm_building_mason_guild_3"),
+                (val_add, ":num_building_slots", 1),
+            (try_end),
+
+            (assign, reg0, ":num_building_slots"),
+        ]),
+
+    # script_party_get_building_creation_time
+        # input:
+        #   arg1: party_no
+        #   arg2: building
+        # output:
+        #   reg0: creation_time
+    ("party_get_building_creation_time",
+        [
+            (store_script_param, ":party_no", 1),
+            (store_script_param, ":building_no", 2),
+
+            (item_get_slot, ":creation_time", ":building_no", slot_building_build_time),
+
+            (assign, ":multiplier", 100),
+
+            (try_begin),
+                (call_script, "script_cf_party_has_building", ":party_no", "itm_building_mason_guild"),
+                (val_sub, ":multiplier", 10),
+            (else_try),
+                (call_script, "script_cf_party_has_building", ":party_no", "itm_building_mason_guild_2"),
+                (val_sub, ":multiplier", 10),
+            (try_end),
+
+            (store_mul, reg0, ":creation_time", ":multiplier"),
+            (val_div, reg0, 100),
+        ]),
+
+    # script_party_get_building_creation_cost
+        # input:
+        #   arg1: party_no
+        #   arg2: building
+        # output:
+        #   reg0: creation_cost
+    ("party_get_building_creation_cost",
+        [
+            (store_script_param, ":party_no", 1),
+            (store_script_param, ":building_no", 2),
+
+            (item_get_slot, ":creation_cost", ":building_no", slot_building_cost_gold),
+
+            (assign, ":multiplier", 100),
+
+            (try_begin),
+                (call_script, "script_cf_party_has_building", ":party_no", "itm_building_mason_guild_2"),
+                (val_sub, ":multiplier", 10),
+            (else_try),
+                (call_script, "script_cf_party_has_building", ":party_no", "itm_building_mason_guild_3"),
+                (val_sub, ":multiplier", 10),
+            (try_end),
+
+            (store_mul, reg0, ":creation_cost", ":multiplier"),
+            (val_div, reg0, 100),
+        ]),
     
     # script_cf_party_need_troops
-    # input:
-    #   arg1: party_no
-    # output:
-    #   reg0: need_type
+        # input:
+        #   arg1: party_no
+        # output:
+        #   reg0: need_type
     ("cf_party_need_troops",
         [
             # ToDo: improve
@@ -12354,10 +12450,10 @@ scripts = [
         ]),
     
     # script_center_need_troops
-    # input:
-    #   arg1: center_no
-    # output:
-    #   reg0: need_troops
+        # input:
+        #   arg1: center_no
+        # output:
+        #   reg0: need_troops
     ("center_need_troops",
         [
             # ToDo: improve
@@ -12380,10 +12476,10 @@ scripts = [
         ]),
     
     # script_troop_get_rank
-    # input:
-    #   arg1: troop_no
-    # output:
-    #   reg0: rank
+        # input:
+        #   arg1: troop_no
+        # output:
+        #   reg0: rank
     ("troop_get_rank",
         [
             (store_script_param, ":troop_no", 1),
@@ -27620,15 +27716,15 @@ scripts = [
             (store_script_param, ":party_no", 1),
             (store_script_param, ":building", 2),
 
-            (item_get_slot, ":build_time", ":building", slot_building_build_time),
-            (val_mul, ":build_time", -1),
+            (call_script, "script_party_get_building_creation_time", ":party_no", ":building"),
+            (store_mul, ":build_time", reg0, -1),
 
             (store_sub, ":offset", ":building", center_buildings_begin),
             (store_add, ":building_slot", ":offset", slot_party_building_slot_begin),
             (party_set_slot, ":party_no", ":building_slot", ":build_time"),
 
-            (item_get_slot, ":cost", ":building", slot_building_cost_gold),
-            (val_mul, ":cost", -1),
+            (call_script, "script_party_get_building_creation_cost", ":party_no", ":building"),
+            (store_mul, ":cost", reg0, -1),
 
             (call_script, "script_party_add_accumulated_taxes", ":party_no", ":cost", tax_type_building),
 
