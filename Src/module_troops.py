@@ -1678,15 +1678,15 @@ troops = [
     itm_saddle_horse],
    str_12|agi_16|int_7|cha_8|level(20), wpex(80,60,70,70,60,105), knows_common|knows_ironflesh_1|knows_power_strike_4|knows_power_throw_2|knows_power_draw_1|knows_athletics_3|knows_riding_6|knows_horse_archery_3, swadian_face_young_1, swadian_face_old_2 ],
   
-  # Light cavalry, spears, shields
+  # Light cavalry, lances, shields
   # SPECIAL
   ["swadian_scout", "Swadian Scout", "Swadian Scouts", tf_guarantee_common_armor|tf_guarantee_horseman|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_15,
-   [itm_spear, itm_tab_shield_heater_cav_a,itm_tab_shield_heater_cav_a_plain_1,itm_tab_shield_heater_cav_a_plain_2,
+   [itm_light_lance, itm_tab_shield_heater_cav_a,itm_tab_shield_heater_cav_a_plain_1,itm_tab_shield_heater_cav_a_plain_2,
     itm_leather_boots, itm_leather_gloves,
     itm_padded_cloth, itm_leather_jerkin_herald, itm_leather_armor_herald,
     itm_footman_helmet, itm_mail_coif, itm_padded_coif, itm_padded_coif,
     itm_saddle_horse],
-   str_12|agi_15|int_7|cha_8|level(19), wpex(90,80,120,60,50,50), knows_common|knows_ironflesh_3|knows_power_strike_4|knows_power_draw_1|knows_athletics_4|knows_riding_6|knows_horse_archery_2, swadian_face_young_1, swadian_face_old_2 ],
+   str_12|agi_15|int_7|cha_8|level(19), wpex(90,80,120,60,50,50), knows_common|knows_ironflesh_3|knows_power_strike_3|knows_power_draw_1|knows_athletics_4|knows_riding_6|knows_horse_archery_2, swadian_face_young_1, swadian_face_old_2 ],
   
   # Light ranged, swords, picks, maces, bows
   # SPECIAL
@@ -2039,15 +2039,15 @@ troops = [
     ],
    str_10|agi_16|int_6|cha_7|level(16), wpex(95,90,85,65,20,105), knows_common|knows_ironflesh_2|knows_power_strike_4|knows_power_throw_3|knows_power_draw_1|knows_athletics_6|knows_riding_3|knows_horse_archery_1, vaegir_face_young_1, vaegir_face_old_2 ],
   
-  # Light cavalry ranged, sabres, axes, bows, shields,
+  # Light cavalry ranged, lances, bows, shields
   # SPECIAL
-  ["vaegir_scout", "Vaegir Scout", "Vaegir Scouts", tf_guarantee_common_armor|tf_guarantee_shield|tf_guarantee_horseman|tf_guarantee_ranged, no_scene, reserved, fac_small_kingdom_25,
-   [itm_sword_khergit_1, itm_one_handed_battle_axe_a, itm_mace_2, itm_short_bow, itm_barbed_arrows, itm_tab_shield_kite_cav_a,itm_tab_shield_kite_cav_a_plain_1,itm_tab_shield_kite_cav_a_plain_2,
+  ["vaegir_scout", "Vaegir Scout", "Vaegir Scouts", tf_guarantee_common_armor|tf_guarantee_horseman|tf_guarantee_ranged, no_scene, reserved, fac_small_kingdom_25,
+   [itm_light_lance, itm_short_bow, itm_barbed_arrows, itm_tab_shield_kite_cav_a,itm_tab_shield_kite_cav_a_plain_1,itm_tab_shield_kite_cav_a_plain_2,
     itm_leather_boots, itm_leather_gloves,
     itm_leather_jerkin_herald, itm_leather_vest_herald,
     itm_vaegir_fur_helmet, itm_vaegir_fur_cap,
     itm_steppe_horse],
-   str_10|agi_15|int_7|cha_8|level(17), wpex(75,75,70,130,35,30), knows_common|knows_ironflesh_1|knows_power_strike_2|knows_power_throw_1|knows_power_draw_4|knows_athletics_4|knows_riding_6|knows_horse_archery_5, vaegir_face_young_1, vaegir_face_old_2 ],
+   str_10|agi_15|int_7|cha_8|level(17), wpex(75,75,105,130,35,30), knows_common|knows_ironflesh_1|knows_power_strike_3|knows_power_throw_1|knows_power_draw_4|knows_athletics_4|knows_riding_6|knows_horse_archery_5, vaegir_face_young_1, vaegir_face_old_2 ],
   
   # Medium infantry, sabres, axes, shields
   # SPECIAL
