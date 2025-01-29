@@ -272,6 +272,8 @@ center_town_buildings_end = center_buildings_end
 
 center_buildings_description_begin = "str_building_hunter_camp"
 
+base_building_slots = 1
+
 text_color_impossible = 0xc01010
 text_color_gold = 0xffdd55
 text_color_valid = 0x00ee55

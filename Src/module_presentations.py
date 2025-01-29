@@ -2603,9 +2603,20 @@ presentations = [
 
                     (set_container_overlay, ":container"),
 
+                    (assign, ":num_currently_building", 0),
+
                     (assign, ":num_buildings", 0),
                     (try_for_range_backwards, ":building", center_buildings_begin, center_buildings_end),
                         (item_get_slot, ":enabled", ":building", slot_building_enabled),
+                        (store_sub, ":offset", ":building", center_buildings_begin),
+                        (store_add, ":building_slot", ":offset", slot_party_building_slot_begin),
+                        (party_get_slot, ":building_state", ":current_center", ":building_slot"),
+
+                        (try_begin),
+                            (lt, ":building_state", 0),
+                            (val_add, ":num_currently_building", 1),
+                        (try_end),
+
                         (eq, ":enabled", 1),
 
                         (item_get_slot, ":building_types", ":building", slot_building_center_types),
@@ -2663,8 +2674,11 @@ presentations = [
 
                         (val_add, ":cur_y", 10),
 
-                        # efficiency
+                        (call_script, "script_party_get_building_slots", ":current_center"),
+                        (assign, ":num_slots", reg0),
+
                         (try_begin),
+                            # efficiency
                             (gt, ":building_state", 0),
                             (call_script, "script_party_get_building_efficiency", ":current_center", ":building"),
                             (str_store_string, s10, "@{reg0}% efficiency"),
@@ -2674,7 +2688,8 @@ presentations = [
                         (else_try),
                             (lt, ":building_state", 0),
 
-                            (item_get_slot, ":build_time", ":building", slot_building_build_time),
+                            (call_script, "script_party_get_building_creation_time", ":current_center", ":building"),
+                            (assign, ":build_time", reg0),
 
                             (store_mul, ":time_left", ":building_state", -100),
                             (val_div, ":time_left", ":build_time"),
@@ -2683,6 +2698,12 @@ presentations = [
                             (store_sub, ":progress", 100, ":time_left"),
                             (assign, reg10, ":progress"),
                             (str_store_string, s10, "@Building in progress: {reg10}%"),
+
+                            (call_script, "script_presentation_create_text_overlay", tf_left_align, ":cur_x", ":cur_y", 850, 850),
+                            (overlay_set_color, reg0, text_color_light),
+                        (else_try),
+                            (ge, ":num_currently_building", ":num_slots"),
+                            (str_store_string, s10, "@Too many constructions"),
 
                             (call_script, "script_presentation_create_text_overlay", tf_left_align, ":cur_x", ":cur_y", 850, 850),
                             (overlay_set_color, reg0, text_color_light),
@@ -2800,6 +2821,9 @@ presentations = [
 
                 (try_begin),
                     (eq, ":value", 0),
+
+                    (assign, ":current_center", "$temp"),
+
                     (assign, ":building_card", -1),
                     (try_for_range, ":building", center_buildings_begin, center_buildings_end),
                         (item_get_slot, ":card", ":building", slot_building_presentation_card),
@@ -2814,9 +2838,11 @@ presentations = [
                         (store_sub, ":offset", ":building_card", center_buildings_begin),
                         (store_add, ":building_description", ":offset", center_buildings_description_begin),
 
-                        (item_get_slot, ":creation_time", ":building_card", slot_building_build_time),
+                        (call_script, "script_party_get_building_creation_time", ":current_center", ":building_card"),
+                        (assign, ":creation_time", reg0),
+                        (call_script, "script_party_get_building_creation_cost", ":current_center", ":building_card"),
+                        (assign, ":cost", reg0),
                         (item_get_slot, ":requirements", ":building_card", slot_building_required_building),
-                        (item_get_slot, ":cost", ":building_card", slot_building_cost_gold),
                         (item_get_slot, ":maintenance", ":building_card", slot_building_cost_maintenance),
 
                         (overlay_set_text, "$g_presentation_building_description", ":building_description"),

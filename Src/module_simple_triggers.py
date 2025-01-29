@@ -123,6 +123,8 @@ simple_triggers = [
                             # (neq, ":current_object", ":party_no"),
                             (call_script, "script_party_lift_siege", ":party_no"),
                             # (party_set_slot, ":party_no", slot_party_besieged_by, -1),
+                        (else_try),
+                            (call_script, "script_party_damage_random_buildings", ":party_no", 1),
                         (try_end),
                     (try_end),
                 # (else_try),
@@ -418,6 +420,8 @@ simple_triggers = [
             (try_end),
             (try_for_range, ":center", centers_begin, centers_end),
                 (call_script, "script_party_process_ideal_party_wages", ":center"),
+
+                (call_script, "script_party_process_buildings_maintenance", ":center"),
             (try_end),
 
             (try_for_parties, ":party_no"),
