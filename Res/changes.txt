@@ -2,6 +2,7 @@ v0.570:
 	-Features:
 		* add building maintenance
 		* add building build queue
+		* add building degradation on center capture and during siege
 	-Balances:
 		* change swadian_scout weapon (spear -> light_lance)
 		* decrease swadian_scout powerstrike (4 -> 3)

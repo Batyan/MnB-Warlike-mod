@@ -526,9 +526,11 @@ script_party_get_building_efficiency = 524
 script_party_create_building = 525
 script_party_get_bank_interests = 526
 script_process_bank_interests = 527
-script_presentation_generate_select_lord_card = 528
-script_presentation_create_text_overlay = 529
-script_presentation_create_combo_button_overlay = 530
-script_presentation_create_check_box_overlay = 531
+script_cf_party_damage_building = 528
+script_party_damage_random_buildings = 529
+script_presentation_generate_select_lord_card = 530
+script_presentation_create_text_overlay = 531
+script_presentation_create_combo_button_overlay = 532
+script_presentation_create_check_box_overlay = 533
 
 
