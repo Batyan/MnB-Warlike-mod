@@ -437,8 +437,6 @@ simple_triggers = [
             # For player we call the budget menu
             (assign, "$g_process_effects", 1),
             (start_presentation, "prsnt_budget_report"),
-
-            (call_script, "script_process_bank_interests"),
         ]),
     
     (yearly, # Weapon proficiency decay

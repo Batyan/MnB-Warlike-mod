@@ -289,6 +289,7 @@ text_color_white = 0xFFFFFF
 text_color_budget_positive = 0x20a020
 text_color_budget_negative = 0xa02020
 text_color_budget_neutral = 0x222222
+text_color_budget_info = 0x2020a0
 
 era_minimum_duration = 365
 

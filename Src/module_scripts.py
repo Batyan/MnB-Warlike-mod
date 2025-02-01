@@ -12320,6 +12320,8 @@ scripts = [
             (store_script_param, ":party_no", 1),
             (store_script_param, ":building", 2),
 
+            (is_between, ":building", center_buildings_begin, center_buildings_end),
+
             (store_sub, ":offset", ":building", center_buildings_begin),
             (store_add, ":slot", ":offset", slot_party_building_slot_begin),
             (party_get_slot, ":has_building", ":party_no", ":slot"),
