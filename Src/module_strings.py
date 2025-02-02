@@ -1294,11 +1294,19 @@ strings = [
   ("start_game_intro_5_choice_beggar", "Beggar"),
   ("start_game_intro_5_choice_doctor", "Doctor"),
 
-  ("start_game_intro_6", "The reson for leaving your old life behind was..."),
+  ("start_game_intro_6", "The reason for leaving your old life behind was..."),
   ("start_game_intro_6_choice_wanderlust", "Wanderlust"),
   ("start_game_intro_6_choice_wealth", "The promise of wealth"),
   ("start_game_intro_6_choice_fame", "The promise of fame"),
   ("start_game_intro_6_choice_forced", "Being forced out of your home"),
   ("start_game_intro_6_choice_revenge", "Revenge"),
   ("start_game_intro_6_choice_loss", "The loss of a loved one"),
+
+  ("start_game_intro_7", "You arrived in Calradia by taking..."),
+  ("start_game_intro_7_choice_swadia", "A ship to Praven"),
+  ("start_game_intro_7_choice_vaegir", "A caravan to Reyvadin"),
+  ("start_game_intro_7_choice_khergit", "A caravan to Tulga"),
+  ("start_game_intro_7_choice_nord", "A ship to Sargoth"),
+  ("start_game_intro_7_choice_rhodok", "A caravan to Jelkala"),
+  ("start_game_intro_7_choice_sarranid", "A ship to Shariz"),
 ]

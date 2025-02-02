@@ -535,6 +535,13 @@ player_starting_6_forced = 3
 player_starting_6_revenge = 4
 player_starting_6_loss = 5
 
+player_starting_7_swadia = 0
+player_starting_7_vaegir = 1
+player_starting_7_khergit = 2
+player_starting_7_nord = 3
+player_starting_7_rhodok = 4
+player_starting_7_sarranid = 5
+
 court_movement_cost = 50000
 
 ################

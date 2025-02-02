@@ -995,5 +995,12 @@ str_start_game_intro_6_choice_fame = 993
 str_start_game_intro_6_choice_forced = 994
 str_start_game_intro_6_choice_revenge = 995
 str_start_game_intro_6_choice_loss = 996
+str_start_game_intro_7 = 997
+str_start_game_intro_7_choice_swadia = 998
+str_start_game_intro_7_choice_vaegir = 999
+str_start_game_intro_7_choice_khergit = 1000
+str_start_game_intro_7_choice_nord = 1001
+str_start_game_intro_7_choice_rhodok = 1002
+str_start_game_intro_7_choice_sarranid = 1003
 
 
