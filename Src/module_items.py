@@ -201,7 +201,7 @@ items = [
     ["warhorse_sarranid","Sarranian War Horse", [("warhorse_sarranid",0)],itp_merchandise|itp_type_horse, 0, 
      4900,  hit_points(65)|body_armor(62)|difficulty(4)|horse_speed(40)|horse_maneuver(41)|horse_charge(226)|horse_scale(107),imodbits_horse_basic|imodbit_champion, [], [fac_kingdom_6] ],
     ["warhorse_steppe","Steppe Charger", [("warhorse_steppe",0)], itp_merchandise|itp_type_horse, 0, 
-     4500,  hit_points(65)|body_armor(51)|difficulty(4)|horse_speed(43)|horse_maneuver(43)|horse_charge(216)|horse_scale(103),imodbits_horse_basic|imodbit_champion, [], [fac_kingdom_2, fac_kingdom_3] ],
+     4500,  hit_points(65)|body_armor(51)|difficulty(4)|horse_speed(43)|horse_maneuver(43)|horse_charge(216)|horse_scale(103),imodbits_horse_basic|imodbit_champion, [], [fac_kingdom_3] ],
     ["warhorse_b","War Horse", [("warhorse_chain",0)],            itp_merchandise|itp_type_horse, 0, 
      4450,  hit_points(70)|body_armor(55)|difficulty(4)|horse_speed(41)|horse_maneuver(41)|horse_charge(208)|horse_scale(103),imodbits_horse_basic|imodbit_champion, [], [fac_kingdom_1, fac_kingdom_5] ],
     
