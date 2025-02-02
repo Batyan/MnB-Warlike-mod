@@ -91,6 +91,7 @@ game_menus = [
                         (assign, "$g_start_game_intro_aptitude", -1),
                         (assign, "$g_start_game_intro_job", -1),
                         (assign, "$g_start_game_intro_motivation", -1),
+                        (assign, "$g_start_game_intro_location", -1),
 
                         (jump_to_menu, "mnu_start_game_intro_1"),
                     (else_try),
@@ -680,10 +681,75 @@ game_menus = [
                     (try_end),
                 ], "Continue",
                 [
-                    (jump_to_menu, "mnu_start_game_intro_end"),
+                    (jump_to_menu, "mnu_start_game_intro_7"),
                 ]),
         ]),
     
+    ("start_game_intro_7", mnf_disable_all_keys,
+        "{s0}",
+        "none",
+        [
+            (str_store_string, s10, "str_start_game_intro_7"),
+            (try_begin),
+                (eq, "$g_start_game_intro_location", -1),
+                (str_clear, s11),
+            (else_try),
+                (store_add, ":str", "str_start_game_intro_7_choice_swadia", "$g_start_game_intro_location"),
+                (str_store_string, s11, ":str"),
+            (try_end),
+
+            (str_store_string, s0, "@{s10}^^{s11}"),
+        ],
+        [
+            ("choice_swadia",
+                [(try_begin),(eq, "$g_start_game_intro_location", player_starting_7_swadia),(disable_menu_option),(try_end),], "A ship to Praven",
+                [
+                    (assign, "$g_start_game_intro_location", player_starting_7_swadia),
+                    (jump_to_menu, "mnu_start_game_intro_7"),
+                ]),
+            ("choice_vaegir",
+                [(try_begin),(eq, "$g_start_game_intro_location", player_starting_7_vaegir),(disable_menu_option),(try_end),], "A caravan to Reyvadin",
+                [
+                    (assign, "$g_start_game_intro_location", player_starting_7_vaegir),
+                    (jump_to_menu, "mnu_start_game_intro_7"),
+                ]),
+            ("choice_khergit",
+                [(try_begin),(eq, "$g_start_game_intro_location", player_starting_7_khergit),(disable_menu_option),(try_end),], "A caravan to Tulga",
+                [
+                    (assign, "$g_start_game_intro_location", player_starting_7_khergit),
+                    (jump_to_menu, "mnu_start_game_intro_7"),
+                ]),
+            ("choice_nord",
+                [(try_begin),(eq, "$g_start_game_intro_location", player_starting_7_nord),(disable_menu_option),(try_end),], "A ship to Sargoth",
+                [
+                    (assign, "$g_start_game_intro_location", player_starting_7_nord),
+                    (jump_to_menu, "mnu_start_game_intro_7"),
+                ]),
+            ("choice_rhodok",
+                [(try_begin),(eq, "$g_start_game_intro_location", player_starting_7_rhodok),(disable_menu_option),(try_end),], "A caravan to Jelkala",
+                [
+                    (assign, "$g_start_game_intro_location", player_starting_7_rhodok),
+                    (jump_to_menu, "mnu_start_game_intro_7"),
+                ]),
+            ("choice_sarranid",
+                [(try_begin),(eq, "$g_start_game_intro_location", player_starting_7_sarranid),(disable_menu_option),(try_end),], "A ship to Shariz",
+                [
+                    (assign, "$g_start_game_intro_location", player_starting_7_sarranid),
+                    (jump_to_menu, "mnu_start_game_intro_7"),
+                ]),
+
+            ("continue", 
+                [
+                    (try_begin),
+                        (eq, "$g_start_game_intro_location", -1),
+                        (disable_menu_option),
+                    (try_end),
+                ], "Continue",
+                [
+                    (jump_to_menu, "mnu_start_game_intro_end"),
+                ]),
+        ]),
+
     ("start_game_intro_end", mnf_disable_all_keys,
         "In the next screen you will be able to create your own character, keep in mind that due to a technical limitation, you will be unable to spend skill points.",
         "none",
