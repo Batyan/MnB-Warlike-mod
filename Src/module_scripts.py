@@ -12612,6 +12612,7 @@ scripts = [
             # (troop_set_slot, ":lord_no", slot_troop_prisoner_in, -1),
             (troop_set_slot, ":lord_no", slot_troop_last_met, -1),
             (troop_set_slot, ":lord_no", slot_troop_gathering, -1),
+            (troop_set_slot, ":lord_no", slot_troop_noble, 0),
             # We need a minimum amount of wanted wages to cover for a few troops
             # (troop_set_slot, ":lord_no", slot_troop_wanted_party_wages, 800),
 
@@ -12662,6 +12663,7 @@ scripts = [
             (troop_set_slot, ":lord_no", slot_troop_culture, ":culture"),
             (troop_set_slot, ":lord_no", slot_troop_renown, 0),
             (troop_set_slot, ":lord_no", slot_troop_num_vassal, 0),
+            (troop_set_slot, ":lord_no", slot_troop_noble, 1),
             
             (try_begin),
                 (eq, ":activate", 1),
@@ -24257,6 +24259,8 @@ scripts = [
                 (troop_raise_proficiency_linear, "$g_player_troop", wpt_one_handed_weapon, 20),
                 (troop_raise_proficiency_linear, "$g_player_troop", wpt_two_handed_weapon, 10),
                 (troop_raise_proficiency_linear, "$g_player_troop", wpt_polearm, 20),
+
+                (troop_set_slot, "$g_player_troop", slot_troop_noble, 1),
 
                 (val_add, ":wealth", 1000),
             (else_try),

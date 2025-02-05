@@ -4,6 +4,7 @@ v0.570:
 		* add building build queue
 		* add building degradation on center capture and during siege
 		* add player starting position selection
+		* add banner selection presentation
 	-Balances:
 		* change swadian_scout weapon (spear -> light_lance)
 		* decrease swadian_scout powerstrike (4 -> 3)
@@ -11,7 +12,7 @@ v0.570:
 		* increase vaegir_scout powerstrike (2 -> 3)
 		* increase vaegir_scout polearm proeficiency (70 -> 105)
 		* remove vaegir_scout garranteed shield
-		* bank interests are shown in budget presentation
+		* bank interests are displayed in budget presentation
 	-Fixes:
 		* fix incorrect charge value for charger (36 -> 244)
 		* fix incorrect charge value for warhorse_sarranid (4 -> 226)

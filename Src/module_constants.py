@@ -1614,7 +1614,9 @@ become_vassal_try_failed_persuasion = 2
 slot_troop_become_vassal_tried = slot_troop_log_target_end + 1
 slot_troop_become_vassal_last_try = slot_troop_become_vassal_tried + 1
 
-slot_troop_relations_begin = slot_troop_become_vassal_last_try + 1
+slot_troop_noble = slot_troop_become_vassal_last_try + 1
+
+slot_troop_relations_begin = slot_troop_noble + 1
 
 
 # # # ToDo: remove test slots

@@ -2940,6 +2940,94 @@ presentations = [
             ]),
         ]),
 
+    ("banner_selection", 0, mesh_load_window,
+        [
+            (ti_on_presentation_load,
+                [
+                    (set_fixed_point_multiplier, 1000),
+
+                    (str_clear, s0),
+                    (create_text_overlay, reg0, s0, tf_scrollable),
+                    (position_set_x, pos1, 50),
+                    (position_set_y, pos1, 100),
+                    (overlay_set_position, reg0, pos1),
+                    (position_set_x, pos1, 620),
+                    (position_set_y, pos1, 550),
+                    (overlay_set_area_size, reg0, pos1),
+
+                    (set_container_overlay, reg0),
+
+                    (assign, ":x_pos", 10),
+                    (assign, ":y_pos", 230),
+                    (assign, ":num_rows", 5),
+
+                    (assign, "$g_presentation_selected_banner_begin", -1),
+
+                    (store_sub, ":num_banners", banner_meshes_end, banner_meshes_begin),
+                    (val_mod, ":num_banners", ":num_rows"),
+                    (store_sub, ":i", ":num_rows", ":num_banners"),
+                    (val_mod, ":i", ":num_rows"),
+
+                    (try_for_range, ":banner", banner_meshes_begin, banner_meshes_end),
+                        (create_image_button_overlay, reg1, ":banner", ":banner"),
+
+                        (store_sub, ":pos", ":num_rows", ":i"),
+                        (val_sub, ":pos", 1),
+
+                        (store_mul, ":x_pos", ":pos", 125),
+                        (val_add, ":x_pos", 60),
+                        (position_set_x, pos1, ":x_pos"),
+                        (position_set_y, pos1, ":y_pos"),
+                        (overlay_set_position, reg1, pos1),
+                        (position_set_x, pos1, 100),
+                        (position_set_y, pos1, 100),
+                        (overlay_set_size, reg1, pos1),
+
+                        (try_begin),
+                            (eq, "$g_presentation_selected_banner_begin", -1),
+                            (assign, "$g_presentation_selected_banner_begin", reg1),
+                        (try_end),
+
+                        (val_add, ":i", 1),
+                        (try_begin),
+                            (ge, ":i", ":num_rows"),
+                            (val_mod, ":i", ":num_rows"),
+                            (val_add, ":y_pos", 230),
+                        (try_end),
+                    (try_end),
+
+                    (set_container_overlay, -1),
+
+                    (str_store_string, s10, "@You have been granted a banner to represent your lineage."),
+                    (call_script, "script_presentation_create_text_overlay", tf_left_align, 50, 700, 1000, 1000),
+
+                    # Actions panel
+                    (create_game_button_overlay, "$g_presentation_ok", "@Accept banner"),
+                    (position_set_x, pos1, 150),
+                    (position_set_y, pos1, 50),
+                    (overlay_set_position, "$g_presentation_ok", pos1),
+                    (overlay_set_display, "$g_presentation_ok", 0),
+
+                    (presentation_set_duration, 999999),
+                ]),
+
+            (ti_on_presentation_event_state_change,
+                [
+                    (store_trigger_param_1, ":object"),
+
+                    (try_begin),
+                        (eq, ":object", "$g_presentation_ok"),
+                        (presentation_set_duration, 0),
+                    (else_try),
+                        (store_sub, ":offset", ":object", "$g_presentation_selected_banner_begin"),
+                        (store_add, ":selected_banner", ":offset", banner_scene_props_begin),
+
+                        (troop_set_slot, "$g_player_troop", slot_troop_banner_scene_prop, ":selected_banner"),
+                        (overlay_set_display, "$g_presentation_ok", 1),
+                    (try_end),
+                ]),
+        ]),
+
     ("setting_shield_painting", 0, mesh_load_window,
         [
             (ti_on_presentation_load,

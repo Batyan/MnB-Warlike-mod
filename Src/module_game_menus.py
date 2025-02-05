@@ -100,8 +100,8 @@ game_menus = [
 
                         (change_screen_return),
 
-                        (assign, ":banner", banner_scene_props_begin),
-                        (troop_set_slot, "$g_player_troop", slot_troop_banner_scene_prop, ":banner"),
+                        # (assign, ":banner", banner_scene_props_begin),
+                        (troop_set_slot, "$g_player_troop", slot_troop_banner_scene_prop, 0),
 
                         (str_store_troop_name, s10, "$g_player_troop"),
                         (troop_set_plural_name, "$g_player_troop", s10),
