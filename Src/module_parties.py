@@ -234,7 +234,7 @@ parties = [
 	("village_13a4","Ushkuru", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_13,0,ai_bhvr_hold,0,(30.5, 0.3),[], 170),
 	("village_13b1","Ehlerdah", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_13,0,ai_bhvr_hold,0,(45.7, -7.9),[], 170),
 	("village_13c1","New Village", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_13,0,ai_bhvr_hold,0,(-4.1, -24.7),[], 170),
-	("village_13d1","New Village", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_13,0,ai_bhvr_hold,0,(28.7, -16.3),[], 170),
+	("village_13d1","Nemesh", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_13,0,ai_bhvr_hold,0,(28.7, -16.3),[], 170),
 	
 	("village_14a1","Gisim", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_14,0,ai_bhvr_hold,0,(-90, 53),[], 170),
 	("village_14b1","Ilndir", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_14,0,ai_bhvr_hold,0,(-101.9, 55),[], 170),
@@ -246,7 +246,7 @@ parties = [
 	("village_16a1","Tadsamesh", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_16,0,ai_bhvr_hold,0,(29.7, 19.1),[], 170),
 	("village_16b1","New Village", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_16,0,ai_bhvr_hold,0,(15.2, 16.8),[], 170),
 	
-	("village_17a1","New Village", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_17,0,ai_bhvr_hold,0,(-10.4, -0.9),[], 170),
+	("village_17a1","Pelrend", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_17,0,ai_bhvr_hold,0,(-10.4, -0.9),[], 170),
 	("village_17a2","New Village", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_17,0,ai_bhvr_hold,0,(-22.5, 9.2),[], 170),
 	("village_17a3","New Village", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_17,0,ai_bhvr_hold,0,(-27.5, -5.4),[], 170),
 	("village_17b1","Nomar", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_17,0,ai_bhvr_hold,0,(-22, -22),[], 170),

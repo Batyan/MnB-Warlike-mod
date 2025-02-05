@@ -195,13 +195,13 @@ items = [
     ["warhorse","War Horse", [("warhorse",0)],                    itp_merchandise|itp_type_horse, 0, 
      4450,  hit_points(70)|body_armor(57)|difficulty(4)|horse_speed(41)|horse_maneuver(40)|horse_charge(200)|horse_scale(110),imodbits_horse_basic|imodbit_champion, [], [fac_kingdom_1, fac_kingdom_2, fac_kingdom_4, fac_kingdom_5] ],
     ["charger","Charger", [("charger",0)],                        itp_merchandise|itp_type_horse, 0, 
-     5220,  hit_points(65)|body_armor(63)|difficulty(4)|horse_speed(43)|horse_maneuver(39)|horse_charge(288)|horse_scale(105),imodbits_horse_basic|imodbit_champion, [], [fac_kingdom_1] ],
+     5220,  hit_points(65)|body_armor(63)|difficulty(4)|horse_speed(43)|horse_maneuver(39)|horse_charge(244)|horse_scale(105),imodbits_horse_basic|imodbit_champion, [], [fac_kingdom_1] ],
     ["charger_b","Charger", [("charger_new",0)],                  itp_merchandise|itp_type_horse, 0, 
-     5220,  hit_points(65)|body_armor(65)|difficulty(4)|horse_speed(42)|horse_maneuver(39)|horse_charge(292)|horse_scale(105),imodbits_horse_basic|imodbit_champion, [], [fac_kingdom_1] ],
+     5220,  hit_points(65)|body_armor(65)|difficulty(4)|horse_speed(42)|horse_maneuver(39)|horse_charge(244)|horse_scale(105),imodbits_horse_basic|imodbit_champion, [], [fac_kingdom_1] ],
     ["warhorse_sarranid","Sarranian War Horse", [("warhorse_sarranid",0)],itp_merchandise|itp_type_horse, 0, 
-     4900,  hit_points(65)|body_armor(62)|difficulty(4)|horse_speed(40)|horse_maneuver(41)|horse_charge(260)|horse_scale(107),imodbits_horse_basic|imodbit_champion, [], [fac_kingdom_6] ],
+     4900,  hit_points(65)|body_armor(62)|difficulty(4)|horse_speed(40)|horse_maneuver(41)|horse_charge(226)|horse_scale(107),imodbits_horse_basic|imodbit_champion, [], [fac_kingdom_6] ],
     ["warhorse_steppe","Steppe Charger", [("warhorse_steppe",0)], itp_merchandise|itp_type_horse, 0, 
-     4500,  hit_points(65)|body_armor(51)|difficulty(4)|horse_speed(43)|horse_maneuver(43)|horse_charge(216)|horse_scale(103),imodbits_horse_basic|imodbit_champion, [], [fac_kingdom_2, fac_kingdom_3] ],
+     4500,  hit_points(65)|body_armor(51)|difficulty(4)|horse_speed(43)|horse_maneuver(43)|horse_charge(216)|horse_scale(103),imodbits_horse_basic|imodbit_champion, [], [fac_kingdom_3] ],
     ["warhorse_b","War Horse", [("warhorse_chain",0)],            itp_merchandise|itp_type_horse, 0, 
      4450,  hit_points(70)|body_armor(55)|difficulty(4)|horse_speed(41)|horse_maneuver(41)|horse_charge(208)|horse_scale(103),imodbits_horse_basic|imodbit_champion, [], [fac_kingdom_1, fac_kingdom_5] ],
     
@@ -1273,6 +1273,7 @@ items = [
     ["building_barrack", "Barracks", [("shield_round_a",0)], 0, 0, 1, 0, 0 ],                   # Increases common troops trained, when defending, adds a random number of common units
     ["building_food_store", "Food Store", [("shield_round_a",0)], 0, 0, 1, 0, 0 ],              # Increases the maximum amount of food stored in the center (for sieges)
     ["building_recruitement_camp", "Recruitement Camp", [("shield_round_a",0)], 0, 0, 1, 0, 0 ],# For each reinforcements, gives 10% (rounded up) of additionnal units of higher rank
+    ["building_mason_guild", "Mason's Guild", [("shield_round_a",0)], 0, 0, 1, 0, 0 ],          # Increase building queue by 1. Decrease building time by 10%
 
     # Castle, Town
     ["building_barrack_2", "Barracks (2)", [("shield_round_a",0)], 0, 0, 1, 0, 0 ],             # Increases veteran units trained, when defending, adds a random number of common-veteran units
@@ -1285,6 +1286,7 @@ items = [
     ["building_trading_post", "Trading Post", [("shield_round_a",0)], 0, 0, 1, 0, 0 ],          # Increases trade profits of caravans by 5%, allows small escorts
     ["building_food_store_2", "Food Store", [("shield_round_a",0)], 0, 0, 1, 0, 0 ],            # Further increases food stored in center (for sieges)
     ["building_recruitement_camp_2", "Recruitement Camp (2)", [("shield_round_a",0)], 0, 0, 1, 0, 0 ],# For each reinforcements, gives 20% (rounded up) of additionnal units of higher rank
+    ["building_mason_guild_2", "Mason's Guild (2)", [("shield_round_a",0)], 0, 0, 1, 0, 0 ],    # Further increase building queue by 1. Decrease building cost by 10%
     
     # Town
     ["building_university", "University", [("shield_round_a",0)], 0, 0, 1, 0, 0 ],              # Increases money gained from taxes and trade by 5% each, increases population growth by 10%
@@ -1296,6 +1298,7 @@ items = [
     ["building_tavern_2", "Tavern (2)", [("shield_round_a",0)], 0, 0, 1, 0, 0 ],                # Increases prosperity by 10% allows more people in taverns, increases frequency of people in tavern
     ["building_trading_post_2", "Trading Post (2)", [("shield_round_a",0)], 0, 0, 1, 0, 0 ],    # Increases trade profits of caravans by 10%, allows bigger escorts
     ["building_bank", "Bank", [("shield_round_a",0)], 0, 0, 1, 0, 0 ],                          # Adds small income from bank taxes, adds the bank options
+    ["building_mason_guild_3", "Mason's Guild (3)", [("shield_round_a",0)], 0, 0, 1, 0, 0 ],    # Further increase building queue by 1. Decrease building time and cost by 10%
     
     ["buildings_end", "END", [("shield_round_a",0)], 0, 0, 1, 0, 0 ],
 
