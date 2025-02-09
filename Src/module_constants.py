@@ -582,6 +582,17 @@ slot_building_required_building			= slot_building_center_types + 1
 slot_building_presentation_card = slot_building_required_building + 1
 slot_building_presentation_button = slot_building_presentation_card + 1
 
+slot_building_type = slot_building_presentation_button + 1
+
+bt_economy = 0x01
+bt_growth = 0x02
+bt_defense = 0x04
+bt_recruit = 0x08
+bt_resources = 0x10
+bt_service = 0x20
+
+slot_building_temp_weight = slot_building_type + 1
+
 slot_recipe_required_item = 1
 slot_recipe_required_item_quantity = slot_recipe_required_item + 1
 slot_recipe_workload = slot_recipe_required_item_quantity + 1

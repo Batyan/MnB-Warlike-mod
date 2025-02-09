@@ -20035,6 +20035,43 @@ scripts = [
             (try_end),
         ]),
 
+    # script_party_process_building_constructions
+        # input:
+        #   arg1: party_no
+        # output: none
+    ("party_process_building_constructions",
+        [
+            (store_script_param, ":party_no", 1),
+
+            (try_begin),
+                (call_script, "script_cf_party_can_create_buildings", ":party_no"),
+
+                (assign, ":total", 0),
+                (try_for_range, ":building", center_buildings_begin, center_buildings_end),
+                    (try_begin),
+                        (call_script, "script_cf_party_can_create_building", ":party_no", ":building"),
+                        (call_script, "script_party_get_building_weight", ":party_no", ":building"),
+                        (assign, ":weight", reg0),
+                        (item_set_slot, ":building", slot_building_temp_weight, ":weight"),
+                        (val_add, ":total", ":weight"),
+                    (else_try),
+                        (item_set_slot, ":building", slot_building_temp_weight, 0),
+                    (try_end),
+                (try_end),
+
+                (gt, ":total", 0),
+                (store_random_in_range, ":rand", 0, ":total"),
+                (assign, ":end", center_buildings_end),
+                (try_for_range, ":building", center_buildings_begin, ":end"),
+                    (item_get_slot, ":weight", ":building", slot_building_temp_weight),
+                    (val_sub, ":rand", ":weight"),
+                    (lt, ":rand", 0),
+                    (assign, ":end", 0),
+                    (call_script, "script_party_create_building", ":party_no", ":building"),
+                (try_end),
+            (try_end),
+        ]),
+
     # script_party_process_buildings_maintenance
         # input:
         #   arg1: party_no
@@ -20050,6 +20087,90 @@ scripts = [
                 (val_mul, ":upkeep", -1),
                 (call_script, "script_party_add_accumulated_taxes", ":party_no", ":upkeep", tax_type_building_maintenance),
             (try_end),
+        ]),
+
+    # script_cf_party_can_create_buildings
+        # input:
+        #   arg1: party_no
+        # output: none
+        # fails if party is unable to start creation of a building
+    ("cf_party_can_create_buildings",
+        [
+            (store_script_param, ":party_no", 1),
+
+            (party_get_slot, ":besieged_by", ":party_no", slot_party_besieged_by),
+            (lt, ":besieged_by", 0),
+
+            (party_get_slot, ":leader", ":party_no", slot_party_leader),
+            (ge, ":leader", 0),
+            # (party_get_slot, ":governor", ":party_no", slot_party_governor),
+
+            (call_script, "script_party_get_building_slots", ":party_no"),
+            (assign, ":num_slots", reg0),
+
+            (assign, ":num_currently_building", 0),
+
+            (try_for_range_backwards, ":building", center_buildings_begin, center_buildings_end),
+                (store_sub, ":offset", ":building", center_buildings_begin),
+                (store_add, ":building_slot", ":offset", slot_party_building_slot_begin),
+                (party_get_slot, ":building_state", ":party_no", ":building_slot"),
+
+                (try_begin),
+                    (lt, ":building_state", 0),
+                    (val_add, ":num_currently_building", 1),
+                (try_end),
+            (try_end),
+
+            (gt, ":num_slots", ":num_currently_building"),
+        ]),
+
+    # script_cf_party_can_create_building
+        # input:
+        #   arg1: party_no
+        #   arg2: building
+        # output: none
+        # fails if party is unable to start creation of the building
+    ("cf_party_can_create_building",
+        [
+            (store_script_param, ":party_no", 1),
+            (store_script_param, ":building", 2),
+
+            (item_get_slot, ":enabled", ":building", slot_building_enabled),
+            (eq, ":enabled", 1),
+
+            (party_get_slot, ":party_type", ":party_no", slot_party_type),
+            (item_get_slot, ":center_types", ":building", slot_building_center_types),
+            (val_mod, ":center_types", ":party_type"),
+            (eq, ":center_types", 0),
+
+            (item_get_slot, ":requirement", ":building", slot_building_required_building),
+            (assign, ":continue", 0),
+            (try_begin),
+                (is_between, ":requirement", center_buildings_begin, center_buildings_end),
+                (try_begin),
+                    (call_script, "script_cf_party_has_building", ":party_no", ":requirement"),
+                    (assign, ":continue", 1),
+                (try_end),
+            (else_try),
+                (assign, ":continue", 1),
+            (try_end),
+
+            (eq, ":continue", 1),
+        ]),
+
+    # script_party_get_building_weight
+        # input:
+        #   arg1: party_no
+        #   arg2: building
+        # output:
+        #   reg0: weight
+    ("party_get_building_weight",
+        [
+            # (store_script_param, ":party_no", 1),
+            # (store_script_param, ":building", 2),
+
+            (assign, reg0, 100),
+
         ]),
 
     # script_party_process_prisoners
@@ -27766,10 +27887,13 @@ scripts = [
 
             (try_begin),
                 (party_get_slot, ":leader", ":party_no", slot_party_leader),
-                (eq, ":leader", "$g_player_troop"),
+
+                (this_or_next|eq, ":leader", "$g_player_troop"),
+                (call_script, "script_cf_debug", debug_economy|debug_current),
 
                 (str_store_item_name, s10, ":building"),
-                (display_message, "@Starting construction of {s10}"),
+                (str_store_party_name, s11, ":party_no"),
+                (display_message, "@Starting construction of {s10} in {s11}"),
             (try_end),
         ]),
 

@@ -61,6 +61,7 @@ simple_triggers = [
                     (call_script, "script_party_process_population", ":party_no"),
                     (call_script, "script_party_process_taxes", ":party_no"),
                     (call_script, "script_party_process_buildings", ":party_no", monthly),
+                    (call_script, "script_party_process_building_constructions", ":party_no"),
                     (call_script, "script_party_process_attached_parties", ":party_no"),
                     (call_script, "script_party_process_prisoners", ":party_no"),
                 (else_try),
