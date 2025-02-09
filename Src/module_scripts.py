@@ -20046,6 +20046,12 @@ scripts = [
             (try_begin),
                 (call_script, "script_cf_party_can_create_buildings", ":party_no"),
 
+                (party_get_slot, ":leader", ":party_no", slot_party_leader),
+                (party_get_slot, ":governor", ":party_no", slot_party_governor),
+                (this_or_next|neq, ":leader", "$g_player_troop"),
+                (gt, ":governor", 0),
+                (neq, ":governor", 0), ## We don't want to auto build if the player is governor
+
                 (assign, ":total", 0),
                 (try_for_range, ":building", center_buildings_begin, center_buildings_end),
                     (try_begin),
@@ -20166,10 +20172,18 @@ scripts = [
         #   reg0: weight
     ("party_get_building_weight",
         [
-            # (store_script_param, ":party_no", 1),
-            # (store_script_param, ":building", 2),
+            (store_script_param, ":party_no", 1),
+            (store_script_param, ":building", 2),
 
-            (assign, reg0, 100),
+            (party_get_slot, ":wealth", ":party_no", slot_party_wealth),
+            (item_get_slot, ":cost", ":building", slot_building_cost_gold),
+            (try_begin),
+                (gt, ":wealth", ":cost"),
+
+                (assign, reg0, 100),
+            (else_try),
+                (assign, reg0, 0),
+            (try_end),
 
         ]),
 
