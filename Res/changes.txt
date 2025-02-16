@@ -22,6 +22,7 @@ v0.570:
 	-Fixes:
 		* fix incorrect charge value for charger (36 -> 244)
 		* fix incorrect charge value for warhorse_sarranid (4 -> 226)
+		* fix bug with bandit robbing displaying incorrect money value
 v0.560:
 	-Features:
 		* add player character introduction choices and effects
