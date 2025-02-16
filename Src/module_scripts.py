@@ -7207,8 +7207,8 @@ scripts = [
             (faction_set_slot, "fac_kingdom_2", slot_faction_troop_ratio_horse_archer, 25),
             (faction_set_slot, "fac_kingdom_2", slot_faction_troop_ratio_mounted_skirmisher, 30),
             
-            (faction_set_slot, "fac_kingdom_3", slot_faction_troop_ratio_infantry, 35),
-            (faction_set_slot, "fac_kingdom_3", slot_faction_troop_ratio_spearman, 75),
+            (faction_set_slot, "fac_kingdom_3", slot_faction_troop_ratio_infantry, 45),
+            (faction_set_slot, "fac_kingdom_3", slot_faction_troop_ratio_spearman, 85),
             (faction_set_slot, "fac_kingdom_3", slot_faction_troop_ratio_pikeman, 5),
             (faction_set_slot, "fac_kingdom_3", slot_faction_troop_ratio_skirmisher, 25),
             (faction_set_slot, "fac_kingdom_3", slot_faction_troop_ratio_shock_infantry, 10),
@@ -7359,8 +7359,8 @@ scripts = [
             (call_script, "script_faction_change_slot", "fac_small_kingdom_33", slot_faction_troop_ratio_cavalry, -30),
             (call_script, "script_faction_change_slot", "fac_small_kingdom_33", slot_faction_troop_ratio_lancer, -30),
             
-            (call_script, "script_faction_change_slot", "fac_small_kingdom_34", slot_faction_troop_ratio_horse_archer, -15),
-            (call_script, "script_faction_change_slot", "fac_small_kingdom_34", slot_faction_troop_ratio_cavalry, -10),
+            (call_script, "script_faction_change_slot", "fac_small_kingdom_34", slot_faction_troop_ratio_horse_archer, -20),
+            (call_script, "script_faction_change_slot", "fac_small_kingdom_34", slot_faction_troop_ratio_cavalry, -15),
             (call_script, "script_faction_change_slot", "fac_small_kingdom_34", slot_faction_troop_ratio_mounted_skirmisher, -10),
             (call_script, "script_faction_change_slot", "fac_small_kingdom_34", slot_faction_troop_ratio_lancer, 20),
             (call_script, "script_faction_change_slot", "fac_small_kingdom_34", slot_faction_troop_ratio_spearman, 10),
@@ -7431,6 +7431,7 @@ scripts = [
             (call_script, "script_faction_change_slot", "fac_small_kingdom_61", slot_faction_troop_ratio_horse_archer, 50),
             (call_script, "script_faction_change_slot", "fac_small_kingdom_61", slot_faction_troop_ratio_mounted_skirmisher, -50),
             (call_script, "script_faction_change_slot", "fac_small_kingdom_61", slot_faction_troop_ratio_lancer, 5),
+            (call_script, "script_faction_change_slot", "fac_small_kingdom_61", slot_faction_troop_ratio_cavalry, -20),
             
             (call_script, "script_faction_change_slot", "fac_small_kingdom_62", slot_faction_troop_ratio_archer, 40),
             (call_script, "script_faction_change_slot", "fac_small_kingdom_62", slot_faction_troop_ratio_skirmisher, -50),

@@ -14,6 +14,11 @@ v0.570:
 		* increase vaegir_scout polearm proeficiency (70 -> 105)
 		* remove vaegir_scout garranteed shield
 		* bank interests are displayed in budget presentation
+		* increase khergit infantry ratio (35 -> 45)
+		* increase khergit spearman ratio (75 -> 85)
+		* decrease small_kingdom_34 horse archer ratio change (-15 -> -20)
+		* decrease small_kingdom_34 cavalry ratio change (-10 -> -15)
+		* decrease small_kingdom_61 cavalry ratio change (0 -> -20)
 	-Fixes:
 		* fix incorrect charge value for charger (36 -> 244)
 		* fix incorrect charge value for warhorse_sarranid (4 -> 226)
