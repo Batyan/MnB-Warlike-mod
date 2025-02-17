@@ -6,6 +6,7 @@ v0.570:
 		* add player starting position selection
 		* add banner selection presentation
 		* npc lords will create buildings in their centers
+		* expanded character introduction texts
 	-Balances:
 		* change swadian_scout weapon (spear -> light_lance)
 		* decrease swadian_scout powerstrike (4 -> 3)

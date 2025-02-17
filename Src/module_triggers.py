@@ -20,7 +20,6 @@ triggers = [
             (troop_slot_eq, "$g_player_troop", slot_troop_noble, 1),
         ],
         [
-            (display_message, "@Starting banner selection"),
             (start_presentation, "prsnt_banner_selection"),
         ]),	
 ]

@@ -263,6 +263,8 @@ game_menus = [
         "none",
         [
             (str_store_string, s10, "str_start_game_intro_2"),
+
+            (troop_get_type, reg10, "$g_player_troop"),
             (try_begin),
                 (eq, "$g_start_game_intro_parents", -1),
                 (str_clear, s11),
@@ -275,51 +277,57 @@ game_menus = [
         ],
         [
             ("choice_noble", 
-                [(try_begin),(eq, "$g_start_game_intro_parents", player_starting_2_noble),(disable_menu_option),(try_end),], "Impoverished nobles",
+                [(try_begin),(eq, "$g_start_game_intro_parents", player_starting_2_noble),(disable_menu_option),(try_end),], "An impoverished noble",
                 [
                     (assign, "$g_start_game_intro_parents", player_starting_2_noble),
                     (jump_to_menu, "mnu_start_game_intro_2"),
                 ]),
             ("choice_farmer", 
-                [(try_begin),(eq, "$g_start_game_intro_parents", player_starting_2_farmer),(disable_menu_option),(try_end),], "Farmers",
+                [(try_begin),(eq, "$g_start_game_intro_parents", player_starting_2_farmer),(disable_menu_option),(try_end),], "A farmer",
                 [
                     (assign, "$g_start_game_intro_parents", player_starting_2_farmer),
                     (jump_to_menu, "mnu_start_game_intro_2"),
                 ]),
             ("choice_hunter", 
-                [(try_begin),(eq, "$g_start_game_intro_parents", player_starting_2_hunter),(disable_menu_option),(try_end),], "Hunters",
+                [(try_begin),(eq, "$g_start_game_intro_parents", player_starting_2_hunter),(disable_menu_option),(try_end),], "A hunter",
                 [
                     (assign, "$g_start_game_intro_parents", player_starting_2_hunter),
                     (jump_to_menu, "mnu_start_game_intro_2"),
                 ]),
             ("choice_artisan", 
-                [(try_begin),(eq, "$g_start_game_intro_parents", player_starting_2_artisan),(disable_menu_option),(try_end),], "Artisans",
+                [(try_begin),(eq, "$g_start_game_intro_parents", player_starting_2_artisan),(disable_menu_option),(try_end),], "An artisan",
                 [
                     (assign, "$g_start_game_intro_parents", player_starting_2_artisan),
                     (jump_to_menu, "mnu_start_game_intro_2"),
                 ]),
             ("choice_court_advisor", 
-                [(try_begin),(eq, "$g_start_game_intro_parents", player_starting_2_advisor),(disable_menu_option),(try_end),], "Court advisors",
+                [(try_begin),(eq, "$g_start_game_intro_parents", player_starting_2_advisor),(disable_menu_option),(try_end),], "A court advisor",
                 [
                     (assign, "$g_start_game_intro_parents", player_starting_2_advisor),
                     (jump_to_menu, "mnu_start_game_intro_2"),
                 ]),
             ("choice_trader", 
-                [(try_begin),(eq, "$g_start_game_intro_parents", player_starting_2_trader),(disable_menu_option),(try_end),], "Traders",
+                [(try_begin),(eq, "$g_start_game_intro_parents", player_starting_2_trader),(disable_menu_option),(try_end),], "A travelling merchant",
                 [
                     (assign, "$g_start_game_intro_parents", player_starting_2_trader),
                     (jump_to_menu, "mnu_start_game_intro_2"),
                 ]),
             ("choice_mercenary", 
-                [(try_begin),(eq, "$g_start_game_intro_parents", player_starting_2_mercenary),(disable_menu_option),(try_end),], "Mercenaries",
+                [(try_begin),(eq, "$g_start_game_intro_parents", player_starting_2_mercenary),(disable_menu_option),(try_end),], "A veteran warrior",
                 [
                     (assign, "$g_start_game_intro_parents", player_starting_2_mercenary),
                     (jump_to_menu, "mnu_start_game_intro_2"),
                 ]),
             ("choice_outlaw", 
-                [(try_begin),(eq, "$g_start_game_intro_parents", player_starting_2_outlaw),(disable_menu_option),(try_end),], "Outlaws",
+                [(try_begin),(eq, "$g_start_game_intro_parents", player_starting_2_outlaw),(disable_menu_option),(try_end),], "A wanted outlaw",
                 [
                     (assign, "$g_start_game_intro_parents", player_starting_2_outlaw),
+                    (jump_to_menu, "mnu_start_game_intro_2"),
+                ]),
+            ("choice_nomad", 
+                [(try_begin),(eq, "$g_start_game_intro_parents", player_starting_2_nomad),(disable_menu_option),(try_end),], "A steppe nomad",
+                [
+                    (assign, "$g_start_game_intro_parents", player_starting_2_nomad),
                     (jump_to_menu, "mnu_start_game_intro_2"),
                 ]),
 
@@ -340,6 +348,8 @@ game_menus = [
         "none",
         [
             (str_store_string, s10, "str_start_game_intro_3"),
+
+            (troop_get_type, reg10, "$g_player_troop"),
             (try_begin),
                 (eq, "$g_start_game_intro_childhood", -1),
                 (str_clear, s11),
@@ -359,7 +369,7 @@ game_menus = [
                 ]),
 
             ("choice_apprentice", 
-                [(try_begin),(eq, "$g_start_game_intro_childhood", player_starting_3_apprentice),(disable_menu_option),(try_end),], "a smith's apprentice",
+                [(try_begin),(eq, "$g_start_game_intro_childhood", player_starting_3_apprentice),(disable_menu_option),(try_end),], "a craftsman's apprentice",
                 [
                     (assign, "$g_start_game_intro_childhood", player_starting_3_apprentice),
                     (jump_to_menu, "mnu_start_game_intro_3"),
@@ -393,10 +403,10 @@ game_menus = [
                     (jump_to_menu, "mnu_start_game_intro_3"),
                 ]),
 
-            ("choice_squire", 
-                [(try_begin),(eq, "$g_start_game_intro_childhood", player_starting_3_squire),(disable_menu_option),(try_end),], "an apprentice squire",
+            ("choice_page", 
+                [(try_begin),(eq, "$g_start_game_intro_childhood", player_starting_3_page),(disable_menu_option),(try_end),], "a page at a nobleman's court",
                 [
-                    (assign, "$g_start_game_intro_childhood", player_starting_3_squire),
+                    (assign, "$g_start_game_intro_childhood", player_starting_3_page),
                     (jump_to_menu, "mnu_start_game_intro_3"),
                 ]),
 
@@ -501,6 +511,8 @@ game_menus = [
         "none",
         [
             (str_store_string, s10, "str_start_game_intro_5"),
+            
+            (troop_get_type, reg10, "$g_player_troop"),
             (try_begin),
                 (eq, "$g_start_game_intro_job", -1),
                 (str_clear, s11),
@@ -513,91 +525,91 @@ game_menus = [
         ],
         [
             ("choice_guard",
-                [(try_begin),(eq, "$g_start_game_intro_job", player_starting_5_guard),(disable_menu_option),(try_end),], "As a city watch",
+                [(try_begin),(eq, "$g_start_game_intro_job", player_starting_5_guard),(disable_menu_option),(try_end),], "A city watch",
                 [
                     (assign, "$g_start_game_intro_job", player_starting_5_guard),
                     (jump_to_menu, "mnu_start_game_intro_5"),
                 ]),
             
             ("choice_outlaw",
-                [(try_begin),(eq, "$g_start_game_intro_job", player_starting_5_outlaw),(disable_menu_option),(try_end),], "As a wanted outlaw",
+                [(try_begin),(eq, "$g_start_game_intro_job", player_starting_5_outlaw),(disable_menu_option),(try_end),], "A wanted outlaw",
                 [
                     (assign, "$g_start_game_intro_job", player_starting_5_outlaw),
                     (jump_to_menu, "mnu_start_game_intro_5"),
                 ]),
             
             ("choice_pickpocket",
-                [(try_begin),(eq, "$g_start_game_intro_job", player_starting_5_pickpocket),(disable_menu_option),(try_end),], "As a pickpocket in the streets",
+                [(try_begin),(eq, "$g_start_game_intro_job", player_starting_5_pickpocket),(disable_menu_option),(try_end),], "A pickpocket in the streets",
                 [
                     (assign, "$g_start_game_intro_job", player_starting_5_pickpocket),
                     (jump_to_menu, "mnu_start_game_intro_5"),
                 ]),
             
             ("choice_messenger",
-                [(try_begin),(eq, "$g_start_game_intro_job", player_starting_5_messenger),(disable_menu_option),(try_end),], "As a messenger",
+                [(try_begin),(eq, "$g_start_game_intro_job", player_starting_5_messenger),(disable_menu_option),(try_end),], "A messenger",
                 [
                     (assign, "$g_start_game_intro_job", player_starting_5_messenger),
                     (jump_to_menu, "mnu_start_game_intro_5"),
                 ]),
             
             ("choice_hunter",
-                [(try_begin),(eq, "$g_start_game_intro_job", player_starting_5_hunter),(disable_menu_option),(try_end),], "Hunting in the wilds",
+                [(try_begin),(eq, "$g_start_game_intro_job", player_starting_5_hunter),(disable_menu_option),(try_end),], "A game poacher",
                 [
                     (assign, "$g_start_game_intro_job", player_starting_5_hunter),
                     (jump_to_menu, "mnu_start_game_intro_5"),
                 ]),
             
             ("choice_farmer",
-                [(try_begin),(eq, "$g_start_game_intro_job", player_starting_5_farmer),(disable_menu_option),(try_end),], "Farming",
+                [(try_begin),(eq, "$g_start_game_intro_job", player_starting_5_farmer),(disable_menu_option),(try_end),], "A farmer",
                 [
                     (assign, "$g_start_game_intro_job", player_starting_5_farmer),
                     (jump_to_menu, "mnu_start_game_intro_5"),
                 ]),
             
             ("choice_merchant",
-                [(try_begin),(eq, "$g_start_game_intro_job", player_starting_5_merchant),(disable_menu_option),(try_end),], "Wandering as a travelling merchant",
+                [(try_begin),(eq, "$g_start_game_intro_job", player_starting_5_merchant),(disable_menu_option),(try_end),], "A travelling merchant",
                 [
                     (assign, "$g_start_game_intro_job", player_starting_5_merchant),
                     (jump_to_menu, "mnu_start_game_intro_5"),
                 ]),
             
             ("choice_mercenary",
-                [(try_begin),(eq, "$g_start_game_intro_job", player_starting_5_mercenary),(disable_menu_option),(try_end),], "Taking mercenary contracts",
+                [(try_begin),(eq, "$g_start_game_intro_job", player_starting_5_mercenary),(disable_menu_option),(try_end),], "A mercenary",
                 [
                     (assign, "$g_start_game_intro_job", player_starting_5_mercenary),
                     (jump_to_menu, "mnu_start_game_intro_5"),
                 ]),
             
             ("choice_artisan",
-                [(try_begin),(eq, "$g_start_game_intro_job", player_starting_5_artisan),(disable_menu_option),(try_end),], "Working your way as an artisan",
+                [(try_begin),(eq, "$g_start_game_intro_job", player_starting_5_artisan),(disable_menu_option),(try_end),], "An artisan",
                 [
                     (assign, "$g_start_game_intro_job", player_starting_5_artisan),
                     (jump_to_menu, "mnu_start_game_intro_5"),
                 ]),
             
             ("choice_scout",
-                [(try_begin),(eq, "$g_start_game_intro_job", player_starting_5_scout),(disable_menu_option),(try_end),], "Scouting for the local lord",
+                [(try_begin),(eq, "$g_start_game_intro_job", player_starting_5_scout),(disable_menu_option),(try_end),], "A scout for the local lord",
                 [
                     (assign, "$g_start_game_intro_job", player_starting_5_scout),
                     (jump_to_menu, "mnu_start_game_intro_5"),
                 ]),
             
             ("choice_court",
-                [(try_begin),(eq, "$g_start_game_intro_job", player_starting_5_court),(disable_menu_option),(try_end),], "As a court assistant",
+                [(try_begin),(eq, "$g_start_game_intro_job", player_starting_5_court),(disable_menu_option),(try_end),], "A court assistant",
                 [
                     (assign, "$g_start_game_intro_job", player_starting_5_court),
                     (jump_to_menu, "mnu_start_game_intro_5"),
                 ]),
             
             ("choice_beggar",
-                [(try_begin),(eq, "$g_start_game_intro_job", player_starting_5_beggar),(disable_menu_option),(try_end),], "Begging in the streets",
+                [(try_begin),(eq, "$g_start_game_intro_job", player_starting_5_beggar),(disable_menu_option),(try_end),], "A beggar in the streets",
                 [
                     (assign, "$g_start_game_intro_job", player_starting_5_beggar),
                     (jump_to_menu, "mnu_start_game_intro_5"),
                 ]),
             
             ("choice_doctor",
-                [(try_begin),(eq, "$g_start_game_intro_job", player_starting_5_doctor),(disable_menu_option),(try_end),], "As a wandering doctor",
+                [(try_begin),(eq, "$g_start_game_intro_job", player_starting_5_doctor),(disable_menu_option),(try_end),], "A wandering doctor",
                 [
                     (assign, "$g_start_game_intro_job", player_starting_5_doctor),
                     (jump_to_menu, "mnu_start_game_intro_5"),
@@ -639,7 +651,7 @@ game_menus = [
                 ]),
 
             ("choice_wealth",
-                [(try_begin),(eq, "$g_start_game_intro_motivation", player_starting_6_gold),(disable_menu_option),(try_end),], "The promise of wealth",
+                [(try_begin),(eq, "$g_start_game_intro_motivation", player_starting_6_gold),(disable_menu_option),(try_end),], "Lust for money and power",
                 [
                     (assign, "$g_start_game_intro_motivation", player_starting_6_gold),
                     (jump_to_menu, "mnu_start_game_intro_6"),
@@ -660,7 +672,7 @@ game_menus = [
                 ]),
 
             ("choice_revenge",
-                [(try_begin),(eq, "$g_start_game_intro_motivation", player_starting_6_revenge),(disable_menu_option),(try_end),], "Revenge",
+                [(try_begin),(eq, "$g_start_game_intro_motivation", player_starting_6_revenge),(disable_menu_option),(try_end),], "Personal revenge",
                 [
                     (assign, "$g_start_game_intro_motivation", player_starting_6_revenge),
                     (jump_to_menu, "mnu_start_game_intro_6"),
@@ -702,37 +714,37 @@ game_menus = [
         ],
         [
             ("choice_swadia",
-                [(try_begin),(eq, "$g_start_game_intro_location", player_starting_7_swadia),(disable_menu_option),(try_end),], "A ship to Praven",
+                [(try_begin),(eq, "$g_start_game_intro_location", player_starting_7_swadia),(disable_menu_option),(try_end),], "Join a caravan to Praven, in the Kingdom of Swadia.",
                 [
                     (assign, "$g_start_game_intro_location", player_starting_7_swadia),
                     (jump_to_menu, "mnu_start_game_intro_7"),
                 ]),
             ("choice_vaegir",
-                [(try_begin),(eq, "$g_start_game_intro_location", player_starting_7_vaegir),(disable_menu_option),(try_end),], "A caravan to Reyvadin",
+                [(try_begin),(eq, "$g_start_game_intro_location", player_starting_7_vaegir),(disable_menu_option),(try_end),], "Join a caravan to Reyvadin, in the Kingdom of the Vaegirs.",
                 [
                     (assign, "$g_start_game_intro_location", player_starting_7_vaegir),
                     (jump_to_menu, "mnu_start_game_intro_7"),
                 ]),
             ("choice_khergit",
-                [(try_begin),(eq, "$g_start_game_intro_location", player_starting_7_khergit),(disable_menu_option),(try_end),], "A caravan to Tulga",
+                [(try_begin),(eq, "$g_start_game_intro_location", player_starting_7_khergit),(disable_menu_option),(try_end),], "Join a caravan to Tulga, in the Khergit Khanate.",
                 [
                     (assign, "$g_start_game_intro_location", player_starting_7_khergit),
                     (jump_to_menu, "mnu_start_game_intro_7"),
                 ]),
             ("choice_nord",
-                [(try_begin),(eq, "$g_start_game_intro_location", player_starting_7_nord),(disable_menu_option),(try_end),], "A ship to Sargoth",
+                [(try_begin),(eq, "$g_start_game_intro_location", player_starting_7_nord),(disable_menu_option),(try_end),], "Take a ship to Sargoth, in the Kingdom of the Nords.",
                 [
                     (assign, "$g_start_game_intro_location", player_starting_7_nord),
                     (jump_to_menu, "mnu_start_game_intro_7"),
                 ]),
             ("choice_rhodok",
-                [(try_begin),(eq, "$g_start_game_intro_location", player_starting_7_rhodok),(disable_menu_option),(try_end),], "A caravan to Jelkala",
+                [(try_begin),(eq, "$g_start_game_intro_location", player_starting_7_rhodok),(disable_menu_option),(try_end),], "Take a ship to Jelkala, in the Kingdom of the Rhodoks.",
                 [
                     (assign, "$g_start_game_intro_location", player_starting_7_rhodok),
                     (jump_to_menu, "mnu_start_game_intro_7"),
                 ]),
             ("choice_sarranid",
-                [(try_begin),(eq, "$g_start_game_intro_location", player_starting_7_sarranid),(disable_menu_option),(try_end),], "A ship to Shariz",
+                [(try_begin),(eq, "$g_start_game_intro_location", player_starting_7_sarranid),(disable_menu_option),(try_end),], "Join a caravan to Shariz, in the Sarranid Sultanate.",
                 [
                     (assign, "$g_start_game_intro_location", player_starting_7_sarranid),
                     (jump_to_menu, "mnu_start_game_intro_7"),
@@ -1262,9 +1274,6 @@ game_menus = [
                         (call_script, "script_party_add_reinforcements", "$g_player_party"),
                     (try_end),
                     (troop_set_faction, "$g_player_troop", "$g_test_player_faction"),
-                    
-                    (store_random_in_range, ":banner", banner_scene_props_begin, banner_scene_props_end),
-                    (troop_set_slot, "$g_player_troop", slot_troop_banner_scene_prop, ":banner"),
 
                     (display_message, "@Joined!"),
                     (jump_to_menu, "mnu_test_faction_join"),

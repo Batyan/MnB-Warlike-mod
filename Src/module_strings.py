@@ -1238,36 +1238,74 @@ strings = [
   ("my_lord|my_lady", "{My Lord/My Lady}"),
 
   ("start_game_introduction_text", "Welcome to Calradia, a land torn with strife and conflicts.^\
-    It is an ideal situation for an ambitious person to climb the ranks of society.^^\
-    You will first need to select your character gender."),
+ It is an ideal situation for an ambitious person to climb the ranks of society.^^\
+ You will first need to select your character gender."),
 
-  ("start_game_intro_1", "Your family lived..."),
-  ("start_game_intro_1_choice_swadian", "In the plains of Swadia"),
-  ("start_game_intro_1_choice_vaegir", "In the Vaegir tundra"),
-  ("start_game_intro_1_choice_khergit", "In the Khergit steppes"),
-  ("start_game_intro_1_choice_nord", "On the Nordic coasts"),
-  ("start_game_intro_1_choice_rhodok", "In the Rhodok hills"),
-  ("start_game_intro_1_choice_sarranid", "In the Sarranid deserts"),
-  ("start_game_intro_1_choice_foreign", "In a far away land"),
+  ("start_game_intro_1", "Before you were born, your family lived..."),
+  ("start_game_intro_1_choice_swadian", "In the plains of Swadia.^^You do not know when or why your parents left their homeland. You occasionally heard a glimpse of information about the region. But you know your parents didn't like to talk about the subject. Whether forced to leave or compeled to, you only know that there was some nostalgia to their word."),
+  ("start_game_intro_1_choice_vaegir", "In the Vaegir tundra.^^You do not know when or why your parents left their homeland. You occasionally heard a glimpse of information about the region. But you know your parents didn't like to talk about the subject. Whether forced to leave or compeled to, you only know that there was some nostalgia to their word."),
+  ("start_game_intro_1_choice_khergit", "In the Khergit steppes.^^You do not know when or why your parents left their homeland. You occasionally heard a glimpse of information about the region. But you know your parents didn't like to talk about the subject. Whether forced to leave or compeled to, you only know that there was some nostalgia to their word."),
+  ("start_game_intro_1_choice_nord", "On the Nordic coasts.^^You do not know when or why your parents left their homeland. You occasionally heard a glimpse of information about the region. But you know your parents didn't like to talk about the subject. Whether forced to leave or compeled to, you only know that there was some nostalgia to their word."),
+  ("start_game_intro_1_choice_rhodok", "In the Rhodok hills.^^You do not know when or why your parents left their homeland. You occasionally heard a glimpse of information about the region. But you know your parents didn't like to talk about the subject. Whether forced to leave or compeled to, you only know that there was some nostalgia to their word."),
+  ("start_game_intro_1_choice_sarranid", "In the Sarranid deserts.^^You do not know when or why your parents left their homeland. You occasionally heard a glimpse of information about the region. But you know your parents didn't like to talk about the subject. Whether forced to leave or compeled to, you only know that there was some nostalgia to their word."),
+  ("start_game_intro_1_choice_foreign", "In a far away land.^^You occasionally heard about Calradia, a land torn with strife and conflicts. And wondered how different life would be there."),
 
-  ("start_game_intro_2", "Your parents were..."),
-  ("start_game_intro_2_choice_noble", "Impoverished nobles"),
-  ("start_game_intro_2_choice_farmer", "Farmers"),
-  ("start_game_intro_2_choice_hunter", "Hunters"),
-  ("start_game_intro_2_choice_artisan", "Artisans"),
-  ("start_game_intro_2_choice_court_advisor", "Court advisors"),
-  ("start_game_intro_2_choice_trader", "Traders"),
-  ("start_game_intro_2_choice_mercenary", "Mercenaries"),
-  ("start_game_intro_2_choice_outlaw", "Outlaws"),
+  ("start_game_intro_2", "Your father was..."),
+  ("start_game_intro_2_choice_noble", "An impoverished noble^^You came into the world a {reg10?daughter:son} of declining nobility,\
+ owning only the house in which they lived. However, despite your family's hardships,\
+ they afforded you a good education and trained you from childhood for the rigors of aristocracy and life at court."),
+  ("start_game_intro_2_choice_farmer", "A farmer^^Both your parents had to manage parts of a farm owned by the lord,\
+ life was hard and money was scarse, but they tried their best to keep food on the table everyday.\
+ You would sometimes help in the fields which made you used to hard labor early on."),
+  ("start_game_intro_2_choice_hunter", "A hunter^^You were the {reg10?daughter:son} of a family who lived off the woods,\
+ doing whatever they needed to make ends meet. Hunting, woodcutting, making arrows,\
+ even a spot of poaching whenever things got tight. Winter was never a good time for your family\
+ as the cold took animals and people alike, but you always lived to see another dawn,\
+ though your brothers and sisters might not be so fortunate."),
+  ("start_game_intro_2_choice_artisan", "An artisan^^Born in a large city from talented craftsmen,\
+ your parents provided you with a comfortable life. Work was hard for them but they were able to afford you a good education."),
+  ("start_game_intro_2_choice_court_advisor", "A court advisor^^You were the {reg10?daughter:son} of favored advisors of the local lord,\
+ your family was not wealthy, but you had enough to live well enough and had the priviledge of interacting with nobility."),
+  ("start_game_intro_2_choice_trader", "A travelling merchant^^You were born the {reg10?daughter:son} of travelling merchants,\
+ always moving from place to place in search of a profit. Although your parents were wealthier than most\
+ and educated you as well as they could, you found little opportunity to make friends on the road,\
+ living mostly for the moments when you could sell something to somebody."),
+  ("start_game_intro_2_choice_mercenary", "A veteran warrior^^As a child, your family scrabbled out a meagre living from your father's wages\
+ as a guardsman to the local lord. It was not an easy existence, and you were too poor to get much of an\
+ education. You learned mainly how to defend yourself on the streets, with or without a weapon in hand."),
+  ("start_game_intro_2_choice_outlaw", "A wanted outlaw^^As the {reg10?daughter:son} of a thief, you had very little 'formal' education.\
+ Instead you were out on the street, begging until you learned how to cut purses, cutting purses\
+ until you learned how to pick locks, all the way through your childhood.\
+ Still, these long years made you streetwise and sharp to the secrets of cities and shadowy backways."),
+  ("start_game_intro_2_choice_nomad", "A steppe nomad^^You were a child of the steppe, born to a tribe of wandering nomads who lived\
+ in great camps throughout the arid grasslands.\
+ Like the other tribesmen, your family revered horses above almost everything else, and they taught you\
+ how to ride almost before you learned how to walk."),
 
-  ("start_game_intro_3", "You spent your early childhood as..."),
-  ("start_game_intro_3_choice_street_urchin", "Street urchin"),
-  ("start_game_intro_3_choice_street_urchin", "Smith's apprentice"),
-  ("start_game_intro_3_choice_street_urchin", "Stable hand"),
-  ("start_game_intro_3_choice_street_urchin", "Farmer"),
-  ("start_game_intro_3_choice_street_urchin", "Errand boy"),
-  ("start_game_intro_3_choice_street_urchin", "School student"),
-  ("start_game_intro_3_choice_street_urchin", "Squire"),
+  ("start_game_intro_3", "You started to learn about the world almost as soon as you could walk and talk. You spent your early life as..."),
+  ("start_game_intro_3_choice_street_urchin", "A street urchin^^As a {reg10?girl:boy} growing out of childhood,\
+ you took to the streets, doing whatever you must to survive.\
+ Begging, thieving and working for gangs to earn your bread, you lived from day to day in this violent world,\
+ always one step ahead of the law and those who wished you ill."),
+  ("start_game_intro_3_choice_apprentice", "A craftsman's apprentice^^As a {reg10?girl:boy} growing out of childhood,\
+ you apprenticed with a local craftsman to learn a trade. After years of hard work and study under your\
+ new master, he promoted you to journeyman and employed you as a fully paid craftsman for as long as\
+ you wished to stay."),
+  ("start_game_intro_3_choice_stable_hand", "A stable hand^^As a {reg10?girl:boy} growing out of childhood,\
+ you helped care for horses at a local stable. You learned to care for their needs and tend their wounds,\
+ the owner even gave you valuable riding lessons."),
+  ("start_game_intro_3_choice_farmer", "A helper in a farm^^As a {reg10?girl:boy} growing out of childhood,\
+ you helped doing manual labor at the farm. At your young age you could not do as much as the adult, but you tried your best picking crops and\
+ carrying smaller loads."),
+  ("start_game_intro_3_choice_errand_boy", "An errand boy^^As a {reg10?girl:boy} growing out of childhood,\
+ you ran errands for just about anybody. Transporting goods, delivering messages, you were willing to do almost any job for some pocket change."),
+  ("start_game_intro_3_choice_schooled", "A school student.^^As a {reg10?girl:boy} growing out of childhood,\
+ you were given the opportunity and time to study various subjects in a school. With an eagerness to learn you rigorously studied history, mathematics and even medicine."),
+  ("start_game_intro_3_choice_page", "A page at a nobleman's court.^^As a {reg10?girl:boy} growing out of childhood,\
+ you were sent to live in the court of one of the nobles of the land.\
+ There, your first lessons were in humility, as you waited upon the lords and ladies of the household.\
+ But from their chess games, their gossip, even the poetry of great deeds and courtly love, you quickly began to learn about the adult world of conflict\
+ and competition. You also learned from the rough games of the other children, who battered at each other with sticks in imitation of their elders' swords."),
 
   ("start_game_intro_4", "As you got recognition, you started becoming known for being..."),
   ("start_game_intro_4_choice_generous", "Generous"),
@@ -1279,34 +1317,99 @@ strings = [
   ("start_game_intro_4_choice_energy", "Full of energy"),
   ("start_game_intro_4_choice_calculating", "Calculating"),
 
-  ("start_game_intro_5", "During your early adulthood you spent your time..."),
-  ("start_game_intro_5_choice_guard", "City watch"),
-  ("start_game_intro_5_choice_outlaw", "Outlaw"),
-  ("start_game_intro_5_choice_pickpocket", "Pickpocket"),
-  ("start_game_intro_5_choice_messenger", "Messenger"),
-  ("start_game_intro_5_choice_hunter", "Hunter"),
-  ("start_game_intro_5_choice_farmer", "Farmer"),
-  ("start_game_intro_5_choice_merchant", "Merchant"),
-  ("start_game_intro_5_choice_mercenary", "Mercenary"),
-  ("start_game_intro_5_choice_artisan", "Artisan"),
-  ("start_game_intro_5_choice_scout", "Scout"),
-  ("start_game_intro_5_choice_court", "Court assistant"),
-  ("start_game_intro_5_choice_beggar", "Beggar"),
-  ("start_game_intro_5_choice_doctor", "Doctor"),
+  ("start_game_intro_5", "During your early adulthood you became..."),
+  ("start_game_intro_5_choice_guard", "A city watch^^Though the distinction felt sudden to you,\
+ seeing the effects of banditry on the common people you got hired into the city guards.\
+ Peacekeeping, checking permits and being vigilant during the night were among your duties to the city.\
+ The pay was meagre for a job you thought necessary, but someone had to do it."),
+  ("start_game_intro_5_choice_outlaw", "A wanted outlaw^^Though the distinction felt sudden to you,\
+ you were tired of toiling the land for meagre pay. You decided that taking things from others was easier.\
+ Once you had become an outlaw there was no way back, only the promise of the gallows were you to get caught."),
+  ("start_game_intro_5_choice_pickpocket", "A pickpocket in the streets^^Though the distinction felt sudden to you,\
+ you started operating in the business of picking pockets.\
+ You had to stalk your target while waiting for the opportune moment and somedays you were unlucky and had to go to bed hungry."),
+  ("start_game_intro_5_choice_messenger", "A messenger^^Though the distinction felt sudden to you,\
+ somewhere along the way you had become a {reg10?woman:man}, and the whole world seemed to change around you.\
+ An opportunity arose to deliver a letter in exchange for gold, and then another.\
+ You became know as a reliable {reg10?woman:man} that could deliver information between two places as fast as your feet could carry you.\
+ Life on the road was not easy, and you nearly became prey to bandits on multiple occasions.\
+ But your knowledge of the land and your quick feet always carried you through to your destination."),
+  ("start_game_intro_5_choice_hunter", "A game poacher^^Though the distinction felt sudden to you,\
+ somewhere along the way you had become a {reg10?woman:man}, and the whole world seemed to change around you.\
+ Dissatisfied with common men's desperate scrabble for coin, you took to your local lord's own forests\
+ and decided to help yourself to its bounty, laws be damned. You hunted stags, boars and geese and sold\
+ the precious meat under the table. You cut down trees right under the watchmen's noses and turned them into\
+ firewood that warmed many freezing homes during winter. All for a few silvers, of course."),
+  ("start_game_intro_5_choice_farmer", "A farmer^^Though the distinction felt sudden to you,\
+ somewhere along the way you had become a {reg10?woman:man}, and the whole world seemed to change around you.\
+ You went and started a simple life of farming. It is hard work and the taxes felt overbearing at times,\
+ but the routine of the days kept you busy and fed most of the time."),
+  ("start_game_intro_5_choice_merchant", "A travelling merchant^^Though the distinction felt sudden to you,\
+ somewhere along the way you had become a {reg10?woman:man}, and the whole world seemed to change around you.\
+ Heeding the call of the open road, you travelled from village to village buying and selling what you could.\
+ It was not a rich existence, but you became a master at haggling even the most miserly elders into\
+ giving you a good price. Soon, you knew, you would be well-placed to start your own trading empire..."),
+  ("start_game_intro_5_choice_mercenary", "A mercenary.^^Though the distinction felt sudden to you,\
+ somewhere along the way you had become a {reg10?woman:man}, and the whole world seemed to change around you.\
+ You signed on with a mercenary company and travelled far from your home. The life you found was rough and\
+ ready, marching to the beat of strange drums and learning unusual ways of fighting.\
+ There were men who taught you how to wield any weapon you desired, and plenty of battles to hone your skills.\
+ You were one of the charmed few who survived through every campaign in which you marched."),
+  ("start_game_intro_5_choice_artisan", "An artisan^^Though the distinction felt sudden to you,\
+ somewhere along the way you had become a {reg10?woman:man}, and the whole world seemed to change around you.\
+ You pursued a career as a smith, crafting items of function and beauty out of simple metal.\
+ As time wore on you became a master of your trade, and fine work started to fetch fine prices.\
+ With food in your belly and logs on your fire, you could take pride in your work and your growing reputation."),
+  ("start_game_intro_5_choice_scout", "A scout for the local lord^^Though the distinction felt sudden to you,\
+ somewhere along the way you had become a {reg10?woman:man}, and the whole world seemed to change around you.\
+ You ended up as a scout in the army of the local lord, a good eye and constant vigilance was required to aquire information while remaining undetected.\
+ Knowing when to run away was a necessity to avoid getting into fights with unfavorable odds and learning the way of the land vital to successfully escaping one."),
+  ("start_game_intro_5_choice_court", "A court assistant^^Though the distinction felt sudden to you,\
+ you became a {reg10?woman:man} that was capable of reading and writing.\
+ The minor courts were always in need of learned {reg10?women:men} to handle affairs.\
+ You learned the ins and outs of politics, how to govern a fief, to talk to foreign envoys, you even had to make minor military decisions.\
+ You led a comfortable life, even if dealing with nobility was always a headache."),
+  ("start_game_intro_5_choice_beggar", "A beggar in the streets^^Though the distinction felt sudden to you,\
+ not out of choice, but out of circumstance, you ended up begging on the streets of a great city to sustain yourself.\
+ you wandered the streets envying the wealthier citizens. A feeling of injustice, despair and anger rose in you as you felt left out, abandonned by society.\
+ Every day was a struggle, however, you learned to run away when needed, to take the blows when blame fell on you and to look tough to prevent your few posessions from being stolen."),
+  ("start_game_intro_5_choice_doctor", "A wandering doctor^^Though the distinction felt sudden to you,\
+ somewhere along the way you had become a {reg10?woman:man}, and the whole world seemed to change around you.\
+ You packed your few belongings and went out into the world to share your knowledge of medicine.\
+ You helped those in need, accepting lodging and food as payment for your services.\
+ Though your scientific methods were not always welcome, you did not give up on helping others."),
 
-  ("start_game_intro_6", "The reason for leaving your old life behind was..."),
-  ("start_game_intro_6_choice_wanderlust", "Wanderlust"),
-  ("start_game_intro_6_choice_wealth", "The promise of wealth"),
-  ("start_game_intro_6_choice_fame", "The promise of fame"),
-  ("start_game_intro_6_choice_forced", "Being forced out of your home"),
-  ("start_game_intro_6_choice_revenge", "Revenge"),
-  ("start_game_intro_6_choice_loss", "The loss of a loved one"),
+  ("start_game_intro_6", "Soon everything changed and you decided to strike out on your own as an adventurer. What made you take this decision was..."),
+  ("start_game_intro_6_choice_wanderlust", "Wanderlust.^^Only you know exactly what caused you to give up your old life and become an adventurer.\
+ You're not even sure when your home became a prison, when the familiar became mundane, but your dreams of\
+ wandering have taken over your life. Whether you yearn for some faraway place or merely for the open road and the\
+ freedom to travel, you could no longer bear to stay in the same place. You simply went and never looked back..."),
+  ("start_game_intro_6_choice_wealth", "Lust for money and power.^^Only you know exactly what caused you to give up your old life and become an adventurer.\
+ To everyone else, it's clear that you're now motivated solely by personal gain.\
+ You want to be rich, powerful, respected, feared.\
+ You want to be the one whom others hurry to obey.\
+ You want people to know your name, and tremble whenever it is spoken.\
+ You want everything, and you won't let anyone stop you from having it..."),
+  ("start_game_intro_6_choice_fame", "The promise of fame.^^Only you know exactly what caused you to give up your old life and become an adventurer.\
+ Tales of heroes and kings, fabled battlefields and ancient myths. You knew the stories but wanted to experience them yourself,\
+ become the hero of the land, the one who will be remembered for years to come."),
+  ("start_game_intro_6_choice_forced", "Being forced out of your home.^^Only you know exactly what caused you to give up your old life and become an adventurer.\
+ However, you know you cannot go back. There's nothing to go back to. Whatever home you may have had is gone\
+ now, and you must face the fact that you're out in the wide wide world. Alone to sink or swim..."),
+  ("start_game_intro_6_choice_revenge", "Personal revenge.^^Only you know exactly what caused you to give up your old life and become an adventurer.\
+ Still, it was not a difficult choice to leave, with the rage burning brightly in your heart.\
+ You want vengeance. You want justice. What was done to you cannot be undone,\
+ and these debts can only be paid in blood..."),
+  ("start_game_intro_6_choice_loss", "The loss of a loved one.^^Only you know exactly what caused you to give up your old life and become an adventurer.\
+ All you can say is that you couldn't bear to stay, not with the memories of those you loved so close and so\
+ painful. Perhaps your new life will let you forget,\
+ or honour the name that you can no longer bear to speak..."),
 
-  ("start_game_intro_7", "You arrived in Calradia by taking..."),
-  ("start_game_intro_7_choice_swadia", "A ship to Praven"),
-  ("start_game_intro_7_choice_vaegir", "A caravan to Reyvadin"),
-  ("start_game_intro_7_choice_khergit", "A caravan to Tulga"),
-  ("start_game_intro_7_choice_nord", "A ship to Sargoth"),
-  ("start_game_intro_7_choice_rhodok", "A caravan to Jelkala"),
-  ("start_game_intro_7_choice_sarranid", "A ship to Shariz"),
+  ("start_game_intro_7", "You arrived in Calradia, and decided to..."),
+  ("start_game_intro_7_choice_swadia", "You came by caravan through the heartland of Calradia. Green shoots of wheat, barley and oats are beginning to push through the dark soil of the rolling hills, and on the lower slopes of the snowcapped mountains, herds of cattle and sheep are grazing on the spring grass. Occasionally, too, you catch sight of one of the great warhorses that are the pride of the Swadian nobility. The land here is rich -- but also troubled, as the occasional burnt-out farm bears witness. You keep a wide berth of the forests, where desperate men have taken refuge, and it is some relief when you crest a ridge and catch sight of the great port of Praven, its rooftops made golden by the last rays of the setting sun."),
+  ("start_game_intro_7_choice_vaegir", "You have come through the Vaegir highlands, a plateau exposed to the bitter winds from the north. The land here is frozen for most of the year, but the forests are rich with fur-bearing game, and the rivers are teaming with fish. The riches of the land draw the traders, but the traders in turn draw bandits. You saw the occasional dark figure mounted on a shaggy pony, watching the passage of your caravan from a snowy ridge, and were glad when the spires of Reyvadin came into view across the wide valley of the Boluk river."),
+  ("start_game_intro_7_choice_khergit", "You came with a caravan, crossing the mountains that border Calradia on the north and east, bringing spices from faraway lands to trade for wool and salt. The passes were still choked with snow, and it was hard going, but at last you crested a ridge and saw before you the Calradian steppes. On some hillsides the thin grass of spring was already turning yellow, but the lower slopes of the mountains were still a vibrant green. Herds of sheep and tawny steppe ponies drifted across them like clouds, testifying to the wealth of the Khergit khans. From time to time small groups of horsemen would follow your caravan from a distance, perhaps sizing up how well you could defend the wealth you carried, so it was with some relief that you saw the towers of Tulga rising up from the plains."),
+  ("start_game_intro_7_choice_nord", "You took passage with a trading longship, carrying gyrfalcons from the furthest reaches of the north to be bartered for linen and wool. It sailed early in the season, but the master reckoned that the risks of drifting ice and later winter storms could be justified by arriving ahead of the Sea Raiders, who by April would be sailing forth from their island lairs to ravage Calradia's coasts. It was some relief when your ship came in sight of the delta of the Vyl and Boluk rivers, and a short while later, rowed past tidal flats and coastal marshes to the city of Sargoth, home to the Sea Raiders' distant kinsmen, the Nordic lords, who a few generations ago had carved themselves a kingdom in this rich but troubled land."),
+  ("start_game_intro_7_choice_rhodok", "You came by ship, skirting the cliffs where the Rhodok highlands meet the sea. Much of the coastline was obscured by tendrils of fog that snaked down the river valleys, but occasionally you caught sight of a castle watchtower rising above the mists -- and on one occasion, a beacon fire burning to warn of an enemy warband. You knew that you were relatively safe at sea, as you were too far south to risk encountering the sea raiders who trouble the coasts of the Nordic lands, but it was still a relief to reach the Selver estuary, gateway to the port of Jelkala, and see a Rhodok galley riding at anchor, its pennants fluttering in the evening breeze."),
+  ("start_game_intro_7_choice_sarranid", "You came with a caravan, crossing the great desert to the east of Calradia. The bedouin guides chose your route carefully, leapfrogging through treacherous dune fields and across empty gravel plains to low-lying oases rich with orchards and date palms. Your great fear was that the caravan might lose its way and perish of thirst. The small bands of raiders who hovered just out of bowshot, waiting to pick off stragglers, were oddly a comfort -- at least water could be no more than a day's ride away. It was a great relief when the mountains came into view, and on the evening of the following day you crested a rocky pass and in the distance could make out the sea, and the towers of Shariz silhouetted against the sunset."),
 ]

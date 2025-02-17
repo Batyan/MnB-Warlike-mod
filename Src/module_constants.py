@@ -496,6 +496,7 @@ player_starting_2_advisor = 4
 player_starting_2_trader = 5
 player_starting_2_mercenary = 6
 player_starting_2_outlaw = 7
+player_starting_2_nomad = 8
 
 player_starting_3_urchin = 0
 player_starting_3_apprentice = 1
@@ -503,7 +504,7 @@ player_starting_3_stable = 2
 player_starting_3_farmer = 3
 player_starting_3_errand = 4
 player_starting_3_school = 5
-player_starting_3_squire = 6
+player_starting_3_page = 6
 
 player_starting_4_generous = 0
 player_starting_4_ruthless = 1

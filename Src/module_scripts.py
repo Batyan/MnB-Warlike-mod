@@ -15893,6 +15893,11 @@ scripts = [
                 (call_script, "script_troop_change_renown", ":best_candidate", ":renown_gain"),
 
                 (try_begin),
+                    (troop_slot_eq, ":best_candidate", slot_troop_noble, -1),
+                    (troop_set_slot, ":best_candidate", slot_troop_noble, 1),
+                (try_end),
+
+                (try_begin),
                     (call_script, "script_cf_debug", debug_simple|debug_faction),
                     (str_store_troop_name, s10, ":best_candidate"),
                     (str_store_faction_name, s11, ":faction_no"),
@@ -20051,7 +20056,7 @@ scripts = [
                 (party_get_slot, ":governor", ":party_no", slot_party_governor),
                 (this_or_next|neq, ":leader", "$g_player_troop"),
                 (gt, ":governor", 0),
-                (neq, ":governor", 0), ## We don't want to auto build if the player is governor
+                (neq, ":governor", "$g_player_troop"), ## We don't want to auto build if the player is governor
 
                 (assign, ":total", 0),
                 (try_for_range, ":building", center_buildings_begin, center_buildings_end),
@@ -24435,7 +24440,7 @@ scripts = [
                 (troop_raise_proficiency_linear, "$g_player_troop", wpt_one_handed_weapon, 5),
                 (troop_raise_proficiency_linear, "$g_player_troop", wpt_crossbow, 5),
                 
-                (val_add, ":wealth", 350),
+                (val_add, ":wealth", 650),
             (else_try),
                 (eq, "$g_start_game_intro_parents", player_starting_2_advisor),
                 (troop_raise_skill, "$g_player_troop", skl_persuasion, 1),
@@ -24454,7 +24459,7 @@ scripts = [
                 (troop_raise_attribute, "$g_player_troop", ca_intelligence, 1),
                 (troop_raise_attribute, "$g_player_troop", ca_charisma, 1),
                 
-                (val_add, ":wealth", 400),
+                (val_add, ":wealth", 350),
             (else_try),
                 (eq, "$g_start_game_intro_parents", player_starting_2_mercenary),
                 (troop_raise_skill, "$g_player_troop", skl_weapon_master, 1),
@@ -24470,13 +24475,13 @@ scripts = [
                 (troop_raise_proficiency_linear, "$g_player_troop", wpt_archery, 5),
                 (troop_raise_proficiency_linear, "$g_player_troop", wpt_crossbow, 5),
                 
-                (val_add, ":wealth", 450),
+                (val_add, ":wealth", 300),
             (else_try),
                 (eq, "$g_start_game_intro_parents", player_starting_2_outlaw),
                 (troop_raise_skill, "$g_player_troop", skl_looting, 1),
                 (troop_raise_skill, "$g_player_troop", skl_intimidation, 1),
                 (troop_raise_skill, "$g_player_troop", skl_pathfinding, 1),
-                (troop_raise_attribute, "$g_player_troop", ca_intelligence, 1),
+                (troop_raise_attribute, "$g_player_troop", ca_charisma, 1),
                 (troop_raise_attribute, "$g_player_troop", ca_agility, 1),
 
                 (troop_raise_proficiency_linear, "$g_player_troop", wpt_one_handed_weapon, 5),
@@ -24485,6 +24490,18 @@ scripts = [
                 (troop_raise_proficiency_linear, "$g_player_troop", wpt_crossbow, 5),
                 
                 (val_add, ":wealth", 200),
+            (else_try),
+                (eq, "$g_start_game_intro_parents", player_starting_2_nomad),
+                (troop_raise_skill, "$g_player_troop", skl_riding, 1),
+                (troop_raise_skill, "$g_player_troop", skl_athletics, 1),
+                (troop_raise_skill, "$g_player_troop", skl_horse_archery, 1),
+                (troop_raise_attribute, "$g_player_troop", ca_strength, 1),
+                (troop_raise_attribute, "$g_player_troop", ca_agility, 1),
+
+                (troop_raise_proficiency_linear, "$g_player_troop", wpt_polearm, 10),
+                (troop_raise_proficiency_linear, "$g_player_troop", wpt_archery, 10),
+                
+                (val_add, ":wealth", 50),
             (else_try),
                 (assign, reg10, "$g_start_game_intro_parents"),
                 (display_message, "@ERROR: invalid parents: {reg10}", text_color_impossible),
@@ -24543,13 +24560,13 @@ scripts = [
                 (eq, "$g_start_game_intro_childhood", player_starting_3_school),
                 (troop_raise_skill, "$g_player_troop", skl_tactics, 1),
                 (troop_raise_skill, "$g_player_troop", skl_first_aid, 1),
-                (troop_raise_skill, "$g_player_troop", skl_persuasion, 1),
+                (troop_raise_skill, "$g_player_troop", skl_trade, 1),
                 (troop_raise_attribute, "$g_player_troop", ca_intelligence, 2),
             (else_try),
-                (eq, "$g_start_game_intro_childhood", player_starting_3_squire),
+                (eq, "$g_start_game_intro_childhood", player_starting_3_page),
                 (troop_raise_skill, "$g_player_troop", skl_weapon_master, 1),
                 (troop_raise_skill, "$g_player_troop", skl_power_strike, 1),
-                (troop_raise_skill, "$g_player_troop", skl_power_draw, 1),
+                (troop_raise_skill, "$g_player_troop", skl_persuasion, 1),
                 (troop_raise_attribute, "$g_player_troop", ca_strength, 1),
                 (troop_raise_attribute, "$g_player_troop", ca_charisma, 1),
 
@@ -24710,9 +24727,9 @@ scripts = [
                 (troop_raise_attribute, "$g_player_troop", ca_strength, 1),
                 (troop_raise_attribute, "$g_player_troop", ca_agility, 1),
 
-                (troop_raise_proficiency_linear, "$g_player_troop", wpt_one_handed_weapon, 20),
-                (troop_raise_proficiency_linear, "$g_player_troop", wpt_two_handed_weapon, 10),
-                (troop_raise_proficiency_linear, "$g_player_troop", wpt_polearm, 20),
+                (troop_raise_proficiency_linear, "$g_player_troop", wpt_one_handed_weapon, 30),
+                (troop_raise_proficiency_linear, "$g_player_troop", wpt_two_handed_weapon, 20),
+                (troop_raise_proficiency_linear, "$g_player_troop", wpt_polearm, 30),
                 (troop_raise_proficiency_linear, "$g_player_troop", wpt_throwing, 10),
                 (troop_raise_proficiency_linear, "$g_player_troop", wpt_archery, 10),
                 (troop_raise_proficiency_linear, "$g_player_troop", wpt_crossbow, 10),
@@ -24764,7 +24781,7 @@ scripts = [
                 (troop_raise_attribute, "$g_player_troop", ca_strength, 1),
                 (troop_raise_attribute, "$g_player_troop", ca_agility, 1),
 
-                (val_add, ":wealth", -50),
+                (val_add, ":wealth", -500),
             (else_try),
                 (eq, "$g_start_game_intro_job", player_starting_5_doctor),
                 (troop_raise_skill, "$g_player_troop", skl_athletics, 1),
@@ -24908,7 +24925,7 @@ scripts = [
                 (eq, "$g_start_game_intro_childhood", player_starting_3_urchin),
                 (val_sub, ":type", 1),
             (else_try),
-                (eq, "$g_start_game_intro_childhood", player_starting_3_squire),
+                (eq, "$g_start_game_intro_childhood", player_starting_3_page),
                 (val_add, ":type", 1),
             (try_end),
 
@@ -25812,6 +25829,9 @@ scripts = [
             (try_begin),
                 (eq, "$g_start_game_intro_parents", player_starting_2_noble),
                 (val_add, ":horse", 2),
+            (else_try),
+                (eq, "$g_start_game_intro_parents", player_starting_2_nomad),
+                (val_add, ":horse", 1),
             (try_end),
 
             (try_begin),
@@ -25821,7 +25841,7 @@ scripts = [
                 (eq, "$g_start_game_intro_childhood", player_starting_3_stable),
                 (val_add, ":horse", 2),
             (else_try),
-                (eq, "$g_start_game_intro_childhood", player_starting_3_squire),
+                (eq, "$g_start_game_intro_childhood", player_starting_3_page),
                 (val_add, ":horse", 1),
             (try_end),
 
