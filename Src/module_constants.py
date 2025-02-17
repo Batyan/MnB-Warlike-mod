@@ -272,6 +272,8 @@ center_town_buildings_end = center_buildings_end
 
 center_buildings_description_begin = "str_building_hunter_camp"
 
+base_building_slots = 1
+
 text_color_impossible = 0xc01010
 text_color_gold = 0xffdd55
 text_color_valid = 0x00ee55
@@ -287,6 +289,7 @@ text_color_white = 0xFFFFFF
 text_color_budget_positive = 0x20a020
 text_color_budget_negative = 0xa02020
 text_color_budget_neutral = 0x222222
+text_color_budget_info = 0x2020a0
 
 era_minimum_duration = 365
 
@@ -493,6 +496,7 @@ player_starting_2_advisor = 4
 player_starting_2_trader = 5
 player_starting_2_mercenary = 6
 player_starting_2_outlaw = 7
+player_starting_2_nomad = 8
 
 player_starting_3_urchin = 0
 player_starting_3_apprentice = 1
@@ -500,7 +504,7 @@ player_starting_3_stable = 2
 player_starting_3_farmer = 3
 player_starting_3_errand = 4
 player_starting_3_school = 5
-player_starting_3_squire = 6
+player_starting_3_page = 6
 
 player_starting_4_generous = 0
 player_starting_4_ruthless = 1
@@ -531,6 +535,13 @@ player_starting_6_glory = 2
 player_starting_6_forced = 3
 player_starting_6_revenge = 4
 player_starting_6_loss = 5
+
+player_starting_7_swadia = 0
+player_starting_7_vaegir = 1
+player_starting_7_khergit = 2
+player_starting_7_nord = 3
+player_starting_7_rhodok = 4
+player_starting_7_sarranid = 5
 
 court_movement_cost = 50000
 
@@ -571,6 +582,17 @@ slot_building_required_building			= slot_building_center_types + 1
 
 slot_building_presentation_card = slot_building_required_building + 1
 slot_building_presentation_button = slot_building_presentation_card + 1
+
+slot_building_type = slot_building_presentation_button + 1
+
+bt_economy = 0x01
+bt_growth = 0x02
+bt_defense = 0x04
+bt_recruit = 0x08
+bt_resources = 0x10
+bt_service = 0x20
+
+slot_building_temp_weight = slot_building_type + 1
 
 slot_recipe_required_item = 1
 slot_recipe_required_item_quantity = slot_recipe_required_item + 1
@@ -1604,7 +1626,9 @@ become_vassal_try_failed_persuasion = 2
 slot_troop_become_vassal_tried = slot_troop_log_target_end + 1
 slot_troop_become_vassal_last_try = slot_troop_become_vassal_tried + 1
 
-slot_troop_relations_begin = slot_troop_become_vassal_last_try + 1
+slot_troop_noble = slot_troop_become_vassal_last_try + 1
+
+slot_troop_relations_begin = slot_troop_noble + 1
 
 
 # # # ToDo: remove test slots

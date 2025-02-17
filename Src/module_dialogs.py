@@ -1149,6 +1149,10 @@ dialogs = [
 			(call_script, "script_party_remove_gold", "$g_talk_party", ":gold"),
 			(assign, ":player_gold", reg0),
 			(troop_add_gold, "$g_player_troop", ":player_gold"),
+
+			(call_script, "script_game_get_money_text", ":gold"),
+			(str_store_string_reg, s10, s0),
+			
 			(call_script, "script_get_bandit_dialog", "$g_talk_party", "str_bandit_defensive_player_rob_give_all_forest"),
 		], "{s0}", "close_window", [(leave_encounter),]],
 	[anyone, "bandit_player_rob",

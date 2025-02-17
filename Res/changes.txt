@@ -1,3 +1,29 @@
+v0.570:
+	-Features:
+		* add building maintenance
+		* add building build queue
+		* add building degradation on center capture and during siege
+		* add player starting position selection
+		* add banner selection presentation
+		* npc lords will create buildings in their centers
+		* expanded character introduction texts
+	-Balances:
+		* change swadian_scout weapon (spear -> light_lance)
+		* decrease swadian_scout powerstrike (4 -> 3)
+		* change vaegir_scout weapon (sabres, axes -> light_lance)
+		* increase vaegir_scout powerstrike (2 -> 3)
+		* increase vaegir_scout polearm proeficiency (70 -> 105)
+		* remove vaegir_scout garranteed shield
+		* bank interests are displayed in budget presentation
+		* increase khergit infantry ratio (35 -> 45)
+		* increase khergit spearman ratio (75 -> 85)
+		* decrease small_kingdom_34 horse archer ratio change (-15 -> -20)
+		* decrease small_kingdom_34 cavalry ratio change (-10 -> -15)
+		* decrease small_kingdom_61 cavalry ratio change (0 -> -20)
+	-Fixes:
+		* fix incorrect charge value for charger (36 -> 244)
+		* fix incorrect charge value for warhorse_sarranid (4 -> 226)
+		* fix bug with bandit robbing displaying incorrect money value
 v0.560:
 	-Features:
 		* add player character introduction choices and effects
