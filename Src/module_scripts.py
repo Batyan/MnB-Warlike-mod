@@ -3478,6 +3478,7 @@ scripts = [
             (try_end),
 
             (party_set_slot, ":party_no", slot_party_taxes_visit, 20),
+            (party_set_slot, ":party_no", slot_party_growth, 100),
 
             (try_for_range, ":unused", 0, 12),
                 (call_script, "script_party_process_ressources", ":party_no"),
@@ -6020,6 +6021,19 @@ scripts = [
                 (try_end),
             (try_end),
 
+            (party_get_slot, ":growth", ":party_no", slot_party_growth),
+            (try_begin),
+                (lt, ":growth", 100),
+                (store_sub, ":offset", 100, ":growth"),
+                (store_random_in_range, ":rand", 0, 100),
+                (lt, ":rand", ":offset"),
+                (val_add, ":growth", 1),
+            (else_try),
+                (gt, ":growth", 100),
+                (val_sub, ":growth", 1),
+            (try_end),
+            (party_set_slot, ":party_no", slot_party_growth, ":growth"),
+
             (try_begin),
                 (call_script, "script_cf_debug", debug_economy),
                 (str_store_party_name, s10, ":party_no"),
@@ -6102,7 +6116,7 @@ scripts = [
         [
             (store_script_param, ":party_no", 1),
 
-            (assign, ":growth", 100),
+            (party_get_slot, ":growth", ":party_no", slot_party_growth),
 
             (assign, reg0, ":growth"),
         ]),
