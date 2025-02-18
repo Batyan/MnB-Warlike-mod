@@ -1,5 +1,6 @@
 v0.580:
 	-Features:
+		* add population growth modifier
 	-Balances:
 	-Fixes:
 v0.570:

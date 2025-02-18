@@ -5968,18 +5968,8 @@ scripts = [
             (party_get_slot, ":noble_population", ":party_no", slot_party_population_noble),
             (party_get_slot, ":slave_population", ":party_no", slot_party_population_slave),
 
-            (store_add, ":party_population", ":serf_population", ":artisan_population"),
-            (val_add, ":party_population", ":noble_population"),
-            # Slaves do not count towards max center population
-
-            (call_script, "script_get_max_population", ":party_no"),
-            (assign, ":max_population", reg0),
-            (store_mul, ":offset", ":party_population", 100),
-            (val_div, ":offset", ":max_population"),
-            (val_sub, ":offset", 50), # We consider 50% to be the baseline population with highest growth
-            (val_abs, ":offset", ":offset"),
-            (store_sub, ":offset", 100, ":offset"),
-            (val_abs, ":offset", ":offset"),
+            (call_script, "script_party_get_population_growth", ":party_no"),
+            (assign, ":population_growth", reg0),
             
             (try_begin),
                 (eq, ":party_type", spt_village),
@@ -6007,7 +5997,7 @@ scripts = [
             (store_add, ":serf_threshold", ":artisan_threshold", ":serf_growth"),
             (store_add, ":slave_threshold", ":serf_threshold", ":slave_growth"),
 
-            (store_mul, ":population_growth", ":base_population_growth", ":offset"),
+            (store_mul, ":population_growth", ":base_population_growth", ":population_growth"),
             (val_div, ":population_growth", 100),
             (store_random_in_range, ":bonus_population_growth", 0, 5),
 
@@ -6053,21 +6043,68 @@ scripts = [
             (party_set_slot, ":party_no", slot_party_population_noble, ":noble_population"),
             (party_set_slot, ":party_no", slot_party_population_artisan, ":artisan_population"),
             (party_set_slot, ":party_no", slot_party_population_slave, ":slave_population"),
-            
         ]),
     
-    # script_get_max_population
+    # script_party_get_max_population
         # input:
         #   arg1: party_no
         # output:
         #   reg0: max_population
-    ("get_max_population",
+    ("party_get_max_population",
         [
             (store_script_param, ":party_no", 1),
             
             (party_get_slot, ":max", ":party_no", slot_party_population_max),
+
+            (call_script, "script_party_get_growth", ":party_no"),
+            (assign, ":growth", reg0),
+            (val_mul, ":max", ":growth"),
+            (val_div, ":max", 100),
             
             (assign, reg0, ":max"),
+        ]),
+    
+    # script_party_get_population_growth
+        # input:
+        #   arg1: party_no
+        # output:
+        #   reg0: population_growth
+    ("party_get_population_growth",
+        [
+            (store_script_param, ":party_no", 1),
+            
+            (party_get_slot, ":serf_population", ":party_no", slot_party_population),
+            (party_get_slot, ":artisan_population", ":party_no", slot_party_population_artisan),
+            (party_get_slot, ":noble_population", ":party_no", slot_party_population_noble),
+            # (party_get_slot, ":slave_population", ":party_no", slot_party_population_slave),
+
+            (store_add, ":party_population", ":serf_population", ":artisan_population"),
+            (val_add, ":party_population", ":noble_population"),
+
+            (call_script, "script_party_get_max_population", ":party_no"),
+            (assign, ":max_population", reg0),
+            (store_mul, ":population_growth", ":party_population", 100),
+            (val_div, ":population_growth", ":max_population"),
+            (val_sub, ":population_growth", 50), # We consider 50% to be the baseline population with highest growth
+            (val_abs, ":population_growth", ":population_growth"),
+            (store_sub, ":population_growth", 100, ":population_growth"),
+            (val_abs, ":population_growth", ":population_growth"),
+
+            (assign, reg0, ":population_growth"),
+        ]),
+    
+    # script_party_get_growth
+        # input:
+        #   arg1: party_no
+        # output:
+        #   reg0: growth
+    ("party_get_growth",
+        [
+            (store_script_param, ":party_no", 1),
+
+            (assign, ":growth", 100),
+
+            (assign, reg0, ":growth"),
         ]),
 
     # script_party_get_expected_taxes_base

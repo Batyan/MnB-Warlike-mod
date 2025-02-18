@@ -1128,7 +1128,7 @@ slot_party_process_mission_iteration = 144
 
 slot_party_recent_casualties_loot = 151 # Contains gold looted during simulated battle
 
-slot_party_budget_last_wealth = 152
+slot_party_budget_last_wealth = slot_party_recent_casualties_loot + 1
 
 slot_party_budget_taxes = slot_party_budget_last_wealth + 1
 slot_party_budget_protection_taxes = slot_party_budget_taxes + 1
