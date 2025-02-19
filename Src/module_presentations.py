@@ -2637,38 +2637,8 @@ presentations = [
                 [
                     (set_fixed_point_multiplier, 1000),
 
-                    (assign, ":container_x", 50),
-                    (assign, ":container_y", 100),
-                    (assign, ":container_size_x", 605),
-                    (assign, ":container_size_y", 550),
-
                     (assign, ":current_center", "$temp"),
                     (party_get_slot, ":current_center_type", ":current_center", slot_party_type),
-
-                    (str_clear, s0),
-                    (create_text_overlay, reg0, s0, tf_scrollable),
-                    (position_set_x, pos1, ":container_x"),
-                    (position_set_y, pos1, ":container_y"),
-                    (overlay_set_position, reg0, pos1),
-                    (position_set_x, pos1, ":container_size_x"),
-                    (position_set_y, pos1, ":container_size_y"),
-                    (overlay_set_area_size, reg0, pos1),
-                    
-                    (assign, ":container", reg0),
-
-                    (str_clear, s0),
-                    (create_text_overlay, reg0, s0, tf_scrollable),
-                    (store_add, ":x", ":container_x", ":container_size_x"),
-                    (position_set_x, pos1, ":x"),
-                    (position_set_y, pos1, ":container_y"),
-                    (overlay_set_position, reg0, pos1),
-                    (store_sub, ":size_x", 980, ":x"),
-                    (position_set_x, pos1, ":size_x"),
-                    (position_set_y, pos1, ":container_size_y"),
-                    (overlay_set_area_size, reg0, pos1),
-                    (assign, ":side_panel", reg0),
-
-                    (set_container_overlay, ":container"),
 
                     (assign, ":num_currently_building", 0),
 
@@ -2700,6 +2670,50 @@ presentations = [
                         (eq, ":mod", -1),
                         (store_sub, ":mod", ":columns", 1),
                     (try_end),
+
+                    (call_script, "script_party_get_building_slots", ":current_center"),
+                    (assign, ":num_slots", reg0),
+
+                    (assign, ":container_x", 50),
+                    (assign, ":container_y", 100),
+                    (assign, ":container_size_x", 605),
+                    (assign, ":container_size_y", 550),
+
+                    (assign, ":header_x", 50),
+                    (assign, ":header_y", 680),
+                    (str_store_party_name, s10, ":current_center"),
+                    (call_script, "script_presentation_create_text_overlay", tf_left_align, ":header_x", ":header_y", 1200, 1200),
+
+                    (store_add, ":queue_x", ":container_x", ":container_size_x"),
+                    (assign, reg10, ":num_currently_building"),
+                    (assign, reg11, ":num_slots"),
+                    (str_store_string, s10, "@Construction slots: {reg10}/{reg11}"),
+                    (call_script, "script_presentation_create_text_overlay", tf_right_align, ":queue_x", ":header_y", 850, 850),
+
+                    (str_clear, s0),
+                    (create_text_overlay, reg0, s0, tf_scrollable),
+                    (position_set_x, pos1, ":container_x"),
+                    (position_set_y, pos1, ":container_y"),
+                    (overlay_set_position, reg0, pos1),
+                    (position_set_x, pos1, ":container_size_x"),
+                    (position_set_y, pos1, ":container_size_y"),
+                    (overlay_set_area_size, reg0, pos1),
+                    
+                    (assign, ":container", reg0),
+
+                    (str_clear, s0),
+                    (create_text_overlay, reg0, s0, tf_scrollable),
+                    (store_add, ":x", ":container_x", ":container_size_x"),
+                    (position_set_x, pos1, ":x"),
+                    (position_set_y, pos1, ":container_y"),
+                    (overlay_set_position, reg0, pos1),
+                    (store_sub, ":size_x", 980, ":x"),
+                    (position_set_x, pos1, ":size_x"),
+                    (position_set_y, pos1, ":container_size_y"),
+                    (overlay_set_area_size, reg0, pos1),
+                    (assign, ":side_panel", reg0),
+
+                    (set_container_overlay, ":container"),
 
                     (assign, ":padding_x", 10),
                     (assign, ":y", 10),
@@ -2740,9 +2754,6 @@ presentations = [
                         (item_set_slot, ":building", slot_building_presentation_card, reg0),
 
                         (val_add, ":cur_y", 10),
-
-                        (call_script, "script_party_get_building_slots", ":current_center"),
-                        (assign, ":num_slots", reg0),
 
                         (try_begin),
                             # efficiency
