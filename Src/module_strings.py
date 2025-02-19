@@ -821,7 +821,7 @@ strings = [
   ("building_barrack",          "The barracks are a place of rest and training for soldiers.^Increases the chance for common units to be trained. When defending, adds a random number of common units, trained from the population."),
   ("building_food_store",       "The food stores allows a center to hold more during sieges."),
   ("building_recruitement_camp", "The recruitement camp, for each reinforcements, trains 10% of additionnal units of higher rank."),
-  ("building_mason_guild",      "Creates a guild for handling masonry work. ^^Increases building queue by 1.^Decreases building time by 10%"),
+  ("building_mason_guild",      "Creates a guild for handling masonry work. ^^Increases construction slots by 1.^Decreases building time by 10%"),
 
   ("building_barrack_2",        "The improved barracks are a place of rest and training for soldiers.^Increases the chance for veteran units to be trained. When defending, adds a random number of common and veteran units, trained from the population."),
   ("building_smithy_2",         "The improved smithy further increases the quality of weapons.^Increases melee damage by and additionnal 10%."),
@@ -844,7 +844,7 @@ strings = [
   ("building_tavern_2",         "The improved tavern is one of, if not the most important building in a center.^It increases prosperity by 10% and has more room for people to rent."),
   ("building_trading_post_2",   "The improved trading post increases profits from trade by 10% and gives caravans a big escort."),
   ("building_bank",             "The bank gives the capability for citizens to lend their money for safekeeping and to invest.^^Add a special income from bank taxes.^Increase fame by 5^Increase growth by 5^Add the bank features in town."),
-  ("building_mason_guild_3",    "Further improves the mason's guild. ^^Increases building queue by 1.^Decreases building cost by 10%"),
+  ("building_mason_guild_3",    "Further improves the mason's guild. ^^Increases construction slots by 1.^Decreases building cost by 10%"),
 
   ("item_taxes_sell", "Town selling taxes: {reg10}%"),
   ("item_taxes_buy", "Town buying taxes: {reg10}%"),
