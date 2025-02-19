@@ -6120,6 +6120,30 @@ scripts = [
 
             (assign, reg0, ":growth"),
         ]),
+    
+    # script_party_get_fame
+        # input:
+        #   arg1: party_no
+        # output:
+        #   reg0: fame
+    ("party_get_fame",
+        [
+            (store_script_param, ":party_no", 1),
+
+            (party_get_slot, ":fame", ":party_no", slot_party_fame),
+
+            (try_begin),
+                (call_script, "script_cf_party_has_building", ":party_no", "itm_building_bank"),
+                (assign, ":bonus", 5),
+                (call_script, "script_party_get_building_efficiency", ":party_no", "itm_building_bank"),
+                (assign, ":efficiency", reg0),
+                (val_mul, ":bonus", ":efficiency"),
+                (val_div, ":bonus", 100),
+                (val_add, ":fame", ":bonus"),
+            (try_end),
+
+            (assign, reg0, ":fame"),
+        ]),
 
     # script_party_get_expected_taxes_base
         # input:

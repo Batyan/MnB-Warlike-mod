@@ -1369,6 +1369,8 @@ slot_party_bank_amount = slot_party_merchant_4 + 1
 
 slot_party_growth = slot_party_bank_amount + 1
 
+slot_party_fame = slot_party_growth + 1
+
 #################
 ## Scene Slots ##
 #################
