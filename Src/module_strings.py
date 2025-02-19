@@ -843,7 +843,7 @@ strings = [
   ("building_order",            "The order is the ultimate military building.^It increases the chance for noble units to be trained."),
   ("building_tavern_2",         "The improved tavern is one of, if not the most important building in a center.^It increases prosperity by 10% and has more room for people to rent."),
   ("building_trading_post_2",   "The improved trading post increases profits from trade by 10% and gives caravans a big escort."),
-  ("building_bank",             "The bank gives the capability for citizens to lend their money for safekeeping and to invest.^^Add a special income from bank taxes.^Add the bank features in town."),
+  ("building_bank",             "The bank gives the capability for citizens to lend their money for safekeeping and to invest.^^Add a special income from bank taxes.^Increase fame by 5^Increase growth by 5^Add the bank features in town."),
   ("building_mason_guild_3",    "Further improves the mason's guild. ^^Increases building queue by 1.^Decreases building cost by 10%"),
 
   ("item_taxes_sell", "Town selling taxes: {reg10}%"),
@@ -1210,6 +1210,7 @@ strings = [
   ("party_tax_description_import", "Import taxes"),
   ("party_tax_description_building", "Building costs"),
   ("party_tax_description_building_maintenance", "Building maintenance"),
+  ("party_tax_description_bank_investments", "Bank investments"),
 
   ("castle_name_plain_01", "plain_01"),
   ("castle_name_plain_02", "plain_02"),

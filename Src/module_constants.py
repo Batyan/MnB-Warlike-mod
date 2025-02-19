@@ -545,6 +545,8 @@ player_starting_7_sarranid = 5
 
 court_movement_cost = 50000
 
+bank_max_interests_base = 3000000
+
 ################
 ## Item Slots ##
 ################
@@ -1162,6 +1164,7 @@ slot_party_budget_export = slot_party_budget_loot + 1
 slot_party_budget_import = slot_party_budget_export + 1
 slot_party_budget_building = slot_party_budget_import + 1
 slot_party_budget_building_maintenance = slot_party_budget_building + 1
+slot_party_budget_bank_investments = slot_party_budget_building_maintenance + 1
 
 tax_type_none = -1
 tax_type_population = 0
@@ -1196,9 +1199,10 @@ tax_type_export = 28
 tax_type_import = 29
 tax_type_building = 30
 tax_type_building_maintenance = 31
+tax_type_bank_investments = 32
 
 slot_party_buget_taxes_begin = slot_party_budget_taxes
-slot_party_buget_taxes_end = slot_party_budget_building_maintenance + 1
+slot_party_buget_taxes_end = slot_party_budget_bank_investments + 1
 
 slot_party_budget_reserved_party = slot_party_buget_taxes_end
 slot_party_budget_reserved_auxiliaries = slot_party_budget_reserved_party + 1

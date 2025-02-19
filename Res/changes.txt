@@ -2,7 +2,9 @@ v0.580:
 	-Features:
 		* add center population growth modifier
 		* add center fame
+		* add special tax for bank building
 	-Balances:
+		* use building efficiency for mason_guild buildings effects
 	-Fixes:
 v0.570:
 	-Features:

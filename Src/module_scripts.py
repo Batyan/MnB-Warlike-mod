@@ -6118,6 +6118,17 @@ scripts = [
 
             (party_get_slot, ":growth", ":party_no", slot_party_growth),
 
+            (try_begin),
+                (call_script, "script_cf_party_has_building", ":party_no", "itm_building_bank"),
+                (assign, ":bonus", 5),
+                (call_script, "script_party_get_building_efficiency", ":party_no", "itm_building_bank"),
+                (assign, ":efficiency", reg0),
+                (val_mul, ":bonus", ":efficiency"),
+                (val_div, ":bonus", 100),
+                (val_add, ":growth", ":bonus"),
+            (try_end),
+
+
             (assign, reg0, ":growth"),
         ]),
     
@@ -6558,7 +6569,9 @@ scripts = [
                 (this_or_next|eq, ":tax_type", tax_type_occupation_pay),
                 (this_or_next|eq, ":tax_type", tax_type_debts),
                 (this_or_next|eq, ":tax_type", tax_type_export),
-                (eq, ":tax_type", tax_type_import),
+                (this_or_next|eq, ":tax_type", tax_type_import),
+                (this_or_next|eq, ":tax_type", tax_type_building_maintenance),
+                (eq, ":tax_type", tax_type_bank_investments),
                 
                 (party_get_slot, ":accumulated_taxes", ":party_no", slot_party_accumulated_taxes),
                 (val_add, ":accumulated_taxes", ":amount"),
@@ -12445,10 +12458,24 @@ scripts = [
 
             (try_begin),
                 (call_script, "script_cf_party_has_building", ":party_no", "itm_building_mason_guild"),
-                (val_sub, ":multiplier", 10),
+
+                (call_script, "script_party_get_building_efficiency", ":party_no", "itm_building_mason_guild"),
+                (assign, ":efficiency", reg0),
+                (assign, ":bonus", 10),
+                (val_mul, ":bonus", ":efficiency"),
+                (val_div, ":bonus", 100),
+
+                (val_sub, ":multiplier", ":bonus"),
             (else_try),
                 (call_script, "script_cf_party_has_building", ":party_no", "itm_building_mason_guild_2"),
-                (val_sub, ":multiplier", 10),
+
+                (call_script, "script_party_get_building_efficiency", ":party_no", "itm_building_mason_guild_2"),
+                (assign, ":efficiency", reg0),
+                (assign, ":bonus", 10),
+                (val_mul, ":bonus", ":efficiency"),
+                (val_div, ":bonus", 100),
+
+                (val_sub, ":multiplier", ":bonus"),
             (try_end),
 
             (store_mul, reg0, ":creation_time", ":multiplier"),
@@ -12472,10 +12499,24 @@ scripts = [
 
             (try_begin),
                 (call_script, "script_cf_party_has_building", ":party_no", "itm_building_mason_guild_2"),
-                (val_sub, ":multiplier", 10),
+
+                (call_script, "script_party_get_building_efficiency", ":party_no", "itm_building_mason_guild_2"),
+                (assign, ":efficiency", reg0),
+                (assign, ":bonus", 10),
+                (val_mul, ":bonus", ":efficiency"),
+                (val_div, ":bonus", 100),
+
+                (val_sub, ":multiplier", ":bonus"),
             (else_try),
                 (call_script, "script_cf_party_has_building", ":party_no", "itm_building_mason_guild_3"),
-                (val_sub, ":multiplier", 10),
+
+                (call_script, "script_party_get_building_efficiency", ":party_no", "itm_building_mason_guild_3"),
+                (assign, ":efficiency", reg0),
+                (assign, ":bonus", 10),
+                (val_mul, ":bonus", ":efficiency"),
+                (val_div, ":bonus", 100),
+
+                (val_sub, ":multiplier", ":bonus"),
             (try_end),
 
             (store_mul, reg0, ":creation_cost", ":multiplier"),
@@ -28018,14 +28059,21 @@ scripts = [
             (store_script_param, ":party_no", 1),
             (store_script_param, ":amount", 2),
 
-            (val_min, ":amount", 3000000), # interests are capped at 3000000
+            (val_min, ":amount", bank_max_interests_base), # interests are capped at 3000000
 
             (party_get_slot, ":prosperity", ":party_no", slot_party_prosperity),
+
+            (call_script, "script_party_get_fame", ":party_no"),
+            (assign, ":fame", reg0),
+            (call_script, "script_party_get_growth", ":party_no"),
+            (assign, ":growth", reg0),
             # (val_div, ":prosperity", 10),
 
             (store_add, ":base_rate", 100, ":prosperity"),
-            (val_div, ":base_rate", 2),
-            (val_mul, ":base_rate", 5), # We go from 5 to 2.5% base rate
+            (val_add, ":base_rate", ":fame"),
+            (val_add, ":base_rate", ":growth"),
+            (val_div, ":base_rate", 4),
+            (val_mul, ":base_rate", 5), # We go from 5 to 1.25% base rate
 
             (set_fixed_point_multiplier, 1),
             (store_sqrt, ":modifier", ":amount"),
@@ -28050,11 +28098,18 @@ scripts = [
             (try_for_range, ":center", centers_begin, centers_end),
                 (call_script, "script_cf_party_has_building", ":center", "itm_building_bank"),
                 (party_get_slot, ":amount", ":center", slot_party_bank_amount),
-                (gt, ":amount", 0),
-                (call_script, "script_party_get_bank_interests", ":center", ":amount"),
-                (assign, ":interests", reg0),
-                (val_add, ":amount", ":interests"),
-                (party_set_slot, ":center", slot_party_bank_amount, ":amount"),
+                (call_script, "script_party_get_building_efficiency", ":center", "itm_building_bank"),
+                (assign, ":efficiency", reg0),
+                (try_begin),
+                    (gt, ":amount", 0),
+                    (call_script, "script_party_get_bank_interests", ":center", ":amount"),
+                    (assign, ":interests", reg0),
+                    (val_mul, ":interests", ":efficiency"),
+                    (val_div, ":interests", 100),
+
+                    (val_add, ":amount", ":interests"),
+                    (party_set_slot, ":center", slot_party_bank_amount, ":amount"),
+                (try_end),
             (try_end),
         ]),
 
