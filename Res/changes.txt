@@ -7,6 +7,7 @@ v0.580:
 	-Balances:
 		* use building efficiency for mason_guild buildings effects
 	-Fixes:
+		* fix debt interests not removed from budget
 v0.570:
 	-Features:
 		* add building maintenance
