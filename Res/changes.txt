@@ -6,6 +6,9 @@ v0.580:
 		* display the current buildings slots for constructions
 	-Balances:
 		* use building efficiency for mason_guild buildings effects
+		* decrease nord_light_infantry charisma (9 -> 8)
+			this change was made to make this unit cheaper to maintain
+		* increase nord_infantry agility (13 -> 15)
 	-Fixes:
 		* fix debt interests not removed from budget
 v0.570:
