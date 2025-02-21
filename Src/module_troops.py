@@ -2791,7 +2791,7 @@ troops = [
     itm_leather_jerkin_herald,
     itm_nordic_veteran_archer_helmet, itm_nordic_footman_helmet, itm_nordic_fighter_helmet,
     ],
-   str_14|agi_14|int_7|cha_9|level(21), wpex(115,105,100,55,20,80), knows_common|knows_ironflesh_3|knows_power_strike_5|knows_power_throw_3|knows_athletics_5, nord_face_young_1, nord_face_old_2 ],
+   str_14|agi_14|int_7|cha_8|level(20), wpex(115,105,100,55,20,80), knows_common|knows_ironflesh_3|knows_power_strike_5|knows_power_throw_3|knows_athletics_5, nord_face_young_1, nord_face_old_2 ],
   
   # Light ranged, swords, axes, bows
   ["nord_light_bowman", "Nord Light Bowman", "Nord Light Bowmen", tf_guarantee_recruit_armor|tf_guarantee_ranged, no_scene, reserved, fac_kingdom_4,
@@ -2879,7 +2879,7 @@ troops = [
     itm_byrnie_herald,
     itm_nordic_veteran_archer_helmet, itm_nordic_footman_helmet, itm_nordic_fighter_helmet,
     ],
-   str_15|agi_13|int_8|cha_9|level(22), wpex(110,100,95,55,20,55), knows_common|knows_ironflesh_3|knows_power_strike_3|knows_power_throw_1|knows_athletics_3, nord_face_young_1, nord_face_old_2 ],
+   str_15|agi_15|int_8|cha_9|level(24), wpex(110,100,95,55,20,55), knows_common|knows_ironflesh_3|knows_power_strike_3|knows_power_throw_1|knows_athletics_3, nord_face_young_1, nord_face_old_2 ],
   
   # Light infantry skirmisher, swords, axes, javelins, shields
   # SPECIAL
