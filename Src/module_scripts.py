@@ -14679,7 +14679,7 @@ scripts = [
                 (eq, ":terrain_type", rt_desert_forest),
                 (assign, ":scene_to_use", "scn_random_scene_desert_forest"),
             (else_try),
-                (assign, ":scene_to_use", "scn_meeting_scene_plain"),
+                (assign, ":scene_to_use", "scn_random_scene_plain"),
             (try_end),
             (assign, reg0, ":scene_to_use"),
         ]),
