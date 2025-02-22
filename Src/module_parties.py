@@ -343,7 +343,7 @@ parties = [
 	("village_4d1","Kwynn", icon_village_a|pf_village, 0, pt_none, fac_kingdom_4,0,ai_bhvr_hold,0,(-29, 81.4),[], 170),
 	("village_4e1","Hrus", icon_village_a|pf_village, 0, pt_none, fac_kingdom_4,0,ai_bhvr_hold,0,(-65.2, 84.5),[], 170),
 	("village_4f1","Ambean", icon_village_a|pf_village, 0, pt_none, fac_kingdom_4,0,ai_bhvr_hold,0,(-7, 59),[], 170),
-	("village_4g1","Kadariq", icon_village_a|pf_village, 0, pt_none, fac_kingdom_4,0,ai_bhvr_hold,0,(-42.3, 71.7),[], 170),
+	("village_4g1","Kaederig", icon_village_a|pf_village, 0, pt_none, fac_kingdom_4,0,ai_bhvr_hold,0,(-42.3, 71.7),[], 170),
 	
 	("village_41a1","Ismirala", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_41,0,ai_bhvr_hold,0,(5.5, 78.9),[], 170),
 	("village_41b1","Jaleg", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_41,0,ai_bhvr_hold,0,(12.7, 57.7),[], 170),
