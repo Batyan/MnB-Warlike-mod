@@ -11,6 +11,7 @@ v0.580:
 		* increase nord_infantry agility (13 -> 15)
 	-Fixes:
 		* fix debt interests not removed from budget
+		* fix battle map on bridges
 v0.570:
 	-Features:
 		* add building maintenance
