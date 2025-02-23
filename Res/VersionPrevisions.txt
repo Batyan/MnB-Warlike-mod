@@ -94,108 +94,118 @@
 	0.580: Stabilization
 		General improvements
 		Bug fixes
-0.600: Kingdom Management
-	0.610: Policies
+0.600: Early game
+	0.610: Introduction
+		Starting quest
+	0.620: Combat
+		Balance bandit parties
+	0.630: Gold
+		Simple quests to get gold
+	0.640: Reward
+		Handing out first fief
+		First fief quest (setting as court)
+0.700: Kingdom Management
+	0.710: Policies
 		Kingdom policies
-	0.620: Strength
+	0.720: Strength
 		Give out fiefs
 		Hire lords
 		Mercenaries
-	0.630: Player kingdom
+	0.730: Player kingdom
 		Possible for player to lead a kingdom
-	0.640: Player foreign diplomacy
+	0.740: Player foreign diplomacy
 		Player declare war
 		Player create alliances
 		Player accept treaty
-	0.650: Treaties
+	0.750: Treaties
 		Allow player to set war victory conditions
 		Player truce
 		Ai truces (to negociate treaties)
-0.700: NPCs
+0.800: NPCs
 	Add kingdom women
 	Basic dialogs
 		Lords
 		Ladies
-	0.710: Relations
+	0.810: Relations
 		Heroes relations
 			Families
 			Friends
 		Heroes randomisation
 			Faces
 			Names
-	0.720: Personalities
+	0.820: Personalities
 		NPCs personalities
-	0.730: Rest
+	0.830: Rest
 		Npcs Visiting friends / family
-	0.740: Influence
+	0.840: Influence
 		Npc actions change relations
-	0.750: Dialogs
+	0.850: Dialogs
 		Contextual dialogs
 		Memorize important events with player
-0.800: Party ai
+0.900: Party ai
 	Better party ai
-	0.810: Cooperation
+	0.910: Cooperation
 		Cooperation (ai)
 			Transfer troops (center to center)
 			Transfer prisoners
 		Improve vassal following behavior
-	0.820: Money changers
+	0.920: Money changers
 		Lords need to pay to upgrade gear
 		Hire/Sell mercenaries
 		Lending money
 		Lord debts
-	0.830: Peace
+	0.930: Peace
 		Lords rest if wounded
 		Peacetime activities
 			Hunt bandit lairs
 			Visit other npcs
-	0.840: Marshall
+	0.940: Marshall
 		Marshall ai
 		Marshall election
-0.900: Politics
+1.000: Politics
 	Politics
 	Kingdom government types
-	0.910: Information
+	1.010: Information
 		Add troop notes
 		Add center notes
 		Add faction notes
 		Add info pages
-	0.920: Schemes
+	1.020: Schemes
 		Influence npcs relations
 		Rivalries
 		Supporting neutral party
-	0.930: Civil war
+	1.030: Civil war
 		Faction splitting (civil war)
 1.000: Companions
 	Player Companions
-	1.010: Personalities
+	1.110: Personalities
 		Companions have personalities
 		Matching dialogs
-	1.020: Npc heroes
+	1.120: Npc heroes
 		Npc Companions
-1.100: Taverns
+1.200: Taverns
 	Taverns
-	1.110: Mercenaries
+	1.210: Mercenaries
 		Mercenary leaders
 		Mercenary bands
 		Tavern mercenaries
-	1.120: Bandits
+	1.220: Bandits
 		Refined bandit groups
 		Bandit ambush (center)
 		Roaming bandits
 		Deserters
-1.200: Time
+1.300: Time
 	Player Death
 		Select next character
-	1.210: NPCs
+	1.310: NPCs
 		NPCs death
-	1.220: Passing of time
+	1.320: Passing of time
 		Characters getting old with time
 		Children
 			Generate children from parents
-1.300: Battle
+1.400: Battle
 	Party morale
-	1.310: Battle - Plain
+	1.410: Battle - Plain
 		Battle ai
 			Increase variety of formations
 			Leave reserve behind main battle
@@ -205,7 +215,7 @@
 			Disable automatic formations
 			Split troops
 				Engaged formations do not balance unit number
-	1.310: Battle - Siege
+	1.410: Battle - Siege
 		Siege improvements
 			Allows garrison starving
 			Allows leaving while keeping the siege on (making a camp)
@@ -220,12 +230,12 @@
 					Archers behind infantry (more protected)
 				Ranged covering
 					Infantry charging with archers supporting the assault
-1.400: Weather
+1.500: Weather
 	Weather
 	Seasons
 		Seasons have an impact on ressource generation ?
 	Day / Night
-1.500: Starting Scenario
+1.600: Starting Scenario
 	Possible to select a start from a certain number of scenarios
 		Select a random existing scenario
 			Select starting character
@@ -236,23 +246,23 @@
 					Wealth
 		Randomize entirely the game
 			randomizes the starting lords, faction relations
-	1.510: Helpers
+	1.610: Helpers
 		Add info pages
 		Flesh out note pages
-1.600: Difficulty
+1.700: Difficulty
 	Add difficulty modifiers for faction AI / parameters
-1.700: Custom Battles
+1.800: Custom Battles
 	More personalisation than native
 		Battle size
 		Factions
 		Reinforcements
-1.800: Basic Multiplayer
+1.900: Basic Multiplayer
 	Battle modes:
-	1.810: Battle
-	1.820: Siege
-	1.830: Bot battle
-	1.840: Bot siege
-	1.850: Conquest
+	1.910: Battle
+	1.920: Siege
+	1.930: Bot battle
+	1.940: Bot siege
+	1.950: Conquest
 		4 castles on the map
 		Capture a castle to control it
 		Castles produce bot soldiers to defend and attack
