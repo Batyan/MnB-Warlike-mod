@@ -866,13 +866,13 @@ presentations = [
 
                 (store_mul, ":remaining_debt", ":total_change", -1),
 
+                (assign, "$g_presentation_wages_amount_unpaid", ":remaining_debt"),
+
                 (try_begin),
                     (lt, ":remaining_debt", 0),
-                    (val_add, ":player_party_remaining", ":remaining_debt"),
+                    (val_sub, ":player_party_remaining", ":remaining_debt"),
                     (assign, ":remaining_debt", 0),
                 (try_end),
-
-                (assign, "$g_presentation_wages_amount_unpaid", ":remaining_debt"),
 
                 (create_text_overlay, reg0, "@Remaining debt:", tf_left_align),
                 (position_set_x, pos1, ":future_state_x"),
@@ -1143,8 +1143,6 @@ presentations = [
 
                     (store_troop_gold, ":player_gold", "$g_player_troop"),
                     (store_sub, ":player_party_remaining", ":player_gold", ":value"),
-                    (assign, reg10, ":player_party_remaining"),
-                    (overlay_set_text, "$g_presentation_wages_remaining_gold", "@{reg10}"),
 
                     (call_script, "script_party_get_wages", "$g_player_party"),
                     (assign, ":player_party_wages", reg0),
@@ -1157,11 +1155,19 @@ presentations = [
 
                     (party_get_slot, ":debt_interests", "$g_player_party", slot_party_budget_debts),
 
-                    (val_add, ":unpaid_wages", ":remaining_wages"),
+                    (try_begin),
+                        (lt, ":remaining_wages", 0),
+                        (val_add, ":unpaid_wages", ":remaining_wages"),
+                    (else_try),
+                        (val_add, ":player_party_remaining", ":remaining_wages"),
+                    (try_end),
                     (val_sub, ":unpaid_wages", ":debt_interests"),
                     (val_sub, ":unpaid_wages", ":vassal_taxes"),
                     (val_sub, ":unpaid_wages", ":member_taxes"),
                     (val_sub, ":unpaid_wages", ":faction_taxes"),
+
+                    (assign, reg10, ":player_party_remaining"),
+                    (overlay_set_text, "$g_presentation_wages_remaining_gold", "@{reg10}"),
 
                     (store_mul, reg10, ":unpaid_wages", -1),
                     (overlay_set_text, "$g_presentation_wages_remaining_unpaid", "@{reg10}"),
