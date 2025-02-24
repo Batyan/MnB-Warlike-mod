@@ -99,8 +99,9 @@
 		Starting quest
 	0.620: Combat
 		Balance bandit parties
-	0.630: Gold
+	0.630: Progression
 		Simple quests to get gold
+		Player level up
 	0.640: Reward
 		Handing out first fief
 		First fief quest (setting as court)
