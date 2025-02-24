@@ -1729,7 +1729,7 @@ troops = [
    str_20|agi_10|int_9|cha_8|level(24), wpex(90,80,110,60,50,40), knows_common|knows_ironflesh_6|knows_power_strike_3|knows_power_draw_1|knows_athletics_2|knows_riding_2|knows_shield_1, swadian_face_young_1, swadian_face_old_2 ],
   
   # Heavy infantry, swords, picks, maces, shields
-  ["swadian_heavy_infantry", "Swadian Man-At-Arms", "Swadian Men-At-Arms", tf_guarantee_trained_armor|tf_guarantee_shield, no_scene, reserved, fac_kingdom_1,
+  ["swadian_man_at_arms", "Swadian Man-At-Arms", "Swadian Men-At-Arms", tf_guarantee_trained_armor|tf_guarantee_shield, no_scene, reserved, fac_kingdom_1,
    [itm_sword_medieval_c, itm_sword_medieval_c_small, itm_military_sickle_a, itm_mace_4, itm_tab_shield_heater_c,itm_tab_shield_heater_c_plain_1,itm_tab_shield_heater_c_plain_2,
     itm_mail_chausses, itm_mail_mittens,
     itm_haubergeon_herald, itm_mail_with_surcoat_herald,

@@ -13619,7 +13619,7 @@ scripts = [
             (troop_set_slot, "trp_swadian_light_cavalry", slot_troop_mercenary_captain_1, "trp_swadian_heavy_cavalry"),
             (troop_set_slot, "trp_swadian_light_bowman", slot_troop_mercenary_captain_1, "trp_swadian_bowman"),
             (troop_set_slot, "trp_swadian_light_crossbowman", slot_troop_mercenary_captain_1, "trp_swadian_crossbowman"),
-            (troop_set_slot, "trp_swadian_heavy_infantry", slot_troop_mercenary_captain_1, "trp_swadian_sergeant"),
+            (troop_set_slot, "trp_swadian_man_at_arms", slot_troop_mercenary_captain_1, "trp_swadian_sergeant"),
             (troop_set_slot, "trp_swadian_heavy_cavalry", slot_troop_mercenary_captain_1, "trp_swadian_noble"),
             (troop_set_slot, "trp_swadian_sergeant", slot_troop_mercenary_captain_1, "trp_swadian_foot_knight"),
             (troop_set_slot, "trp_swadian_light_lancer", slot_troop_mercenary_captain_1, "trp_swadian_heavy_lancer"),
