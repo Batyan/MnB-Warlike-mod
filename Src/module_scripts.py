@@ -136,6 +136,8 @@ scripts = [
             (assign, "$g_normalize_faction_color", 1),
             (assign, "$g_player_update_name", 1),
 
+            (assign, "$g_presentation_preview_selected_culture", -1),
+
             (assign, "$g_player_last_proposed_vassalage", -10000),
             
             (set_show_messages, 1),
@@ -2790,6 +2792,10 @@ scripts = [
                 (try_end),
             (try_end),
             (try_begin),
+                (neg|troop_is_hero, ":troop_no"),
+                (is_between, "$g_override_troop_banner_mesh", arms_meshes_begin, arms_meshes_end),
+                (assign, ":banner_mesh", "$g_override_troop_banner_mesh"),
+            (else_try),
                 (ge, ":banner_troop", 0),
                 (try_begin),
                     (neg|troop_slot_ge, ":banner_troop", slot_troop_banner_scene_prop, 1),
