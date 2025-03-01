@@ -11684,6 +11684,11 @@ scripts = [
                     (else_try),
                         (call_script, "script_troop_get_cost", ":cur_troop"),
                         (assign, ":troop_cost", reg0),
+
+                        (call_script, "script_party_get_troop_cost_modifier", ":party_no", ":cur_troop"),
+                        (val_mul, ":troop_cost", reg0),
+                        (val_div, ":troop_cost", 100),
+
                         (val_add, ":num_added", 1),
                         (val_add, ":total_cost", ":troop_cost"),
                     (try_end),
@@ -12236,7 +12241,7 @@ scripts = [
             (item_set_slot, "itm_building_recruitement_camp", ":stone_slot", 80),
             (item_set_slot, "itm_building_recruitement_camp", slot_building_cost_gold, 48000),
             (item_set_slot, "itm_building_recruitement_camp", slot_building_build_time, 300),
-            (item_set_slot, "itm_building_recruitement_camp", slot_building_enabled, 0),
+            (item_set_slot, "itm_building_recruitement_camp", slot_building_enabled, 1),
 
             (item_set_slot, "itm_building_mason_guild", ":wood_slot", 150),
             (item_set_slot, "itm_building_mason_guild", ":stone_slot", 90),
@@ -12307,7 +12312,7 @@ scripts = [
             (item_set_slot, "itm_building_recruitement_camp_2", ":stone_slot", 120),
             (item_set_slot, "itm_building_recruitement_camp_2", slot_building_cost_gold, 72000),
             (item_set_slot, "itm_building_recruitement_camp_2", slot_building_build_time, 450),
-            (item_set_slot, "itm_building_recruitement_camp_2", slot_building_enabled, 0),
+            (item_set_slot, "itm_building_recruitement_camp_2", slot_building_enabled, 1),
             (item_set_slot, "itm_building_recruitement_camp_2", slot_building_required_building, "itm_building_recruitement_camp"),
 
             (item_set_slot, "itm_building_mason_guild_2", ":wood_slot", 200),
@@ -14215,14 +14220,49 @@ scripts = [
             
             (assign, reg0, ":join_cost"), 
         ]),
+
+    # script_party_get_troop_cost_modifier
+        # input: 
+        #   arg1: party_no
+        #   arg2: troop_no
+        # output:
+        #   reg0: cost_modifier
+    ("party_get_troop_cost_modifier",
+        [
+            (store_script_param, ":party_no", 1),
+            # (store_script_param, ":troop_no", 2),
+
+            (assign, ":modifier", 100),
+
+            (try_begin),
+                (call_script, "script_cf_party_has_building", ":party_no", "itm_building_recruitement_camp"),
+                (assign, ":bonus", 10),
+                (call_script, "script_party_get_building_efficiency", ":party_no", "itm_building_recruitement_camp"),
+                (val_mul, ":bonus", reg0),
+                (val_div, ":bonus", 100),
+
+                (val_sub, ":modifier", ":bonus"),
+            (try_end),
+
+            (try_begin),
+                (call_script, "script_cf_party_has_building", ":party_no", "itm_building_recruitement_camp_2"),
+                (assign, ":bonus", 15),
+                (call_script, "script_party_get_building_efficiency", ":party_no", "itm_building_recruitement_camp_2"),
+                (val_mul, ":bonus", reg0),
+                (val_div, ":bonus", 100),
+
+                (val_sub, ":modifier", ":bonus"),
+            (try_end),
+            (assign, reg0, ":modifier"),
+        ]),
     
     # script_troop_get_cost_modifier
-    # input:
-    #   arg1: troop_no
-    #   arg2: current_party
-    #   arg3: recruiter
-    # output:
-    #   reg0: cost_modifier
+        # input:
+        #   arg1: troop_no
+        #   arg2: current_party
+        #   arg3: recruiter
+        # output:
+        #   reg0: cost_modifier
     ("troop_get_cost_modifier",
         [
             (store_script_param, ":troop_no", 1),

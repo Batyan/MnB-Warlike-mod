@@ -820,7 +820,7 @@ strings = [
   ("building_archery_range",    "The archery range is a place of practice for archers.^When defending increases accuracy by 5%."),
   ("building_barrack",          "The barracks are a place of rest and training for soldiers.^Increases the chance for common units to be trained. When defending, adds a random number of common units, trained from the population."),
   ("building_food_store",       "The food stores allows a center to hold more during sieges."),
-  ("building_recruitement_camp", "The recruitement camp, for each reinforcements, trains 10% of additionnal units of higher rank."),
+  ("building_recruitement_camp", "The recruitment camp adds infrastructures^to facilitates recruitment of troops.^^Reduces recruitment cost of troops by 10%."),
   ("building_mason_guild",      "Creates a guild for handling masonry work. ^^Increases construction slots by 1.^Decreases building time by 10%"),
 
   ("building_barrack_2",        "The improved barracks are a place of rest and training for soldiers.^Increases the chance for veteran units to be trained. When defending, adds a random number of common and veteran units, trained from the population."),
@@ -832,7 +832,7 @@ strings = [
   ("building_archery_range_2",  "The improved archery range is a place for practice for archers.^When defending increases accuracy by an additional 10%."),
   ("building_trading_post",     "The trading post increases profits from trade by 5% and give caravans a small escort."),
   ("building_food_store_2",     "The increased food stores allows a center to hold even more during sieges."),
-  ("building_recruitement_camp_2", "The improved recruitement camp, for each reinforcements, trains 20% of additional units of higher rank."),
+  ("building_recruitement_camp_2", "Improvements to the recruitment camp.^Add additional buildings and services^to increase the efficiency of the^recruitment processes.^^Further decreases recruitment costs by 15%."),
   ("building_mason_guild_2",    "Improves the mason's guild. ^^Decreases building cost and time by 10%"),
   
   ("building_university",       "The unversity educates the population.^It increases money gained from taxes and trade by 5% each. It also increases population growth by 10%."),
