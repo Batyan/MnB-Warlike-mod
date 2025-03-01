@@ -589,10 +589,12 @@ slot_building_type = slot_building_presentation_button + 1
 
 bt_economy = 0x01
 bt_growth = 0x02
-bt_defense = 0x04
-bt_recruit = 0x08
-bt_resources = 0x10
-bt_service = 0x20
+bt_military = 0x04
+bt_political = 0x08
+bt_social = 0x10
+bt_recruit = 0x20
+bt_resources = 0x40
+bt_service = 0x80
 
 slot_building_temp_weight = slot_building_type + 1
 

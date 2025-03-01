@@ -5,6 +5,7 @@ v0.580:
 		* add special tax for bank building
 		* display the current buildings slots for constructions
 		* add recruitment camp building
+		* add building tags to weigh building creation priority
 	-Balances:
 		* use building efficiency for mason_guild buildings effects
 		* decrease nord_light_infantry charisma (9 -> 8)

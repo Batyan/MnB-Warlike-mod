@@ -12242,12 +12242,14 @@ scripts = [
             (item_set_slot, "itm_building_recruitement_camp", slot_building_cost_gold, 48000),
             (item_set_slot, "itm_building_recruitement_camp", slot_building_build_time, 300),
             (item_set_slot, "itm_building_recruitement_camp", slot_building_enabled, 1),
+            (item_set_slot, "itm_building_recruitement_camp", slot_building_type, bt_military|bt_recruit),
 
             (item_set_slot, "itm_building_mason_guild", ":wood_slot", 150),
             (item_set_slot, "itm_building_mason_guild", ":stone_slot", 90),
             (item_set_slot, "itm_building_mason_guild", slot_building_cost_gold, 50000),
             (item_set_slot, "itm_building_mason_guild", slot_building_build_time, 400),
             (item_set_slot, "itm_building_mason_guild", slot_building_enabled, 1),
+            (item_set_slot, "itm_building_mason_guild", slot_building_type, bt_growth|bt_service),
 
             (item_set_slot, "itm_building_barrack_2", ":wood_slot", 300),
             (item_set_slot, "itm_building_barrack_2", ":stone_slot", 510),
@@ -12314,6 +12316,7 @@ scripts = [
             (item_set_slot, "itm_building_recruitement_camp_2", slot_building_build_time, 450),
             (item_set_slot, "itm_building_recruitement_camp_2", slot_building_enabled, 1),
             (item_set_slot, "itm_building_recruitement_camp_2", slot_building_required_building, "itm_building_recruitement_camp"),
+            (item_set_slot, "itm_building_recruitement_camp_2", slot_building_type, bt_military|bt_recruit),
 
             (item_set_slot, "itm_building_mason_guild_2", ":wood_slot", 200),
             (item_set_slot, "itm_building_mason_guild_2", ":stone_slot", 120),
@@ -12321,6 +12324,7 @@ scripts = [
             (item_set_slot, "itm_building_mason_guild_2", slot_building_build_time, 550),
             (item_set_slot, "itm_building_mason_guild_2", slot_building_enabled, 1),
             (item_set_slot, "itm_building_mason_guild_2", slot_building_required_building, "itm_building_mason_guild"),
+            (item_set_slot, "itm_building_mason_guild_2", slot_building_type, bt_growth|bt_service),
             
             (item_set_slot, "itm_building_university", ":wood_slot", 390),
             (item_set_slot, "itm_building_university", ":stone_slot", 600),
@@ -12379,6 +12383,7 @@ scripts = [
             (item_set_slot, "itm_building_bank", slot_building_cost_gold, 125000),
             (item_set_slot, "itm_building_bank", slot_building_build_time, 700),
             (item_set_slot, "itm_building_bank", slot_building_enabled, 1),
+            (item_set_slot, "itm_building_bank", slot_building_type, bt_growth|bt_service|bt_political|bt_economy),
 
             (item_set_slot, "itm_building_mason_guild_3", ":wood_slot", 350),
             (item_set_slot, "itm_building_mason_guild_3", ":stone_slot", 250),
@@ -12386,6 +12391,7 @@ scripts = [
             (item_set_slot, "itm_building_mason_guild_3", slot_building_build_time, 750),
             (item_set_slot, "itm_building_mason_guild_3", slot_building_enabled, 1),
             (item_set_slot, "itm_building_mason_guild_3", slot_building_required_building, "itm_building_mason_guild_2"),
+            (item_set_slot, "itm_building_mason_guild_3", slot_building_type, bt_growth|bt_service),
 
             (try_for_range, ":building", center_buildings_begin, center_buildings_end),
                 (assign, ":value", 1),
@@ -20343,16 +20349,28 @@ scripts = [
             (store_script_param, ":party_no", 1),
             (store_script_param, ":building", 2),
 
+            (assign, ":weight", 0),
+
             (party_get_slot, ":wealth", ":party_no", slot_party_wealth),
             (item_get_slot, ":cost", ":building", slot_building_cost_gold),
             (try_begin),
                 (gt, ":wealth", ":cost"),
 
-                (assign, reg0, 100),
-            (else_try),
-                (assign, reg0, 0),
+                (assign, ":weight", 100),
             (try_end),
 
+            (store_faction_of_party, ":party_faction", ":party_no"),
+            (faction_get_slot, ":preparing_war", ":party_faction", slot_faction_preparing_war),
+            (item_get_slot, ":flags", ":building", slot_building_type),
+            (store_and, ":military_flag", ":flags", bt_military),
+
+            (try_begin),
+                (gt, ":preparing_war", 0),
+                (gt, ":military_flag", 0),
+                (val_mul, ":weight", 5),
+            (try_end),
+
+            (assign, reg0, ":weight"),
         ]),
 
     # script_party_process_prisoners
