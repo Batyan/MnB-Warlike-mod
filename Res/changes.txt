@@ -14,6 +14,7 @@ v0.580:
 	-Fixes:
 		* fix debt interests not removed from budget
 		* fix battle map on bridges
+		* fix npcs creating buildings that were already built
 v0.570:
 	-Features:
 		* add building maintenance

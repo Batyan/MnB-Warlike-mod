@@ -20318,6 +20318,12 @@ scripts = [
             (item_get_slot, ":enabled", ":building", slot_building_enabled),
             (eq, ":enabled", 1),
 
+            # Building should not be already built or in construction
+            (store_sub, ":offset", ":building", center_buildings_begin),
+            (store_add, ":slot", ":offset", slot_party_building_slot_begin),
+            (party_get_slot, ":state", ":party_no", ":slot"),
+            (eq, ":state", 0),
+
             (party_get_slot, ":party_type", ":party_no", slot_party_type),
             (item_get_slot, ":center_types", ":building", slot_building_center_types),
             (val_mod, ":center_types", ":party_type"),
