@@ -16,6 +16,7 @@ v0.580:
 		* fix debt interests not removed from budget
 		* fix battle map on bridges
 		* fix npcs creating buildings that were already built
+		* fix nearby parties not joining when joining a siege battle
 v0.570:
 	-Features:
 		* add building maintenance
