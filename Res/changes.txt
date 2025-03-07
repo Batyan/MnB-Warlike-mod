@@ -1,3 +1,7 @@
+v0.600:
+	-Features:
+	-Balances:
+	-Fixes:
 v0.580:
 	-Features:
 		* add center population growth modifier
