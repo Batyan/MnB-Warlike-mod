@@ -545,6 +545,8 @@ player_starting_7_sarranid = 5
 
 court_movement_cost = 50000
 
+bank_max_interests_base = 3000000
+
 ################
 ## Item Slots ##
 ################
@@ -587,10 +589,12 @@ slot_building_type = slot_building_presentation_button + 1
 
 bt_economy = 0x01
 bt_growth = 0x02
-bt_defense = 0x04
-bt_recruit = 0x08
-bt_resources = 0x10
-bt_service = 0x20
+bt_military = 0x04
+bt_political = 0x08
+bt_social = 0x10
+bt_recruit = 0x20
+bt_resources = 0x40
+bt_service = 0x80
 
 slot_building_temp_weight = slot_building_type + 1
 
@@ -1128,7 +1132,7 @@ slot_party_process_mission_iteration = 144
 
 slot_party_recent_casualties_loot = 151 # Contains gold looted during simulated battle
 
-slot_party_budget_last_wealth = 152
+slot_party_budget_last_wealth = slot_party_recent_casualties_loot + 1
 
 slot_party_budget_taxes = slot_party_budget_last_wealth + 1
 slot_party_budget_protection_taxes = slot_party_budget_taxes + 1
@@ -1162,6 +1166,7 @@ slot_party_budget_export = slot_party_budget_loot + 1
 slot_party_budget_import = slot_party_budget_export + 1
 slot_party_budget_building = slot_party_budget_import + 1
 slot_party_budget_building_maintenance = slot_party_budget_building + 1
+slot_party_budget_bank_investments = slot_party_budget_building_maintenance + 1
 
 tax_type_none = -1
 tax_type_population = 0
@@ -1196,9 +1201,10 @@ tax_type_export = 28
 tax_type_import = 29
 tax_type_building = 30
 tax_type_building_maintenance = 31
+tax_type_bank_investments = 32
 
 slot_party_buget_taxes_begin = slot_party_budget_taxes
-slot_party_buget_taxes_end = slot_party_budget_building_maintenance + 1
+slot_party_buget_taxes_end = slot_party_budget_bank_investments + 1
 
 slot_party_budget_reserved_party = slot_party_buget_taxes_end
 slot_party_budget_reserved_auxiliaries = slot_party_budget_reserved_party + 1
@@ -1366,6 +1372,10 @@ slot_party_merchant_3 = slot_party_merchant_2 + 1
 slot_party_merchant_4 = slot_party_merchant_3 + 1
 
 slot_party_bank_amount = slot_party_merchant_4 + 1
+
+slot_party_growth = slot_party_bank_amount + 1
+
+slot_party_fame = slot_party_growth + 1
 
 #################
 ## Scene Slots ##

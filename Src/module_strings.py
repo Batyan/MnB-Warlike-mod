@@ -820,8 +820,8 @@ strings = [
   ("building_archery_range",    "The archery range is a place of practice for archers.^When defending increases accuracy by 5%."),
   ("building_barrack",          "The barracks are a place of rest and training for soldiers.^Increases the chance for common units to be trained. When defending, adds a random number of common units, trained from the population."),
   ("building_food_store",       "The food stores allows a center to hold more during sieges."),
-  ("building_recruitement_camp", "The recruitement camp, for each reinforcements, trains 10% of additionnal units of higher rank."),
-  ("building_mason_guild",      "Creates a guild for handling masonry work. ^^Increases building queue by 1.^Decreases building time by 10%"),
+  ("building_recruitement_camp", "The recruitment camp adds infrastructures^to facilitates recruitment of troops.^^Reduces recruitment cost of troops by 10%."),
+  ("building_mason_guild",      "Creates a guild for handling masonry work. ^^Increases construction slots by 1.^Decreases building time by 10%"),
 
   ("building_barrack_2",        "The improved barracks are a place of rest and training for soldiers.^Increases the chance for veteran units to be trained. When defending, adds a random number of common and veteran units, trained from the population."),
   ("building_smithy_2",         "The improved smithy further increases the quality of weapons.^Increases melee damage by and additionnal 10%."),
@@ -832,7 +832,7 @@ strings = [
   ("building_archery_range_2",  "The improved archery range is a place for practice for archers.^When defending increases accuracy by an additional 10%."),
   ("building_trading_post",     "The trading post increases profits from trade by 5% and give caravans a small escort."),
   ("building_food_store_2",     "The increased food stores allows a center to hold even more during sieges."),
-  ("building_recruitement_camp_2", "The improved recruitement camp, for each reinforcements, trains 20% of additional units of higher rank."),
+  ("building_recruitement_camp_2", "Improvements to the recruitment camp.^Add additional buildings and services^to increase the efficiency of the^recruitment processes.^^Further decreases recruitment costs by 15%."),
   ("building_mason_guild_2",    "Improves the mason's guild. ^^Decreases building cost and time by 10%"),
   
   ("building_university",       "The unversity educates the population.^It increases money gained from taxes and trade by 5% each. It also increases population growth by 10%."),
@@ -843,8 +843,8 @@ strings = [
   ("building_order",            "The order is the ultimate military building.^It increases the chance for noble units to be trained."),
   ("building_tavern_2",         "The improved tavern is one of, if not the most important building in a center.^It increases prosperity by 10% and has more room for people to rent."),
   ("building_trading_post_2",   "The improved trading post increases profits from trade by 10% and gives caravans a big escort."),
-  ("building_bank",             "The bank gives the capability for citizens to lend their money for safekeeping and to invest.^^Add a special income from bank taxes.^Add the bank features in town."),
-  ("building_mason_guild_3",    "Further improves the mason's guild. ^^Increases building queue by 1.^Decreases building cost by 10%"),
+  ("building_bank",             "The bank gives the capability for citizens to ^lend their money for safekeeping and ^investment.^^Add a special income from bank taxes.^Increase fame by 5^Increase growth by 5^Add the bank features in town."),
+  ("building_mason_guild_3",    "Further improves the mason's guild. ^^Increases construction slots by 1.^Decreases building cost by 10%"),
 
   ("item_taxes_sell", "Town selling taxes: {reg10}%"),
   ("item_taxes_buy", "Town buying taxes: {reg10}%"),
@@ -1210,6 +1210,7 @@ strings = [
   ("party_tax_description_import", "Import taxes"),
   ("party_tax_description_building", "Building costs"),
   ("party_tax_description_building_maintenance", "Building maintenance"),
+  ("party_tax_description_bank_investments", "Bank investments"),
 
   ("castle_name_plain_01", "plain_01"),
   ("castle_name_plain_02", "plain_02"),

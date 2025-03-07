@@ -1729,7 +1729,7 @@ troops = [
    str_20|agi_10|int_9|cha_8|level(24), wpex(90,80,110,60,50,40), knows_common|knows_ironflesh_6|knows_power_strike_3|knows_power_draw_1|knows_athletics_2|knows_riding_2|knows_shield_1, swadian_face_young_1, swadian_face_old_2 ],
   
   # Heavy infantry, swords, picks, maces, shields
-  ["swadian_heavy_infantry", "Swadian Man-At-Arms", "Swadian Men-At-Arms", tf_guarantee_trained_armor|tf_guarantee_shield, no_scene, reserved, fac_kingdom_1,
+  ["swadian_man_at_arms", "Swadian Man-At-Arms", "Swadian Men-At-Arms", tf_guarantee_trained_armor|tf_guarantee_shield, no_scene, reserved, fac_kingdom_1,
    [itm_sword_medieval_c, itm_sword_medieval_c_small, itm_military_sickle_a, itm_mace_4, itm_tab_shield_heater_c,itm_tab_shield_heater_c_plain_1,itm_tab_shield_heater_c_plain_2,
     itm_mail_chausses, itm_mail_mittens,
     itm_haubergeon_herald, itm_mail_with_surcoat_herald,
@@ -2791,7 +2791,7 @@ troops = [
     itm_leather_jerkin_herald,
     itm_nordic_veteran_archer_helmet, itm_nordic_footman_helmet, itm_nordic_fighter_helmet,
     ],
-   str_14|agi_14|int_7|cha_9|level(21), wpex(115,105,100,55,20,80), knows_common|knows_ironflesh_3|knows_power_strike_5|knows_power_throw_3|knows_athletics_5, nord_face_young_1, nord_face_old_2 ],
+   str_14|agi_14|int_7|cha_8|level(20), wpex(115,105,100,55,20,80), knows_common|knows_ironflesh_3|knows_power_strike_5|knows_power_throw_3|knows_athletics_5, nord_face_young_1, nord_face_old_2 ],
   
   # Light ranged, swords, axes, bows
   ["nord_light_bowman", "Nord Light Bowman", "Nord Light Bowmen", tf_guarantee_recruit_armor|tf_guarantee_ranged, no_scene, reserved, fac_kingdom_4,
@@ -2879,7 +2879,7 @@ troops = [
     itm_byrnie_herald,
     itm_nordic_veteran_archer_helmet, itm_nordic_footman_helmet, itm_nordic_fighter_helmet,
     ],
-   str_15|agi_13|int_8|cha_9|level(22), wpex(110,100,95,55,20,55), knows_common|knows_ironflesh_3|knows_power_strike_3|knows_power_throw_1|knows_athletics_3, nord_face_young_1, nord_face_old_2 ],
+   str_15|agi_15|int_8|cha_9|level(24), wpex(110,100,95,55,20,55), knows_common|knows_ironflesh_3|knows_power_strike_3|knows_power_throw_1|knows_athletics_3, nord_face_young_1, nord_face_old_2 ],
   
   # Light infantry skirmisher, swords, axes, javelins, shields
   # SPECIAL

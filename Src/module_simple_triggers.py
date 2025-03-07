@@ -423,6 +423,19 @@ simple_triggers = [
                 (call_script, "script_party_process_ideal_party_wages", ":center"),
 
                 (call_script, "script_party_process_buildings_maintenance", ":center"),
+
+
+                (try_begin),
+                    (call_script, "script_cf_party_has_building", ":center", "itm_building_bank"),
+                    (call_script, "script_party_get_building_efficiency", ":center", "itm_building_bank"),
+                    (assign, ":efficiency", reg0),
+
+                    (call_script, "script_party_get_bank_interests", ":center", bank_max_interests_base),
+                    (store_div, ":bonus", reg0, 4),
+                    (val_mul, ":bonus", ":efficiency"),
+                    (val_div, ":bonus", 100),
+                    (call_script, "script_party_add_accumulated_taxes", ":center", ":bonus", tax_type_bank_investments),
+                (try_end),
             (try_end),
 
             (try_for_parties, ":party_no"),

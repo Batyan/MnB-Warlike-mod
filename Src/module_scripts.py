@@ -136,6 +136,8 @@ scripts = [
             (assign, "$g_normalize_faction_color", 1),
             (assign, "$g_player_update_name", 1),
 
+            (assign, "$g_presentation_preview_selected_culture", -1),
+
             (assign, "$g_player_last_proposed_vassalage", -10000),
             
             (set_show_messages, 1),
@@ -2790,6 +2792,10 @@ scripts = [
                 (try_end),
             (try_end),
             (try_begin),
+                (neg|troop_is_hero, ":troop_no"),
+                (is_between, "$g_override_troop_banner_mesh", arms_meshes_begin, arms_meshes_end),
+                (assign, ":banner_mesh", "$g_override_troop_banner_mesh"),
+            (else_try),
                 (ge, ":banner_troop", 0),
                 (try_begin),
                     (neg|troop_slot_ge, ":banner_troop", slot_troop_banner_scene_prop, 1),
@@ -3478,6 +3484,7 @@ scripts = [
             (try_end),
 
             (party_set_slot, ":party_no", slot_party_taxes_visit, 20),
+            (party_set_slot, ":party_no", slot_party_growth, 100),
 
             (try_for_range, ":unused", 0, 12),
                 (call_script, "script_party_process_ressources", ":party_no"),
@@ -5968,18 +5975,8 @@ scripts = [
             (party_get_slot, ":noble_population", ":party_no", slot_party_population_noble),
             (party_get_slot, ":slave_population", ":party_no", slot_party_population_slave),
 
-            (store_add, ":party_population", ":serf_population", ":artisan_population"),
-            (val_add, ":party_population", ":noble_population"),
-            # Slaves do not count towards max center population
-
-            (call_script, "script_get_max_population", ":party_no"),
-            (assign, ":max_population", reg0),
-            (store_mul, ":offset", ":party_population", 100),
-            (val_div, ":offset", ":max_population"),
-            (val_sub, ":offset", 50), # We consider 50% to be the baseline population with highest growth
-            (val_abs, ":offset", ":offset"),
-            (store_sub, ":offset", 100, ":offset"),
-            (val_abs, ":offset", ":offset"),
+            (call_script, "script_party_get_population_growth", ":party_no"),
+            (assign, ":population_growth", reg0),
             
             (try_begin),
                 (eq, ":party_type", spt_village),
@@ -6007,7 +6004,7 @@ scripts = [
             (store_add, ":serf_threshold", ":artisan_threshold", ":serf_growth"),
             (store_add, ":slave_threshold", ":serf_threshold", ":slave_growth"),
 
-            (store_mul, ":population_growth", ":base_population_growth", ":offset"),
+            (store_mul, ":population_growth", ":base_population_growth", ":population_growth"),
             (val_div, ":population_growth", 100),
             (store_random_in_range, ":bonus_population_growth", 0, 5),
 
@@ -6029,6 +6026,19 @@ scripts = [
                     (val_add, ":new_serf", 1),
                 (try_end),
             (try_end),
+
+            (party_get_slot, ":growth", ":party_no", slot_party_growth),
+            (try_begin),
+                (lt, ":growth", 100),
+                (store_sub, ":offset", 100, ":growth"),
+                (store_random_in_range, ":rand", 0, 100),
+                (lt, ":rand", ":offset"),
+                (val_add, ":growth", 1),
+            (else_try),
+                (gt, ":growth", 100),
+                (val_sub, ":growth", 1),
+            (try_end),
+            (party_set_slot, ":party_no", slot_party_growth, ":growth"),
 
             (try_begin),
                 (call_script, "script_cf_debug", debug_economy),
@@ -6053,21 +6063,103 @@ scripts = [
             (party_set_slot, ":party_no", slot_party_population_noble, ":noble_population"),
             (party_set_slot, ":party_no", slot_party_population_artisan, ":artisan_population"),
             (party_set_slot, ":party_no", slot_party_population_slave, ":slave_population"),
-            
         ]),
     
-    # script_get_max_population
+    # script_party_get_max_population
         # input:
         #   arg1: party_no
         # output:
         #   reg0: max_population
-    ("get_max_population",
+    ("party_get_max_population",
         [
             (store_script_param, ":party_no", 1),
             
             (party_get_slot, ":max", ":party_no", slot_party_population_max),
+
+            (call_script, "script_party_get_growth", ":party_no"),
+            (assign, ":growth", reg0),
+            (val_mul, ":max", ":growth"),
+            (val_div, ":max", 100),
             
             (assign, reg0, ":max"),
+        ]),
+    
+    # script_party_get_population_growth
+        # input:
+        #   arg1: party_no
+        # output:
+        #   reg0: population_growth
+    ("party_get_population_growth",
+        [
+            (store_script_param, ":party_no", 1),
+            
+            (party_get_slot, ":serf_population", ":party_no", slot_party_population),
+            (party_get_slot, ":artisan_population", ":party_no", slot_party_population_artisan),
+            (party_get_slot, ":noble_population", ":party_no", slot_party_population_noble),
+            # (party_get_slot, ":slave_population", ":party_no", slot_party_population_slave),
+
+            (store_add, ":party_population", ":serf_population", ":artisan_population"),
+            (val_add, ":party_population", ":noble_population"),
+
+            (call_script, "script_party_get_max_population", ":party_no"),
+            (assign, ":max_population", reg0),
+            (store_mul, ":population_growth", ":party_population", 100),
+            (val_div, ":population_growth", ":max_population"),
+            (val_sub, ":population_growth", 50), # We consider 50% to be the baseline population with highest growth
+            (val_abs, ":population_growth", ":population_growth"),
+            (store_sub, ":population_growth", 100, ":population_growth"),
+            (val_abs, ":population_growth", ":population_growth"),
+
+            (assign, reg0, ":population_growth"),
+        ]),
+    
+    # script_party_get_growth
+        # input:
+        #   arg1: party_no
+        # output:
+        #   reg0: growth
+    ("party_get_growth",
+        [
+            (store_script_param, ":party_no", 1),
+
+            (party_get_slot, ":growth", ":party_no", slot_party_growth),
+
+            (try_begin),
+                (call_script, "script_cf_party_has_building", ":party_no", "itm_building_bank"),
+                (assign, ":bonus", 5),
+                (call_script, "script_party_get_building_efficiency", ":party_no", "itm_building_bank"),
+                (assign, ":efficiency", reg0),
+                (val_mul, ":bonus", ":efficiency"),
+                (val_div, ":bonus", 100),
+                (val_add, ":growth", ":bonus"),
+            (try_end),
+
+
+            (assign, reg0, ":growth"),
+        ]),
+    
+    # script_party_get_fame
+        # input:
+        #   arg1: party_no
+        # output:
+        #   reg0: fame
+    ("party_get_fame",
+        [
+            (store_script_param, ":party_no", 1),
+
+            (party_get_slot, ":fame", ":party_no", slot_party_fame),
+
+            (try_begin),
+                (call_script, "script_cf_party_has_building", ":party_no", "itm_building_bank"),
+                (assign, ":bonus", 5),
+                (call_script, "script_party_get_building_efficiency", ":party_no", "itm_building_bank"),
+                (assign, ":efficiency", reg0),
+                (val_mul, ":bonus", ":efficiency"),
+                (val_div, ":bonus", 100),
+                (val_add, ":fame", ":bonus"),
+            (try_end),
+
+            (assign, reg0, ":fame"),
         ]),
 
     # script_party_get_expected_taxes_base
@@ -6483,7 +6575,9 @@ scripts = [
                 (this_or_next|eq, ":tax_type", tax_type_occupation_pay),
                 (this_or_next|eq, ":tax_type", tax_type_debts),
                 (this_or_next|eq, ":tax_type", tax_type_export),
-                (eq, ":tax_type", tax_type_import),
+                (this_or_next|eq, ":tax_type", tax_type_import),
+                (this_or_next|eq, ":tax_type", tax_type_building_maintenance),
+                (eq, ":tax_type", tax_type_bank_investments),
                 
                 (party_get_slot, ":accumulated_taxes", ":party_no", slot_party_accumulated_taxes),
                 (val_add, ":accumulated_taxes", ":amount"),
@@ -11590,6 +11684,11 @@ scripts = [
                     (else_try),
                         (call_script, "script_troop_get_cost", ":cur_troop"),
                         (assign, ":troop_cost", reg0),
+
+                        (call_script, "script_party_get_troop_cost_modifier", ":party_no", ":cur_troop"),
+                        (val_mul, ":troop_cost", reg0),
+                        (val_div, ":troop_cost", 100),
+
                         (val_add, ":num_added", 1),
                         (val_add, ":total_cost", ":troop_cost"),
                     (try_end),
@@ -12142,13 +12241,15 @@ scripts = [
             (item_set_slot, "itm_building_recruitement_camp", ":stone_slot", 80),
             (item_set_slot, "itm_building_recruitement_camp", slot_building_cost_gold, 48000),
             (item_set_slot, "itm_building_recruitement_camp", slot_building_build_time, 300),
-            (item_set_slot, "itm_building_recruitement_camp", slot_building_enabled, 0),
+            (item_set_slot, "itm_building_recruitement_camp", slot_building_enabled, 1),
+            (item_set_slot, "itm_building_recruitement_camp", slot_building_type, bt_military|bt_recruit),
 
             (item_set_slot, "itm_building_mason_guild", ":wood_slot", 150),
             (item_set_slot, "itm_building_mason_guild", ":stone_slot", 90),
             (item_set_slot, "itm_building_mason_guild", slot_building_cost_gold, 50000),
             (item_set_slot, "itm_building_mason_guild", slot_building_build_time, 400),
             (item_set_slot, "itm_building_mason_guild", slot_building_enabled, 1),
+            (item_set_slot, "itm_building_mason_guild", slot_building_type, bt_growth|bt_service),
 
             (item_set_slot, "itm_building_barrack_2", ":wood_slot", 300),
             (item_set_slot, "itm_building_barrack_2", ":stone_slot", 510),
@@ -12213,8 +12314,9 @@ scripts = [
             (item_set_slot, "itm_building_recruitement_camp_2", ":stone_slot", 120),
             (item_set_slot, "itm_building_recruitement_camp_2", slot_building_cost_gold, 72000),
             (item_set_slot, "itm_building_recruitement_camp_2", slot_building_build_time, 450),
-            (item_set_slot, "itm_building_recruitement_camp_2", slot_building_enabled, 0),
+            (item_set_slot, "itm_building_recruitement_camp_2", slot_building_enabled, 1),
             (item_set_slot, "itm_building_recruitement_camp_2", slot_building_required_building, "itm_building_recruitement_camp"),
+            (item_set_slot, "itm_building_recruitement_camp_2", slot_building_type, bt_military|bt_recruit),
 
             (item_set_slot, "itm_building_mason_guild_2", ":wood_slot", 200),
             (item_set_slot, "itm_building_mason_guild_2", ":stone_slot", 120),
@@ -12222,6 +12324,7 @@ scripts = [
             (item_set_slot, "itm_building_mason_guild_2", slot_building_build_time, 550),
             (item_set_slot, "itm_building_mason_guild_2", slot_building_enabled, 1),
             (item_set_slot, "itm_building_mason_guild_2", slot_building_required_building, "itm_building_mason_guild"),
+            (item_set_slot, "itm_building_mason_guild_2", slot_building_type, bt_growth|bt_service),
             
             (item_set_slot, "itm_building_university", ":wood_slot", 390),
             (item_set_slot, "itm_building_university", ":stone_slot", 600),
@@ -12280,6 +12383,7 @@ scripts = [
             (item_set_slot, "itm_building_bank", slot_building_cost_gold, 125000),
             (item_set_slot, "itm_building_bank", slot_building_build_time, 700),
             (item_set_slot, "itm_building_bank", slot_building_enabled, 1),
+            (item_set_slot, "itm_building_bank", slot_building_type, bt_growth|bt_service|bt_political|bt_economy),
 
             (item_set_slot, "itm_building_mason_guild_3", ":wood_slot", 350),
             (item_set_slot, "itm_building_mason_guild_3", ":stone_slot", 250),
@@ -12287,6 +12391,7 @@ scripts = [
             (item_set_slot, "itm_building_mason_guild_3", slot_building_build_time, 750),
             (item_set_slot, "itm_building_mason_guild_3", slot_building_enabled, 1),
             (item_set_slot, "itm_building_mason_guild_3", slot_building_required_building, "itm_building_mason_guild_2"),
+            (item_set_slot, "itm_building_mason_guild_3", slot_building_type, bt_growth|bt_service),
 
             (try_for_range, ":building", center_buildings_begin, center_buildings_end),
                 (assign, ":value", 1),
@@ -12370,10 +12475,24 @@ scripts = [
 
             (try_begin),
                 (call_script, "script_cf_party_has_building", ":party_no", "itm_building_mason_guild"),
-                (val_sub, ":multiplier", 10),
+
+                (call_script, "script_party_get_building_efficiency", ":party_no", "itm_building_mason_guild"),
+                (assign, ":efficiency", reg0),
+                (assign, ":bonus", 10),
+                (val_mul, ":bonus", ":efficiency"),
+                (val_div, ":bonus", 100),
+
+                (val_sub, ":multiplier", ":bonus"),
             (else_try),
                 (call_script, "script_cf_party_has_building", ":party_no", "itm_building_mason_guild_2"),
-                (val_sub, ":multiplier", 10),
+
+                (call_script, "script_party_get_building_efficiency", ":party_no", "itm_building_mason_guild_2"),
+                (assign, ":efficiency", reg0),
+                (assign, ":bonus", 10),
+                (val_mul, ":bonus", ":efficiency"),
+                (val_div, ":bonus", 100),
+
+                (val_sub, ":multiplier", ":bonus"),
             (try_end),
 
             (store_mul, reg0, ":creation_time", ":multiplier"),
@@ -12397,10 +12516,24 @@ scripts = [
 
             (try_begin),
                 (call_script, "script_cf_party_has_building", ":party_no", "itm_building_mason_guild_2"),
-                (val_sub, ":multiplier", 10),
+
+                (call_script, "script_party_get_building_efficiency", ":party_no", "itm_building_mason_guild_2"),
+                (assign, ":efficiency", reg0),
+                (assign, ":bonus", 10),
+                (val_mul, ":bonus", ":efficiency"),
+                (val_div, ":bonus", 100),
+
+                (val_sub, ":multiplier", ":bonus"),
             (else_try),
                 (call_script, "script_cf_party_has_building", ":party_no", "itm_building_mason_guild_3"),
-                (val_sub, ":multiplier", 10),
+
+                (call_script, "script_party_get_building_efficiency", ":party_no", "itm_building_mason_guild_3"),
+                (assign, ":efficiency", reg0),
+                (assign, ":bonus", 10),
+                (val_mul, ":bonus", ":efficiency"),
+                (val_div, ":bonus", 100),
+
+                (val_sub, ":multiplier", ":bonus"),
             (try_end),
 
             (store_mul, reg0, ":creation_cost", ":multiplier"),
@@ -13503,7 +13636,7 @@ scripts = [
             (troop_set_slot, "trp_swadian_light_cavalry", slot_troop_mercenary_captain_1, "trp_swadian_heavy_cavalry"),
             (troop_set_slot, "trp_swadian_light_bowman", slot_troop_mercenary_captain_1, "trp_swadian_bowman"),
             (troop_set_slot, "trp_swadian_light_crossbowman", slot_troop_mercenary_captain_1, "trp_swadian_crossbowman"),
-            (troop_set_slot, "trp_swadian_heavy_infantry", slot_troop_mercenary_captain_1, "trp_swadian_sergeant"),
+            (troop_set_slot, "trp_swadian_man_at_arms", slot_troop_mercenary_captain_1, "trp_swadian_sergeant"),
             (troop_set_slot, "trp_swadian_heavy_cavalry", slot_troop_mercenary_captain_1, "trp_swadian_noble"),
             (troop_set_slot, "trp_swadian_sergeant", slot_troop_mercenary_captain_1, "trp_swadian_foot_knight"),
             (troop_set_slot, "trp_swadian_light_lancer", slot_troop_mercenary_captain_1, "trp_swadian_heavy_lancer"),
@@ -14093,14 +14226,49 @@ scripts = [
             
             (assign, reg0, ":join_cost"), 
         ]),
+
+    # script_party_get_troop_cost_modifier
+        # input: 
+        #   arg1: party_no
+        #   arg2: troop_no
+        # output:
+        #   reg0: cost_modifier
+    ("party_get_troop_cost_modifier",
+        [
+            (store_script_param, ":party_no", 1),
+            # (store_script_param, ":troop_no", 2),
+
+            (assign, ":modifier", 100),
+
+            (try_begin),
+                (call_script, "script_cf_party_has_building", ":party_no", "itm_building_recruitement_camp"),
+                (assign, ":bonus", 10),
+                (call_script, "script_party_get_building_efficiency", ":party_no", "itm_building_recruitement_camp"),
+                (val_mul, ":bonus", reg0),
+                (val_div, ":bonus", 100),
+
+                (val_sub, ":modifier", ":bonus"),
+            (try_end),
+
+            (try_begin),
+                (call_script, "script_cf_party_has_building", ":party_no", "itm_building_recruitement_camp_2"),
+                (assign, ":bonus", 15),
+                (call_script, "script_party_get_building_efficiency", ":party_no", "itm_building_recruitement_camp_2"),
+                (val_mul, ":bonus", reg0),
+                (val_div, ":bonus", 100),
+
+                (val_sub, ":modifier", ":bonus"),
+            (try_end),
+            (assign, reg0, ":modifier"),
+        ]),
     
     # script_troop_get_cost_modifier
-    # input:
-    #   arg1: troop_no
-    #   arg2: current_party
-    #   arg3: recruiter
-    # output:
-    #   reg0: cost_modifier
+        # input:
+        #   arg1: troop_no
+        #   arg2: current_party
+        #   arg3: recruiter
+        # output:
+        #   reg0: cost_modifier
     ("troop_get_cost_modifier",
         [
             (store_script_param, ":troop_no", 1),
@@ -14563,7 +14731,7 @@ scripts = [
                 (eq, ":terrain_type", rt_desert_forest),
                 (assign, ":scene_to_use", "scn_random_scene_desert_forest"),
             (else_try),
-                (assign, ":scene_to_use", "scn_meeting_scene_plain"),
+                (assign, ":scene_to_use", "scn_random_scene_plain"),
             (try_end),
             (assign, reg0, ":scene_to_use"),
         ]),
@@ -20150,6 +20318,12 @@ scripts = [
             (item_get_slot, ":enabled", ":building", slot_building_enabled),
             (eq, ":enabled", 1),
 
+            # Building should not be already built or in construction
+            (store_sub, ":offset", ":building", center_buildings_begin),
+            (store_add, ":slot", ":offset", slot_party_building_slot_begin),
+            (party_get_slot, ":state", ":party_no", ":slot"),
+            (eq, ":state", 0),
+
             (party_get_slot, ":party_type", ":party_no", slot_party_type),
             (item_get_slot, ":center_types", ":building", slot_building_center_types),
             (val_mod, ":center_types", ":party_type"),
@@ -20181,16 +20355,28 @@ scripts = [
             (store_script_param, ":party_no", 1),
             (store_script_param, ":building", 2),
 
+            (assign, ":weight", 0),
+
             (party_get_slot, ":wealth", ":party_no", slot_party_wealth),
             (item_get_slot, ":cost", ":building", slot_building_cost_gold),
             (try_begin),
                 (gt, ":wealth", ":cost"),
 
-                (assign, reg0, 100),
-            (else_try),
-                (assign, reg0, 0),
+                (assign, ":weight", 100),
             (try_end),
 
+            (store_faction_of_party, ":party_faction", ":party_no"),
+            (faction_get_slot, ":preparing_war", ":party_faction", slot_faction_preparing_war),
+            (item_get_slot, ":flags", ":building", slot_building_type),
+            (store_and, ":military_flag", ":flags", bt_military),
+
+            (try_begin),
+                (gt, ":preparing_war", 0),
+                (gt, ":military_flag", 0),
+                (val_mul, ":weight", 5),
+            (try_end),
+
+            (assign, reg0, ":weight"),
         ]),
 
     # script_party_process_prisoners
@@ -26150,19 +26336,21 @@ scripts = [
                 (troop_set_slot, ":lord", slot_troop_budget_reserved_party, 0),
                 (troop_set_slot, ":lord", slot_troop_budget_reserved_other, 0),
             (try_end),
-            (try_for_range, ":center", centers_begin, centers_end),
-                (party_set_slot, ":center", slot_party_accumulated_taxes, 0),
-                (party_set_slot, ":center", slot_party_budget_reserved_party, 0),
-                (party_set_slot, ":center", slot_party_budget_reserved_auxiliaries, 0),
-                (party_set_slot, ":center", slot_party_budget_reserved_expenses, 0),
-                (party_set_slot, ":center", slot_party_budget_reserved_other, 0),
+
+            (try_for_parties, ":party_no"),
+            # (try_for_range, ":center", centers_begin, centers_end),
+                (party_set_slot, ":party_no", slot_party_accumulated_taxes, 0),
+                (party_set_slot, ":party_no", slot_party_budget_reserved_party, 0),
+                (party_set_slot, ":party_no", slot_party_budget_reserved_auxiliaries, 0),
+                (party_set_slot, ":party_no", slot_party_budget_reserved_expenses, 0),
+                (party_set_slot, ":party_no", slot_party_budget_reserved_other, 0),
 
                 (try_for_range, ":slot", slot_party_buget_taxes_begin, slot_party_buget_taxes_end),
-                    (party_set_slot, ":center", ":slot", 0),
+                    (party_set_slot, ":party_no", ":slot", 0),
                 (try_end),
 
-                (party_get_slot, ":wealth", ":center", slot_party_wealth),
-                (party_set_slot, ":center", slot_party_budget_last_wealth, ":wealth"),
+                (party_get_slot, ":wealth", ":party_no", slot_party_wealth),
+                (party_set_slot, ":party_no", slot_party_budget_last_wealth, ":wealth"),
             (try_end),
             (try_for_range, ":faction_no", kingdoms_begin, kingdoms_end),
                 (faction_set_slot, ":faction_no", slot_faction_accumulated_taxes, 0),
@@ -27943,14 +28131,21 @@ scripts = [
             (store_script_param, ":party_no", 1),
             (store_script_param, ":amount", 2),
 
-            (val_min, ":amount", 3000000), # interests are capped at 3000000
+            (val_min, ":amount", bank_max_interests_base), # interests are capped at 3000000
 
             (party_get_slot, ":prosperity", ":party_no", slot_party_prosperity),
+
+            (call_script, "script_party_get_fame", ":party_no"),
+            (assign, ":fame", reg0),
+            (call_script, "script_party_get_growth", ":party_no"),
+            (assign, ":growth", reg0),
             # (val_div, ":prosperity", 10),
 
             (store_add, ":base_rate", 100, ":prosperity"),
-            (val_div, ":base_rate", 2),
-            (val_mul, ":base_rate", 5), # We go from 5 to 2.5% base rate
+            (val_add, ":base_rate", ":fame"),
+            (val_add, ":base_rate", ":growth"),
+            (val_div, ":base_rate", 4),
+            (val_mul, ":base_rate", 5), # We go from 5 to 1.25% base rate
 
             (set_fixed_point_multiplier, 1),
             (store_sqrt, ":modifier", ":amount"),
@@ -27975,11 +28170,18 @@ scripts = [
             (try_for_range, ":center", centers_begin, centers_end),
                 (call_script, "script_cf_party_has_building", ":center", "itm_building_bank"),
                 (party_get_slot, ":amount", ":center", slot_party_bank_amount),
-                (gt, ":amount", 0),
-                (call_script, "script_party_get_bank_interests", ":center", ":amount"),
-                (assign, ":interests", reg0),
-                (val_add, ":amount", ":interests"),
-                (party_set_slot, ":center", slot_party_bank_amount, ":amount"),
+                (call_script, "script_party_get_building_efficiency", ":center", "itm_building_bank"),
+                (assign, ":efficiency", reg0),
+                (try_begin),
+                    (gt, ":amount", 0),
+                    (call_script, "script_party_get_bank_interests", ":center", ":amount"),
+                    (assign, ":interests", reg0),
+                    (val_mul, ":interests", ":efficiency"),
+                    (val_div, ":interests", 100),
+
+                    (val_add, ":amount", ":interests"),
+                    (party_set_slot, ":center", slot_party_bank_amount, ":amount"),
+                (try_end),
             (try_end),
         ]),
 
