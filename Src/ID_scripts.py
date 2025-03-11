@@ -536,9 +536,10 @@ script_party_get_bank_interests = 534
 script_process_bank_interests = 535
 script_cf_party_damage_building = 536
 script_party_damage_random_buildings = 537
-script_presentation_generate_select_lord_card = 538
-script_presentation_create_text_overlay = 539
-script_presentation_create_combo_button_overlay = 540
-script_presentation_create_check_box_overlay = 541
+script_cf_troop_process_surplus_center = 538
+script_presentation_generate_select_lord_card = 539
+script_presentation_create_text_overlay = 540
+script_presentation_create_combo_button_overlay = 541
+script_presentation_create_check_box_overlay = 542
 
 

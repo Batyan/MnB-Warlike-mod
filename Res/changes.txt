@@ -1,6 +1,10 @@
 v0.600:
 	-Features:
+		* init starting world with lords
 	-Balances:
+		* improve lord assignement of fiefs
+		* add relation change when recieving fief
+
 	-Fixes:
 v0.580:
 	-Features:

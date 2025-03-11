@@ -368,24 +368,8 @@ simple_triggers = [
                         
                         (try_begin),
                             (ge, ":real_rank", rank_two_village),
-                            (troop_get_slot, ":surplus_fief", ":lord_no", slot_troop_surplus_center),
-                            (gt, ":surplus_fief", 0),
-                            (party_slot_eq, ":surplus_fief", slot_party_reserved, -1),
-                            (store_troop_faction, ":faction", ":lord_no"),
 
-                            (call_script, "script_faction_get_best_candidate_for_center", ":faction", ":surplus_fief", ":lord_no"),
-                            (assign, ":selected", reg0),
-                            
-                            (try_begin),
-                                (ge, ":selected", 0),
-                                (call_script, "script_troop_give_center_to_troop_pl", ":lord_no", ":surplus_fief", ":selected"),
-                            (else_try), # Promote a relative with a fief
-                                (call_script, "script_find_free_lord"),
-                                (assign, ":new_lord", reg0),
-                                (gt, ":new_lord", 0),
-                                (call_script, "script_ready_lord", ":new_lord", ":faction", 1),
-                                (call_script, "script_troop_give_center_to_troop", ":lord_no", ":surplus_fief", ":new_lord"),
-                            (try_end),
+                            (call_script, "script_cf_troop_process_surplus_center", ":lord_no"),
                         (try_end),
                         
                         # Decrease days until next rethink for following marshall
