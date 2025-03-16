@@ -79,6 +79,9 @@ scripts = [
             (try_for_range, ":lord_no", lords_begin, lords_end),
                 (call_script, "script_init_lord", ":lord_no"),
             (try_end),
+            (try_for_range, ":clan", clans_begin, clans_end),
+                (call_script, "script_init_clan", ":clan"),
+            (try_end),
 
             (try_for_range, ":faction_no", kingdoms_begin, kingdoms_end),
                 (call_script, "script_find_free_lord"),
@@ -136,18 +139,53 @@ scripts = [
             (try_for_range, ":lord", npc_heroes_begin, npc_heroes_end),
                 (troop_slot_eq, ":lord", slot_troop_kingdom_occupation, tko_kingdom_hero),
                 (troop_get_slot, ":rank", ":lord", slot_troop_rank),
+
+                (assign, ":clan_chance", 10),
                 (try_begin),
                     (ge, ":rank", rank_king),
                     (troop_set_slot, ":lord", slot_troop_wanted_party_wages, 66000),
+                    (assign, ":clan_chance", 100),
+                (else_try),
+                    (ge, ":rank", rank_city),
+                    (troop_set_slot, ":lord", slot_troop_wanted_party_wages, 66000),
+                    (assign, ":clan_chance", 100),
                 (else_try),
                     (ge, ":rank", rank_castle),
                     (troop_set_slot, ":lord", slot_troop_wanted_party_wages, 25000),
+                    (assign, ":clan_chance", 10),
                 (else_try),
                     (ge, ":rank", rank_two_village),
                     (troop_set_slot, ":lord", slot_troop_wanted_party_wages, 28000),
+                    (assign, ":clan_chance", 30),
                 (else_try),
                     (ge, ":rank", rank_village),
                     (troop_set_slot, ":lord", slot_troop_wanted_party_wages, 15000),
+                    (assign, ":clan_chance", 50),
+                (try_end),
+
+                (store_random_in_range, ":rand", 0, 100),
+                (try_begin),
+                    (gt, ":clan_chance", ":rand"),
+
+                    (call_script, "script_clan_get_empty"),
+                    (assign, ":clan", reg0),
+                    (try_begin),
+                        (is_between, ":clan", clans_begin, clans_end),
+                        (call_script, "script_troop_add_to_clan", ":lord", ":clan"),
+                    (try_end),
+                (else_try),
+                    (troop_get_slot, ":vassal_of", ":lord", slot_troop_vassal_of),
+                    (ge, ":vassal_of", 0),
+                    (troop_get_slot, ":lord_clan", ":vassal_of", slot_troop_clan),
+                    (is_between, ":lord_clan", clans_begin, clans_end),
+                    (call_script, "script_troop_add_to_clan", ":lord", ":lord_clan"),
+                (else_try),
+                    (call_script, "script_clan_get_empty"),
+                    (assign, ":clan", reg0),
+                    (try_begin),
+                        (is_between, ":clan", clans_begin, clans_end),
+                        (call_script, "script_troop_add_to_clan", ":lord", ":clan"),
+                    (try_end),
                 (try_end),
             (try_end),
 
@@ -1852,41 +1890,78 @@ scripts = [
     ("game_get_troop_note",
         [
             (store_script_param, ":troop_no", 1),
-            # (store_script_param, ":index", 2),
+            (store_script_param, ":index", 2),
 
             (troop_get_slot, ":troop_notes", ":troop_no", slot_troop_notes),
+
+            (try_begin),
+                (call_script, "script_cf_debug", debug_all|debug_current),
+                (assign, ":troop_notes", tn_know_all),
+            (try_end),
 
             (str_clear, s0),
 
             (str_store_troop_name, s20, ":troop_no"),
             (try_begin),
-                (troop_slot_eq, ":troop_no", slot_troop_notes, tn_unknown),
-                (str_store_string, s0, "@{s20} is unknown."),
-            (else_try),
-                (store_and, ":know_faction", ":troop_notes", tn_know_faction),
+                (eq, ":index", 0),
                 (try_begin),
-                    (ge, ":know_faction", 1),
-                    (store_troop_faction, ":troop_faction", ":troop_no"),
-                    (str_store_faction_name_link, s21, ":troop_faction"),
+                    (eq, ":troop_notes", tn_unknown),
+                    (str_store_string, s0, "@{s20} is unknown."),
+                (else_try),
+                    (str_store_troop_name, s0, ":troop_no"),
+                    (store_and, ":know_faction", ":troop_notes", tn_know_faction),
+                    (try_begin),
+                        (ge, ":know_faction", 1),
+                        (store_troop_faction, ":troop_faction", ":troop_no"),
+                        (str_store_faction_name_link, s21, ":troop_faction"),
 
-                    (store_and, ":know_faction_rank", ":troop_notes", tn_know_faction_rank),
-                    (try_begin),
-                        (ge, ":know_faction_rank", 1),
-                        (faction_slot_eq, ":troop_faction", slot_faction_leader, ":troop_no"),
-                        (str_store_string, s0, "@{s0} is leader of the {s21}.^"),
-                    (else_try),
-                        (str_store_string, s0, "@{s0} is a vassal of the {s21}.^"),
+                        (store_and, ":know_faction_rank", ":troop_notes", tn_know_faction_rank),
+                        (try_begin),
+                            (ge, ":know_faction_rank", 1),
+                            (faction_slot_eq, ":troop_faction", slot_faction_leader, ":troop_no"),
+                            (str_store_string, s0, "@{s0} is leader of the {s21}.^"),
+                        (else_try),
+                            (str_store_string, s0, "@{s0} is a vassal of the {s21}.^"),
+                        (try_end),
+                        (try_begin),
+                            (ge, ":know_faction_rank", 1),
+                            (faction_slot_eq, ":troop_faction", slot_faction_marshall, ":troop_no"),
+                            (str_store_string, s0, "@{s0}He is the current marhsall.^"),
+                        (try_end),
                     (try_end),
+                    (store_and, ":know_face", ":troop_notes", tn_know_face),
                     (try_begin),
-                        (ge, ":know_faction_rank", 1),
-                        (faction_slot_eq, ":troop_faction", slot_faction_marshall, ":troop_no"),
-                        (str_store_string, s0, "@{s0}He is the current marhsall.^"),
+                        (ge, ":know_face", 1),
+                        (add_troop_note_tableau_mesh, ":troop_no", "tableau_troop_note_mesh"),
                     (try_end),
                 (try_end),
-                (store_and, ":know_face", ":troop_notes", tn_know_face),
+            (else_try),
+                (eq, ":index", 1),
+                (store_and, ":know_vassals", ":troop_notes", tn_know_vassals),
+                (store_and, ":know_lord", ":troop_notes", tn_know_lord),
                 (try_begin),
-                    (ge, ":know_face", 1),
-                    (add_troop_note_tableau_mesh, ":troop_no", "tableau_troop_note_mesh"),
+                    (gt, ":know_vassals", 0),
+                (try_end),
+                (try_begin),
+                    (gt, ":know_lord", 0),
+                    (troop_get_slot, ":vassal_of", ":troop_no", slot_troop_vassal_of),
+                    (ge, ":vassal_of", 0),
+                    (str_store_troop_name_link, s10, ":vassal_of"),
+                    (str_store_string, s0, "@Is a vassal of {s10}"),
+                (try_end),
+            (else_try),
+                (eq, ":index", 2),
+                (store_and, ":know_clan", ":troop_notes", tn_know_clan),
+                (try_begin),
+                    (gt, ":know_clan", 0),
+                    (troop_get_slot, ":clan", ":troop_no", slot_troop_clan),
+                    (try_begin),
+                        (gt, ":clan", 0),
+                        (str_store_item_name, s10, ":clan"),
+                        (str_store_string, s0, "@Belongs to the clan {s10}"),
+                    (else_try),
+                        (str_store_string, s0, "@Belongs to no clan"),
+                    (try_end),
                 (try_end),
             (try_end),
 
@@ -12783,12 +12858,10 @@ scripts = [
             (troop_set_slot, ":lord_no", slot_troop_leaded_party, -1),
             (troop_set_slot, ":lord_no", slot_troop_died, -1),
             (troop_set_slot, ":lord_no", slot_troop_prisoner_of, -1),
-            # (troop_set_slot, ":lord_no", slot_troop_prisoner_in, -1),
             (troop_set_slot, ":lord_no", slot_troop_last_met, -1),
             (troop_set_slot, ":lord_no", slot_troop_gathering, -1),
             (troop_set_slot, ":lord_no", slot_troop_noble, 0),
-            # We need a minimum amount of wanted wages to cover for a few troops
-            # (troop_set_slot, ":lord_no", slot_troop_wanted_party_wages, 800),
+            (troop_set_slot, ":lord_no", slot_troop_clan, -1),
 
             # Reset family
             (try_for_range, ":slot", slot_troop_married_to, slot_troop_child_10+1),
@@ -12869,6 +12942,8 @@ scripts = [
             (assign, ":current_day", reg0),
             (troop_set_slot, ":lord_no", slot_troop_last_attack, ":current_day"),
             (troop_set_slot, ":lord_no", slot_troop_last_rest, ":current_day"),
+
+            (troop_set_note_available, ":lord_no", 1),
             
             (try_begin),
                 (eq, ":activate", 1),
@@ -12893,6 +12968,70 @@ scripts = [
             (faction_get_slot, ":num_vassals", ":faction_no", slot_faction_num_vassals),
             (val_add, ":num_vassals", 1),
             (faction_set_slot, ":faction_no", slot_faction_num_vassals, ":num_vassals"),
+        ]),
+
+    # script_init_clan
+        # input:
+        #   arg1: clan
+        # output: none
+    ("init_clan",
+        [
+            (store_script_param, ":clan", 1),
+
+            (item_set_slot, ":clan", slot_clan_active, 0),
+        ]),
+
+    # script_ready_clan
+        # input:
+        #   arg1: clan
+        # output: none
+    ("ready_family",
+        [
+            (store_script_param, ":clan", 1),
+
+            (item_set_slot, ":clan", slot_clan_active, 1),
+        ]),
+
+    # script_troop_add_to_clan
+        # input:
+        #   arg1: troop_no
+        #   arg2: clan
+        # output: none
+    ("troop_add_to_clan",
+        [
+            (store_script_param, ":troop_no", 1),
+            (store_script_param, ":clan", 2),
+
+            (troop_set_slot, ":troop_no", slot_troop_clan, ":clan"),
+
+            (try_begin),
+                (item_get_slot, ":active", ":clan", slot_clan_active),
+                (eq, ":active", 0),
+                (item_set_slot, ":clan", slot_clan_active, 1),
+            (try_end),
+        ]),
+
+    # script_clan_get_empty
+        # input: none
+        # output: 
+        #   reg0: empty_family
+    ("clan_get_empty",
+        [
+            (assign, ":result", -1),
+            (assign, ":end", clans_end),
+            (try_for_range, ":clan", clans_begin, ":end"),
+                (item_get_slot, ":active", ":clan", slot_clan_active),
+                (eq, ":active", 0),
+                (assign, ":result", ":clan"),
+                (assign, ":end", 0),
+            (try_end),
+
+            (try_begin),
+                (eq, ":result", -1),
+                (display_message, "@Unable to find free clan", text_color_impossible),
+            (try_end),
+
+            (assign, reg0, ":result"),
         ]),
 
     # script_faction_get_notables

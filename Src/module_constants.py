@@ -626,6 +626,17 @@ icc_clothes = 3
 
 consumption_ratio_base = 1000000
 
+################
+## Clan Slots ##
+## #############
+
+clans_begin = "itm_clan_storage_1"
+clans_end = "itm_clans_end"
+
+slot_clan_active = 9
+
+slot_clan_culture = slot_clan_active + 1
+
 #################
 ## Agent Slots ##
 #################
@@ -959,7 +970,6 @@ slot_war_peace_proposal_value_end = slot_war_peace_proposal_value_begin + num_pe
 slot_war_clear_slots_begin = slot_war_active
 slot_war_clear_slots_end = slot_war_peace_proposal_type_end
 ###
-
 
 #################
 ## Party Slots ##
@@ -1555,17 +1565,18 @@ slot_troop_mercenary_captain 		= 39
 slot_troop_notes					= 40
 
 # ToDo: add different note level
-tn_unknown 					= 0x00
-tn_know_main_fief			= 0x01
-tn_know_fiefs				= 0x02
-tn_know_faction				= 0x04
-tn_know_faction_rank		= 0x08
-tn_know_family_rank 		= 0x10 # Relations to an important member of the family
-tn_know_family_name 		= 0x20
-tn_know_family_importance	= 0x40
-tn_know_family 				= tn_know_family_rank | tn_know_family_name | tn_know_family_importance
-tn_know_personality 		= 0x80
+tn_unknown 					= 0x000
+tn_know_main_fief			= 0x001
+tn_know_fiefs				= 0x002
+tn_know_faction				= 0x004
+tn_know_faction_rank		= 0x008
+tn_know_clan 				= 0x010
+tn_know_personality 		= 0x080
 tn_know_face   				= 0x100
+tn_know_vassals				= 0x200 # Vassal relations
+tn_know_lord				= 0x400 # Is a vassal of
+
+tn_know_all = tn_know_main_fief | tn_know_fiefs | tn_know_faction | tn_know_faction_rank | tn_know_clan | tn_know_personality | tn_know_face | tn_know_vassals | tn_know_lord
 
 slot_troop_married_to 			= 41
 slot_troop_father				= 42
@@ -1581,7 +1592,7 @@ slot_troop_child_8				= 51
 slot_troop_child_9				= 52
 slot_troop_child_10				= 53
 
-slot_troop_family				= 54
+slot_troop_clan				= 54
 
 slot_troop_died = 55 # Contains the date of death of an NPC
 
