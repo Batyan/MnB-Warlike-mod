@@ -396,6 +396,8 @@ strings = [
   ("sarranid_rank_6_f", "Caliph {s0}"),
   ("sarranid_rank_7_f", "Sultan {s0}"),
 
+  ("troop_type_begin", "Troop type begin"),
+
   ("troop_type_infantry", "Infantry"),
   ("troop_type_spearman", "Spearman"),
   ("troop_type_pikeman", "Pikeman"),

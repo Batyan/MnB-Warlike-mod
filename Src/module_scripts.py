@@ -14824,7 +14824,7 @@ scripts = [
             (else_try),
             
                 (troop_get_slot, ":troop_type", ":troop_no", slot_troop_type),
-                (store_add, ":str", "str_names_end", ":troop_type"),
+                (store_add, ":str", "str_troop_type_begin", ":troop_type"),
                 
                 (troop_get_slot, ":armor", ":troop_no", slot_troop_armor_weight),
                 (troop_get_slot, ":horse", ":troop_no", slot_troop_horse_weight),
