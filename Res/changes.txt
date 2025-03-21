@@ -6,6 +6,7 @@ v0.600:
 	-Balances:
 		* improve lord assignement of fiefs
 		* add relation change when recieving fief
+		* rename sarranid noble skirmisher to sarranid noble mounted skirmisher
 	-Fixes:
 v0.580:
 	-Features:
