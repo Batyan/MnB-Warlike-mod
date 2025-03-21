@@ -240,8 +240,8 @@ parties = [
 	("village_14b1","Ilndir", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_14,0,ai_bhvr_hold,0,(-101.9, 55),[], 170),
 	
 	("village_15a1","Nemeja", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_15,0,ai_bhvr_hold,0,(-122.2, 3.4),[], 170),
-	("village_15b1","Nadalb", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_15,0,ai_bhvr_hold,0,(-87.9, -3),[], 170),
-	("village_15c1","Vyincan", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_15,0,ai_bhvr_hold,0,(-99.5, -0.3),[], 170),
+	("village_15b1","Nadalb", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_15,0,ai_bhvr_hold,0,(-77.6, -14.3),[], 170),
+	("village_15c1","Vyincan", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_15,0,ai_bhvr_hold,0,(-100.1, -2.9),[], 170),
 	
 	("village_16a1","Tadsamesh", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_16,0,ai_bhvr_hold,0,(29.7, 19.1),[], 170),
 	("village_16b1","Nazkh", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_16,0,ai_bhvr_hold,0,(15.2, 16.8),[], 170),
