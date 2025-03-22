@@ -547,6 +547,18 @@ court_movement_cost = 50000
 
 bank_max_interests_base = 3000000
 
+ta_normal = 0
+ta_cordial = 1
+ta_submissive = 2
+ta_arrogant = 3
+ta_defiant = 4
+ta_formal = 5
+ta_friendly = 6
+ta_aggressive = 7
+ta_threatening = 8
+ta_loving = 9
+ta_caring = 10
+
 ################
 ## Item Slots ##
 ################
