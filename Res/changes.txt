@@ -1,3 +1,15 @@
+v0.600:
+	-Features:
+		* init starting world with lords
+		* add clans to existing lords
+		* add basic troop notes
+		* improve lord meeting dialog
+	-Balances:
+		* improve lord assignement of fiefs
+		* add relation change when recieving fief
+		* rename sarranid noble skirmisher to sarranid noble mounted skirmisher
+		* slightly move some fiefs
+	-Fixes:
 v0.580:
 	-Features:
 		* add center population growth modifier

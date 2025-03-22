@@ -3859,7 +3859,7 @@ troops = [
   
   # Heavy cavalry skirmisher, swords, axes, maces, javelins, lances
   # SPECIAL
-  ["sarranid_noble_skirmisher", "Sarranid Noble Skirmisher", "Sarranid Noble Skirmisher", tf_guarantee_trained_armor|tf_guarantee_ranged|tf_guarantee_horseman, no_scene, reserved, fac_small_kingdom_65,
+  ["sarranid_noble_mounted_skirmisher", "Sarranid Noble Mounted Skirmisher", "Sarranid Noble Mounted Skirmishers", tf_guarantee_trained_armor|tf_guarantee_ranged|tf_guarantee_horseman, no_scene, reserved, fac_small_kingdom_65,
    [itm_sarranid_cavalry_sword, itm_iron_mace, itm_sarranid_axe_b, itm_jarid, itm_jarid, itm_heavy_lance,
     itm_sarranid_boots_d, itm_mail_mittens, itm_scale_gauntlets,
     itm_mamluke_mail_herald, itm_sarranid_mail_shirt,

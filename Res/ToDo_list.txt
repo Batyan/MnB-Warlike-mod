@@ -1062,3 +1062,9 @@ ToDo:
 - add rumor system
     able to gather rumors from tavern menu / scene
     rumors inform of events
+- add quests
+    deliver grain to struggling village
+    deliver specific rare (to the region) good to please a visiting lord
+    persuade the nearby city to provide trade arrangements
+    hunt a notorious bandit
+    persuade group of mercenaries to leave a village
