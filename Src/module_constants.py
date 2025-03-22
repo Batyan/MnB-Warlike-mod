@@ -647,7 +647,7 @@ clans_end = "itm_clans_end"
 
 slot_clan_active = 9
 
-slot_clan_culture = slot_clan_active + 1
+slot_clan_renown = slot_clan_active + 1
 
 #################
 ## Agent Slots ##
