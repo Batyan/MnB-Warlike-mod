@@ -1,3 +1,7 @@
+v0.610:
+	-Features:
+	-Balances:
+	-Fixes:
 v0.600:
 	-Features:
 		* init starting world with lords
