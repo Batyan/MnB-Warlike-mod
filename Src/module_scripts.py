@@ -16688,9 +16688,8 @@ scripts = [
             (call_script, "script_faction_get_relation_with_faction", ":faction_no", ":war_target"),
             (assign, ":relation", reg0),
 
-            (store_sub, ":offset", ":war_target", kingdoms_begin),
-            (store_add, ":distance_slot", ":offset", slot_faction_kingdom_distance_begin),
-            (faction_get_slot, ":distance", ":faction_no", ":distance_slot"),
+            (call_script, "script_faction_get_distance_from_faction", ":faction_no", ":war_target"),
+            (assign, ":distance", reg0),
 
             (assign, ":score_ratio", 100),
 
@@ -16851,9 +16850,8 @@ scripts = [
                 (call_script, "script_faction_get_relation_with_faction", ":faction_no", ":other_faction"),
                 (assign, ":relation", reg0),
 
-                (store_sub, ":offset", ":other_faction", kingdoms_begin),
-                (store_add, ":distance_slot", ":offset", slot_faction_kingdom_distance_begin),
-                (faction_get_slot, ":distance", ":faction_no", ":distance_slot"),
+                (call_script, "script_faction_get_distance_from_faction", ":faction_no", ":other_faction"),
+                (assign, ":distance", reg0),
 
                 (store_add, ":score_relation", 10, ":relation"),
                 (val_div, ":score_relation", 2),
@@ -17148,9 +17146,9 @@ scripts = [
                 (faction_get_slot, ":other_strength_ready", ":other_faction", slot_faction_strength_ready),
 
                 # We want to reduce strength of allies / enemies if they are far away
-                (store_sub, ":offset", ":other_faction", kingdoms_begin),
-                (store_add, ":distance_slot", ":offset", slot_faction_kingdom_distance_begin),
-                (faction_get_slot, ":distance", ":faction_no", ":distance_slot"),
+                (call_script, "script_faction_get_distance_from_faction", ":faction_no", ":other_faction"),
+                (assign, ":distance", reg0),
+
                 (store_sub, ":distance_base", ":distance", faction_distance_close),
 
                 (store_mul, ":distance_substracter", ":distance_base", 100),
@@ -17815,9 +17813,9 @@ scripts = [
                 (store_mul, ":relation_bonus", reg0, 100),
                 (store_sub, ":total_strength", ":own_strength", ":relation_bonus"),
 
-                (store_sub, ":offset", ":treaty_target", kingdoms_begin),
-                (store_add, ":distance_slot", ":offset", slot_faction_kingdom_distance_begin),
-                (faction_get_slot, ":distance", ":faction_no", ":distance_slot"),
+                (call_script, "script_faction_get_distance_from_faction", ":faction_no", ":treaty_target"),
+                (assign, ":distance", reg0),
+
                 (val_mul, ":distance", 250),
                 (val_add, ":total_strength", ":distance"),
 
@@ -26567,14 +26565,15 @@ scripts = [
             (try_end),
 
             (assign, ":score", ":renown"),
-            (val_add, ":score", ":relation"),
+            (store_mul, ":relation_bonus", ":relation", 2),
+            (val_add, ":score", ":relation_bonus"),
 
             (try_begin),
-                (lt, ":score", ":threshold"),
-                (assign, reg0, vassal_outcome_unknown),
-            (else_try),
                 (lt, ":relation", -10),
                 (assign, reg0, vassal_outcome_refused),
+            (else_try),
+                (lt, ":score", ":threshold"),
+                (assign, reg0, vassal_outcome_unknown),
             (else_try),
                 (assign, ":num_fiefless_vassals", 0),
                 (assign, ":end", npc_heroes_end),
@@ -28303,6 +28302,9 @@ scripts = [
             (store_script_param, ":party_no", 2),
 
             (try_begin),
+                (troop_slot_eq, ":troop_no", slot_troop_vassal_of, "$g_player_troop"),
+                (str_store_string, s60, "str_my_liege"),
+            (else_try),
                 (gt, ":party_no", 0),
                 (party_get_slot, ":party_type", ":party_no", slot_party_type),
 
@@ -28315,10 +28317,10 @@ scripts = [
                 (try_begin),
                     (eq, ":party_type", spt_war_party),
                     (try_begin),
-                        (troop_slot_eq, ":troop_no", slot_troop_last_met, -1),
-                        (str_store_string, s60, "@traveller"),
-                    (else_try),
+                        (call_script, "script_cf_lord_knows_player", ":troop_no"),
                         (str_store_string, s60, "str_playername"),
+                    (else_try),
+                        (str_store_string, s60, "@traveller"),
                     (try_end),
                 (else_try),
                     (eq, ":party_type", spt_civilian),
@@ -28574,6 +28576,254 @@ scripts = [
                 (display_message, "@{s10} grants {s11} to {s12}", text_color_freed),
             (try_end),
             (assign, reg0, ":selected"),
+        ]),
+
+    # script_get_lord_first_greeting_dialog
+        # input:
+        #   arg1: lord_no
+        # output:
+        #   s0: greeting_str
+    ("get_lord_first_greeting_dialog",
+        [
+            (store_script_param, ":lord_no", 1),
+
+            (troop_get_slot, ":lord_party", ":lord_no", slot_troop_leaded_party),
+
+            (call_script, "script_troop_get_title_string", ":lord_no"),
+            (str_store_string_reg, s11, s0),
+            (str_store_troop_name, s10, ":lord_no"),
+            
+            (call_script, "script_troop_get_player_name", ":lord_no", ":lord_party"),
+
+            (try_begin),
+                (str_store_string, s0, "@Hail {s60}. It's a pleasure to meet you, I am {s10}, {s11}. What is your name?"),
+            (try_end),
+        ]),
+
+    # script_get_lord_first_greeting_knows_dialog
+        # input:
+        #   arg1: lord_no
+        # output:
+        #   s0: greeting_str
+    ("get_lord_first_greeting_knows_dialog",
+        [
+            (store_script_param, ":lord_no", 1),
+
+            (troop_get_slot, ":lord_party", ":lord_no", slot_troop_leaded_party),
+
+            (store_troop_faction, ":lord_faction", ":lord_no"),
+            (store_troop_faction, ":player_faction", "$g_player_troop"),
+
+            (call_script, "script_troop_get_title_string", ":lord_no"),
+            (str_store_string_reg, s11, s0),
+            (str_store_troop_name, s10, ":lord_no"),
+            
+            (call_script, "script_troop_get_player_name", ":lord_no", ":lord_party"),
+
+            (troop_get_slot, ":player_renown", "$g_player_troop", slot_troop_renown),
+            (troop_get_slot, ":lord_renown", ":lord_no", slot_troop_renown),
+
+            (troop_get_type, ":player_gender", "$g_player_troop"),
+            (troop_get_type, ":lord_gender", "$g_player_troop"),
+
+            (call_script, "script_troop_get_relation_with_troop", ":lord_no", "$g_player_troop"),
+            (assign, ":relation", reg0),
+
+            # (call_script, "script_troop_get_player_attitude", ":lord_no"),
+            # (assign, ":attitude", reg0),
+
+            (assign, ":num_flattery", 0),
+            (try_begin),
+                (gt, ":player_renown", 1500),
+                (val_add, ":num_flattery", 2),
+            (else_try),
+                (gt, ":player_renown", 500),
+                (val_add, ":num_flattery", 1),
+            (try_end),
+            (try_begin),
+                (gt, ":player_renown", ":lord_renown"),
+                (val_add, ":num_flattery", 1),
+            (try_end),
+
+            (try_begin),
+                # TODO: refine gender based on personality
+                (neq, ":player_gender", ":lord_gender"),
+                (val_sub, ":num_flattery", 1),
+            (try_end),
+
+            (try_begin),
+                (gt, ":relation", 10),
+                (val_add, ":num_flattery", 1),
+            (try_end),
+
+            (try_begin),
+                (eq, ":lord_faction", ":player_faction"),
+
+                (troop_get_slot, ":vassal_of", ":lord_no", slot_troop_vassal_of),
+                (eq, ":vassal_of", "$g_player_troop"),
+
+                (try_begin),
+                    (ge, ":num_flattery", 3),
+                    (str_store_string, s0, "@{s60}}! We have not had the pleasure of meeting yet. I am {s10}, your humble vassal, at your service."),
+                (else_try),
+                    (ge, ":num_flattery", 2),
+                    (str_store_string, s0, "@{s60}}! We have not had the pleasure of meeting yet. I am {s10}, at your service."),
+                (else_try),
+                    (ge, ":num_flattery", 1),
+                    (str_store_string, s0, "@{s60}}! We have not had the pleasure of meeting yet. I am {s10}."),
+                (else_try),
+                    (ge, ":num_flattery", 0),
+                    (str_store_string, s0, "@{s60}}! We have not had the time to meet yet. I am {s10}."),
+                (else_try),
+                    (str_store_string, s0, "@{s60}}! We have not met yet. I am {s10}."),
+                (try_end),
+            (else_try),
+                # (eq, ":lord_faction", ":player_faction"),
+                (try_begin),
+                    (ge, ":num_flattery", 3),
+                    (str_store_string, s0, "@{s60}}. It's a pleasure to finally meet you. I am {s10}, at your service."),
+                (else_try),
+                    (ge, ":num_flattery", 2),
+                    (str_store_string, s0, "@{s60}}. It's a pleasure to finally meet you. I am {s10}."),
+                (else_try),
+                    (ge, ":num_flattery", 1),
+                    (str_store_string, s0, "@{s60}}. We have not had the time to meet yet. I am {s10}."),
+                (else_try),
+                    (ge, ":num_flattery", 0),
+                    (str_store_string, s0, "@{s60}}. We have not met yet. I am {s10}."),
+                (else_try),
+                    (str_store_string, s0, "@{s60}}. We have not met yet. I am {s10}. State your business please."),
+                (try_end),
+            (try_end),
+        ]),
+
+    # script_get_lord_greeting_dialog
+        # input:
+        #   arg1: lord_no
+        # output:
+        #   s0: greeting_str
+    ("get_lord_greeting_dialog",
+        [
+            (store_script_param, ":lord_no", 1),
+
+            (troop_get_slot, ":lord_party", ":lord_no", slot_troop_leaded_party),
+
+            # (call_script, "script_troop_get_player_attitude", ":lord_no"),
+            # (assign, ":attitude", reg0),
+
+            (call_script, "script_troop_get_player_name", ":lord_no", ":lord_party"),
+            (try_begin),
+                (le, "$g_last_met_hours", 6),
+                (try_begin),
+                    (troop_get_slot, ":vassal_of", ":lord_no", slot_troop_vassal_of),
+                    (eq, ":vassal_of", "$g_player_troop"),
+
+                    (str_store_string, s0, "@{s60}. Did you require my assistance again?"),
+                (else_try),
+                    (str_store_string, s0, "@Hello again {s60}. What is it that you need?"),
+                (try_end),
+            (else_try),
+                (str_store_string, s0, "@Hmm... {s60}, yes? What do you need?"),
+            (try_end),
+        ]),
+
+    # script_troop_get_player_attitude
+        # input:
+        #   arg1: troop_no
+        # output:
+        #   reg0: attitude (ta_*)
+    ("troop_get_player_attitude",
+        [
+            # (store_script_param, ":troop_no", 1),
+
+            (assign, reg0, ta_normal)
+        ]),
+
+    # script_cf_lord_knows_player
+        # input:
+        #   arg1: lord_no
+        # output: none
+        # fails if lord does not know player
+    ("cf_lord_knows_player",
+        [
+            (store_script_param, ":lord_no", 1),
+
+            (assign, ":knows", 0),
+
+            (troop_get_slot, ":player_renown", "$g_player_troop", slot_troop_renown),
+            (troop_get_slot, ":lord_rank", ":lord_no", slot_troop_rank),
+
+            (store_troop_faction, ":lord_faction", ":lord_no"),
+            (store_troop_faction, ":player_faction", "$g_player_troop"),
+
+            (troop_get_slot, ":player_vassal_of", "$g_player_troop", slot_troop_vassal_of),
+            (troop_get_slot, ":lord_vassal_of", ":lord_no", slot_troop_vassal_of),
+
+            (assign, ":renown_limit", 0),
+
+            (try_begin),
+                (troop_get_slot, ":last_met", ":lord_no", slot_troop_last_met),
+                (ge, ":last_met", 0),
+                (assign, ":knows", 1),
+            (else_try),
+                (eq, ":lord_vassal_of", "$g_player_troop"),
+                (assign, ":knows", 1),
+            (else_try),
+                (eq, ":player_vassal_of", ":lord_no"),
+                (assign, ":knows", 1),
+            (else_try),
+                (eq, ":player_vassal_of", ":lord_vassal_of"),
+                (neq, ":player_vassal_of", -1),
+                (gt, ":player_renown", 50),
+                (assign, ":knows", 1),
+            (else_try),
+                (try_begin),
+                    (neq, ":lord_faction", ":player_faction"),
+                    (try_begin),
+                        (is_between, ":lord_faction", kingdoms_begin, kingdoms_end),
+                        (is_between, ":player_faction", kingdoms_begin, kingdoms_end),
+
+                        (call_script, "script_faction_get_distance_from_faction", ":lord_faction", ":player_faction"),
+                        (assign, ":distance", reg0),
+                        (val_mul, ":distance", 2),
+                    (else_try),
+                        (val_add, ":renown_limit", faction_distance_far*2),
+                    (try_end),
+                (try_end),
+                (try_begin),
+                    (ge, ":lord_rank", rank_king),
+                    (val_add, ":renown_limit", 100),
+                (else_try),
+                    (ge, ":lord_rank", rank_city),
+                    (val_add, ":renown_limit", 150),
+                (else_try),
+                    (ge, ":lord_rank", rank_castle),
+                    (val_add, ":renown_limit", 200),
+                (else_try),
+                    (val_add, ":renown_limit", 350),
+                (try_end),
+                (gt, ":player_renown", ":renown_limit"),
+                (assign, ":knows", 1),
+            (try_end),
+
+            (eq, ":knows", 1),
+        ]),
+
+    # script_faction_get_distance_from_faction
+        # input:
+        #   arg1: faction_no
+        #   arg2: other_faction
+        # output:
+        #   reg0: distance
+    ("faction_get_distance_from_faction",
+        [
+            (store_script_param, ":faction_no", 1),
+            (store_script_param, ":other_faction", 2),
+
+            (store_sub, ":offset", ":other_faction", kingdoms_begin),
+            (store_add, ":distance_slot", ":offset", slot_faction_kingdom_distance_begin),
+            (faction_get_slot, ":distance", ":faction_no", ":distance_slot"),
+            (assign, reg0, ":distance"),
         ]),
 
     # script_presentation_generate_select_lord_card

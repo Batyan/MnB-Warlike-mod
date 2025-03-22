@@ -541,9 +541,15 @@ script_process_bank_interests = 539
 script_cf_party_damage_building = 540
 script_party_damage_random_buildings = 541
 script_cf_troop_process_surplus_center = 542
-script_presentation_generate_select_lord_card = 543
-script_presentation_create_text_overlay = 544
-script_presentation_create_combo_button_overlay = 545
-script_presentation_create_check_box_overlay = 546
+script_get_lord_first_greeting_dialog = 543
+script_get_lord_first_greeting_knows_dialog = 544
+script_get_lord_greeting_dialog = 545
+script_troop_get_player_attitude = 546
+script_cf_lord_knows_player = 547
+script_faction_get_distance_from_faction = 548
+script_presentation_generate_select_lord_card = 549
+script_presentation_create_text_overlay = 550
+script_presentation_create_combo_button_overlay = 551
+script_presentation_create_check_box_overlay = 552
 
 

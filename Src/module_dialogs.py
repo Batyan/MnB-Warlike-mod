@@ -88,11 +88,24 @@ dialogs = [
 		[
 			(is_between, "$g_talk_troop", lords_begin, lords_end),
 			(troop_slot_eq, "$g_talk_troop", slot_troop_last_met, -1),
-			(call_script, "script_troop_get_title_string", "$g_talk_troop"),
-			(str_store_string_reg, s11, s0),
-			(str_store_troop_name, s10, "$g_talk_troop"),
-			(call_script, "script_troop_get_player_name", "$g_talk_troop", "$g_talk_party"),
-		], "Hail {s60}. It's a pleasure to meet you, I am {s10}, {s11}. What is your name?", "player_lord_greeting", 
+
+			(call_script, "script_cf_lord_knows_player", "$g_talk_troop"),
+
+			(call_script, "script_get_lord_first_greeting_knows_dialog", "$g_talk_troop"),
+		], "{s0}", "player_lord_greeting_knows",
+		[
+			(call_script, "script_get_current_day"),
+			(assign, ":date", reg0),
+			(troop_set_slot, "$g_talk_troop", slot_troop_last_met, ":date"),
+		]],
+
+	[anyone, "start", 
+		[
+			(is_between, "$g_talk_troop", lords_begin, lords_end),
+			(troop_slot_eq, "$g_talk_troop", slot_troop_last_met, -1),
+
+			(call_script, "script_get_lord_first_greeting_dialog", "$g_talk_troop"),
+		], "{s0}", "player_lord_greeting", 
 		[
 			(call_script, "script_get_current_day"),
 			(assign, ":date", reg0),
@@ -101,15 +114,9 @@ dialogs = [
 	
 	[anyone, "start", 
 		[
-			(le, "$g_last_met_hours", 6),
 			(is_between, "$g_talk_troop", lords_begin, lords_end),
-			(call_script, "script_troop_get_player_name", "$g_talk_troop", "$g_talk_party"),
-		], "Hello again {s60}. What is it that you need?", "player_lord_main", []],
-	
-	[anyone, "start", 
-		[(is_between, "$g_talk_troop", lords_begin, lords_end),
-			(call_script, "script_troop_get_player_name", "$g_talk_troop", "$g_talk_party"),
-		], "Hmm... {s60}, yes? What do you need?", "player_lord_main", []],
+			(call_script, "script_get_lord_greeting_dialog", "$g_talk_troop"),
+		], "{s0}", "player_lord_main", []],
 	
 	[anyone|plyr, "player_lord_greeting",
 		[], "My name is {playername}, the pleasure is shared.", "player_lord_greeting_after", []],
@@ -117,6 +124,15 @@ dialogs = [
 		[], "My name is {playername}, remember it, you will be hearing it a lot.", "player_lord_greeting_after", []],
 	[anyone|plyr, "player_lord_greeting",
 		[], "Back off peasant!", "close_window", []],
+	
+	[anyone|plyr, "player_lord_greeting_knows",
+		[(troop_slot_eq, "$g_talk_troop", slot_troop_vassal_of, "$g_player_troop"),], "The pleasure is shared. I have high hopes for you.", "player_lord_greeting_after", []],
+	[anyone|plyr, "player_lord_greeting_knows",
+		[(neg|troop_slot_eq, "$g_talk_troop", slot_troop_vassal_of, "$g_player_troop"),], "The pleasure is shared.", "player_lord_greeting_after", []],
+	[anyone|plyr, "player_lord_greeting_knows",
+		[(troop_slot_eq, "$g_talk_troop", slot_troop_vassal_of, "$g_player_troop"),], "Serve me well and you will be rewarded.", "player_lord_greeting_after", []],
+	[anyone|plyr, "player_lord_greeting_knows",
+		[], "Right then, ", "player_lord_greeting_after", []],
 	
 	[anyone, "player_lord_greeting_after",
 		[], "Now... What do you need?", "player_lord_main", []],
@@ -719,7 +735,7 @@ dialogs = [
 		[], "Take the fight to my enemies and prove yourself as a fine leader of men and I might reconsider.", "lord_main_return", []],
 
 	[anyone, "lord_ask_vassal_too_many",
-		[], "I'm afraid I have no place for you in my court.", "lord_main_return", []],
+		[], "I won't be able to provide the necessary benefits to all my vassals if I take you in my court.", "lord_main_return", []],
 
 	[anyone, "lord_ask_vassal_no_fief", [
 		(store_troop_faction, ":troop_faction", "$g_talk_troop"),

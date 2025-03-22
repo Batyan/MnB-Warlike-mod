@@ -911,6 +911,14 @@ strings = [
 
   ("playername", "{playername}"),
   ("my_lord|my_lady", "{My Lord/My Lady}"),
+  ("my_liege", "My Liege"),
+
+  ("my_king_culture_1", "{My King/My Queen}"),
+  ("my_king_culture_2", "{My King/My Queen}"),
+  ("my_king_culture_3", "My Khan"),
+  ("my_king_culture_4", "{My King/My Queen}"),
+  ("my_king_culture_5", "Governor"),
+  ("my_king_culture_6", "{My Sultan/My Sultana}"),
 
   ("start_game_introduction_text", "Welcome to Calradia, a land torn with strife and conflicts.^\
  It is an ideal situation for an ambitious person to climb the ranks of society.^^\
