@@ -294,7 +294,7 @@ text_color_budget_info = 0x2020a0
 era_minimum_duration = 365
 
 merchants_begin = "trp_merchant_town_11_general"
-merchants_end = "trp_banner_background_color_array"
+merchants_end = "trp_clan_storage_1"
 
 merchants_general_begin = merchants_begin
 merchants_general_end = "trp_merchant_town_11_weapons"
@@ -642,12 +642,24 @@ consumption_ratio_base = 1000000
 ## Clan Slots ##
 ## #############
 
-clans_begin = "itm_clan_storage_1"
-clans_end = "itm_clans_end"
+clans_begin = "trp_clan_storage_1"
+clans_end = "trp_banner_background_color_array"
 
 slot_clan_active = 9
 
-slot_clan_renown = slot_clan_active + 1
+slot_clan_leader = slot_clan_active + 1
+slot_clan_renown = slot_clan_leader + 1
+slot_clan_culture = slot_clan_renown + 1
+slot_clan_name_template = slot_clan_culture + 1
+slot_clan_name_type = slot_clan_name_template + 1
+
+name_type_center = 1
+name_type_name = 2
+name_type_leader = 3
+
+slot_clan_home = slot_clan_name_type + 1
+
+slot_clan_end = slot_clan_home + 1
 
 #################
 ## Agent Slots ##
