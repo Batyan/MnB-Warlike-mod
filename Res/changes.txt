@@ -2,10 +2,13 @@ v0.610:
 	-Features:
 		* add clan names
 	-Balances:
+		* remove < 's Party > in party name
+		* force noble status after becoming vassal
 	-Fixes:
 		* fix incorrect time displayed in raise levy action
 		* fix incorrect side joined by nearby parties on double encounter
 		* fix text errors in greeting dialog
+		* fix new fiefs not being  properly distributed
 v0.600:
 	-Features:
 		* init starting world with lords

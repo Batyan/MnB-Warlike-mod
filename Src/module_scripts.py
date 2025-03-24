@@ -9935,7 +9935,7 @@ scripts = [
             
             # ToDo: special name for parties
             (str_store_troop_name, s10, ":troop_no"),
-            (party_set_name, ":party", "@{s10}'s Party"),
+            (party_set_name, ":party", "@{s10}"),
 
             (assign, reg0, ":party"),
         ]),
@@ -13120,13 +13120,7 @@ scripts = [
                 (try_end),
             (else_try),
                 (eq, ":culture", "fac_culture_5"),
-                # (store_random_in_range, ":rand", 0, 100),
-                # (try_begin),
-                #     (lt, ":rand", 33),
-                    (assign, reg0, "str_rhodok_family_name_template_1"),
-                # (else_try),
-                #     (assign, reg0, "str_rhodok_family_name_template_2"),
-                # (try_end),
+                (assign, reg0, "str_rhodok_family_name_template_1"),
             (else_try),
                 (eq, ":culture", "fac_culture_6"),
                 (assign, reg0, "str_sarranid_family_name_template_1"),
@@ -13525,6 +13519,7 @@ scripts = [
                 (troop_set_slot, ":overlord", slot_troop_num_vassal, ":num_vassal"),
             (try_end),
             (troop_set_slot, ":vassal", slot_troop_vassal_of, ":overlord"),
+            (troop_set_slot, ":vassal", slot_troop_noble, 1),
 
             (store_troop_faction, ":vassal_faction", ":vassal"),
             (store_troop_faction, ":overlord_faction", ":overlord"),
@@ -16334,13 +16329,17 @@ scripts = [
                     (party_get_slot, ":center_faction", ":center_no", slot_party_faction),
                     (eq, ":center_faction", ":faction_no"),
                     
-                    (party_get_slot, ":faction_leader", ":faction_no", slot_faction_leader),
+                    (faction_get_slot, ":faction_leader", ":faction_no", slot_faction_leader),
                     (gt, ":faction_leader", 0),
                     (call_script, "script_faction_get_best_candidate_for_center", ":faction_no", ":center_no", ":faction_leader"),
                     (assign, ":troop_no", reg0),
                     
-                    (gt, ":troop_no", -1),
-                    (call_script, "script_give_center_to_troop", ":center_no", ":troop_no"),
+                    (try_begin),
+                        (gt, ":troop_no", -1),
+                        (call_script, "script_troop_give_center_to_troop_pl", ":faction_leader", ":center_no", ":troop_no"),
+                    (else_try),
+                        (call_script, "script_give_center_to_troop", ":center_no", ":faction_leader"),
+                    (try_end),
                     
                     (faction_set_slot, ":faction_no", slot_faction_current_free_center, -1),
                 (try_end),
@@ -28819,7 +28818,23 @@ scripts = [
                 (assign, ":new_lord", reg0),
                 (gt, ":new_lord", 0),
                 (call_script, "script_ready_lord", ":new_lord", ":faction", 1),
+
+                (store_random_in_range, ":rand", 0, 100),
+                (try_begin),
+                    (lt, ":rand", 30),
+                    (troop_get_slot, ":clan", ":troop_no", slot_troop_clan),
+                    (call_script, "script_troop_add_to_clan", ":new_lord", ":clan"),
+                (else_try),
+                    (call_script, "script_clan_get_empty"),
+                    (assign, ":clan", reg0),
+                    (try_begin),
+                        (is_between, ":clan", clans_begin, clans_end),
+                        (call_script, "script_troop_add_to_clan", ":new_lord", ":clan"),
+                    (try_end),
+                (try_end),
+
                 (call_script, "script_troop_give_center_to_troop", ":troop_no", ":surplus_fief", ":new_lord"),
+
                 (assign, ":selected", ":new_lord"),
             (try_end),
 
