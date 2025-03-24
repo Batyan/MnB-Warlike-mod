@@ -3,6 +3,8 @@ v0.610:
 		* add clan names
 	-Balances:
 	-Fixes:
+		* fix incorrect time displayed in raise levy action
+		* fix incorrect side joined by nearby parties on double encounter
 v0.600:
 	-Features:
 		* init starting world with lords

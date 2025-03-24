@@ -1975,7 +1975,7 @@ game_menus = [
                     
                     (val_max, ":rest_time", ":min_hours"),
                     (assign, reg12, ":rest_time"),
-                ], "Recruit {reg10} levies : {s10} ({reg12} hours)",
+                ], "Recruit {reg10} levies : {s10} ({reg12} days)",
                 [
                     (try_begin),
                         (gt, "$g_num_levies", 0),
@@ -2394,11 +2394,11 @@ game_menus = [
                         (try_begin),
                             (eq, ":continue", 1),
                             # (str_store_party_name, s20, ":party_no"),
-                            (party_quick_attach_to_current_battle, ":party_no", 0),
+                            (party_quick_attach_to_current_battle, ":party_no", 1),
                         (else_try),
                             (eq, ":continue", 2),
                             # (str_store_party_name, s20, ":party_no"),
-                            (party_quick_attach_to_current_battle, ":party_no", 1),
+                            (party_quick_attach_to_current_battle, ":party_no", 0),
                         (try_end),
                     (try_end),
                     
@@ -2428,11 +2428,11 @@ game_menus = [
                         (try_begin),
                             (eq, ":continue", 1),
                             # (str_store_party_name, s20, ":party_no"),
-                            (party_quick_attach_to_current_battle, ":party_no", 1),
+                            (party_quick_attach_to_current_battle, ":party_no", 0),
                         (else_try),
                             (eq, ":continue", 2),
                             # (str_store_party_name, s20, ":party_no"),
-                            (party_quick_attach_to_current_battle, ":party_no", 0),
+                            (party_quick_attach_to_current_battle, ":party_no", 1),
                         (try_end),
                     (try_end),
                     
