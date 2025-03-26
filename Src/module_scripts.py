@@ -87,10 +87,15 @@ scripts = [
                 (call_script, "script_find_free_lord"),
                 (assign, ":lord_no", reg0),
                 (gt, ":lord_no", 0),
+
+                (faction_set_slot, ":faction_no", slot_faction_leader, ":lord_no"),
                 
                 (call_script, "script_ready_lord", ":lord_no", ":faction_no", 1),
 
-                (faction_set_slot, ":faction_no", slot_faction_leader, ":lord_no"),
+                (call_script, "script_clan_get_empty"),
+                (assign, ":clan", reg0),
+                (is_between, ":clan", clans_begin, clans_end),
+                (call_script, "script_troop_add_to_clan", ":lord_no", ":clan"),
 
                 (call_script, "script_troop_get_rank", ":lord_no"),
                 (assign, ":rank", reg0),
@@ -127,7 +132,7 @@ scripts = [
                     (try_for_range, ":unused", 0, ":max_tries"),
                         (try_begin),
                             (gt, ":troop", 0),
-                            (call_script, "script_cf_troop_process_surplus_center", ":troop"),
+                            (call_script, "script_cf_troop_process_surplus_center", ":troop", 1),
                             (assign, ":troop", reg0),
                         (else_try),
                             (assign, ":max_tries", 0),
@@ -140,52 +145,21 @@ scripts = [
                 (troop_slot_eq, ":lord", slot_troop_kingdom_occupation, tko_kingdom_hero),
                 (troop_get_slot, ":rank", ":lord", slot_troop_rank),
 
-                (assign, ":clan_chance", 10),
                 (try_begin),
                     (ge, ":rank", rank_king),
                     (troop_set_slot, ":lord", slot_troop_wanted_party_wages, 66000),
-                    (assign, ":clan_chance", 100),
                 (else_try),
                     (ge, ":rank", rank_city),
                     (troop_set_slot, ":lord", slot_troop_wanted_party_wages, 66000),
-                    (assign, ":clan_chance", 100),
                 (else_try),
                     (ge, ":rank", rank_castle),
                     (troop_set_slot, ":lord", slot_troop_wanted_party_wages, 25000),
-                    (assign, ":clan_chance", 10),
                 (else_try),
                     (ge, ":rank", rank_two_village),
                     (troop_set_slot, ":lord", slot_troop_wanted_party_wages, 28000),
-                    (assign, ":clan_chance", 30),
                 (else_try),
                     (ge, ":rank", rank_village),
                     (troop_set_slot, ":lord", slot_troop_wanted_party_wages, 15000),
-                    (assign, ":clan_chance", 50),
-                (try_end),
-
-                (store_random_in_range, ":rand", 0, 100),
-                (try_begin),
-                    (gt, ":clan_chance", ":rand"),
-
-                    (call_script, "script_clan_get_empty"),
-                    (assign, ":clan", reg0),
-                    (try_begin),
-                        (is_between, ":clan", clans_begin, clans_end),
-                        (call_script, "script_troop_add_to_clan", ":lord", ":clan"),
-                    (try_end),
-                (else_try),
-                    (troop_get_slot, ":vassal_of", ":lord", slot_troop_vassal_of),
-                    (ge, ":vassal_of", 0),
-                    (troop_get_slot, ":lord_clan", ":vassal_of", slot_troop_clan),
-                    (is_between, ":lord_clan", clans_begin, clans_end),
-                    (call_script, "script_troop_add_to_clan", ":lord", ":lord_clan"),
-                (else_try),
-                    (call_script, "script_clan_get_empty"),
-                    (assign, ":clan", reg0),
-                    (try_begin),
-                        (is_between, ":clan", clans_begin, clans_end),
-                        (call_script, "script_troop_add_to_clan", ":lord", ":clan"),
-                    (try_end),
                 (try_end),
             (try_end),
 
@@ -8880,15 +8854,6 @@ scripts = [
                 (faction_get_slot, ":faction_name_begin", ":culture", slot_faction_lord_name_begin),
                 (store_add, ":lord_name", ":faction_name_begin", ":new_rank"),
                 (str_store_troop_name_plural, s0, ":troop_no"),
-                
-                (troop_get_slot, ":party", ":troop_no", slot_troop_leaded_party),
-                (try_begin),
-                    (gt, ":party", 0),
-                    (party_slot_eq, ":party", slot_party_type, spt_war_party),
-                    (str_store_string, s10, ":lord_name"),
-                    (party_set_name, ":party", "@{s10}"),
-                (try_end),
-
                 (str_clear, s10),
                 (try_begin),
                     (troop_get_slot, ":clan", ":troop_no", slot_troop_clan),
@@ -8902,6 +8867,13 @@ scripts = [
                 (try_end),
 
                 (troop_set_name, ":troop_no", s11),
+                
+                (troop_get_slot, ":party", ":troop_no", slot_troop_leaded_party),
+                (try_begin),
+                    (gt, ":party", 0),
+                    (party_slot_eq, ":party", slot_party_type, spt_war_party),
+                    (party_set_name, ":party", s11),
+                (try_end),
             (try_end),
         ]),
     
@@ -13257,7 +13229,7 @@ scripts = [
 
             (try_begin),
                 (eq, ":result", -1),
-                (display_message, "@Unable to find free clan", text_color_impossible),
+                (display_log_message, "@Unable to find free clan", text_color_impossible),
             (try_end),
 
             (assign, reg0, ":result"),
@@ -13289,10 +13261,40 @@ scripts = [
                 (store_sub, ":missing", 6,  ":num_notables"),
                 (try_for_range, ":unused", 0, ":missing"),
                     (call_script, "script_find_free_lord"),
-                    (assign, ":lord_no", reg0),
-                    (call_script, "script_ready_lord", ":lord_no", ":faction_no", 0),
+                    (assign, ":new_lord", reg0),
+
+                    (call_script, "script_ready_lord", ":new_lord", ":faction_no", 0),
+
+                    (call_script, "script_clan_get_empty"),
+                    (assign, ":clan", reg0),
+                    (try_begin),
+                        (is_between, ":clan", clans_begin, clans_end),
+                        (call_script, "script_troop_add_to_clan", ":new_lord", ":clan"),
+                    (try_end),
+
+                    (assign, ":clan_members", 0),
+                    (store_random_in_range, ":rand", 0, 100),
+                    (try_begin),
+                        (lt, ":rand", 3),
+                        # We add 4 clan member
+                        (assign, ":clan_members", 4),
+                    (else_try),
+                        (lt, ":rand", 10),
+                        # We add 3 clan member
+                        (assign, ":clan_members", 3),
+                    (else_try),
+                        (lt, ":rand", 25),
+                        # We add 2 clan member
+                        (assign, ":clan_members", 2),
+                    (else_try),
+                        (lt, ":rand", 75),
+                        # We add 1 clan member
+                        (assign, ":clan_members", 1),
+                    (try_end),
+                    (troop_set_slot, ":new_lord", slot_troop_num_vassal, ":clan_members"),
+
                     (store_add, ":slot", ":num_notables", slot_troop_temp_array_begin),
-                    (troop_set_slot, "trp_temp_troop", ":slot", ":lord_no"),
+                    (troop_set_slot, "trp_temp_troop", ":slot", ":new_lord"),
                     (val_add, ":num_notables", 1),
                 (try_end),
             (try_end),
@@ -13504,8 +13506,8 @@ scripts = [
 
     # script_troop_become_vassal
         # input:
-        #   arg1: overlord
-        #   arg2: vassal
+        #   arg1: vassal
+        #   arg2: overlord
         # output: none
     ("troop_become_vassal",
         [
@@ -27337,9 +27339,30 @@ scripts = [
         [
             (store_script_param, ":lord", 1),
 
+            (assign, ":new", 0),
+
             (try_begin),
                 (troop_slot_eq, ":lord", slot_troop_kingdom_occupation, tko_reserved),
                 (call_script, "script_activate_lord", ":lord"),
+                (assign, ":new", 1),
+            (try_end),
+
+            (try_begin),
+                (eq, ":new", 1),
+                (troop_get_slot, ":clan", ":lord", slot_troop_clan),
+                (is_between, ":clan", clans_begin, clans_end),
+
+                (store_troop_faction, ":faction_no", "$g_player_troop"),
+
+                (troop_get_slot, ":clan_members", ":lord", slot_troop_num_vassal),
+                (try_for_range, ":unused", 0, ":clan_members"),
+                    (call_script, "script_find_free_lord"),
+                    (assign, ":new_lord", reg0),
+
+                    (call_script, "script_troop_add_to_clan", ":new_lord", ":clan"),
+                    (call_script, "script_ready_lord", ":new_lord", ":faction_no", 1),
+                    (call_script, "script_troop_become_vassal", ":new_lord", ":lord"),
+                (try_end),
             (try_end),
 
             (call_script, "script_troop_give_center_to_troop", "$g_player_troop", "$temp", ":lord"),
@@ -28795,12 +28818,14 @@ scripts = [
     # script_cf_troop_process_surplus_center
         # input:
         #   arg1: troop_no
+        #   arg2: init
         # output:
         #   reg0: troop_receiving
         # fails if can't process surplus center
     ("cf_troop_process_surplus_center",
         [
             (store_script_param, ":troop_no", 1),
+            (store_script_param, ":init", 2),
 
             (troop_get_slot, ":surplus_fief", ":troop_no", slot_troop_surplus_center),
             (is_between, ":surplus_fief", centers_begin, centers_end),
@@ -28817,11 +28842,30 @@ scripts = [
                 (call_script, "script_find_free_lord"),
                 (assign, ":new_lord", reg0),
                 (gt, ":new_lord", 0),
+
                 (call_script, "script_ready_lord", ":new_lord", ":faction", 1),
 
+                (call_script, "script_troop_give_center_to_troop", ":troop_no", ":surplus_fief", ":new_lord"),
+
                 (store_random_in_range, ":rand", 0, 100),
+                (assign, ":clan_chance", 80),
+                (party_get_slot, ":party_type", ":surplus_fief", slot_party_type),
                 (try_begin),
-                    (lt, ":rand", 30),
+                    (eq, ":init", 0),
+                    (assign, ":clan_chance", 0),
+                (else_try),
+                    (eq, ":party_type", spt_town),
+                    (assign, ":clan_chance", 5),
+                (else_try),
+                    (eq, ":party_type", spt_castle),
+                    (assign, ":clan_chance", 50),
+                (else_try),
+                    # (eq, ":party_type", spt_village),
+                    (assign, ":clan_chance", 60),
+                (try_end),
+
+                (try_begin),
+                    (lt, ":rand", ":clan_chance"),
                     (troop_get_slot, ":clan", ":troop_no", slot_troop_clan),
                     (call_script, "script_troop_add_to_clan", ":new_lord", ":clan"),
                 (else_try),
@@ -28832,8 +28876,6 @@ scripts = [
                         (call_script, "script_troop_add_to_clan", ":new_lord", ":clan"),
                     (try_end),
                 (try_end),
-
-                (call_script, "script_troop_give_center_to_troop", ":troop_no", ":surplus_fief", ":new_lord"),
 
                 (assign, ":selected", ":new_lord"),
             (try_end),

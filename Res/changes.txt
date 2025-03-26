@@ -9,7 +9,7 @@ v0.610:
 		* fix incorrect time displayed in raise levy action
 		* fix incorrect side joined by nearby parties on double encounter
 		* fix text errors in greeting dialog
-		* fix new fiefs not being  properly distributed
+		* fix new fiefs not being properly distributed
 v0.600:
 	-Features:
 		* init starting world with lords
