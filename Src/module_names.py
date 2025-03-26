@@ -333,7 +333,6 @@ names = [
   ("nord_family_name_template_1", "{s10}"),
   ("nord_family_name_template_2", "{s10}son"),
   ("rhodok_family_name_template_1", "{s10}"),
-  # ("rhodok_family_name_template_2", "{s10}"),
   ("sarranid_family_name_template_1", "Banu {s10}"),
   ("mercenary_family_name_template_1", "{s10}"),
 
@@ -389,6 +388,7 @@ names = [
   ("khergit_family_name_prefix_8", "Yan"),
   ("khergit_family_name_prefix_9", "Ob"),
   ("khergit_family_name_prefix_10", "Karakh"),
+  ("khergit_family_name_prefix_11", "Khar"),
 
   ("khergit_family_name_suffix_1", "una"),
   ("khergit_family_name_suffix_2", "erg"),
