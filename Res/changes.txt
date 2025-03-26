@@ -4,6 +4,7 @@ v0.610:
 	-Balances:
 		* remove < 's Party > in party name
 		* force noble status after becoming vassal
+		* changed name of small_kingdom_25 to Duchy of Uslum
 	-Fixes:
 		* fix incorrect time displayed in raise levy action
 		* fix incorrect side joined by nearby parties on double encounter
