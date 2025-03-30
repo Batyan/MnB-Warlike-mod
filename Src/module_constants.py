@@ -447,10 +447,10 @@ faction_tax_rate_funds_max_war = 10
 faction_tax_rate_member_base = 2
 faction_tax_rate_vassal_base = 5
 
-quests_begin = "qst_swear_vassalage_fief"
+quests_begin = "qst_introduction_default"
 quests_end = "qst_quests_end"
 
-quest_descriptions_begin = "str_quest_description_swear_vassalage_fief"
+quest_descriptions_begin = "str_quest_description_introduction_default"
 quest_descriptions_end = "qst_quest_description_end"
 
 vassal_outcome_too_many = 1
@@ -1808,7 +1808,9 @@ slot_quest_description = slot_quest_dont_give_again_remaining_days + 1
 slot_quest_object = slot_quest_description + 1
 slot_quest_value = slot_quest_object + 1
 
-last_generic_quest_slot = slot_quest_value + 1
+slot_quest_destination = slot_quest_value + 1
+
+last_generic_quest_slot = slot_quest_destination + 1
 
 # qst_persuade_lord_vassalage
 

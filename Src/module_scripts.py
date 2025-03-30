@@ -24882,6 +24882,7 @@ scripts = [
             (quest_set_slot, ":quest_no", slot_quest_giver_troop, ":giver_troop_no"),
             (quest_get_slot, ":quest_description_index", ":quest_no", slot_quest_description),
             (quest_get_slot, ":quest_object", ":quest_no", slot_quest_object),
+            (quest_get_slot, ":quest_destination", ":quest_no", slot_quest_destination),
 
             (try_begin),
                 (eq, ":giver_troop_no", -1),
@@ -24897,6 +24898,19 @@ scripts = [
             (store_current_hours, ":cur_hours"),
             (str_store_date, s60, ":cur_hours"),
             (str_store_string, s60, "@Given on: {s60}"),
+
+            (try_begin),
+                (gt, ":quest_destination", "p_prisoners_party"),
+                (str_store_party_name_link, s59, ":quest_destination"),
+            (try_end),
+
+            (try_begin),
+                (eq, ":quest_no", "qst_introduction_default_search"),
+                (str_store_quest_name_link, s50, "qst_introduction_default_search_1"),
+                (str_store_quest_name_link, s51, "qst_introduction_default_search_2"),
+                (str_store_quest_name_link, s52, "qst_introduction_default_search_3"),
+            (try_end),
+
             (try_begin),
                 (gt, ":quest_description_index", 0),
                 (str_store_string, s61, ":quest_description_index"),
@@ -29141,6 +29155,47 @@ scripts = [
             (store_add, ":distance_slot", ":offset", slot_faction_kingdom_distance_begin),
             (faction_get_slot, ":distance", ":faction_no", ":distance_slot"),
             (assign, reg0, ":distance"),
+        ]),
+
+    # script_intro_quest_get_search_villages
+        # input: none
+        # output:
+        #   reg0: village_1
+        #   reg1: village_2
+        #   reg2: village_3
+    ("intro_quest_get_search_villages",
+        [
+            (try_begin),
+                (eq, "$g_start_game_intro_location", player_starting_7_swadia),
+                (assign, reg0, "p_village_111"),
+                (assign, reg1, "p_village_112"),
+                (assign, reg2, "p_village_113"),
+            (else_try),
+                (eq, "$g_start_game_intro_location", player_starting_7_vaegir),
+                (assign, reg0, "p_village_211"),
+                (assign, reg1, "p_village_212"),
+                (assign, reg2, "p_village_213"),
+            (else_try),
+                (eq, "$g_start_game_intro_location", player_starting_7_khergit),
+                (assign, reg0, "p_village_311"),
+                (assign, reg1, "p_village_312"),
+                (assign, reg2, "p_village_313"),
+            (else_try),
+                (eq, "$g_start_game_intro_location", player_starting_7_nord),
+                (assign, reg0, "p_village_411"),
+                (assign, reg1, "p_village_412"),
+                (assign, reg2, "p_village_413"),
+            (else_try),
+                (eq, "$g_start_game_intro_location", player_starting_7_rhodok),
+                (assign, reg0, "p_village_511"),
+                (assign, reg1, "p_village_512"),
+                (assign, reg2, "p_village_513"),
+            (else_try),
+                (eq, "$g_start_game_intro_location", player_starting_7_sarranid),
+                (assign, reg0, "p_village_611"),
+                (assign, reg1, "p_village_612"),
+                (assign, reg2, "p_village_613"),
+            (try_end),
         ]),
 
     # script_presentation_generate_select_lord_card

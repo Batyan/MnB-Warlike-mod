@@ -182,9 +182,6 @@ dialogs = [
 		[], "I want your opinion on a certain matter.", "lord_ask_opinion", []],
 	[anyone|plyr, "player_lord_talk",
 		[], "Did you hear any rumors recently?", "lord_rumors", []],
-
-
-
 	
 	[anyone|plyr, "player_lord_talk",
 		[
@@ -1207,7 +1204,6 @@ dialogs = [
 			(leave_encounter),
 		]],
 
-
 	################
 	# Patrol talks #
 	################
@@ -1525,6 +1521,68 @@ dialogs = [
 			(leave_encounter),
 		]],
 
+	#######################
+	# Intro quest dialogs #
+	#######################
+
+	[anyone, "event_triggered",
+		[
+			(store_conversation_troop, "$g_talk_troop"),
+			(eq, "$g_talk_troop", "trp_intro_generic_peasant"),
+			(check_quest_active, "qst_introduction_default"),
+			(try_begin),
+				(eq, "$g_intro_quest_stance", 2),
+				(str_store_string, s10, "@{Sir/Madam}! Don't strike me!"),
+			(else_try),
+				# (eq, "$g_intro_quest_stance", 1),
+				(str_store_string, s10, "@{Sir/Madam}! I am in dire need of help!"),
+			(try_end),
+		], "{s10}", "intro_quest_player", []],
+
+	[anyone|plyr, "intro_quest_player",
+		[(eq, "$g_intro_quest_stance", 2),], "Explain yourself!", "intro_quest_explanation", []],
+	[anyone|plyr, "intro_quest_player",
+		[(eq, "$g_intro_quest_stance", 2),], "You should not rush someone like so, unless youwant to get cut down", "intro_quest_explanation", []],
+	[anyone|plyr, "intro_quest_player",
+		[(eq, "$g_intro_quest_stance", 1),], "What does that have to do with me?", "intro_quest_explanation", []],
+	[anyone|plyr, "intro_quest_player",
+		[(eq, "$g_intro_quest_stance", 1),], "What aid can I provide?", "intro_quest_explanation", []],
+	[anyone|plyr, "intro_quest_player",
+		[(eq, "$g_intro_quest_stance", 1),], "Would you care to elaborate?", "intro_quest_explanation", []],
+
+	[anyone, "intro_quest_explanation",
+		[], "I am sorry {Sir/Madam}, but I need your help. My brother is missing and I think he's in trouble.", "intro_quest_explanation_2", []],
+	[anyone, "intro_quest_explanation_2",
+		[], "I asked the guards for help but they say it's not a problem they can fix.", "intro_quest_explanation_3", []],
+	[anyone, "intro_quest_explanation_3",
+		[], "Please {Sir/Madam}, I beg of you.", "intro_quest_explanation_response", []],
+
+	[anyone|plyr, "intro_quest_explanation_response",
+		[], "What would you need?", "intro_quest_part_1_detail",
+		[
+			(call_script, "script_complete_quest", "qst_introduction_default"),
+			(call_script, "script_intro_quest_get_search_villages"),
+			(quest_set_slot, "qst_introduction_default_search_1", slot_quest_destination, reg0),
+			(quest_set_slot, "qst_introduction_default_search_2", slot_quest_destination, reg1),
+			(quest_set_slot, "qst_introduction_default_search_3", slot_quest_destination, reg2),
+			(call_script, "script_start_quest", "qst_introduction_default_search", "$g_talk_troop"),
+		]],
+	[anyone|plyr, "intro_quest_explanation_response",
+		[], "Not interested", "close_window", [(call_script, "script_cancel_quest", "qst_introduction_default"),]],
+
+	[anyone, "intro_quest_part_1_detail",
+		[
+			(call_script, "script_intro_quest_get_search_villages"),
+			(str_store_party_name, s10, reg0),
+			(str_store_party_name, s11, reg1),
+			(str_store_party_name, s12, reg2),
+		], "Well... I'm not exactly sure where he is.^But it would help if you were to ask around the villages of {s10}, {s11} and {s12} for information.^^They might have some clues as to his whereabouts.",
+		"close_window",
+		[
+			(call_script, "script_start_quest", "qst_introduction_default_search_1", "$g_talk_troop"),
+			(call_script, "script_start_quest", "qst_introduction_default_search_2", "$g_talk_troop"),
+			(call_script, "script_start_quest", "qst_introduction_default_search_3", "$g_talk_troop"),
+		]],
 
 	#################
 	# Error dialogs #
@@ -1534,8 +1592,10 @@ dialogs = [
 
 	[anyone|plyr, "error_dialog", [], "Dialog Error. No dialog found.", "close_window", []],
 	
-	# [anyone, "event_triggered",
-		# [(display_debug_message, "@Event triggered"),], "Hail traveller. It's a pleasure to meet you, what is your name?.", "player_greeting", []],
+	[anyone, "event_triggered",
+		[(eq, 1, 0),], "Hello there traveller! [WARNING: MISSING DIALOG]", "error_dialog", []],
+	
+
 	# [anyone, "party_relieved",
 		# [(display_debug_message, "@Party relieved"),], "Hail traveller. It's a pleasure to meet you, what is your name?.", "player_greeting", []],
 	# [anyone, "prisoner_liberated",

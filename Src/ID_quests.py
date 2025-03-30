@@ -1,10 +1,20 @@
-qst_swear_vassalage_fief = 0
-qst_persuade_lord_vassalage = 1
-qst_visit_center_new_owner = 2
-qst_quests_end = 3
-qsttag_swear_vassalage_fief = 504403158265495552
-qsttag_persuade_lord_vassalage = 504403158265495553
-qsttag_visit_center_new_owner = 504403158265495554
-qsttag_quests_end = 504403158265495555
+qst_introduction_default = 0
+qst_introduction_default_search = 1
+qst_introduction_default_search_1 = 2
+qst_introduction_default_search_2 = 3
+qst_introduction_default_search_3 = 4
+qst_swear_vassalage_fief = 5
+qst_persuade_lord_vassalage = 6
+qst_visit_center_new_owner = 7
+qst_quests_end = 8
+qsttag_introduction_default = 504403158265495552
+qsttag_introduction_default_search = 504403158265495553
+qsttag_introduction_default_search_1 = 504403158265495554
+qsttag_introduction_default_search_2 = 504403158265495555
+qsttag_introduction_default_search_3 = 504403158265495556
+qsttag_swear_vassalage_fief = 504403158265495557
+qsttag_persuade_lord_vassalage = 504403158265495558
+qsttag_visit_center_new_owner = 504403158265495559
+qsttag_quests_end = 504403158265495560
 
 

@@ -56,6 +56,14 @@ game_menus = [
                 [
                     (assign, "$g_test_player_troop", -1),
                     (call_script, "script_troop_change_stat_with_template", "$g_player_troop", "trp_current_player"),
+
+                    (assign, "$g_start_game_intro_culture", -1),
+                    (assign, "$g_start_game_intro_parents", -1),
+                    (assign, "$g_start_game_intro_childhood", -1),
+                    (assign, "$g_start_game_intro_aptitude", -1),
+                    (assign, "$g_start_game_intro_job", -1),
+                    (assign, "$g_start_game_intro_motivation", -1),
+                    (assign, "$g_start_game_intro_location", -1),
                     
                     (jump_to_menu, "mnu_start_game_1"),
                 ]),
@@ -71,27 +79,40 @@ game_menus = [
         "none",
         [
             (try_begin),
-                (eq, "$g_test_player_troop", -1),
+                (eq, "$g_start_game_intro_culture", -1),
+                (eq, "$g_start_game_intro_location", -1),
                 (str_store_string, s0, "@You are about to embark in an adventure in Calradia, but first what circumstances have led you to this point?"),
             (else_try),
                 (neg|is_between, "$g_test_player_faction", kingdoms_begin, kingdoms_end),
-                (str_store_string, s0, "@You are ready to embark on your adventure."),
+
+                (try_begin),
+                    (eq, "$g_start_game_intro_location", player_starting_7_swadia),
+                    (str_store_party_name, s10, "p_town_11"),
+                (else_try),
+                    (eq, "$g_start_game_intro_location", player_starting_7_vaegir),
+                    (str_store_party_name, s10, "p_town_21"),
+                (else_try),
+                    (eq, "$g_start_game_intro_location", player_starting_7_khergit),
+                    (str_store_party_name, s10, "p_town_31"),
+                (else_try),
+                    (eq, "$g_start_game_intro_location", player_starting_7_nord),
+                    (str_store_party_name, s10, "p_town_41"),
+                (else_try),
+                    (eq, "$g_start_game_intro_location", player_starting_7_rhodok),
+                    (str_store_party_name, s10, "p_town_51"),
+                (else_try),
+                    (eq, "$g_start_game_intro_location", player_starting_7_sarranid),
+                    (str_store_party_name, s10, "p_town_61"),
+                (try_end),
+                (str_store_string, s0, "@You are ready to embark on your adventure. The nearby town of {s10} could be a good place to find early work..."),
             (try_end),
         ],
         [
             ("continue", [], "Continue",
                 [
                     (try_begin),
-                        (eq, "$g_test_player_troop", -1),
+                        (eq, "$g_start_game_intro_culture", -1),
                         (assign, "$g_test_player_troop", "trp_swadian_light_cavalry"),
-
-                        (assign, "$g_start_game_intro_culture", -1),
-                        (assign, "$g_start_game_intro_parents", -1),
-                        (assign, "$g_start_game_intro_childhood", -1),
-                        (assign, "$g_start_game_intro_aptitude", -1),
-                        (assign, "$g_start_game_intro_job", -1),
-                        (assign, "$g_start_game_intro_motivation", -1),
-                        (assign, "$g_start_game_intro_location", -1),
 
                         (jump_to_menu, "mnu_start_game_intro_1"),
                     (else_try),
@@ -105,6 +126,29 @@ game_menus = [
 
                         (str_store_troop_name, s10, "$g_player_troop"),
                         (troop_set_plural_name, "$g_player_troop", s10),
+
+                        (assign, ":starting_town", 0),
+                        (try_begin),
+                            (eq, "$g_start_game_intro_location", player_starting_7_swadia),
+                            (assign, ":starting_town", "p_town_11"),
+                        (else_try),
+                            (eq, "$g_start_game_intro_location", player_starting_7_vaegir),
+                            (assign, ":starting_town", "p_town_21"),
+                        (else_try),
+                            (eq, "$g_start_game_intro_location", player_starting_7_khergit),
+                            (assign, ":starting_town", "p_town_31"),
+                        (else_try),
+                            (eq, "$g_start_game_intro_location", player_starting_7_nord),
+                            (assign, ":starting_town", "p_town_41"),
+                        (else_try),
+                            (eq, "$g_start_game_intro_location", player_starting_7_rhodok),
+                            (assign, ":starting_town", "p_town_51"),
+                        (else_try),
+                            (eq, "$g_start_game_intro_location", player_starting_7_sarranid),
+                            (assign, ":starting_town", "p_town_61"),
+                        (try_end),
+                        (quest_set_slot, "qst_introduction_default", slot_quest_destination, ":starting_town"),
+                        (call_script, "script_start_quest", "qst_introduction_default", -1),
                     (try_end),
                 ]),
         ]),
@@ -256,7 +300,7 @@ game_menus = [
         ]),
     
     ###########
-    ## Other ##
+    ## Intro ##
     ###########
     ("start_game_intro_2", mnf_disable_all_keys,
         "{s0}",
@@ -390,7 +434,7 @@ game_menus = [
                 ]),
 
             ("choice_errand", 
-                [(try_begin),(eq, "$g_start_game_intro_childhood", player_starting_3_errand),(disable_menu_option),(try_end),], "an errand boy",
+                [(try_begin),(eq, "$g_start_game_intro_childhood", player_starting_3_errand),(disable_menu_option),(try_end),], "an errand {boy/girl}",
                 [
                     (assign, "$g_start_game_intro_childhood", player_starting_3_errand),
                     (jump_to_menu, "mnu_start_game_intro_3"),
@@ -776,7 +820,26 @@ game_menus = [
                 ]),
         ]),
     
+    ############
+    ## Quests ##
+    ############
+    ("quest_introduction_default_meeting", 0,
+        "Before you are able to enter the city of {s10} you see a ragged man running towards you.",
+        "none",
+        [],
+        [
+            ("wait",
+                [], "Wait for the man to approach.",
+                [(assign, "$g_intro_quest_stance", 1),(change_screen_return),(start_map_conversation, "trp_intro_generic_peasant"),]),
+            ("prepare_weapons",
+                [], "Ready your weapons and prepare to strike.",
+                [(assign, "$g_intro_quest_stance", 2),(change_screen_return),(start_map_conversation, "trp_intro_generic_peasant"),]),
+        ]),
 
+
+    ###########
+    ## Other ##
+    ###########
     ("settings", 0,
         "Change the settings",
         "none",
@@ -1545,7 +1608,14 @@ game_menus = [
         [
             ("center_enter", [], "Ask permition to enter",
                 [
-                    (jump_to_menu,"mnu_town_center"),
+                    (try_begin),
+                        (check_quest_active, "qst_introduction_default"),
+                        (quest_get_slot, ":destination", "qst_introduction_default", slot_quest_destination),
+                        (eq, "$g_encountered_party", ":destination"),
+                        (jump_to_menu, "mnu_quest_introduction_default_meeting"),
+                    (else_try),
+                        (jump_to_menu,"mnu_town_center"),
+                    (try_end),
                 ]),
             
             ("center_meet_leader", [(disable_menu_option),], "Ask for an audience with the leader of the garrison",
@@ -1588,8 +1658,8 @@ game_menus = [
         [
             (set_background_mesh, "mesh_pic_camp"),
             
-            (str_store_string, s10, "@You are inside the walls of the city of {s11}. The streets are busy with merchants and the townsfolk seem well fed."),
             (str_store_party_name, s11,"$g_encountered_party"),
+            (str_store_string, s10, "@You are inside the walls of the city of {s11}. The streets are busy with merchants and the townsfolk seem well fed."),
         ],
         [
             ("center_keep", [], "Head to the keep",
@@ -2948,6 +3018,9 @@ game_menus = [
             (str_store_party_name, s11, reg21),
             (try_begin),
                 (troop_slot_eq, "$g_player_troop", slot_troop_vassal_of, reg20),
+                (str_store_string, s12, "str_player_receive_center_vassal"),
+            (else_try),
+                (troop_slot_eq, reg20, slot_troop_vassal_of, "$g_player_troop"),
                 (str_store_string, s12, "str_player_receive_center_vassal"),
             (else_try),
                 (str_store_string, s12, "str_player_receive_center"),
