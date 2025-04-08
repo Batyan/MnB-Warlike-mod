@@ -3403,6 +3403,15 @@ scripts = [
                 (is_between, ":new_div", 0, 9),
                 (agent_get_division, ":old_div", ":agent_no"),
                 (neq, ":new_div", ":old_div"),
+
+                (try_begin),
+                    (team_get_slot, ":archer_division", ":team", slot_team_archer_division),
+                    (eq, ":old_div", ":archer_division"),
+                    (agent_slot_eq, ":agent_no", slot_agent_is_reinforcement, 0),
+                    (agent_set_slot, ":agent_no", slot_agent_is_reinforcement, 1),
+                    (assign, ":new_div", grc_reinforcement_archer),
+                (try_end),
+                
                 (agent_set_division, ":agent_no", ":new_div"),
                 (agent_set_slot, ":agent_no", slot_agent_new_division, ":new_div"),
             (try_end),
