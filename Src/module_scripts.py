@@ -15699,7 +15699,7 @@ scripts = [
             (store_script_param, ":party_no", 2),
             (store_script_param, ":items", 3),
             
-            (store_faction_of_party, ":party_faction", ":party_no"),
+            (party_get_slot, ":party_faction", ":party_no", slot_party_faction),
             (faction_get_slot, ":culture", ":party_faction", slot_faction_culture),
             
             (store_and, ":goods", ":items", items_good),
