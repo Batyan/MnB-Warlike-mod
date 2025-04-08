@@ -1680,6 +1680,7 @@ game_menus = [
                     (party_slot_eq,"$g_encountered_party", slot_party_type, spt_village),
                 ], "Speak to the village elder",
                 [
+                    (change_screen_return),
                     (start_map_conversation, "trp_village_elder"),
                 ]),
             
