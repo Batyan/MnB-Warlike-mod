@@ -5997,6 +5997,9 @@ troops = [
   ["merchant_castle_65b_smith", "Merchant", "Merchant", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
    [itm_linen_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
 
+  ["village_elder", "Village Elder", "Village Elder", tf_hero, no_scene, reserved, fac_commoners,
+   [itm_coarse_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_common, 0, 0 ],
+
   # Quest specific npcs
   
   ["intro_generic_peasant", "Farmer", "Farmer", tf_hero, no_scene, reserved, fac_no_faction,

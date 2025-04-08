@@ -1,6 +1,7 @@
 v0.610:
 	-Features:
 		* add clan names
+		* add npc in village to handle quests
 	-Balances:
 		* remove < 's Party > in party name
 		* force noble status after becoming vassal

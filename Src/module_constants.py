@@ -294,7 +294,7 @@ text_color_budget_info = 0x2020a0
 era_minimum_duration = 365
 
 merchants_begin = "trp_merchant_town_11_general"
-merchants_end = "trp_clan_storage_1"
+merchants_end = "trp_village_elder"
 
 merchants_general_begin = merchants_begin
 merchants_general_end = "trp_merchant_town_11_weapons"

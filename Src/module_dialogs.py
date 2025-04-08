@@ -1584,16 +1584,50 @@ dialogs = [
 			(call_script, "script_start_quest", "qst_introduction_default_search_3", "$g_talk_troop"),
 		]],
 
+	[anyone, "event_triggered",
+		[(store_conversation_troop, "$g_talk_troop"),(eq, 1, 0),], "!No dialog", "close_window", []],
+
+	[anyone, "event_triggered",
+		[
+			(eq, "$g_talk_troop", "trp_intro_generic_peasant"),
+			(check_quest_active, "qst_introduction_default"),
+			(try_begin),
+				(eq, "$g_intro_quest_stance", 2),
+				(str_store_string, s10, "@{Sir/Madam}! Don't strike me!"),
+			(else_try),
+				# (eq, "$g_intro_quest_stance", 1),
+				(str_store_string, s10, "@{Sir/Madam}! I am in dire need of help!"),
+			(try_end),
+		], "{s10}", "intro_quest_player", []],
+
+	[anyone, "event_triggered",
+		[
+			(eq, "$g_talk_troop", "trp_village_elder"),
+			(str_store_party_name, s11, "$g_encountered_party"),
+			(call_script, "script_troop_get_player_name", "$g_talk_troop", "$g_encountered_party"),
+		], "Hello and welcome to {s11}. How may I help you {s60}", "village_elder", []],
+	
+	[anyone|plyr, "village_elder", [], "I'm looking for a missing person, might you be able to help me?", "close_window", []],
+	[anyone|plyr, "village_elder", [], "Is there anything I can do to help?", "village_elder_quests", []],
+	[anyone|plyr, "village_elder", [], "Goodbye", "close_window", []],
+
+	[anyone, "village_elder_quests", [], "Nothing at the moment", "village_elder_return", []],
+
+	[anyone, "village_elder_return",
+		[
+			(call_script, "script_troop_get_player_name", "$g_talk_troop", "$g_encountered_party"),
+		], "Anything else {s60}?", "village_elder", []],
+		
 	#################
 	# Error dialogs #
 	#################
 	[anyone, "start",
 		[], "Hello there traveller! [WARNING: MISSING DIALOG]", "error_dialog", []],
-
-	[anyone|plyr, "error_dialog", [], "Dialog Error. No dialog found.", "close_window", []],
 	
 	[anyone, "event_triggered",
-		[(eq, 1, 0),], "Hello there traveller! [WARNING: MISSING DIALOG]", "error_dialog", []],
+		[], "Hello there traveller! [WARNING: MISSING DIALOG]", "error_dialog", []],
+
+	[anyone|plyr, "error_dialog", [], "Dialog Error. No dialog found.", "close_window", []],
 	
 
 	# [anyone, "party_relieved",

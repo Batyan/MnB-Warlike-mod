@@ -1675,9 +1675,12 @@ game_menus = [
                     #ToDo: guildmaster
                 ]),
             
-            ("center_elder", [(disable_menu_option),], "Speak to the village elder",
+            ("center_elder",
                 [
-                    #ToDo: elder
+                    (party_slot_eq,"$g_encountered_party", slot_party_type, spt_village),
+                ], "Speak to the village elder",
+                [
+                    (start_map_conversation, "trp_village_elder"),
                 ]),
             
             ("center_market", [], "Go to the marketplace",
