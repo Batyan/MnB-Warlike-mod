@@ -551,9 +551,11 @@ script_troop_get_player_attitude = 549
 script_cf_lord_knows_player = 550
 script_faction_get_distance_from_faction = 551
 script_intro_quest_get_search_villages = 552
-script_presentation_generate_select_lord_card = 553
-script_presentation_create_text_overlay = 554
-script_presentation_create_combo_button_overlay = 555
-script_presentation_create_check_box_overlay = 556
+script_setup_meeting_village_elder = 553
+script_center_get_elder_face_key = 554
+script_presentation_generate_select_lord_card = 555
+script_presentation_create_text_overlay = 556
+script_presentation_create_combo_button_overlay = 557
+script_presentation_create_check_box_overlay = 558
 
 

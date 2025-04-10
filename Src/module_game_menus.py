@@ -1658,6 +1658,8 @@ game_menus = [
         [
             (set_background_mesh, "mesh_pic_camp"),
             
+            (call_script, "script_setup_meeting_village_elder", "$g_encountered_party"),
+            
             (str_store_party_name, s11,"$g_encountered_party"),
             (str_store_string, s10, "@You are inside the walls of the city of {s11}. The streets are busy with merchants and the townsfolk seem well fed."),
         ],

@@ -1411,6 +1411,8 @@ slot_party_growth = slot_party_bank_amount + 1
 
 slot_party_fame = slot_party_growth + 1
 
+slot_party_elder_last_met = slot_party_fame + 1
+
 #################
 ## Scene Slots ##
 #################

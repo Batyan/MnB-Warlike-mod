@@ -24913,15 +24913,20 @@ scripts = [
             (str_store_string, s60, "@Given on: {s60}"),
 
             (try_begin),
-                (gt, ":quest_destination", "p_prisoners_party"),
-                (str_store_party_name_link, s59, ":quest_destination"),
+                (eq, ":quest_no", "qst_introduction_default_search"),
+                
+                (call_script, "script_intro_quest_get_search_villages"),
+                (str_store_party_name, s59, reg0),
+                (str_store_quest_name_link, s50, "qst_introduction_default_search_1"),
+                (str_store_party_name, s59, reg1),
+                (str_store_quest_name_link, s51, "qst_introduction_default_search_2"),
+                (str_store_party_name, s59, reg2),
+                (str_store_quest_name_link, s52, "qst_introduction_default_search_3"),
             (try_end),
 
             (try_begin),
-                (eq, ":quest_no", "qst_introduction_default_search"),
-                (str_store_quest_name_link, s50, "qst_introduction_default_search_1"),
-                (str_store_quest_name_link, s51, "qst_introduction_default_search_2"),
-                (str_store_quest_name_link, s52, "qst_introduction_default_search_3"),
+                (gt, ":quest_destination", "p_prisoners_party"),
+                (str_store_party_name_link, s59, ":quest_destination"),
             (try_end),
 
             (try_begin),
@@ -29209,6 +29214,35 @@ scripts = [
                 (assign, reg1, "p_village_612"),
                 (assign, reg2, "p_village_613"),
             (try_end),
+        ]),
+
+    # script_setup_meeting_village_elder
+        # input:
+        #   arg1: village_elder_origin
+        # output: none
+    ("setup_meeting_village_elder",
+        [
+            (store_script_param, ":party_no", 1),
+
+            (party_get_slot, ":elder_met", ":party_no", slot_party_elder_last_met),
+            (troop_set_slot, "trp_village_elder", slot_troop_last_met, ":elder_met"),
+
+            (call_script, "script_center_get_elder_face_key", ":party_no"),
+            (troop_set_face_keys, "trp_village_elder", s0),
+        ]),
+
+    # script_center_get_elder_face_key
+        # input:
+        #   arg1: party_no
+        # output:
+        #   s0: face_key
+    ("center_get_elder_face_key",
+        [
+            (store_script_param, ":party_no", 1),
+            
+            (party_get_slot, ":original_faction", ":party_no", slot_party_original_faction),
+            (troop_set_faction, "trp_village_elder", ":original_faction"),
+            (call_script, "script_troop_get_face_code", "trp_village_elder"),
         ]),
 
     # script_presentation_generate_select_lord_card
