@@ -3135,7 +3135,7 @@ troops = [
     itm_tunic_herald, itm_tunic_with_green_cape_herald, itm_coarse_tunic_herald,
     itm_common_hood_herald, itm_common_hood_herald, itm_common_hood_herald2, itm_head_wrappings,
     ],
-   str_9|agi_9|int_6|cha_6|level(7), wpex(50,40,45,70,35,30), knows_common|knows_ironflesh_2|knows_power_strike_2|knows_power_draw_4|knows_athletics_3, man_face_young_1, man_face_old_2 ],
+   str_9|agi_9|int_6|cha_6|level(7), wpex(50,40,45,70,35,30), knows_common|knows_ironflesh_2|knows_power_strike_2|knows_power_draw_4|knows_athletics_3, rhodok_face_young_1, rhodok_face_old_2 ],
   
   # Basic infantry, pikes
   # SPECIAL
@@ -3165,7 +3165,7 @@ troops = [
     itm_tunic_herald, itm_tunic_with_green_cape_herald, itm_coarse_tunic_herald,
     itm_common_hood_herald, itm_common_hood_herald, itm_common_hood_herald2, itm_head_wrappings,
     ],
-   str_9|agi_10|int_6|cha_6|level(8), wpex(55,45,60,75,35,30), knows_common|knows_ironflesh_3|knows_power_strike_3|knows_power_draw_4|knows_athletics_3, man_face_young_1, man_face_old_2 ],
+   str_9|agi_10|int_6|cha_6|level(8), wpex(55,45,60,75,35,30), knows_common|knows_ironflesh_3|knows_power_strike_3|knows_power_draw_4|knows_athletics_3, rhodok_face_young_1, rhodok_face_old_2 ],
   
   # Common
   # Light infantry, swords, picks, shields

@@ -27,6 +27,7 @@ v0.610:
 		* fix text errors in greeting dialog
 		* fix new fiefs not being properly distributed
 		* update shops to use center culture instead of current culture (in case of occupation)
+		* fix incorrect face keys for rhodok troops
 v0.600:
 	-Features:
 		* init starting world with lords
