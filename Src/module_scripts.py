@@ -28616,6 +28616,7 @@ scripts = [
             (store_script_param, ":party_no", 2),
 
             (try_begin),
+                (troop_slot_eq, ":troop_no", slot_troop_kingdom_occupation, tko_kingdom_hero),
                 (troop_slot_eq, ":troop_no", slot_troop_vassal_of, "$g_player_troop"),
                 (str_store_string, s60, "str_my_liege"),
             (else_try),
