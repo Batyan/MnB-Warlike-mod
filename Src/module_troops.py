@@ -2069,6 +2069,16 @@ troops = [
     ],
    str_15|agi_12|int_7|cha_7|level(18), wpex(100,95,90,60,20,45), knows_common|knows_ironflesh_4|knows_power_strike_4|knows_power_throw_1|knows_power_draw_1|knows_athletics_5|knows_riding_3, vaegir_face_young_1, vaegir_face_old_2 ],
   
+  # Light cavalry ranged, sabres, axes, bows, shields
+  # SPECIAL
+  ["vaegir_light_hussar", "Vaegir Light Hussar", "Vaegir Light Hussars", tf_guarantee_common_armor|tf_guarantee_horseman|tf_guarantee_ranged|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_21,
+   [itm_sword_khergit_1, itm_one_handed_battle_axe_a, itm_short_bow, itm_barbed_arrows, itm_tab_shield_kite_cav_a,itm_tab_shield_kite_cav_a_plain_1,itm_tab_shield_kite_cav_a_plain_2,
+    itm_leather_boots, itm_leather_gloves,
+    itm_leather_vest_herald,
+    itm_vaegir_fur_helmet, itm_vaegir_fur_cap,
+    itm_steppe_horse],
+   str_11|agi_15|int_7|cha_8|level(18), wpex(80,70,50,140,35,30), knows_common|knows_ironflesh_1|knows_power_strike_2|knows_power_draw_4|knows_athletics_3|knows_riding_6|knows_horse_archery_5, vaegir_face_young_1, vaegir_face_old_2 ],
+  
   # Veteran
   # Medium infantry, sabres, shields
   ["vaegir_heavy_infantry", "Vaegir Heavy Infantry", "Vaegir Heavy Infantries", tf_guarantee_trained_armor|tf_guarantee_shield, no_scene, reserved, fac_kingdom_2,
@@ -2349,7 +2359,7 @@ troops = [
     itm_mail_boots, itm_iron_greaves, itm_mail_mittens,
     itm_brigandine_red_herald, itm_banded_armor, itm_lamellar_armor_herald,
     itm_vaegir_war_helmet, itm_vaegir_noble_helmet, itm_vaegir_helmet,
-    itm_hunter],
+    itm_warhorse],
    str_18|agi_20|int_10|cha_18|level(43), wpex(100,80,60,115,40,80), knows_common|knows_ironflesh_5|knows_power_strike_4|knows_power_throw_1|knows_power_draw_7|knows_athletics_5|knows_riding_6|knows_shield_1|knows_horse_archery_7, vaegir_face_young_1, vaegir_face_old_2 ],
   
   # Heavy cavalry skirmisher, sabres, 2h axes, javelins, shields

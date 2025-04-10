@@ -7503,17 +7503,20 @@ scripts = [
             (call_script, "script_faction_change_slot", "fac_small_kingdom_17", slot_faction_troop_ratio_shock_infantry, 10), # For swadian sergeant
             (call_script, "script_faction_change_slot", "fac_small_kingdom_17", slot_faction_troop_ratio_infantry, 10),
             
-            (call_script, "script_faction_change_slot", "fac_small_kingdom_21", slot_faction_troop_ratio_lancer, 35),
-            (call_script, "script_faction_change_slot", "fac_small_kingdom_21", slot_faction_troop_ratio_cavalry, -15),
-            (call_script, "script_faction_change_slot", "fac_small_kingdom_21", slot_faction_troop_ratio_archer, -10),
-            (call_script, "script_faction_change_slot", "fac_small_kingdom_21", slot_faction_troop_ratio_infantry, 0),
+            (call_script, "script_faction_change_slot", "fac_small_kingdom_21", slot_faction_troop_ratio_lancer, 50),
+            (call_script, "script_faction_change_slot", "fac_small_kingdom_21", slot_faction_troop_ratio_cavalry, -50),
+            (call_script, "script_faction_change_slot", "fac_small_kingdom_21", slot_faction_troop_ratio_horse_archer, 65),
+            (call_script, "script_faction_change_slot", "fac_small_kingdom_21", slot_faction_troop_ratio_archer, -65),
+            (call_script, "script_faction_change_slot", "fac_small_kingdom_21", slot_faction_troop_ratio_infantry, 10),
             (call_script, "script_faction_change_slot", "fac_small_kingdom_21", slot_faction_troop_ratio_spearman, -5),
             (call_script, "script_faction_change_slot", "fac_small_kingdom_21", slot_faction_troop_ratio_shock_infantry, -5),
             
-            (call_script, "script_faction_change_slot", "fac_small_kingdom_22", slot_faction_troop_ratio_cavalry, 10),
-            (call_script, "script_faction_change_slot", "fac_small_kingdom_22", slot_faction_troop_ratio_infantry, 15),
-            (call_script, "script_faction_change_slot", "fac_small_kingdom_22", slot_faction_troop_ratio_spearman, 15),
-            (call_script, "script_faction_change_slot", "fac_small_kingdom_22", slot_faction_troop_ratio_shock_infantry, 15),
+            (call_script, "script_faction_change_slot", "fac_small_kingdom_22", slot_faction_troop_ratio_cavalry, -50),
+            (call_script, "script_faction_change_slot", "fac_small_kingdom_22", slot_faction_troop_ratio_lancer, -10),
+            (call_script, "script_faction_change_slot", "fac_small_kingdom_22", slot_faction_troop_ratio_horse_archer, -10),
+            (call_script, "script_faction_change_slot", "fac_small_kingdom_22", slot_faction_troop_ratio_infantry, 20),
+            (call_script, "script_faction_change_slot", "fac_small_kingdom_22", slot_faction_troop_ratio_spearman, 20),
+            (call_script, "script_faction_change_slot", "fac_small_kingdom_22", slot_faction_troop_ratio_shock_infantry, -10),
             
             (call_script, "script_faction_change_slot", "fac_small_kingdom_23", slot_faction_troop_ratio_infantry, 35),
             (call_script, "script_faction_change_slot", "fac_small_kingdom_23", slot_faction_troop_ratio_cavalry, 5),

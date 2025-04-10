@@ -8,6 +8,19 @@ v0.610:
 		* changed name of small_kingdom_25 to Duchy of Uslum
 		* ranged units running out of ammo go back to wait in reinforcements during battle
 		* increase khergit_militia ratio by 200%
+		* change vaegir_mounted_royal_longbowman horse to warhorse (from hunter)
+		* add vaegir_light_hussar to kingdom_21
+		* increase kingdom_21 lancer troop ratio (+35 -> +50)
+		* increase kingdom_21 cavalry troop ratio (-15 -> -50)
+		* increase kingdom_21 horse archer troop ratio (0 -> +65)
+		* increase kingdom_21 archer troop ratio (-10 -> -65)
+		* increase kingdom_21 infantry troop ratio (0 -> +10)
+		* increase kingdom_22 cavalry troop ratio (+10 -> -50)
+		* increase kingdom_22 lancer troop ratio (0 -> -10)
+		* increase kingdom_22 horse archer troop ratio (0 -> -10)
+		* increase kingdom_22 infantry troop ratio (+15 -> +20)
+		* increase kingdom_22 spearman troop ratio (+15 -> +120)
+		* increase kingdom_22 shock infantry troop ratio (+15 -> -10)
 	-Fixes:
 		* fix incorrect time displayed in raise levy action
 		* fix incorrect side joined by nearby parties on double encounter
