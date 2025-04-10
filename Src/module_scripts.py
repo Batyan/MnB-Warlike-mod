@@ -15568,6 +15568,7 @@ scripts = [
             (try_begin),
                 (call_script, "script_cf_merchant_can_update", ":merchant_troop"),
                 (assign, ":num_times", reg0),
+
                 (assign, ":update_script", "script_troop_add_merchant_items_from_party"),
                 (try_begin),
                     (this_or_next|eq, ":items_type", items_weapon),
