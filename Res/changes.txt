@@ -19,8 +19,9 @@ v0.610:
 		* increase kingdom_22 lancer troop ratio (0 -> -10)
 		* increase kingdom_22 horse archer troop ratio (0 -> -10)
 		* increase kingdom_22 infantry troop ratio (+15 -> +20)
-		* increase kingdom_22 spearman troop ratio (+15 -> +120)
+		* increase kingdom_22 spearman troop ratio (+15 -> +20)
 		* increase kingdom_22 shock infantry troop ratio (+15 -> -10)
+		* increase kingdom_6 archer ratio (50 -> 65)
 	-Fixes:
 		* fix incorrect time displayed in raise levy action
 		* fix incorrect side joined by nearby parties on double encounter

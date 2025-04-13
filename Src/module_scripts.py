@@ -7440,7 +7440,7 @@ scripts = [
             (faction_set_slot, "fac_kingdom_6", slot_faction_troop_ratio_pikeman, 10),
             (faction_set_slot, "fac_kingdom_6", slot_faction_troop_ratio_skirmisher, 90),
             (faction_set_slot, "fac_kingdom_6", slot_faction_troop_ratio_shock_infantry, 20),
-            (faction_set_slot, "fac_kingdom_6", slot_faction_troop_ratio_archer, 50),
+            (faction_set_slot, "fac_kingdom_6", slot_faction_troop_ratio_archer, 65),
             (faction_set_slot, "fac_kingdom_6", slot_faction_troop_ratio_crossbow, 5),
             (faction_set_slot, "fac_kingdom_6", slot_faction_troop_ratio_cavalry, 75),
             (faction_set_slot, "fac_kingdom_6", slot_faction_troop_ratio_lancer, 30),
