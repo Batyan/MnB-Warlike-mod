@@ -9255,7 +9255,7 @@ scripts = [
                 (try_begin),
                     (eq, ":item_type", itp_type_shield),
                     (try_begin),
-                        (is_between, ":cur_item", "itm_tab_shield_kite_a", "itm_tab_shield_pavise_a"),
+                        (is_between, ":cur_item", "itm_tab_shield_tear_b", "itm_tab_shield_pavise_a"),
                         (gt, ":horse", 0),
                     (else_try),
                         (is_between, ":cur_item", "itm_tab_shield_heater_cav_a", "itm_stones"),

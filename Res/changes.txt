@@ -30,6 +30,7 @@ v0.610:
 		* update shops to use center culture instead of current culture (in case of occupation)
 		* fix incorrect face keys for rhodok troops
 		* fix incorrect player naming for certain npcs
+		* fix sarranid lords using foot shields when on horseback
 v0.600:
 	-Features:
 		* init starting world with lords
