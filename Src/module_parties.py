@@ -145,11 +145,11 @@ parties = [
 	("castle_31a","Buhdke Castle", icon_castle_a|pf_castle, 0, pt_none, fac_small_kingdom_31,0,ai_bhvr_hold,0,(164.9, -10.4),[], 170),
 	("castle_32a","Sungetche Castle", icon_castle_a|pf_castle, 0, pt_none, fac_small_kingdom_32,0,ai_bhvr_hold,0,(110.3, 40.5),[], 170),
 	("castle_33b","Shalgan Castle", icon_castle_a|pf_castle, 0, pt_none, fac_small_kingdom_33,0,ai_bhvr_hold,0,(77.3, -50.5),[], 170),
-	("castle_33c","New Castle", icon_castle_a|pf_castle, 0, pt_none, fac_small_kingdom_33,0,ai_bhvr_hold,0,(71.8, -12.7),[], 170),
+	("castle_33c","Radun Castle", icon_castle_a|pf_castle, 0, pt_none, fac_small_kingdom_33,0,ai_bhvr_hold,0,(71.8, -12.7),[], 170),
 	("castle_33d","Dichebe Castle", icon_castle_a|pf_castle, 0, pt_none, fac_small_kingdom_33,0,ai_bhvr_hold,0,(77.7, 7.5),[], 170),
 	("castle_34b","Tanush Castle", icon_castle_a|pf_castle, 0, pt_none, fac_small_kingdom_34,0,ai_bhvr_hold,0,(21.6, -39.8),[], 170),
 	("castle_35a","Uhhun Castle", icon_castle_a|pf_castle, 0, pt_none, fac_small_kingdom_35,0,ai_bhvr_hold,0,(62.1, -24.8),[], 170),
-	("castle_35b","New Castle", icon_castle_a|pf_castle, 0, pt_none, fac_small_kingdom_35,0,ai_bhvr_hold,0,(43.5, -35.5),[], 170),
+	("castle_35b","Marabe Castle", icon_castle_a|pf_castle, 0, pt_none, fac_small_kingdom_35,0,ai_bhvr_hold,0,(43.5, -35.5),[], 170),
 	("castle_36a","Asugan Castle", icon_castle_a|pf_castle, 0, pt_none, fac_small_kingdom_36,0,ai_bhvr_hold,0,(175.9, -48.3),[], 170),
 	("castle_36b","Dungedke Castle", icon_castle_a|pf_castle, 0, pt_none, fac_small_kingdom_36,0,ai_bhvr_hold,0,(169.9, -32.8),[], 170),
 	
@@ -304,8 +304,8 @@ parties = [
 	("village_3c1","Tulbuk", icon_village_a|pf_village, 0, pt_none, fac_kingdom_3,0,ai_bhvr_hold,0,(138.7, 38),[], 170),
 	("village_3d1","Amashke", icon_village_a|pf_village, 0, pt_none, fac_kingdom_3,0,ai_bhvr_hold,0,(137.2, 17),[], 170),
 	("village_3e1","Bulugur", icon_village_a|pf_village, 0, pt_none, fac_kingdom_3,0,ai_bhvr_hold,0,(138, -3.8),[], 170),
-	("village_3f1","New Village", icon_village_a|pf_village, 0, pt_none, fac_kingdom_3,0,ai_bhvr_hold,0,(112.4, 9.3),[], 170),
-	("village_3g1","New Village", icon_village_a|pf_village, 0, pt_none, fac_kingdom_3,0,ai_bhvr_hold,0,(145.8, -41.6),[], 170),
+	("village_3f1","Chelkan", icon_village_a|pf_village, 0, pt_none, fac_kingdom_3,0,ai_bhvr_hold,0,(112.4, 9.3),[], 170),
+	("village_3g1","Mardeke", icon_village_a|pf_village, 0, pt_none, fac_kingdom_3,0,ai_bhvr_hold,0,(145.8, -41.6),[], 170),
 	
 	("village_31a1","Buhdke", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_31,0,ai_bhvr_hold,0,(172.1, -7.6),[], 170),
 	
@@ -315,16 +315,16 @@ parties = [
 	("village_33a2","Zagnush", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_33,0,ai_bhvr_hold,0,(86.1, -22.4),[], 170),
 	("village_33a3","Zadke Kulun", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_33,0,ai_bhvr_hold,0,(103.3, -30),[], 170),
 	("village_33b1","Shalgan", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_33,0,ai_bhvr_hold,0,(84.2, -54.1),[], 170),
-	("village_33c1","New Village", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_33,0,ai_bhvr_hold,0,(77.7, -11),[], 170),
+	("village_33c1","Radun", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_33,0,ai_bhvr_hold,0,(77.7, -11),[], 170),
 	("village_33d1","Dichebe", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_33,0,ai_bhvr_hold,0,(88.6, 11.4),[], 170),
 	
 	("village_34a1","Peshmi", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_34,0,ai_bhvr_hold,0,(15.6, -59.0),[], 170),
 	("village_34a2","Hun Aban", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_34,0,ai_bhvr_hold,0,(31.3, -77.2),[], 170),
 	("village_34a3","Duhke", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_34,0,ai_bhvr_hold,0,(34.5, -63.1),[], 170),
-	("village_34b1","New Village", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_34,0,ai_bhvr_hold,0,(32.4, -42.6),[], 170),
+	("village_34b1","Talban", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_34,0,ai_bhvr_hold,0,(32.4, -42.6),[], 170),
 	
 	("village_35a1","Uhhun", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_35,0,ai_bhvr_hold,0,(71.8, -28.7),[], 170),
-	("village_35b1","New Village", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_35,0,ai_bhvr_hold,0,(49.0, -23.6),[], 170),
+	("village_35b1","Marabe", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_35,0,ai_bhvr_hold,0,(49.0, -23.6),[], 170),
 	
 	("village_36a1","Asugan", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_36,0,ai_bhvr_hold,0,(178.2, -43.7),[], 170),
 	("village_36b1","An Ashuk", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_36,0,ai_bhvr_hold,0,(179.7, -26.5),[], 170),
