@@ -1521,84 +1521,8 @@ dialogs = [
 			(leave_encounter),
 		]],
 
-	#######################
-	# Intro quest dialogs #
-	#######################
-
-	[anyone, "event_triggered",
-		[
-			(store_conversation_troop, "$g_talk_troop"),
-			(eq, "$g_talk_troop", "trp_intro_generic_peasant"),
-			(check_quest_active, "qst_introduction_default"),
-			(try_begin),
-				(eq, "$g_intro_quest_stance", 2),
-				(str_store_string, s10, "@{Sir/Madam}! Don't strike me!"),
-			(else_try),
-				# (eq, "$g_intro_quest_stance", 1),
-				(str_store_string, s10, "@{Sir/Madam}! I am in dire need of help!"),
-			(try_end),
-		], "{s10}", "intro_quest_player", []],
-
-	[anyone|plyr, "intro_quest_player",
-		[(eq, "$g_intro_quest_stance", 2),], "Explain yourself!", "intro_quest_explanation", []],
-	[anyone|plyr, "intro_quest_player",
-		[(eq, "$g_intro_quest_stance", 2),], "You should not rush someone like so, unless youwant to get cut down", "intro_quest_explanation", []],
-	[anyone|plyr, "intro_quest_player",
-		[(eq, "$g_intro_quest_stance", 1),], "What does that have to do with me?", "intro_quest_explanation", []],
-	[anyone|plyr, "intro_quest_player",
-		[(eq, "$g_intro_quest_stance", 1),], "What aid can I provide?", "intro_quest_explanation", []],
-	[anyone|plyr, "intro_quest_player",
-		[(eq, "$g_intro_quest_stance", 1),], "Would you care to elaborate?", "intro_quest_explanation", []],
-
-	[anyone, "intro_quest_explanation",
-		[], "I am sorry {Sir/Madam}, but I need your help. My brother is missing and I think he's in trouble.", "intro_quest_explanation_2", []],
-	[anyone, "intro_quest_explanation_2",
-		[], "I asked the guards for help but they say it's not a problem they can fix.", "intro_quest_explanation_3", []],
-	[anyone, "intro_quest_explanation_3",
-		[], "Please {Sir/Madam}, I beg of you.", "intro_quest_explanation_response", []],
-
-	[anyone|plyr, "intro_quest_explanation_response",
-		[], "What would you need?", "intro_quest_part_1_detail",
-		[
-			(call_script, "script_complete_quest", "qst_introduction_default"),
-			(call_script, "script_intro_quest_get_search_villages"),
-			(quest_set_slot, "qst_introduction_default_search_1", slot_quest_destination, reg0),
-			(quest_set_slot, "qst_introduction_default_search_2", slot_quest_destination, reg1),
-			(quest_set_slot, "qst_introduction_default_search_3", slot_quest_destination, reg2),
-			(call_script, "script_start_quest", "qst_introduction_default_search", "$g_talk_troop"),
-		]],
-	[anyone|plyr, "intro_quest_explanation_response",
-		[], "Not interested", "close_window", [(call_script, "script_cancel_quest", "qst_introduction_default"),]],
-
-	[anyone, "intro_quest_part_1_detail",
-		[
-			(call_script, "script_intro_quest_get_search_villages"),
-			(str_store_party_name, s10, reg0),
-			(str_store_party_name, s11, reg1),
-			(str_store_party_name, s12, reg2),
-		], "Well... I'm not exactly sure where he is.^But it would help if you were to ask around the villages of {s10}, {s11} and {s12} for information.^^They might have some clues as to his whereabouts.",
-		"close_window",
-		[
-			(call_script, "script_start_quest", "qst_introduction_default_search_1", "$g_talk_troop"),
-			(call_script, "script_start_quest", "qst_introduction_default_search_2", "$g_talk_troop"),
-			(call_script, "script_start_quest", "qst_introduction_default_search_3", "$g_talk_troop"),
-		]],
-
 	[anyone, "event_triggered",
 		[(store_conversation_troop, "$g_talk_troop"),(eq, 1, 0),], "!No dialog", "close_window", []],
-
-	[anyone, "event_triggered",
-		[
-			(eq, "$g_talk_troop", "trp_intro_generic_peasant"),
-			(check_quest_active, "qst_introduction_default"),
-			(try_begin),
-				(eq, "$g_intro_quest_stance", 2),
-				(str_store_string, s10, "@{Sir/Madam}! Don't strike me!"),
-			(else_try),
-				# (eq, "$g_intro_quest_stance", 1),
-				(str_store_string, s10, "@{Sir/Madam}! I am in dire need of help!"),
-			(try_end),
-		], "{s10}", "intro_quest_player", []],
 
 	[anyone, "event_triggered",
 		[
@@ -1625,27 +1549,19 @@ dialogs = [
 				(assign, ":continue", 1),
 			(try_end),
 			(eq, ":continue", 1),
-		], "I'm looking for a missing person, might you be able to help me?", "close_window", []],
+		], "I'm looking for a missing person, might you be able to help me?", "intro_quest_village_elder_lead", []],
 	[anyone|plyr, "village_elder", [], "Is there anything I can do to help?", "village_elder_quests", []],
 	[anyone|plyr, "village_elder", [], "Goodbye", "close_window", []],
 
-	[anyone, "village_elder_quests", [], "Nothing at the moment", "village_elder_return", []],
+	[anyone, "village_elder_quests",
+		[
+			(call_script, "script_troop_get_player_name", "$g_talk_troop", "$g_encountered_party"),
+		], "We have no need at the moment {s60}", "village_elder_return", []],
 
 	[anyone, "village_elder_return",
 		[
 			(call_script, "script_troop_get_player_name", "$g_talk_troop", "$g_encountered_party"),
 		], "Anything else {s60}?", "village_elder", []],
-		
-	#################
-	# Error dialogs #
-	#################
-	[anyone, "start",
-		[], "Hello there traveller! [WARNING: MISSING DIALOG]", "error_dialog", []],
-	
-	[anyone, "event_triggered",
-		[], "Hello there traveller! [WARNING: MISSING DIALOG]", "error_dialog", []],
-
-	[anyone|plyr, "error_dialog", [], "Dialog Error. No dialog found.", "close_window", []],
 	
 
 	# [anyone, "party_relieved",
@@ -1701,4 +1617,262 @@ dialogs = [
 		[], "Stay put", "close_window", []],
 	[anyone|plyr, "prisoner_chat_player",
 		[(troop_is_hero, "$g_talk_troop"),], "You are free to go", "close_window", [(call_script, "script_troop_freed", "$g_talk_troop", -1),]],
+
+	#######################
+	# Intro quest dialogs #
+	#######################
+
+	[anyone, "event_triggered",
+		[
+			(check_quest_active, "qst_introduction_default"),
+            (quest_get_slot, ":troop_object", "qst_introduction_default", slot_quest_object),
+			(eq, "$g_talk_troop", ":troop_object"),
+			(try_begin),
+				(eq, "$g_intro_quest_stance", 2),
+				(str_store_string, s10, "@{Sir/Madam}! Don't strike me!"),
+			(else_try),
+				# (eq, "$g_intro_quest_stance", 1),
+				(str_store_string, s10, "@{Sir/Madam}! I need your help!"),
+			(try_end),
+		], "{s10}", "intro_quest_player", []],
+
+	[anyone|plyr, "intro_quest_player",
+		[(eq, "$g_intro_quest_stance", 2),], "Explain yourself!", "intro_quest_explanation", []],
+	[anyone|plyr, "intro_quest_player",
+		[(eq, "$g_intro_quest_stance", 2),], "You should not rush someone like so, unless youwant to get cut down", "intro_quest_explanation", []],
+	[anyone|plyr, "intro_quest_player",
+		[(eq, "$g_intro_quest_stance", 1),], "That's not my problem, why would I care?", "intro_quest_explanation_refusing", []],
+	[anyone|plyr, "intro_quest_player",
+		[(eq, "$g_intro_quest_stance", 1),], "What can I do to help?", "intro_quest_explanation", []],
+	[anyone|plyr, "intro_quest_player",
+		[(eq, "$g_intro_quest_stance", 1),], "Would you care to elaborate?", "intro_quest_explanation", []],
+
+
+	[anyone, "intro_quest_explanation_refusing",
+		[
+			(call_script, "script_troop_update_name", "$g_talk_troop"),
+			(str_store_troop_name, s10, "$g_talk_troop"),
+		], "I can reward you, I am {s10} and I assure you I have the funds to spend for this kind of work.", "intro_quest_explanation",
+		[
+			(call_script, "script_troop_add_knowledge", "$g_talk_troop", tn_know_name),
+		]],
+
+	[anyone, "intro_quest_explanation",
+		[], "I am sorry {Sir/Madam}, but I need your help. My brother is missing and I think he's in trouble.", "intro_quest_explanation_2", []],
+	[anyone, "intro_quest_explanation_2",
+		[], "I asked the guards for help and they said they are looking into it but are not acting on it.", "intro_quest_explanation_3", []],
+	[anyone, "intro_quest_explanation_3",
+		[], "Please {Sir/Madam}.", "intro_quest_explanation_response", []],
+
+	[anyone|plyr, "intro_quest_explanation_response",
+		[], "What would you need?", "intro_quest_part_1_detail",
+		[
+			(quest_get_slot, ":value", "qst_introduction_default", slot_quest_value),
+
+			(call_script, "script_complete_quest", "qst_introduction_default"),
+			(call_script, "script_intro_quest_get_search_villages"),
+			(quest_set_slot, "qst_introduction_default_search_1", slot_quest_destination, reg0),
+			(quest_set_slot, "qst_introduction_default_search_2", slot_quest_destination, reg1),
+			(quest_set_slot, "qst_introduction_default_search_3", slot_quest_destination, reg2),
+
+			(quest_set_slot, "qst_introduction_default_search", slot_quest_object, ":value"),
+		]],
+	[anyone|plyr, "intro_quest_explanation_response",
+		[], "Not interested", "close_window", [(call_script, "script_cancel_quest", "qst_introduction_default"),]],
+
+	[anyone, "intro_quest_part_1_detail",
+		[
+			(call_script, "script_intro_quest_get_search_villages"),
+			(str_store_party_name, s10, reg0),
+			(str_store_party_name, s11, reg1),
+			(str_store_party_name, s12, reg2),
+		], "Wonderful!^I'm not exactly sure where he is. But it would help if you were to ask around the villages of {s10}, {s11} and {s12} for information.^^They might have some clues as to his whereabouts.",
+		"intro_quest_part_2_detail",
+		[]],
+	[anyone, "intro_quest_part_2_detail",
+		[
+			(quest_get_slot, ":brother", "qst_introduction_default_search", slot_quest_object),
+			(try_begin),
+				(call_script, "script_cf_player_knows_troop", "$g_talk_troop", tn_know_name),
+				(str_store_troop_name_plural, s11, ":brother"),
+				(str_store_string, s10, "@My brother is named {s11}, he gets into trouble a lot but he has a good heart."),
+			(else_try),
+				(call_script, "script_troop_add_knowledge", "$g_talk_troop", tn_know_name),
+				(call_script, "script_troop_update_name", "$g_talk_troop"),
+				(str_store_troop_name, s12, "$g_talk_troop"),
+				(str_store_troop_name_plural, s11, ":brother"),
+				(str_store_string, s10, "@Oh! Where are my manners, I am {s12} and my brother is {s11}, he gets into trouble a lot but he has a good heart."),
+			(try_end),
+		], "{s10}",
+		"intro_quest_part_3_detail",
+		[
+			(call_script, "script_start_quest", "qst_introduction_default_search", "$g_talk_troop"),
+			(call_script, "script_start_quest", "qst_introduction_default_search_1", "$g_talk_troop"),
+			(call_script, "script_start_quest", "qst_introduction_default_search_2", "$g_talk_troop"),
+			(call_script, "script_start_quest", "qst_introduction_default_search_3", "$g_talk_troop"),
+
+			(call_script, "script_intro_quest_get_search_villages"),
+            (party_set_flags, reg0, pf_always_visible, 1),
+            (party_set_note_available, reg0, 1),
+            (party_set_flags, reg1, pf_always_visible, 1),
+            (party_set_note_available, reg1, 1),
+            (party_set_flags, reg2, pf_always_visible, 1),
+            (party_set_note_available, reg2, 1),
+		]],
+
+	[anyone, "intro_quest_part_3_detail",
+		[], "Thank you for your help... In the meantime I will investigate some leads in the city.^Look for me in the market district when you find something.",
+		"close_window",
+		[]],
+
+	[anyone, "intro_quest_village_elder_lead",
+		[
+			(str_clear, s0),
+			(call_script, "script_intro_quest_get_search_villages"),
+			(try_begin),
+				(eq, "$g_encountered_party", reg0),
+				(str_store_string, s0, "@Well... {s60}, many people move around this village without me knowing, but I will try to help.^Who is this man your are looking for?"),
+			(else_try),
+				(eq, "$g_encountered_party", reg1),
+				(str_store_string, s0, "@I would be happy to help {s60}, who are you looking for?"),
+			(else_try),
+				(eq, "$g_encountered_party", reg2),
+				(str_store_string, s0, "@Of course {s60}. Who are you looking for?"),
+			(try_end),
+		], "{s0}",
+		"intro_quest_village_elder_lead_player_detail",
+		[]],
+
+	# [anyone|plyr, "intro_quest_village_elder_lead_player_detail",
+	# 	[
+	# 		(quest_get_slot, ":object", "qst_introduction_default_search", slot_quest_object),
+	# 		(str_store_troop_name_plural, s20, ":object"),
+	# 	], "I am looking for a man named {s20}", "intro_quest_village_elder_lead_answer",
+	# 	[]],
+	[anyone|plyr, "intro_quest_village_elder_lead_player_detail",
+		[
+			(quest_get_slot, ":object", "qst_introduction_default_search", slot_quest_object),
+			(str_store_troop_name, s20, ":object"),
+		], "{s20}", "intro_quest_village_elder_lead_answer",
+		[]],
+	# [anyone|plyr, "intro_quest_village_elder_lead_player_detail",
+	# 	[
+	# 		(quest_get_slot, ":troop", "qst_introduction_default_search", slot_quest_giver_troop),
+	# 		(str_store_troop_name, s20, ":troop"),
+	# 	], "The brother of {s20}", "intro_quest_village_elder_lead_answer",
+	# 	[]],
+
+	[anyone, "intro_quest_village_elder_lead_answer",
+		[
+			(call_script, "script_intro_quest_get_search_villages"),
+			(eq, "$g_encountered_party", reg0),
+
+			(quest_get_slot, ":object", "qst_introduction_default_search", slot_quest_object),
+			(str_store_troop_name, s20, ":object"),
+		], "{s20}? Can't say I know the man.",
+		"close_window",#"intro_quest_village_elder_lead_1_player_detail",
+		[]],
+	[anyone, "intro_quest_village_elder_lead_answer",
+		[
+			(call_script, "script_intro_quest_get_search_villages"),
+			(eq, "$g_encountered_party", reg1),
+			(quest_get_slot, ":quest_giver", "qst_introduction_default_search", slot_quest_giver_troop),
+			(str_store_troop_name, s20, ":quest_giver"),
+		], "Do you mean the brother of the young {s20}?^I think he passed the village a few days ago. He was accompanied by some rugged men.",
+		"intro_quest_village_elder_lead_2_player_detail",
+		[
+			(quest_get_slot, ":object", "qst_introduction_default_search", slot_quest_object),
+			(str_store_troop_name_plural, s20, ":object"),
+			(str_store_party_name, s21, "$g_encountered_party"),
+			(str_store_string, s0, "@You learned that {s20} passed through the village of {s21} a few days ago accompanied by rugged men."),
+			(call_script, "script_quest_add_note", "qst_introduction_default_search_2", 0),
+		]],
+	[anyone, "intro_quest_village_elder_lead_answer",
+		[
+			(call_script, "script_intro_quest_get_search_villages"),
+			(eq, "$g_encountered_party", reg2),
+			(call_script, "script_troop_get_player_name", "$g_talk_troop", "$g_encountered_party"),
+		], "I don't think he passed through here {s60}",
+		"close_window",#"intro_quest_village_elder_lead_3_player_detail",
+		[]],
+
+	[anyone|plyr, "intro_quest_village_elder_lead_2_player_detail",
+		[(quest_slot_eq, "qst_introduction_default_search_2", slot_quest_asked_who, -1),],
+		"Do you know who those men were?", "intro_quest_village_elder_lead_2_who",
+		[(quest_set_slot, "qst_introduction_default_search_2", slot_quest_asked_who, 1),]],
+	[anyone|plyr, "intro_quest_village_elder_lead_2_player_detail",
+		[(quest_slot_eq, "qst_introduction_default_search_2", slot_quest_asked_state, -1),],
+		"Was he in any distress?", "intro_quest_village_elder_lead_2_state",
+		[(quest_set_slot, "qst_introduction_default_search_2", slot_quest_asked_state, 1),]],
+	[anyone|plyr, "intro_quest_village_elder_lead_2_player_detail",
+		[(quest_slot_eq, "qst_introduction_default_search_2", slot_quest_asked_destination, -1),],
+		"Where did they go afterwards?", "intro_quest_village_elder_lead_2_direction",
+		[(quest_set_slot, "qst_introduction_default_search_2", slot_quest_asked_destination, 1),]],
+
+	[anyone|plyr, "intro_quest_village_elder_lead_2_player_detail",
+		[],
+		"Thank you that will be all.", "intro_quest_village_elder_lead_2_finish",
+		[(call_script, "script_succeed_quest", "qst_introduction_default_search_2"),]],
+
+	[anyone, "intro_quest_village_elder_lead_2_who",
+		[], "I didn't quite get a good look at them.", "intro_quest_village_elder_lead_2_who_2",
+		[]],
+	[anyone, "intro_quest_village_elder_lead_2_who_2",
+		[], "Some of them had weapons so they might have been mercenaries or guards for a merchant of sorts?", "intro_quest_village_elder_lead_2_who_3",
+		[
+			(quest_get_slot, ":object", "qst_introduction_default_search", slot_quest_object),
+			(str_store_troop_name_plural, s20, ":object"),
+			(str_store_party_name, s21, "$g_encountered_party"),
+			(str_store_string, s0, "@The men accompanying {s20} were armed."),
+			(call_script, "script_quest_add_note", "qst_introduction_default_search_2", 0),
+		]],
+	[anyone, "intro_quest_village_elder_lead_2_who_3",
+		[], "I think there were a dozen of them.", "intro_quest_village_elder_lead_2_player_detail",
+		[]],
+
+	[anyone, "intro_quest_village_elder_lead_2_state",
+		[
+			(quest_get_slot, ":object", "qst_introduction_default_search", slot_quest_object),
+			(str_store_troop_name_plural, s20, ":object"),
+		], "I mean... some of the men were armed, but they were chatting with sir {s20} so I figured he was not forced to follow them.", "intro_quest_village_elder_lead_2_state_2",
+		[
+			(quest_get_slot, ":object", "qst_introduction_default_search", slot_quest_object),
+			(str_store_troop_name_plural, s20, ":object"),
+			(str_store_string, s0, "@{s20} didn't seem threatened and was willingly traveling."),
+			(call_script, "script_quest_add_note", "qst_introduction_default_search_2", 0),
+		]],
+	[anyone, "intro_quest_village_elder_lead_2_state_2",
+		[], "I saw them laugh together at some point so my guess was they were acquaintances at the least.", "intro_quest_village_elder_lead_2_player_detail",
+		[]],
+
+	[anyone, "intro_quest_village_elder_lead_2_direction",
+		[], "I didn't pry in their conversation so I'm afraid I have very little information on the subject.", "intro_quest_village_elder_lead_2_direction_2",
+		[
+			(quest_get_slot, ":object", "qst_introduction_default_search", slot_quest_object),
+			(str_store_troop_name_plural, s20, ":object"),
+			(str_store_party_name, s21, "$g_encountered_party"),
+			(str_store_string, s0, "@The village elder of {s21} saw {s20} and his company heading out of the village together."),
+			(call_script, "script_quest_add_note", "qst_introduction_default_search_2", 0),
+		]],
+	[anyone, "intro_quest_village_elder_lead_2_direction_2",
+		[], "They headed off together at the very least.", "intro_quest_village_elder_lead_2_player_detail",
+		[]],
+
+	[anyone, "intro_quest_village_elder_lead_2_finish",
+		[(call_script, "script_troop_get_player_name", "$g_talk_troop", "$g_encountered_party"),],
+		"With pleasure {s60}.^Is there anything else you want to know?",
+		"village_elder",
+		[]],
+
+	#################
+	# Error dialogs #
+	#################
+	[anyone, "start",
+		[], "Hello there traveller! [WARNING: MISSING DIALOG]", "error_dialog", []],
+	
+	[anyone, "event_triggered",
+		[], "Hello there traveller! [WARNING: MISSING DIALOG]", "error_dialog", []],
+
+	[anyone|plyr, "error_dialog", [], "Dialog Error. No dialog found.", "close_window", []],
+
 ]

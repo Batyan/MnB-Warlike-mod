@@ -850,10 +850,10 @@ strings = [
   ("player_receive_center_vassal", "A messenger brings a message for you.^^Your vassal {s10} wishes to offer you {s11} as a fief.^^^Do you accept ?"),
 
   ("quest_description_introduction_default", "After your hard journey to Calradia, take a moment to rest in the town of {s59}."),
-  ("quest_description_introduction_default_search", "The farmer had few information on the whereabouts of his brother.^^He proposed that you look for answer in the nearby villages.^{s50}^{s51}^{s52}"),
-  ("quest_description_introduction_default_search_1", "Search the village of {s59} for information on the farmer's relative."),
-  ("quest_description_introduction_default_search_2", "Search the village of {s59} for information on the farmer's relative."),
-  ("quest_description_introduction_default_search_3", "Search the village of {s59} for information on the farmer's relative."),
+  ("quest_description_introduction_default_search", "{s58} had few informations on the whereabouts of his brother {s57}.^^He proposed that you look for answer in the nearby villages."),
+  ("quest_description_introduction_default_search_1", "Search the village of {s59} for information on {s58}'s brother."),
+  ("quest_description_introduction_default_search_2", "Search the village of {s59} for information on {s58}'s brother."),
+  ("quest_description_introduction_default_search_3", "Search the village of {s59} for information on {s58}'s brother."),
 
 
   ("quest_description_swear_vassalage_fief", "{s62} would like to receive your oath of allegience to him{reg60?, you would be granted {s11} in exchange:}."),

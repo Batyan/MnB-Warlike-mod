@@ -1879,35 +1879,39 @@ scripts = [
             (try_begin),
                 (eq, ":index", 0),
                 (try_begin),
-                    (eq, ":troop_notes", tn_unknown),
-                    (str_store_string, s0, "@{s20} is unknown."),
-                (else_try),
-                    (str_store_troop_name, s0, ":troop_no"),
-                    (store_and, ":know_faction", ":troop_notes", tn_know_faction),
-                    (try_begin),
-                        (ge, ":know_faction", 1),
-                        (store_troop_faction, ":troop_faction", ":troop_no"),
-                        (str_store_faction_name_link, s21, ":troop_faction"),
+                    (call_script, "script_cf_player_knows_troop", ":troop_no", tn_know_name),
+                    (call_script, "script_cf_player_knows_troop", ":troop_no", tn_know_faction),
 
-                        (store_and, ":know_faction_rank", ":troop_notes", tn_know_faction_rank),
-                        (try_begin),
-                            (ge, ":know_faction_rank", 1),
-                            (faction_slot_eq, ":troop_faction", slot_faction_leader, ":troop_no"),
-                            (str_store_string, s0, "@{s0} is leader of the {s21}.^"),
-                        (else_try),
-                            (str_store_string, s0, "@{s0} is a vassal of the {s21}.^"),
-                        (try_end),
-                        (try_begin),
-                            (ge, ":know_faction_rank", 1),
-                            (faction_slot_eq, ":troop_faction", slot_faction_marshall, ":troop_no"),
-                            (str_store_string, s0, "@{s0}He is the current marhsall.^"),
-                        (try_end),
-                    (try_end),
-                    (store_and, ":know_face", ":troop_notes", tn_know_face),
+                    (store_troop_faction, ":troop_faction", ":troop_no"),
+                    (str_store_faction_name_link, s21, ":troop_faction"),
+
                     (try_begin),
-                        (ge, ":know_face", 1),
-                        (add_troop_note_tableau_mesh, ":troop_no", "tableau_troop_note_mesh"),
+                        (call_script, "script_cf_player_knows_troop", ":troop_no", tn_know_faction_rank),
+                        (try_begin),
+                            (faction_slot_eq, ":troop_faction", slot_faction_leader, ":troop_no"),
+                            (str_store_string, s0, "@{s20} is leader of the {s21}.^"),
+                        (else_try),
+                            (troop_slot_eq, ":troop_no", slot_troop_kingdom_occupation, tko_kingdom_hero),
+                            (str_store_string, s0, "@{s20} is a vassal of the {s21}.^"),
+                        (else_try),
+                            (str_store_string, s0, "@{s20} is a noble in the {s21}.^"),
+                        (try_end),
+                    (else_try),
+                        (str_store_string, s0, "@{s20} is a noble in the {s21}.^"),
                     (try_end),
+                    (try_begin),
+                        (call_script, "script_cf_player_knows_troop", ":troop_no", tn_know_faction_rank),
+                        (faction_slot_eq, ":troop_faction", slot_faction_marshall, ":troop_no"),
+                        (str_store_string, s0, "@{s0}He is the current marhsall.^"),
+                    (try_end),
+                (else_try),
+                    (call_script, "script_cf_player_knows_troop", ":troop_no", tn_know_name),
+                    (str_store_string, s0, "@{s20} is unknown."),
+                (try_end),
+
+                (try_begin),
+                    (call_script, "script_cf_player_knows_troop", ":troop_no", tn_know_face),
+                    (add_troop_note_tableau_mesh, ":troop_no", "tableau_troop_note_mesh"),
                 (try_end),
             (else_try),
                 (eq, ":index", 1),
@@ -24904,32 +24908,24 @@ scripts = [
             (quest_get_slot, ":quest_object", ":quest_no", slot_quest_object),
             (quest_get_slot, ":quest_destination", ":quest_no", slot_quest_destination),
 
+            (quest_set_slot, ":quest_no", slot_quest_note_index, 3),
+
             (try_begin),
                 (eq, ":giver_troop_no", -1),
                 (str_store_string, s63, "@Political suggestion"),
             (else_try),
                 (is_between, ":giver_troop_no", npc_heroes_begin, npc_heroes_end),
+                (str_store_troop_name, s58, ":giver_troop_no"),
                 (str_store_troop_name_link, s62, ":giver_troop_no"),
                 (str_store_string, s63, "@Given by: {s62}"),
             (else_try),
                 (str_store_troop_name, s62, ":giver_troop_no"),
+                (str_store_troop_name, s58, ":giver_troop_no"),
                 (str_store_string, s63, "@Given by: {s62}"),
             (try_end),
             (store_current_hours, ":cur_hours"),
             (str_store_date, s60, ":cur_hours"),
             (str_store_string, s60, "@Given on: {s60}"),
-
-            (try_begin),
-                (eq, ":quest_no", "qst_introduction_default_search"),
-                
-                (call_script, "script_intro_quest_get_search_villages"),
-                (str_store_party_name, s59, reg0),
-                (str_store_quest_name_link, s50, "qst_introduction_default_search_1"),
-                (str_store_party_name, s59, reg1),
-                (str_store_quest_name_link, s51, "qst_introduction_default_search_2"),
-                (str_store_party_name, s59, reg2),
-                (str_store_quest_name_link, s52, "qst_introduction_default_search_3"),
-            (try_end),
 
             (try_begin),
                 (gt, ":quest_destination", "p_prisoners_party"),
@@ -24938,6 +24934,11 @@ scripts = [
 
             (try_begin),
                 (gt, ":quest_description_index", 0),
+
+                (try_begin),
+                    (eq, ":quest_no", "qst_introduction_default_search"),
+                    (str_store_troop_name_link, s57, ":quest_object"),
+                (try_end),
                 (str_store_string, s61, ":quest_description_index"),
             (else_try),
                 (str_clear, s61),
@@ -24950,7 +24951,7 @@ scripts = [
             (try_begin),
                 (quest_slot_ge, ":quest_no", slot_quest_expiration_days, 1),
                 (quest_get_slot, reg0, ":quest_no", slot_quest_expiration_days),
-                (add_quest_note_from_sreg, ":quest_no", 7, "@You have {reg0} days to finish this quest.", 0),
+                (add_quest_note_from_sreg, ":quest_no", 15, "@You have {reg0} days to finish this quest.", 0),
             (try_end),
 
             # Adding dont_give_again_for_days value
@@ -25008,6 +25009,30 @@ scripts = [
         [
             (store_script_param, ":quest_no", 1),
             (cancel_quest, ":quest_no"),
+        ]),
+
+    # script_quest_add_note
+        # input:
+        #   arg1: quest_no
+        #   arg2: time_restriction
+        #   s0: string_register
+    ("quest_add_note",
+        [
+            (store_script_param, ":quest_no", 1),
+            (store_script_param, ":time_restriction", 2),
+
+            (quest_get_slot, ":note_index", ":quest_no", slot_quest_note_index),
+            (try_begin),
+                (is_between, ":note_index", 3, 15),
+
+                (add_quest_note_from_sreg, ":quest_no", ":note_index", "@Update: {s0}", ":time_restriction"),
+
+                (val_add, ":note_index", 1),
+                (quest_set_slot, ":quest_no", slot_quest_note_index, ":note_index"),
+            (else_try),
+                (str_store_quest_name, s10, ":quest_no"),
+                (display_log_message, "@[Error]: too many notes for quest {s10}"),
+            (try_end),
         ]),
 
     # script_player_reset_stats
@@ -29251,6 +29276,90 @@ scripts = [
             (party_get_slot, ":original_faction", ":party_no", slot_party_original_faction),
             (troop_set_faction, "trp_village_elder", ":original_faction"),
             (call_script, "script_troop_get_face_code", "trp_village_elder"),
+        ]),
+
+    # script_prepare_intro_quest
+        # input: none
+        # output: none
+    ("intro_quest_init",
+        [
+            (assign, ":starting_town", 0),
+            (try_begin),
+                (eq, "$g_start_game_intro_location", player_starting_7_swadia),
+                (assign, ":starting_town", "p_town_11"),
+            (else_try),
+                (eq, "$g_start_game_intro_location", player_starting_7_vaegir),
+                (assign, ":starting_town", "p_town_21"),
+            (else_try),
+                (eq, "$g_start_game_intro_location", player_starting_7_khergit),
+                (assign, ":starting_town", "p_town_31"),
+            (else_try),
+                (eq, "$g_start_game_intro_location", player_starting_7_nord),
+                (assign, ":starting_town", "p_town_41"),
+            (else_try),
+                (eq, "$g_start_game_intro_location", player_starting_7_rhodok),
+                (assign, ":starting_town", "p_town_51"),
+            (else_try),
+                (eq, "$g_start_game_intro_location", player_starting_7_sarranid),
+                (assign, ":starting_town", "p_town_61"),
+            (try_end),
+            (quest_set_slot, "qst_introduction_default", slot_quest_destination, ":starting_town"),
+
+            (store_faction_of_party, ":starting_town_faction", ":starting_town"),
+
+            (call_script, "script_find_free_lord"),
+            (assign, ":new_lord", reg0),
+            (call_script, "script_ready_lord", ":new_lord", ":starting_town_faction", 0),
+            (troop_set_slot, ":new_lord", slot_troop_kingdom_occupation, tko_reserved_quest),
+
+            (call_script, "script_find_free_lord"),
+            (assign, ":new_lord_brother", reg0),
+            (call_script, "script_ready_lord", ":new_lord_brother", ":starting_town_faction", 0),
+            (troop_set_slot, ":new_lord_brother", slot_troop_kingdom_occupation, tko_reserved_quest),
+
+            (quest_set_slot, "qst_introduction_default", slot_quest_object, ":new_lord"),
+            (quest_set_slot, "qst_introduction_default", slot_quest_value, ":new_lord_brother"),
+
+            (call_script, "script_clan_get_empty"),
+            (assign, ":clan", reg0),
+            (try_begin),
+                (is_between, ":clan", clans_begin, clans_end),
+                (call_script, "script_troop_add_to_clan", ":new_lord", ":clan"),
+                (call_script, "script_troop_add_to_clan", ":new_lord_brother", ":clan"),
+            (try_end),
+
+            (call_script, "script_start_quest", "qst_introduction_default", -1),
+        ]),
+
+    # script_troop_add_knowledge
+        # input:
+        #   arg1: troop_no
+        #   arg2: knowledge (tn_*)
+        # output: none
+    ("troop_add_knowledge",
+        [
+            (store_script_param, ":troop_no", 1),
+            (store_script_param, ":knowledge", 2),
+
+            (troop_get_slot, ":notes", ":troop_no", slot_troop_notes),
+            (val_or, ":notes", ":knowledge"),
+            (troop_set_slot, ":troop_no", slot_troop_notes, ":notes"),
+        ]),
+
+    # script_cf_player_knows_troop
+        # input:
+        #   arg1: troop_no
+        #   arg2: knowledge (tn_*)
+        # output: none
+        # fails if player does not have the knowledge of troop
+    ("cf_player_knows_troop",
+        [
+            (store_script_param, ":troop_no", 1),
+            (store_script_param, ":knowledge", 2),
+
+            (troop_get_slot, ":notes", ":troop_no", slot_troop_notes),
+            (val_and, ":notes", ":knowledge"),
+            (gt, ":notes", 0),
         ]),
 
     # script_presentation_generate_select_lord_card

@@ -1510,6 +1510,7 @@ tko_kingdom_hero = 1
 tko_mercenary = 2
 tko_bandit = 3
 tko_reserved = 4
+tko_reserved_quest = 5
 
 slot_troop_personality 				= slot_troop_kingdom_occupation + 1
 tp_default = 0x0000
@@ -1601,8 +1602,9 @@ tn_know_personality 		= 0x080
 tn_know_face   				= 0x100
 tn_know_vassals				= 0x200 # Vassal relations
 tn_know_lord				= 0x400 # Is a vassal of
+tn_know_name				= 0x800
 
-tn_know_all = tn_know_main_fief | tn_know_fiefs | tn_know_faction | tn_know_faction_rank | tn_know_clan | tn_know_personality | tn_know_face | tn_know_vassals | tn_know_lord
+tn_know_all = 0xFFF
 
 slot_troop_married_to 			= 41
 slot_troop_father				= 42
@@ -1812,17 +1814,25 @@ slot_quest_value = slot_quest_object + 1
 
 slot_quest_destination = slot_quest_value + 1
 
-last_generic_quest_slot = slot_quest_destination + 1
+slot_quest_note_index = slot_quest_destination + 1
+
+last_generic_quest_slot = slot_quest_note_index + 1
 
 # qst_persuade_lord_vassalage
 
 quest_persuade_vassalge_max_proposition = 5
 
-slot_quest_num_tries = slot_quest_value + 1
+slot_quest_num_tries = last_generic_quest_slot
 slot_quest_proposition_begin = slot_quest_num_tries + 1
 slot_quest_proposition_end = slot_quest_proposition_begin + quest_persuade_vassalge_max_proposition
 
 slot_quest_proposed_fief = slot_quest_proposition_end + 1
+
+# qst_introduction_default_search_2
+
+slot_quest_asked_who = last_generic_quest_slot
+slot_quest_asked_state = slot_quest_asked_who + 1
+slot_quest_asked_destination = slot_quest_asked_state + 1
 
 last_quest_slot = max(100, slot_quest_proposed_fief + 1)
 

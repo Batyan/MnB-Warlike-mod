@@ -4,7 +4,7 @@ quests = [
 
     ("introduction_default", "Rest in {s59}", 0,
         "{!}."),
-    ("introduction_default_search", "Search for information on the farmer's whereabouts", 0,
+    ("introduction_default_search", "Search for information on the brother's whereabouts", 0,
         "{!}."),
     ("introduction_default_search_1", "Search the village of {s59}", 0,
         "{!}."),
