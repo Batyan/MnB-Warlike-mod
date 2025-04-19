@@ -4563,7 +4563,7 @@ scripts = [
                     # ToDo: faction
                 # (try_end),
                 
-                (store_random_in_range, ":formation", stf_default, stf_siege),
+                (assign, ":formation", stf_default),
                 # (try_begin),
                 #     (eq, ":rand", 0),
                 #     (assign, ":formation", stf_shieldwall),
