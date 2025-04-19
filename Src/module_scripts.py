@@ -23023,7 +23023,13 @@ scripts = [
                 (party_slot_eq, ":party_no", slot_party_lord, "$g_player_troop"),
                 (party_get_slot, ":garrison_flags", ":party_no", slot_party_player_garrison_flags),
             (else_try),
+                (store_faction_of_party, ":party_current_faction", ":party_no"),
+                (party_get_slot, ":party_faction", ":party_no", slot_party_faction),
                 (try_begin),
+                    (neq, ":party_current_faction", ":party_faction"),
+                    # Center is occupied
+                    (assign, ":garrison_flags", pgf_all_mask),
+                (else_try),
                     (eq, ":party_type", spt_village),
                     (assign, ":garrison_flags", pgf_default_village_mask),
                 (else_try),

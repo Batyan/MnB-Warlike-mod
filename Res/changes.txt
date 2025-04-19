@@ -31,6 +31,7 @@ v0.610:
 		* fix incorrect face keys for rhodok troops
 		* fix incorrect player naming for certain npcs
 		* fix sarranid lords using foot shields when on horseback
+		* fix center evacuation not moving veteran+ units
 v0.600:
 	-Features:
 		* init starting world with lords
