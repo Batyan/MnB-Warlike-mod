@@ -27,7 +27,7 @@ v0.610:
 		* reduce military_cleaver_b damage (32 -> 31)
 		* reduce all sword_viking speed by 1
 		* reduce sword_khergit_4 speed (95 -> 93)
-		* swaped primary and secondary colors for some banners to reduce number white primary color
+		* swaped primary and secondary colors for some banners to reduce number of white primary color
 			a02, a07, a11, a15, a16, a17, c05, c07, c13, e03
 	-Fixes:
 		* fix incorrect time displayed in raise levy action
