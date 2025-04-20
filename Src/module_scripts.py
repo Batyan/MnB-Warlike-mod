@@ -28673,6 +28673,9 @@ scripts = [
                     (eq, ":party_type", spt_civilian),
                     (str_store_string, s60, "str_my_lord|my_lady"),
                 (else_try),
+                    (eq, ":troop_no", "trp_village_elder"),
+                    (str_store_string, s60, "str_my_lord|my_lady"),
+                (else_try),
                     (try_begin),
                         (eq, ":party_faction", ":player_faction"),
                         (str_store_string, s60, "str_my_lord|my_lady"),
@@ -29262,6 +29265,7 @@ scripts = [
 
             (call_script, "script_center_get_elder_face_key", ":party_no"),
             (troop_set_face_keys, "trp_village_elder", s0),
+            (call_script, "script_setup_troop_meeting", "trp_village_elder", -1),
         ]),
 
     # script_center_get_elder_face_key

@@ -1649,8 +1649,6 @@ game_menus = [
         [
             (set_background_mesh, "mesh_pic_camp"),
             
-            (call_script, "script_setup_meeting_village_elder", "$g_encountered_party"),
-            
             (str_store_party_name, s11,"$g_encountered_party"),
             (str_store_string, s10, "@You are inside the walls of the city of {s11}. The streets are busy with merchants and the townsfolk seem well fed."),
         ],
@@ -1660,7 +1658,7 @@ game_menus = [
                     (jump_to_menu,"mnu_town_keep"),
                 ]),
             
-            ("center_guildmaster", 
+            ("center_guildmaster",
                 [(disable_menu_option),
                     (party_slot_eq,"$g_encountered_party", slot_party_type, spt_town),
                 ], "Speak to the guildmaster",
@@ -1673,8 +1671,9 @@ game_menus = [
                     (party_slot_eq,"$g_encountered_party", slot_party_type, spt_village),
                 ], "Speak to the village elder",
                 [
-                    (change_screen_return),
-                    (start_map_conversation, "trp_village_elder"),
+                    (call_script, "script_setup_meeting_village_elder", "$g_encountered_party"),
+                    # (change_screen_return),
+                    # (start_map_conversation, "trp_village_elder"),
                 ]),
             
             ("center_market", [], "Go to the marketplace",
@@ -1756,7 +1755,7 @@ game_menus = [
                     (start_presentation, "prsnt_recruit_from_town_garrison"),
                 ]),
             
-            ("center_raise_levies", [(neg|party_slot_eq, "$g_encountered_party", slot_party_type, spt_castle),], "Raise levies",
+            ("center_raise_levies", [(neg|party_slot_eq, "$g_encountered_party", slot_party_type, spt_castle),], "Train levies",
                 [
                     (jump_to_menu, "mnu_town_raise_levies"),
                 ]),
@@ -1953,7 +1952,7 @@ game_menus = [
         ]),
     
     ("town_raise_levies", mnf_scale_picture,
-        "How many levies do you wish to raise?^^Available recruits:{s10}",
+        "How many levies do you wish to train?^^Available recruits:{s10}",
         "none",
         [
             # (val_max, "$g_num_levies", 0),
@@ -1983,15 +1982,24 @@ game_menus = [
             (try_end),
         ],
         [
+            ("recruit_increase_x10", [], "Increase number of recruits (x10)",
+                [
+                    (val_add, "$g_num_levies", 10),
+                    (jump_to_menu, "mnu_town_raise_levies"),
+                ]),
             ("recruit_increase", [], "Increase number of recruits",
                 [
                     (val_add, "$g_num_levies", 1),
                     (jump_to_menu, "mnu_town_raise_levies"),
                 ]),
-            
             ("recruit_decrease", [], "Decrease number of recruits",
                 [
                     (val_add, "$g_num_levies", -1),
+                    (jump_to_menu, "mnu_town_raise_levies"),
+                ]),
+            ("recruit_decrease_x10", [], "Decrease number of recruits (x10)",
+                [
+                    (val_add, "$g_num_levies", -10),
                     (jump_to_menu, "mnu_town_raise_levies"),
                 ]),
             
@@ -2013,7 +2021,15 @@ game_menus = [
 
                     (call_script, "script_party_add_troops", "p_temp_party", ":peasant_begin", ":common_begin", ":num_levies"),
                     (store_div, ":cost", reg1, ":num_levies"),
-                    (val_mul, ":cost", "$g_num_levies"),
+
+                    (assign, ":paying_for", "$g_num_levies"),
+                    (try_begin),
+                        (party_get_slot, ":free_recruits", "$g_encountered_party", slot_party_free_recruits),
+                        (gt, ":free_recruits", 0),
+                        (val_sub, ":paying_for", ":free_recruits"),
+                        (val_max, ":paying_for", 0),
+                    (try_end),
+                    (val_mul, ":cost", ":paying_for"),
                     (val_div, ":cost", 5),
                     (assign, reg11, ":cost"),
 
@@ -2042,7 +2058,7 @@ game_menus = [
                     
                     (val_max, ":rest_time", ":min_hours"),
                     (assign, reg12, ":rest_time"),
-                ], "Recruit {reg10} levies : {s10} ({reg12} days)",
+                ], "Train {reg10} levies : {s10} ({reg12} days)",
                 [
                     (try_begin),
                         (gt, "$g_num_levies", 0),
@@ -2074,6 +2090,13 @@ game_menus = [
                             (assign, reg12, ":rest_time"),
                             (display_message, "@Rest time: {reg12}"),
                             (rest_for_hours, ":rest_time"),
+
+                            (try_begin),
+                                (party_get_slot, ":free_recruits", "$g_encountered_party", slot_party_free_recruits),
+                                (val_sub, ":free_recruits", "$g_num_levies"),
+                                (val_max, ":free_recruits", 0),
+                                (party_set_slot, "$g_encountered_party", slot_party_free_recruits, ":free_recruits"),
+                            (try_end),
                             
                             (assign, "$g_num_levies", 0),
                         (else_try),

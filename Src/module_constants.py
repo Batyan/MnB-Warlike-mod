@@ -1413,6 +1413,8 @@ slot_party_fame = slot_party_growth + 1
 
 slot_party_elder_last_met = slot_party_fame + 1
 
+slot_party_free_recruits = slot_party_elder_last_met + 1
+
 #################
 ## Scene Slots ##
 #################

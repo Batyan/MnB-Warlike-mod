@@ -40,6 +40,7 @@ v0.610:
 		* fix sarranid lords using foot shields when on horseback
 		* fix center evacuation not moving veteran+ units
 		* fix using not implemented formations during battle
+		* rename the raise levy option to "Train levies" for consistency
 v0.600:
 	-Features:
 		* init starting world with lords
