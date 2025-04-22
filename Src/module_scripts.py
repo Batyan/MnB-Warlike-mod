@@ -18044,7 +18044,7 @@ scripts = [
             (try_begin),
                 (neq, ":vassal_type", 0),
 
-                # Vassals can engage in treaties except trading
+                # Vassals can't engage in treaties except trading
                 (neq, ":treaty_type", sfkt_open_trade),
 
                 (assign, reg0, 0),
