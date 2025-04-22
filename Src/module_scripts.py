@@ -9875,7 +9875,7 @@ scripts = [
                         (str_store_troop_name, s10, ":troop_no"),
                         (str_store_party_name, s11, ":home"),
                         (str_store_faction_name, s12, ":center_faction"),
-                        (display_message, "@Trying to spawn {s10} in {s11} with faction {s12}", text_color_debug),
+                        (display_message, "@Trying spawn {s10} in {s11} faction {s12}", text_color_debug),
                     (try_end),
                 (else_try),
                     (party_force_add_members, ":home", ":troop_no", 1),
