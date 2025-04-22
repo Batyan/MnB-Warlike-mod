@@ -13504,6 +13504,7 @@ scripts = [
 
             (try_begin),
                 (troop_slot_eq, ":receiver_troop", slot_troop_vassal_of, -1),
+                (neg|troop_slot_eq, ":giver_troop_no", slot_troop_vassal_of, ":receiver_troop"),
                 (call_script, "script_troop_become_vassal", ":receiver_troop", ":giver_troop_no"),
             (try_end),
             

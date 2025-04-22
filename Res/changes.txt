@@ -41,6 +41,7 @@ v0.610:
 		* fix center evacuation not moving veteran+ units
 		* fix using not implemented formations during battle
 		* rename the raise levy option to "Train levies" for consistency
+		* prevent lord npc from becoming a vassal of their own vassal
 v0.600:
 	-Features:
 		* init starting world with lords
