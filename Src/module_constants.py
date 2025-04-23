@@ -10,14 +10,14 @@ from ID_strings import *
 ## Constants ##
 ###############
 
-debug_simple = 0x01 				# Displays basic debug informations (the game should still be playable with this on)
-debug_economy = 0x02 				# Displays economic informations only (productions, population, wealth)
-debug_ai = 0x04 					# Displays informations about party ais
-debug_faction = 0x08 				# Displays informations about factions (politics)
-debug_war = debug_ai|debug_faction 	# Activates both faction and ai
-debug_trade = 0x10 					# Displays informations about trading
-debug_current = 0x20 				# Displays informations about the current feature being worked on (temporary debug state)
-debug_all = 0xFF 					# Displays every debug line available (most likely spams the screen)
+debug_simple = 0x01                 # Displays basic debug informations (the game should still be playable with this on)
+debug_economy = 0x02                # Displays economic informations only (productions, population, wealth)
+debug_ai = 0x04                     # Displays informations about party ais
+debug_faction = 0x08                # Displays informations about factions (politics)
+debug_war = debug_ai|debug_faction  # Activates both faction and ai
+debug_trade = 0x10                  # Displays informations about trading
+debug_current = 0x20                # Displays informations about the current feature being worked on (temporary debug state)
+debug_all = 0xFF                    # Displays every debug line available (most likely spams the screen)
 
 banner_meshes_begin = "mesh_banner_a01"
 banner_meshes_end = "mesh_banner_mesh_end"
@@ -37,12 +37,12 @@ arms_meshes_end = mesh_troop_label_banner
 centers_begin = "p_town_11"
 centers_end = "p_centers_end"
 
-towns_begin		= centers_begin
-castles_begin	= "p_castle_1a"
-villages_begin	= "p_village_111"
-towns_end		= castles_begin
-castles_end		= villages_begin
-villages_end	= centers_end
+towns_begin     = centers_begin
+castles_begin   = "p_castle_1a"
+villages_begin  = "p_village_111"
+towns_end       = castles_begin
+castles_end     = villages_begin
+villages_end    = centers_end
 
 walled_centers_begin = towns_begin
 walled_centers_end = castles_end
@@ -117,34 +117,34 @@ items_begin = horses_begin
 items_end = "itm_items_end"
 
 # TROOPS
-soldiers_begin			= "trp_swadian_levy"
-soldiers_end			= "trp_common_hunter_bow"
+soldiers_begin          = "trp_swadian_levy"
+soldiers_end            = "trp_common_hunter_bow"
 
 companions_begin = "trp_companion_noble_01_m"
 companions_end = soldiers_begin
 
-kingdom_1_troops_begin	= "trp_swadian_levy"
-kingdom_2_troops_begin	= "trp_vaegir_levy"
-kingdom_3_troops_begin	= "trp_khergit_levy"
-kingdom_4_troops_begin	= "trp_nord_levy"
-kingdom_5_troops_begin	= "trp_rhodok_levy_spearman"
-kingdom_6_troops_begin	= "trp_sarranid_levy"
+kingdom_1_troops_begin  = "trp_swadian_levy"
+kingdom_2_troops_begin  = "trp_vaegir_levy"
+kingdom_3_troops_begin  = "trp_khergit_levy"
+kingdom_4_troops_begin  = "trp_nord_levy"
+kingdom_5_troops_begin  = "trp_rhodok_levy_spearman"
+kingdom_6_troops_begin  = "trp_sarranid_levy"
 
-mercenaries_begin		= "trp_mercenary_levy_infantry"
+mercenaries_begin       = "trp_mercenary_levy_infantry"
 factional_mercenaries_begin = "trp_swadian_rider"
 
-bandits_begin			= "trp_bandit_forest_bandit"
+bandits_begin           = "trp_bandit_forest_bandit"
 
-kingdom_1_troops_end	= kingdom_2_troops_begin
-kingdom_2_troops_end	= kingdom_3_troops_begin
-kingdom_3_troops_end	= kingdom_4_troops_begin
-kingdom_4_troops_end	= kingdom_5_troops_begin
-kingdom_5_troops_end	= kingdom_6_troops_begin
-kingdom_6_troops_end	= mercenaries_begin
+kingdom_1_troops_end    = kingdom_2_troops_begin
+kingdom_2_troops_end    = kingdom_3_troops_begin
+kingdom_3_troops_end    = kingdom_4_troops_begin
+kingdom_4_troops_end    = kingdom_5_troops_begin
+kingdom_5_troops_end    = kingdom_6_troops_begin
+kingdom_6_troops_end    = mercenaries_begin
 
-mercenaries_end			= bandits_begin
+mercenaries_end         = bandits_begin
 
-bandits_end				= soldiers_end
+bandits_end             = soldiers_end
 
 ressource_gathering_pace = 200
 
@@ -584,15 +584,15 @@ ta_caring = 10
 
 item_slots = 0
 
-slot_building_build_time				= 1
-slot_building_enabled 					= slot_building_build_time + 1
-slot_building_cost_gold					= slot_building_enabled + 1
-slot_building_cost_maintenance			= slot_building_cost_gold + 1
-slot_building_cost_resources_begin		= slot_building_cost_maintenance + 1
-slot_building_cost_resources_end  		= slot_building_cost_resources_begin + goods_end - goods_begin
+slot_building_build_time                = 1
+slot_building_enabled                   = slot_building_build_time + 1
+slot_building_cost_gold                 = slot_building_enabled + 1
+slot_building_cost_maintenance          = slot_building_cost_gold + 1
+slot_building_cost_resources_begin      = slot_building_cost_maintenance + 1
+slot_building_cost_resources_end        = slot_building_cost_resources_begin + goods_end - goods_begin
 # following slot contains multiplicative value for each spt_* value it can be build on
-slot_building_center_types				= slot_building_cost_resources_end + 1
-slot_building_required_building			= slot_building_center_types + 1
+slot_building_center_types              = slot_building_cost_resources_end + 1
+slot_building_required_building         = slot_building_center_types + 1
 
 slot_building_presentation_card = slot_building_required_building + 1
 slot_building_presentation_button = slot_building_presentation_card + 1
@@ -669,9 +669,9 @@ agent_slots = 0
 
 slot_agent_new_division = 1
 
-slot_agent_is_in_scripted_mode	= 2
-slot_agent_target_entry_point	= 3
-slot_agent_is_reinforcement	= 4
+slot_agent_is_in_scripted_mode  = 2
+slot_agent_target_entry_point   = 3
+slot_agent_is_reinforcement = 4
 
 slot_agent_charge = 5
 
@@ -693,42 +693,42 @@ slot_agent_morale_modifier = 12 # Used to keep track of current morale
 
 faction_slots = 0
 
-slot_faction_banner	= 1
+slot_faction_banner = 1
 
-slot_faction_troop_ratio_infantry			= 2
-slot_faction_troop_ratio_spearman			= 3
-slot_faction_troop_ratio_pikeman			= 4
-slot_faction_troop_ratio_skirmisher			= 5
-slot_faction_troop_ratio_shock_infantry		= 6
-slot_faction_troop_ratio_archer				= 7
-slot_faction_troop_ratio_crossbow			= 8
-slot_faction_troop_ratio_cavalry			= 9
-slot_faction_troop_ratio_lancer				= 10
-slot_faction_troop_ratio_horse_archer		= 11
-slot_faction_troop_ratio_mounted_skirmisher	= 12
+slot_faction_troop_ratio_infantry           = 2
+slot_faction_troop_ratio_spearman           = 3
+slot_faction_troop_ratio_pikeman            = 4
+slot_faction_troop_ratio_skirmisher         = 5
+slot_faction_troop_ratio_shock_infantry     = 6
+slot_faction_troop_ratio_archer             = 7
+slot_faction_troop_ratio_crossbow           = 8
+slot_faction_troop_ratio_cavalry            = 9
+slot_faction_troop_ratio_lancer             = 10
+slot_faction_troop_ratio_horse_archer       = 11
+slot_faction_troop_ratio_mounted_skirmisher = 12
 
 # Culture Master Begin
-slot_faction_template_troops_begin	= 13
+slot_faction_template_troops_begin  = 13
 
-slot_faction_names_begin			= 14
-slot_faction_names_end				= 15
+slot_faction_names_begin            = 14
+slot_faction_names_end              = 15
 
-slot_faction_lord_name_begin		= 16
-slot_faction_lady_name_begin		= 17
+slot_faction_lord_name_begin        = 16
+slot_faction_lady_name_begin        = 17
 
-slot_faction_troops_begin			= 18
-slot_faction_troops_end				= 19
+slot_faction_troops_begin           = 18
+slot_faction_troops_end             = 19
 
-# slot_faction_base_reinforcements	= 13
+# slot_faction_base_reinforcements  = 13
 
-slot_faction_peasant_begin			= slot_faction_troops_begin
-slot_faction_common_begin			= 20
-slot_faction_veteran_begin			= 21
-slot_faction_elite_begin			= 22
-slot_faction_noble_begin			= 23
+slot_faction_peasant_begin          = slot_faction_troops_begin
+slot_faction_common_begin           = 20
+slot_faction_veteran_begin          = 21
+slot_faction_elite_begin            = 22
+slot_faction_noble_begin            = 23
 
-slot_faction_caravan_master			= 24
-slot_faction_caravan_guard			= 25
+slot_faction_caravan_master         = 24
+slot_faction_caravan_guard          = 25
 
 # slot_faction_peasant_template_begin = 24
 # slot_faction_common_template_begin = 25
@@ -738,8 +738,8 @@ slot_faction_caravan_guard			= 25
 # slot_faction_templates_end = 29
 # Culture Master End
 
-slot_faction_leader					= 30
-slot_faction_marshall				= 31
+slot_faction_leader                 = 30
+slot_faction_marshall               = 31
 
 slot_faction_peasant_num_tries = 32
 slot_faction_common_num_tries = 33
@@ -767,8 +767,8 @@ slot_faction_master_culture = slot_faction_lord_gathering + 1
 
 # slot_faction_troop_ratio_begin = slot_faction_troop_ratio_infantry
 
-slot_faction_era = slot_faction_master_culture + 1	# Current era the faction is at
-slot_faction_era_time = slot_faction_era + 1		# Time at which the faction has attained this era
+slot_faction_era = slot_faction_master_culture + 1  # Current era the faction is at
+slot_faction_era_time = slot_faction_era + 1        # Time at which the faction has attained this era
 
 slot_faction_num_vassals = slot_faction_era_time + 1
 slot_faction_num_vassals_active = slot_faction_num_vassals + 1
@@ -892,8 +892,8 @@ sfkt_economic_treaty_clear = 0xFF0F
 sfkt_tribute = 0x0100
 
 # Vassal treaties
-sfkt_vassal = 0x1000 	# represents being a vassal of targeted faction
-sfkt_overlord = 0x2000 	# represents being the overlord of targeted faction
+sfkt_vassal = 0x1000    # represents being a vassal of targeted faction
+sfkt_overlord = 0x2000  # represents being the overlord of targeted faction
 
 sfkt_vassal_treaty_clear = 0x00FF
 sfkt_tribute_treaty_clear = 0xF0FF
@@ -904,8 +904,8 @@ sfkt_defensive_mask = sfkt_defensive_alliance|sfkt_alliance|sfkt_vassal|sfkt_ove
 
 # For reference distance between:
 #   Suno - Burglen: 30
-#	Sargoth - Praven: 95
-# 	Shariz - Praven: 174
+#   Sargoth - Praven: 95
+#   Shariz - Praven: 174
 slot_faction_kingdom_distance_begin = slot_faction_kingdom_temporary_treaties_object_end
 slot_faction_kingdom_distance_end = slot_faction_kingdom_distance_begin - kingdoms_begin + kingdoms_end
 
@@ -1001,39 +1001,39 @@ slot_war_clear_slots_end = slot_war_peace_proposal_type_end
 
 party_slots = 0
 
-slot_party_type				= 1
+slot_party_type             = 1
 
-spt_civilian	= 5
-spt_bandit		= 6
-spt_caravan		= 7
-spt_patrol		= 8
-spt_scout		= 9
-spt_convoy		= 10
-spt_war_party	= 11
+spt_civilian    = 5
+spt_bandit      = 6
+spt_caravan     = 7
+spt_patrol      = 8
+spt_scout       = 9
+spt_convoy      = 10
+spt_war_party   = 11
 
-spt_village		= 12
-spt_castle		= 13
-spt_town		= 14
-spt_fort		= 15
+spt_village     = 12
+spt_castle      = 13
+spt_town        = 14
+spt_fort        = 15
 
-slot_party_leader			= 2
-slot_party_lord				= slot_party_leader
+slot_party_leader           = 2
+slot_party_lord             = slot_party_leader
 
-slot_party_weather_wet 		= 3
-slot_party_weather_heat		= 4
+slot_party_weather_wet      = 3
+slot_party_weather_heat     = 4
 
-slot_party_mission 			= 5
-spm_colonise	= 1
-spm_courier		= 2
-spm_trade		= 3
-spm_gather		= 4
-spm_reinforce	= 5
-spm_waiting		= 6
+slot_party_mission          = 5
+spm_colonise    = 1
+spm_courier     = 2
+spm_trade       = 3
+spm_gather      = 4
+spm_reinforce   = 5
+spm_waiting     = 6
 
-slot_party_mission_object	= 6
+slot_party_mission_object   = 6
 
-slot_party_wealth 			= 7
-slot_party_population 		= 8   # Does not include slave population
+slot_party_wealth           = 7
+slot_party_population       = 8   # Does not include slave population
 slot_party_population_noble = 9
 slot_party_population_artisan = 10
 slot_party_population_slave = 11
@@ -1041,7 +1041,7 @@ slot_party_population_slave = 11
 population_max_town = 34000
 population_max_castle = 8500
 population_max_village = 12000
-slot_party_population_max 	= 12
+slot_party_population_max   = 12
 
 population_growth_castle_noble = 8
 population_growth_castle_artisan = 24
@@ -1108,12 +1108,12 @@ slot_party_faction = 127
 # Having a good balance on taxes will yeild the best results
 # Having low taxes will be generaly liked by the population but may not offset the loss in money
 # Abrupt changes in taxes may greatly change the mood of the population, keep changes low if you want the population under control (unless when decreasing taxes)
-slot_party_taxes_sell		= 128 # Taxes paid upon buying inside the center
-slot_party_taxes_buy		= 129 # Taxes paid upon selling inside the center
-slot_party_taxes_property	= 130 # Taxes paid on owning property
-slot_party_taxes_fixed		= 131 # Fixed taxes paid by everyone
-slot_party_taxes_wealth		= 132 # Taxes paid upon earning money inside the city (also applied to buying and selling)
-slot_party_taxes_visit		= 133 # Taxes paid upon entering the city (not paid by residents)
+slot_party_taxes_sell       = 128 # Taxes paid upon buying inside the center
+slot_party_taxes_buy        = 129 # Taxes paid upon selling inside the center
+slot_party_taxes_property   = 130 # Taxes paid on owning property
+slot_party_taxes_fixed      = 131 # Fixed taxes paid by everyone
+slot_party_taxes_wealth     = 132 # Taxes paid upon earning money inside the city (also applied to buying and selling)
+slot_party_taxes_visit      = 133 # Taxes paid upon entering the city (not paid by residents)
 
 default_fixed_tax_rate_village = 25
 default_fixed_tax_rate_castle = 40
@@ -1130,15 +1130,15 @@ default_sell_tax_rate_town = 12
 slot_party_speak_allowed = 134
 
 slot_party_notes = 135
-pn_unknown	= 0x00
+pn_unknown  = 0x00
 pn_know_faction = 0x01
 pn_know_original= 0x02
-pn_know_lord	= 0x04
-pn_know_linked	= 0x08
-pn_know_wealth	= 0x10
+pn_know_lord    = 0x04
+pn_know_linked  = 0x08
+pn_know_wealth  = 0x10
 pn_know_population = 0x20
-pn_know_tax		= 0x40
-pn_know_slaves	= 0x80
+pn_know_tax     = 0x40
+pn_know_slaves  = 0x80
 # pn_know_
 
 slot_party_morale = 136
@@ -1157,11 +1157,11 @@ slot_party_prepared_for_war = 143
 
 slot_party_process_mission_iteration = 144
 
-# slot_party_num_peasants		= 146
-# slot_party_num_caravans		= 147
-# slot_party_num_patrols		= 148
-# slot_party_num_scouts		= 149
-# slot_party_num_others 		= 150 # Contains every other non fighting party
+# slot_party_num_peasants       = 146
+# slot_party_num_caravans       = 147
+# slot_party_num_patrols        = 148
+# slot_party_num_scouts     = 149
+# slot_party_num_others         = 150 # Contains every other non fighting party
 
 
 slot_party_recent_casualties_loot = 151 # Contains gold looted during simulated battle
@@ -1289,13 +1289,13 @@ autosort_culture_clearer = 0x0F
 slot_party_reserved = slot_party_autosort_options + 1
 
 # For centers
-slot_party_item_consumed_begin 	= slot_party_reserved + 1 # Number of items consumed
-slot_party_item_consumed_end	= slot_party_item_consumed_begin + goods_end - goods_begin
-slot_party_item_last_produced_begin 	= slot_party_item_consumed_end # Number of items produced
-slot_party_item_last_produced_end	= slot_party_item_last_produced_begin + goods_end - goods_begin
+slot_party_item_consumed_begin  = slot_party_reserved + 1 # Number of items consumed
+slot_party_item_consumed_end    = slot_party_item_consumed_begin + goods_end - goods_begin
+slot_party_item_last_produced_begin     = slot_party_item_consumed_end # Number of items produced
+slot_party_item_last_produced_end   = slot_party_item_last_produced_begin + goods_end - goods_begin
 # For parties (caravans)
-slot_party_item_stored_price_begin 	= slot_party_item_consumed_begin
-slot_party_item_stored_price_end 	= slot_party_item_consumed_end
+slot_party_item_stored_price_begin  = slot_party_item_consumed_begin
+slot_party_item_stored_price_end    = slot_party_item_consumed_end
 
 slot_party_production_target_begin = slot_party_item_last_produced_end + 1
 slot_party_production_target_end = slot_party_production_target_begin + recipes_end - recipes_begin
@@ -1415,6 +1415,8 @@ slot_party_elder_last_met = slot_party_fame + 1
 
 slot_party_free_recruits = slot_party_elder_last_met + 1
 
+slot_party_related_quest = slot_party_free_recruits + 1
+
 #################
 ## Scene Slots ##
 #################
@@ -1441,16 +1443,16 @@ slot_scene_enabled = 4
 
 troop_slots = 0
 
-slot_troop_temp_slot				= 0
-slot_troop_temp_hire_number			= slot_troop_temp_slot
+slot_troop_temp_slot                = 0
+slot_troop_temp_hire_number         = slot_troop_temp_slot
 
 
 # ONLY trp_temp_troop
-slot_troop_temp_array_begin			= 1
+slot_troop_temp_array_begin         = 1
 
 # ONLY merchants
-slot_troop_merchant_center			= 1
-slot_troop_merchant_type			= slot_troop_merchant_center + 1
+slot_troop_merchant_center          = 1
+slot_troop_merchant_type            = slot_troop_merchant_center + 1
 
 merchant_type_goods = 1
 merchant_type_armor = 2
@@ -1458,30 +1460,30 @@ merchant_type_weapon = 3
 merchant_type_horse = 4
 
 # Regular troops
-slot_troop_banner_scene_prop		= 1
+slot_troop_banner_scene_prop        = 1
 
-slot_troop_type						= slot_troop_banner_scene_prop + 1
-tt_infantry				= 1
-tt_spearman				= 2
-tt_pikeman				= 3
-tt_skirmisher			= 4
-tt_shock_infantry		= 5
-tt_archer				= 6
-tt_crossbow				= 7
-tt_cavalry				= 8
-tt_lancer				= 9
-tt_horse_archer			= 10
-tt_mounted_skirmisher	= 11
+slot_troop_type                     = slot_troop_banner_scene_prop + 1
+tt_infantry             = 1
+tt_spearman             = 2
+tt_pikeman              = 3
+tt_skirmisher           = 4
+tt_shock_infantry       = 5
+tt_archer               = 6
+tt_crossbow             = 7
+tt_cavalry              = 8
+tt_lancer               = 9
+tt_horse_archer         = 10
+tt_mounted_skirmisher   = 11
 
-slot_troop_quality					= slot_troop_type + 1
-tq_peasant		= 0
-tq_common		= 1
-tq_veteran		= 2
-tq_elite		= 3
-tq_noble		= 4
+slot_troop_quality                  = slot_troop_type + 1
+tq_peasant      = 0
+tq_common       = 1
+tq_veteran      = 2
+tq_elite        = 3
+tq_noble        = 4
 
 
-slot_troop_lord_equipement 			= slot_troop_quality + 1
+slot_troop_lord_equipement          = slot_troop_quality + 1
 tle_none = 0
 tle_light_bow = 1
 tle_heavy_bow = 2
@@ -1490,23 +1492,23 @@ tle_heavy_crossbow = 4
 tle_throwing = 5
 tle_polearm = 6
 
-slot_troop_lord_horse 				= slot_troop_lord_equipement + 1
+slot_troop_lord_horse               = slot_troop_lord_equipement + 1
 
-slot_troop_original_faction 		= slot_troop_lord_horse + 1
+slot_troop_original_faction         = slot_troop_lord_horse + 1
 
 # Real rank is based on the number of fiefs a lord holds
 # Current rank slowly changes to match real rank
-slot_troop_rank 					= slot_troop_original_faction + 1 # real rank
-slot_troop_level					= slot_troop_rank + 1 # current rank
-slot_troop_equipement_level			= slot_troop_level + 1 # current rank
+slot_troop_rank                     = slot_troop_original_faction + 1 # real rank
+slot_troop_level                    = slot_troop_rank + 1 # current rank
+slot_troop_equipement_level         = slot_troop_level + 1 # current rank
 
-slot_troop_mercenary_captain_1		= slot_troop_level						# Only troops
-slot_troop_mercenary_captain_2		= slot_troop_mercenary_captain_1 + 1	# Only troops
+slot_troop_mercenary_captain_1      = slot_troop_level                      # Only troops
+slot_troop_mercenary_captain_2      = slot_troop_mercenary_captain_1 + 1    # Only troops
 
-slot_troop_kingdom_occupation 		= slot_troop_equipement_level + 1
-tko_dead = -1 	# Dead people are not the same as not living ones
-				# Dead people are still shown in character notes
-				# And can be mentionned in conversations
+slot_troop_kingdom_occupation       = slot_troop_equipement_level + 1
+tko_dead = -1   # Dead people are not the same as not living ones
+                # Dead people are still shown in character notes
+                # And can be mentionned in conversations
 tko_none = 0
 tko_kingdom_hero = 1
 tko_mercenary = 2
@@ -1514,7 +1516,7 @@ tko_bandit = 3
 tko_reserved = 4
 tko_reserved_quest = 5
 
-slot_troop_personality 				= slot_troop_kingdom_occupation + 1
+slot_troop_personality              = slot_troop_kingdom_occupation + 1
 tp_default = 0x0000
 
 tp_mercyfull = 0x0001
@@ -1531,46 +1533,46 @@ tp_renega = 0x0080 # ToDO
 
 # tp_
 
-slot_troop_leaded_party				= slot_troop_personality + 1
-slot_troop_garrisoned 				= slot_troop_leaded_party + 1
+slot_troop_leaded_party             = slot_troop_personality + 1
+slot_troop_garrisoned               = slot_troop_leaded_party + 1
 
-slot_troop_building_one 			= slot_troop_garrisoned + 1
-slot_troop_building_end				= slot_troop_building_one + 1
+slot_troop_building_one             = slot_troop_garrisoned + 1
+slot_troop_building_end             = slot_troop_building_one + 1
 
-slot_troop_days_next_rethink		= slot_troop_building_end + 1
+slot_troop_days_next_rethink        = slot_troop_building_end + 1
 
-slot_troop_num_vassal				= slot_troop_days_next_rethink + 1
-slot_troop_vassal_of				= slot_troop_num_vassal + 1
+slot_troop_num_vassal               = slot_troop_days_next_rethink + 1
+slot_troop_vassal_of                = slot_troop_num_vassal + 1
 
-slot_troop_home						= slot_troop_vassal_of + 1
-slot_troop_current_home				= slot_troop_home + 1
+slot_troop_home                     = slot_troop_vassal_of + 1
+slot_troop_current_home             = slot_troop_home + 1
 
-slot_troop_mission 					= slot_troop_current_home + 1
-tm_none					= 0
-tm_defending			= 1
-tm_attacking			= 2
-tm_escorting			= 3
+slot_troop_mission                  = slot_troop_current_home + 1
+tm_none                 = 0
+tm_defending            = 1
+tm_attacking            = 2
+tm_escorting            = 3
 
-slot_troop_mission_object			= slot_troop_mission + 1
+slot_troop_mission_object           = slot_troop_mission + 1
 
-slot_troop_behavior_object 			= slot_troop_mission_object + 1
-slot_troop_behavior 				= slot_troop_behavior_object + 1
-tb_none 				= 0
-tb_move 				= 1
-tb_follow 				= 2
-tb_patrol				= 3
+slot_troop_behavior_object          = slot_troop_mission_object + 1
+slot_troop_behavior                 = slot_troop_behavior_object + 1
+tb_none                 = 0
+tb_move                 = 1
+tb_follow               = 2
+tb_patrol               = 3
 
-slot_troop_prisoner_of				= slot_troop_behavior + 1 # Only heroes
+slot_troop_prisoner_of              = slot_troop_behavior + 1 # Only heroes
 
-slot_troop_faction_reserved_1		= slot_troop_prisoner_of # Only regulars
-slot_troop_faction_reserved_2		= slot_troop_faction_reserved_1 + 1 # Only regulars
-slot_troop_faction_not_1			= slot_troop_faction_reserved_2 + 1
-slot_troop_faction_not_2			= slot_troop_faction_not_1 + 1
-slot_troop_faction_not_3			= slot_troop_faction_not_2 + 1
+slot_troop_faction_reserved_1       = slot_troop_prisoner_of # Only regulars
+slot_troop_faction_reserved_2       = slot_troop_faction_reserved_1 + 1 # Only regulars
+slot_troop_faction_not_1            = slot_troop_faction_reserved_2 + 1
+slot_troop_faction_not_2            = slot_troop_faction_not_1 + 1
+slot_troop_faction_not_3            = slot_troop_faction_not_2 + 1
 
-slot_troop_armor_weight 			= slot_troop_faction_not_3 + 1
-slot_troop_horse_weight 			= slot_troop_armor_weight + 1
-slot_troop_ranged_weapon_weight 	= slot_troop_horse_weight + 1
+slot_troop_armor_weight             = slot_troop_faction_not_3 + 1
+slot_troop_horse_weight             = slot_troop_armor_weight + 1
+slot_troop_ranged_weapon_weight     = slot_troop_horse_weight + 1
 
 weight_very_light = 0
 weight_light = 1
@@ -1578,51 +1580,51 @@ weight_medium = 2
 weight_heavy = 3
 weight_very_heavy = 4
 
-slot_troop_surplus_center			= 33
+slot_troop_surplus_center           = 33
 
-slot_troop_gathering				= 34
+slot_troop_gathering                = 34
 
-slot_troop_last_attack				= 35
-slot_troop_last_rest				= 36
+slot_troop_last_attack              = 35
+slot_troop_last_rest                = 36
 
-slot_troop_archer_score				= 37
+slot_troop_archer_score             = 37
 
-slot_troop_mercenary_from			= 38
-slot_troop_mercenary_captain 		= 39
+slot_troop_mercenary_from           = 38
+slot_troop_mercenary_captain        = 39
 
 # Handles notes
-slot_troop_notes					= 40
+slot_troop_notes                    = 40
 
 # ToDo: add different note level
-tn_unknown 					= 0x000
-tn_know_main_fief			= 0x001
-tn_know_fiefs				= 0x002
-tn_know_faction				= 0x004
-tn_know_faction_rank		= 0x008
-tn_know_clan 				= 0x010
-tn_know_personality 		= 0x080
-tn_know_face   				= 0x100
-tn_know_vassals				= 0x200 # Vassal relations
-tn_know_lord				= 0x400 # Is a vassal of
-tn_know_name				= 0x800
+tn_unknown                  = 0x000
+tn_know_main_fief           = 0x001
+tn_know_fiefs               = 0x002
+tn_know_faction             = 0x004
+tn_know_faction_rank        = 0x008
+tn_know_clan                = 0x010
+tn_know_personality         = 0x080
+tn_know_face                = 0x100
+tn_know_vassals             = 0x200 # Vassal relations
+tn_know_lord                = 0x400 # Is a vassal of
+tn_know_name                = 0x800
 
 tn_know_all = 0xFFF
 
-slot_troop_married_to 			= 41
-slot_troop_father				= 42
-slot_troop_mother 				= 43
-slot_troop_child_1 				= 44
-slot_troop_child_2 				= 45
-slot_troop_child_3 				= 46
-slot_troop_child_4 				= 47
-slot_troop_child_5 				= 48
-slot_troop_child_6				= 49
-slot_troop_child_7				= 50
-slot_troop_child_8				= 51
-slot_troop_child_9				= 52
-slot_troop_child_10				= 53
+slot_troop_married_to           = 41
+slot_troop_father               = 42
+slot_troop_mother               = 43
+slot_troop_child_1              = 44
+slot_troop_child_2              = 45
+slot_troop_child_3              = 46
+slot_troop_child_4              = 47
+slot_troop_child_5              = 48
+slot_troop_child_6              = 49
+slot_troop_child_7              = 50
+slot_troop_child_8              = 51
+slot_troop_child_9              = 52
+slot_troop_child_10             = 53
 
-slot_troop_clan				= 54
+slot_troop_clan             = 54
 
 slot_troop_died = 55 # Contains the date of death of an NPC
 
@@ -1705,31 +1707,31 @@ player_slots = 0
 
 team_slots = 0
 
-slot_team_test_faction		= 1
-slot_team_test_strength		= 2
-slot_team_test_spawn_point	= 3
+slot_team_test_faction      = 1
+slot_team_test_strength     = 2
+slot_team_test_spawn_point  = 3
 
-slot_team_formation			= 4
-stf_default 			= 0 # inf: 1, 			archer: 2, 			cav: 3
-stf_shieldwall 			= 1 # inf shield: 1, 	archer: 2, 			cav: 3, rest: 4
-stf_mounted_skirmisher 	= 3 # inf: 1, 			archer: 2, 			cav: 3, harcher: 4
-stf_skirmisher 			= 4 # inf: 1, 			archer+throw: 2, 	cav: 3
-stf_thrower 			= 5 # inf: 1, 			archer: 2, 			cav: 3, thrower: 4
-stf_lance 				= 6 # inf: 1, 			archer: 2, 			cav: 3, lancer: 4
-stf_pikewall 			= 7 # inf: 1, 			archer: 2, 			cav: 3, pike+spear: 4
-stf_archers 			= 8 # inf: 1, 			archer: 2, 			cav: 3, thrower: 4
-stf_siege				= 9 # archer+throw: 1
-stf_siege_no_throw		= 10 # archer: 1
+slot_team_formation         = 4
+stf_default             = 0 # inf: 1,           archer: 2,          cav: 3
+stf_shieldwall          = 1 # inf shield: 1,    archer: 2,          cav: 3, rest: 4
+stf_mounted_skirmisher  = 3 # inf: 1,           archer: 2,          cav: 3, harcher: 4
+stf_skirmisher          = 4 # inf: 1,           archer+throw: 2,    cav: 3
+stf_thrower             = 5 # inf: 1,           archer: 2,          cav: 3, thrower: 4
+stf_lance               = 6 # inf: 1,           archer: 2,          cav: 3, lancer: 4
+stf_pikewall            = 7 # inf: 1,           archer: 2,          cav: 3, pike+spear: 4
+stf_archers             = 8 # inf: 1,           archer: 2,          cav: 3, thrower: 4
+stf_siege               = 9 # archer+throw: 1
+stf_siege_no_throw      = 10 # archer: 1
 
 
-slot_team_tactic			= 5
+slot_team_tactic            = 5
 stt_default = 0
 stt_shieldwall = 1
 stt_defend = 2
 stt_short_engage = 3
 stt_defend_skirmish = 4
 
-slot_team_battle_phase		= 6
+slot_team_battle_phase      = 6
 stbp_deploy = 1
 stbp_advance = 2
 stbp_engage = 3
@@ -1740,14 +1742,14 @@ stbp_combat = 6
 stbp_siege_one = 1
 stbp_siege_two = 2
 
-slot_team_harcher_division	= 7
-slot_team_horse_division	= 8
-slot_team_throw_division	= 9
-slot_team_archer_division	= 10
-slot_team_shield_division	= 11
-slot_team_rest_division		= 12
-slot_team_pike_division		= 13
-slot_team_lance_division	= 14
+slot_team_harcher_division  = 7
+slot_team_horse_division    = 8
+slot_team_throw_division    = 9
+slot_team_archer_division   = 10
+slot_team_shield_division   = 11
+slot_team_rest_division     = 12
+slot_team_pike_division     = 13
+slot_team_lance_division    = 14
 
 slot_team_division_1_number = 15
 slot_team_division_2_number = 16
@@ -1759,17 +1761,17 @@ slot_team_division_7_number = 21
 slot_team_division_8_number = 22
 slot_team_division_9_number = 23
 
-slot_team_num_division		= 24
+slot_team_num_division      = 24
 
-slot_team_division_1_type 	= 25
-slot_team_division_2_type 	= 26
-slot_team_division_3_type 	= 27
-slot_team_division_4_type 	= 28
-slot_team_division_5_type 	= 29
-slot_team_division_6_type 	= 30
-slot_team_division_7_type 	= 31
-slot_team_division_8_type 	= 32
-slot_team_division_9_type 	= 33
+slot_team_division_1_type   = 25
+slot_team_division_2_type   = 26
+slot_team_division_3_type   = 27
+slot_team_division_4_type   = 28
+slot_team_division_5_type   = 29
+slot_team_division_6_type   = 30
+slot_team_division_7_type   = 31
+slot_team_division_8_type   = 32
+slot_team_division_9_type   = 33
 stdt_shield = 1
 stdt_infantry = 2
 stdt_heavy_infantry = 3
