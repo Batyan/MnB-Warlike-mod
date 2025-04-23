@@ -42,6 +42,7 @@ v0.610:
 		* fix using not implemented formations during battle
 		* rename the raise levy option to "Train levies" for consistency
 		* prevent lord npc from becoming a vassal of their own vassal
+		* fix player unable to train levies if having exactly the amount of money needed to pay
 v0.600:
 	-Features:
 		* init starting world with lords

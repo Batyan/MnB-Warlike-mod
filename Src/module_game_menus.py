@@ -2066,7 +2066,7 @@ game_menus = [
                         # (store_mul, ":total_cost", "$g_num_levies", train_levies_cost),
                         (assign, ":total_cost", reg11),
                         (try_begin),
-                            (gt, ":total_gold", ":total_cost"),
+                            (ge, ":total_gold", ":total_cost"),
 
                             (distribute_party_among_party_group, "p_temp_party", "$g_player_party"),
                             (troop_remove_gold, "$g_player_troop", ":total_cost"),
