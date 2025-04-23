@@ -42,6 +42,7 @@ party_templates = [
 	("convoy", "Convoy", icon_mule|carries_goods(20), 0, fac_commoners, convoy_personality, []),
 	
 	("outlaws", "Bandits", icon_axeman|carries_goods(30), 0, fac_commoners, bandit_personality, []),
+	("thugs", "Thugs", icon_axeman|carries_goods(30), 0, fac_commoners, bandit_personality, []),
 	("templates_end", "end", 0, 0, 0, 0, [ ]),
 
 

@@ -1818,7 +1818,9 @@ slot_quest_value = slot_quest_object + 1
 
 slot_quest_destination = slot_quest_value + 1
 
-slot_quest_note_index = slot_quest_destination + 1
+slot_quest_given_on = slot_quest_destination + 1
+
+slot_quest_note_index = slot_quest_given_on + 1
 
 last_generic_quest_slot = slot_quest_note_index + 1
 

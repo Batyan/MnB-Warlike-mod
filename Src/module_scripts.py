@@ -18062,10 +18062,11 @@ scripts = [
                 (faction_get_slot, ":own_strength", ":faction_no", slot_faction_strength_defensive_allies),
                 (faction_get_slot, ":target_strength", ":treaty_target", slot_faction_strength_offensive_allies),
 
-                (store_div, ":min_strength", ":target_strength", 5),
+                (store_div, ":min_strength", ":target_strength", 6),
 
                 (call_script, "script_faction_get_relation_with_faction", ":faction_no", ":treaty_target"),
-                (store_mul, ":relation_bonus", reg0, 100),
+                (store_mul, ":relation_bonus", reg0, ":own_strength"),
+                (val_div, ":relation_bonus", 5),
                 (store_sub, ":total_strength", ":own_strength", ":relation_bonus"),
 
                 (call_script, "script_faction_get_distance_from_faction", ":faction_no", ":treaty_target"),
@@ -24890,26 +24891,20 @@ scripts = [
             (try_end),
         ]),
 
-    # script_start_quest
+    # script_setup_quest_text
         # input:
         #   arg1: quest_no
-        #   arg2: giver_troop_no
         # output: none
-    ("start_quest",
+    ("setup_quest_text",
         [
             (store_script_param, ":quest_no", 1),
-            (store_script_param, ":giver_troop_no", 2),
 
-            (try_for_range, ":slot", last_generic_quest_slot, last_quest_slot),
-                (quest_set_slot, ":quest_no", ":slot", -1),
-            (try_end),
-
-            (quest_set_slot, ":quest_no", slot_quest_giver_troop, ":giver_troop_no"),
             (quest_get_slot, ":quest_description_index", ":quest_no", slot_quest_description),
             (quest_get_slot, ":quest_object", ":quest_no", slot_quest_object),
             (quest_get_slot, ":quest_destination", ":quest_no", slot_quest_destination),
 
-            (quest_set_slot, ":quest_no", slot_quest_note_index, 3),
+            (quest_get_slot, ":giver_troop_no", ":quest_no", slot_quest_giver_troop),
+            (quest_get_slot, ":given_on", ":quest_no", slot_quest_given_on),
 
             (try_begin),
                 (eq, ":giver_troop_no", -1),
@@ -24924,14 +24919,15 @@ scripts = [
                 (str_store_troop_name, s58, ":giver_troop_no"),
                 (str_store_string, s63, "@Given by: {s62}"),
             (try_end),
-            (store_current_hours, ":cur_hours"),
-            (str_store_date, s60, ":cur_hours"),
+            (str_store_date, s60, ":given_on"),
             (str_store_string, s60, "@Given on: {s60}"),
 
             (try_begin),
                 (gt, ":quest_destination", "p_prisoners_party"),
                 (str_store_party_name_link, s59, ":quest_destination"),
             (try_end),
+            
+            (assign, reg60, ":quest_object"),
 
             (try_begin),
                 (gt, ":quest_description_index", 0),
@@ -24949,11 +24945,42 @@ scripts = [
             (add_quest_note_from_sreg, ":quest_no", 1, s63, 0),
             (add_quest_note_from_sreg, ":quest_no", 2, s61, 0),
 
+            (assign, ":index", 3),
+            (try_begin),
+                (check_quest_succeeded, ":quest_no"),
+                (str_store_string, s56, "@Quest completed"),
+                (add_quest_note_from_sreg, ":quest_no", 3, s56, 0),
+            (try_end),
+            (quest_set_slot, ":quest_no", slot_quest_note_index, ":index"),
+
             (try_begin),
                 (quest_slot_ge, ":quest_no", slot_quest_expiration_days, 1),
                 (quest_get_slot, reg0, ":quest_no", slot_quest_expiration_days),
                 (add_quest_note_from_sreg, ":quest_no", 15, "@You have {reg0} days to finish this quest.", 0),
             (try_end),
+
+            (setup_quest_text, ":quest_no"),
+        ]),
+
+    # script_start_quest
+        # input:
+        #   arg1: quest_no
+        #   arg2: giver_troop_no
+        # output: none
+    ("start_quest",
+        [
+            (store_script_param, ":quest_no", 1),
+            (store_script_param, ":giver_troop_no", 2),
+
+            (try_for_range, ":slot", last_generic_quest_slot, last_quest_slot),
+                (quest_set_slot, ":quest_no", ":slot", -1),
+            (try_end),
+
+            (quest_set_slot, ":quest_no", slot_quest_giver_troop, ":giver_troop_no"),
+            (store_current_hours, ":cur_hours"),
+            (quest_set_slot, ":quest_no", slot_quest_given_on, ":cur_hours"),
+
+            (call_script, "script_setup_quest_text", ":quest_no"),
 
             # Adding dont_give_again_for_days value
             (try_begin),
@@ -24961,9 +24988,7 @@ scripts = [
                 (quest_get_slot, ":dont_give_again_period", ":quest_no", slot_quest_dont_give_again_period),
                 (quest_set_slot, ":quest_no", slot_quest_dont_give_again_remaining_days, ":dont_give_again_period"),
             (try_end),
-            (assign, reg60, ":quest_object"),
             
-            (setup_quest_text, ":quest_no"),
             (start_quest, ":quest_no", ":giver_troop_no"),
         ]),
 
@@ -24974,6 +24999,8 @@ scripts = [
         [
             (store_script_param, ":quest_no", 1),
             (conclude_quest, ":quest_no"),
+
+            (call_script, "script_setup_quest_text", ":quest_no"),
         ]),
 
     # script_succeed_quest
@@ -25026,10 +25053,16 @@ scripts = [
             (try_begin),
                 (is_between, ":note_index", 3, 15),
 
-                (add_quest_note_from_sreg, ":quest_no", ":note_index", "@Update: {s0}", ":time_restriction"),
+                (call_script, "script_get_current_day"),
+                (assign, ":cur_hours", reg0),
+                (call_script, "script_game_get_date_text", -1, ":cur_hours"),
+                (add_quest_note_from_sreg, ":quest_no", ":note_index", "@[{s1}] {s0}", ":time_restriction"),
 
                 (val_add, ":note_index", 1),
                 (quest_set_slot, ":quest_no", slot_quest_note_index, ":note_index"),
+
+                (str_store_quest_name_link, s10, ":quest_no"),
+                (display_message, "@Quest update: {s10}"),
             (else_try),
                 (str_store_quest_name, s10, ":quest_no"),
                 (display_log_message, "@[Error]: too many notes for quest {s10}"),
@@ -29218,6 +29251,7 @@ scripts = [
         #   reg0: village_1
         #   reg1: village_2
         #   reg2: village_3
+        #   reg3: destination_city
     ("intro_quest_get_search_villages",
         [
             (try_begin),
@@ -29225,31 +29259,43 @@ scripts = [
                 (assign, reg0, "p_village_111"),
                 (assign, reg1, "p_village_112"),
                 (assign, reg2, "p_village_113"),
+
+                (assign, reg3, "p_town_171"),
             (else_try),
                 (eq, "$g_start_game_intro_location", player_starting_7_vaegir),
                 (assign, reg0, "p_village_211"),
                 (assign, reg1, "p_village_212"),
                 (assign, reg2, "p_village_213"),
+
+                (assign, reg3, "p_town_251"),
             (else_try),
                 (eq, "$g_start_game_intro_location", player_starting_7_khergit),
                 (assign, reg0, "p_village_311"),
                 (assign, reg1, "p_village_312"),
                 (assign, reg2, "p_village_313"),
+
+                (assign, reg3, "p_town_331"),
             (else_try),
                 (eq, "$g_start_game_intro_location", player_starting_7_nord),
                 (assign, reg0, "p_village_411"),
                 (assign, reg1, "p_village_412"),
                 (assign, reg2, "p_village_413"),
+
+                (assign, reg3, "p_town_431"),
             (else_try),
                 (eq, "$g_start_game_intro_location", player_starting_7_rhodok),
                 (assign, reg0, "p_village_511"),
                 (assign, reg1, "p_village_512"),
                 (assign, reg2, "p_village_513"),
+
+                (assign, reg3, "p_town_541"),
             (else_try),
                 (eq, "$g_start_game_intro_location", player_starting_7_sarranid),
                 (assign, reg0, "p_village_611"),
                 (assign, reg1, "p_village_612"),
                 (assign, reg2, "p_village_613"),
+
+                (assign, reg3, "p_town_631"),
             (try_end),
         ]),
 
