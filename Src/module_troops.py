@@ -3713,7 +3713,7 @@ troops = [
   ["sarranid_mounted_skirmisher", "Sarranid Mounted Skirmisher", "Sarranid Mounted Skirmishers", tf_guarantee_trained_armor|tf_guarantee_ranged|tf_guarantee_shield|tf_guarantee_horseman, no_scene, reserved, fac_small_kingdom_65,
    [itm_sarranid_cavalry_sword, itm_mace_4, itm_javelin, itm_javelin, itm_tab_shield_small_round_b,itm_tab_shield_small_round_b_plain_1,itm_tab_shield_small_round_b_plain_2,
     itm_sarranid_boots_b, itm_leather_gloves,
-    itm_sarranid_leather_armor,
+    itm_sarranid_cavalry_robe,
     itm_desert_turban, itm_sarranid_warrior_cap,
     itm_arabian_horse_b],
    str_12|agi_18|int_8|cha_9|level(24), wpex(95,90,90,45,20,125), knows_common|knows_ironflesh_2|knows_power_strike_4|knows_power_throw_3|knows_athletics_4|knows_riding_6|knows_horse_archery_6, sarranid_face_young_1, sarranid_face_old_2 ],
@@ -6010,8 +6010,10 @@ troops = [
   ["village_elder", "Village Elder", "Village Elder", tf_hero, no_scene, reserved, fac_commoners,
    [itm_coarse_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_common, man_face_young_1, man_face_old_2 ],
 
+  ["intro_quest_slaver", "Cerval Phinius", "Cerval Phinius", tf_hero, no_scene, reserved, fac_commoners,
+   [itm_red_shirt, itm_woolen_hose], def_attrib|level(4), wp(50), knows_lord_swadian_0|knows_persuasion_5|knows_trade_6|knows_prisoner_management_8|knows_leadership_3|knows_ironflesh_5, man_face_young_1, man_face_old_2 ],
+  
   # CLANS
-
   ["clan_storage_1", "Clan", "Clan", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners, [], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
   ["clan_storage_2", "Clan", "Clan", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners, [], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
   ["clan_storage_3", "Clan", "Clan", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners, [], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],

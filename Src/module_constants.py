@@ -1834,13 +1834,13 @@ slot_quest_proposition_end = slot_quest_proposition_begin + quest_persuade_vassa
 
 slot_quest_proposed_fief = slot_quest_proposition_end + 1
 
-# qst_introduction_default_search_2
+# qst_introduction_default_search_1 and qst_introduction_default_search_2
 
 slot_quest_asked_who = last_generic_quest_slot
 slot_quest_asked_state = slot_quest_asked_who + 1
 slot_quest_asked_destination = slot_quest_asked_state + 1
 
-last_quest_slot = max(100, slot_quest_proposed_fief + 1)
+last_quest_slot = max(100, slot_quest_proposed_fief + 1, slot_quest_asked_destination + 1)
 
 ##########################
 ## Party Template Slots ##

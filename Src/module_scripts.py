@@ -29371,6 +29371,9 @@ scripts = [
             (quest_set_slot, "qst_introduction_default", slot_quest_object, ":new_lord"),
             (quest_set_slot, "qst_introduction_default", slot_quest_value, ":new_lord_brother"),
 
+            # patience of thugs leader
+            (quest_set_slot, "qst_introduction_default_search_1", slot_quest_value, 5),
+
             (call_script, "script_clan_get_empty"),
             (assign, ":clan", reg0),
             (try_begin),
@@ -29412,6 +29415,24 @@ scripts = [
             (val_and, ":notes", ":knowledge"),
             (gt, ":notes", 0),
         ]),
+
+    # script_intro_quest_thugs_threaten
+        # input: none
+        # output:
+        #   reg0: threat_value
+        ("intro_quest_thugs_threaten",
+            [
+                (store_skill_level, ":intimidation", "$g_player_troop", skl_intimidation),
+                (party_get_num_companions, ":num_troops", "$g_player_party"),
+                (val_div, ":num_troops", 10),
+
+                (assign, ":base_value", -3),
+
+                (store_add, ":value", ":base_value", ":num_troops"),
+                (val_add, ":value", ":intimidation"),
+
+                (assign, reg0, ":value"),
+            ]),
 
     # script_presentation_generate_select_lord_card
         # input:

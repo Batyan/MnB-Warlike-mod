@@ -179,7 +179,7 @@ parties = [
 	("castle_5d","Maras Castle", icon_castle_a|pf_castle, 0, pt_none, fac_kingdom_5,0,ai_bhvr_hold,0,(-122.7, -18.4),[], 170),
 	("castle_5e","Ibdeles Castle", icon_castle_a|pf_castle, 0, pt_none, fac_kingdom_5,0,ai_bhvr_hold,0,(-88.6, -96.3),[], 170),
 	("castle_5f","Jarindi Castle", icon_castle_a|pf_castle, 0, pt_none, fac_kingdom_5,0,ai_bhvr_hold,0,(-86.9, -50.8),[], 170),
-	("castle_5g","Gibdas Castle", icon_castle_a|pf_castle, 0, pt_none, fac_kingdom_5,0,ai_bhvr_hold,0,(-107.6, -61.7),[], 170),
+	("castle_5g","Gibdas Castle", icon_castle_a|pf_castle, 0, pt_none, fac_kingdom_5,0,ai_bhvr_hold,0,(-116.6, -59.8),[], 170),
 	
 	("castle_51a","Vera Castle", icon_castle_a|pf_castle, 0, pt_none, fac_small_kingdom_51,0,ai_bhvr_hold,0,(-101.1, -19.4),[], 170),
 	("castle_51b","Ereth Castle", icon_castle_a|pf_castle, 0, pt_none, fac_small_kingdom_51,0,ai_bhvr_hold,0,(-83.0, -33.8),[], 170),
