@@ -186,8 +186,6 @@ items = [
      630,   hit_points(60)|body_armor(18)|difficulty(1)|horse_speed(39)|horse_maneuver(41)|horse_charge(128)|horse_scale(104),imodbits_horse_basic] ,
     ["pack_horse","Pack Horse", [("horse_c",0)],                  itp_merchandise|itp_type_horse, 0, 
      1130,  hit_points(65)|body_armor(14)|difficulty(2)|horse_speed(44)|horse_maneuver(43)|horse_charge(108)|horse_scale(101),imodbits_horse_basic, [], [fac_kingdom_1, fac_kingdom_5, fac_kingdom_2] ],
-    ["pack_horse_black","Pack Horse", [("horse_a",0)],             itp_merchandise|itp_type_horse, 0, 
-     1130,  hit_points(65)|body_armor(14)|difficulty(2)|horse_speed(44)|horse_maneuver(43)|horse_charge(108)|horse_scale(101),imodbits_horse_basic, [], [fac_kingdom_1, fac_kingdom_5, fac_kingdom_2] ],
     ["arabian_horse_b","Sarranid Horse", [("arabian_horse_b",0)], itp_merchandise|itp_type_horse, 0, 
      1740,  hit_points(70)|body_armor(12)|difficulty(3)|horse_speed(48)|horse_maneuver(49)|horse_charge(156)|horse_scale(101),imodbits_horse_basic|imodbit_champion, [], [fac_kingdom_6] ],
     ["hunter","Hunter", [("hunting_horse",0)],                    itp_merchandise|itp_type_horse, 0, 
