@@ -56,6 +56,14 @@ game_menus = [
                 [
                     (assign, "$g_test_player_troop", -1),
                     (call_script, "script_troop_change_stat_with_template", "$g_player_troop", "trp_current_player"),
+
+                    (assign, "$g_start_game_intro_culture", -1),
+                    (assign, "$g_start_game_intro_parents", -1),
+                    (assign, "$g_start_game_intro_childhood", -1),
+                    (assign, "$g_start_game_intro_aptitude", -1),
+                    (assign, "$g_start_game_intro_job", -1),
+                    (assign, "$g_start_game_intro_motivation", -1),
+                    (assign, "$g_start_game_intro_location", -1),
                     
                     (jump_to_menu, "mnu_start_game_1"),
                 ]),
@@ -71,27 +79,40 @@ game_menus = [
         "none",
         [
             (try_begin),
-                (eq, "$g_test_player_troop", -1),
+                (eq, "$g_start_game_intro_culture", -1),
+                (eq, "$g_start_game_intro_location", -1),
                 (str_store_string, s0, "@You are about to embark in an adventure in Calradia, but first what circumstances have led you to this point?"),
             (else_try),
                 (neg|is_between, "$g_test_player_faction", kingdoms_begin, kingdoms_end),
-                (str_store_string, s0, "@You are ready to embark on your adventure."),
+
+                (try_begin),
+                    (eq, "$g_start_game_intro_location", player_starting_7_swadia),
+                    (str_store_party_name, s10, "p_town_11"),
+                (else_try),
+                    (eq, "$g_start_game_intro_location", player_starting_7_vaegir),
+                    (str_store_party_name, s10, "p_town_21"),
+                (else_try),
+                    (eq, "$g_start_game_intro_location", player_starting_7_khergit),
+                    (str_store_party_name, s10, "p_town_31"),
+                (else_try),
+                    (eq, "$g_start_game_intro_location", player_starting_7_nord),
+                    (str_store_party_name, s10, "p_town_41"),
+                (else_try),
+                    (eq, "$g_start_game_intro_location", player_starting_7_rhodok),
+                    (str_store_party_name, s10, "p_town_51"),
+                (else_try),
+                    (eq, "$g_start_game_intro_location", player_starting_7_sarranid),
+                    (str_store_party_name, s10, "p_town_61"),
+                (try_end),
+                (str_store_string, s0, "@You are ready to embark on your adventure. The nearby town of {s10} could be a good place to find early work..."),
             (try_end),
         ],
         [
             ("continue", [], "Continue",
                 [
                     (try_begin),
-                        (eq, "$g_test_player_troop", -1),
+                        (eq, "$g_start_game_intro_culture", -1),
                         (assign, "$g_test_player_troop", "trp_swadian_light_cavalry"),
-
-                        (assign, "$g_start_game_intro_culture", -1),
-                        (assign, "$g_start_game_intro_parents", -1),
-                        (assign, "$g_start_game_intro_childhood", -1),
-                        (assign, "$g_start_game_intro_aptitude", -1),
-                        (assign, "$g_start_game_intro_job", -1),
-                        (assign, "$g_start_game_intro_motivation", -1),
-                        (assign, "$g_start_game_intro_location", -1),
 
                         (jump_to_menu, "mnu_start_game_intro_1"),
                     (else_try),
@@ -105,6 +126,8 @@ game_menus = [
 
                         (str_store_troop_name, s10, "$g_player_troop"),
                         (troop_set_plural_name, "$g_player_troop", s10),
+
+                        (call_script, "script_intro_quest_init"),
                     (try_end),
                 ]),
         ]),
@@ -256,7 +279,7 @@ game_menus = [
         ]),
     
     ###########
-    ## Other ##
+    ## Intro ##
     ###########
     ("start_game_intro_2", mnf_disable_all_keys,
         "{s0}",
@@ -390,7 +413,7 @@ game_menus = [
                 ]),
 
             ("choice_errand", 
-                [(try_begin),(eq, "$g_start_game_intro_childhood", player_starting_3_errand),(disable_menu_option),(try_end),], "an errand boy",
+                [(try_begin),(eq, "$g_start_game_intro_childhood", player_starting_3_errand),(disable_menu_option),(try_end),], "an errand {boy/girl}",
                 [
                     (assign, "$g_start_game_intro_childhood", player_starting_3_errand),
                     (jump_to_menu, "mnu_start_game_intro_3"),
@@ -776,7 +799,40 @@ game_menus = [
                 ]),
         ]),
     
+    ############
+    ## Quests ##
+    ############
+    ("quest_introduction_default_meeting", 0,
+        "Before you are able to enter the city of {s10} you see a man running towards you.",
+        "none",
+        [],
+        [
+            ("wait",
+                [], "Wait for the man to approach.",
+                [
+                    (assign, "$g_intro_quest_stance", 1),
+                    (quest_get_slot, ":troop_object", "qst_introduction_default", slot_quest_object),
+                    (troop_set_name, ":troop_object", "@Stranger"),
+                    (call_script, "script_setup_troop_meeting", ":troop_object", -1),
+                    (change_screen_return),
+                    (start_map_conversation, ":troop_object"),
+                ]),
+            ("prepare_weapons",
+                [], "Ready your weapons and prepare to strike.",
+                [
+                    (assign, "$g_intro_quest_stance", 2),
+                    (quest_get_slot, ":troop_object", "qst_introduction_default", slot_quest_object),
+                    (troop_set_name, ":troop_object", "@Stranger"),
+                    (call_script, "script_setup_troop_meeting", ":troop_object", -1),
+                    (change_screen_return),
+                    (start_map_conversation, ":troop_object"),
+                ]),
+        ]),
 
+
+    ###########
+    ## Other ##
+    ###########
     ("settings", 0,
         "Change the settings",
         "none",
@@ -1545,7 +1601,14 @@ game_menus = [
         [
             ("center_enter", [], "Ask permition to enter",
                 [
-                    (jump_to_menu,"mnu_town_center"),
+                    (try_begin),
+                        (check_quest_active, "qst_introduction_default"),
+                        (quest_get_slot, ":destination", "qst_introduction_default", slot_quest_destination),
+                        (eq, "$g_encountered_party", ":destination"),
+                        (jump_to_menu, "mnu_quest_introduction_default_meeting"),
+                    (else_try),
+                        (jump_to_menu,"mnu_town_center"),
+                    (try_end),
                 ]),
             
             ("center_meet_leader", [(disable_menu_option),], "Ask for an audience with the leader of the garrison",
@@ -1588,8 +1651,8 @@ game_menus = [
         [
             (set_background_mesh, "mesh_pic_camp"),
             
-            (str_store_string, s10, "@You are inside the walls of the city of {s11}. The streets are busy with merchants and the townsfolk seem well fed."),
             (str_store_party_name, s11,"$g_encountered_party"),
+            (str_store_string, s10, "@You are inside the walls of the city of {s11}. The streets are busy with merchants and the townsfolk seem well fed."),
         ],
         [
             ("center_keep", [], "Head to the keep",
@@ -1597,7 +1660,7 @@ game_menus = [
                     (jump_to_menu,"mnu_town_keep"),
                 ]),
             
-            ("center_guildmaster", 
+            ("center_guildmaster",
                 [(disable_menu_option),
                     (party_slot_eq,"$g_encountered_party", slot_party_type, spt_town),
                 ], "Speak to the guildmaster",
@@ -1605,9 +1668,14 @@ game_menus = [
                     #ToDo: guildmaster
                 ]),
             
-            ("center_elder", [(disable_menu_option),], "Speak to the village elder",
+            ("center_elder",
                 [
-                    #ToDo: elder
+                    (party_slot_eq,"$g_encountered_party", slot_party_type, spt_village),
+                ], "Speak to the village elder",
+                [
+                    (call_script, "script_setup_meeting_village_elder", "$g_encountered_party"),
+                    # (change_screen_return),
+                    # (start_map_conversation, "trp_village_elder"),
                 ]),
             
             ("center_market", [], "Go to the marketplace",
@@ -1689,7 +1757,7 @@ game_menus = [
                     (start_presentation, "prsnt_recruit_from_town_garrison"),
                 ]),
             
-            ("center_raise_levies", [(neg|party_slot_eq, "$g_encountered_party", slot_party_type, spt_castle),], "Raise levies",
+            ("center_raise_levies", [(neg|party_slot_eq, "$g_encountered_party", slot_party_type, spt_castle),], "Train levies",
                 [
                     (jump_to_menu, "mnu_town_raise_levies"),
                 ]),
@@ -1886,7 +1954,7 @@ game_menus = [
         ]),
     
     ("town_raise_levies", mnf_scale_picture,
-        "How many levies do you wish to raise?^^Available recruits:{s10}",
+        "How many levies do you wish to train?^^Available recruits:{s10}",
         "none",
         [
             # (val_max, "$g_num_levies", 0),
@@ -1916,15 +1984,24 @@ game_menus = [
             (try_end),
         ],
         [
+            ("recruit_increase_x10", [], "Increase number of recruits (x10)",
+                [
+                    (val_add, "$g_num_levies", 10),
+                    (jump_to_menu, "mnu_town_raise_levies"),
+                ]),
             ("recruit_increase", [], "Increase number of recruits",
                 [
                     (val_add, "$g_num_levies", 1),
                     (jump_to_menu, "mnu_town_raise_levies"),
                 ]),
-            
             ("recruit_decrease", [], "Decrease number of recruits",
                 [
                     (val_add, "$g_num_levies", -1),
+                    (jump_to_menu, "mnu_town_raise_levies"),
+                ]),
+            ("recruit_decrease_x10", [], "Decrease number of recruits (x10)",
+                [
+                    (val_add, "$g_num_levies", -10),
                     (jump_to_menu, "mnu_town_raise_levies"),
                 ]),
             
@@ -1946,7 +2023,15 @@ game_menus = [
 
                     (call_script, "script_party_add_troops", "p_temp_party", ":peasant_begin", ":common_begin", ":num_levies"),
                     (store_div, ":cost", reg1, ":num_levies"),
-                    (val_mul, ":cost", "$g_num_levies"),
+
+                    (assign, ":paying_for", "$g_num_levies"),
+                    (try_begin),
+                        (party_get_slot, ":free_recruits", "$g_encountered_party", slot_party_free_recruits),
+                        (gt, ":free_recruits", 0),
+                        (val_sub, ":paying_for", ":free_recruits"),
+                        (val_max, ":paying_for", 0),
+                    (try_end),
+                    (val_mul, ":cost", ":paying_for"),
                     (val_div, ":cost", 5),
                     (assign, reg11, ":cost"),
 
@@ -1975,7 +2060,7 @@ game_menus = [
                     
                     (val_max, ":rest_time", ":min_hours"),
                     (assign, reg12, ":rest_time"),
-                ], "Recruit {reg10} levies : {s10} ({reg12} hours)",
+                ], "Train {reg10} levies : {s10} ({reg12} days)",
                 [
                     (try_begin),
                         (gt, "$g_num_levies", 0),
@@ -1983,7 +2068,7 @@ game_menus = [
                         # (store_mul, ":total_cost", "$g_num_levies", train_levies_cost),
                         (assign, ":total_cost", reg11),
                         (try_begin),
-                            (gt, ":total_gold", ":total_cost"),
+                            (ge, ":total_gold", ":total_cost"),
 
                             (distribute_party_among_party_group, "p_temp_party", "$g_player_party"),
                             (troop_remove_gold, "$g_player_troop", ":total_cost"),
@@ -2007,6 +2092,13 @@ game_menus = [
                             (assign, reg12, ":rest_time"),
                             (display_message, "@Rest time: {reg12}"),
                             (rest_for_hours, ":rest_time"),
+
+                            (try_begin),
+                                (party_get_slot, ":free_recruits", "$g_encountered_party", slot_party_free_recruits),
+                                (val_sub, ":free_recruits", "$g_num_levies"),
+                                (val_max, ":free_recruits", 0),
+                                (party_set_slot, "$g_encountered_party", slot_party_free_recruits, ":free_recruits"),
+                            (try_end),
                             
                             (assign, "$g_num_levies", 0),
                         (else_try),
@@ -2394,11 +2486,11 @@ game_menus = [
                         (try_begin),
                             (eq, ":continue", 1),
                             # (str_store_party_name, s20, ":party_no"),
-                            (party_quick_attach_to_current_battle, ":party_no", 0),
+                            (party_quick_attach_to_current_battle, ":party_no", 1),
                         (else_try),
                             (eq, ":continue", 2),
                             # (str_store_party_name, s20, ":party_no"),
-                            (party_quick_attach_to_current_battle, ":party_no", 1),
+                            (party_quick_attach_to_current_battle, ":party_no", 0),
                         (try_end),
                     (try_end),
                     
@@ -2428,11 +2520,11 @@ game_menus = [
                         (try_begin),
                             (eq, ":continue", 1),
                             # (str_store_party_name, s20, ":party_no"),
-                            (party_quick_attach_to_current_battle, ":party_no", 1),
+                            (party_quick_attach_to_current_battle, ":party_no", 0),
                         (else_try),
                             (eq, ":continue", 2),
                             # (str_store_party_name, s20, ":party_no"),
-                            (party_quick_attach_to_current_battle, ":party_no", 0),
+                            (party_quick_attach_to_current_battle, ":party_no", 1),
                         (try_end),
                     (try_end),
                     
@@ -2948,6 +3040,9 @@ game_menus = [
             (str_store_party_name, s11, reg21),
             (try_begin),
                 (troop_slot_eq, "$g_player_troop", slot_troop_vassal_of, reg20),
+                (str_store_string, s12, "str_player_receive_center_vassal"),
+            (else_try),
+                (troop_slot_eq, reg20, slot_troop_vassal_of, "$g_player_troop"),
                 (str_store_string, s12, "str_player_receive_center_vassal"),
             (else_try),
                 (str_store_string, s12, "str_player_receive_center"),

@@ -1,3 +1,52 @@
+v0.610:
+	-Features:
+		* add clan names
+		* add npc in village to handle quests
+		* add introduction quest first meeting
+		* add introduction quest lead 1
+		* add introduction quest lead 2
+	-Balances:
+		* remove < 's Party > in party name
+		* force noble status after becoming vassal
+		* changed name of small_kingdom_25 to Duchy of Uslum
+		* ranged units running out of ammo go back to wait in reinforcements during battle
+		* increase khergit_militia ratio by 200%
+		* change vaegir_mounted_royal_longbowman horse to warhorse (from hunter)
+		* add vaegir_light_hussar to kingdom_21
+		* increase kingdom_21 lancer troop ratio (+35 -> +50)
+		* increase kingdom_21 cavalry troop ratio (-15 -> -50)
+		* increase kingdom_21 horse archer troop ratio (0 -> +65)
+		* increase kingdom_21 archer troop ratio (-10 -> -65)
+		* increase kingdom_21 infantry troop ratio (0 -> +10)
+		* increase kingdom_22 cavalry troop ratio (+10 -> -50)
+		* increase kingdom_22 lancer troop ratio (0 -> -10)
+		* increase kingdom_22 horse archer troop ratio (0 -> -10)
+		* increase kingdom_22 infantry troop ratio (+15 -> +20)
+		* increase kingdom_22 spearman troop ratio (+15 -> +20)
+		* increase kingdom_22 shock infantry troop ratio (+15 -> -10)
+		* increase kingdom_6 archer ratio (50 -> 65)
+		* reduce military_cleaver_a damage (29 -> 28)
+		* reduce military_cleaver_a speed (97 -> 96)
+		* reduce military_cleaver_b damage (32 -> 31)
+		* reduce all sword_viking speed by 1
+		* reduce sword_khergit_4 speed (95 -> 93)
+		* swaped primary and secondary colors for some banners to reduce number of white primary color
+			a02, a07, a11, a15, a16, a17, c05, c07, c13, e03
+		* increase sarranid_mounted_skirmisher armor (31 -> 40)
+	-Fixes:
+		* fix incorrect time displayed in raise levy action
+		* fix incorrect side joined by nearby parties on double encounter
+		* fix text errors in greeting dialog
+		* fix new fiefs not being properly distributed
+		* update shops to use center culture instead of current culture (in case of occupation)
+		* fix incorrect face keys for rhodok troops
+		* fix incorrect player naming for certain npcs
+		* fix sarranid lords using foot shields when on horseback
+		* fix center evacuation not moving veteran+ units
+		* fix using not implemented formations during battle
+		* rename the raise levy option to "Train levies" for consistency
+		* prevent lord npc from becoming a vassal of their own vassal
+		* fix player unable to train levies if having exactly the amount of money needed to pay
 v0.600:
 	-Features:
 		* init starting world with lords

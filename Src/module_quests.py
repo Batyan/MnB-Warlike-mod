@@ -1,10 +1,17 @@
 from header_quests import *
 
-
-
-
-
 quests = [
+
+    ("introduction_default", "Rest in {s59}", 0,
+        "{!}."),
+    ("introduction_default_search", "Search for information on the brother's whereabouts", 0,
+        "{!}."),
+    ("introduction_default_search_1", "Search the village of {s59}", 0,
+        "{!}."),
+    ("introduction_default_search_2", "Search the village of {s59}", 0,
+        "{!}."),
+    ("introduction_default_search_3", "Search the village of {s59}", 0,
+        "{!}."),
 
     ("swear_vassalage_fief", "Swear Vassalage to {s62}", qf_random_quest,
         "{!}{s62} proposed that you pledge allegience to him, you would be granted {s11} in exchange."),

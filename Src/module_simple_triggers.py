@@ -369,7 +369,7 @@ simple_triggers = [
                         (try_begin),
                             (ge, ":real_rank", rank_two_village),
 
-                            (call_script, "script_cf_troop_process_surplus_center", ":lord_no"),
+                            (call_script, "script_cf_troop_process_surplus_center", ":lord_no", 0),
                         (try_end),
                         
                         # Decrease days until next rethink for following marshall
