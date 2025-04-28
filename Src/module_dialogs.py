@@ -2108,25 +2108,60 @@ dialogs = [
 
     [anyone, "intro_quest_thugs_questions_accept", [], "Right, what's this about Sir whats-a-lot?", "intro_quest_thugs_player_questions", []],
 
-    [anyone|plyr, "intro_quest_thugs_player_questions", [(quest_slot_eq, "qst_introduction_default_search_1", slot_quest_asked_state, -1),], "I know you took took him away, tell me where he is", "intro_quest_thugs_question_ask_brother", []],
-    [anyone|plyr, "intro_quest_thugs_player_questions", [], "Tell me where you keep your prisoners", "intro_quest_thugs_question_where", []],
-    [anyone|plyr, "intro_quest_thugs_player_questions", [], "Tell me who you work for", "intro_quest_thugs_question_who", []],
-    [anyone|plyr, "intro_quest_thugs_player_questions", [], "I'm done here", "intro_quest_thugs_question_leave", []],
+    [anyone|plyr, "intro_quest_thugs_player_questions",
+        [(quest_slot_eq, "qst_introduction_default_search_1", slot_quest_asked_state, -1),],
+        "I know you took took him away, tell me where he is", "intro_quest_thugs_question_ask_brother",
+        [(quest_set_slot, "qst_introduction_default_search_1", slot_quest_asked_state, 1),]],
+    [anyone|plyr, "intro_quest_thugs_player_questions",
+        [(quest_slot_eq, "qst_introduction_default_search_1", slot_quest_asked_destination, -1),],
+        "Tell me where you keep your prisoners", "intro_quest_thugs_question_where",
+        [(quest_set_slot, "qst_introduction_default_search_1", slot_quest_asked_destination, 1),]],
+    [anyone|plyr, "intro_quest_thugs_player_questions",
+        [(quest_slot_eq, "qst_introduction_default_search_1", slot_quest_asked_who, -1),],
+        "Tell me who you work for", "intro_quest_thugs_question_who",
+        [(quest_set_slot, "qst_introduction_default_search_1", slot_quest_asked_who, 1),]],
+    [anyone|plyr, "intro_quest_thugs_player_questions", [], "I'm done here", "intro_quest_thugs_question_leave",
+        [
+            (try_begin),
+                (quest_slot_eq, "qst_introduction_default_search_1", slot_quest_asked_who, 1),
+                (call_script, "script_complete_quest", "qst_introduction_default_search_1"),
+            (try_end),
+        ]],
 
     [anyone, "intro_quest_thugs_question_ask_brother",
         [
             (quest_get_slot, ":value", "qst_introduction_default_search_1", slot_quest_value),
             (val_add, ":value", -1),
             (quest_set_slot, "qst_introduction_default_search_1", slot_quest_value, ":value"),
-        ], "I know the man you speak about and I'm not stupid enough to make myself an enemy of nobility.", "intro_quest_thugs_question_ask_brother_2", []],
+        ], "I know the man you speak about and I'm not stupid enough to make myself an enemy of nobility.", "intro_quest_thugs_question_ask_brother_2",
+        [
+            (quest_get_slot, ":object", "qst_introduction_default_search", slot_quest_object),
+            (str_store_troop_name, s10, ":object"),
+            (str_store_string, s0, "@The thugs know {s10} but claim they would not attack a noble for fear of retribution."),
+            (call_script, "script_quest_add_note", "qst_introduction_default_search_1", 0),
+        ]],
     [anyone, "intro_quest_thugs_question_ask_brother_2", [], "I only care about forgotten people, those that are not missed by anyone.", "intro_quest_thugs_question_ask_brother_3", []],
     [anyone, "intro_quest_thugs_question_ask_brother_3", [], "Business is business ain't it?", "intro_quest_thugs_return", []],
 
-    [anyone, "intro_quest_thugs_question_where", [], "I don't keep anyone, I don't need these people so I sell them.", "intro_quest_thugs_question_where_2", []],
+    [anyone, "intro_quest_thugs_question_where", [], "I don't keep anyone, I don't need these people so I sell them.", "intro_quest_thugs_question_where_2",
+        [
+            (str_store_troop_name, s10, "trp_intro_quest_slaver"),
+            (str_store_string, s0, "@The thugs sell their victims to various clients demanding live human beings."),
+            (call_script, "script_quest_add_note", "qst_introduction_default_search_1", 0),
+        ]],
     [anyone, "intro_quest_thugs_question_where_2", [], "There are many people willing to pay for living beings and I deliver.", "intro_quest_thugs_question_where_3", []],
     [anyone, "intro_quest_thugs_question_where_3", [], "Business is business ain't it?", "intro_quest_thugs_return", []],
 
-    [anyone, "intro_quest_thugs_question_who", [(str_store_troop_name, s10, "trp_intro_quest_slaver"),], "I'm working for {s10}. A nice fellow once you get to know him.", "intro_quest_thugs_return", []],
+    [anyone, "intro_quest_thugs_question_who", [], "I'm a man under my own lead, no master.", "intro_quest_thugs_question_who_2", []],
+    [anyone, "intro_quest_thugs_question_who_2",
+        [(str_store_troop_name, s10, "trp_intro_quest_slaver"),],
+        "Now as for my biggest client? {s10}, a nice fellow once you get to know him.", "intro_quest_thugs_question_who_3",
+        [
+            (str_store_troop_name, s10, "trp_intro_quest_slaver"),
+            (str_store_string, s0, "@The thugs work for a man named {s10}."),
+            (call_script, "script_quest_add_note", "qst_introduction_default_search_1", 0),
+        ]],
+    [anyone, "intro_quest_thugs_question_who_3", [], "It's mostly been him recently...", "intro_quest_thugs_return", []],
 
     [anyone, "intro_quest_thugs_return",
         [
