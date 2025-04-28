@@ -1,3 +1,7 @@
+v0.620:
+	-Features:
+	-Balances:
+	-Fixes:
 v0.610:
 	-Features:
 		* add clan names
