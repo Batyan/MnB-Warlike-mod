@@ -28,11 +28,11 @@ simple_triggers = [
                 (try_begin),
                     (lt, ":num_parties", max_bandit_party),
                     # Generate bandits
-                    (store_random_in_range, ":rand", 0, 50),
-                    (try_begin), # Generate bandits more often if center prosperity is low
-                        (le, ":rand", 3),
-                        (call_script, "script_party_spawn_bandits", ":party_no"),
-                    (try_end),
+                    # (store_random_in_range, ":rand", 0, 50),
+                    # (try_begin), # Generate bandits more often if center prosperity is low
+                    #     (le, ":rand", 3),
+                    (call_script, "script_party_spawn_bandits", ":party_no"),
+                    # (try_end),
                 (try_end),
             (try_end),
 

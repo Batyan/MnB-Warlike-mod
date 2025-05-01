@@ -42,15 +42,6 @@ scripts = [
             (call_script, "script_init_goods"),
             (call_script, "script_init_good_recipes"),
             
-            ## Generate some bandits to begin with
-            (try_for_range, ":cur_center", villages_begin, villages_end),
-                (store_random_in_range, ":rand", 0, 10),
-                (try_begin),
-                    (eq, ":rand", 0),
-                    (call_script, "script_party_spawn_bandits", ":cur_center"),
-                (try_end),
-            (try_end),
-            
             (call_script, "script_init_building_slots"),
             (call_script, "script_init_siege_scene_slots"),
             
@@ -73,6 +64,11 @@ scripts = [
 
             (try_for_range, ":party_no", centers_begin, centers_end),
                 (call_script, "script_party_init_center", ":party_no"),
+            
+                ## Generate some bandits to begin with
+                (try_for_range, ":unused", 0,  3),
+                    (call_script, "script_party_spawn_bandits", ":party_no"),
+                (try_end),
             (try_end),
             (call_script, "script_clean_budgets"),
 
@@ -20249,7 +20245,7 @@ scripts = [
             (assign, ":bandit_leader", -1),
 
             # Roll bandit strength
-            (assign, ":bandit_chance", 2),
+            (assign, ":bandit_chance", 1),
             (assign, ":max_strength", 4),
             (try_begin),
                 # High prosperity will increase the max strength of bandits -- up to 3
@@ -20260,7 +20256,7 @@ scripts = [
 
             # Low prosperity will increase the chance of having bandits
             (store_sub, ":chance_modifier", 100, ":center_prosperity"),
-            (val_div, ":chance_modifier", 10),
+            (val_div, ":chance_modifier", 5),
             (val_add, ":bandit_chance", ":chance_modifier"),
 
             (party_get_slot, ":population", ":center_no", slot_party_population),
@@ -20280,7 +20276,7 @@ scripts = [
                 (gt, ":slave_ratio", 0),
                 (store_mul, ":slave_chance_ratio", ":bandit_chance", ":slave_ratio"),
                 (store_div, ":slave_chance_modifier", ":slave_chance_ratio", 100),
-                (store_mod, ":slave_chance_offset", ":slave_chance_modifier", 100),
+                (store_mod, ":slave_chance_offset", ":slave_chance_ratio", 100),
                 (store_random_in_range, ":rand", 0, 100),
                 (try_begin),
                     (le, ":rand", ":slave_chance_offset"),
@@ -20299,9 +20295,9 @@ scripts = [
                 (val_add, ":bandit_strength", ":slave_strength_modifier"),
             (try_end),
 
-            (store_random_in_range, ":rand", 0, 1000),
+            (store_random_in_range, ":rand", 0, 100),
             (try_begin),
-                (le, ":bandit_chance", ":rand"),
+                (le, ":rand", ":bandit_chance"),
                 # (assign, ":bandit_strength", 0),
                 (assign, ":desert_bandit", 0),
                 (assign, ":plain_bandit", 0),
