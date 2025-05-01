@@ -10220,6 +10220,9 @@ scripts = [
             
             (party_get_attached_to, ":attached_to", ":party_no"),
             (store_faction_of_party, ":party_faction", ":party_no"),
+
+            (faction_get_slot, ":at_war", ":party_faction", slot_faction_is_at_war),
+            (faction_get_slot, ":preparing_war", ":party_faction", slot_faction_preparing_war),
             
             (call_script, "script_troop_get_current_home", ":leader", 0),
             (assign, ":home", reg0),
@@ -10272,16 +10275,26 @@ scripts = [
                     (troop_get_slot, ":last_rest", ":leader", slot_troop_last_rest),
                     (assign, ":stop", 0),
                     (store_sub, ":rest_time", ":current_day", ":last_rest"),
-                    (this_or_next|ge, ":rest_time", 7*24),
+
+                    (assign, ":target_active_time", 3*24),
+                    (assign, ":target_rest_time", 7*24),
+                    (try_begin),
+                        (ge, ":at_war", 1),
+                        (assign, ":target_active_time", 7*24),
+                        (assign, ":target_rest_time", 2*24),
+                    (else_try),
+                        (ge, ":preparing_war", 1),
+                        (assign, ":target_active_time", 5*24),
+                        (assign, ":target_rest_time", 4*24),
+                    (try_end),
+
+                    (this_or_next|ge, ":rest_time", ":target_active_time"),
                     (eq, ":attached_to", ":home"),
 
                     (try_begin),
                         (eq, ":attached_to", ":home"),
                         (try_begin),
-                            (ge, ":rest_time", 7*24),
-                            (troop_set_slot, ":leader", slot_troop_last_rest, ":current_day"),
-                        (else_try),
-                            (ge, ":rest_time", 28),
+                            (ge, ":rest_time", ":target_rest_time"),
                             (troop_set_slot, ":leader", slot_troop_last_rest, ":current_day"),
                             (call_script, "script_party_set_behavior", ":party_no", tai_patroling_center, ":home"),
                         (try_end),
@@ -24183,6 +24196,15 @@ scripts = [
             (try_end),
 
             (party_set_slot, ":party_no", slot_party_visiting_center, ":center_no"),
+
+            (party_get_slot, ":party_leader", ":party_no", slot_party_leader),
+            (try_begin),
+                (gt, ":party_leader", 0),
+
+                (call_script, "script_get_current_day"),
+                (assign, ":current_day", reg0), 
+                (troop_set_slot, ":party_leader", slot_troop_last_rest, ":current_day"),
+            (try_end),
 
             (try_begin),
                 (is_between, ":center_no", centers_begin, centers_end),
