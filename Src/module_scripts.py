@@ -21583,7 +21583,7 @@ scripts = [
                 (try_begin),
                     (lt, ":total_debts", 0),
                     (store_mul, ":debt_interests", ":total_debts", ":debt_rate"),
-                    (val_div, ":debt_interests", 1000),
+                    (val_div, ":debt_interests", 500),
                     (lt, ":debt_interests", 0),
                     (call_script, "script_party_add_accumulated_taxes", ":party_no", ":debt_interests", tax_type_debts),
                 (try_end),
