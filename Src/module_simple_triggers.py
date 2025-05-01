@@ -322,7 +322,7 @@ simple_triggers = [
                 (troop_get_slot, ":occupation", ":lord_no", slot_troop_kingdom_occupation),
                 (neg|troop_slot_ge, ":lord_no", slot_troop_prisoner_of, 0), # Do not process prisoners
                 (try_begin),
-                    (eq, ":occupation", tko_kingdom_hero),
+                    (is_between, ":occupation", tko_kingdom_hero, tko_mercenary + 1),
                     (troop_get_slot, ":leaded_party", ":lord_no", slot_troop_leaded_party),
                     (gt, ":leaded_party", 0),
                     (party_is_active, ":leaded_party"),
@@ -339,7 +339,7 @@ simple_triggers = [
                 (try_begin),
                     (le, ":prisoner_of", 0), # Do not process prisoners
                     (try_begin),
-                        (eq, ":occupation", tko_kingdom_hero),
+                        (is_between, ":occupation", tko_kingdom_hero, tko_mercenary + 1),
                         (troop_get_slot, ":leaded_party", ":lord_no", slot_troop_leaded_party),
                         (troop_get_slot, ":garrisoned", ":lord_no", slot_troop_garrisoned),
                         (try_begin),
@@ -392,7 +392,7 @@ simple_triggers = [
         [
             (try_for_range, ":lord", lords_begin, lords_end),
                 (troop_get_slot, ":occupation", ":lord", slot_troop_kingdom_occupation),
-                (eq, ":occupation", tko_kingdom_hero),
+                (is_between, ":occupation", tko_kingdom_hero, tko_mercenary + 1),
 
                 (troop_get_slot, ":real_debt", ":lord", slot_troop_budget_debt),
                 (troop_get_slot, ":perceived_debt", ":lord", slot_troop_budget_perceived_debt),
@@ -452,8 +452,7 @@ simple_triggers = [
             (try_for_range, ":lord_no", lords_begin, lords_end),
                 (troop_get_slot, ":occupation", ":lord_no", slot_troop_kingdom_occupation),
                 (try_begin),
-                    # (this_or_next|eq, ":occupation", tko_),
-                    (eq, ":occupation", tko_kingdom_hero),
+                    (is_between, ":occupation", tko_kingdom_hero, tko_mercenary + 1),
                     (troop_get_slot, ":leaded_party", ":lord_no", slot_troop_leaded_party),
                     (gt, ":leaded_party", 0),
                     (party_is_active, ":leaded_party"),
@@ -554,7 +553,7 @@ simple_triggers = [
                 (troop_get_slot, ":occupation", ":lord_no", slot_troop_kingdom_occupation),
                 (try_begin),
                     # (this_or_next|eq, ":occupation", tko_),
-                    (eq, ":occupation", tko_kingdom_hero),
+                    (is_between, ":occupation", tko_kingdom_hero, tko_mercenary + 1),
 
                     (store_troop_faction, ":lord_kingdom", ":lord_no"),
 
