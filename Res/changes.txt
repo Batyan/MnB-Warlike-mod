@@ -5,6 +5,12 @@ v0.620:
 		* increase npc lords rest time during peace time
 		* increase buildings cost and creation time by a factor of x10
 		* increase accumulated debt interests (0.1% -> 0.2%)
+		* rename Nord Spearman to Nord Light Spearman
+		* rename Nord Heavy Spearman to Nord Spearman
+		* add Nord Heavy Spearman to small_kingdom_44
+		* add sarranid_light_mounted_skirmisher to small_kingdom_65
+		* update sarranid_mounted_skirmisher to use lances
+		* add sarranid_heavy_mounted_skirmisher to small_kingdom_65
 		* slow down patrol parties
 	-Fixes:
 		* fix bandits spawning more often on high prosperity centers

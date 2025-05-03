@@ -13720,6 +13720,10 @@ scripts = [
             (troop_set_slot, "trp_sarranid_heavy_skirmisher", slot_troop_faction_not_1, "fac_small_kingdom_63"), # Has Skirmisher instead
             (troop_set_slot, "trp_sarranid_heavy_infantry", slot_troop_faction_not_1, "fac_small_kingdom_63"), # Has Sergeant instead
             (troop_set_slot, "trp_sarranid_noble_horse_archer", slot_troop_faction_not_1, "fac_small_kingdom_63"), # Has Cataphract instead
+            (troop_set_slot, "trp_sarranid_light_cavalry", slot_troop_faction_not_1, "fac_small_kingdom_65"), # Has Light Mounted Skirmisher
+            (troop_set_slot, "trp_sarranid_light_lancer", slot_troop_faction_not_1, "fac_small_kingdom_65"), # Has Light Mouned Skirmisher
+            (troop_set_slot, "trp_sarranid_medium_cavalry", slot_troop_faction_not_1, "fac_small_kingdom_65"), # Has Mounted Skirmisher
+            (troop_set_slot, "trp_sarranid_heavy_cavalry", slot_troop_faction_not_1, "fac_small_kingdom_65"), # Has Heavy Mounted Skirmisher
 
             (troop_set_slot, "trp_sarranid_heavy_lancer", slot_troop_faction_reserved_2, "fac_small_kingdom_61"), # 
 
