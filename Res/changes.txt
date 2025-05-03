@@ -5,6 +5,7 @@ v0.620:
 		* increase npc lords rest time during peace time
 		* increase buildings cost and creation time by a factor of x10
 		* increase accumulated debt interests (0.1% -> 0.2%)
+		* slow down patrol parties
 	-Fixes:
 		* fix bandits spawning more often on high prosperity centers
 v0.610:
