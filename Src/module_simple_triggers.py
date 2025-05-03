@@ -402,6 +402,11 @@ simple_triggers = [
                 (troop_set_slot, ":lord", slot_troop_budget_perceived_debt, ":perceived_debt"),
 
                 (call_script, "script_troop_process_ideal_party_wages", ":lord"),
+
+                (try_begin),
+                    (eq, ":occupation", tko_mercenary),
+                    (call_script, "script_apply_mercenary_contract", ":lord"),
+                (try_end),
             (try_end),
             (try_for_range, ":center", centers_begin, centers_end),
                 (call_script, "script_party_process_ideal_party_wages", ":center"),
@@ -429,6 +434,11 @@ simple_triggers = [
                 (call_script, "script_party_pay_debts", ":party_no"),
                 (call_script, "script_party_pay_wages", ":party_no", -1),
                 (call_script, "script_party_unpaid_wages_penalties", ":party_no"),
+            (try_end),
+
+            (try_begin),
+                (tyroop_slot_eq, "$g_player_troop", slot_troop_kingdom_occupation, tko_mercenary),
+                (call_script, "script_apply_mercenary_contract", ":lord"),
             (try_end),
 
             (call_script, "script_party_process_debts", "$g_player_party"),

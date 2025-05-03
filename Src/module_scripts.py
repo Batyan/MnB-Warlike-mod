@@ -29461,19 +29461,54 @@ scripts = [
         # input: none
         # output:
         #   reg0: threat_value
-        ("intro_quest_thugs_threaten",
-            [
-                (store_skill_level, ":intimidation", "$g_player_troop", skl_intimidation),
-                (party_get_num_companions, ":num_troops", "$g_player_party"),
-                (val_div, ":num_troops", 10),
+    ("intro_quest_thugs_threaten",
+        [
+            (store_skill_level, ":intimidation", "$g_player_troop", skl_intimidation),
+            (party_get_num_companions, ":num_troops", "$g_player_party"),
+            (val_div, ":num_troops", 10),
 
-                (assign, ":base_value", -3),
+            (assign, ":base_value", -3),
 
-                (store_add, ":value", ":base_value", ":num_troops"),
-                (val_add, ":value", ":intimidation"),
+            (store_add, ":value", ":base_value", ":num_troops"),
+            (val_add, ":value", ":intimidation"),
 
-                (assign, reg0, ":value"),
-            ]),
+            (assign, reg0, ":value"),
+        ]),
+
+    # script_apply_mercenary_contract
+        # input:
+        #   arg1: troop_no
+        # output: none
+    ("apply_mercenary_contract",
+        [
+            (store_script_param, ":troop_no", 1),
+
+            (try_begin),
+                (troop_slot_eq, ":troop_no", slot_troop_kingdom_occupation, tko_mercenary),
+
+                (store_troop_faction, ":troop_faction", ":troop_no"),
+                (is_between, ":troop_faction", kingdoms_begin, kingdoms_end),
+
+                (troop_get_slot, ":wages_ratio", ":troop_no", slot_troop_mercenary_contract_wages_ratio),
+                (troop_get_slot, ":monthly_pay", ":troop_no", slot_troop_mercenary_contract_monthly_pay),
+
+                (troop_get_slot, ":party_no", ":troop_no", slot_troop_leaded_party),
+                (try_begin),
+                    (ge, ":party_no", 0),
+                    (call_script, "script_party_get_wages", ":party_no"),
+                    (assign, ":wages", reg0),
+                    (store_mul, ":payment", ":wages", ":wages_ratio"),
+                    (val_div, ":payment", 100),
+                    (gt, ":payment", 0),
+                (try_end),
+
+                (store_add, ":total_received", ":payment", ":monthly_pay"),
+                (store_mul, ":total_payment", ":total_received", -1),
+
+                (call_script, "script_troop_add_accumulated_taxes", ":troop_no", ":total_received", tax_type_mercenary_contract, 1),
+                (call_script, "script_faction_add_accumulated_taxes", ":troop_faction", ":total_payment", tax_type_mercenary_contract_pay),
+            (try_end),
+        ]),
 
     # script_presentation_generate_select_lord_card
         # input:
