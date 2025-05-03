@@ -437,7 +437,7 @@ simple_triggers = [
             (try_end),
 
             (try_begin),
-                (tyroop_slot_eq, "$g_player_troop", slot_troop_kingdom_occupation, tko_mercenary),
+                (troop_slot_eq, "$g_player_troop", slot_troop_kingdom_occupation, tko_mercenary),
                 (call_script, "script_apply_mercenary_contract", ":lord"),
             (try_end),
 
