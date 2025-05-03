@@ -6750,7 +6750,7 @@ scripts = [
 
     # script_faction_add_accumulated_taxes
         # input:
-        #   arg1: party_no
+        #   arg1: faction_no
         #   arg2: amount
         #   arg3: tax_type
         # output: none
@@ -6916,7 +6916,6 @@ scripts = [
             (store_script_param, ":party_no", 1),
 
             (party_get_slot, ":wanted_wages", ":party_no", slot_party_budget_reserved_party),
-
             (party_get_slot, ":old_wanted_wages", ":party_no", slot_party_wanted_party_wages),
 
             (try_begin),
@@ -6947,6 +6946,13 @@ scripts = [
             (try_end),
 
             (party_set_slot, ":party_no", slot_party_wanted_party_wages, ":new_wanted_wages"),
+
+            (party_get_slot, ":old_auxiliary_wages", ":party_no", slot_party_wanted_auxiliary_party_wages),
+            (party_get_slot, ":auxiliary_wages", ":party_no", slot_party_budget_reserved_auxiliaries),
+            (store_mul, ":new_auxiliary_wages", ":old_auxiliary_wages", 4),
+            (val_add, ":new_auxiliary_wages", ":auxiliary_wages"),
+            (val_div, ":new_auxiliary_wages", 5),
+            (party_set_slot, ":party_no", slot_party_wanted_auxiliary_party_wages, ":new_auxiliary_wages"),
         ]),
     
     # script_spawn_party_around_party
@@ -9471,9 +9477,10 @@ scripts = [
                     (this_or_next|gt, ":at_war", 0),
                     (gt, ":preparing_for_war", 0),
                 (else_try),
-                    (assign, ":war_mult", 40),
+                    (assign, ":war_mult", 80),
                     (try_begin),
                         (eq, ":party_type", spt_war_party),
+                        (assign, ":war_mult", 40),
                     (else_try),
                         (is_between, ":party_type", spt_village, spt_fort + 1),
                         (assign, ":war_mult", 80),
@@ -11076,6 +11083,10 @@ scripts = [
             (party_get_attached_to, ":attached", ":party_no"),
             (try_begin),
                 (ge, ":attached", 0),
+
+                (this_or_next|neq, ":behavior", tai_traveling_to_party),
+                (neq, ":object", ":attached"),
+
                 (party_detach, ":party_no"),
             (try_end),
 
@@ -11152,7 +11163,6 @@ scripts = [
                 (str_store_party_name, s10, ":party_no"),
                 (display_debug_message, "@ERROR: Invalid party_set_behavior for party {s10}", text_color_impossible),
             (try_end),
-
             
             (party_set_aggressiveness, ":party_no", ":aggressiveness"),
             (party_set_courage, ":party_no", ":courage"),
@@ -22818,14 +22828,15 @@ scripts = [
                     (store_faction_of_party, ":current_faction", ":party_no"),
                     (party_get_slot, ":party_faction", ":party_no", slot_party_faction),
                     (eq, ":current_faction", ":party_faction"),
-                    (party_get_slot, ":attached_party_reserved_wages", ":party_no", slot_party_budget_reserved_auxiliaries),
+                    # (party_get_slot, ":attached_party_reserved_wages", ":party_no", slot_party_wanted_auxiliary_party_wages),
+                    # (ge, ":attached_party_reserved_wages", 500),
 
                     (call_script, "script_spawn_party_around_party", ":party_no", "pt_patrol"),
                     (assign, ":spawned_party", reg0),
 
                     (party_set_faction, ":spawned_party", ":party_faction"),
-                    (party_set_slot, ":spawned_party", slot_party_budget_reserved_party, ":attached_party_reserved_wages"),
-                    (party_set_slot, ":spawned_party", slot_party_wanted_party_wages, ":attached_party_reserved_wages"),
+                    (party_set_slot, ":spawned_party", slot_party_budget_reserved_party, 8500),
+                    (party_set_slot, ":spawned_party", slot_party_wanted_party_wages, 8500),
                     (party_set_slot, ":spawned_party", slot_party_type, spt_patrol),
                     (party_set_slot, ":spawned_party", slot_party_linked_party, ":party_no"),
 
@@ -22893,17 +22904,17 @@ scripts = [
 
                     (store_faction_of_party, ":party_faction", ":party_no"),
                     (party_slot_eq, ":party_no", slot_party_faction, ":party_faction"),
-                    # (party_get_slot, ":attached_party_reserved_wages", ":party_no", slot_party_budget_reserved_auxiliaries),
-                    # (val_div, ":attached_party_reserved_wages", 2),
 
                     (call_script, "script_spawn_party_around_party", ":party_no", "pt_caravan"),
                     (assign, ":spawned_party", reg0),
 
                     (party_set_faction, ":spawned_party", ":party_faction"),
 
-                    (party_get_slot, ":attached_party_reserved_wages", ":party_no", slot_party_budget_reserved_auxiliaries),
-                    (party_set_slot, ":spawned_party", slot_party_budget_reserved_party, ":attached_party_reserved_wages"),
-                    (party_set_slot, ":spawned_party", slot_party_wanted_party_wages, ":attached_party_reserved_wages"),
+                    # (party_get_slot, ":attached_party_reserved_wages", ":party_no", slot_party_wanted_auxiliary_party_wages),
+                    # (ge, ":attached_party_reserved_wages", 500),
+
+                    (party_set_slot, ":spawned_party", slot_party_budget_reserved_party, 7500),
+                    (party_set_slot, ":spawned_party", slot_party_wanted_party_wages, 7500),
                     (party_set_slot, ":spawned_party", slot_party_type, spt_caravan),
                     (party_set_slot, ":spawned_party", slot_party_linked_party, ":party_no"),
                     (party_set_slot, ":spawned_party", slot_party_mission_object, -1),
@@ -23163,15 +23174,15 @@ scripts = [
 
             (try_begin),
                 # Do center business
-                (party_get_cur_town, ":cur_town", ":party_no"),
+                (party_get_attached_to, ":cur_town", ":party_no"),
                 (try_begin),
                     (is_between, ":cur_town", centers_begin, centers_end),
 
                     (party_set_slot, ":party_no", slot_party_last_rest, ":current_day"),
 
-                    (party_get_slot, ":new_budget", ":cur_town", slot_party_budget_reserved_auxiliaries),
-                    (party_set_slot, ":party_no", slot_party_budget_reserved_party, ":new_budget"),
-                    (party_set_slot, ":party_no", slot_party_wanted_party_wages, ":new_budget"),
+                    # (party_get_slot, ":new_budget", ":cur_town", slot_party_wanted_auxiliary_party_wages),
+                    # (party_set_slot, ":party_no", slot_party_budget_reserved_party, ":new_budget"),
+                    # (party_set_slot, ":party_no", slot_party_wanted_party_wages, ":new_budget"),
 
                     (try_begin),
                         (ge, ":num_prisoners", 1),
@@ -23215,8 +23226,9 @@ scripts = [
 
             (party_get_slot, ":mission_object", ":party_no", slot_party_mission_object),
             (party_get_slot, ":mission", ":party_no", slot_party_mission),
-            (party_get_cur_town, ":cur_town", ":party_no"),
             (party_get_slot, ":home", ":party_no", slot_party_linked_party),
+
+            (party_get_attached_to, ":cur_town", ":party_no"),
 
             (try_begin),
                 (eq, ":cur_town", ":mission_object"),
@@ -23226,6 +23238,11 @@ scripts = [
                 (assign, ":current_day", reg0),
                 (try_begin),
                     (eq, ":cur_town", ":home"),
+
+                    # (party_get_slot, ":new_budget", ":home", slot_party_wanted_auxiliary_party_wages),
+                    # (party_set_slot, ":party_no", slot_party_budget_reserved_party, ":new_budget"),
+                    # (party_set_slot, ":party_no", slot_party_wanted_party_wages, ":new_budget"),
+
                     (call_script, "script_party_get_wages", ":party_no"),
                     (assign, ":current_wages", reg0),
                     (call_script, "script_party_get_prefered_wages_limit", ":party_no"),
@@ -23300,7 +23317,8 @@ scripts = [
 
                 (try_begin),
                     (is_between, ":new_destination", centers_begin, centers_end),
-                    (neq, ":cur_town", ":new_destination"),
+                    (this_or_next|neq, ":cur_town", ":new_destination"),
+                    (eq, ":home", ":new_destination"),
                     (party_set_slot, ":party_no", slot_party_mission, spm_trade),
                     (party_set_slot, ":party_no", slot_party_mission_object, ":new_destination"),
                     (call_script, "script_party_set_behavior", ":party_no", tai_traveling_to_party, ":new_destination"),
@@ -23391,7 +23409,6 @@ scripts = [
                 (assign, reg0, -1),
             (try_end),
         ]),
-
 
     # script_party_caravan_set_destination
         # input:

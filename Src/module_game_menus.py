@@ -1573,6 +1573,12 @@ game_menus = [
 
                 (party_get_slot, reg19, "$g_encountered_party", slot_party_reserved),
                 (display_message, "@Reserved! {reg19}"),
+
+                (party_get_slot, reg20, "$g_encountered_party", slot_party_wanted_auxiliary_party_wages),
+                (display_message, "@wanted_auxiliary_party_wages: {reg20}"),
+
+                (party_get_slot, reg21, "$g_encountered_party", slot_party_budget_reserved_auxiliaries),
+                (display_message, "@budget_reserved_auxiliaries: {reg21}"),
             (try_end),
             (try_begin),
                 (call_script, "script_cf_debug", debug_economy|debug_trade),

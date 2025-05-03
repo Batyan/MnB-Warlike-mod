@@ -923,8 +923,9 @@ slot_faction_budget_tribute = slot_faction_last_share_amount + 1
 slot_faction_budget_tribute_payment = slot_faction_budget_tribute + 1
 slot_faction_budget_funds = slot_faction_budget_tribute_payment + 1
 slot_faction_budget_funds_payment = slot_faction_budget_funds + 1
+slot_faction_budget_mercenary_payment = slot_faction_budget_funds_payment + 1
 
-slot_faction_wealth_shared_ratio = slot_faction_budget_funds_payment + 1
+slot_faction_wealth_shared_ratio = slot_faction_budget_mercenary_payment + 1
 
 slot_faction_tmp = slot_faction_wealth_shared_ratio + 1
 
@@ -1078,11 +1079,11 @@ slot_party_ressources_count = slot_party_ressources_end - slot_party_ressources_
 slot_party_ressources_current_amount_begin = slot_party_ressources_end # 65
 slot_party_ressources_current_amount_end = slot_party_ressources_current_amount_begin + slot_party_ressources_count # 113
 
-slot_party_original_faction = 121
+slot_party_original_faction = slot_party_ressources_current_amount_end + 1
 
-slot_party_besieged_by = 122
+slot_party_besieged_by = slot_party_original_faction + 1
 
-slot_party_battle_stage = 123
+slot_party_battle_stage = slot_party_besieged_by + 1
 
 bs_approach = 1
 bs_approach_2 = 2
@@ -1092,11 +1093,11 @@ bs_charge = 5
 bs_charge_2 = 6
 bs_melee = 7
 
-slot_party_siege_scene = 124
+slot_party_siege_scene = slot_party_battle_stage + 1
 
-slot_party_linked_party = 126
+slot_party_linked_party = slot_party_siege_scene + 1
 
-slot_party_faction = 127
+slot_party_faction = slot_party_linked_party + 1
 
 # Taxes are a way for land owners to earn money
 # It is possible to customise what your citizens are taxed on
@@ -1108,12 +1109,12 @@ slot_party_faction = 127
 # Having a good balance on taxes will yeild the best results
 # Having low taxes will be generaly liked by the population but may not offset the loss in money
 # Abrupt changes in taxes may greatly change the mood of the population, keep changes low if you want the population under control (unless when decreasing taxes)
-slot_party_taxes_sell       = 128 # Taxes paid upon buying inside the center
-slot_party_taxes_buy        = 129 # Taxes paid upon selling inside the center
-slot_party_taxes_property   = 130 # Taxes paid on owning property
-slot_party_taxes_fixed      = 131 # Fixed taxes paid by everyone
-slot_party_taxes_wealth     = 132 # Taxes paid upon earning money inside the city (also applied to buying and selling)
-slot_party_taxes_visit      = 133 # Taxes paid upon entering the city (not paid by residents)
+slot_party_taxes_sell       = slot_party_faction + 1 # Taxes paid upon buying inside the center
+slot_party_taxes_buy        = slot_party_taxes_sell + 1 # Taxes paid upon selling inside the center
+slot_party_taxes_property   = slot_party_taxes_buy + 1 # Taxes paid on owning property
+slot_party_taxes_fixed      = slot_party_taxes_property + 1 # Fixed taxes paid by everyone
+slot_party_taxes_wealth     = slot_party_taxes_fixed + 1 # Taxes paid upon earning money inside the city (also applied to buying and selling)
+slot_party_taxes_visit      = slot_party_taxes_wealth + 1 # Taxes paid upon entering the city (not paid by residents)
 
 default_fixed_tax_rate_village = 25
 default_fixed_tax_rate_castle = 40
@@ -1127,9 +1128,9 @@ default_sell_tax_rate_village = 8
 default_sell_tax_rate_castle = 16
 default_sell_tax_rate_town = 12
 
-slot_party_speak_allowed = 134
+slot_party_speak_allowed = slot_party_taxes_visit + 1
 
-slot_party_notes = 135
+slot_party_notes = slot_party_speak_allowed + 1
 pn_unknown  = 0x00
 pn_know_faction = 0x01
 pn_know_original= 0x02
@@ -1141,21 +1142,21 @@ pn_know_tax     = 0x40
 pn_know_slaves  = 0x80
 # pn_know_
 
-slot_party_morale = 136
+slot_party_morale = slot_party_notes + 1
 
-slot_party_taxes = 137
-slot_party_prosperity = 138
+slot_party_taxes = slot_party_morale + 1
+slot_party_prosperity = slot_party_taxes + 1
 
-slot_party_unpaid_wages = 139
+slot_party_unpaid_wages = slot_party_prosperity + 1
 
-slot_party_temp = 140
+slot_party_temp = slot_party_unpaid_wages + 1
 
-slot_party_origin_center = 141
+slot_party_origin_center = slot_party_temp + 1
 
-slot_party_preparing_for_war = 142
-slot_party_prepared_for_war = 143
+slot_party_preparing_for_war = slot_party_origin_center + 1
+slot_party_prepared_for_war = slot_party_preparing_for_war + 1
 
-slot_party_process_mission_iteration = 144
+slot_party_process_mission_iteration = slot_party_prepared_for_war + 1
 
 # slot_party_num_peasants       = 146
 # slot_party_num_caravans       = 147
@@ -1164,7 +1165,7 @@ slot_party_process_mission_iteration = 144
 # slot_party_num_others         = 150 # Contains every other non fighting party
 
 
-slot_party_recent_casualties_loot = 151 # Contains gold looted during simulated battle
+slot_party_recent_casualties_loot = slot_party_process_mission_iteration + 1 # Contains gold looted during simulated battle
 
 slot_party_budget_last_wealth = slot_party_recent_casualties_loot + 1
 
@@ -1236,6 +1237,8 @@ tax_type_import = 29
 tax_type_building = 30
 tax_type_building_maintenance = 31
 tax_type_bank_investments = 32
+tax_type_mercenary_contract = 33
+tax_type_mercenary_contract_pay = 34
 
 slot_party_buget_taxes_begin = slot_party_budget_taxes
 slot_party_buget_taxes_end = slot_party_budget_bank_investments + 1
@@ -1245,7 +1248,9 @@ slot_party_budget_reserved_auxiliaries = slot_party_budget_reserved_party + 1
 slot_party_budget_reserved_expenses = slot_party_budget_reserved_auxiliaries + 1
 slot_party_budget_reserved_other = slot_party_budget_reserved_expenses + 1
 
-slot_party_attached_party_1 = slot_party_budget_reserved_other + 1
+slot_party_wanted_auxiliary_party_wages = slot_party_budget_reserved_other + 1
+
+slot_party_attached_party_1 = slot_party_wanted_auxiliary_party_wages + 1
 slot_party_attached_party_2 = slot_party_attached_party_1 + 1
 slot_party_attached_party_3 = slot_party_attached_party_2 + 1
 
@@ -1643,8 +1648,9 @@ slot_troop_accumulated_taxes = 63
 slot_troop_budget_vassal_taxes = slot_troop_accumulated_taxes + 1
 slot_troop_budget_faction_member_taxes = slot_troop_budget_vassal_taxes + 1
 slot_troop_budget_faction_funds = slot_troop_budget_faction_member_taxes + 1
+slot_troop_budget_mercenary_payment = slot_troop_budget_faction_funds + 1
 
-slot_troop_budget_reserved_party = slot_troop_budget_faction_funds + 1
+slot_troop_budget_reserved_party = slot_troop_budget_mercenary_payment + 1
 slot_troop_budget_reserved_other = slot_troop_budget_reserved_party + 1
 
 slot_troop_budget_debt = slot_troop_budget_reserved_other + 1
@@ -1681,7 +1687,10 @@ slot_troop_become_vassal_last_try = slot_troop_become_vassal_tried + 1
 
 slot_troop_noble = slot_troop_become_vassal_last_try + 1
 
-slot_troop_relations_begin = slot_troop_noble + 1
+slot_troop_mercenary_contract_wages_ratio = slot_troop_noble + 1
+slot_troop_mercenary_contract_monthly_pay = slot_troop_mercenary_contract_wages_ratio
+
+slot_troop_relations_begin = slot_troop_mercenary_contract_monthly_pay + 1
 
 
 # # # ToDo: remove test slots
