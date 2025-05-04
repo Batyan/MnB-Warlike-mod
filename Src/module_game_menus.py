@@ -1713,6 +1713,11 @@ game_menus = [
                     #ToDo: tavern
                 ]),
             
+            ("center_raise_levies", [(neg|party_slot_eq, "$g_encountered_party", slot_party_type, spt_castle),], "Train levies",
+                [
+                    (jump_to_menu, "mnu_town_raise_levies"),
+                ]),
+            
             ("center_leave", [], "Leave center",
                 [
                     # (leave_encounter),
@@ -1761,11 +1766,6 @@ game_menus = [
                 [
                     (assign, "$temp", "$g_encountered_party"),
                     (start_presentation, "prsnt_recruit_from_town_garrison"),
-                ]),
-            
-            ("center_raise_levies", [(neg|party_slot_eq, "$g_encountered_party", slot_party_type, spt_castle),], "Train levies",
-                [
-                    (jump_to_menu, "mnu_town_raise_levies"),
                 ]),
             
             ("center_back", [], "Head back to the center",
@@ -2114,9 +2114,9 @@ game_menus = [
                     (jump_to_menu, "mnu_town_raise_levies"),
                 ]),
             
-            ("center_back", [], "Head back to the keep",
+            ("center_back", [], "Head back",
                 [
-                    (jump_to_menu, "mnu_town_keep"),
+                    (jump_to_menu, "mnu_town_center"),
                 ]),
         ]),
 
