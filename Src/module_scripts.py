@@ -29540,7 +29540,7 @@ scripts = [
                 (ge, ":troop_no", 0),
                 (troop_get_slot, ":renown", ":troop_no", slot_troop_renown),
                 (store_mul, ":flat_renown", ":renown", 2),
-                (store_div, ":percent_renown", ":renown", 500),
+                (store_div, ":percent_renown", ":renown", 200),
 
                 (val_add, ":flat_amount", ":flat_renown"),
                 (val_add, ":score", ":percent_renown"),
@@ -29595,7 +29595,7 @@ scripts = [
     ("cf_faction_needs_mercenaries",
         [
             (store_script_param, ":faction_no", 1),
-            
+
             (is_between, ":faction_no", kingdoms_begin, kingdoms_end),
             (faction_get_slot, ":at_war", ":faction_no", slot_faction_is_at_war),
             (faction_get_slot, ":preparing_war", ":faction_no", slot_faction_preparing_war),
