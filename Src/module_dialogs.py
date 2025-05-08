@@ -755,7 +755,7 @@ dialogs = [
             (assign, ":flat_amount", reg0),
             (assign, reg10, reg1),
             (call_script, "script_game_get_money_text", ":flat_amount"),
-        ], "Of course you will be compensated. {s0} each year and the payment for {reg10}% of your wages.^On top of the right to loot our foes...", "lord_become_mercenary_accept_player", []],
+        ], "Of course, you will be compensated.^{s0} each year and the payment for {reg10}% of your wages.^On top of the right to loot our foes...", "lord_become_mercenary_accept_player", []],
 
     [anyone|plyr, "lord_become_mercenary_accept_player",
         [
