@@ -6630,6 +6630,11 @@ scripts = [
                         (troop_get_slot, ":budget", ":troop_no", slot_troop_budget_faction_funds),
                         (val_add, ":budget", ":amount"),
                         (troop_set_slot, ":troop_no", slot_troop_budget_faction_funds, ":budget"),
+                    (else_try),
+                        (eq, ":tax_type", tax_type_mercenary_contract),
+                        (troop_get_slot, ":budget", ":troop_no", slot_troop_budget_mercenary_payment),
+                        (val_add, ":budget", ":amount"),
+                        (troop_set_slot, ":troop_no", slot_troop_budget_mercenary_payment, ":budget"),
                     (try_end),
                 (try_end),
             (try_end),
@@ -8026,7 +8031,7 @@ scripts = [
             (faction_set_slot, "fac_faction_6", slot_faction_veteran_begin, "trp_bandit_taiga_bandit"),
             (faction_set_slot, "fac_faction_6", slot_faction_elite_begin, "trp_bandit_taiga_chieftain"),
             (faction_set_slot, "fac_faction_6", slot_faction_noble_begin, "trp_bandit_taiga_chieftain"),
-            (faction_set_slot, "fac_factiodn_6", slot_faction_troops_end, "trp_bandit_desert_bandit"),
+            (faction_set_slot, "fac_faction_6", slot_faction_troops_end, "trp_bandit_desert_bandit"),
             
             (faction_set_slot, "fac_faction_6", slot_faction_troop_ratio_infantry, 70),
             (faction_set_slot, "fac_faction_6", slot_faction_troop_ratio_spearman, 10),
@@ -27007,6 +27012,7 @@ scripts = [
                 (troop_set_slot, ":lord", slot_troop_budget_vassal_taxes, 0),
                 (troop_set_slot, ":lord", slot_troop_budget_faction_member_taxes, 0),
                 (troop_set_slot, ":lord", slot_troop_budget_faction_funds, 0),
+                (troop_set_slot, ":lord", slot_troop_budget_mercenary_payment, 0),
                 (troop_set_slot, ":lord", slot_troop_budget_reserved_party, 0),
                 (troop_set_slot, ":lord", slot_troop_budget_reserved_other, 0),
             (try_end),
@@ -27029,6 +27035,14 @@ scripts = [
             (try_for_range, ":faction_no", kingdoms_begin, kingdoms_end),
                 (faction_set_slot, ":faction_no", slot_faction_accumulated_taxes, 0),
             (try_end),
+
+            (troop_set_slot, "$g_player_troop", slot_troop_accumulated_taxes, 0),
+            (troop_set_slot, "$g_player_troop", slot_troop_budget_vassal_taxes, 0),
+            (troop_set_slot, "$g_player_troop", slot_troop_budget_faction_member_taxes, 0),
+            (troop_set_slot, "$g_player_troop", slot_troop_budget_faction_funds, 0),
+            (troop_set_slot, "$g_player_troop", slot_troop_budget_mercenary_payment, 0),
+            (troop_set_slot, "$g_player_troop", slot_troop_budget_reserved_party, 0),
+            (troop_set_slot, "$g_player_troop", slot_troop_budget_reserved_other, 0),
         ]),
 
     # script_party_check_prisoners
@@ -27316,7 +27330,7 @@ scripts = [
                     (call_script, "script_troop_get_player_name", -1, ":caravan_party"),
 
                     (call_script, "script_game_get_money_text", ":payment_amount"),
-                        (str_store_string, s0, "@Of course {s60}, here, we can part with {s0}."),
+                    (str_store_string, s0, "@Of course {s60}, here, we can part with {s0}."),
                 (else_try),
                     (assign, ":dialog_outcome", outcome_neutral),
                     (call_script, "script_game_get_money_text", ":payment_amount"),
@@ -29493,13 +29507,14 @@ scripts = [
                 (troop_get_slot, ":monthly_pay", ":troop_no", slot_troop_mercenary_contract_monthly_pay),
 
                 (troop_get_slot, ":party_no", ":troop_no", slot_troop_leaded_party),
+                (assign, ":payment", 0),
                 (try_begin),
                     (ge, ":party_no", 0),
                     (call_script, "script_party_get_wages", ":party_no"),
                     (assign, ":wages", reg0),
                     (store_mul, ":payment", ":wages", ":wages_ratio"),
                     (val_div, ":payment", 100),
-                    (gt, ":payment", 0),
+                    (val_max, ":payment", 0),
                 (try_end),
 
                 (store_add, ":total_received", ":payment", ":monthly_pay"),
@@ -29508,6 +29523,84 @@ scripts = [
                 (call_script, "script_troop_add_accumulated_taxes", ":troop_no", ":total_received", tax_type_mercenary_contract, 1),
                 (call_script, "script_faction_add_accumulated_taxes", ":troop_faction", ":total_payment", tax_type_mercenary_contract_pay),
             (try_end),
+        ]),
+
+    # script_troop_get_mercenary_payment
+        # input:
+        #   arg1: troop_no
+        # output: none
+    ("troop_get_mercenary_payment",
+        [
+            (store_script_param, ":troop_no", 1),
+
+            (assign, ":flat_amount", 1000),
+            (assign, ":base_score", 30),
+            (assign, ":score", ":base_score"),
+            (try_begin),
+                (ge, ":troop_no", 0),
+                (troop_get_slot, ":renown", ":troop_no", slot_troop_renown),
+                (store_mul, ":flat_renown", ":renown", 2),
+                (store_div, ":percent_renown", ":renown", 500),
+
+                (val_add, ":flat_amount", ":flat_renown"),
+                (val_add, ":score", ":percent_renown"),
+            (try_end),
+            (assign, reg0, ":flat_amount"),
+            (assign, reg1, ":score"),
+        ]),
+
+    # script_troop_become_mercenary
+        # input:
+        #   arg1: troop_no
+        #   arg2: troop_leader
+        # output: none
+    ("troop_become_mercenary",
+        [
+            (store_script_param, ":troop_no", 1),
+            (store_script_param, ":troop_leader", 2),
+
+            (troop_get_slot, ":occupation", ":troop_no", slot_troop_kingdom_occupation),
+            (try_begin),
+                (neq, ":occupation", tko_mercenary),
+                (troop_set_slot, ":troop_no", slot_troop_kingdom_occupation, tko_mercenary),
+            (try_end),
+
+            (call_script, "script_troop_get_mercenary_payment", ":troop_no"),
+            (troop_set_slot, ":troop_no", slot_troop_mercenary_contract_monthly_pay, reg0),
+            (troop_set_slot, ":troop_no", slot_troop_mercenary_contract_wages_ratio, reg1),
+
+            (call_script, "script_get_current_day"),
+            (assign, ":end_date", reg0),
+            (val_add, ":end_date", 365*3), # Default terms is 3 years
+            (troop_set_slot, ":troop_no", slot_troop_mercenary_contract_end_date, ":end_date"),
+
+            (store_troop_faction, ":troop_faction", ":troop_no"),
+            (store_troop_faction, ":leader_faction", ":troop_leader"),
+            (try_begin),
+                (neq, ":troop_faction", ":leader_faction"),
+
+                (troop_set_faction, ":troop_no", ":leader_faction"),
+
+                (troop_get_slot, ":troop_party", ":troop_no", slot_troop_leaded_party),
+                (ge, ":troop_party", 0),
+                (party_set_faction, ":troop_party", ":leader_faction"),
+            (try_end),
+        ]),
+
+    # script_cf_faction_needs_mercenaries
+        # input:
+        #   arg1: faction_no
+        # output: none
+        # fails if faction doesn't need mercenaries
+    ("cf_faction_needs_mercenaries",
+        [
+            (store_script_param, ":faction_no", 1),
+            
+            (is_between, ":faction_no", kingdoms_begin, kingdoms_end),
+            (faction_get_slot, ":at_war", ":faction_no", slot_faction_is_at_war),
+            (faction_get_slot, ":preparing_war", ":faction_no", slot_faction_preparing_war),
+            (this_or_next|gt, ":at_war", 0),
+            (gt, ":preparing_war", 0),
         ]),
 
     # script_presentation_generate_select_lord_card

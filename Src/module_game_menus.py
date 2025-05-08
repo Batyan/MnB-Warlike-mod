@@ -3073,4 +3073,64 @@ game_menus = [
                 (change_screen_return),
             ]),
         ]),
+
+    ("mercenary_contract_end", mnf_scale_picture,
+        "{s0}",
+        "none",
+        [
+            (store_troop_faction, ":faction", "$g_player_troop"),
+            (str_store_faction_name, s10, ":faction"),
+
+            (try_begin),
+                (call_script, "script_cf_faction_needs_mercenaries", ":faction"),
+                (str_store_string, s0, "@Your mercenary contract for {s10} is coming to an end.^^Do you wish to be released from its terms or renew the contract?"),
+            (else_try),
+                (faction_get_slot, ":leader", ":faction", slot_faction_leader),
+                (try_begin),
+                    (gt, ":leader", 0),
+                    (str_store_troop_name, s11, ":leader"),
+                    (str_store_string, s0, "@Your mercenary contract for {s10} is coming to an end.^^Unfortunately {s11} is no longer in need of mercenaries and does not wish to renew the contract."),
+                (else_try),
+                    (str_store_string, s0, "@Your mercenary contract for {s10} is coming to an end.^^Unfortunately your contract cannot be renewed."),
+                (try_end),
+
+            (try_end),
+        ],
+        [
+            ("mercenary_contract_renew_1",
+                [
+                    (store_troop_faction, ":faction", "$g_player_troop"),
+                    (call_script, "script_cf_faction_needs_mercenaries", ":faction"),
+                ], "Renew for a year", 
+                [
+                    (call_script, "script_get_current_day"),
+                    (assign, ":end_date", reg0),
+                    (val_add, ":end_date", 365),
+                    (troop_set_slot, "$g_player_troop", slot_troop_mercenary_contract_end_date, ":end_date"),
+                    (change_screen_return),
+                ]),
+            ("mercenary_contract_renew_3",
+                [
+                    (store_troop_faction, ":faction", "$g_player_troop"),
+                    (call_script, "script_cf_faction_needs_mercenaries", ":faction"),
+                ], "Renew for 3 years",
+                [
+                    (call_script, "script_get_current_day"),
+                    (assign, ":end_date", reg0),
+                    (val_add, ":end_date", 365*3),
+                    (troop_set_slot, "$g_player_troop", slot_troop_mercenary_contract_end_date, ":end_date"),
+                    (change_screen_return),
+                ]),
+            ("mercenary_contract_end", [], "End contract",
+                [
+                    (troop_set_slot, "$g_player_troop", slot_troop_kingdom_occupation, tko_kingdom_hero),
+                    (troop_set_faction, "$g_player_troop", "fac_player_faction"),
+                    (party_set_faction, "$g_player_party", "fac_player_faction"),
+
+                    (troop_set_slot, "$g_player_troop", slot_troop_mercenary_contract_monthly_pay, 0),
+                    (troop_set_slot, "$g_player_troop", slot_troop_mercenary_contract_wages_ratio, 0),
+
+                    (change_screen_return),
+                ]),
+        ]),
  ]

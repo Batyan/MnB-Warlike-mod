@@ -1,5 +1,6 @@
 v0.620:
 	-Features:
+		* add mercenary contracts for the player with factions
 	-Balances:
 		* speed up bandit parties slightly
 		* increase npc lords rest time during peace time

@@ -1688,18 +1688,20 @@ slot_troop_become_vassal_last_try = slot_troop_become_vassal_tried + 1
 slot_troop_noble = slot_troop_become_vassal_last_try + 1
 
 slot_troop_mercenary_contract_wages_ratio = slot_troop_noble + 1
-slot_troop_mercenary_contract_monthly_pay = slot_troop_mercenary_contract_wages_ratio
+slot_troop_mercenary_contract_monthly_pay = slot_troop_mercenary_contract_wages_ratio + 1
+slot_troop_mercenary_contract_end_date = slot_troop_mercenary_contract_monthly_pay + 1
 
-slot_troop_relations_begin = slot_troop_mercenary_contract_monthly_pay + 1
+slot_troop_mission_kills = slot_troop_mercenary_contract_end_date + 1
+slot_troop_mission_deaths = slot_troop_mission_kills + 1
+
+slot_troop_relations_begin = slot_troop_mission_deaths + 1
 
 
-# # # ToDo: remove test slots
-slot_troop_mission_kills = 398
-slot_troop_mission_deaths = 399
+# TODO: remove or move to specific slot type
 slot_item_mission_kills = 400
 slot_faction_mission_kills = 400
 slot_faction_mission_deaths = 401
-# # #
+# END
 
 ##################
 ## Player Slots ##

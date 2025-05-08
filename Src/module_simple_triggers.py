@@ -314,6 +314,20 @@ simple_triggers = [
                 # ToDo: free player
             (try_end),
         ]),
+
+    (daily,
+        [
+            (try_begin),
+                (troop_get_slot, ":occupation", "$g_player_troop", slot_troop_kingdom_occupation),
+                (eq, ":occupation", tko_mercenary),
+                (troop_get_slot, ":last_date", "$g_player_troop", slot_troop_mercenary_contract_end_date),
+                (call_script, "script_get_current_day"),
+                (assign, ":current_day", reg0),
+                (gt, ":current_day", ":last_date"),
+
+                (jump_to_menu, "mnu_mercenary_contract_end"),
+            (try_end),
+        ]),
     
     (weekly, # Lord mission
         [
@@ -438,7 +452,7 @@ simple_triggers = [
 
             (try_begin),
                 (troop_slot_eq, "$g_player_troop", slot_troop_kingdom_occupation, tko_mercenary),
-                (call_script, "script_apply_mercenary_contract", ":lord"),
+                (call_script, "script_apply_mercenary_contract", "$g_player_troop"),
             (try_end),
 
             (call_script, "script_party_process_debts", "$g_player_party"),
