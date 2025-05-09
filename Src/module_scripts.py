@@ -18926,7 +18926,7 @@ scripts = [
                 # (call_script, "script_set_random_faction_skin_color", ":culture"),
                 (call_script, "script_set_random_faction_morph_key", ":culture"),
             (else_try),
-                # Need to add scripts for female randomization
+                # TODO: Need to add scripts for female randomization
             (try_end),
         ]),
 
