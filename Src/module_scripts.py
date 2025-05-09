@@ -18912,8 +18912,7 @@ scripts = [
             (store_script_param, ":troop_no", 1),
             (str_store_troop_face_keys, s0, ":troop_no"),
             
-            (store_troop_faction, ":faction_no", ":troop_no"),
-            (faction_get_slot, ":culture", ":faction_no", slot_faction_culture),
+            (troop_get_slot, ":culture", ":troop_no", slot_troop_culture),
             (troop_get_type, ":type", ":troop_no"),
             
             (try_begin),
