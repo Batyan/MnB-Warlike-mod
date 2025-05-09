@@ -12938,12 +12938,7 @@ scripts = [
             (troop_set_slot, ":lord_no", slot_troop_num_vassal, 0),
             (troop_set_slot, ":lord_no", slot_troop_noble, 1),
             
-            (try_begin),
-                (eq, ":activate", 1),
-                (troop_set_slot, ":lord_no", slot_troop_kingdom_occupation, tko_kingdom_hero),
-            (else_try),
-                (troop_set_slot, ":lord_no", slot_troop_kingdom_occupation, tko_reserved),
-            (try_end),
+            (troop_set_slot, ":lord_no", slot_troop_kingdom_occupation, tko_reserved),
             
             (call_script, "script_troop_set_equip_type", ":lord_no"),
             (call_script, "script_troop_change_level", ":lord_no", 0),
@@ -12951,11 +12946,6 @@ scripts = [
             (call_script, "script_troop_set_name", ":lord_no"),
             (call_script, "script_troop_update_name", ":lord_no"),
 
-            (try_begin),
-                (eq, ":activate", 1),
-                (call_script, "script_troop_update_home", ":lord_no"),
-            (try_end),
-            
             # ToDo: refine banner selection
             (store_random_in_range, ":banner", banner_scene_props_begin, banner_scene_props_end),
             (troop_set_slot, ":lord_no", slot_troop_banner_scene_prop, ":banner"),
@@ -12973,9 +12963,7 @@ scripts = [
             
             (try_begin),
                 (eq, ":activate", 1),
-                (faction_get_slot, ":num_vassals", ":faction_no", slot_faction_num_vassals),
-                (val_add, ":num_vassals", 1),
-                (faction_set_slot, ":faction_no", slot_faction_num_vassals, ":num_vassals"),
+                (call_script, "script_activate_lord", ":lord_no"),
             (try_end),
         ]),
 
