@@ -239,6 +239,9 @@ nordic_names_end = rhodok_names_begin
 rhodok_names_end = sarranid_names_begin
 sarranid_names_end = names_end
 
+base_faces_begin = "str_face_base_1"
+base_faces_end = "str_face_base_end"
+
 relation_state_war = -40
 relation_state_conflict = -20
 relation_state_neutral = 0
@@ -1421,6 +1424,9 @@ slot_party_elder_last_met = slot_party_fame + 1
 slot_party_free_recruits = slot_party_elder_last_met + 1
 
 slot_party_related_quest = slot_party_free_recruits + 1
+
+slot_party_face_key_storage = slot_party_related_quest + 1
+slot_party_face_options_storage = slot_party_face_key_storage + 1
 
 #################
 ## Scene Slots ##

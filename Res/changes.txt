@@ -2,6 +2,7 @@ v0.620:
 	-Features:
 		* add mercenary contracts for the player with factions
 		* finished updating names for placeholder center name
+		* add specific faces for village elder
 	-Balances:
 		* speed up bandit parties slightly
 		* increase npc lords rest time during peace time

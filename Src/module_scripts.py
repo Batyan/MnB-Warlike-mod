@@ -3591,6 +3591,9 @@ scripts = [
                 (call_script, "script_party_process_taxes", ":party_no"),
             (try_end),
             (call_script, "script_party_process_ideal_party_wages", ":party_no"),
+
+            (party_set_slot, ":party_no", slot_party_face_key_storage, -1),
+            (party_set_slot, ":party_no", slot_party_face_options_storage, -1),
             
             (call_script, "script_party_get_siege_scene", ":party_no"),
             (assign, ":siege_scene", reg0),
@@ -12950,7 +12953,7 @@ scripts = [
             (store_random_in_range, ":banner", banner_scene_props_begin, banner_scene_props_end),
             (troop_set_slot, ":lord_no", slot_troop_banner_scene_prop, ":banner"),
             
-            (call_script, "script_troop_get_face_code", ":lord_no"),
+            (call_script, "script_troop_get_face_code", ":lord_no", -1, -1),
             (troop_set_face_keys, ":lord_no", s0),
             
             # Reset state
@@ -18905,28 +18908,85 @@ scripts = [
     # script_troop_get_face_code
         # input: 
         #   arg1: troop_no
+        #   arg2: base_face_key
+        #   arg3: base_face_options
         # output:
         #   s0: facecode
+        #   reg0: base_face_index
+        #   reg1: face_options
     ("troop_get_face_code",
         [
             (store_script_param, ":troop_no", 1),
+            (store_script_param, ":base_face_key", 2),
+            (store_script_param, ":base_face_options", 3),
+
+            (try_begin),
+                (eq, ":base_face_key", -1),
+                (store_random_in_range, ":base_face_key", base_faces_begin, base_faces_end),
+            (try_end),
+
+            (troop_set_face_keys, ":troop_no", ":base_face_key"),
             (str_store_troop_face_keys, s0, ":troop_no"),
-            
+
             (troop_get_slot, ":culture", ":troop_no", slot_troop_culture),
             (troop_get_type, ":type", ":troop_no"),
             
             (try_begin),
+                (neq, ":base_face_options", -1),
+
+                (assign, ":hair_key", ":base_face_options"),
+                (assign, ":beard_key", ":base_face_options"),
+                (assign, ":face_texture_key", ":base_face_options"),
+                (assign, ":hair_color_key", ":base_face_options"),
+
+                (val_mod, ":hair_key", 2**5),
+
+                (val_mod, ":beard_key", 2**(5+5)),
+                (val_rshift, ":beard_key", 5),
+
+                (val_mod, ":face_texture_key", 2**(5+5+3)),
+                (val_rshift, ":face_texture_key", 5+5),
+
+                (val_rshift, ":hair_color_key", 5+5+3),
+
+                (face_keys_set_hair, s0, ":hair_key"),
+                (face_keys_set_beard, s0, ":beard_key"),
+                (face_keys_set_face_texture, s0, ":face_texture_key"),
+                (face_keys_set_hair_color, s0, ":hair_color_key"),
+            (else_try),
                 (eq, ":type", tf_male),
                 (call_script, "script_set_random_faction_hair", ":culture"),
+                (assign, ":hair_key", reg0),
                 (call_script, "script_set_random_faction_beard", ":culture"),
+                (assign, ":beard_key", reg0),
                 (call_script, "script_set_random_faction_face_texture", ":culture"),
+                (assign, ":face_texture_key", reg0),
                 # (call_script, "script_set_random_faction_hair_texture", ":culture"),
+                # (assign, ":hair_texture_key", reg0),
                 (call_script, "script_set_random_faction_hair_color", ":culture"),
+                (assign, ":hair_color_key", reg0),
                 # (call_script, "script_set_random_faction_skin_color", ":culture"),
+                # (assign, ":skin_key", reg0),
                 (call_script, "script_set_random_faction_morph_key", ":culture"),
+                # (assign, ":morph_key", reg0),
+
+                (assign, ":base_face_options", ":hair_key"),
+                (val_lshift, ":beard_key", 5),
+                (val_lshift, ":face_texture_key", 5+5),
+                # (val_lshift, ":hair_texture_key", 4),
+                (val_lshift, ":hair_color_key", 5+5+3),
+                # (val_lshift, ":skin_key", 4),
+                # (val_lshift, ":morph_key", 4),
+
+                (val_add, ":base_face_options", ":beard_key"),
+                (val_add, ":base_face_options", ":face_texture_key"),
+                (val_add, ":base_face_options", ":hair_color_key"),
+
             (else_try),
                 # TODO: Need to add scripts for female randomization
             (try_end),
+            (assign, reg0, ":base_face_key"),
+            (assign, reg1, ":base_face_options"),
         ]),
 
     # script_troop_copy_face_code_from_troop
@@ -18945,24 +19005,14 @@ scripts = [
             (str_store_troop_face_keys, s1, ":troop_no_2", 2),
             (troop_set_face_keys, ":troop_no", s1, 2),
         ]),
-
-    # script_troop_copy_face_code
-        # input: 
-        #   arg1: troop_no
-        #   arg2: face_code
-        # output: none
-    # ("troop_copy_face_code", 
-    #     [
-    #         (store_script_param, ":troop_no", 1),
-    #         (store_script_param, ":face_key", 2),
-    #     ]),
     
     # script_set_random_faction_hair
         # input: 
-        #   arg1: faction_no
+        #   arg1: culture_no
         #   s0: face_key
         # output:
         #   s0: new_face_key
+        #   reg0: value_key
     ("set_random_faction_hair",
         [
             (store_script_param, ":faction_no", 1),
@@ -19006,25 +19056,173 @@ scripts = [
                 (try_end),
             (try_end),
             (face_keys_set_hair, s0, ":value"),
+            (assign, reg0, ":value"),
         ]),
         
     # script_set_random_faction_beard
         # input: 
-        #   arg1: faction_no
+        #   arg1: culture_no
         #   s0: face_key
         # output:
         #   s0: new_face_key
+        #   reg0: value_key
     ("set_random_faction_beard",
         [
-            # (store_script_param, ":faction_no", 1),
+            (store_script_param, ":faction_no", 1),
+            (assign, ":value", 0),
+
+            (assign, ":beard_chance", 0),
+            (try_begin),
+                (eq, ":faction_no", "fac_culture_1"),
+                (assign, ":beard_chance", 7),
+            (else_try),
+                (eq, ":faction_no", "fac_culture_2"),
+                (assign, ":beard_chance", 8),
+            (else_try),
+                (eq, ":faction_no", "fac_culture_3"),
+                (assign, ":beard_chance", 6),
+            (else_try),
+                (eq, ":faction_no", "fac_culture_4"),
+                (assign, ":beard_chance", 9),
+            (else_try),
+                (eq, ":faction_no", "fac_culture_5"),
+                (assign, ":beard_chance", 5),
+            (else_try),
+                (eq, ":faction_no", "fac_culture_6"),
+                (assign, ":beard_chance", 5),
+            (try_end),
+
+            (store_random_in_range, ":rand", 0, 10),
+            (try_begin),
+                (lt, ":rand", ":beard_chance"),
+
+                (try_begin),
+                    (eq, ":faction_no", fac_culture_1),
+                    (store_random_in_range, ":value", 1, 17),
+                    (try_begin),
+                        (ge, ":value", 4),
+                        (val_add, ":value", 1),
+
+                        (ge, ":value", 7),
+                        (val_add, ":value", 1),
+
+                        (ge, ":value", 12),
+                        (val_add, ":value", 1),
+
+                        (ge, ":value", 14),
+                        (val_add, ":value", 1),
+
+                        (ge, ":value", 17),
+                        (val_add, ":value", 1),
+
+                        (ge, ":value", 21),
+                        (val_add, ":value", 1),
+                    (try_end),
+                (else_try),
+                    (eq, ":faction_no", fac_culture_2),
+                    (store_random_in_range, ":value", 1, 10),
+                    (try_begin),
+                        (ge, ":value", 2),
+                        (val_add, ":value", 3),
+
+                        (ge, ":value", 8),
+                        (val_add, ":value", 4),
+
+                        (ge, ":value", 14),
+                        (val_add, ":value", 4),
+
+                        (ge, ":value", 20),
+                        (val_add, ":value", 2),
+                    (try_end),
+                (else_try),
+                    (eq, ":faction_no", fac_culture_3),
+                    (store_random_in_range, ":value", 1, 14),
+                    (try_begin),
+                        (ge, ":value", 2),
+                        (val_add, ":value", 2),
+
+                        (ge, ":value", 8),
+                        (val_add, ":value", 5),
+
+                        (ge, ":value", 16),
+                        (val_add, ":value", 1),
+
+                        (ge, ":value", 20),
+                        (val_add, ":value", 1),
+                    (try_end),
+                (else_try),
+                    (eq, ":faction_no", fac_culture_4),
+                    (store_random_in_range, ":value", 1, 8),
+                    (try_begin),
+                        (ge, ":value", 2),
+                        (val_add, ":value", 3),
+
+                        (ge, ":value", 7),
+                        (val_add, ":value", 5),
+
+                        (ge, ":value", 14),
+                        (val_add, ":value", 5),
+
+                        (ge, ":value", 20),
+                        (val_add, ":value", 2),
+                    (try_end),
+                (else_try),
+                    (eq, ":faction_no", fac_culture_5),
+                    (store_random_in_range, ":value", 1, 12),
+                    (try_begin),
+                        (ge, ":value", 2),
+                        (val_add, ":value", 3),
+
+                        (ge, ":value", 7),
+                        (val_add, ":value", 1),
+
+                        (ge, ":value", 12),
+                        (val_add, ":value", 1),
+
+                        (ge, ":value", 14),
+                        (val_add, ":value", 3),
+
+                        (ge, ":value", 18),
+                        (val_add, ":value", 1),
+
+                        (ge, ":value", 20),
+                        (val_add, ":value", 1),
+
+                        (ge, ":value", 22),
+                        (val_add, ":value", 1),
+                    (try_end),
+                (else_try),
+                    (eq, ":faction_no", fac_culture_6),
+                    (store_random_in_range, ":value", 1, 11),
+                    (try_begin),
+                        (ge, ":value", 2),
+                        (val_add, ":value", 2),
+
+                        (ge, ":value", 7),
+                        (val_add, ":value", 6),
+
+                        (ge, ":value", 15),
+                        (val_add, ":value", 2),
+
+                        (ge, ":value", 18),
+                        (val_add, ":value", 1),
+
+                        (ge, ":value", 20),
+                        (val_add, ":value", 1),
+                    (try_end),
+                (try_end),
+            (try_end),
+            (face_keys_set_beard, s0, ":value"),
+            (assign, reg0, ":value"),
         ]),
         
     # script_set_random_faction_face_texture
         # input: 
-        #   arg1: faction_no
+        #   arg1: culture_no
         #   s0: face_key
         # output:
         #   s0: new_face_key
+        #   reg0: value_key
     ("set_random_faction_face_texture",
         [
             (store_script_param, ":faction_no", 1),
@@ -19053,14 +19251,16 @@ scripts = [
                 (store_random_in_range, ":value", 6, 8),
             (try_end),
             (face_keys_set_face_texture, s0, ":value"),
+            (assign, reg0, ":value"),
         ]),
         
     # script_set_random_faction_hair_texture
-    # input: 
-    #   arg1: faction_no
-    #   s0: face_key
-    # output:
-    #   s0: new_face_key
+        # input: 
+        #   arg1: culture_no
+        #   s0: face_key
+        # output:
+        #   s0: new_face_key
+        #   reg0: value_key
     # ("set_random_faction_hair_texture",
         # [
             # (store_script_param, ":faction_no", 1),
@@ -19068,10 +19268,11 @@ scripts = [
         
     # script_set_random_faction_hair_color
         # input: 
-        #   arg1: faction_no
+        #   arg1: culture_no
         #   s0: face_key
         # output:
         #   s0: new_face_key
+        #   reg0: value_key
     ("set_random_faction_hair_color",
         [
             (store_script_param, ":faction_no", 1),
@@ -19096,14 +19297,16 @@ scripts = [
                 (store_random_in_range, ":value", 30, 64),
             (try_end),
             (face_keys_set_hair_color, s0, ":value"),
+            (assign, reg0, ":value"),
         ]),
         
     # script_set_random_faction_skin_color
         # input: 
-        #   arg1: faction_no
+        #   arg1: culture_no
         #   s0: face_key
         # output:
         #   s0: new_face_key
+        #   reg0: value_key
     # ("set_random_faction_skin_color",
         # [
             # (store_script_param, ":faction_no", 1),
@@ -19111,10 +19314,11 @@ scripts = [
         
     # script_set_random_faction_morph_key
         # input: 
-        #   arg1: faction_no
+        #   arg1: culture_no
         #   s0: face_key
         # output:
         #   s0: new_face_key
+        #   reg0: value_key
     ("set_random_faction_morph_key",
         [
             # (store_script_param, ":faction_no", 1),
@@ -29354,6 +29558,8 @@ scripts = [
 
             (call_script, "script_center_get_elder_face_key", ":party_no"),
             (troop_set_face_keys, "trp_village_elder", s0),
+            (troop_set_age, "trp_village_elder", 65),
+
             (call_script, "script_setup_troop_meeting", "trp_village_elder", -1),
         ]),
 
@@ -29367,8 +29573,27 @@ scripts = [
             (store_script_param, ":party_no", 1),
             
             (party_get_slot, ":original_faction", ":party_no", slot_party_original_faction),
+            (faction_get_slot, ":culture", ":original_faction", slot_faction_culture),
             (troop_set_faction, "trp_village_elder", ":original_faction"),
-            (call_script, "script_troop_get_face_code", "trp_village_elder"),
+            (troop_set_slot, "trp_village_elder", slot_troop_culture, ":culture"),
+
+            (party_get_slot, ":base_face_key", ":party_no", slot_party_face_key_storage),
+            (party_get_slot, ":base_face_options", ":party_no", slot_party_face_options_storage),
+
+            (call_script, "script_troop_get_face_code", "trp_village_elder", ":base_face_key", ":base_face_options"),
+            (assign, ":new_face_key", reg0),
+            (assign, ":new_face_options", reg1),
+
+            (display_message, "@face {reg0} optiosn: {reg1}"),
+
+            (try_begin),
+                (eq, ":base_face_key", -1),
+                (party_set_slot, ":party_no", slot_party_face_key_storage, ":new_face_key"),
+            (try_end),
+            (try_begin),
+                (eq, ":base_face_options", -1),
+                (party_set_slot, ":party_no", slot_party_face_options_storage, ":new_face_options"),
+            (try_end),
         ]),
 
     # script_prepare_intro_quest
