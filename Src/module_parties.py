@@ -130,9 +130,9 @@ parties = [
 	("castle_23c","Rek Castle", icon_castle_a|pf_castle, 0, pt_none, fac_small_kingdom_23,0,ai_bhvr_hold,0,(122.9, 118.7),[], 170),
 	("castle_24a","Yruma Castle", icon_castle_a|pf_castle, 0, pt_none, fac_small_kingdom_24,0,ai_bhvr_hold,0,(77, 42.3),[], 170),
 	("castle_24b","Saerg Castle", icon_castle_a|pf_castle, 0, pt_none, fac_small_kingdom_24,0,ai_bhvr_hold,0,(90.9, 48.9),[], 170),
-	("castle_25b","New Castle", icon_castle_a|pf_castle, 0, pt_none, fac_small_kingdom_25,0,ai_bhvr_hold,0,(118.5, 64),[], 170),
-	("castle_25c","New Castle", icon_castle_a|pf_castle, 0, pt_none, fac_small_kingdom_25,0,ai_bhvr_hold,0,(123.2, 102.9),[], 170),
-	("castle_25d","New Castle", icon_castle_a|pf_castle, 0, pt_none, fac_small_kingdom_25,0,ai_bhvr_hold,0,(137.5, 70.5),[], 170),
+	("castle_25b","Basan Castle", icon_castle_a|pf_castle, 0, pt_none, fac_small_kingdom_25,0,ai_bhvr_hold,0,(118.5, 64),[], 170),
+	("castle_25c","Isadeg Castle", icon_castle_a|pf_castle, 0, pt_none, fac_small_kingdom_25,0,ai_bhvr_hold,0,(123.2, 102.9),[], 170),
+	("castle_25d","Klaerg Castle", icon_castle_a|pf_castle, 0, pt_none, fac_small_kingdom_25,0,ai_bhvr_hold,0,(137.5, 70.5),[], 170),
 	
 	("castle_3a","Malayurg Castle", icon_castle_a|pf_castle, 0, pt_none, fac_kingdom_3,0,ai_bhvr_hold,0,(116.1, -18),[], 170),
 	("castle_3b","Dugan Castle", icon_castle_a|pf_castle, 0, pt_none, fac_kingdom_3,0,ai_bhvr_hold,0,(94.8, -1),[], 170),
@@ -288,8 +288,8 @@ parties = [
 	("village_25a2","Tridina", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_25,0,ai_bhvr_hold,0,(138.4, 103.6),[], 170),
 	("village_25a3","Dimishte", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_25,0,ai_bhvr_hold,0,(152.8, 91.4),[], 170),
 	("village_25b1","Shizike", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_25,0,ai_bhvr_hold,0,(127.9, 54.5),[], 170),
-	("village_25c1","New Village", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_25,0,ai_bhvr_hold,0,(127.2, 107.1),[], 170),
-	("village_25d1","New Village", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_25,0,ai_bhvr_hold,0,(139.3, 77),[], 170),
+	("village_25c1","Malacheg", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_25,0,ai_bhvr_hold,0,(127.2, 107.1),[], 170),
+	("village_25d1","Klaerg", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_25,0,ai_bhvr_hold,0,(139.3, 77),[], 170),
 
 	("village_311","Dusturil", icon_village_a|pf_village, 0, pt_none, fac_kingdom_3,0,ai_bhvr_hold,0,(127, -25),[], 170),
 	("village_312","Dashbigha", icon_village_a|pf_village, 0, pt_none, fac_kingdom_3,0,ai_bhvr_hold,0,(134, -33),[], 170),
