@@ -559,9 +559,13 @@ script_intro_quest_init = 557
 script_troop_add_knowledge = 558
 script_cf_player_knows_troop = 559
 script_intro_quest_thugs_threaten = 560
-script_presentation_generate_select_lord_card = 561
-script_presentation_create_text_overlay = 562
-script_presentation_create_combo_button_overlay = 563
-script_presentation_create_check_box_overlay = 564
+script_apply_mercenary_contract = 561
+script_troop_get_mercenary_payment = 562
+script_troop_become_mercenary = 563
+script_cf_faction_needs_mercenaries = 564
+script_presentation_generate_select_lord_card = 565
+script_presentation_create_text_overlay = 566
+script_presentation_create_combo_button_overlay = 567
+script_presentation_create_check_box_overlay = 568
 
 
