@@ -828,9 +828,12 @@ dialogs = [
     [anyone, "lord_ask_opinion_liege",
         [], "Nothing you want to hear.", "lord_main_return", []],
     [anyone, "lord_ask_opinion_leader",
-        [], "The same as you.", "lord_main_return", []],
+        [
+            (troop_get_slot, ":leader", "$g_talk_troop", slot_troop_vassal_of),
+            (str_store_troop_name, s10, ":leader"),
+        ], "{s10} is my liege, I won't say anything else regarding this matter.", "lord_main_return", []],
     [anyone, "lord_ask_opinion_marshall",
-        [], "I don't think we have a marshall do we ?", "lord_main_return", []],
+        [], "I don't think we have a marshall do we?", "lord_main_return", []],
     
     [anyone, "lord_ask_vassal",
         [(eq, "$g_dialog_outcome", vassal_outcome_too_many),], "I'm afraid I have no room for you in my court.", "lord_ask_vassal_too_many", []],
