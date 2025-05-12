@@ -26,6 +26,9 @@ v0.620:
 			removed light_spearman and spearman from small_kingdom_15
 			removed foot_knight from small_kingdom_15
 			added levy_spearman, light_spearman and spearman to small_kingdom_17
+		* set starting era to 3 (from 0)
+			eras decide troop rank availability
+			will be set back to 0 when eras are able to progress
 	-Fixes:
 		* fix bandits spawning more often on high prosperity centers
 		* fix caravan parties having low party size

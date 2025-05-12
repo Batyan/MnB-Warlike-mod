@@ -54,7 +54,7 @@ scripts = [
             
             # ToDo: temporary
             (try_for_range, ":faction", "fac_faction_1", kingdoms_end),
-                (faction_set_slot, ":faction", slot_faction_era, 0),
+                (faction_set_slot, ":faction", slot_faction_era, 3),
             (try_end),
             
             (try_for_range, ":small_kingdom", kingdoms_begin, kingdoms_end),
