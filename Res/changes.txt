@@ -30,6 +30,7 @@ v0.620:
 		* fix bandits spawning more often on high prosperity centers
 		* fix caravan parties having low party size
 		* fix patrol parties having low party size
+		* fix incorrect assignment of player relations
 v0.610:
 	-Features:
 		* add clan names
