@@ -22117,6 +22117,11 @@ scripts = [
             (store_script_param, ":other_troop_no", 2),
             (store_script_param, ":change", 3),
 
+            (try_begin),
+                (eq, ":other_troop_no", "$g_player_troop"),
+                (assign, ":other_troop_no", "trp_current_player"),
+            (try_end),
+
             (store_sub, ":troop_no_offset", ":other_troop_no", npc_heroes_begin),
             (store_add, ":slot_rel_1", ":troop_no_offset", slot_troop_relations_begin),
             (val_max, ":slot_rel_1", slot_troop_relations_begin),
