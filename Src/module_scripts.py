@@ -42,15 +42,6 @@ scripts = [
             (call_script, "script_init_goods"),
             (call_script, "script_init_good_recipes"),
             
-            ## Generate some bandits to begin with
-            (try_for_range, ":cur_center", villages_begin, villages_end),
-                (store_random_in_range, ":rand", 0, 10),
-                (try_begin),
-                    (eq, ":rand", 0),
-                    (call_script, "script_party_spawn_bandits", ":cur_center"),
-                (try_end),
-            (try_end),
-            
             (call_script, "script_init_building_slots"),
             (call_script, "script_init_siege_scene_slots"),
             
@@ -63,7 +54,7 @@ scripts = [
             
             # ToDo: temporary
             (try_for_range, ":faction", "fac_faction_1", kingdoms_end),
-                (faction_set_slot, ":faction", slot_faction_era, 0),
+                (faction_set_slot, ":faction", slot_faction_era, 3),
             (try_end),
             
             (try_for_range, ":small_kingdom", kingdoms_begin, kingdoms_end),
@@ -73,6 +64,11 @@ scripts = [
 
             (try_for_range, ":party_no", centers_begin, centers_end),
                 (call_script, "script_party_init_center", ":party_no"),
+            
+                ## Generate some bandits to begin with
+                (try_for_range, ":unused", 0,  3),
+                    (call_script, "script_party_spawn_bandits", ":party_no"),
+                (try_end),
             (try_end),
             (call_script, "script_clean_budgets"),
 
@@ -3595,6 +3591,9 @@ scripts = [
                 (call_script, "script_party_process_taxes", ":party_no"),
             (try_end),
             (call_script, "script_party_process_ideal_party_wages", ":party_no"),
+
+            (party_set_slot, ":party_no", slot_party_face_key_storage, -1),
+            (party_set_slot, ":party_no", slot_party_face_options_storage, -1),
             
             (call_script, "script_party_get_siege_scene", ":party_no"),
             (assign, ":siege_scene", reg0),
@@ -6634,6 +6633,11 @@ scripts = [
                         (troop_get_slot, ":budget", ":troop_no", slot_troop_budget_faction_funds),
                         (val_add, ":budget", ":amount"),
                         (troop_set_slot, ":troop_no", slot_troop_budget_faction_funds, ":budget"),
+                    (else_try),
+                        (eq, ":tax_type", tax_type_mercenary_contract),
+                        (troop_get_slot, ":budget", ":troop_no", slot_troop_budget_mercenary_payment),
+                        (val_add, ":budget", ":amount"),
+                        (troop_set_slot, ":troop_no", slot_troop_budget_mercenary_payment, ":budget"),
                     (try_end),
                 (try_end),
             (try_end),
@@ -6754,7 +6758,7 @@ scripts = [
 
     # script_faction_add_accumulated_taxes
         # input:
-        #   arg1: party_no
+        #   arg1: faction_no
         #   arg2: amount
         #   arg3: tax_type
         # output: none
@@ -6920,7 +6924,6 @@ scripts = [
             (store_script_param, ":party_no", 1),
 
             (party_get_slot, ":wanted_wages", ":party_no", slot_party_budget_reserved_party),
-
             (party_get_slot, ":old_wanted_wages", ":party_no", slot_party_wanted_party_wages),
 
             (try_begin),
@@ -6951,6 +6954,13 @@ scripts = [
             (try_end),
 
             (party_set_slot, ":party_no", slot_party_wanted_party_wages, ":new_wanted_wages"),
+
+            (party_get_slot, ":old_auxiliary_wages", ":party_no", slot_party_wanted_auxiliary_party_wages),
+            (party_get_slot, ":auxiliary_wages", ":party_no", slot_party_budget_reserved_auxiliaries),
+            (store_mul, ":new_auxiliary_wages", ":old_auxiliary_wages", 4),
+            (val_add, ":new_auxiliary_wages", ":auxiliary_wages"),
+            (val_div, ":new_auxiliary_wages", 5),
+            (party_set_slot, ":party_no", slot_party_wanted_auxiliary_party_wages, ":new_auxiliary_wages"),
         ]),
     
     # script_spawn_party_around_party
@@ -7490,13 +7500,13 @@ scripts = [
             (call_script, "script_faction_change_slot", "fac_small_kingdom_12", slot_faction_troop_ratio_cavalry, -10),
             (call_script, "script_faction_change_slot", "fac_small_kingdom_12", slot_faction_troop_ratio_lancer, -5),
             
-            (call_script, "script_faction_change_slot", "fac_small_kingdom_13", slot_faction_troop_ratio_spearman, 5),
-            (call_script, "script_faction_change_slot", "fac_small_kingdom_13", slot_faction_troop_ratio_lancer, 30),
+            (call_script, "script_faction_change_slot", "fac_small_kingdom_13", slot_faction_troop_ratio_cavalry, 30),
             
             (call_script, "script_faction_change_slot", "fac_small_kingdom_14", slot_faction_troop_ratio_archer, 25),
             (call_script, "script_faction_change_slot", "fac_small_kingdom_14", slot_faction_troop_ratio_crossbow, -25),
             
-            (call_script, "script_faction_change_slot", "fac_small_kingdom_15", slot_faction_troop_ratio_cavalry, -10),
+            (call_script, "script_faction_change_slot", "fac_small_kingdom_15", slot_faction_troop_ratio_cavalry, -25),
+            (call_script, "script_faction_change_slot", "fac_small_kingdom_15", slot_faction_troop_ratio_lancer, 40),
             (call_script, "script_faction_change_slot", "fac_small_kingdom_15", slot_faction_troop_ratio_spearman, 10),
             
             (call_script, "script_faction_change_slot", "fac_small_kingdom_16", slot_faction_troop_ratio_skirmisher, 10),
@@ -7504,8 +7514,10 @@ scripts = [
             (call_script, "script_faction_change_slot", "fac_small_kingdom_16", slot_faction_troop_ratio_cavalry, -5),
             (call_script, "script_faction_change_slot", "fac_small_kingdom_16", slot_faction_troop_ratio_infantry, -5),
             
-            (call_script, "script_faction_change_slot", "fac_small_kingdom_17", slot_faction_troop_ratio_shock_infantry, 10), # For swadian sergeant
-            (call_script, "script_faction_change_slot", "fac_small_kingdom_17", slot_faction_troop_ratio_infantry, 10),
+            (call_script, "script_faction_change_slot", "fac_small_kingdom_17", slot_faction_troop_ratio_spearman, 25),
+            (call_script, "script_faction_change_slot", "fac_small_kingdom_17", slot_faction_troop_ratio_cavalry, -30),
+            (call_script, "script_faction_change_slot", "fac_small_kingdom_17", slot_faction_troop_ratio_archer, 5),
+            (call_script, "script_faction_change_slot", "fac_small_kingdom_17", slot_faction_troop_ratio_crossbow, 5),
             
             (call_script, "script_faction_change_slot", "fac_small_kingdom_21", slot_faction_troop_ratio_lancer, 50),
             (call_script, "script_faction_change_slot", "fac_small_kingdom_21", slot_faction_troop_ratio_cavalry, -50),
@@ -7957,7 +7969,7 @@ scripts = [
             (faction_set_slot, "fac_faction_2", slot_faction_troop_ratio_shock_infantry, 55),
             (faction_set_slot, "fac_faction_2", slot_faction_troop_ratio_archer, 20),
             (faction_set_slot, "fac_faction_2", slot_faction_troop_ratio_crossbow, 40),
-            (faction_set_slot, "fac_faction_2", slot_faction_troop_ratio_cavalry, 25),
+            (faction_set_slot, "fac_faction_2", slot_faction_troop_ratio_cavalry, 20),
             (faction_set_slot, "fac_faction_2", slot_faction_troop_ratio_lancer, 5),
             (faction_set_slot, "fac_faction_2", slot_faction_troop_ratio_horse_archer, 15),
             (faction_set_slot, "fac_faction_2", slot_faction_troop_ratio_mounted_skirmisher, 5),
@@ -7976,7 +7988,7 @@ scripts = [
             (faction_set_slot, "fac_faction_3", slot_faction_troop_ratio_shock_infantry, 50),
             (faction_set_slot, "fac_faction_3", slot_faction_troop_ratio_archer, 40),
             (faction_set_slot, "fac_faction_3", slot_faction_troop_ratio_crossbow, 10),
-            (faction_set_slot, "fac_faction_3", slot_faction_troop_ratio_cavalry, 35),
+            (faction_set_slot, "fac_faction_3", slot_faction_troop_ratio_cavalry, 30),
             (faction_set_slot, "fac_faction_3", slot_faction_troop_ratio_lancer, 10),
             (faction_set_slot, "fac_faction_3", slot_faction_troop_ratio_horse_archer, 15),
             (faction_set_slot, "fac_faction_3", slot_faction_troop_ratio_mounted_skirmisher, 60),
@@ -7995,7 +8007,7 @@ scripts = [
             (faction_set_slot, "fac_faction_4", slot_faction_troop_ratio_shock_infantry, 50),
             (faction_set_slot, "fac_faction_4", slot_faction_troop_ratio_archer, 35),
             (faction_set_slot, "fac_faction_4", slot_faction_troop_ratio_crossbow, 10),
-            (faction_set_slot, "fac_faction_4", slot_faction_troop_ratio_cavalry, 15),
+            (faction_set_slot, "fac_faction_4", slot_faction_troop_ratio_cavalry, 5),
             (faction_set_slot, "fac_faction_4", slot_faction_troop_ratio_lancer, 5),
             (faction_set_slot, "fac_faction_4", slot_faction_troop_ratio_horse_archer, 10),
             (faction_set_slot, "fac_faction_4", slot_faction_troop_ratio_mounted_skirmisher, 20),
@@ -9475,9 +9487,10 @@ scripts = [
                     (this_or_next|gt, ":at_war", 0),
                     (gt, ":preparing_for_war", 0),
                 (else_try),
-                    (assign, ":war_mult", 40),
+                    (assign, ":war_mult", 80),
                     (try_begin),
                         (eq, ":party_type", spt_war_party),
+                        (assign, ":war_mult", 40),
                     (else_try),
                         (is_between, ":party_type", spt_village, spt_fort + 1),
                         (assign, ":war_mult", 80),
@@ -10137,7 +10150,9 @@ scripts = [
             (store_script_param, ":walled", 2),
             
             (store_troop_faction, ":troop_faction", ":troop_no"),
-            
+            (troop_get_slot, ":lord", ":troop_no", slot_troop_vassal_of),
+            (faction_get_slot, ":leader", ":troop_faction", slot_faction_leader),
+
             (call_script, "script_troop_get_home", ":troop_no"),
             (assign, ":home", reg0),
             (try_begin),
@@ -10146,32 +10161,32 @@ scripts = [
                 (troop_get_slot, ":home", ":troop_no", slot_troop_current_home),
                 (call_script, "script_cf_troop_check_home", ":troop_no", ":home", ":walled"),
             (else_try),
-                (troop_get_slot, ":lord", ":troop_no", slot_troop_vassal_of),
                 (is_between, ":lord", npc_heroes_begin, npc_heroes_end),
-                (troop_slot_eq, ":lord", slot_troop_kingdom_occupation, tko_kingdom_hero),
+                (troop_get_slot, ":lord_occupation", ":lord", slot_troop_kingdom_occupation),
+                (is_between, ":lord_occupation", tko_kingdom_hero, tko_mercenary + 1),
 
                 (call_script, "script_troop_get_home", ":lord"),
                 (assign, ":home", reg0),
                 (call_script, "script_cf_troop_check_home", ":troop_no", ":home", ":walled"),
             (else_try),
-                (troop_get_slot, ":lord", ":troop_no", slot_troop_vassal_of),
                 (is_between, ":lord", npc_heroes_begin, npc_heroes_end),
-                (troop_slot_eq, ":lord", slot_troop_kingdom_occupation, tko_kingdom_hero),
+                (troop_get_slot, ":lord_occupation", ":lord", slot_troop_kingdom_occupation),
+                (is_between, ":lord_occupation", tko_kingdom_hero, tko_mercenary + 1),
 
                 (troop_get_slot, ":home", ":lord", slot_troop_current_home),
                 (call_script, "script_cf_troop_check_home", ":troop_no", ":home", ":walled"),
             (else_try),
-                (faction_get_slot, ":leader", ":troop_faction", slot_faction_leader),
                 (is_between, ":leader", npc_heroes_begin, npc_heroes_end),
-                (troop_slot_eq, ":leader", slot_troop_kingdom_occupation, tko_kingdom_hero),
+                (troop_get_slot, ":leader_occupation", ":leader", slot_troop_kingdom_occupation),
+                (is_between, ":leader_occupation", tko_kingdom_hero, tko_mercenary + 1),
 
                 (call_script, "script_troop_get_home", ":leader"),
                 (assign, ":home", reg0),
                 (call_script, "script_cf_troop_check_home", ":troop_no", ":home", ":walled"),
             (else_try),
-                (faction_get_slot, ":leader", ":troop_faction", slot_faction_leader),
                 (is_between, ":leader", npc_heroes_begin, npc_heroes_end),
-                (troop_slot_eq, ":leader", slot_troop_kingdom_occupation, tko_kingdom_hero),
+                (troop_get_slot, ":leader_occupation", ":leader", slot_troop_kingdom_occupation),
+                (is_between, ":leader_occupation", tko_kingdom_hero, tko_mercenary + 1),
 
                 (troop_get_slot, ":home", ":leader", slot_troop_current_home),
                 (call_script, "script_cf_troop_check_home", ":leader", ":home", ":walled"),
@@ -10222,6 +10237,9 @@ scripts = [
             
             (party_get_attached_to, ":attached_to", ":party_no"),
             (store_faction_of_party, ":party_faction", ":party_no"),
+
+            (faction_get_slot, ":at_war", ":party_faction", slot_faction_is_at_war),
+            (faction_get_slot, ":preparing_war", ":party_faction", slot_faction_preparing_war),
             
             (call_script, "script_troop_get_current_home", ":leader", 0),
             (assign, ":home", reg0),
@@ -10274,16 +10292,26 @@ scripts = [
                     (troop_get_slot, ":last_rest", ":leader", slot_troop_last_rest),
                     (assign, ":stop", 0),
                     (store_sub, ":rest_time", ":current_day", ":last_rest"),
-                    (this_or_next|ge, ":rest_time", 7*24),
+
+                    (assign, ":target_active_time", 3*24),
+                    (assign, ":target_rest_time", 7*24),
+                    (try_begin),
+                        (ge, ":at_war", 1),
+                        (assign, ":target_active_time", 7*24),
+                        (assign, ":target_rest_time", 2*24),
+                    (else_try),
+                        (ge, ":preparing_war", 1),
+                        (assign, ":target_active_time", 5*24),
+                        (assign, ":target_rest_time", 4*24),
+                    (try_end),
+
+                    (this_or_next|ge, ":rest_time", ":target_active_time"),
                     (eq, ":attached_to", ":home"),
 
                     (try_begin),
                         (eq, ":attached_to", ":home"),
                         (try_begin),
-                            (ge, ":rest_time", 7*24),
-                            (troop_set_slot, ":leader", slot_troop_last_rest, ":current_day"),
-                        (else_try),
-                            (ge, ":rest_time", 28),
+                            (ge, ":rest_time", ":target_rest_time"),
                             (troop_set_slot, ":leader", slot_troop_last_rest, ":current_day"),
                             (call_script, "script_party_set_behavior", ":party_no", tai_patroling_center, ":home"),
                         (try_end),
@@ -11065,6 +11093,10 @@ scripts = [
             (party_get_attached_to, ":attached", ":party_no"),
             (try_begin),
                 (ge, ":attached", 0),
+
+                (this_or_next|neq, ":behavior", tai_traveling_to_party),
+                (neq, ":object", ":attached"),
+
                 (party_detach, ":party_no"),
             (try_end),
 
@@ -11141,7 +11173,6 @@ scripts = [
                 (str_store_party_name, s10, ":party_no"),
                 (display_debug_message, "@ERROR: Invalid party_set_behavior for party {s10}", text_color_impossible),
             (try_end),
-
             
             (party_set_aggressiveness, ":party_no", ":aggressiveness"),
             (party_set_courage, ":party_no", ":courage"),
@@ -12233,277 +12264,277 @@ scripts = [
 
             (item_set_slot, "itm_building_hunter_camp", ":wood_slot", 420),
             (item_set_slot, "itm_building_hunter_camp", ":stone_slot", 0),
-            (item_set_slot, "itm_building_hunter_camp", slot_building_cost_gold, 20000),
-            (item_set_slot, "itm_building_hunter_camp", slot_building_build_time, 240),
+            (item_set_slot, "itm_building_hunter_camp", slot_building_cost_gold, 200000),
+            (item_set_slot, "itm_building_hunter_camp", slot_building_build_time, 2400),
             (item_set_slot, "itm_building_hunter_camp", slot_building_enabled, 0),
             
             (item_set_slot, "itm_building_woodcutter_camp", ":wood_slot", 260),
             (item_set_slot, "itm_building_woodcutter_camp", ":stone_slot", 0),
-            (item_set_slot, "itm_building_woodcutter_camp", slot_building_cost_gold, 36000),
-            (item_set_slot, "itm_building_woodcutter_camp", slot_building_build_time, 300),
+            (item_set_slot, "itm_building_woodcutter_camp", slot_building_cost_gold, 360000),
+            (item_set_slot, "itm_building_woodcutter_camp", slot_building_build_time, 3000),
             (item_set_slot, "itm_building_woodcutter_camp", slot_building_enabled, 0),
             
             (item_set_slot, "itm_building_mill", ":wood_slot", 280),
             (item_set_slot, "itm_building_mill", ":stone_slot", 220),
-            (item_set_slot, "itm_building_mill", slot_building_cost_gold, 25000),
-            (item_set_slot, "itm_building_mill", slot_building_build_time, 360),
+            (item_set_slot, "itm_building_mill", slot_building_cost_gold, 250000),
+            (item_set_slot, "itm_building_mill", slot_building_build_time, 3600),
             (item_set_slot, "itm_building_mill", slot_building_enabled, 0),
             
             (item_set_slot, "itm_building_fish_pond", ":wood_slot", 380),
             (item_set_slot, "itm_building_fish_pond", ":stone_slot", 0),
-            (item_set_slot, "itm_building_fish_pond", slot_building_cost_gold, 30000),
-            (item_set_slot, "itm_building_fish_pond", slot_building_build_time, 280),
+            (item_set_slot, "itm_building_fish_pond", slot_building_cost_gold, 300000),
+            (item_set_slot, "itm_building_fish_pond", slot_building_build_time, 2800),
             (item_set_slot, "itm_building_fish_pond", slot_building_enabled, 0),
             
             (item_set_slot, "itm_building_mine", ":wood_slot", 140),
             (item_set_slot, "itm_building_mine", ":stone_slot", 0),
-            (item_set_slot, "itm_building_mine", slot_building_cost_gold, 80000),
-            (item_set_slot, "itm_building_mine", slot_building_build_time, 600),
+            (item_set_slot, "itm_building_mine", slot_building_cost_gold, 800000),
+            (item_set_slot, "itm_building_mine", slot_building_build_time, 6000),
             (item_set_slot, "itm_building_mine", slot_building_enabled, 0),
             
             (item_set_slot, "itm_building_stone_pit", ":wood_slot", 100),
             (item_set_slot, "itm_building_stone_pit", ":stone_slot", 0),
-            (item_set_slot, "itm_building_stone_pit", slot_building_cost_gold, 40000),
-            (item_set_slot, "itm_building_stone_pit", slot_building_build_time, 480),
+            (item_set_slot, "itm_building_stone_pit", slot_building_cost_gold, 400000),
+            (item_set_slot, "itm_building_stone_pit", slot_building_build_time, 4800),
             (item_set_slot, "itm_building_stone_pit", slot_building_enabled, 0),
             
             (item_set_slot, "itm_building_cattle_ranch", ":wood_slot", 220),
             (item_set_slot, "itm_building_cattle_ranch", ":stone_slot", 160),
-            (item_set_slot, "itm_building_cattle_ranch", slot_building_cost_gold, 22000),
-            (item_set_slot, "itm_building_cattle_ranch", slot_building_build_time, 220),
+            (item_set_slot, "itm_building_cattle_ranch", slot_building_cost_gold, 220000),
+            (item_set_slot, "itm_building_cattle_ranch", slot_building_build_time, 2200),
             (item_set_slot, "itm_building_cattle_ranch", slot_building_enabled, 0),
             
             (item_set_slot, "itm_building_farm", ":wood_slot", 140),
             (item_set_slot, "itm_building_farm", ":stone_slot", 40),
-            (item_set_slot, "itm_building_farm", slot_building_cost_gold, 20000),
-            (item_set_slot, "itm_building_farm", slot_building_build_time, 320),
+            (item_set_slot, "itm_building_farm", slot_building_cost_gold, 200000),
+            (item_set_slot, "itm_building_farm", slot_building_build_time, 3200),
             (item_set_slot, "itm_building_farm", slot_building_enabled, 0),
             
             (item_set_slot, "itm_building_slaver", ":wood_slot", 120),
             (item_set_slot, "itm_building_slaver", ":stone_slot", 50),
-            (item_set_slot, "itm_building_slaver", slot_building_cost_gold, 30000),
-            (item_set_slot, "itm_building_slaver", slot_building_build_time, 260),
+            (item_set_slot, "itm_building_slaver", slot_building_cost_gold, 300000),
+            (item_set_slot, "itm_building_slaver", slot_building_build_time, 2600),
             (item_set_slot, "itm_building_slaver", slot_building_enabled, 0),
             
             (item_set_slot, "itm_building_market", ":wood_slot", 320),
             (item_set_slot, "itm_building_market", ":stone_slot", 80),
-            (item_set_slot, "itm_building_market", slot_building_cost_gold, 34000),
-            (item_set_slot, "itm_building_market", slot_building_build_time, 360),
+            (item_set_slot, "itm_building_market", slot_building_cost_gold, 340000),
+            (item_set_slot, "itm_building_market", slot_building_build_time, 3600),
             (item_set_slot, "itm_building_market", slot_building_enabled, 0),
             
             (item_set_slot, "itm_building_market_2", ":wood_slot", 480),
             (item_set_slot, "itm_building_market_2", ":stone_slot", 120),
-            (item_set_slot, "itm_building_market_2", slot_building_cost_gold, 51000),
-            (item_set_slot, "itm_building_market_2", slot_building_build_time, 540),
+            (item_set_slot, "itm_building_market_2", slot_building_cost_gold, 510000),
+            (item_set_slot, "itm_building_market_2", slot_building_build_time, 5400),
             (item_set_slot, "itm_building_market_2", slot_building_enabled, 0),
             (item_set_slot, "itm_building_market_2", slot_building_required_building, "itm_building_market"),
             
             (item_set_slot, "itm_building_fields", ":wood_slot", 120),
             (item_set_slot, "itm_building_fields", ":stone_slot", 20),
-            (item_set_slot, "itm_building_fields", slot_building_cost_gold, 40000),
-            (item_set_slot, "itm_building_fields", slot_building_build_time, 480),
+            (item_set_slot, "itm_building_fields", slot_building_cost_gold, 400000),
+            (item_set_slot, "itm_building_fields", slot_building_build_time, 4800),
             (item_set_slot, "itm_building_fields", slot_building_enabled, 0),
             
             (item_set_slot, "itm_building_tannery", ":wood_slot", 200),
             (item_set_slot, "itm_building_tannery", ":stone_slot", 200),
-            (item_set_slot, "itm_building_tannery", slot_building_cost_gold, 50000),
-            (item_set_slot, "itm_building_tannery", slot_building_build_time, 280),
+            (item_set_slot, "itm_building_tannery", slot_building_cost_gold, 500000),
+            (item_set_slot, "itm_building_tannery", slot_building_build_time, 2800),
             (item_set_slot, "itm_building_tannery", slot_building_enabled, 0),
             
             (item_set_slot, "itm_building_tavern", ":wood_slot", 280),
             (item_set_slot, "itm_building_tavern", ":stone_slot", 180),
-            (item_set_slot, "itm_building_tavern", slot_building_cost_gold, 28000),
-            (item_set_slot, "itm_building_tavern", slot_building_build_time, 240),
+            (item_set_slot, "itm_building_tavern", slot_building_cost_gold, 280000),
+            (item_set_slot, "itm_building_tavern", slot_building_build_time, 2400),
             (item_set_slot, "itm_building_tavern", slot_building_enabled, 0),
             
             (item_set_slot, "itm_building_militia_camp", ":wood_slot", 240),
             (item_set_slot, "itm_building_militia_camp", ":stone_slot", 100),
-            (item_set_slot, "itm_building_militia_camp", slot_building_cost_gold, 40000),
-            (item_set_slot, "itm_building_militia_camp", slot_building_build_time, 300),
+            (item_set_slot, "itm_building_militia_camp", slot_building_cost_gold, 400000),
+            (item_set_slot, "itm_building_militia_camp", slot_building_build_time, 3000),
             (item_set_slot, "itm_building_militia_camp", slot_building_enabled, 0),
             
             (item_set_slot, "itm_building_smithy", ":wood_slot", 140),
             (item_set_slot, "itm_building_smithy", ":stone_slot", 120),
-            (item_set_slot, "itm_building_smithy", slot_building_cost_gold, 50000),
-            (item_set_slot, "itm_building_smithy", slot_building_build_time, 420),
+            (item_set_slot, "itm_building_smithy", slot_building_cost_gold, 500000),
+            (item_set_slot, "itm_building_smithy", slot_building_build_time, 4200),
             (item_set_slot, "itm_building_smithy", slot_building_enabled, 0),
             
             (item_set_slot, "itm_building_stables", ":wood_slot", 300),
             (item_set_slot, "itm_building_stables", ":stone_slot", 60),
-            (item_set_slot, "itm_building_stables", slot_building_cost_gold, 45000),
-            (item_set_slot, "itm_building_stables", slot_building_build_time, 380),
+            (item_set_slot, "itm_building_stables", slot_building_cost_gold, 450000),
+            (item_set_slot, "itm_building_stables", slot_building_build_time, 3800),
             (item_set_slot, "itm_building_stables", slot_building_enabled, 0),
             
             (item_set_slot, "itm_building_archery_range", ":wood_slot", 100),
             (item_set_slot, "itm_building_archery_range", ":stone_slot", 20),
-            (item_set_slot, "itm_building_archery_range", slot_building_cost_gold, 20000),
-            (item_set_slot, "itm_building_archery_range", slot_building_build_time, 200),
+            (item_set_slot, "itm_building_archery_range", slot_building_cost_gold, 200000),
+            (item_set_slot, "itm_building_archery_range", slot_building_build_time, 2000),
             (item_set_slot, "itm_building_archery_range", slot_building_enabled, 0),
             
             (item_set_slot, "itm_building_barrack", ":wood_slot", 200),
             (item_set_slot, "itm_building_barrack", ":stone_slot", 340),
-            (item_set_slot, "itm_building_barrack", slot_building_cost_gold, 30000),
-            (item_set_slot, "itm_building_barrack", slot_building_build_time, 300),
+            (item_set_slot, "itm_building_barrack", slot_building_cost_gold, 300000),
+            (item_set_slot, "itm_building_barrack", slot_building_build_time, 3000),
             (item_set_slot, "itm_building_barrack", slot_building_enabled, 0),
             
             (item_set_slot, "itm_building_food_store", ":wood_slot", 280),
             (item_set_slot, "itm_building_food_store", ":stone_slot", 220),
-            (item_set_slot, "itm_building_food_store", slot_building_cost_gold, 20000),
-            (item_set_slot, "itm_building_food_store", slot_building_build_time, 260),
+            (item_set_slot, "itm_building_food_store", slot_building_cost_gold, 200000),
+            (item_set_slot, "itm_building_food_store", slot_building_build_time, 2600),
             (item_set_slot, "itm_building_food_store", slot_building_enabled, 0),
 
             (item_set_slot, "itm_building_recruitement_camp", ":wood_slot", 120),
             (item_set_slot, "itm_building_recruitement_camp", ":stone_slot", 80),
-            (item_set_slot, "itm_building_recruitement_camp", slot_building_cost_gold, 48000),
-            (item_set_slot, "itm_building_recruitement_camp", slot_building_build_time, 300),
+            (item_set_slot, "itm_building_recruitement_camp", slot_building_cost_gold, 480000),
+            (item_set_slot, "itm_building_recruitement_camp", slot_building_build_time, 3000),
             (item_set_slot, "itm_building_recruitement_camp", slot_building_enabled, 1),
             (item_set_slot, "itm_building_recruitement_camp", slot_building_type, bt_military|bt_recruit),
 
             (item_set_slot, "itm_building_mason_guild", ":wood_slot", 150),
             (item_set_slot, "itm_building_mason_guild", ":stone_slot", 90),
-            (item_set_slot, "itm_building_mason_guild", slot_building_cost_gold, 50000),
-            (item_set_slot, "itm_building_mason_guild", slot_building_build_time, 400),
+            (item_set_slot, "itm_building_mason_guild", slot_building_cost_gold, 500000),
+            (item_set_slot, "itm_building_mason_guild", slot_building_build_time, 4000),
             (item_set_slot, "itm_building_mason_guild", slot_building_enabled, 1),
             (item_set_slot, "itm_building_mason_guild", slot_building_type, bt_growth|bt_service),
 
             (item_set_slot, "itm_building_barrack_2", ":wood_slot", 300),
             (item_set_slot, "itm_building_barrack_2", ":stone_slot", 510),
-            (item_set_slot, "itm_building_barrack_2", slot_building_cost_gold, 45000),
-            (item_set_slot, "itm_building_barrack_2", slot_building_build_time, 450),
+            (item_set_slot, "itm_building_barrack_2", slot_building_cost_gold, 450000),
+            (item_set_slot, "itm_building_barrack_2", slot_building_build_time, 4500),
             (item_set_slot, "itm_building_barrack_2", slot_building_enabled, 0),
             (item_set_slot, "itm_building_barrack_2", slot_building_required_building, "itm_building_barrack"),
 
             (item_set_slot, "itm_building_smithy_2", ":wood_slot", 210),
             (item_set_slot, "itm_building_smithy_2", ":stone_slot", 180),
-            (item_set_slot, "itm_building_smithy_2", slot_building_cost_gold, 75000),
-            (item_set_slot, "itm_building_smithy_2", slot_building_build_time, 630),
+            (item_set_slot, "itm_building_smithy_2", slot_building_cost_gold, 750000),
+            (item_set_slot, "itm_building_smithy_2", slot_building_build_time, 6300),
             (item_set_slot, "itm_building_smithy_2", slot_building_enabled, 0),
             (item_set_slot, "itm_building_smithy_2", slot_building_required_building, "itm_building_smithy"),
 
             (item_set_slot, "itm_building_training_camp", ":wood_slot", 150),
             (item_set_slot, "itm_building_training_camp", ":stone_slot", 110),
-            (item_set_slot, "itm_building_training_camp", slot_building_cost_gold, 54000),
-            (item_set_slot, "itm_building_training_camp", slot_building_build_time, 360),
+            (item_set_slot, "itm_building_training_camp", slot_building_cost_gold, 540000),
+            (item_set_slot, "itm_building_training_camp", slot_building_build_time, 3600),
             (item_set_slot, "itm_building_training_camp", slot_building_enabled, 0),
 
             (item_set_slot, "itm_building_training_camp_2", ":wood_slot", 225),
             (item_set_slot, "itm_building_training_camp_2", ":stone_slot", 165),
-            (item_set_slot, "itm_building_training_camp_2", slot_building_cost_gold, 81000),
-            (item_set_slot, "itm_building_training_camp_2", slot_building_build_time, 540),
+            (item_set_slot, "itm_building_training_camp_2", slot_building_cost_gold, 810000),
+            (item_set_slot, "itm_building_training_camp_2", slot_building_build_time, 5400),
             (item_set_slot, "itm_building_training_camp_2", slot_building_enabled, 0),
             (item_set_slot, "itm_building_training_camp_2", slot_building_required_building, "itm_building_training_camp"),
             
             (item_set_slot, "itm_building_workshop", ":wood_slot", 250),
             (item_set_slot, "itm_building_workshop", ":stone_slot", 250),
-            (item_set_slot, "itm_building_workshop", slot_building_cost_gold, 67000),
-            (item_set_slot, "itm_building_workshop", slot_building_build_time, 480),
+            (item_set_slot, "itm_building_workshop", slot_building_cost_gold, 670000),
+            (item_set_slot, "itm_building_workshop", slot_building_build_time, 4800),
             (item_set_slot, "itm_building_workshop", slot_building_enabled, 0),
             
             (item_set_slot, "itm_building_fletcher", ":wood_slot", 220),
             (item_set_slot, "itm_building_fletcher", ":stone_slot", 20),
-            (item_set_slot, "itm_building_fletcher", slot_building_cost_gold, 40000),
-            (item_set_slot, "itm_building_fletcher", slot_building_build_time, 320),
+            (item_set_slot, "itm_building_fletcher", slot_building_cost_gold, 400000),
+            (item_set_slot, "itm_building_fletcher", slot_building_build_time, 3200),
             (item_set_slot, "itm_building_fletcher", slot_building_enabled, 0),
 
             (item_set_slot, "itm_building_archery_range_2", ":wood_slot", 150),
             (item_set_slot, "itm_building_archery_range_2", ":stone_slot", 30),
-            (item_set_slot, "itm_building_archery_range_2", slot_building_cost_gold, 30000),
-            (item_set_slot, "itm_building_archery_range_2", slot_building_build_time, 300),
+            (item_set_slot, "itm_building_archery_range_2", slot_building_cost_gold, 300000),
+            (item_set_slot, "itm_building_archery_range_2", slot_building_build_time, 3000),
             (item_set_slot, "itm_building_archery_range_2", slot_building_enabled, 0),
             (item_set_slot, "itm_building_archery_range_2", slot_building_required_building, "itm_building_archery_range"),
 
             (item_set_slot, "itm_building_trading_post", ":wood_slot", 280),
             (item_set_slot, "itm_building_trading_post", ":stone_slot", 50),
-            (item_set_slot, "itm_building_trading_post", slot_building_cost_gold, 62000),
-            (item_set_slot, "itm_building_trading_post", slot_building_build_time, 320),
+            (item_set_slot, "itm_building_trading_post", slot_building_cost_gold, 620000),
+            (item_set_slot, "itm_building_trading_post", slot_building_build_time, 3200),
             (item_set_slot, "itm_building_trading_post", slot_building_enabled, 0),
 
             (item_set_slot, "itm_building_food_store_2", ":wood_slot", 420),
             (item_set_slot, "itm_building_food_store_2", ":stone_slot", 330),
-            (item_set_slot, "itm_building_food_store_2", slot_building_cost_gold, 30000),
-            (item_set_slot, "itm_building_food_store_2", slot_building_build_time, 390),
+            (item_set_slot, "itm_building_food_store_2", slot_building_cost_gold, 300000),
+            (item_set_slot, "itm_building_food_store_2", slot_building_build_time, 3900),
             (item_set_slot, "itm_building_food_store_2", slot_building_enabled, 0),
             (item_set_slot, "itm_building_food_store_2", slot_building_required_building, "itm_building_food_store"),
 
             (item_set_slot, "itm_building_recruitement_camp_2", ":wood_slot", 180),
             (item_set_slot, "itm_building_recruitement_camp_2", ":stone_slot", 120),
-            (item_set_slot, "itm_building_recruitement_camp_2", slot_building_cost_gold, 72000),
-            (item_set_slot, "itm_building_recruitement_camp_2", slot_building_build_time, 450),
+            (item_set_slot, "itm_building_recruitement_camp_2", slot_building_cost_gold, 720000),
+            (item_set_slot, "itm_building_recruitement_camp_2", slot_building_build_time, 4500),
             (item_set_slot, "itm_building_recruitement_camp_2", slot_building_enabled, 1),
             (item_set_slot, "itm_building_recruitement_camp_2", slot_building_required_building, "itm_building_recruitement_camp"),
             (item_set_slot, "itm_building_recruitement_camp_2", slot_building_type, bt_military|bt_recruit),
 
             (item_set_slot, "itm_building_mason_guild_2", ":wood_slot", 200),
             (item_set_slot, "itm_building_mason_guild_2", ":stone_slot", 120),
-            (item_set_slot, "itm_building_mason_guild_2", slot_building_cost_gold, 85000),
-            (item_set_slot, "itm_building_mason_guild_2", slot_building_build_time, 550),
+            (item_set_slot, "itm_building_mason_guild_2", slot_building_cost_gold, 850000),
+            (item_set_slot, "itm_building_mason_guild_2", slot_building_build_time, 5500),
             (item_set_slot, "itm_building_mason_guild_2", slot_building_enabled, 1),
             (item_set_slot, "itm_building_mason_guild_2", slot_building_required_building, "itm_building_mason_guild"),
             (item_set_slot, "itm_building_mason_guild_2", slot_building_type, bt_growth|bt_service),
             
             (item_set_slot, "itm_building_university", ":wood_slot", 390),
             (item_set_slot, "itm_building_university", ":stone_slot", 600),
-            (item_set_slot, "itm_building_university", slot_building_cost_gold, 80000),
-            (item_set_slot, "itm_building_university", slot_building_build_time, 680),
+            (item_set_slot, "itm_building_university", slot_building_cost_gold, 800000),
+            (item_set_slot, "itm_building_university", slot_building_build_time, 6800),
             (item_set_slot, "itm_building_university", slot_building_enabled, 0),
 
             (item_set_slot, "itm_building_slaver_2", ":wood_slot", 180),
             (item_set_slot, "itm_building_slaver_2", ":stone_slot", 75),
-            (item_set_slot, "itm_building_slaver_2", slot_building_cost_gold, 45000),
-            (item_set_slot, "itm_building_slaver_2", slot_building_build_time, 390),
+            (item_set_slot, "itm_building_slaver_2", slot_building_cost_gold, 450000),
+            (item_set_slot, "itm_building_slaver_2", slot_building_build_time, 3900),
             (item_set_slot, "itm_building_slaver_2", slot_building_enabled, 0),
             (item_set_slot, "itm_building_slaver_2", slot_building_required_building, "itm_building_slaver"),
 
             (item_set_slot, "itm_building_market_3", ":wood_slot", 720),
             (item_set_slot, "itm_building_market_3", ":stone_slot", 180),
-            (item_set_slot, "itm_building_market_3", slot_building_cost_gold, 76500),
-            (item_set_slot, "itm_building_market_3", slot_building_build_time, 810),
+            (item_set_slot, "itm_building_market_3", slot_building_cost_gold, 765000),
+            (item_set_slot, "itm_building_market_3", slot_building_build_time, 8100),
             (item_set_slot, "itm_building_market_3", slot_building_enabled, 0),
             (item_set_slot, "itm_building_market_3", slot_building_required_building, "itm_building_market_2"),
             
             (item_set_slot, "itm_building_temple", ":wood_slot", 220),
             (item_set_slot, "itm_building_temple", ":stone_slot", 800),
-            (item_set_slot, "itm_building_temple", slot_building_cost_gold, 100000),
-            (item_set_slot, "itm_building_temple", slot_building_build_time, 920),
+            (item_set_slot, "itm_building_temple", slot_building_cost_gold, 1000000),
+            (item_set_slot, "itm_building_temple", slot_building_build_time, 9200),
             (item_set_slot, "itm_building_temple", slot_building_enabled, 0),
 
             (item_set_slot, "itm_building_library", ":wood_slot", 560),
             (item_set_slot, "itm_building_library", ":stone_slot", 240),
-            (item_set_slot, "itm_building_library", slot_building_cost_gold, 76000),
-            (item_set_slot, "itm_building_library", slot_building_build_time, 600),
+            (item_set_slot, "itm_building_library", slot_building_cost_gold, 760000),
+            (item_set_slot, "itm_building_library", slot_building_build_time, 6000),
             (item_set_slot, "itm_building_library", slot_building_enabled, 0),
 
             (item_set_slot, "itm_building_order", ":wood_slot", 250),
             (item_set_slot, "itm_building_order", ":stone_slot", 750),
-            (item_set_slot, "itm_building_order", slot_building_cost_gold, 150000),
-            (item_set_slot, "itm_building_order", slot_building_build_time, 1200),
+            (item_set_slot, "itm_building_order", slot_building_cost_gold, 1500000),
+            (item_set_slot, "itm_building_order", slot_building_build_time, 12000),
             (item_set_slot, "itm_building_order", slot_building_enabled, 0),
 
             (item_set_slot, "itm_building_tavern_2", ":wood_slot", 420),
             (item_set_slot, "itm_building_tavern_2", ":stone_slot", 270),
-            (item_set_slot, "itm_building_tavern_2", slot_building_cost_gold, 56000),
-            (item_set_slot, "itm_building_tavern_2", slot_building_build_time, 360),
+            (item_set_slot, "itm_building_tavern_2", slot_building_cost_gold, 560000),
+            (item_set_slot, "itm_building_tavern_2", slot_building_build_time, 3600),
             (item_set_slot, "itm_building_tavern_2", slot_building_enabled, 0),
             (item_set_slot, "itm_building_tavern_2", slot_building_required_building, "itm_building_tavern"),
 
             (item_set_slot, "itm_building_trading_post_2", ":wood_slot", 520),
             (item_set_slot, "itm_building_trading_post_2", ":stone_slot", 75),
-            (item_set_slot, "itm_building_trading_post_2", slot_building_cost_gold, 93000),
-            (item_set_slot, "itm_building_trading_post_2", slot_building_build_time, 480),
+            (item_set_slot, "itm_building_trading_post_2", slot_building_cost_gold, 930000),
+            (item_set_slot, "itm_building_trading_post_2", slot_building_build_time, 4800),
             (item_set_slot, "itm_building_trading_post_2", slot_building_enabled, 0),
             (item_set_slot, "itm_building_trading_post_2", slot_building_required_building, "itm_building_trading_post"),
 
             (item_set_slot, "itm_building_bank", ":wood_slot", 450),
             (item_set_slot, "itm_building_bank", ":stone_slot", 350),
-            (item_set_slot, "itm_building_bank", slot_building_cost_gold, 125000),
-            (item_set_slot, "itm_building_bank", slot_building_build_time, 700),
+            (item_set_slot, "itm_building_bank", slot_building_cost_gold, 1250000),
+            (item_set_slot, "itm_building_bank", slot_building_build_time, 7000),
             (item_set_slot, "itm_building_bank", slot_building_enabled, 1),
             (item_set_slot, "itm_building_bank", slot_building_type, bt_growth|bt_service|bt_political|bt_economy),
 
             (item_set_slot, "itm_building_mason_guild_3", ":wood_slot", 350),
             (item_set_slot, "itm_building_mason_guild_3", ":stone_slot", 250),
-            (item_set_slot, "itm_building_mason_guild_3", slot_building_cost_gold, 100000),
-            (item_set_slot, "itm_building_mason_guild_3", slot_building_build_time, 750),
+            (item_set_slot, "itm_building_mason_guild_3", slot_building_cost_gold, 1000000),
+            (item_set_slot, "itm_building_mason_guild_3", slot_building_build_time, 7500),
             (item_set_slot, "itm_building_mason_guild_3", slot_building_enabled, 1),
             (item_set_slot, "itm_building_mason_guild_3", slot_building_required_building, "itm_building_mason_guild_2"),
             (item_set_slot, "itm_building_mason_guild_3", slot_building_type, bt_growth|bt_service),
@@ -12912,12 +12943,7 @@ scripts = [
             (troop_set_slot, ":lord_no", slot_troop_num_vassal, 0),
             (troop_set_slot, ":lord_no", slot_troop_noble, 1),
             
-            (try_begin),
-                (eq, ":activate", 1),
-                (troop_set_slot, ":lord_no", slot_troop_kingdom_occupation, tko_kingdom_hero),
-            (else_try),
-                (troop_set_slot, ":lord_no", slot_troop_kingdom_occupation, tko_reserved),
-            (try_end),
+            (troop_set_slot, ":lord_no", slot_troop_kingdom_occupation, tko_reserved),
             
             (call_script, "script_troop_set_equip_type", ":lord_no"),
             (call_script, "script_troop_change_level", ":lord_no", 0),
@@ -12925,16 +12951,11 @@ scripts = [
             (call_script, "script_troop_set_name", ":lord_no"),
             (call_script, "script_troop_update_name", ":lord_no"),
 
-            (try_begin),
-                (eq, ":activate", 1),
-                (call_script, "script_troop_update_home", ":lord_no"),
-            (try_end),
-            
             # ToDo: refine banner selection
             (store_random_in_range, ":banner", banner_scene_props_begin, banner_scene_props_end),
             (troop_set_slot, ":lord_no", slot_troop_banner_scene_prop, ":banner"),
             
-            (call_script, "script_troop_get_face_code", ":lord_no"),
+            (call_script, "script_troop_get_face_code", ":lord_no", -1, -1),
             (troop_set_face_keys, ":lord_no", s0),
             
             # Reset state
@@ -12947,9 +12968,7 @@ scripts = [
             
             (try_begin),
                 (eq, ":activate", 1),
-                (faction_get_slot, ":num_vassals", ":faction_no", slot_faction_num_vassals),
-                (val_add, ":num_vassals", 1),
-                (faction_set_slot, ":faction_no", slot_faction_num_vassals, ":num_vassals"),
+                (call_script, "script_activate_lord", ":lord_no"),
             (try_end),
         ]),
 
@@ -13619,17 +13638,16 @@ scripts = [
             
             # Troops not added to factions
             (troop_set_slot, "trp_swadian_champion", slot_troop_faction_not_1, "fac_small_kingdom_12"), # Has Heavy Infantry instead
-            (troop_set_slot, "trp_swadian_light_lancer", slot_troop_faction_not_1, "fac_small_kingdom_13"), # Has Lancer instead
             (troop_set_slot, "trp_swadian_light_cavalry", slot_troop_faction_not_1, "fac_small_kingdom_13"), # Has Horseman instead
             (troop_set_slot, "trp_swadian_militia", slot_troop_faction_not_1, "fac_small_kingdom_14"), # Has Hunter instead
             (troop_set_slot, "trp_swadian_light_bowman", slot_troop_faction_not_1, "fac_small_kingdom_14"), # Has Light Longbowman instead
             (troop_set_slot, "trp_swadian_bowman", slot_troop_faction_not_1, "fac_small_kingdom_14"), # Has Heavy Longbowman instead
-            (troop_set_slot, "trp_swadian_pikeman", slot_troop_faction_not_1, "fac_small_kingdom_15"), # Has Spearman instead
-            (troop_set_slot, "trp_swadian_champion", slot_troop_faction_not_2, "fac_small_kingdom_17"), # 
+            (troop_set_slot, "trp_swadian_light_lancer", slot_troop_faction_not_1, "fac_small_kingdom_15"), # Has Lancer instead
+            (troop_set_slot, "trp_swadian_pikeman", slot_troop_faction_not_1, "fac_small_kingdom_17"), # Has Spearman instead
             (troop_set_slot, "trp_swadian_heavy_cavalry", slot_troop_faction_not_1, "fac_small_kingdom_17"), # Has Squire instead
 
             (troop_set_slot, "trp_swadian_levy_spearman", slot_troop_faction_reserved_2, "fac_small_kingdom_15"),
-            (troop_set_slot, "trp_swadian_foot_knight", slot_troop_faction_reserved_2, "fac_small_kingdom_15"),
+            (troop_set_slot, "trp_swadian_foot_knight", slot_troop_faction_reserved_2, "fac_small_kingdom_12"),
 
             (troop_set_slot, "trp_vaegir_hunter", slot_troop_faction_not_1, "fac_small_kingdom_23"), # Has Militia instead
             (troop_set_slot, "trp_vaegir_hunter", slot_troop_faction_not_2, "fac_small_kingdom_22"), # Has Militia instead
@@ -13709,6 +13727,10 @@ scripts = [
             (troop_set_slot, "trp_sarranid_heavy_skirmisher", slot_troop_faction_not_1, "fac_small_kingdom_63"), # Has Skirmisher instead
             (troop_set_slot, "trp_sarranid_heavy_infantry", slot_troop_faction_not_1, "fac_small_kingdom_63"), # Has Sergeant instead
             (troop_set_slot, "trp_sarranid_noble_horse_archer", slot_troop_faction_not_1, "fac_small_kingdom_63"), # Has Cataphract instead
+            (troop_set_slot, "trp_sarranid_light_cavalry", slot_troop_faction_not_1, "fac_small_kingdom_65"), # Has Light Mounted Skirmisher
+            (troop_set_slot, "trp_sarranid_light_lancer", slot_troop_faction_not_1, "fac_small_kingdom_65"), # Has Light Mouned Skirmisher
+            (troop_set_slot, "trp_sarranid_medium_cavalry", slot_troop_faction_not_1, "fac_small_kingdom_65"), # Has Mounted Skirmisher
+            (troop_set_slot, "trp_sarranid_heavy_cavalry", slot_troop_faction_not_1, "fac_small_kingdom_65"), # Has Heavy Mounted Skirmisher
 
             (troop_set_slot, "trp_sarranid_heavy_lancer", slot_troop_faction_reserved_2, "fac_small_kingdom_61"), # 
 
@@ -18887,29 +18909,85 @@ scripts = [
     # script_troop_get_face_code
         # input: 
         #   arg1: troop_no
+        #   arg2: base_face_key
+        #   arg3: base_face_options
         # output:
         #   s0: facecode
+        #   reg0: base_face_index
+        #   reg1: face_options
     ("troop_get_face_code",
         [
             (store_script_param, ":troop_no", 1),
+            (store_script_param, ":base_face_key", 2),
+            (store_script_param, ":base_face_options", 3),
+
+            (try_begin),
+                (eq, ":base_face_key", -1),
+                (store_random_in_range, ":base_face_key", base_faces_begin, base_faces_end),
+            (try_end),
+
+            (troop_set_face_keys, ":troop_no", ":base_face_key"),
             (str_store_troop_face_keys, s0, ":troop_no"),
-            
-            (store_troop_faction, ":faction_no", ":troop_no"),
-            (faction_get_slot, ":culture", ":faction_no", slot_faction_culture),
+
+            (troop_get_slot, ":culture", ":troop_no", slot_troop_culture),
             (troop_get_type, ":type", ":troop_no"),
             
             (try_begin),
+                (neq, ":base_face_options", -1),
+
+                (assign, ":hair_key", ":base_face_options"),
+                (assign, ":beard_key", ":base_face_options"),
+                (assign, ":face_texture_key", ":base_face_options"),
+                (assign, ":hair_color_key", ":base_face_options"),
+
+                (val_mod, ":hair_key", 2**5),
+
+                (val_mod, ":beard_key", 2**(5+5)),
+                (val_rshift, ":beard_key", 5),
+
+                (val_mod, ":face_texture_key", 2**(5+5+3)),
+                (val_rshift, ":face_texture_key", 5+5),
+
+                (val_rshift, ":hair_color_key", 5+5+3),
+
+                (face_keys_set_hair, s0, ":hair_key"),
+                (face_keys_set_beard, s0, ":beard_key"),
+                (face_keys_set_face_texture, s0, ":face_texture_key"),
+                (face_keys_set_hair_color, s0, ":hair_color_key"),
+            (else_try),
                 (eq, ":type", tf_male),
                 (call_script, "script_set_random_faction_hair", ":culture"),
+                (assign, ":hair_key", reg0),
                 (call_script, "script_set_random_faction_beard", ":culture"),
+                (assign, ":beard_key", reg0),
                 (call_script, "script_set_random_faction_face_texture", ":culture"),
+                (assign, ":face_texture_key", reg0),
                 # (call_script, "script_set_random_faction_hair_texture", ":culture"),
+                # (assign, ":hair_texture_key", reg0),
                 (call_script, "script_set_random_faction_hair_color", ":culture"),
+                (assign, ":hair_color_key", reg0),
                 # (call_script, "script_set_random_faction_skin_color", ":culture"),
+                # (assign, ":skin_key", reg0),
                 (call_script, "script_set_random_faction_morph_key", ":culture"),
+                # (assign, ":morph_key", reg0),
+
+                (assign, ":base_face_options", ":hair_key"),
+                (val_lshift, ":beard_key", 5),
+                (val_lshift, ":face_texture_key", 5+5),
+                # (val_lshift, ":hair_texture_key", 4),
+                (val_lshift, ":hair_color_key", 5+5+3),
+                # (val_lshift, ":skin_key", 4),
+                # (val_lshift, ":morph_key", 4),
+
+                (val_add, ":base_face_options", ":beard_key"),
+                (val_add, ":base_face_options", ":face_texture_key"),
+                (val_add, ":base_face_options", ":hair_color_key"),
+
             (else_try),
-                # Need to add scripts for female randomization
+                # TODO: Need to add scripts for female randomization
             (try_end),
+            (assign, reg0, ":base_face_key"),
+            (assign, reg1, ":base_face_options"),
         ]),
 
     # script_troop_copy_face_code_from_troop
@@ -18928,24 +19006,14 @@ scripts = [
             (str_store_troop_face_keys, s1, ":troop_no_2", 2),
             (troop_set_face_keys, ":troop_no", s1, 2),
         ]),
-
-    # script_troop_copy_face_code
-        # input: 
-        #   arg1: troop_no
-        #   arg2: face_code
-        # output: none
-    # ("troop_copy_face_code", 
-    #     [
-    #         (store_script_param, ":troop_no", 1),
-    #         (store_script_param, ":face_key", 2),
-    #     ]),
     
     # script_set_random_faction_hair
         # input: 
-        #   arg1: faction_no
+        #   arg1: culture_no
         #   s0: face_key
         # output:
         #   s0: new_face_key
+        #   reg0: value_key
     ("set_random_faction_hair",
         [
             (store_script_param, ":faction_no", 1),
@@ -18989,25 +19057,173 @@ scripts = [
                 (try_end),
             (try_end),
             (face_keys_set_hair, s0, ":value"),
+            (assign, reg0, ":value"),
         ]),
         
     # script_set_random_faction_beard
         # input: 
-        #   arg1: faction_no
+        #   arg1: culture_no
         #   s0: face_key
         # output:
         #   s0: new_face_key
+        #   reg0: value_key
     ("set_random_faction_beard",
         [
-            # (store_script_param, ":faction_no", 1),
+            (store_script_param, ":faction_no", 1),
+            (assign, ":value", 0),
+
+            (assign, ":beard_chance", 0),
+            (try_begin),
+                (eq, ":faction_no", "fac_culture_1"),
+                (assign, ":beard_chance", 7),
+            (else_try),
+                (eq, ":faction_no", "fac_culture_2"),
+                (assign, ":beard_chance", 8),
+            (else_try),
+                (eq, ":faction_no", "fac_culture_3"),
+                (assign, ":beard_chance", 6),
+            (else_try),
+                (eq, ":faction_no", "fac_culture_4"),
+                (assign, ":beard_chance", 9),
+            (else_try),
+                (eq, ":faction_no", "fac_culture_5"),
+                (assign, ":beard_chance", 5),
+            (else_try),
+                (eq, ":faction_no", "fac_culture_6"),
+                (assign, ":beard_chance", 5),
+            (try_end),
+
+            (store_random_in_range, ":rand", 0, 10),
+            (try_begin),
+                (lt, ":rand", ":beard_chance"),
+
+                (try_begin),
+                    (eq, ":faction_no", fac_culture_1),
+                    (store_random_in_range, ":value", 1, 17),
+                    (try_begin),
+                        (ge, ":value", 4),
+                        (val_add, ":value", 1),
+
+                        (ge, ":value", 7),
+                        (val_add, ":value", 1),
+
+                        (ge, ":value", 12),
+                        (val_add, ":value", 1),
+
+                        (ge, ":value", 14),
+                        (val_add, ":value", 1),
+
+                        (ge, ":value", 17),
+                        (val_add, ":value", 1),
+
+                        (ge, ":value", 21),
+                        (val_add, ":value", 1),
+                    (try_end),
+                (else_try),
+                    (eq, ":faction_no", fac_culture_2),
+                    (store_random_in_range, ":value", 1, 10),
+                    (try_begin),
+                        (ge, ":value", 2),
+                        (val_add, ":value", 3),
+
+                        (ge, ":value", 8),
+                        (val_add, ":value", 4),
+
+                        (ge, ":value", 14),
+                        (val_add, ":value", 4),
+
+                        (ge, ":value", 20),
+                        (val_add, ":value", 2),
+                    (try_end),
+                (else_try),
+                    (eq, ":faction_no", fac_culture_3),
+                    (store_random_in_range, ":value", 1, 14),
+                    (try_begin),
+                        (ge, ":value", 2),
+                        (val_add, ":value", 2),
+
+                        (ge, ":value", 8),
+                        (val_add, ":value", 5),
+
+                        (ge, ":value", 16),
+                        (val_add, ":value", 1),
+
+                        (ge, ":value", 20),
+                        (val_add, ":value", 1),
+                    (try_end),
+                (else_try),
+                    (eq, ":faction_no", fac_culture_4),
+                    (store_random_in_range, ":value", 1, 8),
+                    (try_begin),
+                        (ge, ":value", 2),
+                        (val_add, ":value", 3),
+
+                        (ge, ":value", 7),
+                        (val_add, ":value", 5),
+
+                        (ge, ":value", 14),
+                        (val_add, ":value", 5),
+
+                        (ge, ":value", 20),
+                        (val_add, ":value", 2),
+                    (try_end),
+                (else_try),
+                    (eq, ":faction_no", fac_culture_5),
+                    (store_random_in_range, ":value", 1, 12),
+                    (try_begin),
+                        (ge, ":value", 2),
+                        (val_add, ":value", 3),
+
+                        (ge, ":value", 7),
+                        (val_add, ":value", 1),
+
+                        (ge, ":value", 12),
+                        (val_add, ":value", 1),
+
+                        (ge, ":value", 14),
+                        (val_add, ":value", 3),
+
+                        (ge, ":value", 18),
+                        (val_add, ":value", 1),
+
+                        (ge, ":value", 20),
+                        (val_add, ":value", 1),
+
+                        (ge, ":value", 22),
+                        (val_add, ":value", 1),
+                    (try_end),
+                (else_try),
+                    (eq, ":faction_no", fac_culture_6),
+                    (store_random_in_range, ":value", 1, 11),
+                    (try_begin),
+                        (ge, ":value", 2),
+                        (val_add, ":value", 2),
+
+                        (ge, ":value", 7),
+                        (val_add, ":value", 6),
+
+                        (ge, ":value", 15),
+                        (val_add, ":value", 2),
+
+                        (ge, ":value", 18),
+                        (val_add, ":value", 1),
+
+                        (ge, ":value", 20),
+                        (val_add, ":value", 1),
+                    (try_end),
+                (try_end),
+            (try_end),
+            (face_keys_set_beard, s0, ":value"),
+            (assign, reg0, ":value"),
         ]),
         
     # script_set_random_faction_face_texture
         # input: 
-        #   arg1: faction_no
+        #   arg1: culture_no
         #   s0: face_key
         # output:
         #   s0: new_face_key
+        #   reg0: value_key
     ("set_random_faction_face_texture",
         [
             (store_script_param, ":faction_no", 1),
@@ -19036,14 +19252,16 @@ scripts = [
                 (store_random_in_range, ":value", 6, 8),
             (try_end),
             (face_keys_set_face_texture, s0, ":value"),
+            (assign, reg0, ":value"),
         ]),
         
     # script_set_random_faction_hair_texture
-    # input: 
-    #   arg1: faction_no
-    #   s0: face_key
-    # output:
-    #   s0: new_face_key
+        # input: 
+        #   arg1: culture_no
+        #   s0: face_key
+        # output:
+        #   s0: new_face_key
+        #   reg0: value_key
     # ("set_random_faction_hair_texture",
         # [
             # (store_script_param, ":faction_no", 1),
@@ -19051,10 +19269,11 @@ scripts = [
         
     # script_set_random_faction_hair_color
         # input: 
-        #   arg1: faction_no
+        #   arg1: culture_no
         #   s0: face_key
         # output:
         #   s0: new_face_key
+        #   reg0: value_key
     ("set_random_faction_hair_color",
         [
             (store_script_param, ":faction_no", 1),
@@ -19079,14 +19298,16 @@ scripts = [
                 (store_random_in_range, ":value", 30, 64),
             (try_end),
             (face_keys_set_hair_color, s0, ":value"),
+            (assign, reg0, ":value"),
         ]),
         
     # script_set_random_faction_skin_color
         # input: 
-        #   arg1: faction_no
+        #   arg1: culture_no
         #   s0: face_key
         # output:
         #   s0: new_face_key
+        #   reg0: value_key
     # ("set_random_faction_skin_color",
         # [
             # (store_script_param, ":faction_no", 1),
@@ -19094,10 +19315,11 @@ scripts = [
         
     # script_set_random_faction_morph_key
         # input: 
-        #   arg1: faction_no
+        #   arg1: culture_no
         #   s0: face_key
         # output:
         #   s0: new_face_key
+        #   reg0: value_key
     ("set_random_faction_morph_key",
         [
             # (store_script_param, ":faction_no", 1),
@@ -20249,7 +20471,7 @@ scripts = [
             (assign, ":bandit_leader", -1),
 
             # Roll bandit strength
-            (assign, ":bandit_chance", 2),
+            (assign, ":bandit_chance", 1),
             (assign, ":max_strength", 4),
             (try_begin),
                 # High prosperity will increase the max strength of bandits -- up to 3
@@ -20260,7 +20482,7 @@ scripts = [
 
             # Low prosperity will increase the chance of having bandits
             (store_sub, ":chance_modifier", 100, ":center_prosperity"),
-            (val_div, ":chance_modifier", 10),
+            (val_div, ":chance_modifier", 5),
             (val_add, ":bandit_chance", ":chance_modifier"),
 
             (party_get_slot, ":population", ":center_no", slot_party_population),
@@ -20280,7 +20502,7 @@ scripts = [
                 (gt, ":slave_ratio", 0),
                 (store_mul, ":slave_chance_ratio", ":bandit_chance", ":slave_ratio"),
                 (store_div, ":slave_chance_modifier", ":slave_chance_ratio", 100),
-                (store_mod, ":slave_chance_offset", ":slave_chance_modifier", 100),
+                (store_mod, ":slave_chance_offset", ":slave_chance_ratio", 100),
                 (store_random_in_range, ":rand", 0, 100),
                 (try_begin),
                     (le, ":rand", ":slave_chance_offset"),
@@ -20299,9 +20521,9 @@ scripts = [
                 (val_add, ":bandit_strength", ":slave_strength_modifier"),
             (try_end),
 
-            (store_random_in_range, ":rand", 0, 1000),
+            (store_random_in_range, ":rand", 0, 100),
             (try_begin),
-                (le, ":bandit_chance", ":rand"),
+                (le, ":rand", ":bandit_chance"),
                 # (assign, ":bandit_strength", 0),
                 (assign, ":desert_bandit", 0),
                 (assign, ":plain_bandit", 0),
@@ -21572,7 +21794,7 @@ scripts = [
                 (try_begin),
                     (lt, ":total_debts", 0),
                     (store_mul, ":debt_interests", ":total_debts", ":debt_rate"),
-                    (val_div, ":debt_interests", 1000),
+                    (val_div, ":debt_interests", 500),
                     (lt, ":debt_interests", 0),
                     (call_script, "script_party_add_accumulated_taxes", ":party_no", ":debt_interests", tax_type_debts),
                 (try_end),
@@ -21895,6 +22117,11 @@ scripts = [
             (store_script_param, ":other_troop_no", 2),
             (store_script_param, ":change", 3),
 
+            (try_begin),
+                (eq, ":other_troop_no", "$g_player_troop"),
+                (assign, ":other_troop_no", "trp_current_player"),
+            (try_end),
+
             (store_sub, ":troop_no_offset", ":other_troop_no", npc_heroes_begin),
             (store_add, ":slot_rel_1", ":troop_no_offset", slot_troop_relations_begin),
             (val_max, ":slot_rel_1", slot_troop_relations_begin),
@@ -22131,7 +22358,7 @@ scripts = [
             (assign, ":value", 0),
 
             (try_begin),
-                (eq, ":occupation", tko_kingdom_hero),
+                (is_between, ":occupation", tko_kingdom_hero, tko_mercenary + 1),
                 (troop_get_slot, ":rank", ":troop_no", slot_troop_rank),
                 (troop_get_slot, ":num_vassals", ":troop_no", slot_troop_num_vassal),
                 (troop_get_slot, ":renown", ":troop_no", slot_troop_renown),
@@ -22654,7 +22881,7 @@ scripts = [
                 (troop_get_slot, ":occupation", ":lord_no", slot_troop_kingdom_occupation),
                 (neg|troop_slot_ge, ":lord_no", slot_troop_prisoner_of, 0), # Do not process prisoners
                 (try_begin),
-                    (eq, ":occupation", tko_kingdom_hero),
+                    (is_between, ":occupation", tko_kingdom_hero, tko_mercenary + 1),
                     (troop_get_slot, ":leaded_party", ":lord_no", slot_troop_leaded_party),
                     (ge, ":leaded_party", 0),
                     (party_is_active, ":leaded_party"),
@@ -22803,14 +23030,15 @@ scripts = [
                     (store_faction_of_party, ":current_faction", ":party_no"),
                     (party_get_slot, ":party_faction", ":party_no", slot_party_faction),
                     (eq, ":current_faction", ":party_faction"),
-                    (party_get_slot, ":attached_party_reserved_wages", ":party_no", slot_party_budget_reserved_auxiliaries),
+                    # (party_get_slot, ":attached_party_reserved_wages", ":party_no", slot_party_wanted_auxiliary_party_wages),
+                    # (ge, ":attached_party_reserved_wages", 500),
 
                     (call_script, "script_spawn_party_around_party", ":party_no", "pt_patrol"),
                     (assign, ":spawned_party", reg0),
 
                     (party_set_faction, ":spawned_party", ":party_faction"),
-                    (party_set_slot, ":spawned_party", slot_party_budget_reserved_party, ":attached_party_reserved_wages"),
-                    (party_set_slot, ":spawned_party", slot_party_wanted_party_wages, ":attached_party_reserved_wages"),
+                    (party_set_slot, ":spawned_party", slot_party_budget_reserved_party, 8500),
+                    (party_set_slot, ":spawned_party", slot_party_wanted_party_wages, 8500),
                     (party_set_slot, ":spawned_party", slot_party_type, spt_patrol),
                     (party_set_slot, ":spawned_party", slot_party_linked_party, ":party_no"),
 
@@ -22878,17 +23106,17 @@ scripts = [
 
                     (store_faction_of_party, ":party_faction", ":party_no"),
                     (party_slot_eq, ":party_no", slot_party_faction, ":party_faction"),
-                    # (party_get_slot, ":attached_party_reserved_wages", ":party_no", slot_party_budget_reserved_auxiliaries),
-                    # (val_div, ":attached_party_reserved_wages", 2),
 
                     (call_script, "script_spawn_party_around_party", ":party_no", "pt_caravan"),
                     (assign, ":spawned_party", reg0),
 
                     (party_set_faction, ":spawned_party", ":party_faction"),
 
-                    (party_get_slot, ":attached_party_reserved_wages", ":party_no", slot_party_budget_reserved_auxiliaries),
-                    (party_set_slot, ":spawned_party", slot_party_budget_reserved_party, ":attached_party_reserved_wages"),
-                    (party_set_slot, ":spawned_party", slot_party_wanted_party_wages, ":attached_party_reserved_wages"),
+                    # (party_get_slot, ":attached_party_reserved_wages", ":party_no", slot_party_wanted_auxiliary_party_wages),
+                    # (ge, ":attached_party_reserved_wages", 500),
+
+                    (party_set_slot, ":spawned_party", slot_party_budget_reserved_party, 7500),
+                    (party_set_slot, ":spawned_party", slot_party_wanted_party_wages, 7500),
                     (party_set_slot, ":spawned_party", slot_party_type, spt_caravan),
                     (party_set_slot, ":spawned_party", slot_party_linked_party, ":party_no"),
                     (party_set_slot, ":spawned_party", slot_party_mission_object, -1),
@@ -23148,15 +23376,15 @@ scripts = [
 
             (try_begin),
                 # Do center business
-                (party_get_cur_town, ":cur_town", ":party_no"),
+                (party_get_attached_to, ":cur_town", ":party_no"),
                 (try_begin),
                     (is_between, ":cur_town", centers_begin, centers_end),
 
                     (party_set_slot, ":party_no", slot_party_last_rest, ":current_day"),
 
-                    (party_get_slot, ":new_budget", ":cur_town", slot_party_budget_reserved_auxiliaries),
-                    (party_set_slot, ":party_no", slot_party_budget_reserved_party, ":new_budget"),
-                    (party_set_slot, ":party_no", slot_party_wanted_party_wages, ":new_budget"),
+                    # (party_get_slot, ":new_budget", ":cur_town", slot_party_wanted_auxiliary_party_wages),
+                    # (party_set_slot, ":party_no", slot_party_budget_reserved_party, ":new_budget"),
+                    # (party_set_slot, ":party_no", slot_party_wanted_party_wages, ":new_budget"),
 
                     (try_begin),
                         (ge, ":num_prisoners", 1),
@@ -23200,8 +23428,9 @@ scripts = [
 
             (party_get_slot, ":mission_object", ":party_no", slot_party_mission_object),
             (party_get_slot, ":mission", ":party_no", slot_party_mission),
-            (party_get_cur_town, ":cur_town", ":party_no"),
             (party_get_slot, ":home", ":party_no", slot_party_linked_party),
+
+            (party_get_attached_to, ":cur_town", ":party_no"),
 
             (try_begin),
                 (eq, ":cur_town", ":mission_object"),
@@ -23211,6 +23440,11 @@ scripts = [
                 (assign, ":current_day", reg0),
                 (try_begin),
                     (eq, ":cur_town", ":home"),
+
+                    # (party_get_slot, ":new_budget", ":home", slot_party_wanted_auxiliary_party_wages),
+                    # (party_set_slot, ":party_no", slot_party_budget_reserved_party, ":new_budget"),
+                    # (party_set_slot, ":party_no", slot_party_wanted_party_wages, ":new_budget"),
+
                     (call_script, "script_party_get_wages", ":party_no"),
                     (assign, ":current_wages", reg0),
                     (call_script, "script_party_get_prefered_wages_limit", ":party_no"),
@@ -23285,7 +23519,8 @@ scripts = [
 
                 (try_begin),
                     (is_between, ":new_destination", centers_begin, centers_end),
-                    (neq, ":cur_town", ":new_destination"),
+                    (this_or_next|neq, ":cur_town", ":new_destination"),
+                    (eq, ":home", ":new_destination"),
                     (party_set_slot, ":party_no", slot_party_mission, spm_trade),
                     (party_set_slot, ":party_no", slot_party_mission_object, ":new_destination"),
                     (call_script, "script_party_set_behavior", ":party_no", tai_traveling_to_party, ":new_destination"),
@@ -23376,7 +23611,6 @@ scripts = [
                 (assign, reg0, -1),
             (try_end),
         ]),
-
 
     # script_party_caravan_set_destination
         # input:
@@ -24185,6 +24419,15 @@ scripts = [
             (try_end),
 
             (party_set_slot, ":party_no", slot_party_visiting_center, ":center_no"),
+
+            (party_get_slot, ":party_leader", ":party_no", slot_party_leader),
+            (try_begin),
+                (gt, ":party_leader", 0),
+
+                (call_script, "script_get_current_day"),
+                (assign, ":current_day", reg0), 
+                (troop_set_slot, ":party_leader", slot_troop_last_rest, ":current_day"),
+            (try_end),
 
             (try_begin),
                 (is_between, ":center_no", centers_begin, centers_end),
@@ -26966,6 +27209,7 @@ scripts = [
                 (troop_set_slot, ":lord", slot_troop_budget_vassal_taxes, 0),
                 (troop_set_slot, ":lord", slot_troop_budget_faction_member_taxes, 0),
                 (troop_set_slot, ":lord", slot_troop_budget_faction_funds, 0),
+                (troop_set_slot, ":lord", slot_troop_budget_mercenary_payment, 0),
                 (troop_set_slot, ":lord", slot_troop_budget_reserved_party, 0),
                 (troop_set_slot, ":lord", slot_troop_budget_reserved_other, 0),
             (try_end),
@@ -26988,6 +27232,14 @@ scripts = [
             (try_for_range, ":faction_no", kingdoms_begin, kingdoms_end),
                 (faction_set_slot, ":faction_no", slot_faction_accumulated_taxes, 0),
             (try_end),
+
+            (troop_set_slot, "$g_player_troop", slot_troop_accumulated_taxes, 0),
+            (troop_set_slot, "$g_player_troop", slot_troop_budget_vassal_taxes, 0),
+            (troop_set_slot, "$g_player_troop", slot_troop_budget_faction_member_taxes, 0),
+            (troop_set_slot, "$g_player_troop", slot_troop_budget_faction_funds, 0),
+            (troop_set_slot, "$g_player_troop", slot_troop_budget_mercenary_payment, 0),
+            (troop_set_slot, "$g_player_troop", slot_troop_budget_reserved_party, 0),
+            (troop_set_slot, "$g_player_troop", slot_troop_budget_reserved_other, 0),
         ]),
 
     # script_party_check_prisoners
@@ -27275,7 +27527,7 @@ scripts = [
                     (call_script, "script_troop_get_player_name", -1, ":caravan_party"),
 
                     (call_script, "script_game_get_money_text", ":payment_amount"),
-                        (str_store_string, s0, "@Of course {s60}, here, we can part with {s0}."),
+                    (str_store_string, s0, "@Of course {s60}, here, we can part with {s0}."),
                 (else_try),
                     (assign, ":dialog_outcome", outcome_neutral),
                     (call_script, "script_game_get_money_text", ":payment_amount"),
@@ -29312,6 +29564,8 @@ scripts = [
 
             (call_script, "script_center_get_elder_face_key", ":party_no"),
             (troop_set_face_keys, "trp_village_elder", s0),
+            (troop_set_age, "trp_village_elder", 65),
+
             (call_script, "script_setup_troop_meeting", "trp_village_elder", -1),
         ]),
 
@@ -29325,8 +29579,27 @@ scripts = [
             (store_script_param, ":party_no", 1),
             
             (party_get_slot, ":original_faction", ":party_no", slot_party_original_faction),
+            (faction_get_slot, ":culture", ":original_faction", slot_faction_culture),
             (troop_set_faction, "trp_village_elder", ":original_faction"),
-            (call_script, "script_troop_get_face_code", "trp_village_elder"),
+            (troop_set_slot, "trp_village_elder", slot_troop_culture, ":culture"),
+
+            (party_get_slot, ":base_face_key", ":party_no", slot_party_face_key_storage),
+            (party_get_slot, ":base_face_options", ":party_no", slot_party_face_options_storage),
+
+            (call_script, "script_troop_get_face_code", "trp_village_elder", ":base_face_key", ":base_face_options"),
+            (assign, ":new_face_key", reg0),
+            (assign, ":new_face_options", reg1),
+
+            (display_message, "@face {reg0} optiosn: {reg1}"),
+
+            (try_begin),
+                (eq, ":base_face_key", -1),
+                (party_set_slot, ":party_no", slot_party_face_key_storage, ":new_face_key"),
+            (try_end),
+            (try_begin),
+                (eq, ":base_face_options", -1),
+                (party_set_slot, ":party_no", slot_party_face_options_storage, ":new_face_options"),
+            (try_end),
         ]),
 
     # script_prepare_intro_quest
@@ -29420,19 +29693,133 @@ scripts = [
         # input: none
         # output:
         #   reg0: threat_value
-        ("intro_quest_thugs_threaten",
-            [
-                (store_skill_level, ":intimidation", "$g_player_troop", skl_intimidation),
-                (party_get_num_companions, ":num_troops", "$g_player_party"),
-                (val_div, ":num_troops", 10),
+    ("intro_quest_thugs_threaten",
+        [
+            (store_skill_level, ":intimidation", "$g_player_troop", skl_intimidation),
+            (party_get_num_companions, ":num_troops", "$g_player_party"),
+            (val_div, ":num_troops", 10),
 
-                (assign, ":base_value", -3),
+            (assign, ":base_value", -3),
 
-                (store_add, ":value", ":base_value", ":num_troops"),
-                (val_add, ":value", ":intimidation"),
+            (store_add, ":value", ":base_value", ":num_troops"),
+            (val_add, ":value", ":intimidation"),
 
-                (assign, reg0, ":value"),
-            ]),
+            (assign, reg0, ":value"),
+        ]),
+
+    # script_apply_mercenary_contract
+        # input:
+        #   arg1: troop_no
+        # output: none
+    ("apply_mercenary_contract",
+        [
+            (store_script_param, ":troop_no", 1),
+
+            (try_begin),
+                (troop_slot_eq, ":troop_no", slot_troop_kingdom_occupation, tko_mercenary),
+
+                (store_troop_faction, ":troop_faction", ":troop_no"),
+                (is_between, ":troop_faction", kingdoms_begin, kingdoms_end),
+
+                (troop_get_slot, ":wages_ratio", ":troop_no", slot_troop_mercenary_contract_wages_ratio),
+                (troop_get_slot, ":monthly_pay", ":troop_no", slot_troop_mercenary_contract_monthly_pay),
+
+                (troop_get_slot, ":party_no", ":troop_no", slot_troop_leaded_party),
+                (assign, ":payment", 0),
+                (try_begin),
+                    (ge, ":party_no", 0),
+                    (call_script, "script_party_get_wages", ":party_no"),
+                    (assign, ":wages", reg0),
+                    (store_mul, ":payment", ":wages", ":wages_ratio"),
+                    (val_div, ":payment", 100),
+                    (val_max, ":payment", 0),
+                (try_end),
+
+                (store_add, ":total_received", ":payment", ":monthly_pay"),
+                (store_mul, ":total_payment", ":total_received", -1),
+
+                (call_script, "script_troop_add_accumulated_taxes", ":troop_no", ":total_received", tax_type_mercenary_contract, 1),
+                (call_script, "script_faction_add_accumulated_taxes", ":troop_faction", ":total_payment", tax_type_mercenary_contract_pay),
+            (try_end),
+        ]),
+
+    # script_troop_get_mercenary_payment
+        # input:
+        #   arg1: troop_no
+        # output: none
+    ("troop_get_mercenary_payment",
+        [
+            (store_script_param, ":troop_no", 1),
+
+            (assign, ":flat_amount", 1000),
+            (assign, ":base_score", 30),
+            (assign, ":score", ":base_score"),
+            (try_begin),
+                (ge, ":troop_no", 0),
+                (troop_get_slot, ":renown", ":troop_no", slot_troop_renown),
+                (store_mul, ":flat_renown", ":renown", 2),
+                (store_div, ":percent_renown", ":renown", 200),
+
+                (val_add, ":flat_amount", ":flat_renown"),
+                (val_add, ":score", ":percent_renown"),
+            (try_end),
+            (assign, reg0, ":flat_amount"),
+            (assign, reg1, ":score"),
+        ]),
+
+    # script_troop_become_mercenary
+        # input:
+        #   arg1: troop_no
+        #   arg2: troop_leader
+        # output: none
+    ("troop_become_mercenary",
+        [
+            (store_script_param, ":troop_no", 1),
+            (store_script_param, ":troop_leader", 2),
+
+            (troop_get_slot, ":occupation", ":troop_no", slot_troop_kingdom_occupation),
+            (try_begin),
+                (neq, ":occupation", tko_mercenary),
+                (troop_set_slot, ":troop_no", slot_troop_kingdom_occupation, tko_mercenary),
+            (try_end),
+
+            (call_script, "script_troop_get_mercenary_payment", ":troop_no"),
+            (troop_set_slot, ":troop_no", slot_troop_mercenary_contract_monthly_pay, reg0),
+            (troop_set_slot, ":troop_no", slot_troop_mercenary_contract_wages_ratio, reg1),
+
+            (call_script, "script_get_current_day"),
+            (assign, ":end_date", reg0),
+            (val_add, ":end_date", 365*3), # Default terms is 3 years
+            (troop_set_slot, ":troop_no", slot_troop_mercenary_contract_end_date, ":end_date"),
+
+            (store_troop_faction, ":troop_faction", ":troop_no"),
+            (store_troop_faction, ":leader_faction", ":troop_leader"),
+            (try_begin),
+                (neq, ":troop_faction", ":leader_faction"),
+
+                (troop_set_faction, ":troop_no", ":leader_faction"),
+
+                (troop_get_slot, ":troop_party", ":troop_no", slot_troop_leaded_party),
+                (ge, ":troop_party", 0),
+                (party_set_faction, ":troop_party", ":leader_faction"),
+            (try_end),
+        ]),
+
+    # script_cf_faction_needs_mercenaries
+        # input:
+        #   arg1: faction_no
+        # output: none
+        # fails if faction doesn't need mercenaries
+    ("cf_faction_needs_mercenaries",
+        [
+            (store_script_param, ":faction_no", 1),
+
+            (is_between, ":faction_no", kingdoms_begin, kingdoms_end),
+            (faction_get_slot, ":at_war", ":faction_no", slot_faction_is_at_war),
+            (faction_get_slot, ":preparing_war", ":faction_no", slot_faction_preparing_war),
+            (this_or_next|gt, ":at_war", 0),
+            (gt, ":preparing_war", 0),
+        ]),
 
     # script_presentation_generate_select_lord_card
         # input:

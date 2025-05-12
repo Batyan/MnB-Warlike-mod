@@ -845,11 +845,13 @@ presentations = [
                 (troop_get_slot, ":vassal_taxes", "$g_player_troop", slot_troop_budget_vassal_taxes),
                 (troop_get_slot, ":member_taxes", "$g_player_troop", slot_troop_budget_faction_member_taxes),
                 (troop_get_slot, ":faction_taxes", "$g_player_troop", slot_troop_budget_faction_funds),
+                (troop_get_slot, ":mercenary_taxes", "$g_player_troop", slot_troop_budget_mercenary_payment),
 
                 (party_get_slot, ":debt_interests", "$g_player_party", slot_party_budget_debts),
 
                 (store_add, ":total_recieving", ":faction_taxes", ":member_taxes"),
                 (val_add, ":total_recieving", ":vassal_taxes"),
+                (val_add, ":total_recieving", ":mercenary_taxes"),
 
                 (store_troop_gold, ":player_gold", "$g_player_troop"),
 
@@ -996,6 +998,27 @@ presentations = [
                     (assign, ":added_taxes", 1),
                     (try_begin),
                         (gt, ":faction_taxes", 0),
+                        (overlay_set_color, reg0, text_color_budget_positive),
+                    (else_try),
+                        (overlay_set_color, reg0, text_color_budget_negative),
+                    (try_end),
+                (try_end),
+
+                (try_begin),
+                    (neq, ":mercenary_taxes", 0),
+
+                    (val_add, ":cur_y", ":line_height"),
+
+                    (str_store_string, s10, "str_party_tax_description_mercenary_contract"),
+                    (call_script, "script_presentation_create_text_overlay", tf_left_align, ":current_effects_x", ":cur_y", 1000, 1000),
+                    (overlay_set_color, reg0, text_color_budget_neutral),
+                    (assign, reg10, ":mercenary_taxes"),
+                    (str_store_string, s10, "@{reg10}"),
+                    (call_script, "script_presentation_create_text_overlay", tf_right_align, ":current_effects_values_x", ":cur_y", 1000, 1000),
+                    
+                    (assign, ":added_taxes", 1),
+                    (try_begin),
+                        (gt, ":mercenary_taxes", 0),
                         (overlay_set_color, reg0, text_color_budget_positive),
                     (else_try),
                         (overlay_set_color, reg0, text_color_budget_negative),
@@ -1151,6 +1174,7 @@ presentations = [
                     (troop_get_slot, ":vassal_taxes", "$g_player_troop", slot_troop_budget_vassal_taxes),
                     (troop_get_slot, ":member_taxes", "$g_player_troop", slot_troop_budget_faction_member_taxes),
                     (troop_get_slot, ":faction_taxes", "$g_player_troop", slot_troop_budget_faction_funds),
+                    (troop_get_slot, ":mercenary_taxes", "$g_player_troop", slot_troop_budget_mercenary_payment),
 
                     (party_get_slot, ":debt_interests", "$g_player_party", slot_party_budget_debts),
 
@@ -1162,6 +1186,7 @@ presentations = [
                     (val_add, ":total_change", ":vassal_taxes"),
                     (val_add, ":total_change", ":member_taxes"),
                     (val_add, ":total_change", ":faction_taxes"),
+                    (val_add, ":total_change", ":mercenary_taxes"),
 
                     (assign, ":remaining_gold", ":player_gold"),
                     (assign, ":remaining_debt", 0),
@@ -1170,28 +1195,11 @@ presentations = [
                         (assign, ":remaining_debt", 0),
                         (val_add, ":remaining_gold", ":total_change"),
                     (else_try),
-                        # (lt, ":total_change", 0),
                         (val_add, ":total_change", ":value"),
 
                         (val_sub, ":remaining_gold", ":value"),
                         (assign, ":remaining_debt", ":total_change"),
                     (try_end),
-
-                    # (try_begin),
-                    #     (lt, ":remaining_wages", 0),
-                    #     (val_add, ":unpaid_wages", ":remaining_wages"),
-                    # (else_try),
-                    #     (val_add, ":player_party_remaining", ":remaining_wages"),
-                    # (try_end),
-                    # (val_sub, ":unpaid_wages", ":debt_interests"),
-                    # (val_sub, ":unpaid_wages", ":vassal_taxes"),
-                    # (val_sub, ":unpaid_wages", ":member_taxes"),
-                    # (val_sub, ":unpaid_wages", ":faction_taxes"),
-
-                    # (try_begin),
-                    #     (gt, ":value", 0),
-                    #     (val_sub, ":unpaid_wages", ":value"),
-                    # (try_end),
 
                     (assign, reg10, ":remaining_gold"),
                     (overlay_set_text, "$g_presentation_wages_remaining_gold", "@{reg10}"),
