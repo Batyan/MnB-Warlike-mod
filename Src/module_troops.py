@@ -1593,7 +1593,7 @@ troops = [
   
   # Basic infantry, spears, shields
   # SPECIAL
-  ["swadian_levy_spearman", "Swadian Levy Spearman", "Swadian Levy Spearmen", tf_guarantee_recruit_armor|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_13,
+  ["swadian_levy_spearman", "Swadian Levy Spearman", "Swadian Levy Spearmen", tf_guarantee_recruit_armor|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_17,
    [itm_spear, itm_tab_shield_heater_a,itm_tab_shield_heater_a_plain_1,itm_tab_shield_heater_a_plain_2,
     itm_ankle_boots, itm_wrapping_boots, itm_leather_boots,
     itm_padded_cloth, itm_leather_armor_herald,
@@ -1700,7 +1700,7 @@ troops = [
   
   # Light infantry, spears, shields
   # SPECIAL
-  ["swadian_light_spearman", "Swadian Light Spearman", "Swadian Light Spearmen", tf_guarantee_trained_armor|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_15,
+  ["swadian_light_spearman", "Swadian Light Spearman", "Swadian Light Spearmen", tf_guarantee_trained_armor|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_17,
    [itm_war_spear, itm_tab_shield_heater_b,itm_tab_shield_heater_b_plain_1,itm_tab_shield_heater_b_plain_2,
     itm_leather_boots, itm_leather_gloves,
     itm_padded_cloth, itm_gambeson_herald, itm_leather_jerkin_herald, itm_padded_leather_herald,
@@ -1803,7 +1803,7 @@ troops = [
   
   # Heavy infantry, spears, shields
   # SPECIAL
-  ["swadian_spearman", "Swadian Spearman", "Swadian Spearmen", tf_guarantee_trained_armor|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_15,
+  ["swadian_spearman", "Swadian Spearman", "Swadian Spearmen", tf_guarantee_trained_armor|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_17,
    [itm_war_spear, itm_tab_shield_heater_c,itm_tab_shield_heater_c_plain_1,itm_tab_shield_heater_c_plain_2,
     itm_mail_chausses, itm_mail_mittens,
     itm_haubergeon_herald, itm_mail_with_surcoat_herald,
@@ -1823,7 +1823,7 @@ troops = [
   
   # Heavy cavalry, lances, shields
   # SPECIAL
-  ["swadian_lancer", "Swadian Lancer", "Swadian Lancers", tf_guarantee_trained_armor|tf_guarantee_horseman|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_13,
+  ["swadian_lancer", "Swadian Lancer", "Swadian Lancers", tf_guarantee_trained_armor|tf_guarantee_horseman|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_15,
    [itm_lance, itm_tab_shield_heater_cav_b,itm_tab_shield_heater_cav_b_plain_1,itm_tab_shield_heater_cav_b_plain_2,
     itm_leather_boots, itm_leather_gloves,
     itm_haubergeon_herald, itm_mail_with_surcoat_herald,
@@ -1862,7 +1862,7 @@ troops = [
   
   # Heavy cavalry, lances, shields
   # SPECIAL
-  ["swadian_heavy_lancer", "Swadian Heavy Lancer", "Swadian Heavy Lancers", tf_guarantee_trained_armor|tf_guarantee_horseman|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_13,
+  ["swadian_heavy_lancer", "Swadian Heavy Lancer", "Swadian Heavy Lancers", tf_guarantee_trained_armor|tf_guarantee_horseman|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_15,
    [itm_heavy_lance, itm_tab_shield_heater_cav_b,itm_tab_shield_heater_cav_b_plain_1,itm_tab_shield_heater_cav_b_plain_2,
     itm_iron_greaves, itm_mail_boots, itm_mail_mittens,
     itm_mail_with_surcoat_herald, itm_coat_of_plates_herald,

@@ -7500,13 +7500,13 @@ scripts = [
             (call_script, "script_faction_change_slot", "fac_small_kingdom_12", slot_faction_troop_ratio_cavalry, -10),
             (call_script, "script_faction_change_slot", "fac_small_kingdom_12", slot_faction_troop_ratio_lancer, -5),
             
-            (call_script, "script_faction_change_slot", "fac_small_kingdom_13", slot_faction_troop_ratio_spearman, 5),
-            (call_script, "script_faction_change_slot", "fac_small_kingdom_13", slot_faction_troop_ratio_lancer, 30),
+            (call_script, "script_faction_change_slot", "fac_small_kingdom_13", slot_faction_troop_ratio_cavalry, 30),
             
             (call_script, "script_faction_change_slot", "fac_small_kingdom_14", slot_faction_troop_ratio_archer, 25),
             (call_script, "script_faction_change_slot", "fac_small_kingdom_14", slot_faction_troop_ratio_crossbow, -25),
             
-            (call_script, "script_faction_change_slot", "fac_small_kingdom_15", slot_faction_troop_ratio_cavalry, -10),
+            (call_script, "script_faction_change_slot", "fac_small_kingdom_15", slot_faction_troop_ratio_cavalry, -25),
+            (call_script, "script_faction_change_slot", "fac_small_kingdom_15", slot_faction_troop_ratio_lancer, 40),
             (call_script, "script_faction_change_slot", "fac_small_kingdom_15", slot_faction_troop_ratio_spearman, 10),
             
             (call_script, "script_faction_change_slot", "fac_small_kingdom_16", slot_faction_troop_ratio_skirmisher, 10),
@@ -7514,8 +7514,10 @@ scripts = [
             (call_script, "script_faction_change_slot", "fac_small_kingdom_16", slot_faction_troop_ratio_cavalry, -5),
             (call_script, "script_faction_change_slot", "fac_small_kingdom_16", slot_faction_troop_ratio_infantry, -5),
             
-            (call_script, "script_faction_change_slot", "fac_small_kingdom_17", slot_faction_troop_ratio_shock_infantry, 10), # For swadian sergeant
-            (call_script, "script_faction_change_slot", "fac_small_kingdom_17", slot_faction_troop_ratio_infantry, 10),
+            (call_script, "script_faction_change_slot", "fac_small_kingdom_17", slot_faction_troop_ratio_spearman, 25),
+            (call_script, "script_faction_change_slot", "fac_small_kingdom_17", slot_faction_troop_ratio_cavalry, -30),
+            (call_script, "script_faction_change_slot", "fac_small_kingdom_17", slot_faction_troop_ratio_archer, 5),
+            (call_script, "script_faction_change_slot", "fac_small_kingdom_17", slot_faction_troop_ratio_crossbow, 5),
             
             (call_script, "script_faction_change_slot", "fac_small_kingdom_21", slot_faction_troop_ratio_lancer, 50),
             (call_script, "script_faction_change_slot", "fac_small_kingdom_21", slot_faction_troop_ratio_cavalry, -50),
@@ -13636,17 +13638,16 @@ scripts = [
             
             # Troops not added to factions
             (troop_set_slot, "trp_swadian_champion", slot_troop_faction_not_1, "fac_small_kingdom_12"), # Has Heavy Infantry instead
-            (troop_set_slot, "trp_swadian_light_lancer", slot_troop_faction_not_1, "fac_small_kingdom_13"), # Has Lancer instead
             (troop_set_slot, "trp_swadian_light_cavalry", slot_troop_faction_not_1, "fac_small_kingdom_13"), # Has Horseman instead
             (troop_set_slot, "trp_swadian_militia", slot_troop_faction_not_1, "fac_small_kingdom_14"), # Has Hunter instead
             (troop_set_slot, "trp_swadian_light_bowman", slot_troop_faction_not_1, "fac_small_kingdom_14"), # Has Light Longbowman instead
             (troop_set_slot, "trp_swadian_bowman", slot_troop_faction_not_1, "fac_small_kingdom_14"), # Has Heavy Longbowman instead
-            (troop_set_slot, "trp_swadian_pikeman", slot_troop_faction_not_1, "fac_small_kingdom_15"), # Has Spearman instead
-            (troop_set_slot, "trp_swadian_champion", slot_troop_faction_not_2, "fac_small_kingdom_17"), # 
+            (troop_set_slot, "trp_swadian_light_lancer", slot_troop_faction_not_1, "fac_small_kingdom_15"), # Has Lancer instead
+            (troop_set_slot, "trp_swadian_pikeman", slot_troop_faction_not_1, "fac_small_kingdom_17"), # Has Spearman instead
             (troop_set_slot, "trp_swadian_heavy_cavalry", slot_troop_faction_not_1, "fac_small_kingdom_17"), # Has Squire instead
 
             (troop_set_slot, "trp_swadian_levy_spearman", slot_troop_faction_reserved_2, "fac_small_kingdom_15"),
-            (troop_set_slot, "trp_swadian_foot_knight", slot_troop_faction_reserved_2, "fac_small_kingdom_15"),
+            (troop_set_slot, "trp_swadian_foot_knight", slot_troop_faction_reserved_2, "fac_small_kingdom_12"),
 
             (troop_set_slot, "trp_vaegir_hunter", slot_troop_faction_not_1, "fac_small_kingdom_23"), # Has Militia instead
             (troop_set_slot, "trp_vaegir_hunter", slot_troop_faction_not_2, "fac_small_kingdom_22"), # Has Militia instead

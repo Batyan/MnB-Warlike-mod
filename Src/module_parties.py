@@ -72,7 +72,7 @@ parties = [
 	("town_62","Qaiyut", icon_town|pf_town, 0, pt_none, fac_kingdom_6,0,ai_bhvr_hold,0,(54.7, -97.8),[], 170),
 	
 	("town_131","Dhirim", icon_town|pf_town, 0, pt_none, fac_small_kingdom_13,0,ai_bhvr_hold,0,(12.4, -5.2),[], 170),
-	("town_171","Burglen", icon_town|pf_town, 0, pt_none, fac_small_kingdom_17,0,ai_bhvr_hold,0,(-15.5, 3.3),[], 170),
+	("town_171","Uxkhal", icon_town|pf_town, 0, pt_none, fac_small_kingdom_17,0,ai_bhvr_hold,0,(-64.6, -7.8),[], 170),
 	
 	("town_231","Rivacheg", icon_town|pf_town, 0, pt_none, fac_small_kingdom_23,0,ai_bhvr_hold,0,(102.7, 119),[], 170),
 	("town_251","Uslum", icon_town|pf_town, 0, pt_none, fac_small_kingdom_25,0,ai_bhvr_hold,0,(127.2, 87.4),[], 170),
@@ -89,8 +89,8 @@ parties = [
 	("town_611","Barriye", icon_town|pf_town, 0, pt_none, fac_small_kingdom_61,0,ai_bhvr_hold,0,(164.1, -109.4),[], 170),
 	("town_631","Ahmerrad", icon_town|pf_town, 0, pt_none, fac_small_kingdom_63,0,ai_bhvr_hold,0,(123.7, -98.7),[], 170),
 
-	("castle_1a","Yaragar Castle", icon_castle_a|pf_castle, 0, pt_none, fac_kingdom_1,0,ai_bhvr_hold,0,(-63, -8.2),[], 170),
-	("castle_1b","Lendil Castle", icon_castle_a|pf_castle, 0, pt_none, fac_kingdom_1,0,ai_bhvr_hold,0,(-42.4, -9.7),[], 170),
+	("castle_1a","Vyincan Castle", icon_castle_a|pf_castle, 0, pt_none, fac_kingdom_1,0,ai_bhvr_hold,0,(-93.3, 2.5),[], 170),
+	("castle_1b","Haringoth Castle", icon_castle_a|pf_castle, 0, pt_none, fac_kingdom_1,0,ai_bhvr_hold,0,(-116.5, -2),[], 170),
 	("castle_1c","Ryibelet Castle", icon_castle_a|pf_castle, 0, pt_none, fac_kingdom_1,0,ai_bhvr_hold,0,(-75.2, 47.8),[], 170),
 	("castle_1d","Veigar Castle", icon_castle_a|pf_castle, 0, pt_none, fac_kingdom_1,0,ai_bhvr_hold,0,(-109.8, 16.9),[], 170),
 	("castle_1e","Rindyar Castle", icon_castle_a|pf_castle, 0, pt_none, fac_kingdom_1,0,ai_bhvr_hold,0,(-69.5, 5.7),[], 170),
@@ -106,13 +106,13 @@ parties = [
 	("castle_13d","Heldan Castle", icon_castle_a|pf_castle, 0, pt_none, fac_small_kingdom_13,0,ai_bhvr_hold,0,(25.8, -25),[], 170),
 	("castle_14a","Kalvan Castle", icon_castle_a|pf_castle, 0, pt_none, fac_small_kingdom_14,0,ai_bhvr_hold,0,(-85, 57.8),[], 170),
 	("castle_14b","Ilndir Castle", icon_castle_a|pf_castle, 0, pt_none, fac_small_kingdom_14,0,ai_bhvr_hold,0,(-100.9, 63.2),[], 170),
-	("castle_15a","Haringoth Castle", icon_castle_a|pf_castle, 0, pt_none, fac_small_kingdom_15,0,ai_bhvr_hold,0,(-116.5, -2),[], 170),
-	("castle_15b","Vyincourd Castle", icon_castle_a|pf_castle, 0, pt_none, fac_small_kingdom_15,0,ai_bhvr_hold,0,(-81.5, -5.5),[], 170),
-	("castle_15c","Vyincan Castle", icon_castle_a|pf_castle, 0, pt_none, fac_small_kingdom_15,0,ai_bhvr_hold,0,(-100.9, 6.3),[], 170),
+	("castle_15a","Yaragar Castle", icon_castle_a|pf_castle, 0, pt_none, fac_small_kingdom_15,0,ai_bhvr_hold,0,(-14.5, 1.8),[], 170),
+	("castle_15b","Kelredan Castle", icon_castle_a|pf_castle, 0, pt_none, fac_small_kingdom_15,0,ai_bhvr_hold,0,(-16.5, 18.0),[], 170),
+	("castle_15c","Tshibtin Castle", icon_castle_a|pf_castle, 0, pt_none, fac_small_kingdom_15,0,ai_bhvr_hold,0,(-22.0, -17.0),[], 170),
 	("castle_16a","Tilbaut Castle", icon_castle_a|pf_castle, 0, pt_none, fac_small_kingdom_16,0,ai_bhvr_hold,0,(40.6, 13.4),[], 170),
 	("castle_16b","Nazkh Castle", icon_castle_a|pf_castle, 0, pt_none, fac_small_kingdom_16,0,ai_bhvr_hold,0,(16.1, 26.9),[], 170),
-	("castle_17a","Tshibtin Castle", icon_castle_a|pf_castle, 0, pt_none, fac_small_kingdom_17,0,ai_bhvr_hold,0,(-22.0, -17.0),[], 170),
-	("castle_17b","Kelredan Castle", icon_castle_a|pf_castle, 0, pt_none, fac_small_kingdom_17,0,ai_bhvr_hold,0,(-10.3, 19.1),[], 170),
+	("castle_17b","Vyincourd Castle", icon_castle_a|pf_castle, 0, pt_none, fac_small_kingdom_17,0,ai_bhvr_hold,0,(-81.5, -5.5),[], 170),
+	("castle_17c","Lendil Castle", icon_castle_a|pf_castle, 0, pt_none, fac_small_kingdom_17,0,ai_bhvr_hold,0,(-29.9, 0.9),[], 170),
 	
 	("castle_2a","Ismirag Castle", icon_castle_a|pf_castle, 0, pt_none, fac_kingdom_2,0,ai_bhvr_hold,0,(40.3, 68.5),[], 170),
 	("castle_2b","Jeirbe Castle", icon_castle_a|pf_castle, 0, pt_none, fac_kingdom_2,0,ai_bhvr_hold,0,(38.6, 85.3),[], 170),
@@ -213,9 +213,9 @@ parties = [
 	("village_121","Talhberl", icon_village_a|pf_village, 0, pt_none, fac_kingdom_1,0,ai_bhvr_hold,0,(-37.6, 12.5),[], 170),
 	("village_122","Ruluns", icon_village_a|pf_village, 0, pt_none, fac_kingdom_1,0,ai_bhvr_hold,0,(-54.8, 23.5),[], 170),
 	("village_123","Ibiran", icon_village_a|pf_village, 0, pt_none, fac_kingdom_1,0,ai_bhvr_hold,0,(-57.1, 13.5),[], 170),
-	
-	("village_1a1","Uxkhal", icon_village_a|pf_village, 0, pt_none, fac_kingdom_1,0,ai_bhvr_hold,0,(-57, -12.2),[], 170),
-	("village_1b1","Lendil", icon_village_a|pf_village, 0, pt_none, fac_kingdom_1,0,ai_bhvr_hold,0,(-46.4, -3.5),[], 170),
+
+	("village_1a1","Vyincan", icon_village_a|pf_village, 0, pt_none, fac_kingdom_1,0,ai_bhvr_hold,0,(-103.9, -1.5),[], 170),
+	("village_1b1","Nemeja", icon_village_a|pf_village, 0, pt_none, fac_kingdom_1,0,ai_bhvr_hold,0,(-122.2, 3.4),[], 170),
 	("village_1c1","Ryibelet", icon_village_a|pf_village, 0, pt_none, fac_kingdom_1,0,ai_bhvr_hold,0,(-70.5, 40.1),[], 170),
 	("village_1d1","Veigar", icon_village_a|pf_village, 0, pt_none, fac_kingdom_1,0,ai_bhvr_hold,0,(-119.6, 19.5),[], 170),
 	("village_1e1","Ryindyar", icon_village_a|pf_village, 0, pt_none, fac_kingdom_1,0,ai_bhvr_hold,0,(-73.6, 12.2),[], 170),
@@ -239,18 +239,18 @@ parties = [
 	("village_14a1","Gisim", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_14,0,ai_bhvr_hold,0,(-90, 53),[], 170),
 	("village_14b1","Ilndir", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_14,0,ai_bhvr_hold,0,(-101.9, 55),[], 170),
 	
-	("village_15a1","Nemeja", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_15,0,ai_bhvr_hold,0,(-122.2, 3.4),[], 170),
-	("village_15b1","Nadalb", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_15,0,ai_bhvr_hold,0,(-77.6, -14.3),[], 170),
-	("village_15c1","Vyincan", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_15,0,ai_bhvr_hold,0,(-100.1, -2.9),[], 170),
+	("village_15a1","Burglen", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_15,0,ai_bhvr_hold,0,(-5.0, -0.1),[], 170),
+	("village_15b1","Chide", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_15,0,ai_bhvr_hold,0,(-8.5, 13.8),[], 170),
+	("village_15c1","Nomar", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_15,0,ai_bhvr_hold,0,(-20.3, -26.2),[], 170),
 	
 	("village_16a1","Tadsamesh", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_16,0,ai_bhvr_hold,0,(29.7, 19.1),[], 170),
 	("village_16b1","Nazkh", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_16,0,ai_bhvr_hold,0,(15.2, 16.8),[], 170),
 	
-	("village_17a1","Pelrend", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_17,0,ai_bhvr_hold,0,(-6.2, -0.3),[], 170),
-	("village_17a2","Relemil", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_17,0,ai_bhvr_hold,0,(-24.0, 12.5),[], 170),
-	("village_17a3","Endey", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_17,0,ai_bhvr_hold,0,(-27.5, -5.4),[], 170),
-	("village_17b1","Nomar", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_17,0,ai_bhvr_hold,0,(-20.3, -26.2),[], 170),
-	("village_17c1","Chide", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_17,0,ai_bhvr_hold,0,(-8.5, 13.8),[], 170),
+	("village_17a1","Pelrend", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_17,0,ai_bhvr_hold,0,(-58.0, -12.9),[], 170),
+	("village_17a2","Relemil", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_17,0,ai_bhvr_hold,0,(-48.7, -3.8),[], 170),
+	("village_17a3","Endey", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_17,0,ai_bhvr_hold,0,(-44.6, -11.2),[], 170),
+	("village_17b1","Nadalb", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_17,0,ai_bhvr_hold,0,(-77.6, -14.3),[], 170),
+	("village_17c1","Lendil", icon_village_a|pf_village, 0, pt_none, fac_small_kingdom_17,0,ai_bhvr_hold,0,(-31.9, -8.8),[], 170),
 	
 	("village_211","Ayyike", icon_village_a|pf_village, 0, pt_none, fac_kingdom_2,0,ai_bhvr_hold,0,(46, 31),[], 170),
 	("village_212","Ulburban", icon_village_a|pf_village, 0, pt_none, fac_kingdom_2,0,ai_bhvr_hold,0,(60, 42),[], 170),

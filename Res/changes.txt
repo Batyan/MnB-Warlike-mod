@@ -17,6 +17,15 @@ v0.620:
 		* slow down patrol parties
 		* move raise levies menu options to main center in town
 		* reduce amount of cavalry troops in bandit outlaws, sea raiders, mountain bandits and trundra bandits
+		* change the position of small_kingdom_15 and small_kingdom_17
+		* switch some troop availability for swadian culture factions
+			added foot_knight to small_kingdom_12
+			removed lancer troops (lancer, heavy_lancer) from small_kingdom_13
+			removed levy_spearman from small_kingdom_13
+			added lancer troops (lancer, heavy_lancer) to small_kingdom_15
+			removed light_spearman and spearman from small_kingdom_15
+			removed foot_knight from small_kingdom_15
+			added levy_spearman, light_spearman and spearman to small_kingdom_17
 	-Fixes:
 		* fix bandits spawning more often on high prosperity centers
 		* fix caravan parties having low party size
