@@ -5,7 +5,7 @@ on:
     branches:
       - main
     tags:
-      - '*'
+      - 'v*'
 
 jobs:
   build-windows:
@@ -41,3 +41,5 @@ jobs:
         if-no-files-found: error
 
     - uses: ncipollo/release-action@v1
+      with:
+        tag: ${{ github.ref }}
