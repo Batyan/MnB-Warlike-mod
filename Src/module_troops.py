@@ -2885,7 +2885,7 @@ troops = [
   # SPECIAL
   ["nord_infantry", "Nord Infantry", "Nord Infantries", tf_guarantee_common_armor|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_42,
    [itm_one_handed_battle_axe_a, itm_one_handed_battle_axe_a, itm_sword_viking_1, itm_sword_viking_1_long, itm_tab_shield_round_c,itm_tab_shield_round_c_plain_1,itm_tab_shield_round_c_plain_2,
-    itm_leather_boots, itm_mail_chausses, itm_leather_gloves,
+    itm_leather_boots, itm_leather_gloves,
     itm_byrnie_herald,
     itm_nordic_veteran_archer_helmet, itm_nordic_footman_helmet, itm_nordic_fighter_helmet,
     ],
@@ -3020,7 +3020,7 @@ troops = [
   
   # Medium ranged, axes, swords, bows, shields
   ["nord_heavy_bowman", "Nord Heavy Bowman", "Nord Heavy Bowmen", tf_guarantee_trained_armor|tf_guarantee_shield|tf_guarantee_ranged, no_scene, reserved, fac_kingdom_4,
-   [itm_one_handed_battle_axe_a, itm_one_handed_war_axe_b, itm_sword_viking_2, itm_sword_viking_2_small, itm_short_bow2, itm_barbed_arrows, itm_tab_shield_round_c,itm_tab_shield_round_c_plain_1,itm_tab_shield_round_c_plain_2,
+   [itm_one_handed_battle_axe_a, itm_one_handed_war_axe_b, itm_sword_viking_2, itm_sword_viking_2_small, itm_short_bow2, itm_bodkin_arrows, itm_tab_shield_round_c,itm_tab_shield_round_c_plain_1,itm_tab_shield_round_c_plain_2,
     itm_mail_chausses, itm_leather_boots, itm_leather_gloves,
     itm_byrnie_herald, itm_mail_shirt_herald,
     itm_nordic_footman_helmet, itm_nordic_fighter_helmet,

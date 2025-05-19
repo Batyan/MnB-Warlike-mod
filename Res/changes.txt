@@ -29,6 +29,8 @@ v0.620:
 		* set starting era to 3 (from 0)
 			eras decide troop rank availability
 			will be set back to 0 when eras are able to progress
+		* remove mail_chausses from nord_infantry
+		* improve arrows for nord_heavy_bowman (barbed_arrows -> bodkin_arrows)
 	-Fixes:
 		* fix bandits spawning more often on high prosperity centers
 		* fix caravan parties having low party size
