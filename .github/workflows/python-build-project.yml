@@ -35,7 +35,10 @@ jobs:
       working-directory: ./Src
       run: ./build_module.bat
 
+    - name: Create archive
+      run: Compress-Archive -Path ./Output -DestinationPath ./Output.zip
+
     - uses: ncipollo/release-action@v1
       with:
         tag: ${{ github.head_ref }}
-        artifacts: ./Output
+        artifacts: ./Output.zip
