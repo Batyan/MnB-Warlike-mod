@@ -35,11 +35,7 @@ jobs:
       working-directory: ./Src
       run: ./build_module.bat
 
-    - uses: actions/upload-artifact@v4
-      with:
-        path: ./Output
-        if-no-files-found: error
-
     - uses: ncipollo/release-action@v1
       with:
         tag: ${{ github.head_ref }}
+        artifacts: ./Output
