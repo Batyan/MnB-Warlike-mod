@@ -1839,7 +1839,9 @@ slot_quest_given_on = slot_quest_destination + 1
 
 slot_quest_note_index = slot_quest_given_on + 1
 
-last_generic_quest_slot = slot_quest_note_index + 1
+slot_quest_reward = slot_quest_note_index + 1
+
+last_generic_quest_slot = slot_quest_reward + 1
 
 # qst_persuade_lord_vassalage
 

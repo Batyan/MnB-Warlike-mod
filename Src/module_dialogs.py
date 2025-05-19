@@ -1672,11 +1672,11 @@ dialogs = [
                 (check_quest_active, "qst_introduction_default_search_2"),
                 (neg|check_quest_succeeded, "qst_introduction_default_search_2"),
                 (assign, ":continue", 1),
-            (else_try),
-                (eq, reg2, "$g_encountered_party"),
-                (check_quest_active, "qst_introduction_default_search_3"),
-                (neg|check_quest_succeeded, "qst_introduction_default_search_3"),
-                (assign, ":continue", 1),
+            # (else_try),
+            #     (eq, reg2, "$g_encountered_party"),
+            #     (check_quest_active, "qst_introduction_default_search_3"),
+            #     (neg|check_quest_succeeded, "qst_introduction_default_search_3"),
+            #     (assign, ":continue", 1),
             (try_end),
             (eq, ":continue", 1),
         ], "I'm looking for a missing person, might you be able to help me?", "intro_quest_village_elder_lead", []],
@@ -1766,17 +1766,49 @@ dialogs = [
             (try_end),
         ], "{s10}", "intro_quest_player", []],
 
-    [anyone|plyr, "intro_quest_player",
-        [(eq, "$g_intro_quest_stance", 2),], "Explain yourself!", "intro_quest_explanation", []],
-    [anyone|plyr, "intro_quest_player",
-        [(eq, "$g_intro_quest_stance", 2),], "You should not rush someone like so, unless youwant to get cut down", "intro_quest_explanation", []],
-    [anyone|plyr, "intro_quest_player",
-        [(eq, "$g_intro_quest_stance", 1),], "That's not my problem, why would I care?", "intro_quest_explanation_refusing", []],
-    [anyone|plyr, "intro_quest_player",
-        [(eq, "$g_intro_quest_stance", 1),], "What can I do to help?", "intro_quest_explanation", []],
-    [anyone|plyr, "intro_quest_player",
-        [(eq, "$g_intro_quest_stance", 1),], "Would you care to elaborate?", "intro_quest_explanation", []],
+    [anyone, "event_triggered",
+        [
+            (check_quest_active, "qst_introduction_default_search"),
+            (quest_get_slot, ":giver_troop", "qst_introduction_default_search", slot_quest_giver_troop),
+            (eq, "$g_talk_troop", ":giver_troop"),
+        ], "{playername}? Did you find something?", "intro_quest_search_player", []],
 
+    [anyone|plyr, "intro_quest_player",
+        [(eq, "$g_intro_quest_stance", 2),], "Explain yourself!", "intro_quest_explanation",
+        [
+            (call_script, "script_troop_change_relation_with_troop", "$g_talk_troop", "$g_player_troop", -5),
+            (quest_get_slot, ":reward", "qst_introduction_default", slot_quest_reward),
+            (val_add, ":reward", 500),
+            (quest_set_slot, "qst_introduction_default", slot_quest_reward, ":reward"),
+        ]],
+    [anyone|plyr, "intro_quest_player",
+        [(eq, "$g_intro_quest_stance", 2),], "You should not rush someone like so, unless you want to get cut down", "intro_quest_explanation",
+        [
+            (call_script, "script_troop_change_relation_with_troop", "$g_talk_troop", "$g_player_troop", -1),
+            (quest_get_slot, ":reward", "qst_introduction_default", slot_quest_reward),
+            (val_add, ":reward", 200),
+            (quest_set_slot, "qst_introduction_default", slot_quest_reward, ":reward"),
+        ]],
+    [anyone|plyr, "intro_quest_player",
+        [(eq, "$g_intro_quest_stance", 1),], "That's not my problem, why would I care?", "intro_quest_explanation_refusing", 
+        [
+            (quest_get_slot, ":reward", "qst_introduction_default", slot_quest_reward),
+            (val_add, ":reward", 400),
+            (quest_set_slot, "qst_introduction_default", slot_quest_reward, ":reward"),
+            (call_script, "script_troop_change_relation_with_troop", "$g_talk_troop", "$g_player_troop", -2),
+        ]],
+    [anyone|plyr, "intro_quest_player",
+        [(eq, "$g_intro_quest_stance", 1),], "What can I do to help?", "intro_quest_explanation",
+        [
+            (call_script, "script_troop_change_relation_with_troop", "$g_talk_troop", "$g_player_troop", 1),
+        ]],
+    [anyone|plyr, "intro_quest_player",
+        [(eq, "$g_intro_quest_stance", 1),], "Would you care to elaborate more?", "intro_quest_explanation_detail",
+        [
+            (quest_get_slot, ":reward", "qst_introduction_default", slot_quest_reward),
+            (val_add, ":reward", 100),
+            (quest_set_slot, "qst_introduction_default", slot_quest_reward, ":reward"),
+        ]],
 
     [anyone, "intro_quest_explanation_refusing",
         [
@@ -1787,6 +1819,8 @@ dialogs = [
             (call_script, "script_troop_add_knowledge", "$g_talk_troop", tn_know_name),
         ]],
 
+    [anyone, "intro_quest_explanation_detail",
+        [], "Yes, you are right {Sir/Madam}. I need your help, my brother is missing and I think he's in trouble.", "intro_quest_explanation_2", []],
     [anyone, "intro_quest_explanation",
         [], "I am sorry {Sir/Madam}, but I need your help. My brother is missing and I think he's in trouble.", "intro_quest_explanation_2", []],
     [anyone, "intro_quest_explanation_2",
@@ -1798,6 +1832,7 @@ dialogs = [
         [], "What would you need?", "intro_quest_part_1_detail",
         [
             (quest_get_slot, ":value", "qst_introduction_default", slot_quest_value),
+            (quest_get_slot, ":reward", "qst_introduction_default", slot_quest_reward),
 
             (call_script, "script_complete_quest", "qst_introduction_default"),
             (call_script, "script_intro_quest_get_search_villages"),
@@ -1807,6 +1842,9 @@ dialogs = [
             (quest_set_slot, "qst_introduction_default_search", slot_quest_destination, reg3),
 
             (quest_set_slot, "qst_introduction_default_search", slot_quest_object, ":value"),
+            (quest_set_slot, "qst_introduction_default_search", slot_quest_reward, ":reward"),
+
+            (call_script, "script_troop_change_relation_with_troop", "$g_talk_troop", "$g_player_troop", 5),
         ]],
     [anyone|plyr, "intro_quest_explanation_response",
         [], "Not interested", "close_window", [(call_script, "script_cancel_quest", "qst_introduction_default"),]],
@@ -1817,7 +1855,7 @@ dialogs = [
             (str_store_party_name, s10, reg0),
             (str_store_party_name, s11, reg1),
             (str_store_party_name, s12, reg2),
-        ], "Wonderful!^I'm not exactly sure where he is. But it would help if you were to ask around the villages of {s10}, {s11} and {s12} for information.^^They might have some clues as to his whereabouts.",
+        ], "Wonderful!^I'm not exactly sure where he is. But it would help if you were to ask around the villages of {s10} and {s11} for information.^^They might have some clues as to his whereabouts.",
         "intro_quest_part_2_detail",
         []],
     [anyone, "intro_quest_part_2_detail",
@@ -1847,8 +1885,8 @@ dialogs = [
             (party_set_note_available, reg0, 1),
             (party_set_flags, reg1, pf_always_visible, 1),
             (party_set_note_available, reg1, 1),
-            (party_set_flags, reg2, pf_always_visible, 1),
-            (party_set_note_available, reg2, 1),
+            # (party_set_flags, reg2, pf_always_visible, 1),
+            # (party_set_note_available, reg2, 1),
         ]],
 
     [anyone, "intro_quest_part_3_detail",
@@ -2024,7 +2062,7 @@ dialogs = [
     [anyone, "intro_quest_village_elder_lead_1_missing_case_recap_2",
         [
             (str_store_party_name, s21, "$g_encountered_party"),
-        ], "If you train them in {s21} I can help reduce the costs by providing equipement for you.^I have enough equipment for 20 men, it should be enough to face the thugs.",
+        ], "If you train them in {s21} I can help reduce the costs by providing equipement for you.^I have enough equipment for 20 men, it should hopefully be enough to face the thugs.",
         "intro_quest_village_elder_lead_1_missing_case_recap_3",
         [
             (party_set_slot, "$g_encountered_party", slot_party_free_recruits, 20),
@@ -2251,7 +2289,7 @@ dialogs = [
         [
             (try_begin),
                 (quest_slot_eq, "qst_introduction_default_search_1", slot_quest_asked_who, 1),
-                (call_script, "script_complete_quest", "qst_introduction_default_search_1"),
+                (call_script, "script_succeed_quest", "qst_introduction_default_search_1"),
             (try_end),
         ]],
 
@@ -2272,23 +2310,28 @@ dialogs = [
 
     [anyone, "intro_quest_thugs_question_where", [], "I don't keep anyone, I don't need these people so I sell them.", "intro_quest_thugs_question_where_2",
         [
-            (str_store_troop_name, s10, "trp_intro_quest_slaver"),
             (str_store_string, s0, "@The thugs sell their victims to various clients demanding live human beings."),
             (call_script, "script_quest_add_note", "qst_introduction_default_search_1", 0),
         ]],
-    [anyone, "intro_quest_thugs_question_where_2", [], "There are many people willing to pay for living beings and I deliver.", "intro_quest_thugs_question_where_3", []],
-    [anyone, "intro_quest_thugs_question_where_3", [], "Business is business ain't it?", "intro_quest_thugs_return", []],
+    [anyone, "intro_quest_thugs_question_where_2", [], "There are many people willing to pay for living beings and I deliver.", "intro_quest_thugs_return", []],
 
     [anyone, "intro_quest_thugs_question_who", [], "I'm a man under my own lead, no master.", "intro_quest_thugs_question_who_2", []],
     [anyone, "intro_quest_thugs_question_who_2",
-        [(str_store_troop_name, s10, "trp_intro_quest_slaver"),],
+        [
+            (str_store_troop_name, s10, "trp_intro_quest_slaver"),
+        ],
         "Now as for my biggest client? {s10}, a nice fellow once you get to know him.", "intro_quest_thugs_question_who_3",
         [
             (str_store_troop_name, s10, "trp_intro_quest_slaver"),
             (str_store_string, s0, "@The thugs work for a man named {s10}."),
             (call_script, "script_quest_add_note", "qst_introduction_default_search_1", 0),
         ]],
-    [anyone, "intro_quest_thugs_question_who_3", [], "It's mostly been him recently...", "intro_quest_thugs_return", []],
+    [anyone, "intro_quest_thugs_question_who_3", [], "It's mostly been him recently... We deal inside big city taverns if you need to find him.^Dunno where he is now though.", "intro_quest_thugs_return",
+        [
+            (str_store_troop_name, s10, "trp_intro_quest_slaver"),
+            (str_store_string, s0, "@{s10} usualy deals in the tavern of big cities."),
+            (call_script, "script_quest_add_note", "qst_introduction_default_search_1", 0),
+        ]],
 
     [anyone, "intro_quest_thugs_return",
         [
@@ -2315,6 +2358,258 @@ dialogs = [
         ], "Right, good day then?", "close_window", []],
     [anyone, "intro_quest_thugs_question_leave", [], "Now, I enjoyed our little chat, but unfortunately for you, I'll have to kill you.", "intro_quest_thugs_end_fight", []],
     
+
+    [anyone|plyr, "intro_quest_search_player",
+        [
+            (check_quest_succeeded, "qst_introduction_default_search_1"),
+            (quest_get_slot, ":destination", "qst_introduction_default_search_1", slot_quest_destination),
+            (str_store_party_name, s10, ":destination"),
+        ], "I found a lead in {s10}", "intro_quest_search_lead_1", []],
+    [anyone|plyr, "intro_quest_search_player",
+        [
+            (check_quest_succeeded, "qst_introduction_default_search_2"),
+            (quest_get_slot, ":destination", "qst_introduction_default_search_2", slot_quest_destination),
+            (str_store_party_name, s10, ":destination"),
+        ], "I found a lead in {s10}", "intro_quest_search_lead_2", []],
+    # [anyone|plyr, "intro_quest_search_player",
+    #     [
+    #         (check_quest_succeeded, "qst_introduction_default_search_3"),
+    #         (quest_get_slot, ":destination", "qst_introduction_default_search_3", slot_quest_destination),
+    #         (str_store_party_name, s10, ":destination"),
+    #     ], "I found a lead in {s10}", "intro_quest_search_lead_3", []],qz
+    [anyone|plyr, "intro_quest_search_player",
+        [], "I was not able to find anything", "intro_quest_search_fail", []],
+    [anyone|plyr, "intro_quest_search_player",
+        [], "Not yet no", "intro_quest_search_continue", []],
+
+    [anyone|plyr, "intro_quest_search_lead_1",
+        [
+            (quest_get_slot, ":destination", "qst_introduction_default_search_1", slot_quest_destination),
+            (str_store_party_name, s10, ":destination"),
+        ], "Your brother was not seen in {s10}", "intro_quest_search_lead_1_feedback", []],
+    [anyone, "intro_quest_search_lead_1_feedback",
+        [], "That is most unfortunate, did you find something else there?", "intro_quest_search_lead_1_detail", []],
+
+
+    [anyone|plyr, "intro_quest_search_lead_1_detail",
+        [
+            (str_clear, s11),
+            (str_clear, s12),
+            (str_clear, s13),
+            (try_begin),
+                (quest_slot_eq, "qst_introduction_default_search_1", slot_quest_asked_state, 1),
+                (str_store_string, s11, "@, they clamied they were not related to his disapearance"),
+            (try_end),
+            (try_begin),
+                (quest_slot_eq, "qst_introduction_default_search_1", slot_quest_asked_destination, 1),
+                (str_store_string, s12, "@. The thugs were taking people to sell them to various clients"),
+            (try_end),
+            (try_begin),
+                (quest_slot_eq, "qst_introduction_default_search_1", slot_quest_asked_who, 1),
+                (str_store_troop_name, s14, "trp_intro_quest_slaver"),
+                (str_store_string, s13, "@One of their main client we a certain {s14}, finding him could be a lead"),
+            (try_end),
+            (quest_get_slot, ":destination", "qst_introduction_default_search_1", slot_quest_destination),
+            (str_store_party_name, s10, ":destination"),
+
+        ], "There was a group of thugs kidnapping people in {s10} but it was not related to your brother{s11}{s12}{s13}.", "intro_quest_search_lead_1_detail_feedback", []],
+
+    [anyone, "intro_quest_search_lead_1_detail_feedback",
+        [
+            (quest_slot_eq, "qst_introduction_default_search_1", slot_quest_asked_who, 1),
+            (str_store_troop_name, s14, "trp_intro_quest_slaver"),
+        ], "You are right, I will look into this {s14}. Good job.", "intro_quest_search_lead_1_close",
+        [
+            (call_script, "script_troop_change_relation_with_troop", "$g_talk_troop", "$g_player_troop", 1),
+        ]],
+    [anyone, "intro_quest_search_lead_1_detail_feedback", [], "None of this gets us any closer, but thank you for looking into it.", "intro_quest_search_lead_1_close", []],
+
+    [anyone, "intro_quest_search_lead_1_close",
+        [
+            (quest_get_slot, ":destination", "qst_introduction_default_search_1", slot_quest_destination),
+            (str_store_party_name, s10, ":destination"),
+        ], "I think that concludes our search in {s10}. Thank you again for this.", "intro_quest_search_return",
+        [
+            (call_script, "script_troop_change_relation_with_troop", "$g_talk_troop", "$g_player_troop", 1),
+            (call_script, "script_succeed_quest", "qst_introduction_default_search_1"),
+        ]],
+
+
+    [anyone|plyr, "intro_quest_search_lead_2",
+        [
+            (quest_get_slot, ":destination", "qst_introduction_default_search_2", slot_quest_destination),
+            (str_store_party_name, s10, ":destination"),
+        ], "You brother passed in the town of {s10} a few days ago", "intro_quest_search_lead_2_feedback", []],
+    [anyone, "intro_quest_search_lead_2_feedback",
+        [], "Great news, but what hapened to him? Where did he go?", "intro_quest_search_lead_2_detail", []],
+
+    [anyone|plyr, "intro_quest_search_lead_2_detail",
+        [
+            (str_clear, s11),
+            (str_clear, s12),
+            (str_clear, s13),
+            (try_begin),
+                (quest_slot_eq, "qst_introduction_default_search_2", slot_quest_asked_who, 1),
+                (str_store_string, s11, "@, they seemed to be rough men, mercenaries perhaps"),
+            (try_end),
+            (try_begin),
+                (quest_slot_eq, "qst_introduction_default_search_2", slot_quest_asked_state, 1),
+                (str_store_string, s12, "@. He seemed to be friendly with them and they were most likely travelling together"),
+            (try_end),
+            (try_begin),
+                (quest_slot_eq, "qst_introduction_default_search_2", slot_quest_asked_destination, 1),
+
+                (quest_get_slot, ":destination", "qst_introduction_default_search", slot_quest_destination),
+                (str_store_party_name, s14, ":destination"),
+                (str_store_string, s13, "@. And from what the elder heard, they were heading towards {s14}"),
+            (else_try),
+                (str_store_string, s13, "@. However I was not able to get the location he was headed to next"),
+            (try_end),
+            (str_store_string, s10, "@He was accompanied by some men{s11}{s12}{s13}."),
+            (quest_get_slot, ":destination", "qst_introduction_default_search_2", slot_quest_destination),
+            (str_store_party_name, s10, ":destination"),
+        ], "{s10}", "intro_quest_search_lead_2_detail_feedback", []],
+
+    [anyone, "intro_quest_search_lead_2_detail_feedback",
+        [
+            (quest_slot_eq, "qst_introduction_default_search_2", slot_quest_asked_who, 1),
+            (quest_slot_eq, "qst_introduction_default_search_2", slot_quest_asked_state, 1),
+            (quest_slot_eq, "qst_introduction_default_search_2", slot_quest_asked_destination, 1),
+
+            (quest_get_slot, ":destination", "qst_introduction_default_search", slot_quest_destination),
+            (str_store_party_name, s10, ":destination"),
+        ], "We have a lot of information here. Our next step would probably to go to {s10}", "intro_quest_search_lead_2_close",
+        [
+            (call_script, "script_troop_change_relation_with_troop", "$g_talk_troop", "$g_player_troop", 2),
+        ]],
+    [anyone, "intro_quest_search_lead_2_detail_feedback",
+        [
+            (quest_slot_eq, "qst_introduction_default_search_2", slot_quest_asked_who, -1),
+            (quest_slot_eq, "qst_introduction_default_search_2", slot_quest_asked_state, -1),
+            (quest_slot_eq, "qst_introduction_default_search_2", slot_quest_asked_destination, -1),
+        ], "Well... at least we know he wasn't alone. I guess I will try to find leads into these men.", "intro_quest_search_lead_2_close", []],
+    [anyone, "intro_quest_search_lead_2_detail_feedback",
+        [], "We do get a clearer picture of what hapened. A shame we could not get more out of this.", "intro_quest_search_lead_2_close",
+        [
+            (call_script, "script_troop_change_relation_with_troop", "$g_talk_troop", "$g_player_troop", 1),
+        ]],
+
+    [anyone, "intro_quest_search_lead_2_close",
+        [
+            (quest_get_slot, ":destination", "qst_introduction_default_search_2", slot_quest_destination),
+            (str_store_party_name, s10, ":destination"),
+        ], "I think that concludes our search in {s10}. Thank you again for this.", "intro_quest_search_return",
+        [
+            (call_script, "script_troop_change_relation_with_troop", "$g_talk_troop", "$g_player_troop", 1),
+            (call_script, "script_succeed_quest", "qst_introduction_default_search_2"),
+        ]],
+
+    [anyone, "intro_quest_search_return",
+        [
+            (check_quest_succeeded, "qst_introduction_default_search_1"),
+            (check_quest_succeeded, "qst_introduction_default_search_2"),
+            (quest_slot_eq, "qst_introduction_default_search_2", slot_quest_asked_destination, 1),
+            (quest_slot_eq, "qst_introduction_default_search_1", slot_quest_asked_who, 1),
+        ], "Great news, we have all of the pieces.", "intro_quest_search_conclude",
+        [
+            (call_script, "script_troop_change_relation_with_troop", "$g_talk_troop", "$g_player_troop", 1),
+        ]],
+    [anyone, "intro_quest_search_return",
+        [
+            (check_quest_succeeded, "qst_introduction_default_search_1"),
+            (check_quest_succeeded, "qst_introduction_default_search_2"),
+        ], "There's that, I'll have to dig some more but I think we are onto something.", "intro_quest_search_conclude", []],
+    [anyone, "intro_quest_search_return", [], "Did you find something else on our other lead?", "intro_quest_search_player", []],
+
+    [anyone, "intro_quest_search_fail",
+        [], "Do you still have a lead to follow?", "intro_quest_search_fail_confirm", []],
+
+    [anyone, "intro_quest_search_conclude",
+        [], "It will take a while to piece things together but could I trouble you again once I have a lead?", "intro_quest_search_conclude_player", []],
+    
+    [anyone|plyr, "intro_quest_search_conclude_player",
+        [], "I'd be glad to help you again", "intro_quest_search_conclude_continue", []],
+    [anyone|plyr, "intro_quest_search_conclude_player",
+        [], "I think I have done enough for you", "intro_quest_search_conclude_end", []],
+
+    [anyone, "intro_quest_search_conclude_continue",
+        [], "Wonderfull! It relieves me that you will be there to help me.", "intro_quest_search_conclude_reward",
+        [
+            (call_script, "script_troop_change_relation_with_troop", "$g_talk_troop", "$g_player_troop", 1),
+        ]],
+    [anyone, "intro_quest_search_conclude_reward",
+        [
+            (quest_get_slot, ":reward", "qst_introduction_default_search", slot_quest_reward),
+            (val_add, ":reward", 5000),
+            (troop_add_gold, "$g_player_troop", ":reward"),
+            (call_script, "script_conclude_quest", "qst_introduction_default_search"),
+            (call_script, "script_conclude_quest", "qst_introduction_default_search_1"),
+            (call_script, "script_conclude_quest", "qst_introduction_default_search_2"),
+            # (call_script, "script_conclude_quest", "qst_introduction_default_search_3"),
+        ], "Oh! And here is something for your help.", "intro_quest_search_conclude_next", []],
+    [anyone, "intro_quest_search_conclude_next",
+        [], "I will contact you soon regarding the next steps of our operation. Until our next meeting my friend!", "close_window", []],
+
+    [anyone, "intro_quest_search_conclude_end",
+        [], "Of course, you have done so much already, I can probably do this by myself.", "intro_quest_search_conclude_end_reward",
+        [
+        ]],
+    [anyone, "intro_quest_search_conclude_end_reward",
+        [
+            (quest_get_slot, ":reward", "qst_introduction_default_search", slot_quest_reward),
+            (val_add, ":reward", 4000),
+            (troop_add_gold, "$g_player_troop", ":reward"),
+            (call_script, "script_conclude_quest", "qst_introduction_default_search"),
+            (call_script, "script_conclude_quest", "qst_introduction_default_search_1"),
+            (call_script, "script_conclude_quest", "qst_introduction_default_search_2"),
+            # (call_script, "script_conclude_quest", "qst_introduction_default_search_3"),
+        ], "Here is your promised reward, thank you again for your help. Wish me good luck my friend.", "close_window", []],
+    
+    
+    [anyone|plyr, "intro_quest_search_fail_confirm",
+        [], "Yes, I'll find him, don't worry", "intro_quest_search_continue", []],
+    [anyone|plyr, "intro_quest_search_fail_confirm",
+        [], "I'm afraid I've exhausted every lead. I can't find your brother", "intro_quest_search_fail_end", []],
+
+    [anyone, "intro_quest_search_continue",
+        [], "Thank you again, I'm counting on you.", "close_window", []],
+
+    [anyone, "intro_quest_search_fail_end",
+        [
+            (quest_get_slot, ":given_on", "qst_introduction_default_search", slot_quest_given_on),
+            (call_script, "script_get_current_day"),
+            (assign, ":current_day", reg0),
+            (store_sub, ":diff", ":current_day", ":given_on"),
+            (lt, ":diff", 3),
+        ], "Ah... You think me a fool?", "intro_quest_search_fail_end_lie_2",
+        [
+            # TODO: add event
+            (call_script, "script_troop_change_relation_with_troop", "$g_talk_troop", "$g_player_troop", -50),
+            (call_script, "script_cancel_quest", "qst_introduction_default_search"),
+            (call_script, "script_cancel_quest", "qst_introduction_default_search_1"),
+            (call_script, "script_cancel_quest", "qst_introduction_default_search_2"),
+            # (call_script, "script_cancel_quest", "qst_introduction_default_search_3"),
+        ]],
+    [anyone, "intro_quest_search_fail_end",
+        [], "Ah... Thank you for trying at least.", "intro_quest_search_fail_end_2",
+        [
+            (call_script, "script_troop_change_relation_with_troop", "$g_talk_troop", "$g_player_troop", -5),
+            (call_script, "script_cancel_quest", "qst_introduction_default_search"),
+            (call_script, "script_cancel_quest", "qst_introduction_default_search_1"),
+            (call_script, "script_cancel_quest", "qst_introduction_default_search_2"),
+            # (call_script, "script_cancel_quest", "qst_introduction_default_search_3"),
+        ]],
+    [anyone, "intro_quest_search_fail_end_2",
+        [], "Here is the promised reward, I'm sure you did your best.", "intro_quest_search_fail_end_3", []],
+    [anyone, "intro_quest_search_fail_end_3",
+        [], "I can't stop looking, but I'll have to find another way. Good day to you.", "close_window", []],
+
+    [anyone, "intro_quest_search_fail_end_lie_2",
+        [], "You haven't even looked and now you try to rob me of the reward.", "intro_quest_search_fail_end_lie_3", []],
+    [anyone, "intro_quest_search_fail_end_lie_3",
+        [], "You won't get anything and I don't want to see you again.", "close_window", []],
+
+
     #################
     # Error dialogs #
     #################
