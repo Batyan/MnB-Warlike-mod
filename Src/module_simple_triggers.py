@@ -28,11 +28,11 @@ simple_triggers = [
                 (try_begin),
                     (lt, ":num_parties", max_bandit_party),
                     # Generate bandits
-                    (store_random_in_range, ":rand", 0, 50),
-                    (try_begin), # Generate bandits more often if center prosperity is low
-                        (le, ":rand", 3),
-                        (call_script, "script_party_spawn_bandits", ":party_no"),
-                    (try_end),
+                    # (store_random_in_range, ":rand", 0, 50),
+                    # (try_begin), # Generate bandits more often if center prosperity is low
+                    #     (le, ":rand", 3),
+                    (call_script, "script_party_spawn_bandits", ":party_no"),
+                    # (try_end),
                 (try_end),
             (try_end),
 
@@ -314,6 +314,20 @@ simple_triggers = [
                 # ToDo: free player
             (try_end),
         ]),
+
+    (daily,
+        [
+            (try_begin),
+                (troop_get_slot, ":occupation", "$g_player_troop", slot_troop_kingdom_occupation),
+                (eq, ":occupation", tko_mercenary),
+                (troop_get_slot, ":last_date", "$g_player_troop", slot_troop_mercenary_contract_end_date),
+                (call_script, "script_get_current_day"),
+                (assign, ":current_day", reg0),
+                (gt, ":current_day", ":last_date"),
+
+                (jump_to_menu, "mnu_mercenary_contract_end"),
+            (try_end),
+        ]),
     
     (weekly, # Lord mission
         [
@@ -322,7 +336,7 @@ simple_triggers = [
                 (troop_get_slot, ":occupation", ":lord_no", slot_troop_kingdom_occupation),
                 (neg|troop_slot_ge, ":lord_no", slot_troop_prisoner_of, 0), # Do not process prisoners
                 (try_begin),
-                    (eq, ":occupation", tko_kingdom_hero),
+                    (is_between, ":occupation", tko_kingdom_hero, tko_mercenary + 1),
                     (troop_get_slot, ":leaded_party", ":lord_no", slot_troop_leaded_party),
                     (gt, ":leaded_party", 0),
                     (party_is_active, ":leaded_party"),
@@ -339,7 +353,7 @@ simple_triggers = [
                 (try_begin),
                     (le, ":prisoner_of", 0), # Do not process prisoners
                     (try_begin),
-                        (eq, ":occupation", tko_kingdom_hero),
+                        (is_between, ":occupation", tko_kingdom_hero, tko_mercenary + 1),
                         (troop_get_slot, ":leaded_party", ":lord_no", slot_troop_leaded_party),
                         (troop_get_slot, ":garrisoned", ":lord_no", slot_troop_garrisoned),
                         (try_begin),
@@ -392,7 +406,7 @@ simple_triggers = [
         [
             (try_for_range, ":lord", lords_begin, lords_end),
                 (troop_get_slot, ":occupation", ":lord", slot_troop_kingdom_occupation),
-                (eq, ":occupation", tko_kingdom_hero),
+                (is_between, ":occupation", tko_kingdom_hero, tko_mercenary + 1),
 
                 (troop_get_slot, ":real_debt", ":lord", slot_troop_budget_debt),
                 (troop_get_slot, ":perceived_debt", ":lord", slot_troop_budget_perceived_debt),
@@ -402,6 +416,11 @@ simple_triggers = [
                 (troop_set_slot, ":lord", slot_troop_budget_perceived_debt, ":perceived_debt"),
 
                 (call_script, "script_troop_process_ideal_party_wages", ":lord"),
+
+                (try_begin),
+                    (eq, ":occupation", tko_mercenary),
+                    (call_script, "script_apply_mercenary_contract", ":lord"),
+                (try_end),
             (try_end),
             (try_for_range, ":center", centers_begin, centers_end),
                 (call_script, "script_party_process_ideal_party_wages", ":center"),
@@ -431,6 +450,11 @@ simple_triggers = [
                 (call_script, "script_party_unpaid_wages_penalties", ":party_no"),
             (try_end),
 
+            (try_begin),
+                (troop_slot_eq, "$g_player_troop", slot_troop_kingdom_occupation, tko_mercenary),
+                (call_script, "script_apply_mercenary_contract", "$g_player_troop"),
+            (try_end),
+
             (call_script, "script_party_process_debts", "$g_player_party"),
             # For player we call the budget menu
             (assign, "$g_process_effects", 1),
@@ -452,8 +476,7 @@ simple_triggers = [
             (try_for_range, ":lord_no", lords_begin, lords_end),
                 (troop_get_slot, ":occupation", ":lord_no", slot_troop_kingdom_occupation),
                 (try_begin),
-                    # (this_or_next|eq, ":occupation", tko_),
-                    (eq, ":occupation", tko_kingdom_hero),
+                    (is_between, ":occupation", tko_kingdom_hero, tko_mercenary + 1),
                     (troop_get_slot, ":leaded_party", ":lord_no", slot_troop_leaded_party),
                     (gt, ":leaded_party", 0),
                     (party_is_active, ":leaded_party"),
@@ -554,7 +577,7 @@ simple_triggers = [
                 (troop_get_slot, ":occupation", ":lord_no", slot_troop_kingdom_occupation),
                 (try_begin),
                     # (this_or_next|eq, ":occupation", tko_),
-                    (eq, ":occupation", tko_kingdom_hero),
+                    (is_between, ":occupation", tko_kingdom_hero, tko_mercenary + 1),
 
                     (store_troop_faction, ":lord_kingdom", ":lord_no"),
 
