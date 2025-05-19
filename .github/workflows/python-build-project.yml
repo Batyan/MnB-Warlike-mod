@@ -1,9 +1,11 @@
 name: Build project
 
 on: 
-  push:
+  pull_request:
     branches:
-      - main
+      - 'main'
+    types:
+      - closed
 
 jobs:
   build-windows:
