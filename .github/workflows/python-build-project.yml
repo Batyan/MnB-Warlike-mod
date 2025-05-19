@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - main
-    tags:
-      - 'v*'
 
 jobs:
   build-windows:
@@ -42,4 +40,4 @@ jobs:
 
     - uses: ncipollo/release-action@v1
       with:
-        tag: ${{ github.ref }}
+        tag: ${{ github.ref_name }}
