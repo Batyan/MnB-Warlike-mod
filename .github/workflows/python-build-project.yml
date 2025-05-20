@@ -40,5 +40,5 @@ jobs:
 
     - uses: ncipollo/release-action@v1
       with:
-        tag: ${{ github.head_ref }}
+        tag: ${{ github.head_ref }}-r
         artifacts: ./Output.zip
