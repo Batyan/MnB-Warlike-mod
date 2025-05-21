@@ -426,7 +426,7 @@ troops = [
     ###############
   ["player","Player","Player",tf_hero|tf_unmoveable_in_party_window,no_scene,reserved,fac_player_faction,
    [itm_leather_boots, itm_leather_gloves, itm_linen_tunic, itm_sword_medieval_a],
-   str_5|agi_5|int_60|cha_5|level(1),wp(10),0,0x000000018000000136db6db6db6db6db00000000001db6db0000000000000000 ],
+   base_troop_attributes|level(1),wp(5),knows_power_strike_1|knows_power_draw_1|knows_athletics_1|knows_riding_1,0x000000018000000136db6db6db6db6db00000000001db6db0000000000000000 ],
   ["multiplayer_profile_troop_male","multiplayer_profile_troop_male","multiplayer_profile_troop_male", tf_hero|tf_guarantee_all, 0, 0,fac_commoners,
    [itm_linen_tunic, itm_coarse_tunic, itm_tabard, itm_fur_coat, itm_leather_boots, itm_leather_gloves],
    0, 0, 0, 0x000000018000000136db6db6db6db6db00000000001db6db0000000000000000 ],

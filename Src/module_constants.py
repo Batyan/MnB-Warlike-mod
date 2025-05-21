@@ -562,6 +562,10 @@ ta_threatening = 8
 ta_loving = 9
 ta_caring = 10
 
+level_xp_multiplier = 10
+level_xp_base = 500
+level_xp_multiplier_sqrt = 5000
+
 ################
 ## Item Slots ##
 ################
@@ -1700,8 +1704,13 @@ slot_troop_mercenary_contract_end_date = slot_troop_mercenary_contract_monthly_p
 slot_troop_mission_kills = slot_troop_mercenary_contract_end_date + 1
 slot_troop_mission_deaths = slot_troop_mission_kills + 1
 
-slot_troop_relations_begin = slot_troop_mission_deaths + 1
+slot_troop_xp = slot_troop_mission_deaths + 1
+slot_troop_level = slot_troop_xp + 1
+slot_troop_attribute_points = slot_troop_level + 1
+slot_troop_skill_points = slot_troop_attribute_points + 1
+slot_troop_proficiency_points = slot_troop_skill_points + 1
 
+slot_troop_relations_begin = slot_troop_proficiency_points + 1
 
 # TODO: remove or move to specific slot type
 slot_item_mission_kills = 400

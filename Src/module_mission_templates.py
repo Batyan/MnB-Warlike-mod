@@ -1354,7 +1354,7 @@ battle_assign_team = (
 			(try_end),
 		])
 
-test_battle_death_event = (
+battle_death_event = (
 	ti_on_agent_killed_or_wounded, 0, 0,
 	[],
 	[
@@ -1394,6 +1394,15 @@ test_battle_death_event = (
 				(faction_get_slot, ":num_kills", ":killer_troop_faction", slot_faction_mission_kills),
 				(val_add, ":num_kills", 1),
 				(faction_set_slot, ":killer_troop_faction", slot_faction_mission_kills, ":num_kills"),
+			(try_end),
+
+			(try_begin),
+				(ge, ":killer_troop_id", 0),
+				(troop_is_hero, ":killer_troop_id"),
+				(gt, ":dead_troop_id", 0),
+
+				(call_script, "script_troop_get_xp_value", ":dead_troop_id"),
+				(call_script, "script_troop_add_xp", ":killer_troop_id", reg0),
 			(try_end),
 		(try_end),
 	])
@@ -1466,7 +1475,7 @@ mission_templates = [
 			test_battle_faction_select,
 			test_battle_siege_spawn,
 			battle_division_control_siege,
-			test_battle_death_event,
+			battle_death_event,
 			battle_fix_division,
 			battle_siege_move_archer_to_archer_position,
 			test_battle_siege_refill_ammo,
@@ -1539,7 +1548,7 @@ mission_templates = [
 			
 			battle_spawn,
 			test_battle_faction_select,
-			test_battle_death_event,
+			battle_death_event,
 			
 			test_battle_player_respawn,
 			test_battle_lord_spawn,
@@ -1608,6 +1617,7 @@ mission_templates = [
 			battle_spawn,
 			
 			battle_assign_team,
+			battle_death_event,
 			
 			# test_battle_spawn_bodyguards,
 			# test_battle_manage_bodyguards,
@@ -1763,6 +1773,7 @@ mission_templates = [
 			battle_fix_division,
 			battle_siege_move_archer_to_archer_position,
 			test_battle_siege_refill_ammo,
+			battle_death_event,
 			
 			battle_siege_equalize_division,
 			

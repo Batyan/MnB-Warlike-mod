@@ -2326,6 +2326,22 @@ scripts = [
     ("game_get_console_command",
         [
         ]),
+
+    # script_game_character_screen_requested
+        # called by the engine
+    ("game_character_screen_requested",
+        [
+            (try_begin),
+                # (eq, "$on_map", 1),
+                # (map_free),
+                (set_trigger_result, 1),
+                (display_message, "@Character menu requested"),
+                # (start_presentation, "prsnt_character_screen_main"),
+            (else_try),
+                (set_trigger_result, 0),
+            (try_end),
+        ]
+    ),
     
     # script_clear_party_group:
     # input:
@@ -29819,6 +29835,120 @@ scripts = [
             (faction_get_slot, ":preparing_war", ":faction_no", slot_faction_preparing_war),
             (this_or_next|gt, ":at_war", 0),
             (gt, ":preparing_war", 0),
+        ]),
+
+    # script_troop_get_xp_value
+        # input:
+        #   arg1: troop_no
+        # output:
+        #   reg0: xp_value
+    ("troop_get_xp_value",
+        [
+            (store_script_param, ":troop_no", 1),
+
+            (store_character_level, ":level", ":troop_no"),
+            (assign, reg0, ":level"),
+        ]),
+
+    # script_troop_add_xp
+        # input:
+        #   arg1: troop_no
+        #   arg2: xp
+        # output: none
+    ("troop_add_xp",
+        [
+            (store_script_param, ":troop_no", 1),
+            (store_script_param, ":xp", 2),
+
+            (troop_get_slot, ":current_xp", ":troop_no", slot_troop_xp),
+            (troop_get_slot, ":current_level", ":troop_no", slot_troop_level),
+
+            (val_add, ":current_xp", ":xp"),
+            (call_script, "script_get_level_xp_threshold", ":current_level"),
+            (assign, ":threshold", reg0),
+            (try_begin),
+                (gt, ":current_xp", ":threshold"),
+                (store_div, ":add_level", ":current_xp", ":threshold"),
+
+                (assign, ":end", ":add_level"),
+                (assign, ":added_level", 0),
+                (try_for_range, ":unused", 0, ":end"),
+                    (call_script, "script_get_level_xp_threshold", ":current_level"),
+                    (assign, ":threshold", reg0),
+                    (try_begin),
+                        (ge, ":current_xp", ":threshold"),
+                        (val_add, ":current_level", 1),
+                        (val_add, ":added_level", 1),
+                        (val_sub, ":current_xp", ":threshold"),
+                    (else_try),
+                        (assign, ":end", 0),
+                    (try_end),
+                (try_end),
+
+                (gt, ":added_level", 0),
+                (call_script, "script_troop_add_levels", ":troop_no", ":added_level"),
+            (try_end),
+            (troop_set_slot, ":troop_no", slot_troop_xp, ":current_xp"),
+            (troop_set_slot, ":troop_no", slot_troop_level, ":current_level"),
+        ]),
+
+    # script_troop_add_levels
+        # input:
+        #   arg1: troop_no
+        #   arg2: levels
+        # output: none
+    ("troop_add_levels",
+        [
+            (store_script_param, ":troop_no", 1),
+            (store_script_param, ":add_level", 2),
+
+            (try_begin),
+                (gt, ":add_level", 0),
+                (try_begin),
+                    (eq, ":troop_no", "$g_player_troop"),
+                    (play_sound, "snd_gong"),
+                (try_end),
+
+                (troop_get_slot, ":attribute_points", ":troop_no", slot_troop_attribute_points),
+                (troop_get_slot, ":skill_points", ":troop_no", slot_troop_skill_points),
+                (troop_get_slot, ":proficiency_points", ":troop_no", slot_troop_proficiency_points),
+
+                (try_for_range, ":unused", 0, ":add_level"),
+
+                    (try_begin),
+                        (eq, ":troop_no", "$g_player_troop"),
+                        (display_message, "@You have gained a level", text_color_gold),
+                    (try_end),
+                    (val_add, ":attribute_points", 1),
+                    (val_add, ":skill_points", 1),
+                    (val_add, ":proficiency_points", 10),
+                (try_end),
+
+                (troop_set_slot, ":troop_no", slot_troop_attribute_points, ":attribute_points"),
+                (troop_set_slot, ":troop_no", slot_troop_skill_points, ":skill_points"),
+                (troop_set_slot, ":troop_no", slot_troop_proficiency_points, ":proficiency_points"),
+            (try_end),
+        ]),
+
+    # script_get_level_xp_threshold
+        # input:
+        #   arg1: current_level
+        # output:
+        #   reg0: xp_threshold
+    ("get_level_xp_threshold",
+        [
+            (store_script_param, ":current_level", 1),
+
+            (set_fixed_point_multiplier, 100),
+            (store_sqrt, ":sqrt", ":current_level"),
+
+            (store_mul, ":level_xp", ":current_level", level_xp_multiplier),
+            (store_add, ":required_xp", ":level_xp", level_xp_base),
+
+            (store_mul, ":level_sqrt_xp", ":sqrt", level_xp_multiplier_sqrt),
+            (val_div, ":level_sqrt_xp", 100),
+
+            (store_add, reg0, ":required_xp", ":level_sqrt_xp"),
         ]),
 
     # script_presentation_generate_select_lord_card

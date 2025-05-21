@@ -55,7 +55,7 @@ game_menus = [
             ("continue", [], "Accept",  
                 [
                     (assign, "$g_test_player_troop", -1),
-                    (call_script, "script_troop_change_stat_with_template", "$g_player_troop", "trp_current_player"),
+                    # (call_script, "script_troop_change_stat_with_template", "$g_player_troop", "trp_current_player"),
 
                     (assign, "$g_start_game_intro_culture", -1),
                     (assign, "$g_start_game_intro_parents", -1),
