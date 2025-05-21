@@ -4,6 +4,7 @@ v0.630:
 		* player kills increase experience
 	-Balances:
 	-Fixes:
+		* fix missing resource loading in module.ini
 	-Other:
 		* bumped required version to 1.166+ to use method game_character_screen_requested introduced in version 1.166
 v0.620:
