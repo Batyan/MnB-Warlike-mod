@@ -2318,9 +2318,9 @@ dialogs = [
     [anyone, "intro_quest_thugs_question_who", [], "I'm a man under my own lead, no master.", "intro_quest_thugs_question_who_2", []],
     [anyone, "intro_quest_thugs_question_who_2",
         [
-            (str_store_troop_name, s10, "trp_intro_quest_slaver"),
+            (str_store_troop_name, s11, "trp_intro_quest_slaver"),
         ],
-        "Now as for my biggest client? {s10}, a nice fellow once you get to know him.", "intro_quest_thugs_question_who_3",
+        "Now as for my biggest client? {s11}, a nice fellow once you get to know him.", "intro_quest_thugs_question_who_3",
         [
             (str_store_troop_name, s10, "trp_intro_quest_slaver"),
             (str_store_string, s0, "@The thugs work for a man named {s10}."),
@@ -2398,7 +2398,7 @@ dialogs = [
             (str_clear, s13),
             (try_begin),
                 (quest_slot_eq, "qst_introduction_default_search_1", slot_quest_asked_state, 1),
-                (str_store_string, s11, "@, they clamied they were not related to his disapearance"),
+                (str_store_string, s11, "@, they claimed they knew your brother and would not go against a noble"),
             (try_end),
             (try_begin),
                 (quest_slot_eq, "qst_introduction_default_search_1", slot_quest_asked_destination, 1),
@@ -2407,7 +2407,7 @@ dialogs = [
             (try_begin),
                 (quest_slot_eq, "qst_introduction_default_search_1", slot_quest_asked_who, 1),
                 (str_store_troop_name, s14, "trp_intro_quest_slaver"),
-                (str_store_string, s13, "@One of their main client we a certain {s14}, finding him could be a lead"),
+                (str_store_string, s13, "@One of their main client was a certain {s14}, finding him could be a lead"),
             (try_end),
             (quest_get_slot, ":destination", "qst_introduction_default_search_1", slot_quest_destination),
             (str_store_party_name, s10, ":destination"),
@@ -2418,11 +2418,11 @@ dialogs = [
         [
             (quest_slot_eq, "qst_introduction_default_search_1", slot_quest_asked_who, 1),
             (str_store_troop_name, s14, "trp_intro_quest_slaver"),
-        ], "You are right, I will look into this {s14}. Good job.", "intro_quest_search_lead_1_close",
+        ], "You are right, I will look into this {s14}. Nice work.", "intro_quest_search_lead_1_close",
         [
             (call_script, "script_troop_change_relation_with_troop", "$g_talk_troop", "$g_player_troop", 1),
         ]],
-    [anyone, "intro_quest_search_lead_1_detail_feedback", [], "None of this gets us any closer, but thank you for looking into it.", "intro_quest_search_lead_1_close", []],
+    [anyone, "intro_quest_search_lead_1_detail_feedback", [], "This sounds like a false lead then, thank you for looking into it nonetheless.", "intro_quest_search_lead_1_close", []],
 
     [anyone, "intro_quest_search_lead_1_close",
         [

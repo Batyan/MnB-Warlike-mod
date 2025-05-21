@@ -5,7 +5,7 @@ Mod for Mount and Blade Warband
 
 #### REQUIREMENTS
 
-Warband version 1.161+
+Warband version 1.166+
 
 #### FEATURES
 The mod will feature numerous changes to the way the game is played.
