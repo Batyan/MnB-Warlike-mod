@@ -7582,9 +7582,11 @@ scripts = [
             (call_script, "script_faction_change_slot", "fac_small_kingdom_32", slot_faction_troop_ratio_horse_archer, -40),
             (call_script, "script_faction_change_slot", "fac_small_kingdom_32", slot_faction_troop_ratio_mounted_skirmisher, -30),
             
-            (call_script, "script_faction_change_slot", "fac_small_kingdom_33", slot_faction_troop_ratio_mounted_skirmisher, 30),
+            (call_script, "script_faction_change_slot", "fac_small_kingdom_33", slot_faction_troop_ratio_mounted_skirmisher, 50),
+            (call_script, "script_faction_change_slot", "fac_small_kingdom_33", slot_faction_troop_ratio_horse_archer, -20),
+            (call_script, "script_faction_change_slot", "fac_small_kingdom_33", slot_faction_troop_ratio_skirmisher, 25),
             (call_script, "script_faction_change_slot", "fac_small_kingdom_33", slot_faction_troop_ratio_cavalry, -30),
-            (call_script, "script_faction_change_slot", "fac_small_kingdom_33", slot_faction_troop_ratio_lancer, -30),
+            (call_script, "script_faction_change_slot", "fac_small_kingdom_33", slot_faction_troop_ratio_lancer, -40),
             
             (call_script, "script_faction_change_slot", "fac_small_kingdom_34", slot_faction_troop_ratio_horse_archer, -20),
             (call_script, "script_faction_change_slot", "fac_small_kingdom_34", slot_faction_troop_ratio_cavalry, -15),
@@ -13687,6 +13689,7 @@ scripts = [
             (troop_set_slot, "trp_khergit_heavy_horse_archer", slot_troop_faction_not_1, "fac_small_kingdom_31"), # Has Heavy Mounted Skirmisher instead
             (troop_set_slot, "trp_khergit_light_infantry", slot_troop_faction_not_1, "fac_small_kingdom_32"), # Has Light Skirmisher instead
             (troop_set_slot, "trp_khergit_skirmisher", slot_troop_faction_not_1, "fac_small_kingdom_32"), # Has Light Skirmisher instead
+            (troop_set_slot, "trp_khergit_skirmisher", slot_troop_faction_not_2, "fac_small_kingdom_33"), # Has Light Skirmisher instead
             (troop_set_slot, "trp_khergit_guard", slot_troop_faction_not_1, "fac_small_kingdom_32"), # Has Heavy Skirmisher instead
             (troop_set_slot, "trp_khergit_light_cavalry", slot_troop_faction_not_1, "fac_small_kingdom_33"), # Has Light Steppe Cavalry instead
             (troop_set_slot, "trp_khergit_heavy_cavalry", slot_troop_faction_not_1, "fac_small_kingdom_33"), # Has Heavy Steppe Cavalry instead
@@ -13694,10 +13697,13 @@ scripts = [
             (troop_set_slot, "trp_khergit_noble", slot_troop_faction_not_2, "fac_small_kingdom_34"), # Has Noble Cavalry and Noble Lancer instead
             (troop_set_slot, "trp_khergit_light_mounted_skirmisher", slot_troop_faction_not_2, "fac_small_kingdom_35"), # Has Light Horseman instead
             (troop_set_slot, "trp_khergit_light_lancer", slot_troop_faction_not_2, "fac_small_kingdom_35"), # Has Light Horseman instead
+            (troop_set_slot, "trp_khergit_light_lancer", slot_troop_faction_not_3, "fac_small_kingdom_33"), # Has Light Steppe Lancer instead
             (troop_set_slot, "trp_khergit_lancer", slot_troop_faction_not_2, "fac_small_kingdom_35"), # Has Heavy Horseman instead
+            (troop_set_slot, "trp_khergit_lancer", slot_troop_faction_not_3, "fac_small_kingdom_33"), # Has Heavy Steppe Lancer
             (troop_set_slot, "trp_khergit_guard", slot_troop_faction_not_2, "fac_small_kingdom_36"), # Has Blade-Master instead
             
-            (troop_set_slot, "trp_khergit_noble_cavalry", slot_troop_faction_reserved_2, "fac_small_kingdom_31"), # Has Noble Mounted Skirmisher
+            (troop_set_slot, "trp_khergit_noble_cavalry", slot_troop_faction_reserved_2, "fac_small_kingdom_31"),
+            (troop_set_slot, "trp_khergit_light_skirmisher", slot_troop_faction_reserved_2, "fac_small_kingdom_33"),
             
             (troop_set_slot, "trp_nord_horseman", slot_troop_faction_not_3, "fac_small_kingdom_41"), # Has Cavalry instead
             (troop_set_slot, "trp_nord_militia", slot_troop_faction_not_1, "fac_small_kingdom_44"), # Has Levy Crossbowman instead
@@ -14051,6 +14057,8 @@ scripts = [
             (troop_set_slot, "trp_swadian_militia", slot_troop_type, tt_crossbow),
             (troop_set_slot, "trp_swadian_sergeant", slot_troop_type, tt_shock_infantry), # Because swadians have too many of them
             (troop_set_slot, "trp_khergit_militia", slot_troop_type, tt_archer),
+            (troop_set_slot, "trp_khergit_light_steppe_lancer", slot_troop_type, tt_lancer),
+            (troop_set_slot, "trp_khergit_heavy_steppe_lancer", slot_troop_type, tt_lancer),
         ]),
     
     # script_init_troops_archer_score

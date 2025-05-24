@@ -2508,15 +2508,25 @@ troops = [
     ],
    str_13|agi_16|int_8|cha_8|level(22), wpex(90,80,130,65,25,70), knows_common|knows_ironflesh_1|knows_power_strike_4|knows_power_throw_1|knows_power_draw_3|knows_athletics_5|knows_riding_3|knows_horse_archery_1, khergit_face_young_1, khergit_face_old_2 ],
   
-  # Light cavalry skirmisher, sabres, maces, javelins, shields
+  # Light cavalry skirmisher, sabres, maces, spears, javelins, shields
   # SPECIAL
   ["khergit_light_steppe_cavalry", "Khergit Light Steppe Cavalry", "Khergit Light Steppe Cavalries", tf_guarantee_common_armor|tf_guarantee_horseman|tf_guarantee_shield|tf_guarantee_ranged, no_scene, reserved, fac_small_kingdom_33,
-   [itm_sword_khergit_2, itm_winged_mace, itm_javelin, itm_javelin, itm_tab_shield_small_round_a,itm_tab_shield_small_round_a_plain_1,itm_tab_shield_small_round_a_plain_2,
+   [itm_sword_khergit_2, itm_winged_mace, itm_hafted_blade_a, itm_javelin, itm_javelin, itm_tab_shield_small_round_a,itm_tab_shield_small_round_a_plain_1,itm_tab_shield_small_round_a_plain_2,
     itm_leather_boots, itm_leather_gloves,
     itm_leather_vest_herald, itm_steppe_armor_herald,
     itm_leather_steppe_cap_b, itm_steppe_cap,
     itm_steppe_horse],
    str_9|agi_15|int_7|cha_8|level(16), wpex(95,80,100,60,20,105), knows_common|knows_power_strike_4|knows_power_throw_3|knows_power_draw_2|knows_athletics_3|knows_riding_6|knows_horse_archery_5, khergit_face_young_1, khergit_face_old_2 ],
+  
+  # Light lancer skirmisher, lances, javelins, shields
+  # SPECIAL
+  ["khergit_light_steppe_lancer", "Khergit Light Steppe Lancer", "Khergit Light Steppe Lancers", tf_guarantee_common_armor|tf_guarantee_horseman|tf_guarantee_shield|tf_guarantee_ranged, no_scene, reserved, fac_small_kingdom_33,
+   [itm_light_lance, itm_javelin, itm_javelin, itm_tab_shield_small_round_a,itm_tab_shield_small_round_a_plain_1,itm_tab_shield_small_round_a_plain_2,
+    itm_leather_boots, itm_leather_gloves,
+    itm_leather_vest_herald, itm_steppe_armor_herald,
+    itm_leather_steppe_cap_b, itm_steppe_cap,
+    itm_steppe_horse],
+   str_11|agi_15|int_7|cha_9|level(21), wpex(90,80,140,60,20,95), knows_common|knows_ironflesh_3|knows_power_strike_4|knows_power_throw_3|knows_power_draw_2|knows_athletics_3|knows_riding_6|knows_horse_archery_4, khergit_face_young_1, khergit_face_old_2 ],
   
   # Light infantry skirmisher, sabres, maces, javelins, shields
   # SPECIAL
@@ -2594,15 +2604,25 @@ troops = [
     ],
    str_13|agi_14|int_8|cha_7|level(19), wpex(110,80,100,65,20,60), knows_common|knows_ironflesh_4|knows_power_strike_3|knows_power_throw_1|knows_power_draw_2|knows_athletics_3|knows_riding_3|knows_shield_1|knows_horse_archery_1, khergit_face_young_1, khergit_face_old_2 ],
   
-  # Medium cavalry skirmisher, sabres, maces, javelins, shields
+  # Medium cavalry skirmisher, sabres, maces, spears, javelins, shields
   # SPECIAL
   ["khergit_heavy_steppe_cavalry", "Khergit Heavy Steppe Cavalry", "Khergit Heavy Steppe Cavalries", tf_guarantee_trained_armor|tf_guarantee_horseman|tf_guarantee_ranged|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_33,
-   [itm_sword_khergit_3, itm_winged_mace, itm_javelin, itm_javelin, itm_tab_shield_small_round_b,itm_tab_shield_small_round_b_plain_1,itm_tab_shield_small_round_b_plain_2,
+   [itm_sword_khergit_3, itm_winged_mace, itm_hafted_blade_a, itm_javelin, itm_javelin, itm_tab_shield_small_round_b,itm_tab_shield_small_round_b_plain_1,itm_tab_shield_small_round_b_plain_2,
     itm_leather_boots, itm_splinted_greaves, itm_leather_gloves,
     itm_lamellar_vest_herald,
     itm_khergit_war_helmet, itm_leather_steppe_cap_b,
     itm_hunter],
    str_13|agi_16|int_9|cha_10|level(25), wpex(85,85,95,65,20,105), knows_common|knows_ironflesh_2|knows_power_strike_3|knows_power_throw_3|knows_power_draw_1|knows_athletics_2|knows_riding_5|knows_horse_archery_5, khergit_face_young_1, khergit_face_old_2 ],
+  
+  # Medium lancer skirmisher, lances, javelins, shields
+  # SPECIAL
+  ["khergit_heavy_steppe_lancer", "Khergit Heavy Steppe Lancer", "Khergit Heavy Steppe Lancers", tf_guarantee_trained_armor|tf_guarantee_horseman|tf_guarantee_ranged|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_33,
+   [itm_lance, itm_javelin, itm_javelin, itm_tab_shield_small_round_b,itm_tab_shield_small_round_b_plain_1,itm_tab_shield_small_round_b_plain_2,
+    itm_leather_boots, itm_splinted_greaves, itm_leather_gloves,
+    itm_lamellar_vest_herald,
+    itm_khergit_war_helmet, itm_leather_steppe_cap_b,
+    itm_hunter],
+   str_14|agi_14|int_8|cha_11|level(24), wpex(95,80,130,65,20,95), knows_common|knows_ironflesh_5|knows_power_strike_3|knows_power_throw_3|knows_power_draw_1|knows_athletics_2|knows_riding_5|knows_horse_archery_4, khergit_face_young_1, khergit_face_old_2 ],
   
   # Medium infantry, sabres, maces, javelins, shields
   # SPECIAL
