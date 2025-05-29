@@ -2,6 +2,7 @@ v0.630:
 	-Features:
 		* add player levels and leveling up
 		* player kills increase experience
+		* add character level up screen
 	-Balances:
 		* add khergit_light_steppe_lancer to small_kingdom_33
 		* add khergit_heavy_steppe_lancer to small_kingdom_33

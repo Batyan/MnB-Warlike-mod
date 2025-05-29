@@ -31,6 +31,7 @@ scripts = [
             (troop_set_slot, "$g_player_troop", slot_troop_kingdom_occupation, tko_kingdom_hero),
             (troop_set_slot, "$g_player_troop", slot_troop_vassal_of, -1),
             (troop_set_slot, "$g_player_troop", slot_troop_renown, 0),
+            (troop_set_slot, "$g_player_troop", slot_troop_xp_level, 1),
 
             (assign, "$g_cur_free_lord", lords_begin),
 
@@ -2335,8 +2336,8 @@ scripts = [
                 # (eq, "$on_map", 1),
                 # (map_free),
                 (set_trigger_result, 1),
-                (display_message, "@Character menu requested"),
-                # (start_presentation, "prsnt_character_screen_main"),
+                (assign, "$temp", "$g_player_troop"),
+                (start_presentation, "prsnt_character_screen"),
             (else_try),
                 (set_trigger_result, 0),
             (try_end),
@@ -12911,6 +12912,7 @@ scripts = [
             (troop_set_slot, ":lord_no", slot_troop_gathering, -1),
             (troop_set_slot, ":lord_no", slot_troop_noble, 0),
             (troop_set_slot, ":lord_no", slot_troop_clan, -1),
+            (troop_set_slot, ":lord_no", slot_troop_xp_level, 1),
 
             # Reset family
             (try_for_range, ":slot", slot_troop_married_to, slot_troop_child_10+1),
@@ -29869,7 +29871,7 @@ scripts = [
             (store_script_param, ":xp", 2),
 
             (troop_get_slot, ":current_xp", ":troop_no", slot_troop_xp),
-            (troop_get_slot, ":current_level", ":troop_no", slot_troop_level),
+            (troop_get_slot, ":current_level", ":troop_no", slot_troop_xp_level),
 
             (val_add, ":current_xp", ":xp"),
             (call_script, "script_get_level_xp_threshold", ":current_level"),
@@ -29897,7 +29899,7 @@ scripts = [
                 (call_script, "script_troop_add_levels", ":troop_no", ":added_level"),
             (try_end),
             (troop_set_slot, ":troop_no", slot_troop_xp, ":current_xp"),
-            (troop_set_slot, ":troop_no", slot_troop_level, ":current_level"),
+            (troop_set_slot, ":troop_no", slot_troop_xp_level, ":current_level"),
         ]),
 
     # script_troop_add_levels
@@ -29946,6 +29948,7 @@ scripts = [
     ("get_level_xp_threshold",
         [
             (store_script_param, ":current_level", 1),
+            (val_max, ":current_level", 1),
 
             (set_fixed_point_multiplier, 100),
             (store_sqrt, ":sqrt", ":current_level"),
@@ -29958,6 +29961,135 @@ scripts = [
 
             (store_add, reg0, ":required_xp", ":level_sqrt_xp"),
         ]),
+
+    # script_cf_skill_is_enabled
+        # input:
+        #   arg1: skill
+        # output: none
+        # fails if skill is disabled
+    ("cf_skill_is_enabled",
+        [
+            (store_script_param, ":skill", 1),
+
+            (assign, ":enabled", 1),
+            (try_begin),
+                (is_between, ":skill", skl_reserved_1, skl_reserved_4 + 1),
+                (assign, ":enabled", 0),
+            (else_try),
+                (is_between, ":skill", skl_reserved_6, skl_reserved_8 + 1),
+                (assign, ":enabled", 0),
+            (else_try),
+                (is_between, ":skill", skl_reserved_9, skl_reserved_12 + 1),
+                (assign, ":enabled", 0),
+            (else_try),
+                (is_between, ":skill", skl_reserved_14, skl_reserved_18 + 1),
+                (assign, ":enabled", 0),
+            (else_try),
+                (eq, ":skill", skl_surgery),
+                (assign, ":enabled", 0),
+            (else_try),
+                (eq, ":skill", skl_trainer),
+                (assign, ":enabled", 0),
+            (try_end),
+            (eq, ":enabled", 1),
+        ]),
+
+    # script_skill_get_base_attribute
+        # input:
+        #   arg1: skill
+        # output:
+        #   reg0: base_attribute
+    ("skill_get_base_attribute",
+        [
+            (store_script_param, ":skill", 1),
+
+            (assign, ":base_attribute", -1),
+            (try_begin),
+                (is_between, ":skill", skl_trade, skl_persuasion + 1),
+                (assign, ":base_attribute", ca_charisma),
+            (else_try),
+                (is_between, ":skill", skl_engineer, skl_reserved_8 + 1),
+                (assign, ":base_attribute", ca_intelligence),
+            (else_try),
+                (is_between, ":skill", skl_looting, skl_reserved_12 + 1),
+                (assign, ":base_attribute", ca_agility),
+            (else_try),
+                (is_between, ":skill", skl_intimidation, skl_reserved_18 + 1),
+                (assign, ":base_attribute", ca_strength),
+            (try_end),
+            (assign, reg0, ":base_attribute"),
+        ]),
+
+    # script_troop_add_attribute
+        # input:
+        #   arg1: troop_no
+        #   arg2: attribute
+        #   arg3: value
+        # output: none
+    ("troop_add_attribute",
+        [
+            (store_script_param, ":troop_no", 1),
+            (store_script_param, ":attribute", 2),
+            (store_script_param, ":value", 3),
+
+            (troop_get_slot, ":attribute_points", ":troop_no", slot_troop_attribute_points),
+            (val_sub, ":attribute_points", ":value"),
+            (troop_set_slot, ":troop_no", slot_troop_attribute_points, ":attribute_points"),
+
+            (troop_raise_attribute, ":troop_no", ":attribute", ":value"),
+            (try_begin),
+                (eq, ":attribute", ca_intelligence),
+                (store_mul, ":mult", ":value", 1),
+                (troop_get_slot, ":skill_points", ":troop_no", slot_troop_skill_points),
+                (val_add, ":skill_points", ":mult"),
+                (troop_set_slot, ":troop_no", slot_troop_skill_points, ":skill_points"),
+            (else_try),
+                (eq, ":attribute", ca_agility),
+                (store_mul, ":mult", ":value", 10),
+                (troop_get_slot, ":proficiency_points", ":troop_no", slot_troop_proficiency_points),
+                (val_add, ":proficiency_points", ":mult"),
+                (troop_set_slot, ":troop_no", slot_troop_proficiency_points, ":proficiency_points"),
+            (try_end),
+        ]),
+
+    # script_troop_add_skill
+        # input:
+        #   arg1: troop_no
+        #   arg2: skill
+        #   arg3: value
+        # output: none
+    ("troop_add_skill",
+        [
+            (store_script_param, ":troop_no", 1),
+            (store_script_param, ":skill", 2),
+            (store_script_param, ":value", 3),
+
+            (troop_get_slot, ":skill_points", ":troop_no", slot_troop_skill_points),
+            (val_sub, ":skill_points", ":value"),
+            (troop_set_slot, ":troop_no", slot_troop_skill_points, ":skill_points"),
+
+            (troop_raise_skill, ":troop_no", ":skill", ":value"),
+        ]),
+
+    # script_troop_add_proficiency
+        # input:
+        #   arg1: troop_no
+        #   arg2: proficiency
+        #   arg3: value
+        # output: none
+    ("troop_add_proficiency",
+        [
+            (store_script_param, ":troop_no", 1),
+            (store_script_param, ":proficiency", 2),
+            (store_script_param, ":value", 3),
+
+            (troop_get_slot, ":proficiency_points", ":troop_no", slot_troop_proficiency_points),
+            (val_sub, ":proficiency_points", ":value"),
+            (troop_set_slot, ":troop_no", slot_troop_proficiency_points, ":proficiency_points"),
+
+            (troop_raise_proficiency_linear, ":troop_no", ":proficiency", ":value"),
+        ]),
+
 
     # script_presentation_generate_select_lord_card
         # input:

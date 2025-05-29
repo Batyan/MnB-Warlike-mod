@@ -568,9 +568,14 @@ script_troop_get_xp_value = 566
 script_troop_add_xp = 567
 script_troop_add_levels = 568
 script_get_level_xp_threshold = 569
-script_presentation_generate_select_lord_card = 570
-script_presentation_create_text_overlay = 571
-script_presentation_create_combo_button_overlay = 572
-script_presentation_create_check_box_overlay = 573
+script_cf_skill_is_enabled = 570
+script_skill_get_base_attribute = 571
+script_troop_add_attribute = 572
+script_troop_add_skill = 573
+script_troop_add_proficiency = 574
+script_presentation_generate_select_lord_card = 575
+script_presentation_create_text_overlay = 576
+script_presentation_create_combo_button_overlay = 577
+script_presentation_create_check_box_overlay = 578
 
 
