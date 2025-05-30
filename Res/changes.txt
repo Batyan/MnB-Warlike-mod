@@ -3,12 +3,14 @@ v0.630:
 		* add player levels and leveling up
 		* player kills increase experience
 		* add character level up screen
+		* prevent player troop divisions from being assigned to 6-8 instead of 1-3
 	-Balances:
 		* add khergit_light_steppe_lancer to small_kingdom_33
 		* add khergit_heavy_steppe_lancer to small_kingdom_33
 		* remove khergit_light_lancer from small_kingdom_33
 		* remove khergit_lancer from small_kingdom_33
 		* add khergit_light_skirmisher to small_kingdom_33
+		* troops start in stand ground order to prevent them running of at the start of battle
 	-Fixes:
 		* fix missing resource loading in module.ini
 		* fix a few typo errors

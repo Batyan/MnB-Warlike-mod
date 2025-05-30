@@ -3425,6 +3425,8 @@ scripts = [
                     (team_get_slot, ":archer_division", ":team", slot_team_archer_division),
                     (eq, ":old_div", ":archer_division"),
                     (agent_slot_eq, ":agent_no", slot_agent_is_reinforcement, 0),
+
+                    (neq, ":team", "$g_player_team"),
                     (agent_set_slot, ":agent_no", slot_agent_is_reinforcement, 1),
                     (assign, ":new_div", grc_reinforcement_archer),
                 (try_end),
@@ -4610,6 +4612,10 @@ scripts = [
                 (team_give_order, ":team_no", grc_charge_group, mordr_charge),
                 (team_give_order, ":team_no", grc_cavalry, mordr_mount),
                 (team_give_order, ":team_no", grc_reinforcement_cavalry, mordr_mount),
+
+                (team_give_order, ":team_no", grc_infantry, mordr_stand_ground),
+                (team_give_order, ":team_no", grc_archers, mordr_stand_ground),
+                (team_give_order, ":team_no", grc_cavalry, mordr_stand_ground),
                 
                 (team_set_slot, ":team_no", slot_team_battle_phase, stbp_deploy),
             (try_end),
@@ -4735,9 +4741,17 @@ scripts = [
     ("init_agent",
         [
             (store_script_param, ":agent_no", 1),
+
             (agent_set_slot, ":agent_no", slot_agent_is_reinforcement, 1),
             (agent_set_slot, ":agent_no", slot_agent_target_entry_point, 0),
             (agent_set_slot, ":agent_no", slot_agent_is_in_scripted_mode, 0),
+
+            (try_begin),
+                (agent_get_team, ":team", ":agent_no"),
+
+                (eq, ":team", "$g_player_team"),
+                (agent_set_slot, ":agent_no", slot_agent_is_reinforcement, 0),
+            (try_end),
         ]),
 
     # script_process_battle_ais
@@ -4765,7 +4779,7 @@ scripts = [
             (team_get_slot, ":tactic", ":team_no", slot_team_tactic),
             
             (team_get_slot, ":battle_phase", ":team_no", slot_team_battle_phase),
-            
+
             (set_show_messages, 0),
             (try_begin),
                 (eq, ":battle_phase", stbp_deploy),
@@ -4919,7 +4933,9 @@ scripts = [
                 (team_get_movement_order, ":current_order", ":team_no", grc_infantry),
 
                 (try_begin),
-                    (eq, ":current_order", mordr_charge),
+                    (this_or_next|eq, ":current_order", mordr_charge),
+                    (eq, ":current_order", mordr_stand_ground),
+
                     (assign, ":num_charging", 0),
                     (assign, ":has_reinforcements", 0),
                     (try_for_agents, ":cur_agent"),

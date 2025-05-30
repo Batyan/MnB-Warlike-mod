@@ -1614,9 +1614,9 @@ mission_templates = [
 			battle_fix_division,
 			battle_division_control,
 			
+			battle_assign_team,
 			battle_spawn,
 			
-			battle_assign_team,
 			battle_death_event,
 			
 			# test_battle_spawn_bodyguards,
