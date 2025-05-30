@@ -1706,11 +1706,11 @@ game_menus = [
                 ]),
             
             ("center_tavern", 
-                [(disable_menu_option),
+                [
                     (party_slot_eq, "$g_encountered_party", slot_party_type, spt_town),
                 ], "Go to the tavern",
                 [
-                    #ToDo: tavern
+                    (jump_to_menu, "mnu_town_tavern"),
                 ]),
             
             ("center_raise_levies", [(neg|party_slot_eq, "$g_encountered_party", slot_party_type, spt_castle),], "Train levies",
@@ -1828,6 +1828,30 @@ game_menus = [
                     (assign, "$g_trading", 1),
                     (call_script, "script_cf_party_has_merchant", "$g_encountered_party", merchant_type_horse),
                     (change_screen_trade, reg0),
+                ]),
+            
+            ("center_back", [], "Head back to the center",
+                [
+                    (jump_to_menu, "mnu_town_center"),
+                ]),
+        ]),
+    
+    ("town_tavern", mnf_scale_picture,
+        "Heading toward the inn",
+        "none",
+        [
+            (set_background_mesh, "mesh_pic_camp"),
+        ],
+        [
+            ("tavern_intro_quest_report",
+                [
+                    (check_quest_active, "qst_introduction_default_search"),
+                    (quest_get_slot, ":giver_troop", "qst_introduction_default_search", slot_quest_giver_troop),
+                    (str_store_troop_name, s10, ":giver_troop"),
+                ], "Meet with {s10}",
+                [
+                    (quest_get_slot, ":giver_troop", "qst_introduction_default_search", slot_quest_giver_troop),
+                    (call_script, "script_setup_troop_meeting", ":giver_troop", -1),
                 ]),
             
             ("center_back", [], "Head back to the center",

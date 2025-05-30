@@ -25218,15 +25218,13 @@ scripts = [
             (try_begin),
                 (check_quest_succeeded, ":quest_no"),
                 (str_store_string, s56, "@Quest completed"),
-                (add_quest_note_from_sreg, ":quest_no", 3, s56, 0),
-            (try_end),
-            (quest_set_slot, ":quest_no", slot_quest_note_index, ":index"),
-
-            (try_begin),
+                (add_quest_note_from_sreg, ":quest_no", 15, s56, 0),
+            (else_try),
                 (quest_slot_ge, ":quest_no", slot_quest_expiration_days, 1),
                 (quest_get_slot, reg0, ":quest_no", slot_quest_expiration_days),
                 (add_quest_note_from_sreg, ":quest_no", 15, "@You have {reg0} days to finish this quest.", 0),
             (try_end),
+            (quest_set_slot, ":quest_no", slot_quest_note_index, ":index"),
 
             (setup_quest_text, ":quest_no"),
         ]),

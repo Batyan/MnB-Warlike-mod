@@ -76,6 +76,17 @@ dialogs = [
     #############
     # Lord Talk #
     #############   
+    [anyone, "start",
+        [
+            (check_quest_active, "qst_introduction_default_search"),
+
+            (this_or_next|check_quest_active, "qst_introduction_default_search_1"),
+            (check_quest_active, "qst_introduction_default_search_2"),
+
+            (quest_get_slot, ":giver_troop", "qst_introduction_default_search", slot_quest_giver_troop),
+            (eq, "$g_talk_troop", ":giver_troop"),
+        ], "{playername}? Did you find something?", "intro_quest_search_player", []],
+
     [anyone, "start", 
         [
             (is_between, "$g_talk_troop", lords_begin, lords_end),
@@ -1766,13 +1777,6 @@ dialogs = [
             (try_end),
         ], "{s10}", "intro_quest_player", []],
 
-    [anyone, "event_triggered",
-        [
-            (check_quest_active, "qst_introduction_default_search"),
-            (quest_get_slot, ":giver_troop", "qst_introduction_default_search", slot_quest_giver_troop),
-            (eq, "$g_talk_troop", ":giver_troop"),
-        ], "{playername}? Did you find something?", "intro_quest_search_player", []],
-
     [anyone|plyr, "intro_quest_player",
         [(eq, "$g_intro_quest_stance", 2),], "Explain yourself!", "intro_quest_explanation",
         [
@@ -2362,12 +2366,14 @@ dialogs = [
     [anyone|plyr, "intro_quest_search_player",
         [
             (check_quest_succeeded, "qst_introduction_default_search_1"),
+            (check_quest_active, "qst_introduction_default_search_1"),
             (quest_get_slot, ":destination", "qst_introduction_default_search_1", slot_quest_destination),
             (str_store_party_name, s10, ":destination"),
         ], "I found a lead in {s10}", "intro_quest_search_lead_1", []],
     [anyone|plyr, "intro_quest_search_player",
         [
             (check_quest_succeeded, "qst_introduction_default_search_2"),
+            (check_quest_active, "qst_introduction_default_search_2"),
             (quest_get_slot, ":destination", "qst_introduction_default_search_2", slot_quest_destination),
             (str_store_party_name, s10, ":destination"),
         ], "I found a lead in {s10}", "intro_quest_search_lead_2", []],
@@ -2407,7 +2413,7 @@ dialogs = [
             (try_begin),
                 (quest_slot_eq, "qst_introduction_default_search_1", slot_quest_asked_who, 1),
                 (str_store_troop_name, s14, "trp_intro_quest_slaver"),
-                (str_store_string, s13, "@One of their main client was a certain {s14}, finding him could be a lead"),
+                (str_store_string, s13, "@. One of their main client was a certain {s14}, finding him could be a lead"),
             (try_end),
             (quest_get_slot, ":destination", "qst_introduction_default_search_1", slot_quest_destination),
             (str_store_party_name, s10, ":destination"),
@@ -2427,11 +2433,11 @@ dialogs = [
     [anyone, "intro_quest_search_lead_1_close",
         [
             (quest_get_slot, ":destination", "qst_introduction_default_search_1", slot_quest_destination),
-            (str_store_party_name, s10, ":destination"),
-        ], "I think that concludes our search in {s10}. Thank you again for this.", "intro_quest_search_return",
+            (str_store_party_name, s12, ":destination"),
+        ], "I think that concludes our search in {s12}. Thank you again for this.", "intro_quest_search_return",
         [
             (call_script, "script_troop_change_relation_with_troop", "$g_talk_troop", "$g_player_troop", 1),
-            (call_script, "script_succeed_quest", "qst_introduction_default_search_1"),
+            (call_script, "script_complete_quest", "qst_introduction_default_search_1"),
         ]],
 
 
@@ -2466,8 +2472,6 @@ dialogs = [
                 (str_store_string, s13, "@. However I was not able to get the location he was headed to next"),
             (try_end),
             (str_store_string, s10, "@He was accompanied by some men{s11}{s12}{s13}."),
-            (quest_get_slot, ":destination", "qst_introduction_default_search_2", slot_quest_destination),
-            (str_store_party_name, s10, ":destination"),
         ], "{s10}", "intro_quest_search_lead_2_detail_feedback", []],
 
     [anyone, "intro_quest_search_lead_2_detail_feedback",
@@ -2477,8 +2481,8 @@ dialogs = [
             (quest_slot_eq, "qst_introduction_default_search_2", slot_quest_asked_destination, 1),
 
             (quest_get_slot, ":destination", "qst_introduction_default_search", slot_quest_destination),
-            (str_store_party_name, s10, ":destination"),
-        ], "We have a lot of information here. Our next step would probably to go to {s10}", "intro_quest_search_lead_2_close",
+            (str_store_party_name, s12, ":destination"),
+        ], "We have a lot of information here. Our next step would probably to go to {s12}", "intro_quest_search_lead_2_close",
         [
             (call_script, "script_troop_change_relation_with_troop", "$g_talk_troop", "$g_player_troop", 2),
         ]],
@@ -2497,17 +2501,17 @@ dialogs = [
     [anyone, "intro_quest_search_lead_2_close",
         [
             (quest_get_slot, ":destination", "qst_introduction_default_search_2", slot_quest_destination),
-            (str_store_party_name, s10, ":destination"),
-        ], "I think that concludes our search in {s10}. Thank you again for this.", "intro_quest_search_return",
+            (str_store_party_name, s12, ":destination"),
+        ], "I think that concludes our search in {s12}. Thank you again for this.", "intro_quest_search_return",
         [
             (call_script, "script_troop_change_relation_with_troop", "$g_talk_troop", "$g_player_troop", 1),
-            (call_script, "script_succeed_quest", "qst_introduction_default_search_2"),
+            (call_script, "script_complete_quest", "qst_introduction_default_search_2"),
         ]],
 
     [anyone, "intro_quest_search_return",
         [
-            (check_quest_succeeded, "qst_introduction_default_search_1"),
-            (check_quest_succeeded, "qst_introduction_default_search_2"),
+            (neg|check_quest_active, "qst_introduction_default_search_1"),
+            (neg|check_quest_active, "qst_introduction_default_search_2"),
             (quest_slot_eq, "qst_introduction_default_search_2", slot_quest_asked_destination, 1),
             (quest_slot_eq, "qst_introduction_default_search_1", slot_quest_asked_who, 1),
         ], "Great news, we have all of the pieces.", "intro_quest_search_conclude",
@@ -2516,8 +2520,8 @@ dialogs = [
         ]],
     [anyone, "intro_quest_search_return",
         [
-            (check_quest_succeeded, "qst_introduction_default_search_1"),
-            (check_quest_succeeded, "qst_introduction_default_search_2"),
+            (neg|check_quest_active, "qst_introduction_default_search_1"),
+            (neg|check_quest_active, "qst_introduction_default_search_2"),
         ], "There's that, I'll have to dig some more but I think we are onto something.", "intro_quest_search_conclude", []],
     [anyone, "intro_quest_search_return", [], "Did you find something else on our other lead?", "intro_quest_search_player", []],
 
@@ -2542,9 +2546,9 @@ dialogs = [
             (quest_get_slot, ":reward", "qst_introduction_default_search", slot_quest_reward),
             (val_add, ":reward", 5000),
             (troop_add_gold, "$g_player_troop", ":reward"),
-            (call_script, "script_conclude_quest", "qst_introduction_default_search"),
-            (call_script, "script_conclude_quest", "qst_introduction_default_search_1"),
-            (call_script, "script_conclude_quest", "qst_introduction_default_search_2"),
+            (call_script, "script_complete_quest", "qst_introduction_default_search"),
+            # (call_script, "script_conclude_quest", "qst_introduction_default_search_1"),
+            # (call_script, "script_conclude_quest", "qst_introduction_default_search_2"),
             # (call_script, "script_conclude_quest", "qst_introduction_default_search_3"),
         ], "Oh! And here is something for your help.", "intro_quest_search_conclude_next", []],
     [anyone, "intro_quest_search_conclude_next",
@@ -2559,9 +2563,9 @@ dialogs = [
             (quest_get_slot, ":reward", "qst_introduction_default_search", slot_quest_reward),
             (val_add, ":reward", 4000),
             (troop_add_gold, "$g_player_troop", ":reward"),
-            (call_script, "script_conclude_quest", "qst_introduction_default_search"),
-            (call_script, "script_conclude_quest", "qst_introduction_default_search_1"),
-            (call_script, "script_conclude_quest", "qst_introduction_default_search_2"),
+            (call_script, "script_complete_quest", "qst_introduction_default_search"),
+            # (call_script, "script_conclude_quest", "qst_introduction_default_search_1"),
+            # (call_script, "script_conclude_quest", "qst_introduction_default_search_2"),
             # (call_script, "script_conclude_quest", "qst_introduction_default_search_3"),
         ], "Here is your promised reward, thank you again for your help. Wish me good luck my friend.", "close_window", []],
     
