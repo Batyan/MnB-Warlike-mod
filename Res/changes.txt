@@ -15,6 +15,7 @@ v0.630:
 		* fix missing resource loading in module.ini
 		* fix a few typo errors
 		* fix missing report dialog for intro quest
+		* prevent shield skill from being upgraded more than it's max
 	-Other:
 		* bumped required version to 1.166+ to use method game_character_screen_requested introduced in version 1.166
 v0.620:

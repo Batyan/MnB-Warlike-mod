@@ -3449,6 +3449,9 @@ presentations = [
                                 (store_skill_level, ":skill_value", ":skill", ":current_troop"),
                                 (try_begin),
                                     (lt, ":skill_value", ":max_value"),
+                                    (lt, ":skill_value", 10),
+                                    (this_or_next|neq, ":skill", skl_shield),
+                                    (lt, ":skill_value", 1),
 
                                     (store_add, ":y", ":cur_y", 4),
                                     (create_image_button_overlay, reg0, "mesh_small_arrow_up", "mesh_small_arrow_up_clicked"),
