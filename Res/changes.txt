@@ -11,6 +11,7 @@ v0.630:
 		* remove khergit_lancer from small_kingdom_33
 		* add khergit_light_skirmisher to small_kingdom_33
 		* troops start in stand ground order to prevent them running of at the start of battle
+		* slow down rate of declaring wars
 	-Fixes:
 		* fix missing resource loading in module.ini
 		* fix a few typo errors

@@ -33,6 +33,8 @@ scripts = [
             (troop_set_slot, "$g_player_troop", slot_troop_renown, 0),
             (troop_set_slot, "$g_player_troop", slot_troop_xp_level, 1),
 
+            (assign, "$g_disable_faction_ai_capture", 1),
+
             (assign, "$g_cur_free_lord", lords_begin),
 
             (set_show_messages, 0),
@@ -16875,6 +16877,21 @@ scripts = [
                     (try_begin),
                         (eq, ":preparing_war", ":want_war"),
                         (try_begin),
+                            (call_script, "script_faction_get_relation_with_faction", ":faction_no", ":preparing_war"),
+                            (assign, ":relation", reg0),
+
+                            (gt, ":relation", -10),
+                            (call_script, "script_faction_relation_change_event", ":faction_no", ":preparing_war", -10),
+
+                            (faction_get_slot, ":faction_leader", ":faction_no", slot_faction_leader),
+                            (faction_get_slot, ":target_leader", ":preparing_war", slot_faction_leader),
+                            (try_begin),
+                                (ge, ":faction_leader", 0),
+                                (ge, ":target_leader", 0),
+                                (call_script, "script_troop_change_relation_with_troop", ":faction_leader", ":target_leader", -1),
+                            (try_end),
+
+                        (else_try),
                             (call_script, "script_cf_faction_want_vassal", ":faction_no", ":want_war"),
 
                             (call_script, "script_faction_get_treaty_score", ":want_war", sfkt_overlord, ":faction_no"),
@@ -17688,6 +17705,7 @@ scripts = [
 
             (assign, ":offset_begin", 0),
 
+            # Propose vassal subjugation
             (try_begin),
                 (call_script, "script_cf_faction_want_vassal", ":faction_proposed_to", ":faction_no"),
 
@@ -17721,66 +17739,73 @@ scripts = [
                 (val_add, ":offset_begin", 1),
             (try_end),
 
-            (assign, ":end", num_peace_proposal),
-            (assign, ":total_centers", 1),
-            (assign, ":capture_score", 0),
-            (assign, ":begin", ":offset_begin"),
-            (try_for_range, ":offset", ":begin", ":end"),
-                (assign, ":best_score", 9999),
-                (assign, ":best_center", -1),
-                (try_for_range, ":center_no", walled_centers_begin, walled_centers_end),
-                    (party_get_slot, ":temp_score", ":center_no", slot_party_temp),
-                    (lt, ":temp_score", ":best_score"),
-                    (assign, ":best_score", ":temp_score"),
-                    (assign, ":best_center", ":center_no"),
-                (try_end),
-                (try_begin),
-                    (gt, ":best_center", 0),
+            # Break existing vassal treaties
 
-                    (assign, ":base_score", 0),
-                    (party_get_slot, ":party_type", ":best_center", slot_party_type),
-                    (try_begin),
-                        (eq, ":party_type", spt_village),
-                        (assign, ":base_score", proposal_peace_score_village_captured),
-                    (else_try),
-                        (eq, ":party_type", spt_castle),
-                        (assign, ":base_score", proposal_peace_score_castle_captured),
-                    (else_try),
-                        (eq, ":party_type", spt_town),
-                        (assign, ":base_score", proposal_peace_score_town_captured),
+            # Capture territory
+            (try_begin),
+                (neq, "$g_disable_faction_ai_capture", 1),
+                (assign, ":end", num_peace_proposal),
+                (assign, ":total_centers", 1),
+                (assign, ":capture_score", 0),
+                (assign, ":begin", ":offset_begin"),
+                (try_for_range, ":offset", ":begin", ":end"),
+                    (assign, ":best_score", 9999),
+                    (assign, ":best_center", -1),
+                    (try_for_range, ":center_no", walled_centers_begin, walled_centers_end),
+                        (party_get_slot, ":temp_score", ":center_no", slot_party_temp),
+                        (lt, ":temp_score", ":best_score"),
+                        (assign, ":best_score", ":temp_score"),
+                        (assign, ":best_center", ":center_no"),
                     (try_end),
-
-                    (store_add, ":total_score", ":capture_score", ":base_score"),
-
-                    (val_mul, ":total_score", ":total_centers"),
                     (try_begin),
-                        (le, ":total_score", ":score"),
+                        (gt, ":best_center", 0),
 
-                        (val_add, ":capture_score", ":base_score"),
-                        (val_add, ":total_centers", 1),
+                        (assign, ":base_score", 0),
+                        (party_get_slot, ":party_type", ":best_center", slot_party_type),
+                        (try_begin),
+                            (eq, ":party_type", spt_village),
+                            (assign, ":base_score", proposal_peace_score_village_captured),
+                        (else_try),
+                            (eq, ":party_type", spt_castle),
+                            (assign, ":base_score", proposal_peace_score_castle_captured),
+                        (else_try),
+                            (eq, ":party_type", spt_town),
+                            (assign, ":base_score", proposal_peace_score_town_captured),
+                        (try_end),
 
-                        (store_add, ":slot_object", slot_war_peace_proposal_object_begin, ":offset"),
-                        (store_add, ":slot_type", slot_war_peace_proposal_type_begin, ":offset"),
-                        (store_add, ":slot_target", slot_war_peace_proposal_target_begin, ":offset"),
+                        (store_add, ":total_score", ":capture_score", ":base_score"),
 
-                        (store_faction_of_party, ":center_current_faction", ":best_center"),
+                        (val_mul, ":total_score", ":total_centers"),
+                        (try_begin),
+                            (le, ":total_score", ":score"),
 
-                        (faction_set_slot, ":war_storage", ":slot_object", ":best_center"),
-                        (faction_set_slot, ":war_storage", ":slot_type", wppt_transfer_center),
-                        (faction_set_slot, ":war_storage", ":slot_target", ":center_current_faction"),
+                            (val_add, ":capture_score", ":base_score"),
+                            (val_add, ":total_centers", 1),
 
-                        (party_set_slot, ":best_center", slot_party_temp, 9999),
+                            (store_add, ":slot_object", slot_war_peace_proposal_object_begin, ":offset"),
+                            (store_add, ":slot_type", slot_war_peace_proposal_type_begin, ":offset"),
+                            (store_add, ":slot_target", slot_war_peace_proposal_target_begin, ":offset"),
 
-                        (val_add, ":offset", 1),
-                    (else_try),
-                        (assign, ":end", 0),
+                            (store_faction_of_party, ":center_current_faction", ":best_center"),
+
+                            (faction_set_slot, ":war_storage", ":slot_object", ":best_center"),
+                            (faction_set_slot, ":war_storage", ":slot_type", wppt_transfer_center),
+                            (faction_set_slot, ":war_storage", ":slot_target", ":center_current_faction"),
+
+                            (party_set_slot, ":best_center", slot_party_temp, 9999),
+
+                            (val_add, ":offset", 1),
+                        (else_try),
+                            (assign, ":end", 0),
+                        (try_end),
                     (try_end),
                 (try_end),
+                (val_sub, ":total_centers", 1),
+                (store_mul, ":remove_score", ":capture_score", ":total_centers"),
+                (val_sub, ":score", ":remove_score"),
             (try_end),
-            (val_sub, ":total_centers", 1),
-            (store_mul, ":remove_score", ":capture_score", ":total_centers"),
-            (val_sub, ":score", ":remove_score"),
 
+            # Offer tribute
             (try_begin),
                 (gt, ":score", 0),
                 # (val_add, ":offset", 1),
