@@ -1399,7 +1399,7 @@ battle_death_event = (
 			(try_begin),
 				(ge, ":killer_troop_id", 0),
 				(troop_is_hero, ":killer_troop_id"),
-				(gt, ":dead_troop_id", 0),
+				(ge, ":dead_troop_id", 0),
 
 				(call_script, "script_troop_get_xp_value", ":dead_troop_id"),
 				(call_script, "script_troop_add_xp", ":killer_troop_id", reg0),
