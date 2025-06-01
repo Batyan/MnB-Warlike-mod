@@ -1706,7 +1706,7 @@ slot_troop_mission_deaths = slot_troop_mission_kills + 1
 
 slot_troop_xp = slot_troop_mission_deaths + 1
 slot_troop_xp_level = slot_troop_xp + 1
-slot_troop_attribute_points = slot_troop_level + 1
+slot_troop_attribute_points = slot_troop_xp_level + 1
 slot_troop_skill_points = slot_troop_attribute_points + 1
 slot_troop_proficiency_points = slot_troop_skill_points + 1
 
