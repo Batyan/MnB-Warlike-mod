@@ -13,6 +13,7 @@ v0.630:
 		* troops start in stand ground order to prevent them running of at the start of battle
 		* slow down rate of declaring wars
 		* increase xp gain rate (x4)
+		* temporarily disable capturing territory for factions
 	-Fixes:
 		* fix missing resource loading in module.ini
 		* fix a few typo errors
