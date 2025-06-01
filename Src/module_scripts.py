@@ -29896,7 +29896,7 @@ scripts = [
             (store_script_param, ":troop_no", 1),
 
             (store_character_level, ":level", ":troop_no"),
-            (assign, reg0, ":level"),
+            (store_mul, reg0, ":level", 4),
         ]),
 
     # script_troop_add_xp
