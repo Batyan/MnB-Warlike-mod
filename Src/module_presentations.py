@@ -3302,7 +3302,7 @@ presentations = [
 
                     (store_add, "$g_presentation_attributes_items_begin", reg0, 1),
 
-                    (assign, ":cur_y", 20),
+                    (assign, ":cur_y", 0),
                     (try_for_range_backwards, ":attribute", ca_strength, ca_charisma + 1),
                         (store_add, ":string_index", ":attribute", "str_attribute_strength"),
                         (str_store_string, s10, ":string_index"),
