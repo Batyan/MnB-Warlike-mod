@@ -1692,7 +1692,35 @@ dialogs = [
             (eq, ":continue", 1),
         ], "I'm looking for a missing person, might you be able to help me?", "intro_quest_village_elder_lead", []],
     [anyone|plyr, "village_elder", [], "Is there anything I can do to help?", "village_elder_quests", []],
+
+    [anyone|plyr, "village_elder",
+        [
+            (check_quest_active, "qst_village_deliver_grain"),
+            (quest_get_slot, ":destination", "qst_village_deliver_grain", slot_quest_destination),
+            (eq, ":destination", "$g_encountered_party"),
+            (store_item_kind_count, ":grain_count", "itm_grain", "$g_player_troop"),
+            (ge, ":grain_count", 10),
+        ], "I have the items of grain you needed", "village_elder_quest_deliver_grain_delivered", []],
+
     [anyone|plyr, "village_elder", [], "Goodbye", "close_window", []],
+
+    [anyone, "village_elder_quests",
+        [
+            (call_script, "script_cf_center_get_available_quest", "$g_encountered_party"),
+            (assign, "$g_dialog_outcome", reg0),
+            (eq, 1, 0),
+        ], "Quest available", "village_elder_return", []],
+
+    [anyone, "village_elder_quests",
+        [
+            (eq, "$g_dialog_outcome", -1),
+            (call_script, "script_troop_get_player_name", "$g_talk_troop", "$g_encountered_party"),
+        ], "We have no need at the moment {s60}", "village_elder_return", []],
+
+    [anyone, "village_elder_quests",
+        [
+            (eq, "$g_dialog_outcome", "qst_village_deliver_grain"),
+        ], "{s60}, we recently had a bad harvest and our reserves of grain are short.", "village_elder_quest_deliver_grain", []],
 
     [anyone, "village_elder_quests",
         [
@@ -2612,6 +2640,144 @@ dialogs = [
         [], "You haven't even looked and now you try to rob me of the reward.", "intro_quest_search_fail_end_lie_3", []],
     [anyone, "intro_quest_search_fail_end_lie_3",
         [], "You won't get anything and I don't want to see you again.", "close_window", []],
+
+
+    # Village elder quests
+    [anyone, "village_elder_quest_deliver_grain",
+        [],
+        "I fear we won't be able to sow our fields before the next harvest. If you could trouble yourself to bring us 10 units of grain we would be most grateful",
+        "village_elder_quest_deliver_grain_player_response", []],
+    [anyone|plyr, "village_elder_quest_deliver_grain_player_response",
+        [],
+        "I'll get the grain for you",
+        "village_elder_quest_deliver_grain_accept",
+        [
+            (quest_set_slot, "qst_village_deliver_grain", slot_quest_destination, "$g_encountered_party"),
+            (call_script, "script_start_quest", "qst_village_deliver_grain", "$g_talk_troop"),
+            (call_script, "script_party_change_player_relation", "$g_encountered_party", 1),
+        ]],
+    [anyone|plyr, "village_elder_quest_deliver_grain_player_response",
+        [],
+        "I hope you will give me more than 'gratitude' for my trouble",
+        "village_elder_quest_deliver_grain_reward",
+        [
+            (call_script, "script_start_quest", "qst_village_deliver_grain", "$g_talk_troop"),
+            (quest_set_slot, "qst_village_deliver_grain", slot_quest_destination, "$g_encountered_party"),
+            (call_script, "script_party_change_player_relation", "$g_encountered_party", -1),
+        ]],
+    [anyone|plyr, "village_elder_quest_deliver_grain_player_response",
+        [],
+        "I can't do that right now",
+        "village_elder_quest_deliver_grain_refuse", []],
+
+    [anyone, "village_elder_quest_deliver_grain_accept",
+        [
+            (call_script, "script_troop_get_player_name", "$g_talk_troop", "$g_encountered_party"),
+        ],
+        "Thank you {s60}, we will await your return.",
+        "village_elder_return", []],
+    [anyone, "village_elder_quest_deliver_grain_reward",
+        [
+            (party_get_slot, ":linked_party", "$g_encountered_party", slot_party_linked_party),
+            (call_script, "script_item_get_buy_price", "itm_grain", "$g_encountered_party", ":linked_party"),
+            (store_mul, ":bonus_reward", reg0, 8),
+            (call_script, "script_game_get_money_text", ":bonus_reward"),
+            (call_script, "script_troop_get_player_name", "$g_talk_troop", "$g_encountered_party"),
+        ],
+        "Of course {s60}, we will gather {s0} to pay you for the grain you bring.",
+        "village_elder_quest_deliver_grain_accept",
+        [
+            (quest_get_slot, ":reward", "qst_village_deliver_grain", slot_quest_reward),
+
+            (party_get_slot, ":linked_party", "$g_encountered_party", slot_party_linked_party),
+            (call_script, "script_item_get_buy_price", "itm_grain", "$g_encountered_party", ":linked_party"),
+            (store_mul, ":bonus_reward", reg0, 8),
+
+            (val_add, ":reward", ":bonus_reward"),
+            (quest_set_slot, "qst_village_deliver_grain", slot_quest_reward, ":reward"),
+        ]],
+
+    [anyone, "village_elder_quest_deliver_grain_refuse",
+        [
+            (call_script, "script_troop_get_player_name", "$g_talk_troop", "$g_encountered_party"),
+        ],
+        "Of course {s60}, you certainly have more pressing matters.",
+        "village_elder_return",
+        [
+            (call_script, "script_party_change_player_relation", "$g_encountered_party", -1),
+        ]],
+
+    [anyone, "village_elder_quest_deliver_grain_delivered",
+        [
+            (call_script, "script_troop_get_player_name", "$g_talk_troop", "$g_encountered_party"),
+        ],
+        "Oh you're a lifesaver {s60}!",
+        "village_elder_quest_deliver_grain_delivered_reward",
+        [
+            (call_script, "script_succeed_quest", "qst_village_deliver_grain"),
+            (call_script, "script_party_transfer_goods", "$g_player_party", "$g_encountered_party", "itm_grain", 10),
+        ]],
+    [anyone, "village_elder_quest_deliver_grain_delivered_reward",
+        [
+            (quest_get_slot, ":reward", "qst_village_deliver_grain", slot_quest_reward),
+            (try_begin),
+                (gt, ":reward", 0),
+                (call_script, "script_troop_get_player_name", "$g_talk_troop", "$g_encountered_party"),
+                (call_script, "script_game_get_money_text", ":reward"),
+                (str_store_string, s11, "@ and {s0} to cover for your expenses in acquiring the grain.^I hope this will be sufficient for you {s60}"),
+            (else_try),
+                (str_store_string, s11, "@. We are very gratefull to you."),
+            (try_end),
+            (party_get_slot, ":linked_party", "$g_encountered_party", slot_party_linked_party),
+            (call_script, "script_item_get_buy_price", "itm_grain", "$g_encountered_party", ":linked_party"),
+            (store_mul, ":bonus_reward", reg0, 10),
+            (call_script, "script_game_get_money_text", ":bonus_reward"),
+        ],
+        "With this we'll have no trouble to secure our next harvest.^Here is your reward {s0} for the delivery{s11}",
+        "village_elder_quest_deliver_grain_delivered_player",
+        [
+            (call_script, "script_party_change_player_relation", "$g_encountered_party", 2),
+        ]],
+
+    [anyone|plyr, "village_elder_quest_deliver_grain_delivered_player",
+        [],
+        "Keep the gold, you will need it more than me",
+        "village_elder_quest_deliver_grain_delivered_reward_refused",
+        [
+            (call_script, "script_party_change_player_relation", "$g_encountered_party", 3),
+        ]],
+    [anyone|plyr, "village_elder_quest_deliver_grain_delivered_player",
+        [],
+        "You're welcome",
+        "village_elder_quest_deliver_grain_delivered_reward_accepted",
+        [
+            (quest_get_slot, ":reward", "qst_village_deliver_grain", slot_quest_reward),
+            (party_get_slot, ":linked_party", "$g_encountered_party", slot_party_linked_party),
+            (call_script, "script_item_get_buy_price", "itm_grain", "$g_encountered_party", ":linked_party"),
+            (store_mul, ":bonus_reward", reg0, 10),
+            (val_add, ":reward", ":bonus_reward"),
+            (call_script, "script_party_receive_gold", "$g_player_party", ":reward"),
+        ]],
+
+
+    [anyone, "village_elder_quest_deliver_grain_delivered_reward_refused",
+        [
+            (call_script, "script_troop_get_player_name", "$g_talk_troop", "$g_encountered_party"),
+        ],
+        "You are most gracious {s60}. Thank you again for your help.",
+        "village_elder_return",
+        [
+            (call_script, "script_complete_quest", "qst_village_deliver_grain"),
+        ]],
+    [anyone, "village_elder_quest_deliver_grain_delivered_reward_accepted",
+        [
+            (call_script, "script_troop_get_player_name", "$g_talk_troop", "$g_encountered_party"),
+        ],
+        "Thank you again for your help {s60}.",
+        "village_elder_return",
+        [
+            (call_script, "script_complete_quest", "qst_village_deliver_grain"),
+        ]],
 
 
     #################

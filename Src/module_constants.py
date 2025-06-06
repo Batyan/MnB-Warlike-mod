@@ -453,6 +453,9 @@ faction_tax_rate_vassal_base = 5
 quests_begin = "qst_introduction_default"
 quests_end = "qst_quests_end"
 
+village_quests_begin = "qst_village_deliver_grain"
+village_quests_end = quests_end
+
 quest_descriptions_begin = "str_quest_description_introduction_default"
 quest_descriptions_end = "qst_quest_description_end"
 
@@ -1315,8 +1318,9 @@ slot_party_production_target_end = slot_party_production_target_begin + recipes_
 slot_party_override_production_target = slot_party_production_target_end + 1
 
 slot_party_player_shakedown = slot_party_override_production_target + 1
+slot_party_player_relation = slot_party_player_shakedown + 1
 
-slot_party_governor = slot_party_player_shakedown + 1
+slot_party_governor = slot_party_player_relation + 1
 
 slot_party_player_wages_limit = slot_party_governor + 1
 

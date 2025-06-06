@@ -4,6 +4,7 @@ v0.630:
 		* player kills increase experience
 		* add character level up screen
 		* prevent player troop divisions from being assigned to 6-8 instead of 1-3
+		* add quest to deliver grain to struggling village
 	-Balances:
 		* add khergit_light_steppe_lancer to small_kingdom_33
 		* add khergit_heavy_steppe_lancer to small_kingdom_33

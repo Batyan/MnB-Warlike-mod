@@ -24626,6 +24626,58 @@ scripts = [
             (try_end),
         ]),
 
+    # script_party_transfer_goods
+        # input:
+        #   arg1: party_no
+        #   arg2: party_container
+        #   arg3: item
+        #   arg4: item_amount
+        # output: none
+    ("party_transfer_goods",
+        [
+            (store_script_param, ":party", 1),
+            (store_script_param, ":party_container", 2),
+            (store_script_param, ":item", 3),
+            (store_script_param, ":item_amount", 4),
+
+            (store_mul, ":amount_removed", ":item_amount", -1),
+
+            (call_script, "script_party_change_goods_amount", ":party", ":item", ":amount_removed"),
+            (call_script, "script_party_change_goods_amount", ":party_container", ":item", ":item_amount"),
+        ]),
+
+    # script_party_change_goods_amount
+        # input:
+        #   arg1: party_no
+        #   arg2: item
+        #   arg3: item_amount
+        # output: none
+    ("party_change_goods_amount",
+        [
+            (store_script_param, ":party", 1),
+            (store_script_param, ":item", 2),
+            (store_script_param, ":item_amount", 3),
+
+            (store_sub, ":offset", ":item", goods_begin),
+            (store_add, ":amount_slot", ":offset", slot_party_ressources_current_amount_begin),
+
+            (try_begin),
+                (eq, ":party", "$g_player_party"),
+                (try_begin),
+                    (gt, ":item_amount", 0),
+                    (troop_add_items, "$g_player_troop", ":item", ":item_amount"),
+                (else_try),
+                    (lt, ":item_amount", 0),
+                    (val_mul, ":item_amount", -1),
+                    (troop_remove_items, "$g_player_troop", ":item", ":item_amount"),
+                (try_end),
+            (else_try),
+                (party_get_slot, ":good_amount", ":party", ":amount_slot"),
+                (val_add, ":good_amount", ":item_amount"),
+                (party_set_slot, ":party", ":amount_slot", ":good_amount"),
+            (try_end),
+        ]),
+
     # script_party_sort_troops
         # input:
         #   arg1: party_no
@@ -30129,6 +30181,71 @@ scripts = [
             (troop_raise_proficiency_linear, ":troop_no", ":proficiency", ":value"),
         ]),
 
+    # script_cf_center_get_available_quest
+        # input:
+        #   arg1: center_no
+        # output:
+        #   reg0: quest_no
+        # fails if no quest available
+    ("cf_center_get_available_quest",
+        [
+            (store_script_param, ":center_no", 1),
+
+            (assign, ":quest", -1),
+
+            (store_sub, ":num_quests", village_quests_end, village_quests_begin),
+            (store_add, ":rand", "$g_daily_random", ":center_no"),
+            (val_mod, ":rand", ":num_quests"),
+            (assign, ":end", village_quests_end),
+            (assign, ":i", 0),
+            (assign, ":try_end", ":num_quests"),
+            (try_for_range, ":unused", 0, ":try_end"),
+                (try_for_range, ":cur_quest", village_quests_begin, ":end"),
+                    (neg|check_quest_active, ":cur_quest"),
+                    (try_begin),
+                        (eq, ":rand", ":i"),
+                        (assign, ":quest", ":cur_quest"),
+                        (assign, ":end", 0),
+                        (assign, ":try_end", 0),
+                    (else_try),
+                        (val_add, ":i", 1),
+                    (try_end),
+                (try_end),
+            (try_end),
+
+            (assign, reg0, ":quest"),
+            (ge, ":quest", 0),
+        ]),
+
+    # script_party_change_player_relation
+        # input:
+        #   arg1: party_no
+        #   arg2: change
+        # output:
+        #   reg0: new_relation
+    ("party_change_player_relation",
+        [
+            (store_script_param, ":party_no", 1),
+            (store_script_param, ":change", 2),
+
+            (party_get_slot, ":player_relation", ":party_no", slot_party_player_relation),
+            (val_add, ":player_relation", ":change"),
+            (val_clamp, ":player_relation", -100, 100+1),
+            (party_set_slot, ":party_no", slot_party_player_relation, ":player_relation"),
+
+            (assign, reg10, ":change"),
+            (assign, reg11, ":player_relation"),
+            (str_store_party_name_link, s10, ":party_no"),
+            (try_begin),
+                (gt, ":change", 0),
+                (display_message, "@Increase relation with {s10} by {reg10} -> {reg11}"),
+            (else_try),
+                (lt, ":change", 0),
+                (display_message, "@Decrease relation with {s10} by {reg10} -> {reg11}"),
+            (try_end),
+
+            (assign, reg0, ":player_relation"),
+        ]),
 
     # script_presentation_generate_select_lord_card
         # input:

@@ -856,9 +856,16 @@ strings = [
   ("quest_description_introduction_default_search_2", "Search the village of {s59} for information on {s58}'s brother."),
   ("quest_description_introduction_default_search_3", "Search the village of {s59} for information on {s58}'s brother."),
 
-
   ("quest_description_swear_vassalage_fief", "{s62} would like to receive your oath of allegience to him{reg60?, you would be granted {s11} in exchange:}."),
+  ("quest_description_persuade_lord_vassalage", "Persuade a lord to become your vassal."),
+  
   ("quest_description_visit_center_new_owner", "As the newly appointed owner of {s62} you should head to the center to make yourself known and arrange the details of your fiefdom."),
+
+  ("quest_description_village_deliver_grain", "The elder of the village of {s59} asked you to procure 10 items of grain."),
+  ("quest_description_village_deliver_rare_good", " "),
+  ("quest_description_village_negociate_trade_arrangement", " "),
+  ("quest_description_village_hunt_notorious_bandit", " "),
+  ("quest_description_village_persuade_mercenaries_leave", " "),
   ("quest_description_end", "{!}QUESTS END"),
 
   ("party_tax_description_taxes", "Taxes"),
