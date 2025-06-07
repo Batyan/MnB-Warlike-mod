@@ -681,6 +681,7 @@ dialogs = [
 
     [anyone, "lord_quest",
         [
+            (troop_slot_eq, "$g_player_troop", slot_troop_kingdom_occupation, tko_kingdom_hero),
             (troop_slot_eq, "$g_talk_troop", slot_troop_kingdom_occupation, tko_kingdom_hero),
             (store_troop_faction, ":troop_faction", "$g_talk_troop"),
             (call_script, "script_cf_faction_needs_mercenaries", ":troop_faction"),
