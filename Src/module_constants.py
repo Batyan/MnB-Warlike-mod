@@ -477,8 +477,8 @@ goods_ratio_transformation_town = 10
 renown_value_village = 300
 renown_value_castle = 750
 renown_value_town = 1500
-renown_value_caravan = 30
-renown_value_patrol = 50
+renown_value_caravan = 40
+renown_value_patrol = 60
 
 event_type_proposed_vassalage = 1
 event_type_proposed_fief = 2
@@ -1435,6 +1435,10 @@ slot_party_related_quest = slot_party_free_recruits + 1
 
 slot_party_face_key_storage = slot_party_related_quest + 1
 slot_party_face_options_storage = slot_party_face_key_storage + 1
+
+slot_party_mission_kills = slot_party_face_options_storage + 1
+slot_party_mission_deaths = slot_party_mission_kills + 1
+slot_party_mission_xp = slot_party_mission_deaths + 1
 
 #################
 ## Scene Slots ##

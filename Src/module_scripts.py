@@ -949,7 +949,7 @@ scripts = [
             (else_try),
                 (call_script, "script_party_group_defeated", ":defeated_party", ":winner_party"),
             (try_end),
-            (call_script, "script_party_group_process_renown", ":winner_party", ":defeated_party", ":allied_party"),
+            (call_script, "script_party_group_process_rewards", ":winner_party", ":defeated_party", ":allied_party"),
             (call_script, "script_party_group_loot_party_group", ":winner_party", ":defeated_party", ":allied_party"),
             (call_script, "script_party_group_take_party_group_prisoner", ":winner_party", ":defeated_party", ":allied_party"),
 
@@ -4341,11 +4341,11 @@ scripts = [
             (store_script_param, ":allied_party", 3),
 
             (call_script, "script_party_group_get_renown_value", ":winner_party"),
-            (assign, ":winner_value", reg0),
+            (store_div, ":winner_value", reg0, 5),
             (call_script, "script_party_group_get_renown_value", ":defeated_party"),
             (assign, ":defeated_value", reg0),
             (call_script, "script_party_group_get_renown_value", ":allied_party"),
-            (assign, ":allied_value", reg0),
+            (store_div, ":allied_value", reg0, 5),
 
             (store_add, ":total_value", ":winner_value", ":defeated_value"),
             (val_add, ":total_value", ":allied_value"),
@@ -4353,26 +4353,16 @@ scripts = [
             (set_fixed_point_multiplier, 1),
             (store_sqrt, ":renown_gain", ":total_value"),
 
-            (store_mul, ":winner_ratio", ":winner_value", 100),
-            (val_div, ":winner_ratio", ":total_value"),
-            (store_mul, ":defeated_ratio", ":defeated_value", 100),
-            (val_div, ":defeated_ratio", ":total_value"),
-            (store_mul, ":allied_ratio", ":allied_value", 100),
-            (val_div, ":allied_ratio", ":total_value"),
+            (assign, ":winner_ratio", 100),
+            (assign, ":allied_ratio", 100),
+            (assign, ":defeated_ratio", 20),
 
-            (store_sub, ":winner_gains", 100, ":winner_ratio"),
-            (store_sub, ":defeated_gains", 100, ":defeated_ratio"),
-            (store_sub, ":allied_gains", 100, ":allied_ratio"),
-
-            (store_mul, ":winner_share", ":winner_gains", ":renown_gain"),
+            (store_mul, ":winner_share", ":winner_ratio", ":renown_gain"),
             (val_div, ":winner_share", 100),
-            (store_mul, ":defeated_share", ":defeated_gains", ":renown_gain"),
+            (store_mul, ":defeated_share", ":defeated_ratio", ":renown_gain"),
             (val_div, ":defeated_share", 100),
-            (store_mul, ":allied_share", ":allied_gains", ":renown_gain"),
+            (store_mul, ":allied_share", ":allied_ratio", ":renown_gain"),
             (val_div, ":allied_share", 100),
-
-            # Defeated party receives less renown
-            (val_div, ":defeated_share", 4),
 
             (call_script, "script_party_group_share_renown", ":winner_party", ":winner_share"),
             (call_script, "script_party_group_share_renown", ":defeated_party", ":defeated_share"),
@@ -4442,10 +4432,10 @@ scripts = [
                         (troop_get_slot, ":leader_renown", ":leader", slot_troop_renown),
                         (val_div, ":leader_renown", 2),
                         (val_add, ":total_value", ":leader_renown"),
-                        (val_add, ":total_value", 50),
+                        (val_add, ":total_value", renown_value_patrol),
                     (try_end),
                 (else_try),
-                    (val_add, ":total_value", 20),
+                    (val_add, ":total_value", 30),
                 (try_end),
                 (assign, reg0, ":total_value"),
             (else_try),
@@ -4454,6 +4444,10 @@ scripts = [
         ]),
 
     # script_party_group_share_renown
+        # input:
+        #   arg1: party_group_no
+        #   arg2: renown_amount
+        # output: none
     ("party_group_share_renown",
         [
             (store_script_param, ":party_group_no", 1),
@@ -4509,6 +4503,110 @@ scripts = [
                     (call_script, "script_troop_change_renown", ":leader", ":renown"),
                 (try_end),
             (try_end),
+        ]),
+
+    # script_party_group_process_rewards
+        # input:
+        #   arg1: winner_party
+        #   arg1: defeated_party
+        #   arg1: allied_party
+        # output: none
+    ("party_group_process_rewards",
+        [
+            (store_script_param, ":winner_party", 1),
+            (store_script_param, ":defeated_party", 2),
+            (store_script_param, ":allied_party", 3),
+
+            (assign, ":total_xp", 0),
+
+            (call_script, "script_party_group_get_total_xp", ":winner_party"),
+            (assign, ":winner_xp", reg0),
+            (val_add, ":total_xp", ":winner_xp"),
+            (call_script, "script_party_group_get_total_xp", ":defeated_party"),
+            (assign, ":defeated_xp", reg0),
+            (val_add, ":total_xp", ":defeated_xp"),
+            (try_begin),
+                (ge, ":allied_party", 0),
+                (call_script, "script_party_group_get_total_xp", ":allied_party"),
+                (assign, ":allied_xp", reg0),
+                (val_add, ":total_xp", ":allied_xp"),
+            (try_end),
+            
+            (call_script, "script_party_group_process_renown", ":winner_party", ":defeated_party", ":allied_party"),
+
+            (try_begin),
+                (eq, ":total_xp", 0),
+            (else_try),
+                (call_script, "script_party_group_process_xp", ":winner_party"),
+                (call_script, "script_party_group_process_xp", ":defeated_party"),
+                (try_begin),
+                    (ge, ":allied_party", 0),
+                    (call_script, "script_party_group_process_xp", ":allied_party"),
+                (try_end),
+            (try_end),
+        ]),
+
+    # script_party_group_process_xp
+        # input:
+        #   arg1: party_no
+        # output: none
+    ("party_group_process_xp",
+        [
+            (store_script_param, ":party", 1),
+
+            (party_get_slot, ":xp", ":party", slot_party_mission_xp),
+
+            (call_script, "script_party_share_xp", ":party", ":xp"),
+
+            (party_get_num_attached_parties, ":num_attached", ":party"),
+            (try_for_range, ":rank", 0, ":num_attached"),
+                (party_get_attached_party_with_rank, ":attached", ":party", ":rank"),
+                (call_script, "script_party_group_process_xp", ":attached"),
+            (try_end),
+        ]),
+
+    # script_party_share_xp
+        # input:
+        #   arg1: party_no
+        #   arg2: xp_amount
+        # output: none
+    ("party_share_xp",
+        [
+            (store_script_param, ":party_no", 1),
+            (store_script_param, ":xp", 2),
+
+            (party_get_num_companion_stacks, ":num_stacks", ":party_no"),
+            (try_for_range, ":cur_stack", 0, ":num_stacks"),
+                (party_stack_get_troop_id, ":troop_id", ":party_no", ":cur_stack"),
+                (troop_is_hero, ":troop_id"),
+                (call_script, "script_troop_get_shared_experience_ratio", ":troop_id"),
+                (assign, ":ratio", reg0),
+
+                (store_mul, ":xp_gained", ":xp", ":ratio"),
+                (val_div, ":xp_gained", 1000),
+                (call_script, "script_troop_add_xp", ":troop_id", ":xp_gained"),
+            (try_end),
+            (party_set_slot, ":party_no", slot_party_mission_xp, 0),
+        ]),
+
+    # script_party_group_get_total_xp
+        # input:
+        #   arg1: party_no
+        # output:
+        #   reg0: total_xp
+    ("party_group_get_total_xp",
+        [
+            (store_script_param, ":party_no", 1),
+
+            (party_get_slot, ":xp", ":party_no", slot_party_mission_xp),
+
+            (party_get_num_attached_parties, ":num_attached", ":party_no"),
+            (try_for_range, ":rank", 0, ":num_attached"),
+                (party_get_attached_party_with_rank, ":attached", ":party_no", ":rank"),
+                (call_script, "script_party_group_get_total_xp", ":attached"),
+                (val_add, ":xp", reg0),
+            (try_end),
+            (assign, reg0, ":xp"),
         ]),
 
     # script_cf_party_has_prisoners
@@ -29965,6 +30063,11 @@ scripts = [
             (troop_get_slot, ":current_level", ":troop_no", slot_troop_xp_level),
 
             (val_add, ":current_xp", ":xp"),
+            (try_begin),
+                (eq, ":troop_no", "$g_player_troop"),
+                (assign, reg10, ":xp"),
+                (display_message, "@Gained {reg10} experience"),
+            (try_end),
             (call_script, "script_get_level_xp_threshold", ":current_level"),
             (assign, ":threshold", reg0),
             (try_begin),
@@ -30245,6 +30348,40 @@ scripts = [
             (try_end),
 
             (assign, reg0, ":player_relation"),
+        ]),
+
+    # script_party_pre_battle_init
+        # input: none
+        # output: none
+    ("party_pre_battle_init",
+        [
+            (store_script_param, ":party_no", 1),
+
+            (party_set_slot, ":party_no", slot_party_mission_kills, 0),
+            (party_set_slot, ":party_no", slot_party_mission_deaths, 0),
+            (party_set_slot, ":party_no", slot_party_mission_xp, 0),
+
+            (party_get_num_attached_parties, ":num_attached", ":party_no"),
+            (try_for_range, ":attached_rank", 0, ":num_attached"),
+                (party_get_attached_party_with_rank, ":attached_party", ":party_no", ":attached_rank"),
+                (call_script, "script_party_pre_battle_init", ":attached_party"),
+            (try_end),
+        ]),
+
+    # script_troop_get_shared_experience_ratio
+        # input:
+        #   arg1: troop_no
+        # output:
+        #   reg0: experience_ratio 1/1000
+    ("troop_get_shared_experience_ratio",
+        [
+            (store_script_param, ":troop_no", 1),
+
+            (assign, ":base_ratio", 20),
+            (store_attribute_level, ":charisma", ":troop_no", ca_charisma),
+            (val_add, ":base_ratio", ":charisma"),
+
+            (assign, reg0, ":base_ratio"),
         ]),
 
     # script_presentation_generate_select_lord_card

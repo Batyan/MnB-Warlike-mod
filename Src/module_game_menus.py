@@ -2219,6 +2219,10 @@ game_menus = [
                     (assign, "$g_ally", -1),
                     (assign, "$g_player_team", 1),
                     (assign, "$g_clear_battles", 0),
+
+                    (call_script, "script_party_pre_battle_init", "$g_encountered_party"),
+                    (call_script, "script_party_pre_battle_init", "$g_player_party"),
+
                     (try_for_parties, ":party_no"),
                         (call_script, "script_cf_party_join_battle", ":party_no", "$g_encountered_party", "$g_player_party"),
                         (assign, ":continue", reg0),
@@ -2226,10 +2230,14 @@ game_menus = [
                             (eq, ":continue", 1),
                             # (str_store_party_name, s20, ":party_no"),
                             (party_quick_attach_to_current_battle, ":party_no", 1),
+
+                            (call_script, "script_party_pre_battle_init", ":party_no"),
                         (else_try),
                             (eq, ":continue", 2),
                             # (str_store_party_name, s20, ":party_no"),
                             (party_quick_attach_to_current_battle, ":party_no", 0),
+
+                            (call_script, "script_party_pre_battle_init", ":party_no"),
                         (try_end),
                     (try_end),
                     (jump_to_menu, "mnu_encounter_battle_siege"),
@@ -2312,6 +2320,10 @@ game_menus = [
                     (assign, "$g_player_team", 0),
                     (assign, "$g_clear_battles", 1),
 
+                    (call_script, "script_party_pre_battle_init", "$g_encountered_party"),
+                    (call_script, "script_party_pre_battle_init", "$g_encountered_party_2"),
+                    (call_script, "script_party_pre_battle_init", "$g_player_party"),
+
                     (try_for_parties, ":party_no"),
                         (neq, ":party_no", "$g_player_party"),
                         (call_script, "script_cf_party_join_battle", ":party_no", "$g_encountered_party", "$g_encountered_party_2"),
@@ -2319,9 +2331,13 @@ game_menus = [
                         (try_begin),
                             (eq, ":continue", 1),
                             (party_quick_attach_to_current_battle, ":party_no", 0),
+
+                            (call_script, "script_party_pre_battle_init", ":party_no"),
                         (else_try),
                             (eq, ":continue", 2),
                             (party_quick_attach_to_current_battle, ":party_no", 1),
+
+                            (call_script, "script_party_pre_battle_init", ":party_no"),
                         (try_end),
                     (try_end),
 
@@ -2338,6 +2354,10 @@ game_menus = [
                     (assign, "$g_player_team", 1),
                     (assign, "$g_clear_battles", 1),
 
+                    (call_script, "script_party_pre_battle_init", "$g_encountered_party"),
+                    (call_script, "script_party_pre_battle_init", "$g_encountered_party_2"),
+                    (call_script, "script_party_pre_battle_init", "$g_player_party"),
+
                     (try_for_parties, ":party_no"),
                         (neq, ":party_no", "$g_player_party"),
                         (call_script, "script_cf_party_join_battle", ":party_no", "$g_encountered_party", "$g_encountered_party_2"),
@@ -2345,9 +2365,13 @@ game_menus = [
                         (try_begin),
                             (eq, ":continue", 1),
                             (party_quick_attach_to_current_battle, ":party_no", 1),
+
+                            (call_script, "script_party_pre_battle_init", ":party_no"),
                         (else_try),
                             (eq, ":continue", 2),
                             (party_quick_attach_to_current_battle, ":party_no", 0),
+
+                            (call_script, "script_party_pre_battle_init", ":party_no"),
                         (try_end),
                     (try_end),
 
@@ -2409,6 +2433,10 @@ game_menus = [
                     (assign, "$g_enemy", "$g_encountered_party"),
                     (assign, "$g_ally", -1),
                     (assign, "$g_clear_battles", 0),
+
+                    (call_script, "script_party_pre_battle_init", "$g_encountered_party"),
+                    (call_script, "script_party_pre_battle_init", "$g_player_party"),
+
                     (try_for_parties, ":party_no"),
                         (call_script, "script_cf_party_join_battle", ":party_no", "$g_encountered_party", "$g_player_party"),
                         (assign, ":continue", reg0),
@@ -2416,10 +2444,14 @@ game_menus = [
                             (eq, ":continue", 1),
                             # (str_store_party_name, s20, ":party_no"),
                             (party_quick_attach_to_current_battle, ":party_no", 1),
+
+                            (call_script, "script_party_pre_battle_init", ":party_no"),
                         (else_try),
                             (eq, ":continue", 2),
                             # (str_store_party_name, s20, ":party_no"),
                             (party_quick_attach_to_current_battle, ":party_no", 0),
+
+                            (call_script, "script_party_pre_battle_init", ":party_no"),
                         (try_end),
                     (try_end),
                     (jump_to_menu, "mnu_encounter_battle"),
@@ -2509,6 +2541,10 @@ game_menus = [
                     (assign, "$g_player_team", 1),
                     (assign, "$g_clear_battles", 1),
                     (select_enemy, 0),
+
+                    (call_script, "script_party_pre_battle_init", "$g_encountered_party"),
+                    (call_script, "script_party_pre_battle_init", "$g_encountered_party_2"),
+                    (call_script, "script_party_pre_battle_init", "$g_player_party"),
                     
                     (try_for_parties, ":party_no"),
                         (call_script, "script_cf_party_join_battle", ":party_no", "$g_encountered_party", "$g_encountered_party_2"),
@@ -2517,10 +2553,16 @@ game_menus = [
                             (eq, ":continue", 1),
                             # (str_store_party_name, s20, ":party_no"),
                             (party_quick_attach_to_current_battle, ":party_no", 1),
+
+                            (call_script, "script_party_pre_battle_init", ":party_no"),
+                        (else_try),
                         (else_try),
                             (eq, ":continue", 2),
                             # (str_store_party_name, s20, ":party_no"),
                             (party_quick_attach_to_current_battle, ":party_no", 0),
+
+                            (call_script, "script_party_pre_battle_init", ":party_no"),
+                        (else_try),
                         (try_end),
                     (try_end),
                     
@@ -2543,6 +2585,10 @@ game_menus = [
                     (assign, "$g_player_team", 0),
                     (assign, "$g_clear_battles", 1),
                     (select_enemy, 1),
+
+                    (call_script, "script_party_pre_battle_init", "$g_encountered_party"),
+                    (call_script, "script_party_pre_battle_init", "$g_encountered_party_2"),
+                    (call_script, "script_party_pre_battle_init", "$g_player_party"),
                     
                     (try_for_parties, ":party_no"),
                         (call_script, "script_cf_party_join_battle", ":party_no", "$g_encountered_party", "$g_encountered_party_2"),
@@ -2551,10 +2597,16 @@ game_menus = [
                             (eq, ":continue", 1),
                             # (str_store_party_name, s20, ":party_no"),
                             (party_quick_attach_to_current_battle, ":party_no", 0),
+
+                            (call_script, "script_party_pre_battle_init", ":party_no"),
+                        (else_try),
                         (else_try),
                             (eq, ":continue", 2),
                             # (str_store_party_name, s20, ":party_no"),
                             (party_quick_attach_to_current_battle, ":party_no", 1),
+
+                            (call_script, "script_party_pre_battle_init", ":party_no"),
+                        (else_try),
                         (try_end),
                     (try_end),
                     

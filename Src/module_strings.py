@@ -1172,7 +1172,7 @@ strings = [
   ("attribute_strength_description", "Every point adds +1 to hit points. The following skills can not be developed beyond 1/3 of Strength: Ironflesh, Power Strike, Power Throw, Power Draw, Intimidation."),
   ("attribute_agility_description", "Each point gives you five weapon points and slightly increases foot movement speed on the battlefield. The following skills can not be developed beyond 1/3 of Agility: Weapon Master, Shield, Athletics, Riding, Horse Archery, Looting."),
   ("attribute_intelligence_description", "Every point to intelligence immediately gives one extra skill point. The following skills can not be developed beyond 1/3 of Intelligence: Trainer, tracking, Tactics, Path-finding, Spotting, Inventory Management, Wound Treatment, First Aid, Engineer."),
-  ("attribute_charisma_description", "Each point increases your party morale by +1. The following skills can not be developed beyond 1/3 of Charisma: Persuasion, Prisoner Management, Leadership, Trade"),
+  ("attribute_charisma_description", "Each point increases your party morale by +1 and increases the amount of shared experience gained after combat by 5%. The following skills can not be developed beyond 1/3 of Charisma: Persuasion, Prisoner Management, Leadership, Trade"),
 
   ("skill_trade_description","Every level of this skill reduces your trade penalty. (Party skill)"),
   ("skill_leadership_description","Every point reduces troop wages by 2% and increase troops morale by 10%. (Leader skill)"),
