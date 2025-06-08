@@ -34,6 +34,30 @@ jobs:
     - name: Run bat file
       working-directory: ./Src
       run: ./build_module.bat
+      
+    - name: Create Resources directory
+      working-directory: ./Output
+      run: mkdir Resource
+      
+    - name: Create Textures directory
+      working-directory: ./Output
+      run: mkdir Textures
+      
+    - name: Create SceneObj directory
+      working-directory: ./Output
+      run: mkdir SceneObj
+      
+    - name: Copy module.ini
+      run: Copy-Item ./Res/module.ini -Destination ./Output
+      
+    - name: Extract resources
+      run: Expand-Archive -Path ./Res/Resource.zip -DestinationPath ./Output/Resource
+      
+    - name: Extract textures
+      run: Expand-Archive -Path ./Res/Textures.zip -DestinationPath ./Output/Textures
+      
+    - name: Extract sceneobj
+      run: Expand-Archive -Path ./Res/scenes.zip -DestinationPath ./Output/SceneObj
 
     - name: Create archive
       run: Compress-Archive -Path ./Output -DestinationPath ./Output.zip
