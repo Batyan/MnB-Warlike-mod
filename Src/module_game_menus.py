@@ -786,7 +786,7 @@ game_menus = [
         ]),
 
     ("start_game_intro_end", mnf_disable_all_keys,
-        "In the next screen you will be able to create your own character, keep in mind that due to a technical limitation, you will be unable to spend skill points.",
+        "In the next screen you will be able to create your own character and assign attributes and skill points.",
         "none",
         [],
         [
