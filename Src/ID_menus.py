@@ -54,3 +54,4 @@ menu_player_prisoner_escape_sneak = 52
 menu_player_prisoner_escape_force = 53
 menu_player_receive_center = 54
 menu_mercenary_contract_end = 55
+menu_report_personal = 56

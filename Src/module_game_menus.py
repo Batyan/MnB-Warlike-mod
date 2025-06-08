@@ -225,8 +225,7 @@ game_menus = [
             ## General reports - displays a large amount of general informations
             # Global report shows party speed, current party size, max party size, prisoners, max prisoners, current morale, party wages
             ("report_global", [(disable_menu_option),], "Global report", []),
-            # Personal report shows player traits, player stat boosts, current gold, current renown, current honor rating
-            ("report_personal", [(disable_menu_option),], "Personal report", []),
+            ("report_personal", [], "Personal report", [(jump_to_menu, "mnu_report_personal"),]),
 
             ## Detailed reports - displays specific informations about a particular topic
             # Displays morale report
@@ -3207,6 +3206,36 @@ game_menus = [
                     (troop_set_slot, "$g_player_troop", slot_troop_mercenary_contract_wages_ratio, 0),
 
                     (change_screen_return),
+                ]),
+        ]),
+
+    ("report_personal", mnf_scale_picture,
+        "{s0}",
+        "none",
+        [
+            (troop_get_slot, ":renown", "$g_player_troop", slot_troop_renown),
+            (troop_get_slot, ":honor", "$g_player_troop", slot_troop_honor),
+            (troop_get_slot, ":culture", "$g_player_troop", slot_troop_culture),
+            (troop_get_slot, ":clan", "$g_player_troop", slot_troop_clan),
+
+            (str_store_troop_name, s10, "$g_player_troop"),
+
+            (try_begin),
+                (is_between, ":clan", clans_begin, clans_end),
+                (str_store_faction_name, s13, ":clan"),
+                (str_store_string, s12, "@Belongs to clan {s13}"),
+            (else_try),
+                (str_store_string, s12, "@Belongs to no clan"),
+            (try_end),
+            (assign, reg10, ":honor"),
+            (assign, reg11, ":renown"),
+            (str_store_faction_name, s11, ":culture"),
+            (str_store_string, s0, "@{s10}^^{s11}e^{s12}^^Honor: {reg10}^Renown: {reg11}^"),
+        ],
+        [
+            ("go_back",[],"Return",
+                [
+                    (jump_to_menu, "mnu_reports"),
                 ]),
         ]),
  ]
