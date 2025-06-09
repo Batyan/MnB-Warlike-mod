@@ -30387,7 +30387,7 @@ scripts = [
         [
             (store_script_param, ":troop_no", 1),
 
-            (assign, ":base_ratio", 20),
+            (assign, ":base_ratio", 50),
             (store_attribute_level, ":charisma", ":troop_no", ca_charisma),
             (val_add, ":base_ratio", ":charisma"),
 
