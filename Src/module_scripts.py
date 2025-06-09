@@ -9935,51 +9935,61 @@ scripts = [
             (scene_set_slot, "scn_castle_plain_01_outside", slot_scene_num_attack_spawn, 2),
             (scene_set_slot, "scn_castle_plain_01_outside", slot_scene_num_archer_points, 8),
             (scene_set_slot, "scn_castle_plain_01_outside", slot_scene_enabled, 1),
+            (scene_set_slot, "scn_castle_plain_01_outside", slot_scene_type, scene_terrain_plain|scene_construction_brick_square),
             
             (scene_set_slot, "scn_castle_plain_02_outside", slot_scene_num_defend_points, 2),
             (scene_set_slot, "scn_castle_plain_02_outside", slot_scene_num_attack_spawn, 2),
             (scene_set_slot, "scn_castle_plain_02_outside", slot_scene_num_archer_points, 9),
             (scene_set_slot, "scn_castle_plain_02_outside", slot_scene_enabled, 1),
+            (scene_set_slot, "scn_castle_plain_02_outside", slot_scene_type, scene_terrain_plain|scene_construction_brick_small),
             
             (scene_set_slot, "scn_castle_plain_03_outside", slot_scene_num_defend_points, 2),
             (scene_set_slot, "scn_castle_plain_03_outside", slot_scene_num_attack_spawn, 2),
             (scene_set_slot, "scn_castle_plain_03_outside", slot_scene_num_archer_points, 10),
             (scene_set_slot, "scn_castle_plain_03_outside", slot_scene_enabled, 1),
+            (scene_set_slot, "scn_castle_plain_03_outside", slot_scene_type, scene_terrain_plain|scene_construction_brick_small),
             
             (scene_set_slot, "scn_castle_plain_wood_01_outside", slot_scene_num_defend_points, 2),
             (scene_set_slot, "scn_castle_plain_wood_01_outside", slot_scene_num_attack_spawn, 2),
             (scene_set_slot, "scn_castle_plain_wood_01_outside", slot_scene_num_archer_points, 12),
             (scene_set_slot, "scn_castle_plain_wood_01_outside", slot_scene_enabled, 1),
+            (scene_set_slot, "scn_castle_plain_wood_01_outside", slot_scene_type, scene_terrain_plain|scene_construction_wood_fort),
             
             (scene_set_slot, "scn_castle_plain_dark_01_outside", slot_scene_num_defend_points, 2),
             (scene_set_slot, "scn_castle_plain_dark_01_outside", slot_scene_num_attack_spawn, 2),
             (scene_set_slot, "scn_castle_plain_dark_01_outside", slot_scene_num_archer_points, 8),
             (scene_set_slot, "scn_castle_plain_dark_01_outside", slot_scene_enabled, 1),
+            (scene_set_slot, "scn_castle_plain_dark_01_outside", slot_scene_type, scene_terrain_plain|scene_construction_brick_dark),
             
             (scene_set_slot, "scn_castle_sea_01_outside", slot_scene_num_defend_points, 2),
             (scene_set_slot, "scn_castle_sea_01_outside", slot_scene_num_attack_spawn, 1),
             (scene_set_slot, "scn_castle_sea_01_outside", slot_scene_num_archer_points, 9),
             (scene_set_slot, "scn_castle_sea_01_outside", slot_scene_enabled, 1),
+            (scene_set_slot, "scn_castle_sea_01_outside", slot_scene_type, scene_terrain_plain|scene_construction_wood_fort),
             
             (scene_set_slot, "scn_castle_steppe_01_outside", slot_scene_num_defend_points, 2),
             (scene_set_slot, "scn_castle_steppe_01_outside", slot_scene_num_attack_spawn, 2),
             (scene_set_slot, "scn_castle_steppe_01_outside", slot_scene_num_archer_points, 9),
             (scene_set_slot, "scn_castle_steppe_01_outside", slot_scene_enabled, 1),
+            (scene_set_slot, "scn_castle_steppe_01_outside", slot_scene_type, scene_terrain_steppe|scene_construction_brick_steppe),
             
             (scene_set_slot, "scn_castle_snow_01_outside", slot_scene_num_defend_points, 2),
             (scene_set_slot, "scn_castle_snow_01_outside", slot_scene_num_attack_spawn, 2),
             (scene_set_slot, "scn_castle_snow_01_outside", slot_scene_num_archer_points, 7),
             (scene_set_slot, "scn_castle_snow_01_outside", slot_scene_enabled, 1),
+            (scene_set_slot, "scn_castle_snow_01_outside", slot_scene_type, scene_terrain_snow|scene_construction_brick_snow),
             
             (scene_set_slot, "scn_castle_snow_wood_01_outside", slot_scene_num_defend_points, 2),
             (scene_set_slot, "scn_castle_snow_wood_01_outside", slot_scene_num_attack_spawn, 2),
             (scene_set_slot, "scn_castle_snow_wood_01_outside", slot_scene_num_archer_points, 9),
             (scene_set_slot, "scn_castle_snow_wood_01_outside", slot_scene_enabled, 1),
+            (scene_set_slot, "scn_castle_snow_wood_01_outside", slot_scene_type, scene_terrain_snow|scene_construction_wood_pallisade),
             
             (scene_set_slot, "scn_castle_desert_01_outside", slot_scene_num_defend_points, 2),
             (scene_set_slot, "scn_castle_desert_01_outside", slot_scene_num_attack_spawn, 2),
             (scene_set_slot, "scn_castle_desert_01_outside", slot_scene_num_archer_points, 9),
             (scene_set_slot, "scn_castle_desert_01_outside", slot_scene_enabled, 1),
+            (scene_set_slot, "scn_castle_desert_01_outside", slot_scene_type, scene_terrain_desert|scene_construction_brick_desert),
         ]),
     
     # script_set_team_defend_points

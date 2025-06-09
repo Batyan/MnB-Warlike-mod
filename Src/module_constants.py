@@ -1452,13 +1452,26 @@ scene_slots = 0
 
 slot_scene_num_defend_points = 1
 
-slot_scene_num_attack_spawn = 2
+slot_scene_num_attack_spawn = slot_scene_num_defend_points + 1
 
-slot_scene_num_archer_points = 3
+slot_scene_num_archer_points = slot_scene_num_attack_spawn + 1
 
-slot_scene_enabled = 4
+slot_scene_enabled = slot_scene_num_archer_points + 1
 
+slot_scene_type = slot_scene_enabled + 1
 
+scene_terrain_plain = 0x001
+scene_terrain_steppe = 0x002
+scene_terrain_desert = 0x004
+scene_terrain_snow = 0x008
+scene_construction_brick_square = 0x010
+scene_construction_brick_small = 0x020
+scene_construction_brick_dark = 0x040
+scene_construction_brick_steppe = 0x80
+scene_construction_brick_snow = 0x100
+scene_construction_wood_fort = 0x200
+scene_construction_wood_pallisade = 0x400
+scene_construction_brick_desert = 0x800
 
 #################
 ## Troop Slots ##
