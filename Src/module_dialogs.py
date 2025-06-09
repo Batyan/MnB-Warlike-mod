@@ -1923,7 +1923,7 @@ dialogs = [
         ]],
 
     [anyone, "intro_quest_part_3_detail",
-        [], "Thank you for your help... In the meantime I will investigate some leads in the city.^Look for me in the market district when you find something.",
+        [], "Thank you for your help... In the meantime I will investigate some leads in the city.^Look for me in the tavern when you find something.",
         "close_window",
         []],
 
