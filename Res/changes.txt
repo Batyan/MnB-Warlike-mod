@@ -25,6 +25,7 @@ v0.630:
 		* fix being able to become a mercenary for a faction when already with a contract
 		* fix intro quest stating that quest giver would be found in the market instead of the tavern
 		* fix lower amount of troops during battle for the side the player helps
+		* fix incorrect message when fief granted by vassal
 	-Other:
 		* bumped required version to 1.166+ to use method game_character_screen_requested introduced in version 1.166
 v0.620:

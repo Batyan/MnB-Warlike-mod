@@ -848,7 +848,7 @@ strings = [
 
   ("player_receive_center", "A messenger brings a message for you.^^{s10} wishes to offer you {s11} as a fief under the condition that you become his vassal^^^^Do you accept ?"),
   ("player_receive_center_vassal", "A messenger brings a message for you.^^Your lord {s10} wishes to offer you {s11} as a fief^Refusing would likely reduce your chances of being awarded another for some time.^^^Do you accept ?"),
-  ("player_receive_center_vassal", "A messenger brings a message for you.^^Your vassal {s10} wishes to offer you {s11} as a fief.^^^Do you accept ?"),
+  ("player_receive_center_vassal_player", "A messenger brings a message for you.^^Your vassal {s10} wishes to offer you {s11} as a fief.^^^Do you accept ?"),
 
   ("quest_description_introduction_default", "After your hard journey to Calradia, take a moment to rest in the town of {s59}."),
   ("quest_description_introduction_default_search", "{s58} had few informations on the whereabouts of his brother {s57}.^^He proposed that you look for answer in the nearby villages."),

@@ -3124,7 +3124,7 @@ game_menus = [
                 (str_store_string, s12, "str_player_receive_center_vassal"),
             (else_try),
                 (troop_slot_eq, reg20, slot_troop_vassal_of, "$g_player_troop"),
-                (str_store_string, s12, "str_player_receive_center_vassal"),
+                (str_store_string, s12, "str_player_receive_center_vassal_player"),
             (else_try),
                 (str_store_string, s12, "str_player_receive_center"),
             (try_end),
