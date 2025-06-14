@@ -12374,14 +12374,16 @@ scripts = [
         ]),
     
     # script_party_modify_wealth
-    # input:
-    #   arg1: party_no
-    #   arg2: value
-    # output: none
+        # input:
+        #   arg1: party_no
+        #   arg2: value
+        # output: none
     ("party_modify_wealth",
         [
             (store_script_param, ":party_no", 1),
             (store_script_param, ":value", 2),
+
+            (store_mul, ":value_abs", ":value"),
 
             (try_begin),
                 (eq, ":party_no", "$g_player_party"),
@@ -12394,6 +12396,30 @@ scripts = [
                     (troop_remove_gold, "$g_player_troop", ":value"),
                 (try_end),
             (else_try),
+                (try_begin),
+                    (party_get_slot, ":leader", ":party_no", slot_party_leader),
+                    (gt, ":leader", 0),
+
+                    (troop_get_slot, ":leader_party", ":leader", slot_troop_leaded_party),
+                    (ge, ":leader_party", 0),
+                    (party_get_attached_to, ":attached_to", ":leader_party"),
+
+                    # Leader is either leading the party or is waiting inside
+                    (this_or_next|eq, ":leader_party", ":party_no"),
+                    (eq, ":attached_to", ":party_no"),
+
+                    (store_troop_gold, ":troop_gold", ":leader"),
+                    (lt, ":value", 0),
+                    (store_mul, ":value_abs", ":value", -1),
+                    (try_begin),
+                        (ge, ":troop_gold", ":value_abs"),
+                        (troop_remove_gold, ":leader", ":value_abs"),
+                        (assign, ":value", 0),
+                    (else_try),
+                        (troop_remove_gold, ":leader", ":troop_gold"),
+                        (val_add, ":value", ":troop_gold"),
+                    (try_end),
+                (try_end),
                 (party_get_slot, ":wealth", ":party_no", slot_party_wealth),
                 (val_add, ":wealth", ":value"),
                 (party_set_slot, ":party_no", slot_party_wealth, ":wealth"),
@@ -17404,114 +17430,132 @@ scripts = [
 
             # (faction_get_slot, ":safety", ":faction_no", slot_faction_safety),
 
-            (call_script, "script_faction_get_relation_with_faction", ":faction_no", ":target_faction"),
-            (assign, ":relation", reg0),
-
-            (call_script, "script_faction_get_treaties", ":faction_no", ":target_faction"),
-            (assign, ":treaties", reg0),
-
-            (store_and, ":truce", ":treaties", sfkt_truce),
-            (store_and, ":non_aggression", ":treaties", sfkt_non_agression),
-            (store_and, ":alliance", ":treaties", sfkt_alliance),
-            (store_and, ":defensive", ":treaties", sfkt_defensive_alliance),
-            (store_and, ":vassal", ":treaties", sfkt_vassal),
-            (store_and, ":overlord", ":treaties", sfkt_overlord),
-
-            (faction_get_slot, ":faction_leader", ":faction_no", slot_faction_leader),
-            (faction_get_slot, ":target_leader", ":target_faction", slot_faction_leader),
-
-            (faction_get_slot, ":vassal_type", ":faction_no", slot_faction_vassal_type),
-
-            (assign, ":proposed_treaty", sfkt_none),
+            (assign, ":total_cost", 5000),
+            (faction_get_slot, ":size_category", ":faction_no", slot_faction_size_category),
             (try_begin),
-                (this_or_next|gt, ":alliance", 0),
-                (this_or_next|gt, ":truce", 0),
-                (this_or_next|gt, ":vassal", 0),
-                (gt, ":overlord", 0),
+                (eq, ":size_category", sfs_small),
+                (assign, ":total_cost", 2500),
             (else_try),
-                (eq, ":defensive", sfkt_defensive_alliance),
-                (neq, ":alliance", sfkt_alliance),
-                (gt, ":relation", 50),
-                (assign, ":proposed_treaty", sfkt_alliance),
+                (eq, ":size_category", sfs_medium),
+                (assign, ":total_cost", 5000),
             (else_try),
-                (eq, ":non_aggression", sfkt_non_agression),
-                (neq, ":defensive", sfkt_defensive_alliance),
-                (neq, ":alliance", sfkt_alliance),
-                (gt, ":relation", 25),
-                (assign, ":proposed_treaty", sfkt_defensive_alliance),
-            (else_try),
-                (neq, ":non_aggression", sfkt_non_agression),
-                (neq, ":defensive", sfkt_defensive_alliance),
-                (neq, ":alliance", sfkt_alliance),
-                (gt, ":relation", 10),
-                (assign, ":proposed_treaty", sfkt_non_agression),
+                (eq, ":size_category", sfs_large),
+                (assign, ":total_cost", 10000),
             (try_end),
-
+            
             (assign, ":relation_change", 0),
-
+            (faction_get_slot, ":wealth", ":faction_no", slot_faction_wealth),
             (try_begin),
-                (neq, ":proposed_treaty", sfkt_none),
-                (eq, ":vassal_type", 0),
+                (gt, ":wealth", ":total_cost"),
 
-                (call_script, "script_faction_get_treaty_score", ":target_faction", ":proposed_treaty", ":faction_no"),
-                (assign, ":result", reg0),
+                (val_mul, ":total_cost", -1),
+
+                (call_script, "script_faction_get_relation_with_faction", ":faction_no", ":target_faction"),
+                (assign, ":relation", reg0),
+
+                (call_script, "script_faction_get_treaties", ":faction_no", ":target_faction"),
+                (assign, ":treaties", reg0),
+
+                (store_and, ":truce", ":treaties", sfkt_truce),
+                (store_and, ":non_aggression", ":treaties", sfkt_non_agression),
+                (store_and, ":alliance", ":treaties", sfkt_alliance),
+                (store_and, ":defensive", ":treaties", sfkt_defensive_alliance),
+                (store_and, ":vassal", ":treaties", sfkt_vassal),
+                (store_and, ":overlord", ":treaties", sfkt_overlord),
+
+                (faction_get_slot, ":faction_leader", ":faction_no", slot_faction_leader),
+                (faction_get_slot, ":target_leader", ":target_faction", slot_faction_leader),
+
+                (faction_get_slot, ":vassal_type", ":faction_no", slot_faction_vassal_type),
+
+                (assign, ":proposed_treaty", sfkt_none),
                 (try_begin),
-                    (gt, ":result", 0),
-                    (call_script, "script_faction_create_treaty", ":faction_no", ":target_faction", ":proposed_treaty"),
+                    (this_or_next|gt, ":alliance", 0),
+                    (this_or_next|gt, ":truce", 0),
+                    (this_or_next|gt, ":vassal", 0),
+                    (gt, ":overlord", 0),
                 (else_try),
-                    (call_script, "script_faction_relation_change_event", ":faction_no", ":target_faction", -relation_change_factor * 3),
-                    (assign, ":relation_change", reg0),
+                    (eq, ":defensive", sfkt_defensive_alliance),
+                    (neq, ":alliance", sfkt_alliance),
+                    (gt, ":relation", 50),
+                    (assign, ":proposed_treaty", sfkt_alliance),
+                (else_try),
+                    (eq, ":non_aggression", sfkt_non_agression),
+                    (neq, ":defensive", sfkt_defensive_alliance),
+                    (neq, ":alliance", sfkt_alliance),
+                    (gt, ":relation", 25),
+                    (assign, ":proposed_treaty", sfkt_defensive_alliance),
+                (else_try),
+                    (neq, ":non_aggression", sfkt_non_agression),
+                    (neq, ":defensive", sfkt_defensive_alliance),
+                    (neq, ":alliance", sfkt_alliance),
+                    (gt, ":relation", 10),
+                    (assign, ":proposed_treaty", sfkt_non_agression),
+                (try_end),
+
+                (try_begin),
+                    (neq, ":proposed_treaty", sfkt_none),
+                    (eq, ":vassal_type", 0),
+
+                    (call_script, "script_faction_get_treaty_score", ":target_faction", ":proposed_treaty", ":faction_no"),
+                    (assign, ":result", reg0),
+                    (try_begin),
+                        (gt, ":result", 0),
+                        (call_script, "script_faction_create_treaty", ":faction_no", ":target_faction", ":proposed_treaty"),
+                    (else_try),
+                        (call_script, "script_faction_relation_change_event", ":faction_no", ":target_faction", -relation_change_factor * 3),
+                        (assign, ":relation_change", reg0),
+
+                        (try_begin),
+                            (ge, ":faction_leader", 0),
+                            (ge, ":target_leader", 0),
+                            (call_script, "script_troop_change_relation_with_troop", ":faction_leader", ":target_leader", -10),
+                            (val_add, ":relation_change", -10),
+                        (try_end),
+                    (try_end),
+                (try_end),
+
+                (store_random_in_range, ":outcome", 0, 10),
+                (try_begin),
+                    (eq, ":outcome", 0),
+                    (call_script, "script_faction_relation_change_event", ":target_faction", ":faction_no", -relation_change_factor * 3),
+                    (val_add, ":relation_change", reg0),
 
                     (try_begin),
                         (ge, ":faction_leader", 0),
                         (ge, ":target_leader", 0),
-                        (call_script, "script_troop_change_relation_with_troop", ":faction_leader", ":target_leader", -10),
-                        (val_add, ":relation_change", -10),
+                        (call_script, "script_troop_change_relation_with_troop", ":faction_leader", ":target_leader", -6),
+                        (val_add, ":relation_change", -6),
                     (try_end),
-                (try_end),
-            (try_end),
 
-            (store_random_in_range, ":outcome", 0, 10),
-            (try_begin),
-                (eq, ":outcome", 0),
-                (call_script, "script_faction_relation_change_event", ":target_faction", ":faction_no", -relation_change_factor * 3),
-                (val_add, ":relation_change", reg0),
+                    # Fail
+                (else_try),
+                    (le, ":outcome", 5),
+                    # Success
+                    (call_script, "script_faction_relation_change_event", ":target_faction", ":faction_no", relation_change_factor * 2),
+                    (val_add, ":relation_change", reg0),
+
+                    (try_begin),
+                        (ge, ":faction_leader", 0),
+                        (ge, ":target_leader", 0),
+                        (call_script, "script_troop_change_relation_with_troop", ":faction_leader", ":target_leader", 6),
+                        (val_add, ":relation_change", 6),
+                    (try_end),
+                # (else_try),
+                    # Neutral
+                (try_end),
+
+                (call_script, "script_faction_add_accumulated_taxes", ":faction_no", ":total_cost", tax_type_expenses),
 
                 (try_begin),
-                    (ge, ":faction_leader", 0),
-                    (ge, ":target_leader", 0),
-                    (call_script, "script_troop_change_relation_with_troop", ":faction_leader", ":target_leader", -6),
-                    (val_add, ":relation_change", -6),
+                    (call_script, "script_cf_debug", debug_ai),
+                    (str_store_faction_name, s10, ":faction_no"),
+                    (str_store_faction_name, s11, ":target_faction"),
+                    (assign, reg10, ":relation_change"),
+                    (assign, reg11, ":relation"),
+                    (assign, reg12, ":proposed_treaty"),
+                    (display_message, "@{s10} improves relations with {s11} ({reg11} -> {reg10} : {reg12})"),
                 (try_end),
-
-                # Fail
-            (else_try),
-                (le, ":outcome", 5),
-                # Success
-                (call_script, "script_faction_relation_change_event", ":target_faction", ":faction_no", relation_change_factor * 2),
-                (val_add, ":relation_change", reg0),
-
-                (try_begin),
-                    (ge, ":faction_leader", 0),
-                    (ge, ":target_leader", 0),
-                    (call_script, "script_troop_change_relation_with_troop", ":faction_leader", ":target_leader", 6),
-                    (val_add, ":relation_change", 6),
-                (try_end),
-            # (else_try),
-                # Neutral
-            (try_end),
-
-            (assign, ":total_cost", -5000),
-            (call_script, "script_faction_add_accumulated_taxes", ":faction_no", ":total_cost", tax_type_expenses),
-
-            (try_begin),
-                (call_script, "script_cf_debug", debug_ai),
-                (str_store_faction_name, s10, ":faction_no"),
-                (str_store_faction_name, s11, ":target_faction"),
-                (assign, reg10, ":relation_change"),
-                (assign, reg11, ":relation"),
-                (assign, reg12, ":proposed_treaty"),
-                (display_message, "@{s10} improves relations with {s11} ({reg11} -> {reg10} : {reg12})"),
             (try_end),
 
             (assign, reg0, ":relation_change"),
@@ -24669,6 +24713,7 @@ scripts = [
             (try_end),
             (store_mul, ":payment", ":amount", -1),
             (try_begin),
+                (is_between, ":party_giver", centers_begin, centers_end),
                 (gt, ":giver_tax_type", tax_type_none),
                 (call_script, "script_party_add_accumulated_taxes", ":party_giver", ":payment", ":giver_tax_type"),
             (else_try),
