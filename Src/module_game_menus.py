@@ -1845,6 +1845,13 @@ game_menus = [
             ("tavern_intro_quest_report",
                 [
                     (check_quest_active, "qst_introduction_default_search"),
+
+                    (call_script, "script_get_starting_town"),
+                    (assign, ":starting_town", reg0),
+                    (eq, "$g_encountered_party", ":starting_town"),
+
+                    (quest_get_slot, ":giver_troop", "qst_introduction_default_search", slot_quest_giver_troop),
+
                     (quest_get_slot, ":giver_troop", "qst_introduction_default_search", slot_quest_giver_troop),
                     (str_store_troop_name, s10, ":giver_troop"),
                 ], "Meet with {s10}",
