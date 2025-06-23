@@ -55,3 +55,4 @@ menu_player_prisoner_escape_force = 53
 menu_player_receive_center = 54
 menu_mercenary_contract_end = 55
 menu_report_personal = 56
+menu_intro_quest_summon_letter = 57

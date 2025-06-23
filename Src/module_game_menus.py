@@ -3230,4 +3230,26 @@ game_menus = [
                     (jump_to_menu, "mnu_reports"),
                 ]),
         ]),
+
+    ("intro_quest_summon_letter", mnf_scale_picture,
+        "{s0}",
+        "none",
+        [
+            (set_background_mesh, "mesh_pic_messenger"),
+
+            (quest_get_slot, ":giver", "qst_introduction_waiting", slot_quest_giver_troop),
+            (quest_get_slot, ":destination", "qst_introduction_waiting", slot_quest_destination),
+
+            (str_store_troop_name, s10, ":giver"),
+            (str_store_party_name, s11, ":destination"),
+            (str_store_troop_name, s12, "trp_intro_quest_slaver"),
+
+            (str_store_string, s0, "@A messenger brings a letter: ^^You are informed by {s10} that he found the location and a plan for dealing with {s12}. He asks that you come meet him at the tavern of {s11} at your earlier convinience."),
+        ],
+        [
+            ("continue",[],"Continue",
+                [
+                    (change_screen_return),
+                ]),
+        ]),
  ]

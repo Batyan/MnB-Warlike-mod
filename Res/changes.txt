@@ -7,6 +7,7 @@ v0.630:
 		* add quest to deliver grain to struggling village
 		* share party's total experience gain to members based on charisma attribute
 		* add personal report menu
+		* add waiting for intro quest giver additional leads
 	-Balances:
 		* add khergit_light_steppe_lancer to small_kingdom_33
 		* add khergit_heavy_steppe_lancer to small_kingdom_33

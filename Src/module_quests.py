@@ -12,6 +12,8 @@ quests = [
         "{!}."),
     ("introduction_default_search_3", "Search the village of {s59}", 0,
         "{!}."),
+    ("introduction_waiting", "Wait for a message from {s62}", 0,
+        "{!}."),
 
     ("swear_vassalage_fief", "Swear Vassalage to {s62}", qf_random_quest,
         "{!}{s62} proposed that you pledge allegience to him, you would be granted {s11} in exchange."),

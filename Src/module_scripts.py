@@ -190,6 +190,8 @@ scripts = [
             (assign, "$g_presentation_preview_selected_culture", -1),
 
             (assign, "$g_player_last_proposed_vassalage", -10000),
+
+            (assign, "$g_intro_tutorial_trigger_date", 0),
             
             (set_show_messages, 1),
         ]),

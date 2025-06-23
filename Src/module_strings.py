@@ -855,6 +855,7 @@ strings = [
   ("quest_description_introduction_default_search_1", "Search the village of {s59} for information on {s58}'s brother."),
   ("quest_description_introduction_default_search_2", "Search the village of {s59} for information on {s58}'s brother."),
   ("quest_description_introduction_default_search_3", "Search the village of {s59} for information on {s58}'s brother."),
+  ("quest_description_introduction_waiting", "{s62} is looking for additional leads regarding his missing brother. You aggreed to assist him should he need your help."),
 
   ("quest_description_swear_vassalage_fief", "{s62} would like to receive your oath of allegience to him{reg60?, you would be granted {s11} in exchange:}."),
   ("quest_description_persuade_lord_vassalage", "Persuade a lord to become your vassal."),

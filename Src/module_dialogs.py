@@ -2568,7 +2568,15 @@ dialogs = [
     [anyone, "intro_quest_search_conclude_continue",
         [], "Wonderfull! It relieves me that you will be there to help me.", "intro_quest_search_conclude_reward",
         [
+            (quest_get_slot, ":destination", "qst_introduction_default_search", slot_quest_destination),
+            (quest_set_slot, "qst_introduction_waiting", slot_quest_destination, ":destination"),
+
             (call_script, "script_troop_change_relation_with_troop", "$g_talk_troop", "$g_player_troop", 1),
+            (call_script, "script_start_quest", "qst_introduction_waiting", "$g_talk_troop"),
+
+            (call_script, "script_get_current_day"),
+            (store_add, ":trigger", reg0, 24*12),
+            (assign, "$g_intro_tutorial_trigger_date", ":trigger"),
         ]],
     [anyone, "intro_quest_search_conclude_reward",
         [
@@ -2586,6 +2594,9 @@ dialogs = [
     [anyone, "intro_quest_search_conclude_end",
         [], "Of course, you have done so much already, I can probably do this by myself.", "intro_quest_search_conclude_end_reward",
         [
+            (call_script, "script_get_current_day"),
+            (store_add, ":trigger", reg0, 24*12),
+            (assign, "$g_intro_tutorial_trigger_date", ":trigger"),
         ]],
     [anyone, "intro_quest_search_conclude_end_reward",
         [
