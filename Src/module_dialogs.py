@@ -2185,7 +2185,17 @@ dialogs = [
     [anyone, "start",
         [
             (party_slot_eq, "$g_encountered_party", slot_party_related_quest, "qst_introduction_default_search_1"),
+            (check_quest_succeeded, "qst_introduction_default_search_1"),
+        ], "You again, what is it now?", "intro_quest_thugs_meet_again", []],
+    [anyone, "start",
+        [
+            (party_slot_eq, "$g_encountered_party", slot_party_related_quest, "qst_introduction_default_search_1"),
         ], "What's a little {boy/girl} doing out here. Are you lost?", "intro_quest_thugs", []],
+
+    [anyone|plyr, "intro_quest_thugs_meet_again",
+        [], "On second thought I can't let you live.", "intro_quest_thugs_fight", []],
+    [anyone|plyr, "intro_quest_thugs_meet_again",
+        [], "Nevermind.", "close_window", []],
 
     [anyone|plyr, "intro_quest_thugs",
         [
@@ -2202,7 +2212,16 @@ dialogs = [
     [anyone|plyr, "intro_quest_thugs",
         [], "Nevermind", "close_window", []],
 
-    [anyone, "intro_quest_thugs_threatening", [], "This rascal has gall! I'll humor you for now.", "intro_quest_thugs_questions_accept", []],
+    [anyone, "intro_quest_thugs_threatening",
+        [
+            (quest_get_slot, ":value", "qst_introduction_default_search_1", slot_quest_value),
+            (ge, ":value", 0),
+        ], "This rascal has gall! I'll humor you for now.", "intro_quest_thugs_questions_accept",
+        [
+            (quest_get_slot, ":value", "qst_introduction_default_search_1", slot_quest_value),
+            (val_add, ":value", -1),
+            (quest_set_slot, "qst_introduction_default_search_1", slot_quest_value, ":value"),
+        ]],
     [anyone, "intro_quest_thugs_threatening", [], "You little shit! I'll teach you to talk to me like that!", "close_window",
         [
             (party_set_slot, "$g_encountered_party", slot_party_speak_allowed, 0),
