@@ -1624,7 +1624,7 @@ dialogs = [
             (party_set_slot, "$g_talk_party", slot_party_player_shakedown, 1),
             (party_get_slot, ":linked_center", "$g_talk_party", slot_party_linked_party),
             (party_get_slot, ":prosperity", ":linked_center", slot_party_prosperity),
-            (store_skill_level, ":intimidation", "$g_player_troop", skl_intimidation),
+            (store_skill_level, ":intimidation", skl_intimidation, "$g_player_troop"),
             (val_mul, ":intimidation", 2),
             (val_add, ":prosperity", ":intimidation"),
 
@@ -2234,7 +2234,7 @@ dialogs = [
         [], "I'm not paying you a thing", "intro_quest_thugs_bribe_nothing", 
         [
             (assign, ":patience_change", -3),
-            (store_skill_level, ":persuasion", "$g_player_troop", skl_persuasion),
+            (store_skill_level, ":persuasion", skl_persuasion, "$g_player_troop"),
             (try_begin),
                 (ge, ":persuasion", 5),
                 (assign, ":patience_change", 0),
@@ -2258,7 +2258,7 @@ dialogs = [
             (troop_remove_gold, "$g_player_troop", 100),
 
             (assign, ":patience_change", -1),
-            (store_skill_level, ":persuasion", "$g_player_troop", skl_persuasion),
+            (store_skill_level, ":persuasion", skl_persuasion, "$g_player_troop"),
             (try_begin),
                 (ge, ":persuasion", 2),
                 (assign, ":patience_change", 0),
@@ -2288,7 +2288,7 @@ dialogs = [
         [
 
             (assign, ":patience_change", -3),
-            (store_skill_level, ":persuasion", "$g_player_troop", skl_intimidation),
+            (store_skill_level, ":persuasion", skl_intimidation, "$g_player_troop"),
             (try_begin),
                 (ge, ":persuasion", 5),
                 (assign, ":patience_change", 0),
@@ -2306,7 +2306,7 @@ dialogs = [
 
     [anyone, "intro_quest_thugs_bribe_nothing",
         [
-            (store_skill_level, ":persuasion", "$g_player_troop", skl_persuasion),
+            (store_skill_level, ":persuasion", skl_persuasion, "$g_player_troop"),
             (lt, ":persuasion", 2),
         ], "Well no paying means no saying.", "intro_quest_thugs", []],
     [anyone, "intro_quest_thugs_bribe_nothing", [], "What a tight arse, whatever.", "intro_quest_thugs_questions_accept", []],

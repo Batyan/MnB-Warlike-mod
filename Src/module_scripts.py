@@ -22917,7 +22917,7 @@ scripts = [
                     (this_or_next|gt, ":leader", 0),
                     (eq, ":bargaining_party", "$g_player_party"),
 
-                    (store_skill_level, ":skill", ":leader", skl_intimidation),
+                    (store_skill_level, ":skill", skl_intimidation, ":leader"),
                 (try_end),
 
                 (try_begin),
@@ -22925,7 +22925,7 @@ scripts = [
                     (this_or_next|gt, ":leader", 0),
                     (eq, ":bargaining_party", "$g_player_party"),
 
-                    (store_skill_level, ":other_skill", ":leader", skl_intimidation),
+                    (store_skill_level, ":other_skill", skl_intimidation, ":leader"),
                     (val_sub, ":skill", ":other_skill"),
                 (try_end),
 
@@ -27152,7 +27152,7 @@ scripts = [
         [
             (assign, ":horse", 0),
 
-            (store_skill_level, ":riding", "$g_player_troop", skl_riding),
+            (store_skill_level, ":riding", skl_riding, "$g_player_troop"),
 
             (try_begin),
                 (eq, "$g_start_game_intro_parents", player_starting_2_noble),
@@ -27567,7 +27567,7 @@ scripts = [
                     (ge, ":center_leader", 0),
                     (call_script, "script_troop_get_relation_with_troop", ":center_leader", ":troop_recruiter"),
                     (assign, ":relation", reg0),
-                    (store_skill_level, ":recruiter_persuasion", ":troop_recruiter", skl_persuasion),
+                    (store_skill_level, ":recruiter_persuasion", skl_persuasion, ":troop_recruiter"),
                     (val_mul, ":recruiter_persuasion", 2),
                     (val_add, ":relation", ":recruiter_persuasion"),
                     (store_div, ":bonus", ":relation", 30),
@@ -28565,7 +28565,7 @@ scripts = [
                 (try_end),
             (try_end),
 
-            (store_skill_level, ":persuasion_skill", "$g_player_troop", skl_persuasion),
+            (store_skill_level, ":persuasion_skill", skl_persuasion, "$g_player_troop"),
             (val_add, ":change", ":persuasion_skill"),
 
             (call_script, "script_quest_add_value", "qst_persuade_lord_vassalage", ":change"),
@@ -28584,7 +28584,7 @@ scripts = [
             (store_sub, ":change", 4, ":rank"),
             (val_mul, ":change", 10),
 
-            (store_skill_level, ":persuasion_skill", "$g_player_troop", skl_persuasion),
+            (store_skill_level, ":persuasion_skill", skl_persuasion, "$g_player_troop"),
             (val_mul, ":persuasion_skill", 2),
             (val_add, ":change", ":persuasion_skill"),
 
@@ -28625,7 +28625,7 @@ scripts = [
             (store_sub, ":change", 7, ":rank"),
             (val_mul, ":change", 5),
 
-            (store_skill_level, ":persuasion_skill", "$g_player_troop", skl_persuasion),
+            (store_skill_level, ":persuasion_skill", skl_persuasion, "$g_player_troop"),
             (val_add, ":change", ":persuasion_skill"),
 
             (call_script, "script_quest_add_value", "qst_persuade_lord_vassalage", ":change"),
@@ -28672,10 +28672,10 @@ scripts = [
                 (val_div, ":change", 3),
             (try_end),
 
-            (store_skill_level, ":persuasion_skill", "$g_player_troop", skl_persuasion),
+            (store_skill_level, ":persuasion_skill", skl_persuasion, "$g_player_troop"),
             (val_add, ":change", ":persuasion_skill"),
 
-            (store_skill_level, ":intimidation_skill", "$g_player_troop", skl_intimidation),
+            (store_skill_level, ":intimidation_skill", skl_intimidation, "$g_player_troop"),
             (val_add, ":change", ":intimidation_skill"),
 
             (call_script, "script_quest_add_value", "qst_persuade_lord_vassalage", ":change"),
@@ -28749,14 +28749,14 @@ scripts = [
 
             (assign, ":change", -5),
 
-            (store_skill_level, ":persuasion_skill", "$g_player_troop", skl_persuasion),
+            (store_skill_level, ":persuasion_skill", skl_persuasion, "$g_player_troop"),
             (val_add, ":change", ":persuasion_skill"),
 
-            (store_skill_level, ":trade_skill", "$g_player_troop", skl_trade),
+            (store_skill_level, ":trade_skill", skl_trade, "$g_player_troop"),
             (val_mul, ":trade_skill", 2),
             (val_add, ":change", ":trade_skill"),
 
-            (store_skill_level, ":looting_skill", "$g_player_troop", skl_looting),
+            (store_skill_level, ":looting_skill", skl_looting, "$g_player_troop"),
             (val_add, ":change", ":looting_skill"),
 
             (call_script, "script_quest_add_value", "qst_persuade_lord_vassalage", ":change"),
@@ -28796,10 +28796,10 @@ scripts = [
             (store_sub, ":change", ":target_renown", ":renown"),
             (val_div, ":change", 20),
 
-            (store_skill_level, ":persuasion_skill", "$g_player_troop", skl_persuasion),
+            (store_skill_level, ":persuasion_skill", skl_persuasion, "$g_player_troop"),
             (val_add, ":change", ":persuasion_skill"),
 
-            (store_skill_level, ":leadership_skill", "$g_player_troop", skl_leadership),
+            (store_skill_level, ":leadership_skill", skl_leadership, "$g_player_troop"),
             (val_add, ":change", ":leadership_skill"),
 
             (call_script, "script_quest_add_value", "qst_persuade_lord_vassalage", ":change"),
@@ -28850,7 +28850,7 @@ scripts = [
 
             (val_add, ":change", ":diff"),
 
-            (store_skill_level, ":persuasion_skill", "$g_player_troop", skl_persuasion),
+            (store_skill_level, ":persuasion_skill", skl_persuasion, "$g_player_troop"),
             (val_add, ":change", ":persuasion_skill"),
 
             (call_script, "script_quest_add_value", "qst_persuade_lord_vassalage", ":change"),
@@ -28896,7 +28896,7 @@ scripts = [
 
             (val_max, ":change", -50),
 
-            (store_skill_level, ":persuasion_skill", "$g_player_troop", skl_persuasion),
+            (store_skill_level, ":persuasion_skill", skl_persuasion, "$g_player_troop"),
             (val_add, ":change", ":persuasion_skill"),
 
             (call_script, "script_quest_add_value", "qst_persuade_lord_vassalage", ":change"),
@@ -28933,15 +28933,15 @@ scripts = [
 
             (quest_get_slot, ":target_troop", "qst_persuade_lord_vassalage", slot_quest_object),
 
-            (store_skill_level, ":persuasion_skill", ":target_troop", skl_persuasion),
+            (store_skill_level, ":persuasion_skill", skl_persuasion, ":target_troop"),
             (val_mul, ":persuasion_skill", 3),
             (val_add, ":change", ":persuasion_skill"),
 
-            (store_skill_level, ":leadership_skill", ":target_troop", skl_leadership),
+            (store_skill_level, ":leadership_skill", skl_leadership, ":target_troop"),
             (val_mul, ":leadership_skill", 2),
             (val_add, ":change", ":leadership_skill"),
 
-            (store_skill_level, ":intimidation_skill", ":target_troop", skl_intimidation),
+            (store_skill_level, ":intimidation_skill", skl_intimidation, ":target_troop"),
             (val_div, ":intimidation_skill", 2),
             (val_add, ":change", ":intimidation_skill"),
 
@@ -29008,7 +29008,7 @@ scripts = [
             (val_mul, ":diff", 2),
             (val_add, ":change", ":diff"),
 
-            (store_skill_level, ":skill", "$g_player_troop", skl_intimidation),
+            (store_skill_level, ":skill", skl_intimidation, "$g_player_troop"),
             (val_mul, ":skill", 3),
             (val_add, ":change", ":skill"),
 
@@ -29974,7 +29974,7 @@ scripts = [
         #   reg0: threat_value
     ("intro_quest_thugs_threaten",
         [
-            (store_skill_level, ":intimidation", "$g_player_troop", skl_intimidation),
+            (store_skill_level, ":intimidation", skl_intimidation, "$g_player_troop"),
             (party_get_num_companions, ":num_troops", "$g_player_party"),
             (val_div, ":num_troops", 10),
 
