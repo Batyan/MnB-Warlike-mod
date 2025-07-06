@@ -31,7 +31,7 @@ v0.630:
 		* fix a bug preventing lords from recruiting high tier troops
 		* fix a bug that would multiply faction wealth and lead to exponential lords party sizes
 		* fix introduction quest giver available in every tavern
-		* fix instances of skill checks not applying the proper skills from the character
+		* fix instances of skill checks not applying properly for the character
 			vassal recruitment persuasion
 			intro quest thugs dialogs
 			troop recruit availability
