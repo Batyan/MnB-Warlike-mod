@@ -55,7 +55,7 @@ game_menus = [
             ("continue", [], "Accept",  
                 [
                     (assign, "$g_test_player_troop", -1),
-                    (call_script, "script_troop_change_stat_with_template", "$g_player_troop", "trp_current_player"),
+                    # (call_script, "script_troop_change_stat_with_template", "$g_player_troop", "trp_current_player"),
 
                     (assign, "$g_start_game_intro_culture", -1),
                     (assign, "$g_start_game_intro_parents", -1),
@@ -85,25 +85,10 @@ game_menus = [
             (else_try),
                 (neg|is_between, "$g_test_player_faction", kingdoms_begin, kingdoms_end),
 
-                (try_begin),
-                    (eq, "$g_start_game_intro_location", player_starting_7_swadia),
-                    (str_store_party_name, s10, "p_town_11"),
-                (else_try),
-                    (eq, "$g_start_game_intro_location", player_starting_7_vaegir),
-                    (str_store_party_name, s10, "p_town_21"),
-                (else_try),
-                    (eq, "$g_start_game_intro_location", player_starting_7_khergit),
-                    (str_store_party_name, s10, "p_town_31"),
-                (else_try),
-                    (eq, "$g_start_game_intro_location", player_starting_7_nord),
-                    (str_store_party_name, s10, "p_town_41"),
-                (else_try),
-                    (eq, "$g_start_game_intro_location", player_starting_7_rhodok),
-                    (str_store_party_name, s10, "p_town_51"),
-                (else_try),
-                    (eq, "$g_start_game_intro_location", player_starting_7_sarranid),
-                    (str_store_party_name, s10, "p_town_61"),
-                (try_end),
+                (call_script, "script_get_starting_town"),
+                (assign, ":starting_town", reg0),
+                (str_store_party_name, s10, ":starting_town"),
+                
                 (str_store_string, s0, "@You are ready to embark on your adventure. The nearby town of {s10} could be a good place to find early work..."),
             (try_end),
         ],
@@ -225,8 +210,7 @@ game_menus = [
             ## General reports - displays a large amount of general informations
             # Global report shows party speed, current party size, max party size, prisoners, max prisoners, current morale, party wages
             ("report_global", [(disable_menu_option),], "Global report", []),
-            # Personal report shows player traits, player stat boosts, current gold, current renown, current honor rating
-            ("report_personal", [(disable_menu_option),], "Personal report", []),
+            ("report_personal", [], "Personal report", [(jump_to_menu, "mnu_report_personal"),]),
 
             ## Detailed reports - displays specific informations about a particular topic
             # Displays morale report
@@ -786,7 +770,7 @@ game_menus = [
         ]),
 
     ("start_game_intro_end", mnf_disable_all_keys,
-        "In the next screen you will be able to create your own character, keep in mind that due to a technical limitation, you will be unable to spend skill points.",
+        "In the next screen you will be able to create your own character and assign attributes and skill points.",
         "none",
         [],
         [
@@ -1706,11 +1690,11 @@ game_menus = [
                 ]),
             
             ("center_tavern", 
-                [(disable_menu_option),
+                [
                     (party_slot_eq, "$g_encountered_party", slot_party_type, spt_town),
                 ], "Go to the tavern",
                 [
-                    #ToDo: tavern
+                    (jump_to_menu, "mnu_town_tavern"),
                 ]),
             
             ("center_raise_levies", [(neg|party_slot_eq, "$g_encountered_party", slot_party_type, spt_castle),], "Train levies",
@@ -1828,6 +1812,49 @@ game_menus = [
                     (assign, "$g_trading", 1),
                     (call_script, "script_cf_party_has_merchant", "$g_encountered_party", merchant_type_horse),
                     (change_screen_trade, reg0),
+                ]),
+            
+            ("center_back", [], "Head back to the center",
+                [
+                    (jump_to_menu, "mnu_town_center"),
+                ]),
+        ]),
+    
+    ("town_tavern", mnf_scale_picture,
+        "Heading toward the inn",
+        "none",
+        [
+            (set_background_mesh, "mesh_pic_camp"),
+        ],
+        [
+            ("tavern_intro_quest_report",
+                [
+                    (check_quest_active, "qst_introduction_default_search"),
+
+                    (call_script, "script_get_starting_town"),
+                    (assign, ":starting_town", reg0),
+                    (eq, "$g_encountered_party", ":starting_town"),
+
+                    (quest_get_slot, ":giver_troop", "qst_introduction_default_search", slot_quest_giver_troop),
+                    (str_store_troop_name, s10, ":giver_troop"),
+                ], "Meet with {s10}",
+                [
+                    (quest_get_slot, ":giver_troop", "qst_introduction_default_search", slot_quest_giver_troop),
+                    (call_script, "script_setup_troop_meeting", ":giver_troop", -1),
+                ]),
+            ("tavern_intro_quest_wait",
+                [
+                    (check_quest_active, "qst_introduction_waiting"),
+
+                    (quest_get_slot, ":destination", "qst_introduction_waiting", slot_quest_destination),
+                    (eq, "$g_encountered_party", ":destination"),
+
+                    (quest_get_slot, ":giver_troop", "qst_introduction_waiting", slot_quest_giver_troop),
+                    (str_store_troop_name, s10, ":giver_troop"),
+                ], "Meet with {s10}",
+                [
+                    (quest_get_slot, ":giver_troop", "qst_introduction_waiting", slot_quest_giver_troop),
+                    (call_script, "script_setup_troop_meeting", ":giver_troop", -1),
                 ]),
             
             ("center_back", [], "Head back to the center",
@@ -2195,6 +2222,10 @@ game_menus = [
                     (assign, "$g_ally", -1),
                     (assign, "$g_player_team", 1),
                     (assign, "$g_clear_battles", 0),
+
+                    (call_script, "script_party_pre_battle_init", "$g_encountered_party"),
+                    (call_script, "script_party_pre_battle_init", "$g_player_party"),
+
                     (try_for_parties, ":party_no"),
                         (call_script, "script_cf_party_join_battle", ":party_no", "$g_encountered_party", "$g_player_party"),
                         (assign, ":continue", reg0),
@@ -2202,10 +2233,14 @@ game_menus = [
                             (eq, ":continue", 1),
                             # (str_store_party_name, s20, ":party_no"),
                             (party_quick_attach_to_current_battle, ":party_no", 1),
+
+                            (call_script, "script_party_pre_battle_init", ":party_no"),
                         (else_try),
                             (eq, ":continue", 2),
                             # (str_store_party_name, s20, ":party_no"),
                             (party_quick_attach_to_current_battle, ":party_no", 0),
+
+                            (call_script, "script_party_pre_battle_init", ":party_no"),
                         (try_end),
                     (try_end),
                     (jump_to_menu, "mnu_encounter_battle_siege"),
@@ -2288,6 +2323,10 @@ game_menus = [
                     (assign, "$g_player_team", 0),
                     (assign, "$g_clear_battles", 1),
 
+                    (call_script, "script_party_pre_battle_init", "$g_encountered_party"),
+                    (call_script, "script_party_pre_battle_init", "$g_encountered_party_2"),
+                    (call_script, "script_party_pre_battle_init", "$g_player_party"),
+
                     (try_for_parties, ":party_no"),
                         (neq, ":party_no", "$g_player_party"),
                         (call_script, "script_cf_party_join_battle", ":party_no", "$g_encountered_party", "$g_encountered_party_2"),
@@ -2295,9 +2334,13 @@ game_menus = [
                         (try_begin),
                             (eq, ":continue", 1),
                             (party_quick_attach_to_current_battle, ":party_no", 0),
+
+                            (call_script, "script_party_pre_battle_init", ":party_no"),
                         (else_try),
                             (eq, ":continue", 2),
                             (party_quick_attach_to_current_battle, ":party_no", 1),
+
+                            (call_script, "script_party_pre_battle_init", ":party_no"),
                         (try_end),
                     (try_end),
 
@@ -2314,6 +2357,10 @@ game_menus = [
                     (assign, "$g_player_team", 1),
                     (assign, "$g_clear_battles", 1),
 
+                    (call_script, "script_party_pre_battle_init", "$g_encountered_party"),
+                    (call_script, "script_party_pre_battle_init", "$g_encountered_party_2"),
+                    (call_script, "script_party_pre_battle_init", "$g_player_party"),
+
                     (try_for_parties, ":party_no"),
                         (neq, ":party_no", "$g_player_party"),
                         (call_script, "script_cf_party_join_battle", ":party_no", "$g_encountered_party", "$g_encountered_party_2"),
@@ -2321,9 +2368,13 @@ game_menus = [
                         (try_begin),
                             (eq, ":continue", 1),
                             (party_quick_attach_to_current_battle, ":party_no", 1),
+
+                            (call_script, "script_party_pre_battle_init", ":party_no"),
                         (else_try),
                             (eq, ":continue", 2),
                             (party_quick_attach_to_current_battle, ":party_no", 0),
+
+                            (call_script, "script_party_pre_battle_init", ":party_no"),
                         (try_end),
                     (try_end),
 
@@ -2385,6 +2436,10 @@ game_menus = [
                     (assign, "$g_enemy", "$g_encountered_party"),
                     (assign, "$g_ally", -1),
                     (assign, "$g_clear_battles", 0),
+
+                    (call_script, "script_party_pre_battle_init", "$g_encountered_party"),
+                    (call_script, "script_party_pre_battle_init", "$g_player_party"),
+
                     (try_for_parties, ":party_no"),
                         (call_script, "script_cf_party_join_battle", ":party_no", "$g_encountered_party", "$g_player_party"),
                         (assign, ":continue", reg0),
@@ -2392,10 +2447,14 @@ game_menus = [
                             (eq, ":continue", 1),
                             # (str_store_party_name, s20, ":party_no"),
                             (party_quick_attach_to_current_battle, ":party_no", 1),
+
+                            (call_script, "script_party_pre_battle_init", ":party_no"),
                         (else_try),
                             (eq, ":continue", 2),
                             # (str_store_party_name, s20, ":party_no"),
                             (party_quick_attach_to_current_battle, ":party_no", 0),
+
+                            (call_script, "script_party_pre_battle_init", ":party_no"),
                         (try_end),
                     (try_end),
                     (jump_to_menu, "mnu_encounter_battle"),
@@ -2485,6 +2544,10 @@ game_menus = [
                     (assign, "$g_player_team", 1),
                     (assign, "$g_clear_battles", 1),
                     (select_enemy, 0),
+
+                    (call_script, "script_party_pre_battle_init", "$g_encountered_party"),
+                    (call_script, "script_party_pre_battle_init", "$g_encountered_party_2"),
+                    (call_script, "script_party_pre_battle_init", "$g_player_party"),
                     
                     (try_for_parties, ":party_no"),
                         (call_script, "script_cf_party_join_battle", ":party_no", "$g_encountered_party", "$g_encountered_party_2"),
@@ -2493,10 +2556,16 @@ game_menus = [
                             (eq, ":continue", 1),
                             # (str_store_party_name, s20, ":party_no"),
                             (party_quick_attach_to_current_battle, ":party_no", 1),
+
+                            (call_script, "script_party_pre_battle_init", ":party_no"),
+                        (else_try),
                         (else_try),
                             (eq, ":continue", 2),
                             # (str_store_party_name, s20, ":party_no"),
                             (party_quick_attach_to_current_battle, ":party_no", 0),
+
+                            (call_script, "script_party_pre_battle_init", ":party_no"),
+                        (else_try),
                         (try_end),
                     (try_end),
                     
@@ -2519,6 +2588,10 @@ game_menus = [
                     (assign, "$g_player_team", 0),
                     (assign, "$g_clear_battles", 1),
                     (select_enemy, 1),
+
+                    (call_script, "script_party_pre_battle_init", "$g_encountered_party"),
+                    (call_script, "script_party_pre_battle_init", "$g_encountered_party_2"),
+                    (call_script, "script_party_pre_battle_init", "$g_player_party"),
                     
                     (try_for_parties, ":party_no"),
                         (call_script, "script_cf_party_join_battle", ":party_no", "$g_encountered_party", "$g_encountered_party_2"),
@@ -2527,10 +2600,16 @@ game_menus = [
                             (eq, ":continue", 1),
                             # (str_store_party_name, s20, ":party_no"),
                             (party_quick_attach_to_current_battle, ":party_no", 0),
+
+                            (call_script, "script_party_pre_battle_init", ":party_no"),
+                        (else_try),
                         (else_try),
                             (eq, ":continue", 2),
                             # (str_store_party_name, s20, ":party_no"),
                             (party_quick_attach_to_current_battle, ":party_no", 1),
+
+                            (call_script, "script_party_pre_battle_init", ":party_no"),
+                        (else_try),
                         (try_end),
                     (try_end),
                     
@@ -3049,7 +3128,7 @@ game_menus = [
                 (str_store_string, s12, "str_player_receive_center_vassal"),
             (else_try),
                 (troop_slot_eq, reg20, slot_troop_vassal_of, "$g_player_troop"),
-                (str_store_string, s12, "str_player_receive_center_vassal"),
+                (str_store_string, s12, "str_player_receive_center_vassal_player"),
             (else_try),
                 (str_store_string, s12, "str_player_receive_center"),
             (try_end),
@@ -3130,6 +3209,59 @@ game_menus = [
                     (troop_set_slot, "$g_player_troop", slot_troop_mercenary_contract_monthly_pay, 0),
                     (troop_set_slot, "$g_player_troop", slot_troop_mercenary_contract_wages_ratio, 0),
 
+                    (change_screen_return),
+                ]),
+        ]),
+
+    ("report_personal", mnf_scale_picture,
+        "{s0}",
+        "none",
+        [
+            (troop_get_slot, ":renown", "$g_player_troop", slot_troop_renown),
+            (troop_get_slot, ":honor", "$g_player_troop", slot_troop_honor),
+            (troop_get_slot, ":culture", "$g_player_troop", slot_troop_culture),
+            (troop_get_slot, ":clan", "$g_player_troop", slot_troop_clan),
+
+            (str_store_troop_name, s10, "$g_player_troop"),
+
+            (try_begin),
+                (is_between, ":clan", clans_begin, clans_end),
+                (str_store_faction_name, s13, ":clan"),
+                (str_store_string, s12, "@Belongs to clan {s13}"),
+            (else_try),
+                (str_store_string, s12, "@Belongs to no clan"),
+            (try_end),
+            (assign, reg10, ":honor"),
+            (assign, reg11, ":renown"),
+            (str_store_faction_name, s11, ":culture"),
+            (str_store_string, s0, "@{s10}^^{s11}e^{s12}^^Honor: {reg10}^Renown: {reg11}^"),
+        ],
+        [
+            ("go_back",[],"Return",
+                [
+                    (jump_to_menu, "mnu_reports"),
+                ]),
+        ]),
+
+    ("intro_quest_summon_letter", mnf_scale_picture,
+        "{s0}",
+        "none",
+        [
+            (set_background_mesh, "mesh_pic_messenger"),
+
+            (quest_get_slot, ":giver", "qst_introduction_waiting", slot_quest_giver_troop),
+            
+            (quest_get_slot, ":destination", "qst_introduction_waiting", slot_quest_destination),
+
+            (str_store_troop_name, s10, ":giver"),
+            (str_store_party_name, s11, ":destination"),
+            (str_store_troop_name, s12, "trp_intro_quest_slaver"),
+
+            (str_store_string, s0, "@A messenger brings a letter: ^^You are informed by {s10} that he found the location and a plan for dealing with {s12}. He asks that you come meet him at the tavern of {s11} at your earlier convinience."),
+        ],
+        [
+            ("continue",[],"Continue",
+                [
                     (change_screen_return),
                 ]),
         ]),

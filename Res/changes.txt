@@ -1,3 +1,48 @@
+v0.630:
+	-Features:
+		* add player levels and leveling up
+		* player kills increase experience
+		* add character level up screen
+		* prevent player troop divisions from being assigned to 6-8 instead of 1-3
+		* add quest to deliver grain to struggling village
+		* share party's total experience gain to members based on charisma attribute
+		* add personal report menu
+		* add waiting for intro quest giver additional leads
+		* add introduction quest planning for confrontation
+	-Balances:
+		* add khergit_light_steppe_lancer to small_kingdom_33
+		* add khergit_heavy_steppe_lancer to small_kingdom_33
+		* remove khergit_light_lancer from small_kingdom_33
+		* remove khergit_lancer from small_kingdom_33
+		* add khergit_light_skirmisher to small_kingdom_33
+		* troops start in stand ground order to prevent them running of at the start of battle
+		* slow down rate of declaring wars
+		* increase xp gain rate (x4)
+		* temporarily disable capturing territory for factions
+		* add ability to speak to the introduction thugs again after getting information from them
+		* add xp gain on quests
+	-Fixes:
+		* fix missing resource loading in module.ini
+		* fix a few typo errors
+		* fix missing report dialog for intro quest
+		* prevent shield skill from being upgraded more than it's max
+		* fix being able to become a mercenary for a faction when already with a contract
+		* fix intro quest stating that quest giver would be found in the market instead of the tavern
+		* fix lower amount of troops during battle for the side the player helps
+		* fix incorrect message when fief granted by vassal
+		* fix a bug preventing lords from recruiting high tier troops
+		* fix a bug that would multiply faction wealth and lead to exponential lords party sizes
+		* fix introduction quest giver available in every tavern
+		* fix instances of skill checks not applying properly for the character
+			vassal recruitment persuasion
+			intro quest thugs dialogs
+			troop recruit availability
+			generic bargain checks (bandit dialogs)
+			player starting horse
+			civilian rob
+		* fix incorrect relation hit when threatening lord to become vassal
+	-Other:
+		* bumped required version to 1.166+ to use method game_character_screen_requested introduced in version 1.166
 v0.620:
 	-Features:
 		* add mercenary contracts for the player with factions

@@ -7,6 +7,7 @@ from header_triggers import *
 from module_constants import *
 from header_terrain_types import *
 import string
+from header_skills import *
 
 ###############################
 ## Presentation informations ##
@@ -84,8 +85,7 @@ presentations = [
         		
         		(try_begin),
         			
-        			(str_clear, s0),
-        			(create_text_overlay, reg0, s0, tf_scrollable),
+        			(create_text_overlay, reg0, "str_empty_string", tf_scrollable),
         			(position_set_x, pos1, 60),
         			(position_set_y, pos1, 200),
         			(overlay_set_position, reg0, pos1),
@@ -3204,6 +3204,461 @@ presentations = [
                         # (overlay_set_display, "$g_presentation_ok", 1),
                     (try_end),
                 ]),
+        ]),
+
+    ("character_screen", 0, mesh_character_window,
+        [
+            (ti_on_presentation_load,
+                [
+                    (set_fixed_point_multiplier, 1000),
+                    (presentation_set_duration, 999999),
+
+                    (assign, ":current_troop", "$temp"),
+
+                    (assign, ":attribute_container_x", 20),
+                    (assign, ":attribute_x", 20),
+                    (store_add, ":attribute_values_x", ":attribute_x", 230),
+                    (store_add, ":attribute_button_x", ":attribute_values_x", 10),
+                    (store_add, ":attribute_container_x_size", ":attribute_button_x", 20),
+                    (assign, ":attribute_y", 126),
+                    (assign, ":attribute_container_x", 20),
+
+                    (assign, ":header_info_x", 325),
+                    (assign, ":header_name_x", 465),
+
+                    (assign, ":skill_container_x", 325),
+                    (assign, ":skill_x", 20),
+                    (store_add, ":skill_values_x", ":skill_x", 270),
+                    (store_add, ":skill_button_x", ":skill_values_x", 10),
+                    (assign, ":skill_y", 400),
+                    (assign, ":skill_container_x_size", 384),
+
+                    (assign, ":proficiency_x", 20),
+                    (store_add, ":proficiency_values_x", ":proficiency_x", 240),
+                    (store_add, ":proficiency_button_x", ":proficiency_values_x", 10),
+                    (assign, ":proficiency_y", 290),
+                    (assign, ":proficiency_container_x", 690),
+                    (store_add, ":proficiency_container_x_size", 20, ":proficiency_button_x"),
+
+                    (assign, ":attribute_header_x", 70),
+                    (assign, ":attribute_header_y", 245),
+                    (assign, ":skill_header_x", 380),
+                    (assign, ":skill_header_y", 505),
+                    (assign, ":proficiency_header_x", 735),
+                    (assign, ":proficiency_header_Y", 405),
+
+                    (assign, ":attribute_padding", 28),
+                    (assign, ":skill_padding", 16),
+                    (assign, ":proficiency_padding", 28),
+
+                    (assign, ":attributes_color", 0x183063),
+                    (assign, ":skills_color", 0x294108),
+                    (assign, ":proficiencies_color", 0x630C00),
+
+                    (str_store_troop_name, s10, ":current_troop"),
+                    (call_script, "script_presentation_create_text_overlay", tf_left_align, ":header_name_x", 700, 1200, 1200),
+
+                    (troop_get_slot, ":current_level", ":current_troop", slot_troop_xp_level),
+                    (assign, reg10, ":current_level"),
+                    (str_store_string, s10, "@Level: {reg10}"),
+                    (call_script, "script_presentation_create_text_overlay", tf_left_align, ":header_info_x", 670, 1100, 1100),
+
+                    (store_skill_level, ":ironflesh", skl_ironflesh, ":current_troop"),
+                    (val_mul, ":ironflesh", 2),
+                    (store_attribute_level, ":strength", ":current_troop", ca_strength),
+                    (store_add, ":total_health", ":strength", 35),
+                    (val_add, ":total_health", ":ironflesh"),
+                    (store_troop_health, reg10, ":current_troop", 1),
+                    (assign, reg11, ":total_health"),
+                    (str_store_string, s10, "@Health: {reg10}/{reg11}"),
+                    (call_script, "script_presentation_create_text_overlay", tf_left_align, ":header_info_x", 640, 1100, 1100),
+
+                    (troop_get_slot, ":current_xp", ":current_troop", slot_troop_xp),
+                    (assign, reg10, ":current_xp"),
+                    (str_store_string, s10, "@Experience : {reg10}"),
+                    (call_script, "script_presentation_create_text_overlay", tf_left_align, ":header_info_x", 610, 1100, 1100),
+
+                    (call_script, "script_get_level_xp_threshold", ":current_level"),
+                    (set_fixed_point_multiplier, 1000),
+                    (assign, reg10, reg0),
+                    (str_store_string, s10, "@Next level at: {reg10}"),
+                    (call_script, "script_presentation_create_text_overlay", tf_left_align, ":header_info_x", 580, 1100, 1100),
+
+                    (str_store_string, s10, "@Attributes"),
+                    (call_script, "script_presentation_create_text_overlay", tf_left_align, ":attribute_header_x", ":attribute_header_y", 1100, 1100),
+                    (overlay_set_color, reg0, ":attributes_color"),
+
+                    (create_text_overlay, reg0, "str_empty_string", tf_scrollable),
+                    (position_set_x, pos1, ":attribute_container_x"),
+                    (position_set_y, pos1, 112),
+                    (overlay_set_position, reg0, pos1),
+                    (position_set_x, pos1, ":attribute_container_x_size"),
+                    (position_set_y, pos1, ":attribute_y"),
+                    (overlay_set_area_size, reg0, pos1),
+
+                    (assign, ":attribute_container", reg0),
+
+                    (set_container_overlay, ":attribute_container"),
+
+                    (store_add, "$g_presentation_attributes_items_begin", reg0, 1),
+
+                    (assign, ":cur_y", 0),
+                    (try_for_range_backwards, ":attribute", ca_strength, ca_charisma + 1),
+                        (store_add, ":string_index", ":attribute", "str_attribute_strength"),
+                        (str_store_string, s10, ":string_index"),
+                        (call_script, "script_presentation_create_text_overlay", tf_left_align, ":attribute_x", ":cur_y", 1100, 1100),
+                        (overlay_set_color, reg0, ":attributes_color"),
+
+                        (store_attribute_level, reg10, ":current_troop", ":attribute"),
+                        (str_store_string, s10, "@{reg10}"),
+                        (call_script, "script_presentation_create_text_overlay", tf_right_align, ":attribute_values_x", ":cur_y", 1100, 1100),
+                        (overlay_set_color, reg0, ":attributes_color"),
+
+                        (val_add, ":cur_y",  ":attribute_padding"),
+                    (try_end),
+
+                    (store_add, "$g_presentation_attributes_items_end", reg0, 1),
+
+                    (set_container_overlay, -1),
+
+                    (str_store_string, s10, "@Skills"),
+                    (call_script, "script_presentation_create_text_overlay", tf_left_align, ":skill_header_x", ":skill_header_y", 1100, 1100),
+                    (overlay_set_color, reg0, ":skills_color"),
+
+                    (create_text_overlay, reg0, "str_empty_string", tf_scrollable),
+                    (position_set_x, pos1, ":skill_container_x"),
+                    (position_set_y, pos1, 92),
+                    (overlay_set_position, reg0, pos1),
+                    (position_set_x, pos1, ":skill_container_x_size"),
+                    (position_set_y, pos1, ":skill_y"),
+                    (overlay_set_area_size, reg0, pos1),
+
+                    (assign, ":skill_container", reg0),
+
+                    (set_container_overlay, reg0),
+
+                    (store_add, "$g_presentation_skills_items_begin", reg0, 1),
+
+                    (assign, ":cur_y", 0),
+                    (try_for_range, ":skill", skl_trade, skl_ironflesh + 1),
+                        (try_begin),
+                            (call_script, "script_cf_skill_is_enabled", ":skill"),
+                            (store_add, ":string_index", ":skill", "str_skill_trade"),
+                            (str_store_string, s10, ":string_index"),
+                            (call_script, "script_presentation_create_text_overlay", tf_left_align, ":skill_x", ":cur_y", 800, 800),
+                            (overlay_set_color, reg0, ":skills_color"),
+
+                            (store_skill_level, reg10, ":skill", ":current_troop"),
+                            (str_store_string, s10, "@{reg10}"),
+                            (call_script, "script_presentation_create_text_overlay", tf_center_justify, ":skill_values_x", ":cur_y", 800, 800),
+                            (overlay_set_color, reg0, ":skills_color"),
+
+                            (val_add, ":cur_y", ":skill_padding"),
+                        (else_try),
+                            (set_container_overlay, -1),
+                            (create_text_overlay, reg0, "str_empty_string"),
+                            (create_text_overlay, reg0, "str_empty_string"),
+                            (set_container_overlay, ":skill_container"),
+                        (try_end),
+                    (try_end),
+                    
+                    (store_add, "$g_presentation_skills_items_end", reg0, 1),
+
+                    (set_container_overlay, -1),
+
+                    (str_store_string, s10, "@Proficiencies"),
+                    (call_script, "script_presentation_create_text_overlay", tf_left_align, ":proficiency_header_x", ":proficiency_header_Y", 1100, 1100),
+                    (overlay_set_color, reg0, ":proficiencies_color"),
+
+                    (create_text_overlay, reg0, "str_empty_string", tf_scrollable),
+                    (position_set_x, pos1, ":proficiency_container_x"),
+                    (position_set_y, pos1, 92),
+                    (overlay_set_position, reg0, pos1),
+                    (position_set_x, pos1, ":proficiency_container_x_size"),
+                    (position_set_y, pos1, ":proficiency_y"),
+                    (overlay_set_area_size, reg0, pos1),
+
+                    (assign, ":proficiency_container", reg0),
+
+                    (set_container_overlay, ":proficiency_container"),
+
+                    (store_add, "$g_presentation_proficiencies_items_begin", reg0, 1),
+
+                    (assign, ":cur_y", 0),
+                    (try_for_range_backwards, ":proficiency", wpt_one_handed_weapon, wpt_throwing + 1),
+                        (store_add, ":string_index", ":proficiency", "str_proficiency_one_handed_weapon"),
+                        (str_store_string, s10, ":string_index"),
+                        (call_script, "script_presentation_create_text_overlay", tf_left_align, ":proficiency_x", ":cur_y", 1000, 1000),
+                        (overlay_set_color, reg0, ":proficiencies_color"),
+
+                        (store_proficiency_level, reg10, ":current_troop", ":proficiency"),
+                        (str_store_string, s10, "@{reg10}"),
+                        (call_script, "script_presentation_create_text_overlay", tf_right_align, ":proficiency_values_x", ":cur_y", 1000, 1000),
+                        (overlay_set_color, reg0, ":proficiencies_color"),
+
+                        (val_add, ":cur_y", ":proficiency_padding"),
+                    (try_end),
+
+                    (store_add, "$g_presentation_proficiencies_items_end", reg0, 1),
+                    
+                    (set_container_overlay, -1),
+
+                    (troop_get_slot, ":attribute_points", ":current_troop", slot_troop_attribute_points),
+                    (troop_get_slot, ":skill_points", ":current_troop", slot_troop_skill_points),
+                    (troop_get_slot, ":weapon_points", ":current_troop", slot_troop_proficiency_points),
+                    (try_begin),
+                        (gt, ":attribute_points", 0),
+                        (store_add, "$g_presentation_attributes_begin", reg0, 1),
+
+                        (set_container_overlay, ":attribute_container"),
+
+                        (assign, ":cur_y", 0),
+                        (try_for_range_backwards, ":unused", ca_strength, ca_charisma + 1),
+                            (store_add, ":y", ":cur_y", 6),
+                            (create_image_button_overlay, reg0, "mesh_small_arrow_up", "mesh_small_arrow_up_clicked"),
+                            (position_set_x, pos1, ":attribute_button_x"),
+                            (position_set_y, pos1, ":y"),
+                            (overlay_set_position, reg0, pos1),
+                            (position_set_x, pos1, 150),
+                            (position_set_y, pos1, 150),
+                            (overlay_set_size, reg0, pos1),
+                            (val_add, ":cur_y",  ":attribute_padding"),
+
+                            (store_add, "$g_presentation_attributes_end", reg0, 1),
+                        (try_end),
+
+                        (set_container_overlay, -1),
+                    (else_try),
+                        (assign, "$g_presentation_attributes_begin", -1),
+                        (assign, "$g_presentation_attributes_end", -1),
+                    (try_end),
+                    (try_begin),
+                        (gt, ":skill_points", 0),
+                        (store_add, "$g_presentation_skills_begin", reg0, 1),
+                        (assign, ":cur_y", 0),
+
+                        (set_container_overlay, ":skill_container"),
+                        (try_for_range, ":skill", skl_trade, skl_ironflesh + 1),
+                            (try_begin),
+                                (call_script, "script_cf_skill_is_enabled", ":skill"),
+
+                                (call_script, "script_skill_get_base_attribute", ":skill"),
+                                (assign, ":base_attribute", reg0),
+                                (store_attribute_level, ":base_attribute_value", ":current_troop", ":base_attribute"),
+                                (store_div, ":max_value", ":base_attribute_value", 3),
+                                (store_skill_level, ":skill_value", ":skill", ":current_troop"),
+                                (try_begin),
+                                    (lt, ":skill_value", ":max_value"),
+                                    (lt, ":skill_value", 10),
+                                    (this_or_next|neq, ":skill", skl_shield),
+                                    (lt, ":skill_value", 1),
+
+                                    (store_add, ":y", ":cur_y", 4),
+                                    (create_image_button_overlay, reg0, "mesh_small_arrow_up", "mesh_small_arrow_up_clicked"),
+                                    (position_set_x, pos1, ":skill_button_x"),
+                                    (position_set_y, pos1, ":y"),
+                                    (overlay_set_position, reg0, pos1),
+                                    (position_set_x, pos1, 130),
+                                    (position_set_y, pos1, 130),
+                                    (overlay_set_size, reg0, pos1),
+                                (else_try),
+                                    (create_text_overlay, reg0, "str_empty_string"),
+                                (try_end),
+                                (val_add, ":cur_y",  ":skill_padding"),
+                            (else_try),
+                                (create_text_overlay, reg0, "str_empty_string"),
+                            (try_end),
+
+                            (store_add, "$g_presentation_skills_end", reg0, 1),
+                        (try_end),
+                        (set_container_overlay, -1),
+                    (else_try),
+                        (assign, "$g_presentation_skills_begin", -1),
+                        (assign, "$g_presentation_skills_end", -1),
+                    (try_end),
+                    (try_begin),
+                        (gt, ":weapon_points", 0),
+                        (store_add, "$g_presentation_proficiency_begin", reg0, 1),
+                        (assign, ":cur_y", 0),
+
+                        (set_container_overlay, ":proficiency_container"),
+                        (try_for_range_backwards, ":proficiency", wpt_one_handed_weapon, wpt_throwing + 1),
+                            (try_begin),
+                                (store_skill_level, ":weapon_master", skl_weapon_master, ":current_troop"),
+                                (val_mul, ":weapon_master", 60),
+                                (store_add, ":threshold", 40, ":weapon_master"),
+                                (store_proficiency_level, ":proficiency_value", ":current_troop", ":proficiency"),
+                                (lt, ":proficiency_value", ":threshold"),
+
+                                (store_add, ":y", ":cur_y", 6),
+                                (create_image_button_overlay, reg0, "mesh_small_arrow_up", "mesh_small_arrow_up_clicked"),
+                                (position_set_x, pos1, ":proficiency_button_x"),
+                                (position_set_y, pos1, ":y"),
+                                (overlay_set_position, reg0, pos1),
+                                (position_set_x, pos1, 150),
+                                (position_set_y, pos1, 150),
+                                (overlay_set_size, reg0, pos1),
+                            (else_try),
+                                (create_text_overlay, reg0, "str_empty_string"),
+                            (try_end),
+                            (val_add, ":cur_y",  ":proficiency_padding"),
+
+                            (store_add, "$g_presentation_proficiency_end", reg0, 1),
+                        (try_end),
+                        (set_container_overlay, -1),
+                    (else_try),
+                        (assign, "$g_presentation_proficiency_begin", -1),
+                        (assign, "$g_presentation_proficiency_end", -1),
+                    (try_end),
+
+                    (store_add, ":x", ":attribute_container_x", ":attribute_values_x"),
+                    (val_add, ":x", ":attribute_container_x"),
+                    (val_div, ":x", 2),
+                    (assign, reg10, ":attribute_points"),
+                    (str_store_string, s10, "@Attribute points: {reg10}"),
+                    (call_script, "script_presentation_create_text_overlay", tf_center_justify, ":x", 60, 1000, 1000),
+                    (overlay_set_color, reg0, ":attributes_color"),
+
+                    (store_add, ":x", ":skill_container_x", ":skill_values_x"),
+                    (val_add, ":x", ":skill_container_x"),
+                    (val_div, ":x", 2),
+                    (assign, reg11, ":skill_points"),
+                    (str_store_string, s10, "@Skill points: {reg11}"),
+                    (call_script, "script_presentation_create_text_overlay", tf_center_justify, ":x", 60, 1000, 1000),
+                    (overlay_set_color, reg0, ":skills_color"),
+
+                    (store_add, ":x", ":proficiency_container_x", ":proficiency_values_x"),
+                    (val_add, ":x", ":proficiency_container_x"),
+                    (val_div, ":x", 2),
+                    (assign, reg12, ":weapon_points"),
+                    (str_store_string, s10, "@Weapon points: {reg12}"),
+                    (call_script, "script_presentation_create_text_overlay", tf_center_justify, ":x", 60, 1000, 1000),
+                    (overlay_set_color, reg0, ":proficiencies_color"),
+
+                    (create_mesh_overlay_with_tableau_material, reg0, -1, "tableau_game_character_sheet", ":current_troop"),
+                    (position_set_x, pos1, 40),
+                    (position_set_y, pos1, 350),
+                    (overlay_set_position, reg0, pos1),
+                    (position_set_x, pos1, 1000),
+                    (position_set_y, pos1, 1000),
+                    (overlay_set_size, reg0, pos1),
+
+                    (store_add, ":description_x", ":proficiency_container_x", 20),
+
+                    (str_store_string, s10, "str_empty_string"),
+                    (call_script, "script_presentation_create_text_overlay", tf_scrollable, ":description_x", 500, 1000, 1000),
+                    (position_set_x, pos1, 240),
+                    (position_set_y, pos1, 200),
+                    (overlay_set_area_size, reg0, pos1),
+                    (assign, "$g_presentation_stats_description", reg0),
+                    (overlay_set_color, reg0, ":proficiencies_color"),
+
+                    (str_store_string, s10, "str_empty_string"),
+                    (call_script, "script_presentation_create_text_overlay", tf_left_align, ":description_x", 480, 1000, 1000),
+                    (assign, "$g_presentation_stats_requirements", reg0),
+                    (overlay_set_color, reg0, ":proficiencies_color"),
+
+                    (create_game_button_overlay, "$g_presentation_ok", "@Ok"),
+                    (position_set_x, pos1, 150),
+                    (position_set_y, pos1, 10),
+                    (overlay_set_position, "$g_presentation_ok", pos1),
+                ]),
+
+            (ti_on_presentation_mouse_enter_leave,
+                [
+                    (store_trigger_param_1, ":object"),
+                    (store_trigger_param_2, ":value"),
+
+                    (set_fixed_point_multiplier, 1000),
+
+                    (try_begin),
+                        (eq, ":value", 0),
+
+                        (try_begin),
+                            (is_between, ":object", "$g_presentation_attributes_items_begin", "$g_presentation_attributes_items_end"),
+                            (store_sub, ":offset", ":object", "$g_presentation_attributes_items_begin"),
+                            (val_div, ":offset", 2),
+                            (store_sub, ":num_attributes", ca_charisma, ca_strength),
+                            (store_sub, ":attribute", ":num_attributes", ":offset"),
+                            (assign, reg10, ":attribute"),
+
+                            (store_add, ":index", ":attribute", "str_attribute_strength_description"),
+                            (overlay_set_text, "$g_presentation_stats_description", ":index"),
+                            (overlay_set_text, "$g_presentation_stats_requirements", "str_empty_string"),
+                        (else_try),
+                            (is_between, ":object", "$g_presentation_skills_items_begin", "$g_presentation_skills_items_end"),
+                            (store_sub, ":offset", ":object", "$g_presentation_skills_items_begin"),
+                            (store_div, ":skill", ":offset", 2),
+
+                            (call_script, "script_cf_skill_is_enabled", ":skill"),
+
+                            (store_add, ":index", ":skill", "str_skill_trade_description"),
+                            (overlay_set_text, "$g_presentation_stats_description", ":index"),
+                            (call_script, "script_skill_get_base_attribute", ":skill"),
+                            (store_add, ":attribute_text", reg0, "str_attribute_strength"),
+
+                            (str_store_string, s10, ":attribute_text"),
+                            (overlay_set_text, "$g_presentation_stats_requirements", "@Base Attribute: {s10}"),
+                        (else_try),
+                            (is_between, ":object", "$g_presentation_proficiencies_items_begin", "$g_presentation_proficiencies_items_end"),
+                            (store_sub, ":offset", ":object", "$g_presentation_proficiencies_items_begin"),
+                            (val_div, ":offset", 2),
+
+                            (store_sub, ":num_proficiencies", wpt_throwing, wpt_one_handed_weapon),
+                            (store_sub, ":proficiency", ":num_proficiencies", ":offset"),
+
+                            (store_add, ":index", ":proficiency", "str_proficiency_one_handed_weapon_description"),
+                            (overlay_set_text, "$g_presentation_stats_description", ":index"),
+                            (overlay_set_text, "$g_presentation_stats_requirements", "str_empty_string"),
+                        (try_end),
+                    (try_end),
+                ]),
+
+            (ti_on_presentation_event_state_change,
+                [
+                    (store_trigger_param_1, ":object"),
+
+                    (assign, ":current_troop", "$temp"),
+                    (assign, ":update", 0),
+
+                    (try_begin),
+                        (is_between, ":object", "$g_presentation_skills_begin", "$g_presentation_skills_end"),
+
+                        # (store_sub, ":num_skills", skl_ironflesh, skl_trade),
+                        (store_sub, ":skill", ":object", "$g_presentation_skills_begin"),
+                        # (store_sub, ":skill", ":num_skills", ":offset"),
+
+                        (call_script, "script_troop_add_skill", ":current_troop", ":skill", 1),
+                        (assign, ":update", 1),
+                    (else_try),
+                        (is_between, ":object", "$g_presentation_attributes_begin", "$g_presentation_attributes_end"),
+
+                        (store_sub, ":num_attributes", ca_charisma, ca_strength),
+                        (store_sub, ":offset", ":object", "$g_presentation_attributes_begin"),
+                        (store_sub, ":attribute", ":num_attributes", ":offset"),
+
+                        (call_script, "script_troop_add_attribute", ":current_troop", ":attribute", 1),
+                        (assign, ":update", 1),
+                    (else_try),
+                        (is_between, ":object", "$g_presentation_proficiency_begin", "$g_presentation_proficiency_end"),
+
+                        (store_sub, ":num_proficiencies", wpt_throwing, wpt_one_handed_weapon),
+                        (store_sub, ":offset", ":object", "$g_presentation_proficiency_begin"),
+                        (store_sub, ":proficiency", ":num_proficiencies", ":offset"),
+
+                        (call_script, "script_troop_add_proficiency", ":current_troop", ":proficiency", 1),
+                        (assign, ":update", 1),
+                    (else_try),
+                        (eq, ":object", "$g_presentation_ok"),
+                        (presentation_set_duration, 0),
+                    (try_end),
+
+                    (try_begin),
+                        (eq, ":update", 1),
+                        (start_presentation, "prsnt_character_screen"),
+                    (try_end),
+                ]),
+
         ]),
 
     ("setting_shield_painting", 0, mesh_load_window,

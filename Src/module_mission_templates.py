@@ -571,15 +571,15 @@ battle_reinforcements = (
 	[],
 	[
 		(try_for_range, ":cur_team", 0, 2),
-			# (store_add, ":allied_team", ":cur_team", 2),
+			(store_add, ":allied_team", ":cur_team", 2),
 			(assign, ":allied_team", 3),
 			(try_begin),
 				(eq, ":cur_team", "$g_player_team"),
 				(assign, ":allied_team", 2),
 			(try_end),
 			(store_normalized_team_count, ":num_troops", ":cur_team"),
-			(store_normalized_team_count, ":num_allied_troops", ":allied_team"),
-			(val_add, ":num_troops", ":num_allied_troops"),
+			# (store_normalized_team_count, ":num_allied_troops", ":allied_team"),
+			# (val_add, ":num_troops", ":num_allied_troops"),
 			(assign, ":num_men_threshold", 12),
 			(try_begin),
 				(lt, ":num_troops", ":num_men_threshold"),
@@ -1354,7 +1354,7 @@ battle_assign_team = (
 			(try_end),
 		])
 
-test_battle_death_event = (
+battle_death_event = (
 	ti_on_agent_killed_or_wounded, 0, 0,
 	[],
 	[
@@ -1394,6 +1394,37 @@ test_battle_death_event = (
 				(faction_get_slot, ":num_kills", ":killer_troop_faction", slot_faction_mission_kills),
 				(val_add, ":num_kills", 1),
 				(faction_set_slot, ":killer_troop_faction", slot_faction_mission_kills, ":num_kills"),
+			(try_end),
+
+			(try_begin),
+				(ge, ":killer_troop_id", 0),
+				(ge, ":dead_troop_id", 0),
+
+				(call_script, "script_troop_get_xp_value", ":dead_troop_id"),
+				(assign, ":xp_value", reg0),
+				(try_begin),
+					(troop_is_hero, ":killer_troop_id"),
+					(call_script, "script_troop_add_xp", ":killer_troop_id", ":xp_value"),
+				(try_end),
+				(agent_get_party_id, ":killer_party_id", ":killer_agent_no"),
+				(try_begin),
+					(ge, ":killer_party_id", 0),
+					(party_get_slot, ":mission_kills", ":killer_party_id", slot_party_mission_kills),
+					(val_add, ":mission_kills", 1),
+					(party_set_slot, ":killer_party_id", slot_party_mission_kills, ":mission_kills"),
+
+					(party_get_slot, ":mission_xp", ":killer_party_id", slot_party_mission_xp),
+					(val_add, ":mission_xp", ":xp_value"),
+					(party_set_slot, ":killer_party_id", slot_party_mission_xp, ":mission_xp"),
+				(try_end),
+				(agent_get_party_id, ":dead_party_id", ":dead_agent_no"),
+				(try_begin),
+					(ge, ":dead_party_id", 0),
+					(party_get_slot, ":mission_deaths", ":dead_party_id", slot_party_mission_deaths),
+					(val_add, ":mission_deaths", 1),
+					(party_set_slot, ":dead_party_id", slot_party_mission_deaths, ":mission_deaths"),
+				(try_end),
+
 			(try_end),
 		(try_end),
 	])
@@ -1466,7 +1497,7 @@ mission_templates = [
 			test_battle_faction_select,
 			test_battle_siege_spawn,
 			battle_division_control_siege,
-			test_battle_death_event,
+			battle_death_event,
 			battle_fix_division,
 			battle_siege_move_archer_to_archer_position,
 			test_battle_siege_refill_ammo,
@@ -1539,7 +1570,7 @@ mission_templates = [
 			
 			battle_spawn,
 			test_battle_faction_select,
-			test_battle_death_event,
+			battle_death_event,
 			
 			test_battle_player_respawn,
 			test_battle_lord_spawn,
@@ -1605,9 +1636,10 @@ mission_templates = [
 			battle_fix_division,
 			battle_division_control,
 			
+			battle_assign_team,
 			battle_spawn,
 			
-			battle_assign_team,
+			battle_death_event,
 			
 			# test_battle_spawn_bodyguards,
 			# test_battle_manage_bodyguards,
@@ -1763,6 +1795,7 @@ mission_templates = [
 			battle_fix_division,
 			battle_siege_move_archer_to_archer_position,
 			test_battle_siege_refill_ammo,
+			battle_death_event,
 			
 			battle_siege_equalize_division,
 			

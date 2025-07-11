@@ -521,6 +521,13 @@ meshes = [
   ("mp_ui_host_maps_16", 0, "mp_ui_host_maps_d1", 0, 0, 0, 0, 0, 0, 1, 1, 1),
   ("mp_ui_host_maps_17", 0, "mp_ui_host_maps_d2", 0, 0, 0, 0, 0, 0, 1, 1, 1),
   ("mp_ui_host_maps_18", 0, "mp_ui_host_maps_d3", 0, 0, 0, 0, 0, 0, 1, 1, 1),
+
+  ("character_window", 0, "character_window", 0, 0, 0, 0, 0, 0, 1, 1, 1),
+
+  ("small_arrow_up", 0, "small_arrow_up", 0, 0, 0, 0, 0, 0, 1, 1, 1),
+  ("small_arrow_up_clicked", 0, "small_arrow_up_clicked", 0, 0, 0, 0, 0, 0, 1, 1, 1),
+  ("small_arrow_down", 0, "small_arrow_down", 0, 0, 0, 0, 0, 0, 1, 1, 1),
+  ("small_arrow_down_clicked", 0, "small_arrow_down_clicked", 0, 0, 0, 0, 0, 0, 1, 1, 1),
   
   ## SHIELDS
   ("tableau_mesh_shield_round_1",  0, "tableau_mesh_shield_round_1", 0, 0, 0, 0, 0, 0, 10, 10, 10),

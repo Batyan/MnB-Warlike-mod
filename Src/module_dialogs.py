@@ -75,7 +75,27 @@ dialogs = [
 
     #############
     # Lord Talk #
-    #############   
+    #############
+    [anyone, "start",
+        [
+            (check_quest_active, "qst_introduction_default_search"),
+
+            (this_or_next|check_quest_active, "qst_introduction_default_search_1"),
+            (check_quest_active, "qst_introduction_default_search_2"),
+
+            (quest_get_slot, ":giver_troop", "qst_introduction_default_search", slot_quest_giver_troop),
+            (eq, "$g_talk_troop", ":giver_troop"),
+        ], "{playername}? Did you find something?", "intro_quest_search_player", []],
+
+    [anyone, "start",
+        [
+            (check_quest_active, "qst_introduction_waiting"),
+
+            (quest_get_slot, ":giver_troop", "qst_introduction_waiting", slot_quest_giver_troop),
+            (eq, "$g_talk_troop", ":giver_troop"),
+            (call_script, "script_succeed_quest", "qst_introduction_waiting"),
+        ], "{playername}! You've arrived, I trust my messenger found you alright?", "intro_quest_wait", []],
+
     [anyone, "start", 
         [
             (is_between, "$g_talk_troop", lords_begin, lords_end),
@@ -304,6 +324,7 @@ dialogs = [
             (call_script, "script_troop_become_vassal", "$g_talk_troop", ":lord"),
             (call_script, "script_succeed_quest", "qst_persuade_lord_vassalage"),
             (call_script, "script_complete_quest", "qst_persuade_lord_vassalage"),
+            (call_script, "script_troop_add_xp", "$g_player_troop", 100),
             (troop_set_slot, "$g_talk_troop", slot_troop_become_vassal_tried, 0),
         ]],
 
@@ -552,6 +573,7 @@ dialogs = [
             (call_script, "script_troop_apply_persuade_vassal_quest", "$g_talk_troop"),
             (call_script, "script_succeed_quest", "qst_persuade_lord_vassalage"),
             (call_script, "script_complete_quest", "qst_persuade_lord_vassalage"),
+            (call_script, "script_troop_add_xp", "$g_player_troop", 150),
             (troop_set_slot, "$g_talk_troop", slot_troop_become_vassal_tried, 0),
         ]],
 
@@ -670,6 +692,7 @@ dialogs = [
 
     [anyone, "lord_quest",
         [
+            (troop_slot_eq, "$g_player_troop", slot_troop_kingdom_occupation, tko_kingdom_hero),
             (troop_slot_eq, "$g_talk_troop", slot_troop_kingdom_occupation, tko_kingdom_hero),
             (store_troop_faction, ":troop_faction", "$g_talk_troop"),
             (call_script, "script_cf_faction_needs_mercenaries", ":troop_faction"),
@@ -1048,6 +1071,7 @@ dialogs = [
                 (call_script, "script_troop_become_vassal", "$g_player_troop", "$g_talk_troop"),
             (try_end),
             (call_script, "script_complete_quest", "qst_swear_vassalage_fief"),
+            (call_script, "script_troop_add_xp", "$g_player_troop", 50),
         ]],
 
     [anyone, "lord_offer_vassal_refused",
@@ -1074,6 +1098,7 @@ dialogs = [
             (try_end),
             (call_script, "script_troop_change_relation_with_troop", "$g_talk_troop", "$g_player_troop", -25),
             (call_script, "script_complete_quest", "qst_swear_vassalage_fief"),
+            (call_script, "script_troop_add_xp", "$g_player_troop", 50),
         ]],
 
     ###############
@@ -1612,7 +1637,7 @@ dialogs = [
             (party_set_slot, "$g_talk_party", slot_party_player_shakedown, 1),
             (party_get_slot, ":linked_center", "$g_talk_party", slot_party_linked_party),
             (party_get_slot, ":prosperity", ":linked_center", slot_party_prosperity),
-            (store_skill_level, ":intimidation", "$g_player_troop", skl_intimidation),
+            (store_skill_level, ":intimidation", skl_intimidation, "$g_player_troop"),
             (val_mul, ":intimidation", 2),
             (val_add, ":prosperity", ":intimidation"),
 
@@ -1681,7 +1706,35 @@ dialogs = [
             (eq, ":continue", 1),
         ], "I'm looking for a missing person, might you be able to help me?", "intro_quest_village_elder_lead", []],
     [anyone|plyr, "village_elder", [], "Is there anything I can do to help?", "village_elder_quests", []],
+
+    [anyone|plyr, "village_elder",
+        [
+            (check_quest_active, "qst_village_deliver_grain"),
+            (quest_get_slot, ":destination", "qst_village_deliver_grain", slot_quest_destination),
+            (eq, ":destination", "$g_encountered_party"),
+            (store_item_kind_count, ":grain_count", "itm_grain", "$g_player_troop"),
+            (ge, ":grain_count", 10),
+        ], "I have the items of grain you needed", "village_elder_quest_deliver_grain_delivered", []],
+
     [anyone|plyr, "village_elder", [], "Goodbye", "close_window", []],
+
+    [anyone, "village_elder_quests",
+        [
+            (call_script, "script_cf_center_get_available_quest", "$g_encountered_party"),
+            (assign, "$g_dialog_outcome", reg0),
+            (eq, 1, 0),
+        ], "Quest available", "village_elder_return", []],
+
+    [anyone, "village_elder_quests",
+        [
+            (eq, "$g_dialog_outcome", -1),
+            (call_script, "script_troop_get_player_name", "$g_talk_troop", "$g_encountered_party"),
+        ], "We have no need at the moment {s60}", "village_elder_return", []],
+
+    [anyone, "village_elder_quests",
+        [
+            (eq, "$g_dialog_outcome", "qst_village_deliver_grain"),
+        ], "{s60}, we recently had a bad harvest and our reserves of grain are short.", "village_elder_quest_deliver_grain", []],
 
     [anyone, "village_elder_quests",
         [
@@ -1766,13 +1819,6 @@ dialogs = [
             (try_end),
         ], "{s10}", "intro_quest_player", []],
 
-    [anyone, "event_triggered",
-        [
-            (check_quest_active, "qst_introduction_default_search"),
-            (quest_get_slot, ":giver_troop", "qst_introduction_default_search", slot_quest_giver_troop),
-            (eq, "$g_talk_troop", ":giver_troop"),
-        ], "{playername}? Did you find something?", "intro_quest_search_player", []],
-
     [anyone|plyr, "intro_quest_player",
         [(eq, "$g_intro_quest_stance", 2),], "Explain yourself!", "intro_quest_explanation",
         [
@@ -1835,6 +1881,7 @@ dialogs = [
             (quest_get_slot, ":reward", "qst_introduction_default", slot_quest_reward),
 
             (call_script, "script_complete_quest", "qst_introduction_default"),
+
             (call_script, "script_intro_quest_get_search_villages"),
             (quest_set_slot, "qst_introduction_default_search_1", slot_quest_destination, reg0),
             (quest_set_slot, "qst_introduction_default_search_2", slot_quest_destination, reg1),
@@ -1890,7 +1937,7 @@ dialogs = [
         ]],
 
     [anyone, "intro_quest_part_3_detail",
-        [], "Thank you for your help... In the meantime I will investigate some leads in the city.^Look for me in the market district when you find something.",
+        [], "Thank you for your help... In the meantime I will investigate some leads in the city.^Look for me in the tavern when you find something.",
         "close_window",
         []],
 
@@ -2152,7 +2199,17 @@ dialogs = [
     [anyone, "start",
         [
             (party_slot_eq, "$g_encountered_party", slot_party_related_quest, "qst_introduction_default_search_1"),
+            (check_quest_succeeded, "qst_introduction_default_search_1"),
+        ], "You again, what is it now?", "intro_quest_thugs_meet_again", []],
+    [anyone, "start",
+        [
+            (party_slot_eq, "$g_encountered_party", slot_party_related_quest, "qst_introduction_default_search_1"),
         ], "What's a little {boy/girl} doing out here. Are you lost?", "intro_quest_thugs", []],
+
+    [anyone|plyr, "intro_quest_thugs_meet_again",
+        [], "On second thought I can't let you live.", "intro_quest_thugs_fight", []],
+    [anyone|plyr, "intro_quest_thugs_meet_again",
+        [], "Nevermind.", "close_window", []],
 
     [anyone|plyr, "intro_quest_thugs",
         [
@@ -2169,7 +2226,16 @@ dialogs = [
     [anyone|plyr, "intro_quest_thugs",
         [], "Nevermind", "close_window", []],
 
-    [anyone, "intro_quest_thugs_threatening", [], "This rascal has gall! I'll humor you for now.", "intro_quest_thugs_questions_accept", []],
+    [anyone, "intro_quest_thugs_threatening",
+        [
+            (quest_get_slot, ":value", "qst_introduction_default_search_1", slot_quest_value),
+            (ge, ":value", 0),
+        ], "This rascal has gall! I'll humor you for now.", "intro_quest_thugs_questions_accept",
+        [
+            (quest_get_slot, ":value", "qst_introduction_default_search_1", slot_quest_value),
+            (val_add, ":value", -1),
+            (quest_set_slot, "qst_introduction_default_search_1", slot_quest_value, ":value"),
+        ]],
     [anyone, "intro_quest_thugs_threatening", [], "You little shit! I'll teach you to talk to me like that!", "close_window",
         [
             (party_set_slot, "$g_encountered_party", slot_party_speak_allowed, 0),
@@ -2182,7 +2248,7 @@ dialogs = [
         [], "I'm not paying you a thing", "intro_quest_thugs_bribe_nothing", 
         [
             (assign, ":patience_change", -3),
-            (store_skill_level, ":persuasion", "$g_player_troop", skl_persuasion),
+            (store_skill_level, ":persuasion", skl_persuasion, "$g_player_troop"),
             (try_begin),
                 (ge, ":persuasion", 5),
                 (assign, ":patience_change", 0),
@@ -2206,7 +2272,7 @@ dialogs = [
             (troop_remove_gold, "$g_player_troop", 100),
 
             (assign, ":patience_change", -1),
-            (store_skill_level, ":persuasion", "$g_player_troop", skl_persuasion),
+            (store_skill_level, ":persuasion", skl_persuasion, "$g_player_troop"),
             (try_begin),
                 (ge, ":persuasion", 2),
                 (assign, ":patience_change", 0),
@@ -2236,7 +2302,7 @@ dialogs = [
         [
 
             (assign, ":patience_change", -3),
-            (store_skill_level, ":persuasion", "$g_player_troop", skl_intimidation),
+            (store_skill_level, ":persuasion", skl_intimidation, "$g_player_troop"),
             (try_begin),
                 (ge, ":persuasion", 5),
                 (assign, ":patience_change", 0),
@@ -2254,7 +2320,7 @@ dialogs = [
 
     [anyone, "intro_quest_thugs_bribe_nothing",
         [
-            (store_skill_level, ":persuasion", "$g_player_troop", skl_persuasion),
+            (store_skill_level, ":persuasion", skl_persuasion, "$g_player_troop"),
             (lt, ":persuasion", 2),
         ], "Well no paying means no saying.", "intro_quest_thugs", []],
     [anyone, "intro_quest_thugs_bribe_nothing", [], "What a tight arse, whatever.", "intro_quest_thugs_questions_accept", []],
@@ -2318,9 +2384,9 @@ dialogs = [
     [anyone, "intro_quest_thugs_question_who", [], "I'm a man under my own lead, no master.", "intro_quest_thugs_question_who_2", []],
     [anyone, "intro_quest_thugs_question_who_2",
         [
-            (str_store_troop_name, s10, "trp_intro_quest_slaver"),
+            (str_store_troop_name, s11, "trp_intro_quest_slaver"),
         ],
-        "Now as for my biggest client? {s10}, a nice fellow once you get to know him.", "intro_quest_thugs_question_who_3",
+        "Now as for my biggest client? {s11}, a nice fellow once you get to know him.", "intro_quest_thugs_question_who_3",
         [
             (str_store_troop_name, s10, "trp_intro_quest_slaver"),
             (str_store_string, s0, "@The thugs work for a man named {s10}."),
@@ -2362,12 +2428,14 @@ dialogs = [
     [anyone|plyr, "intro_quest_search_player",
         [
             (check_quest_succeeded, "qst_introduction_default_search_1"),
+            (check_quest_active, "qst_introduction_default_search_1"),
             (quest_get_slot, ":destination", "qst_introduction_default_search_1", slot_quest_destination),
             (str_store_party_name, s10, ":destination"),
         ], "I found a lead in {s10}", "intro_quest_search_lead_1", []],
     [anyone|plyr, "intro_quest_search_player",
         [
             (check_quest_succeeded, "qst_introduction_default_search_2"),
+            (check_quest_active, "qst_introduction_default_search_2"),
             (quest_get_slot, ":destination", "qst_introduction_default_search_2", slot_quest_destination),
             (str_store_party_name, s10, ":destination"),
         ], "I found a lead in {s10}", "intro_quest_search_lead_2", []],
@@ -2398,7 +2466,7 @@ dialogs = [
             (str_clear, s13),
             (try_begin),
                 (quest_slot_eq, "qst_introduction_default_search_1", slot_quest_asked_state, 1),
-                (str_store_string, s11, "@, they clamied they were not related to his disapearance"),
+                (str_store_string, s11, "@, they claimed they knew your brother and would not go against a noble"),
             (try_end),
             (try_begin),
                 (quest_slot_eq, "qst_introduction_default_search_1", slot_quest_asked_destination, 1),
@@ -2407,7 +2475,7 @@ dialogs = [
             (try_begin),
                 (quest_slot_eq, "qst_introduction_default_search_1", slot_quest_asked_who, 1),
                 (str_store_troop_name, s14, "trp_intro_quest_slaver"),
-                (str_store_string, s13, "@One of their main client we a certain {s14}, finding him could be a lead"),
+                (str_store_string, s13, "@. One of their main client was a certain {s14}, finding him could be a lead"),
             (try_end),
             (quest_get_slot, ":destination", "qst_introduction_default_search_1", slot_quest_destination),
             (str_store_party_name, s10, ":destination"),
@@ -2418,20 +2486,21 @@ dialogs = [
         [
             (quest_slot_eq, "qst_introduction_default_search_1", slot_quest_asked_who, 1),
             (str_store_troop_name, s14, "trp_intro_quest_slaver"),
-        ], "You are right, I will look into this {s14}. Good job.", "intro_quest_search_lead_1_close",
+        ], "You are right, I will look into this {s14}. Nice work.", "intro_quest_search_lead_1_close",
         [
             (call_script, "script_troop_change_relation_with_troop", "$g_talk_troop", "$g_player_troop", 1),
         ]],
-    [anyone, "intro_quest_search_lead_1_detail_feedback", [], "None of this gets us any closer, but thank you for looking into it.", "intro_quest_search_lead_1_close", []],
+    [anyone, "intro_quest_search_lead_1_detail_feedback", [], "This sounds like a false lead then, thank you for looking into it nonetheless.", "intro_quest_search_lead_1_close", []],
 
     [anyone, "intro_quest_search_lead_1_close",
         [
             (quest_get_slot, ":destination", "qst_introduction_default_search_1", slot_quest_destination),
-            (str_store_party_name, s10, ":destination"),
-        ], "I think that concludes our search in {s10}. Thank you again for this.", "intro_quest_search_return",
+            (str_store_party_name, s12, ":destination"),
+        ], "I think that concludes our search in {s12}. Thank you again for this.", "intro_quest_search_return",
         [
             (call_script, "script_troop_change_relation_with_troop", "$g_talk_troop", "$g_player_troop", 1),
-            (call_script, "script_succeed_quest", "qst_introduction_default_search_1"),
+            (call_script, "script_complete_quest", "qst_introduction_default_search_1"),
+            (call_script, "script_troop_add_xp", "$g_player_troop", 125),
         ]],
 
 
@@ -2466,8 +2535,6 @@ dialogs = [
                 (str_store_string, s13, "@. However I was not able to get the location he was headed to next"),
             (try_end),
             (str_store_string, s10, "@He was accompanied by some men{s11}{s12}{s13}."),
-            (quest_get_slot, ":destination", "qst_introduction_default_search_2", slot_quest_destination),
-            (str_store_party_name, s10, ":destination"),
         ], "{s10}", "intro_quest_search_lead_2_detail_feedback", []],
 
     [anyone, "intro_quest_search_lead_2_detail_feedback",
@@ -2477,8 +2544,8 @@ dialogs = [
             (quest_slot_eq, "qst_introduction_default_search_2", slot_quest_asked_destination, 1),
 
             (quest_get_slot, ":destination", "qst_introduction_default_search", slot_quest_destination),
-            (str_store_party_name, s10, ":destination"),
-        ], "We have a lot of information here. Our next step would probably to go to {s10}", "intro_quest_search_lead_2_close",
+            (str_store_party_name, s12, ":destination"),
+        ], "We have a lot of information here. Our next step would probably to go to {s12}", "intro_quest_search_lead_2_close",
         [
             (call_script, "script_troop_change_relation_with_troop", "$g_talk_troop", "$g_player_troop", 2),
         ]],
@@ -2497,17 +2564,18 @@ dialogs = [
     [anyone, "intro_quest_search_lead_2_close",
         [
             (quest_get_slot, ":destination", "qst_introduction_default_search_2", slot_quest_destination),
-            (str_store_party_name, s10, ":destination"),
-        ], "I think that concludes our search in {s10}. Thank you again for this.", "intro_quest_search_return",
+            (str_store_party_name, s12, ":destination"),
+        ], "I think that concludes our search in {s12}. Thank you again for this.", "intro_quest_search_return",
         [
             (call_script, "script_troop_change_relation_with_troop", "$g_talk_troop", "$g_player_troop", 1),
-            (call_script, "script_succeed_quest", "qst_introduction_default_search_2"),
+            (call_script, "script_complete_quest", "qst_introduction_default_search_2"),
+            (call_script, "script_troop_add_xp", "$g_player_troop", 125),
         ]],
 
     [anyone, "intro_quest_search_return",
         [
-            (check_quest_succeeded, "qst_introduction_default_search_1"),
-            (check_quest_succeeded, "qst_introduction_default_search_2"),
+            (neg|check_quest_active, "qst_introduction_default_search_1"),
+            (neg|check_quest_active, "qst_introduction_default_search_2"),
             (quest_slot_eq, "qst_introduction_default_search_2", slot_quest_asked_destination, 1),
             (quest_slot_eq, "qst_introduction_default_search_1", slot_quest_asked_who, 1),
         ], "Great news, we have all of the pieces.", "intro_quest_search_conclude",
@@ -2516,8 +2584,8 @@ dialogs = [
         ]],
     [anyone, "intro_quest_search_return",
         [
-            (check_quest_succeeded, "qst_introduction_default_search_1"),
-            (check_quest_succeeded, "qst_introduction_default_search_2"),
+            (neg|check_quest_active, "qst_introduction_default_search_1"),
+            (neg|check_quest_active, "qst_introduction_default_search_2"),
         ], "There's that, I'll have to dig some more but I think we are onto something.", "intro_quest_search_conclude", []],
     [anyone, "intro_quest_search_return", [], "Did you find something else on our other lead?", "intro_quest_search_player", []],
 
@@ -2535,16 +2603,25 @@ dialogs = [
     [anyone, "intro_quest_search_conclude_continue",
         [], "Wonderfull! It relieves me that you will be there to help me.", "intro_quest_search_conclude_reward",
         [
+            (quest_get_slot, ":destination", "qst_introduction_default_search", slot_quest_destination),
+            (quest_set_slot, "qst_introduction_waiting", slot_quest_destination, ":destination"),
+
             (call_script, "script_troop_change_relation_with_troop", "$g_talk_troop", "$g_player_troop", 1),
+            (call_script, "script_start_quest", "qst_introduction_waiting", "$g_talk_troop"),
+
+            (call_script, "script_get_current_day"),
+            (store_add, ":trigger", reg0, 24*12),
+            (assign, "$g_intro_tutorial_trigger_date", ":trigger"),
         ]],
     [anyone, "intro_quest_search_conclude_reward",
         [
             (quest_get_slot, ":reward", "qst_introduction_default_search", slot_quest_reward),
             (val_add, ":reward", 5000),
             (troop_add_gold, "$g_player_troop", ":reward"),
-            (call_script, "script_conclude_quest", "qst_introduction_default_search"),
-            (call_script, "script_conclude_quest", "qst_introduction_default_search_1"),
-            (call_script, "script_conclude_quest", "qst_introduction_default_search_2"),
+            (call_script, "script_complete_quest", "qst_introduction_default_search"),
+            (call_script, "script_troop_add_xp", "$g_player_troop", 150),
+            # (call_script, "script_conclude_quest", "qst_introduction_default_search_1"),
+            # (call_script, "script_conclude_quest", "qst_introduction_default_search_2"),
             # (call_script, "script_conclude_quest", "qst_introduction_default_search_3"),
         ], "Oh! And here is something for your help.", "intro_quest_search_conclude_next", []],
     [anyone, "intro_quest_search_conclude_next",
@@ -2553,15 +2630,19 @@ dialogs = [
     [anyone, "intro_quest_search_conclude_end",
         [], "Of course, you have done so much already, I can probably do this by myself.", "intro_quest_search_conclude_end_reward",
         [
+            (call_script, "script_get_current_day"),
+            (store_add, ":trigger", reg0, 24*12),
+            (assign, "$g_intro_tutorial_trigger_date", ":trigger"),
         ]],
     [anyone, "intro_quest_search_conclude_end_reward",
         [
             (quest_get_slot, ":reward", "qst_introduction_default_search", slot_quest_reward),
             (val_add, ":reward", 4000),
             (troop_add_gold, "$g_player_troop", ":reward"),
-            (call_script, "script_conclude_quest", "qst_introduction_default_search"),
-            (call_script, "script_conclude_quest", "qst_introduction_default_search_1"),
-            (call_script, "script_conclude_quest", "qst_introduction_default_search_2"),
+            (call_script, "script_complete_quest", "qst_introduction_default_search"),
+            (call_script, "script_troop_add_xp", "$g_player_troop", 150),
+            # (call_script, "script_conclude_quest", "qst_introduction_default_search_1"),
+            # (call_script, "script_conclude_quest", "qst_introduction_default_search_2"),
             # (call_script, "script_conclude_quest", "qst_introduction_default_search_3"),
         ], "Here is your promised reward, thank you again for your help. Wish me good luck my friend.", "close_window", []],
     
@@ -2608,6 +2689,304 @@ dialogs = [
         [], "You haven't even looked and now you try to rob me of the reward.", "intro_quest_search_fail_end_lie_3", []],
     [anyone, "intro_quest_search_fail_end_lie_3",
         [], "You won't get anything and I don't want to see you again.", "close_window", []],
+
+    [anyone|plyr, "intro_quest_wait",
+        [], "You wanted to speak to me?", "intro_quest_final_step_explain", []],
+    [anyone|plyr, "intro_quest_wait",
+        [], "What is it this time?", "intro_quest_final_step_explain_negative", []],
+
+    [anyone, "intro_quest_final_step_explain",
+        [], "Yes I prefered staying vague in case the message was intercepted.", "intro_quest_final_step_explain_1", []],
+    [anyone, "intro_quest_final_step_explain_negative",
+        [
+            (call_script, "script_troop_change_relation_with_troop", "$g_talk_troop", "$g_player_troop", -1),
+        ], "Ah... Yes, I was hoping you would help me again after you agreed last time we spoke.", "intro_quest_final_step_explain_1", []],
+
+    [anyone, "intro_quest_final_step_explain_1",
+        [], "I've compiled differents informations with the help you've given me last time and I think I know what we should do next. Would you like to help me again my friend?", "intro_quest_final_step_answer", []],
+    
+    [anyone|plyr, "intro_quest_final_step_answer",
+        [], "Of course, what's the plan?", "intro_quest_final_step_explain_2", []],
+    [anyone|plyr, "intro_quest_final_step_answer",
+        [], "I'm afraid I have other matters that need my attention", "intro_quest_final_step_refuse_1", 
+        [
+            (call_script, "script_troop_change_relation_with_troop", "$g_talk_troop", "$g_player_troop", -10),
+            (call_script, "script_complete_quest", "qst_introduction_waiting"),
+            (call_script, "script_troop_add_xp", "$g_player_troop", 100),
+        ]],
+
+    [anyone, "intro_quest_final_step_explain_2",
+        [
+            (str_store_troop_name, s10, "trp_intro_quest_slaver"),
+        ], "You're a reliable friend, it's time we handle {s10}.", "intro_quest_final_step_explain_3", []],
+    [anyone, "intro_quest_final_step_explain_3",
+        [
+            (quest_get_slot, ":destination", "qst_introduction_waiting", slot_quest_destination),
+            (str_store_party_name, s10, ":destination"),
+        ], "We know that he is currently operating around {s10}.", "intro_quest_final_step_explain_4", []],
+
+    [anyone, "intro_quest_final_step_explain_4",
+        [], "From what I could gather, he has a deal of sorts with the captain of the guard, and he lets him operate in the city.", "intro_quest_final_step_explain_5", []],
+    [anyone, "intro_quest_final_step_explain_5",
+        [], "I have gathered a few allies in the guard that don't agree with this deal to help us in case things go sour. But the priority is to free my brother.", "intro_quest_final_step_explain_6", []],
+    [anyone, "intro_quest_final_step_explain_6",
+        [
+            (str_store_troop_name, s10, "trp_intro_quest_slaver"),
+        ], "You will first speak to {s10}, get him to free my brother and then, you will be able to deal with him how you like.", "intro_quest_final_step_explain_7",
+        [
+            (call_script, "script_complete_quest", "qst_introduction_waiting"),
+            (call_script, "script_troop_add_xp", "$g_player_troop", 100),
+        ]],
+    [anyone, "intro_quest_final_step_explain_7",
+        [], "Do you have any question before we go?", "intro_quest_final_step_player_question", []],
+
+    [anyone|plyr, "intro_quest_final_step_player_question",
+        [], "Why will I be the one to talk?", "intro_quest_final_step_player_question_player_talk", []],
+    [anyone|plyr, "intro_quest_final_step_player_question",
+        [], "Do you know how much security he has?", "intro_quest_final_step_player_question_opposition", []],
+    [anyone|plyr, "intro_quest_final_step_player_question",
+        [], "Do you have a preference for his treatment?", "intro_quest_final_step_player_question_treatment", []],
+    [anyone|plyr, "intro_quest_final_step_player_question",
+        [], "Why don't we attack him when we see him?", "intro_quest_final_step_player_question_attack", []],
+    [anyone|plyr, "intro_quest_final_step_player_question",
+        [], "I'm ready to go", "intro_quest_final_step_ready", []],
+
+
+    [anyone, "intro_quest_final_step_player_question_player_talk",
+        [
+            (str_clear, s10),
+            (store_skill_level, ":intimidation", skl_intimidation, "$g_player_troop"),
+            (store_skill_level, ":persuasion", skl_persuasion, "$g_player_troop"),
+            (store_skill_level, ":trade", skl_trade, "$g_player_troop"),
+            (store_skill_level, ":ironflesh", skl_ironflesh, "$g_player_troop"),
+            (store_skill_level, ":athletics", skl_athletics, "$g_player_troop"),
+
+
+            (store_attribute_level, ":strength", "$g_player_troop", skl_athletics),
+            (store_attribute_level, ":agility", "$g_player_troop", skl_athletics),
+            (store_attribute_level, ":charisma", "$g_player_troop", skl_athletics),
+            (store_attribute_level, ":intelligence", "$g_player_troop", skl_athletics),
+            (try_begin),
+                (gt, ":persuasion", ":intimidation"),
+                (gt, ":persuasion", ":trade"),
+                (gt, ":persuasion", ":ironflesh"),
+                (gt, ":persuasion", ":athletics"),
+
+                (gt, ":persuasion", 2),
+                (str_store_string, s10, "@Moreover I think you are more capable than me at persuading people."),
+            (else_try),
+                (gt, ":trade", ":intimidation"),
+                (gt, ":trade", ":ironflesh"),
+                (gt, ":trade", ":athletics"),
+                
+                (gt, ":trade", 2),
+                (str_store_string, s10, "@Moreover I think you should be able to arrange a good deal with him."),
+            (else_try),
+                (gt, ":intimidation", ":ironflesh"),
+                (gt, ":intimidation", ":athletics"),
+                
+                (gt, ":intimidation", 2),
+                (str_store_string, s10, "@Moreover, and I mean it in a good way, you are quite intimidating."),
+            (else_try),
+                (gt, ":athletics", ":ironflesh"),
+                
+                (gt, ":athletics", 2),
+                (str_store_string, s10, "@Moreover I think you should be able to get to help safely should the need arises."),
+            (else_try),
+                (gt, ":ironflesh", 2),
+                (str_store_string, s10, "@Moreover I think you will be able to hold on long enough until help arrives should the need arises."),
+
+            (else_try),
+                (gt, ":charisma", ":intelligence"),
+                (gt, ":charisma", ":strength"),
+                (gt, ":charisma", ":agility"),
+                (str_store_string, s10, "@Moreover I think you have a more friendly face than me."),
+            (else_try),
+                (gt, ":intelligence", ":charisma"),
+                (gt, ":intelligence", ":strength"),
+                (gt, ":intelligence", ":agility"),
+                (str_store_string, s10, "@Moreover I think your quick thinking is what we need."),
+            (else_try),
+                (gt, ":strength", ":charisma"),
+                (gt, ":strength", ":intelligence"),
+                (gt, ":strength", ":agility"),
+                (str_store_string, s10, "@Moreover I think you should be able to handle it if it gets rough."),
+            (else_try),
+                (gt, ":agility", ":charisma"),
+                (gt, ":agility", ":intelligence"),
+                (gt, ":agility", ":strength"),
+                (str_store_string, s10, "@Moreover I think you are the type to avoid trouble."),
+            (else_try),
+                (str_store_string, s10, "@And I think you have what it takes."),
+            (try_end),
+        ], "I know the man and he knows me. We don't see eye to eye and have had our differences over the past. {s10}", "intro_quest_final_step_player_question_return", []],
+    [anyone, "intro_quest_final_step_player_question_opposition",
+        [], "He does surround himself with a few guards but he also thinks his deal with the captain of the guard will keep him safe.^It does, but I managed to sway some of the guard. We should have the upper hand in case of a confrontation, but remember, this should be the last resort and those guards are not here in official business.", "intro_quest_final_step_player_question_return", []],
+    [anyone, "intro_quest_final_step_player_question_treatment",
+        [], "Honestly I would like for him to be unable to open his business elsewhere. If he will not see reason, death is acceptable.", "intro_quest_final_step_player_question_return", []],
+    [anyone, "intro_quest_final_step_player_question_attack",
+        [], "Because we need my brother alive remember? We need to prioritize his safety above all.", "intro_quest_final_step_player_question_return", []],
+
+    [anyone, "intro_quest_final_step_player_question_return",
+        [], "Anything else?", "intro_quest_final_step_player_question", []],
+
+    [anyone, "intro_quest_final_step_ready",
+        [
+            (quest_get_slot, ":destination", "qst_introduction_waiting", slot_quest_destination),
+            # (str_store_party_name, s10, ":destination"),
+
+            (call_script, "script_start_quest", "qst_introduction_confrontation", "$g_talk_troop"),
+
+            (str_store_troop_name, s10, "trp_intro_quest_slaver"),
+            (str_store_party_name_link, s11, ":destination"),
+            (str_store_string, s0, "@{s10} can be found in the market district of {s11}."),
+            (call_script, "script_quest_add_note", "qst_introduction_confrontation", 0),
+        ], "Great, meet me in the market district of {s10}, then we will head together to see him.", "close_window", []],
+    
+
+    [anyone, "intro_quest_final_step_refuse_1",
+        [], "I guess you are, I will manage.", "intro_quest_final_step_refuse_2", []],
+    [anyone, "intro_quest_final_step_refuse_2",
+        [], "Still it was pleasure seeing you again. Wish me luck.", "close_window", []],
+
+    # Village elder quests
+    [anyone, "village_elder_quest_deliver_grain",
+        [],
+        "I fear we won't be able to sow our fields before the next harvest. If you could trouble yourself to bring us 10 units of grain we would be most grateful",
+        "village_elder_quest_deliver_grain_player_response", []],
+    [anyone|plyr, "village_elder_quest_deliver_grain_player_response",
+        [],
+        "I'll get the grain for you",
+        "village_elder_quest_deliver_grain_accept",
+        [
+            (quest_set_slot, "qst_village_deliver_grain", slot_quest_destination, "$g_encountered_party"),
+            (call_script, "script_start_quest", "qst_village_deliver_grain", "$g_talk_troop"),
+            (call_script, "script_party_change_player_relation", "$g_encountered_party", 1),
+        ]],
+    [anyone|plyr, "village_elder_quest_deliver_grain_player_response",
+        [],
+        "I hope you will give me more than 'gratitude' for my trouble",
+        "village_elder_quest_deliver_grain_reward",
+        [
+            (call_script, "script_start_quest", "qst_village_deliver_grain", "$g_talk_troop"),
+            (quest_set_slot, "qst_village_deliver_grain", slot_quest_destination, "$g_encountered_party"),
+            (call_script, "script_party_change_player_relation", "$g_encountered_party", -1),
+        ]],
+    [anyone|plyr, "village_elder_quest_deliver_grain_player_response",
+        [],
+        "I can't do that right now",
+        "village_elder_quest_deliver_grain_refuse", []],
+
+    [anyone, "village_elder_quest_deliver_grain_accept",
+        [
+            (call_script, "script_troop_get_player_name", "$g_talk_troop", "$g_encountered_party"),
+        ],
+        "Thank you {s60}, we will await your return.",
+        "village_elder_return", []],
+    [anyone, "village_elder_quest_deliver_grain_reward",
+        [
+            (party_get_slot, ":linked_party", "$g_encountered_party", slot_party_linked_party),
+            (call_script, "script_item_get_buy_price", "itm_grain", "$g_encountered_party", ":linked_party"),
+            (store_mul, ":bonus_reward", reg0, 8),
+            (call_script, "script_game_get_money_text", ":bonus_reward"),
+            (call_script, "script_troop_get_player_name", "$g_talk_troop", "$g_encountered_party"),
+        ],
+        "Of course {s60}, we will gather {s0} to pay you for the grain you bring.",
+        "village_elder_quest_deliver_grain_accept",
+        [
+            (quest_get_slot, ":reward", "qst_village_deliver_grain", slot_quest_reward),
+
+            (party_get_slot, ":linked_party", "$g_encountered_party", slot_party_linked_party),
+            (call_script, "script_item_get_buy_price", "itm_grain", "$g_encountered_party", ":linked_party"),
+            (store_mul, ":bonus_reward", reg0, 8),
+
+            (val_add, ":reward", ":bonus_reward"),
+            (quest_set_slot, "qst_village_deliver_grain", slot_quest_reward, ":reward"),
+        ]],
+
+    [anyone, "village_elder_quest_deliver_grain_refuse",
+        [
+            (call_script, "script_troop_get_player_name", "$g_talk_troop", "$g_encountered_party"),
+        ],
+        "Of course {s60}, you certainly have more pressing matters.",
+        "village_elder_return",
+        [
+            (call_script, "script_party_change_player_relation", "$g_encountered_party", -1),
+        ]],
+
+    [anyone, "village_elder_quest_deliver_grain_delivered",
+        [
+            (call_script, "script_troop_get_player_name", "$g_talk_troop", "$g_encountered_party"),
+        ],
+        "Oh you're a lifesaver {s60}!",
+        "village_elder_quest_deliver_grain_delivered_reward",
+        [
+            (call_script, "script_succeed_quest", "qst_village_deliver_grain"),
+            (call_script, "script_party_transfer_goods", "$g_player_party", "$g_encountered_party", "itm_grain", 10),
+        ]],
+    [anyone, "village_elder_quest_deliver_grain_delivered_reward",
+        [
+            (quest_get_slot, ":reward", "qst_village_deliver_grain", slot_quest_reward),
+            (try_begin),
+                (gt, ":reward", 0),
+                (call_script, "script_troop_get_player_name", "$g_talk_troop", "$g_encountered_party"),
+                (call_script, "script_game_get_money_text", ":reward"),
+                (str_store_string, s11, "@ and {s0} to cover for your expenses in acquiring the grain.^I hope this will be sufficient for you {s60}"),
+            (else_try),
+                (str_store_string, s11, "@. We are very gratefull to you."),
+            (try_end),
+            (party_get_slot, ":linked_party", "$g_encountered_party", slot_party_linked_party),
+            (call_script, "script_item_get_buy_price", "itm_grain", "$g_encountered_party", ":linked_party"),
+            (store_mul, ":bonus_reward", reg0, 10),
+            (call_script, "script_game_get_money_text", ":bonus_reward"),
+        ],
+        "With this we'll have no trouble to secure our next harvest.^Here is your reward {s0} for the delivery{s11}",
+        "village_elder_quest_deliver_grain_delivered_player",
+        [
+            (call_script, "script_party_change_player_relation", "$g_encountered_party", 2),
+        ]],
+
+    [anyone|plyr, "village_elder_quest_deliver_grain_delivered_player",
+        [],
+        "Keep the gold, you will need it more than me",
+        "village_elder_quest_deliver_grain_delivered_reward_refused",
+        [
+            (call_script, "script_party_change_player_relation", "$g_encountered_party", 3),
+        ]],
+    [anyone|plyr, "village_elder_quest_deliver_grain_delivered_player",
+        [],
+        "You're welcome",
+        "village_elder_quest_deliver_grain_delivered_reward_accepted",
+        [
+            (quest_get_slot, ":reward", "qst_village_deliver_grain", slot_quest_reward),
+            (party_get_slot, ":linked_party", "$g_encountered_party", slot_party_linked_party),
+            (call_script, "script_item_get_buy_price", "itm_grain", "$g_encountered_party", ":linked_party"),
+            (store_mul, ":bonus_reward", reg0, 10),
+            (val_add, ":reward", ":bonus_reward"),
+            (call_script, "script_party_receive_gold", "$g_player_party", ":reward"),
+        ]],
+
+
+    [anyone, "village_elder_quest_deliver_grain_delivered_reward_refused",
+        [
+            (call_script, "script_troop_get_player_name", "$g_talk_troop", "$g_encountered_party"),
+        ],
+        "You are most gracious {s60}. Thank you again for your help.",
+        "village_elder_return",
+        [
+            (call_script, "script_complete_quest", "qst_village_deliver_grain"),
+            (call_script, "script_troop_add_xp", "$g_player_troop", 150),
+        ]],
+    [anyone, "village_elder_quest_deliver_grain_delivered_reward_accepted",
+        [
+            (call_script, "script_troop_get_player_name", "$g_talk_troop", "$g_encountered_party"),
+        ],
+        "Thank you again for your help {s60}.",
+        "village_elder_return",
+        [
+            (call_script, "script_complete_quest", "qst_village_deliver_grain"),
+            (call_script, "script_troop_add_xp", "$g_player_troop", 150),
+        ]],
 
 
     #################

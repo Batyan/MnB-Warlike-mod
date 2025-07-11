@@ -453,6 +453,9 @@ faction_tax_rate_vassal_base = 5
 quests_begin = "qst_introduction_default"
 quests_end = "qst_quests_end"
 
+village_quests_begin = "qst_village_deliver_grain"
+village_quests_end = quests_end
+
 quest_descriptions_begin = "str_quest_description_introduction_default"
 quest_descriptions_end = "qst_quest_description_end"
 
@@ -474,8 +477,8 @@ goods_ratio_transformation_town = 10
 renown_value_village = 300
 renown_value_castle = 750
 renown_value_town = 1500
-renown_value_caravan = 30
-renown_value_patrol = 50
+renown_value_caravan = 40
+renown_value_patrol = 60
 
 event_type_proposed_vassalage = 1
 event_type_proposed_fief = 2
@@ -561,6 +564,10 @@ ta_aggressive = 7
 ta_threatening = 8
 ta_loving = 9
 ta_caring = 10
+
+level_xp_multiplier = 10
+level_xp_base = 500
+level_xp_multiplier_sqrt = 5000
 
 ################
 ## Item Slots ##
@@ -1311,8 +1318,9 @@ slot_party_production_target_end = slot_party_production_target_begin + recipes_
 slot_party_override_production_target = slot_party_production_target_end + 1
 
 slot_party_player_shakedown = slot_party_override_production_target + 1
+slot_party_player_relation = slot_party_player_shakedown + 1
 
-slot_party_governor = slot_party_player_shakedown + 1
+slot_party_governor = slot_party_player_relation + 1
 
 slot_party_player_wages_limit = slot_party_governor + 1
 
@@ -1428,6 +1436,10 @@ slot_party_related_quest = slot_party_free_recruits + 1
 slot_party_face_key_storage = slot_party_related_quest + 1
 slot_party_face_options_storage = slot_party_face_key_storage + 1
 
+slot_party_mission_kills = slot_party_face_options_storage + 1
+slot_party_mission_deaths = slot_party_mission_kills + 1
+slot_party_mission_xp = slot_party_mission_deaths + 1
+
 #################
 ## Scene Slots ##
 #################
@@ -1440,13 +1452,26 @@ scene_slots = 0
 
 slot_scene_num_defend_points = 1
 
-slot_scene_num_attack_spawn = 2
+slot_scene_num_attack_spawn = slot_scene_num_defend_points + 1
 
-slot_scene_num_archer_points = 3
+slot_scene_num_archer_points = slot_scene_num_attack_spawn + 1
 
-slot_scene_enabled = 4
+slot_scene_enabled = slot_scene_num_archer_points + 1
 
+slot_scene_type = slot_scene_enabled + 1
 
+scene_terrain_plain = 0x001
+scene_terrain_steppe = 0x002
+scene_terrain_desert = 0x004
+scene_terrain_snow = 0x008
+scene_construction_brick_square = 0x010
+scene_construction_brick_small = 0x020
+scene_construction_brick_dark = 0x040
+scene_construction_brick_steppe = 0x80
+scene_construction_brick_snow = 0x100
+scene_construction_wood_fort = 0x200
+scene_construction_wood_pallisade = 0x400
+scene_construction_brick_desert = 0x800
 
 #################
 ## Troop Slots ##
@@ -1700,8 +1725,13 @@ slot_troop_mercenary_contract_end_date = slot_troop_mercenary_contract_monthly_p
 slot_troop_mission_kills = slot_troop_mercenary_contract_end_date + 1
 slot_troop_mission_deaths = slot_troop_mission_kills + 1
 
-slot_troop_relations_begin = slot_troop_mission_deaths + 1
+slot_troop_xp = slot_troop_mission_deaths + 1
+slot_troop_xp_level = slot_troop_xp + 1
+slot_troop_attribute_points = slot_troop_xp_level + 1
+slot_troop_skill_points = slot_troop_attribute_points + 1
+slot_troop_proficiency_points = slot_troop_skill_points + 1
 
+slot_troop_relations_begin = slot_troop_proficiency_points + 1
 
 # TODO: remove or move to specific slot type
 slot_item_mission_kills = 400
