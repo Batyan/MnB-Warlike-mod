@@ -75,7 +75,7 @@ dialogs = [
 
     #############
     # Lord Talk #
-    #############   
+    #############
     [anyone, "start",
         [
             (check_quest_active, "qst_introduction_default_search"),
@@ -86,6 +86,15 @@ dialogs = [
             (quest_get_slot, ":giver_troop", "qst_introduction_default_search", slot_quest_giver_troop),
             (eq, "$g_talk_troop", ":giver_troop"),
         ], "{playername}? Did you find something?", "intro_quest_search_player", []],
+
+    [anyone, "start",
+        [
+            (check_quest_active, "qst_introduction_waiting"),
+
+            (quest_get_slot, ":giver_troop", "qst_introduction_waiting", slot_quest_giver_troop),
+            (eq, "$g_talk_troop", ":giver_troop"),
+            (call_script, "script_succeed_quest", "qst_introduction_waiting"),
+        ], "{playername}! You've arrived, I trust my messenger found you alright?", "intro_quest_wait", []],
 
     [anyone, "start", 
         [
@@ -2672,6 +2681,164 @@ dialogs = [
     [anyone, "intro_quest_search_fail_end_lie_3",
         [], "You won't get anything and I don't want to see you again.", "close_window", []],
 
+    [anyone|plyr, "intro_quest_wait",
+        [], "You wanted to speak to me?", "intro_quest_final_step_explain", []],
+    [anyone|plyr, "intro_quest_wait",
+        [], "What is it this time?", "intro_quest_final_step_explain_negative", []],
+
+    [anyone, "intro_quest_final_step_explain",
+        [], "Yes I prefered staying vague in case the message was intercepted.", "intro_quest_final_step_explain_1", []],
+    [anyone, "intro_quest_final_step_explain_negative",
+        [
+            (call_script, "script_troop_change_relation_with_troop", "$g_talk_troop", "$g_player_troop", -1),
+        ], "Ah... Yes, I was hoping you would help me again after you agreed last time we spoke.", "intro_quest_final_step_explain_1", []],
+
+    [anyone, "intro_quest_final_step_explain_1",
+        [], "I've compiled differents informations with the help you've given me last time and I think I know what we should do next. Would you like to help me again my friend?", "intro_quest_final_step_answer", []],
+    
+    [anyone|plyr, "intro_quest_final_step_answer",
+        [], "Of course, what's the plan?", "intro_quest_final_step_explain_2", []],
+    [anyone|plyr, "intro_quest_final_step_answer",
+        [], "I'm afraid I have other matters that need my attention", "intro_quest_final_step_refuse_1", 
+        [
+            (call_script, "script_troop_change_relation_with_troop", "$g_talk_troop", "$g_player_troop", -10),
+            (call_script, "script_complete_quest", "qst_introduction_waiting"),
+            (call_script, "script_troop_add_xp", "$g_player_troop", 100),
+        ]],
+
+    [anyone, "intro_quest_final_step_explain_2",
+        [
+            (str_store_troop_name, s10, "trp_intro_quest_slaver"),
+        ], "You're a reliable friend, it's time we handle {s10}.", "intro_quest_final_step_explain_3", []],
+    [anyone, "intro_quest_final_step_explain_3",
+        [
+            (quest_get_slot, ":destination", "qst_introduction_waiting", slot_quest_destination),
+            (str_store_party_name, s10, ":destination"),
+        ], "We know that he is currently operating around {s10}.", "intro_quest_final_step_explain_4", []],
+
+    [anyone, "intro_quest_final_step_explain_4",
+        [], "From what I could gather, he has a deal of sorts with the captain of the guard, and he lets him operate in the city.", "intro_quest_final_step_explain_5", []],
+    [anyone, "intro_quest_final_step_explain_5",
+        [], "I have gathered a few allies in the guard that don't agree with this deal to help us in case things go sour. But the priority is to free my brother.", "intro_quest_final_step_explain_6", []],
+    [anyone, "intro_quest_final_step_explain_6",
+        [
+            (str_store_troop_name, s10, "trp_intro_quest_slaver"),
+        ], "You will first speak to {s10}, get him to free my brother and then, you will be able to deal with him how you like.", "intro_quest_final_step_explain_7",
+        [
+            (call_script, "script_complete_quest", "qst_introduction_waiting"),
+            (call_script, "script_troop_add_xp", "$g_player_troop", 100),
+        ]],
+    [anyone, "intro_quest_final_step_explain_7",
+        [], "Do you have any question before we go?", "intro_quest_final_step_player_question", []],
+
+    [anyone|plyr, "intro_quest_final_step_player_question",
+        [], "Why will I be the one to talk?", "intro_quest_final_step_player_question_player_talk", []],
+    [anyone|plyr, "intro_quest_final_step_player_question",
+        [], "Do you know how much security he has?", "intro_quest_final_step_player_question_opposition", []],
+    [anyone|plyr, "intro_quest_final_step_player_question",
+        [], "Do you have a preference for his treatment?", "intro_quest_final_step_player_question_treatment", []],
+    [anyone|plyr, "intro_quest_final_step_player_question",
+        [], "Why don't we attack him when we see him?", "intro_quest_final_step_player_question_attack", []],
+    [anyone|plyr, "intro_quest_final_step_player_question",
+        [], "I'm ready to go", "intro_quest_final_step_ready", []],
+
+
+    [anyone, "intro_quest_final_step_player_question_player_talk",
+        [
+            (str_clear, s10),
+            (store_skill_level, ":intimidation", skl_intimidation, "$g_player_troop"),
+            (store_skill_level, ":persuasion", skl_persuasion, "$g_player_troop"),
+            (store_skill_level, ":trade", skl_trade, "$g_player_troop"),
+            (store_skill_level, ":ironflesh", skl_ironflesh, "$g_player_troop"),
+            (store_skill_level, ":athletics", skl_athletics, "$g_player_troop"),
+
+
+            (store_attribute_level, ":strength", "$g_player_troop", skl_athletics),
+            (store_attribute_level, ":agility", "$g_player_troop", skl_athletics),
+            (store_attribute_level, ":charisma", "$g_player_troop", skl_athletics),
+            (store_attribute_level, ":intelligence", "$g_player_troop", skl_athletics),
+            (try_begin),
+                (gt, ":persuasion", ":intimidation"),
+                (gt, ":persuasion", ":trade"),
+                (gt, ":persuasion", ":ironflesh"),
+                (gt, ":persuasion", ":athletics"),
+
+                (gt, ":persuasion", 2),
+                (str_store_string, s10, "@Moreover I think you are more capable than me at persuading people."),
+            (else_try),
+                (gt, ":trade", ":intimidation"),
+                (gt, ":trade", ":ironflesh"),
+                (gt, ":trade", ":athletics"),
+                
+                (gt, ":trade", 2),
+                (str_store_string, s10, "@Moreover I think you should be able to arrange a good deal with him."),
+            (else_try),
+                (gt, ":intimidation", ":ironflesh"),
+                (gt, ":intimidation", ":athletics"),
+                
+                (gt, ":intimidation", 2),
+                (str_store_string, s10, "@Moreover, and I mean it in a good way, you are quite intimidating."),
+            (else_try),
+                (gt, ":athletics", ":ironflesh"),
+                
+                (gt, ":athletics", 2),
+                (str_store_string, s10, "@Moreover I think you should be able to get to help safely should the need arises."),
+            (else_try),
+                (gt, ":ironflesh", 2),
+                (str_store_string, s10, "@Moreover I think you will be able to hold on long enough until help arrives should the need arises."),
+
+            (else_try),
+                (gt, ":charisma", ":intelligence"),
+                (gt, ":charisma", ":strength"),
+                (gt, ":charisma", ":agility"),
+                (str_store_string, s10, "@Moreover I think you have a more friendly face than me."),
+            (else_try),
+                (gt, ":intelligence", ":charisma"),
+                (gt, ":intelligence", ":strength"),
+                (gt, ":intelligence", ":agility"),
+                (str_store_string, s10, "@Moreover I think your quick thinking is what we need."),
+            (else_try),
+                (gt, ":strength", ":charisma"),
+                (gt, ":strength", ":intelligence"),
+                (gt, ":strength", ":agility"),
+                (str_store_string, s10, "@Moreover I think you should be able to handle it if it gets rough."),
+            (else_try),
+                (gt, ":agility", ":charisma"),
+                (gt, ":agility", ":intelligence"),
+                (gt, ":agility", ":strength"),
+                (str_store_string, s10, "@Moreover I think you are the type to avoid trouble."),
+            (else_try),
+                (str_store_string, s10, "@And I think you have what it takes."),
+            (try_end),
+        ], "I know the man and he knows me. We don't see eye to eye and have had our differences over the past. {s10}", "intro_quest_final_step_player_question_return", []],
+    [anyone, "intro_quest_final_step_player_question_opposition",
+        [], "He does surround himself with a few guards but he also thinks his deal with the captain of the guard will keep him safe.^It does, but I managed to sway some of the guard. We should have the upper hand in case of a confrontation, but remember, this should be the last resort and those guards are not here in official business.", "intro_quest_final_step_player_question_return", []],
+    [anyone, "intro_quest_final_step_player_question_treatment",
+        [], "Honestly I would like for him to be unable to open his business elsewhere. If he will not see reason, death is acceptable.", "intro_quest_final_step_player_question_return", []],
+    [anyone, "intro_quest_final_step_player_question_attack",
+        [], "Because we need my brother alive remember? We need to prioritize his safety above all.", "intro_quest_final_step_player_question_return", []],
+
+    [anyone, "intro_quest_final_step_player_question_return",
+        [], "Anything else?", "intro_quest_final_step_player_question", []],
+
+    [anyone, "intro_quest_final_step_ready",
+        [
+            (quest_get_slot, ":destination", "qst_introduction_waiting", slot_quest_destination),
+            # (str_store_party_name, s10, ":destination"),
+
+            (call_script, "script_start_quest", "qst_introduction_confrontation", "$g_talk_troop"),
+
+            (str_store_troop_name, s10, "trp_intro_quest_slaver"),
+            (str_store_party_name_link, s11, ":destination"),
+            (str_store_string, s0, "@{s10} can be found in the market district of {s11}."),
+            (call_script, "script_quest_add_note", "qst_introduction_confrontation", 0),
+        ], "Great, meet me in the market district of {s10}, then we will head together to see him.", "close_window", []],
+    
+
+    [anyone, "intro_quest_final_step_refuse_1",
+        [], "I guess you are, I will manage.", "intro_quest_final_step_refuse_2", []],
+    [anyone, "intro_quest_final_step_refuse_2",
+        [], "Still it was pleasure seeing you again. Wish me luck.", "close_window", []],
 
     # Village elder quests
     [anyone, "village_elder_quest_deliver_grain",

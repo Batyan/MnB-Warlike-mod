@@ -14,6 +14,8 @@ quests = [
         "{!}."),
     ("introduction_waiting", "Wait for a message from {s62}", 0,
         "{!}."),
+    ("introduction_confrontation", "Confront Cerval Phinius", 0,
+        "{!}."),
 
     ("swear_vassalage_fief", "Swear Vassalage to {s62}", qf_random_quest,
         "{!}{s62} proposed that you pledge allegience to him, you would be granted {s11} in exchange."),

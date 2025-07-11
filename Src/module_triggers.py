@@ -36,11 +36,11 @@ triggers = [
         [
             (try_begin),
                 (check_quest_active, "qst_introduction_waiting"),
-                (call_script, "script_succeed_quest", "qst_introduction_waiting"),
+                # (call_script, "script_succeed_quest", "qst_introduction_waiting"),
 
                 (quest_get_slot, ":giver", "qst_introduction_waiting", slot_quest_giver_troop),
                 (quest_get_slot, ":destination", "qst_introduction_waiting", slot_quest_destination),
-                
+            
                 (party_set_flags, ":destination", pf_always_visible, 1),
                 (party_set_note_available, ":destination", 1),
 

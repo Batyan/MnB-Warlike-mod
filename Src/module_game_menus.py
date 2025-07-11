@@ -1836,12 +1836,24 @@ game_menus = [
                     (eq, "$g_encountered_party", ":starting_town"),
 
                     (quest_get_slot, ":giver_troop", "qst_introduction_default_search", slot_quest_giver_troop),
-
-                    (quest_get_slot, ":giver_troop", "qst_introduction_default_search", slot_quest_giver_troop),
                     (str_store_troop_name, s10, ":giver_troop"),
                 ], "Meet with {s10}",
                 [
                     (quest_get_slot, ":giver_troop", "qst_introduction_default_search", slot_quest_giver_troop),
+                    (call_script, "script_setup_troop_meeting", ":giver_troop", -1),
+                ]),
+            ("tavern_intro_quest_wait",
+                [
+                    (check_quest_active, "qst_introduction_waiting"),
+
+                    (quest_get_slot, ":destination", "qst_introduction_waiting", slot_quest_destination),
+                    (eq, "$g_encountered_party", ":destination"),
+
+                    (quest_get_slot, ":giver_troop", "qst_introduction_waiting", slot_quest_giver_troop),
+                    (str_store_troop_name, s10, ":giver_troop"),
+                ], "Meet with {s10}",
+                [
+                    (quest_get_slot, ":giver_troop", "qst_introduction_waiting", slot_quest_giver_troop),
                     (call_script, "script_setup_troop_meeting", ":giver_troop", -1),
                 ]),
             
@@ -3238,6 +3250,7 @@ game_menus = [
             (set_background_mesh, "mesh_pic_messenger"),
 
             (quest_get_slot, ":giver", "qst_introduction_waiting", slot_quest_giver_troop),
+            
             (quest_get_slot, ":destination", "qst_introduction_waiting", slot_quest_destination),
 
             (str_store_troop_name, s10, ":giver"),
