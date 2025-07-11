@@ -20,6 +20,7 @@ v0.630:
 		* increase xp gain rate (x4)
 		* temporarily disable capturing territory for factions
 		* add ability to speak to the introduction thugs again after getting information from them
+		* add xp gain on quests
 	-Fixes:
 		* fix missing resource loading in module.ini
 		* fix a few typo errors

@@ -324,6 +324,7 @@ dialogs = [
             (call_script, "script_troop_become_vassal", "$g_talk_troop", ":lord"),
             (call_script, "script_succeed_quest", "qst_persuade_lord_vassalage"),
             (call_script, "script_complete_quest", "qst_persuade_lord_vassalage"),
+            (call_script, "script_troop_add_xp", "$g_player_troop", 100),
             (troop_set_slot, "$g_talk_troop", slot_troop_become_vassal_tried, 0),
         ]],
 
@@ -572,6 +573,7 @@ dialogs = [
             (call_script, "script_troop_apply_persuade_vassal_quest", "$g_talk_troop"),
             (call_script, "script_succeed_quest", "qst_persuade_lord_vassalage"),
             (call_script, "script_complete_quest", "qst_persuade_lord_vassalage"),
+            (call_script, "script_troop_add_xp", "$g_player_troop", 150),
             (troop_set_slot, "$g_talk_troop", slot_troop_become_vassal_tried, 0),
         ]],
 
@@ -1069,6 +1071,7 @@ dialogs = [
                 (call_script, "script_troop_become_vassal", "$g_player_troop", "$g_talk_troop"),
             (try_end),
             (call_script, "script_complete_quest", "qst_swear_vassalage_fief"),
+            (call_script, "script_troop_add_xp", "$g_player_troop", 50),
         ]],
 
     [anyone, "lord_offer_vassal_refused",
@@ -1095,6 +1098,7 @@ dialogs = [
             (try_end),
             (call_script, "script_troop_change_relation_with_troop", "$g_talk_troop", "$g_player_troop", -25),
             (call_script, "script_complete_quest", "qst_swear_vassalage_fief"),
+            (call_script, "script_troop_add_xp", "$g_player_troop", 50),
         ]],
 
     ###############
@@ -1877,6 +1881,7 @@ dialogs = [
             (quest_get_slot, ":reward", "qst_introduction_default", slot_quest_reward),
 
             (call_script, "script_complete_quest", "qst_introduction_default"),
+
             (call_script, "script_intro_quest_get_search_villages"),
             (quest_set_slot, "qst_introduction_default_search_1", slot_quest_destination, reg0),
             (quest_set_slot, "qst_introduction_default_search_2", slot_quest_destination, reg1),
@@ -2495,6 +2500,7 @@ dialogs = [
         [
             (call_script, "script_troop_change_relation_with_troop", "$g_talk_troop", "$g_player_troop", 1),
             (call_script, "script_complete_quest", "qst_introduction_default_search_1"),
+            (call_script, "script_troop_add_xp", "$g_player_troop", 125),
         ]],
 
 
@@ -2563,6 +2569,7 @@ dialogs = [
         [
             (call_script, "script_troop_change_relation_with_troop", "$g_talk_troop", "$g_player_troop", 1),
             (call_script, "script_complete_quest", "qst_introduction_default_search_2"),
+            (call_script, "script_troop_add_xp", "$g_player_troop", 125),
         ]],
 
     [anyone, "intro_quest_search_return",
@@ -2612,6 +2619,7 @@ dialogs = [
             (val_add, ":reward", 5000),
             (troop_add_gold, "$g_player_troop", ":reward"),
             (call_script, "script_complete_quest", "qst_introduction_default_search"),
+            (call_script, "script_troop_add_xp", "$g_player_troop", 150),
             # (call_script, "script_conclude_quest", "qst_introduction_default_search_1"),
             # (call_script, "script_conclude_quest", "qst_introduction_default_search_2"),
             # (call_script, "script_conclude_quest", "qst_introduction_default_search_3"),
@@ -2632,6 +2640,7 @@ dialogs = [
             (val_add, ":reward", 4000),
             (troop_add_gold, "$g_player_troop", ":reward"),
             (call_script, "script_complete_quest", "qst_introduction_default_search"),
+            (call_script, "script_troop_add_xp", "$g_player_troop", 150),
             # (call_script, "script_conclude_quest", "qst_introduction_default_search_1"),
             # (call_script, "script_conclude_quest", "qst_introduction_default_search_2"),
             # (call_script, "script_conclude_quest", "qst_introduction_default_search_3"),
@@ -2966,6 +2975,7 @@ dialogs = [
         "village_elder_return",
         [
             (call_script, "script_complete_quest", "qst_village_deliver_grain"),
+            (call_script, "script_troop_add_xp", "$g_player_troop", 150),
         ]],
     [anyone, "village_elder_quest_deliver_grain_delivered_reward_accepted",
         [
@@ -2975,6 +2985,7 @@ dialogs = [
         "village_elder_return",
         [
             (call_script, "script_complete_quest", "qst_village_deliver_grain"),
+            (call_script, "script_troop_add_xp", "$g_player_troop", 150),
         ]],
 
 
