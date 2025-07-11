@@ -1,3 +1,7 @@
+v0.640:
+	-Features:
+	-Balances:
+	-Fixes:
 v0.630:
 	-Features:
 		* add player levels and leveling up
