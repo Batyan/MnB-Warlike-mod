@@ -40,6 +40,7 @@ v0.630:
 			generic bargain checks (bandit dialogs)
 			player starting horse
 			civilian rob
+		* fix incorrect relation hit when threatening lord to become vassal
 	-Other:
 		* bumped required version to 1.166+ to use method game_character_screen_requested introduced in version 1.166
 v0.620:
