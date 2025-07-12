@@ -1842,6 +1842,7 @@ game_menus = [
                     (quest_get_slot, ":giver_troop", "qst_introduction_default_search", slot_quest_giver_troop),
                     (call_script, "script_setup_troop_meeting", ":giver_troop", -1),
                 ]),
+
             ("tavern_intro_quest_wait",
                 [
                     (check_quest_active, "qst_introduction_waiting"),
@@ -1856,7 +1857,14 @@ game_menus = [
                     (quest_get_slot, ":giver_troop", "qst_introduction_waiting", slot_quest_giver_troop),
                     (call_script, "script_setup_troop_meeting", ":giver_troop", -1),
                 ]),
-            
+
+            ("tavern_ransom_broker",
+                [], "Speak with the ransom broker",
+                [
+                    (assign, "$g_talk_party", "$g_encountered_party"),
+                    (call_script, "script_setup_troop_meeting", "trp_ransom_broker", -1),
+                ]),
+
             ("center_back", [], "Head back to the center",
                 [
                     (jump_to_menu, "mnu_town_center"),

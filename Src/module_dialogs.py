@@ -137,6 +137,12 @@ dialogs = [
             (is_between, "$g_talk_troop", lords_begin, lords_end),
             (call_script, "script_get_lord_greeting_dialog", "$g_talk_troop"),
         ], "{s0}", "player_lord_main", []],
+
+    [anyone, "start",
+        [
+            (eq, "$g_talk_troop", "trp_ransom_broker"),
+            (call_script, "script_troop_get_player_name", "$g_talk_troop", "$g_talk_party"),
+        ], "Welcome {s60}, do you require my services?", "ransom_broker", []],
     
     [anyone|plyr, "player_lord_greeting",
         [], "My name is {playername}, the pleasure is shared.", "player_lord_greeting_after", []],
@@ -1754,6 +1760,37 @@ dialogs = [
     # [anyone, "enemy_defeated",
         # [(display_debug_message, "@Enemy defeated"),], "Hail traveller. It's a pleasure to meet you, what is your name?.", "player_greeting", []],
     
+    # [anyone|plyr, "ransom_broker",
+    #     [], "What is it that you do?", "ransom_broker_explain", []],
+    [anyone|plyr, "ransom_broker",
+        [], "I have prisoners to sell.", "ransom_broker_return", [(change_screen_trade_prisoners),]],
+    # [anyone|plyr, "ransom_broker",
+    #     [], "I need to ransom one of my followers", "ransom_broker_follower", []],
+    [anyone|plyr, "ransom_broker",
+        [], "That was all", "close_window", []],
+
+    [anyone, "ransom_broker_return",
+        [
+            (call_script, "script_troop_get_player_name", "$g_talk_troop", "$g_talk_party"),
+        ], "Anything else {s60}?", "ransom_broker", []],
+
+    # [anyone, "ransom_broker_follower",
+    #     [], "Who do you need to ransom?", "ransom_broker_follower_select", []],
+
+    # [anyone|plyr|repeat_for_troops, "ransom_broker_follower_select",
+    #     [
+    #         (store_repeat_object, ":troop_no"),
+    #         (troop_get_slot, ":occupation", ":troop_no", slot_troop_kingdom_occupation),
+    #         (eq, ":occupation", tko_follower),
+    #         (str_store_troop_name, s10, ":troop_no"),
+    #     ], "{s10}", "ransom_broker_follower_selected", []],
+    # [anyone|plyr, "ransom_broker_follower_select",
+    #     [], "Nevermind", "ransom_broker_return", []],
+
+    # [anyone, "ransom_broker_follower_selected",
+    #     [], "Nevermind", "ransom_broker_return", []],
+
+
     ###############
     # Member chat #
     ###############

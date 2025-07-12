@@ -6060,6 +6060,9 @@ troops = [
   ["village_elder", "Village Elder", "Village Elder", tf_hero, no_scene, reserved, fac_commoners,
    [itm_coarse_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_common, 0x0000000007085111455ba5c8e382c91c00000000000d342b0000000000000000 ],
 
+  ["ransom_broker", "Ransom broker", "Ransom broker", tf_hero, no_scene, reserved, fac_commoners,
+   [itm_coarse_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_common, 0x0000000007085111455ba5c8e382c91c00000000000d342b0000000000000000 ],
+
   ["intro_quest_slaver", "Cerval Phinius", "Cerval Phinius", tf_hero, no_scene, reserved, fac_commoners,
    [itm_red_shirt, itm_woolen_hose], def_attrib|level(4), wp(50), knows_lord_swadian_0|knows_persuasion_5|knows_trade_6|knows_prisoner_management_8|knows_leadership_3|knows_ironflesh_5, 0x0000000007085111455ba5c8e382c91c00000000000d342b0000000000000000, 0 ],
   

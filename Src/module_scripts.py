@@ -1633,6 +1633,18 @@ scripts = [
         # Output: reg0  
     ("game_get_prisoner_price",
         [
+            (store_script_param, ":troop_no", 1),
+
+            (assign, ":total_price", 0),
+            (try_begin),
+                (eq, "$g_talk_troop", "trp_ransom_broker"),
+                (call_script, "script_troop_get_cost", ":troop_no"),
+                (store_mul, ":total_price", reg0, 15),
+                (val_div, ":total_price", 100),
+            (try_end),
+
+            (assign, reg0, ":total_price"),
+            (set_trigger_result, reg0),
         ]),
 
     # script_game_check_prisoner_can_be_sold
@@ -14936,7 +14948,7 @@ scripts = [
     #   reg0: troop cost
     ("troop_get_cost",
         [
-            (store_script_param_1, ":troop_id"),
+            (store_script_param, ":troop_id", 1),
             
             (store_character_level, ":level", ":troop_id"),
             
@@ -27688,7 +27700,7 @@ scripts = [
                 # Same faction
                 (eq, ":caravan_faction", ":player_faction"),
                 (call_script, "script_troop_get_player_name", ":caravan_leader", ":caravan_party"),
-                (str_store_string, s0, "@Greetings {s60y}. What brings you here ?"),
+                (str_store_string, s0, "@Greetings {s60}. What brings you here ?"),
                 (assign, ":dialog_outcome", outcome_success),
             (else_try),
                 # Factions at war
@@ -29228,7 +29240,8 @@ scripts = [
                     (eq, ":party_type", spt_civilian),
                     (str_store_string, s60, "str_my_lord|my_lady"),
                 (else_try),
-                    (eq, ":troop_no", "trp_village_elder"),
+                    (this_or_next|eq, ":troop_no", "trp_village_elder"),
+                    (eq, ":troop_no", "trp_ransom_broker"),
                     (str_store_string, s60, "str_my_lord|my_lady"),
                 (else_try),
                     (try_begin),

@@ -1549,8 +1549,9 @@ tko_none = 0
 tko_kingdom_hero = 1
 tko_mercenary = 2
 tko_bandit = 3
-tko_reserved = 4
-tko_reserved_quest = 5
+tko_follower = 4
+tko_reserved = 5
+tko_reserved_quest = 6
 
 slot_troop_personality              = slot_troop_kingdom_occupation + 1
 tp_default = 0x0000
