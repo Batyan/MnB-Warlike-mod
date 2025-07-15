@@ -584,9 +584,11 @@ script_cf_center_get_available_quest = 582
 script_party_change_player_relation = 583
 script_party_pre_battle_init = 584
 script_troop_get_shared_experience_ratio = 585
-script_presentation_generate_select_lord_card = 586
-script_presentation_create_text_overlay = 587
-script_presentation_create_combo_button_overlay = 588
-script_presentation_create_check_box_overlay = 589
+script_party_get_banner_mesh = 586
+script_troop_set_banner = 587
+script_presentation_generate_select_lord_card = 588
+script_presentation_create_text_overlay = 589
+script_presentation_create_combo_button_overlay = 590
+script_presentation_create_check_box_overlay = 591
 
 

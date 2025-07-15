@@ -3575,6 +3575,8 @@ scripts = [
             (party_get_slot, ":party_type", ":party_no", slot_party_type),
             (try_begin),
                 (eq, ":party_type", spt_village),
+
+                (party_set_banner_icon, ":party_no", "icon_heraldic_banner_01"),
                 (party_set_slot, ":party_no", slot_party_population_noble, population_max_village * population_growth_village_noble / 100),
                 (party_set_slot, ":party_no", slot_party_population_artisan, population_max_village * population_growth_village_artisan / 100),
                 (party_set_slot, ":party_no", slot_party_population, population_max_village * population_growth_village_serf / 100),
@@ -3589,6 +3591,8 @@ scripts = [
                 (party_set_slot, ":party_no", slot_party_player_garrison_flags, pgf_default_village_mask),
             (else_try),
                 (eq, ":party_type", spt_castle),
+
+                (party_set_banner_icon, ":party_no", "icon_heraldic_banner_03"),
                 (party_set_slot, ":party_no", slot_party_population_noble, population_max_castle * population_growth_castle_noble / 100),
                 (party_set_slot, ":party_no", slot_party_population_artisan, population_max_castle * population_growth_castle_artisan / 100),
                 (party_set_slot, ":party_no", slot_party_population, population_max_castle * population_growth_castle_serf / 100),
@@ -3602,6 +3606,8 @@ scripts = [
 
                 (party_set_slot, ":party_no", slot_party_player_garrison_flags, pgf_default_castle_mask),
             (else_try),
+                (party_set_banner_icon, ":party_no", "icon_heraldic_banner_03"),
+
                 (party_set_slot, ":party_no", slot_party_population_noble, population_max_town * population_growth_town_noble / 100),
                 (party_set_slot, ":party_no", slot_party_population_artisan, population_max_town * population_growth_town_artisan / 100),
                 (party_set_slot, ":party_no", slot_party_population, population_max_town * population_growth_town_serf / 100),
@@ -10092,6 +10098,7 @@ scripts = [
             (call_script, "script_party_process_mission", ":party", 1),
 
             (party_attach_to_party, ":party", ":center_no"),
+            (party_set_banner_icon, ":party", "icon_heraldic_banner_03"),
             
             # ToDo: special name for parties
             (str_store_troop_name, s10, ":troop_no"),
@@ -13142,7 +13149,7 @@ scripts = [
 
             # ToDo: refine banner selection
             (store_random_in_range, ":banner", banner_scene_props_begin, banner_scene_props_end),
-            (troop_set_slot, ":lord_no", slot_troop_banner_scene_prop, ":banner"),
+            (call_script, "script_troop_set_banner", ":lord_no", ":banner"),
             
             (call_script, "script_troop_get_face_code", ":lord_no", -1, -1),
             (troop_set_face_keys, ":lord_no", s0),
@@ -18913,6 +18920,16 @@ scripts = [
             (party_set_faction, ":center_no", ":new_faction"),
             
             (call_script, "script_party_update_extra_text", ":center_no"),
+
+            (party_get_slot, ":party_type", ":center_no", slot_party_type),
+            (party_set_banner_icon, ":center_no", 0),
+            (try_begin),
+                (eq, ":party_type", spt_village),
+                (party_set_banner_icon, ":center_no", "icon_heraldic_banner_01"),
+            (else_try),
+                (party_set_banner_icon, ":center_no", "icon_heraldic_banner_03"),
+            (try_end),
+
         ]),
 
     # script_center_change_faction
@@ -18965,6 +18982,14 @@ scripts = [
                 (gt, ":aux_party", 0),
                 (party_is_active, ":aux_party"),
                 (party_set_faction, ":aux_party", ":new_faction"),
+            (try_end),
+            
+            (party_set_banner_icon, ":center_no", 0),
+            (try_begin),
+                (eq, ":party_type", spt_village),
+                (party_set_banner_icon, ":center_no", "icon_heraldic_banner_01"),
+            (else_try),
+                (party_set_banner_icon, ":center_no", "icon_heraldic_banner_03"),
             (try_end),
 
             (try_begin),
@@ -30461,6 +30486,64 @@ scripts = [
             (val_add, ":base_ratio", ":charisma"),
 
             (assign, reg0, ":base_ratio"),
+        ]),
+
+    # script_party_get_banner_mesh
+        # input:
+        #   arg1: party_no
+        # output:
+        #   reg0: banner_mesh
+    ("party_get_banner_mesh",
+        [
+            (store_script_param, ":party_no", 1),
+            (assign, ":banner_mesh", "mesh_banners_default_b"),
+            (assign, ":leader", -1),
+            (party_get_slot, ":party_type", ":party_no", slot_party_type),
+            (try_begin),
+                (is_between, ":party_no", centers_begin, centers_end),
+
+                (store_faction_of_party, ":current_faction", ":party_no"),
+                (party_get_slot, ":party_faction", ":party_no", slot_party_faction),
+
+                (try_begin),
+                    (eq, ":current_faction", ":party_faction"),
+                    (party_get_slot, ":leader", ":party_no", slot_party_leader),
+                (else_try),
+                    (faction_get_slot, ":leader", ":current_faction", slot_faction_leader),
+                (try_end),
+            (else_try),
+                (eq, ":party_type", spt_war_party),
+                (party_get_slot, ":leader", ":party_no", slot_party_leader),
+            (try_end),
+
+            (try_begin),
+                (ge, ":leader", 0),
+                (call_script, "script_agent_troop_get_banner_mesh", -1, ":leader"),
+                (assign, ":banner_mesh", reg0),
+            (try_end),
+
+            (assign, reg0, ":banner_mesh"),
+        ]),
+
+    # script_troop_set_banner
+        # input:
+        #   arg1: troop_no
+        #   arg2: banner_scene_prop
+        # output: none
+    ("troop_set_banner",
+        [
+            (store_script_param, ":troop_no", 1),
+            (store_script_param, ":banner_scene_prop", 2),
+
+            (troop_set_slot, ":troop_no", slot_troop_banner_scene_prop, ":banner_scene_prop"),
+            (troop_get_slot, ":leader_party", ":troop_no", slot_troop_leaded_party),
+            (try_begin),
+                (ge, ":leader_party", 0),
+                # (troop_get_slot, ":banner_type", ":troop_no", slot_troop_banner_type),
+                # (party_set_banner_icon, ":leader_party", ":banner_type"),
+                (party_set_banner_icon, ":leader_party", "icon_heraldic_banner_03"),
+            (try_end),
+
         ]),
 
     # script_presentation_generate_select_lord_card

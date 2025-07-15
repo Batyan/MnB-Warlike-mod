@@ -1,6 +1,8 @@
 v0.640:
 	-Features:
 		* add ransom broker to sell prisoners in taverns
+		* add banners to lord parties
+		* add banners to centers
 	-Balances:
 	-Fixes:
 v0.630:

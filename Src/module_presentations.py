@@ -3199,7 +3199,9 @@ presentations = [
                         (store_sub, ":offset", ":object", "$g_presentation_selected_banner_begin"),
                         (store_add, ":selected_banner", ":offset", banner_scene_props_begin),
 
-                        (troop_set_slot, "$g_player_troop", slot_troop_banner_scene_prop, ":selected_banner"),
+                        (call_script, "script_troop_set_banner", "$g_player_troop", ":selected_banner"),
+                        # (troop_set_slot, "$g_player_troop", slot_troop_banner_scene_prop, ":selected_banner"),
+                        # (party_set_banner_icon, "$g_player_party", "icon_heraldic_banner_03"),
                         (start_presentation, "prsnt_banner_selection"),
                         # (overlay_set_display, "$g_presentation_ok", 1),
                     (try_end),

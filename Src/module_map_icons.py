@@ -71,4 +71,33 @@ map_icons = [
 	("bridge_a",mcn_no_shadow,"map_river_bridge_a", 1.27,0),
 	("bridge_b",mcn_no_shadow,"map_river_bridge_b", 0.7,0),
 	("bridge_snow_a",mcn_no_shadow,"map_river_bridge_snow_a", 1.27,0),
+
+	("bandit_lair",mcn_no_shadow,"map_bandit_lair", 0.45, 0),
+
+	# Banners
+
+	("heraldic_banner_01", 0,"custom_map_banner_01", banner_scale, 0,
+	[
+		(ti_on_init_map_icon,
+		[
+			(store_trigger_param_1, ":party_no"),
+			(cur_map_icon_set_tableau_material, "tableau_heraldic_banner_square", ":party_no"),
+		]),
+	]),
+	("heraldic_banner_02", 0,"custom_map_banner_02", banner_scale, 0,
+	[
+		(ti_on_init_map_icon,
+		[
+			(store_trigger_param_1, ":party_no"),
+			(cur_map_icon_set_tableau_material, "tableau_heraldic_banner_short", ":party_no"),
+		]),
+	]),
+	("heraldic_banner_03", 0,"custom_map_banner_03", banner_scale, 0,
+	[
+		(ti_on_init_map_icon,
+		[
+			(store_trigger_param_1, ":party_no"),
+			(cur_map_icon_set_tableau_material, "tableau_heraldic_banner_tall", ":party_no"),
+		]),
+	]),
 ]
