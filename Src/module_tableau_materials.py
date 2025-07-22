@@ -2519,7 +2519,7 @@ tableaus = [
         (cur_tableau_set_camera_parameters, 0, 200, 200, 0, 100000),
     ]),
 
-    ("heraldic_banner_tall", 0, "missiles", 512, 256, 0, 0, 0, 0,
+    ("heraldic_banner_tall", 0, "snow", 512, 256, 0, 0, 0, 0,
     [
         (store_script_param, ":party_no", 1),
         (set_fixed_point_multiplier, 100),
@@ -2539,7 +2539,7 @@ tableaus = [
         (cur_tableau_set_camera_parameters, 0, 100, 200, 0, 100000),
     ]),
 
-    ("heraldic_banner_square", 0, "missiles", 256, 256, 0, 0, 0, 0,
+    ("heraldic_banner_square", 0, "snow", 256, 256, 0, 0, 0, 0,
     [
         (store_script_param, ":party_no", 1),
         (set_fixed_point_multiplier, 100),
@@ -2560,7 +2560,7 @@ tableaus = [
         (cur_tableau_set_camera_parameters, 0, 100, 100, 0, 100000),
     ]),
 
-    ("heraldic_banner_short", 0, "missiles", 256, 512, 0, 0, 0, 0,
+    ("heraldic_banner_short", 0, "snow", 256, 512, 0, 0, 0, 0,
     [
         (store_script_param, ":party_no", 1),
         (set_fixed_point_multiplier, 100),
