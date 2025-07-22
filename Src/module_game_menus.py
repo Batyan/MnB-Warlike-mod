@@ -2890,6 +2890,43 @@ game_menus = [
             (change_screen_map),
         ],
         [ ]),
+
+    ("camp_encounter", mnf_scale_picture,
+        "Camp encounter",
+        "none",
+        [
+            # (set_background_mesh, "mesh_pic_camp"),
+        ],
+        [
+            ("encounter_attack", 
+                [], "Launch an assault on the camp",
+                [
+                    # Preparation
+                    
+                    (assign, "$g_player_team", 1),
+                    (assign, "$g_enemy", "$g_encountered_party"),
+                    (assign, "$g_ally", -1),
+                    (assign, "$g_clear_battles", 0),
+
+                    (call_script, "script_party_pre_battle_init", "$g_encountered_party"),
+                    (call_script, "script_party_pre_battle_init", "$g_player_party"),
+
+                    (jump_to_menu, "mnu_encounter_battle"),
+                ]),
+            
+            ("encounter_leave", 
+                [
+                    (try_begin),
+                        (encountered_party_is_attacker),
+                        (disable_menu_option),
+                    (try_end),
+                ], "Leave",
+                [
+                    (leave_encounter),
+                    (change_screen_return),
+                ]),
+        ]),
+
     
     # ("visit_place", mnf_scale_picture,
         # "Visit the monument?",

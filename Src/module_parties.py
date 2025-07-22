@@ -446,6 +446,38 @@ parties = [
 	# ("places_stone_obelisk", "Stone Obelisk", icon_training_ground|pf_is_static|pf_hide_defenders, 0, pt_none, fac_commoners, 0, ai_bhvr_hold, 0, (15.6, -43.7), []),
 	# ("places_grand_tree", "Grand Tree", icon_training_ground, 0, pt_none, fac_commoners, 0, ai_bhvr_hold, 0, (0, 0), []),
 	
+	# Bandit lairs
+	("camp_11","Bandit Camp",icon_bandit_lair|pf_is_static|pf_disabled, no_menu, pt_none, fac_no_faction,0,ai_bhvr_hold,0,(-129.26, 21.35),[], 40),
+	("camp_12","Bandit Camp",icon_bandit_lair|pf_is_static|pf_disabled, no_menu, pt_none, fac_no_faction,0,ai_bhvr_hold,0,(-28.74, 16.22),[], 30),
+	("camp_13","Bandit Camp",icon_bandit_lair|pf_is_static|pf_disabled, no_menu, pt_none, fac_no_faction,0,ai_bhvr_hold,0,(-63.71, -17.87),[], -140),
+	("camp_14","Bandit Camp",icon_bandit_lair|pf_is_static|pf_disabled, no_menu, pt_none, fac_no_faction,0,ai_bhvr_hold,0,(4.96, 13.69),[], -130),
+
+	("camp_21","Bandit Camp",icon_bandit_lair|pf_is_static|pf_disabled, no_menu, pt_none, fac_no_faction,0,ai_bhvr_hold,0,(76.54, 28.22),[], -100),
+	("camp_22","Bandit Camp",icon_bandit_lair|pf_is_static|pf_disabled, no_menu, pt_none, fac_no_faction,0,ai_bhvr_hold,0,(50.31, 117.30),[], 100),
+	("camp_23","Bandit Camp",icon_bandit_lair|pf_is_static|pf_disabled, no_menu, pt_none, fac_no_faction,0,ai_bhvr_hold,0,(112.41, 96.86),[], -60),
+	("camp_24","Bandit Camp",icon_bandit_lair|pf_is_static|pf_disabled, no_menu, pt_none, fac_no_faction,0,ai_bhvr_hold,0,(171.41, 61.99),[], -90),
+
+	("camp_31","Bandit Camp",icon_bandit_lair|pf_is_static|pf_disabled, no_menu, pt_none, fac_no_faction,0,ai_bhvr_hold,0,(158.49, -21.71),[], -160),
+	("camp_32","Bandit Camp",icon_bandit_lair|pf_is_static|pf_disabled, no_menu, pt_none, fac_no_faction,0,ai_bhvr_hold,0,(109.79, 21.40),[], 135),
+	("camp_33","Bandit Camp",icon_bandit_lair|pf_is_static|pf_disabled, no_menu, pt_none, fac_no_faction,0,ai_bhvr_hold,0,(73.96, -39.50),[], 20),
+	("camp_34","Bandit Camp",icon_bandit_lair|pf_is_static|pf_disabled, no_menu, pt_none, fac_no_faction,0,ai_bhvr_hold,0,(43.91, -77.31),[], -120),
+
+	("camp_41","Bandit Camp",icon_bandit_lair|pf_is_static|pf_disabled, no_menu, pt_none, fac_no_faction,0,ai_bhvr_hold,0,(-9.04, 86.59),[], 40),
+	("camp_42","Bandit Camp",icon_bandit_lair|pf_is_static|pf_disabled, no_menu, pt_none, fac_no_faction,0,ai_bhvr_hold,0,(-34.32, 46.53),[], -160),
+	("camp_43","Bandit Camp",icon_bandit_lair|pf_is_static|pf_disabled, no_menu, pt_none, fac_no_faction,0,ai_bhvr_hold,0,(-35.27, 122.35),[], -45),
+	("camp_44","Bandit Camp",icon_bandit_lair|pf_is_static|pf_disabled, no_menu, pt_none, fac_no_faction,0,ai_bhvr_hold,0,(-84.62, 80.12),[], -170),
+
+	("camp_51","Bandit Camp",icon_bandit_lair|pf_is_static|pf_disabled, no_menu, pt_none, fac_no_faction,0,ai_bhvr_hold,0,(-107.45, -95.79),[], 150),
+	("camp_52","Bandit Camp",icon_bandit_lair|pf_is_static|pf_disabled, no_menu, pt_none, fac_no_faction,0,ai_bhvr_hold,0,(-139.41, -21.29),[], -10),
+	("camp_53","Bandit Camp",icon_bandit_lair|pf_is_static|pf_disabled, no_menu, pt_none, fac_no_faction,0,ai_bhvr_hold,0,(-31.70, -59.02),[], 180),
+	("camp_54","Bandit Camp",icon_bandit_lair|pf_is_static|pf_disabled, no_menu, pt_none, fac_no_faction,0,ai_bhvr_hold,0,(-40.66, -82.97),[], -140),
+
+	("camp_61","Bandit Camp",icon_bandit_lair|pf_is_static|pf_disabled, no_menu, pt_none, fac_no_faction,0,ai_bhvr_hold,0,(0.51, -128.20),[], -160),
+	("camp_62","Bandit Camp",icon_bandit_lair|pf_is_static|pf_disabled, no_menu, pt_none, fac_no_faction,0,ai_bhvr_hold,0,(80.28, -127.24),[], -140),
+	("camp_63","Bandit Camp",icon_bandit_lair|pf_is_static|pf_disabled, no_menu, pt_none, fac_no_faction,0,ai_bhvr_hold,0,(132.79, -58.22),[], -45),
+	("camp_64","Bandit Camp",icon_bandit_lair|pf_is_static|pf_disabled, no_menu, pt_none, fac_no_faction,0,ai_bhvr_hold,0,(177.26, -86.62),[], -60),
+
+
 	# Bridges
 	("Bridge_1","{!}1",icon_bridge_snow_a|pf_is_static|pf_always_visible|pf_no_label, no_menu, pt_none, fac_no_faction,0,ai_bhvr_hold,0,(39.37, 65.10),[], -44.8),
 	("Bridge_2","{!}2",icon_bridge_snow_a|pf_is_static|pf_always_visible|pf_no_label, no_menu, pt_none, fac_no_faction,0,ai_bhvr_hold,0,(56.44, 77.88),[], 4.28),

@@ -69,7 +69,7 @@ scripts = [
                 (call_script, "script_party_init_center", ":party_no"),
             
                 ## Generate some bandits to begin with
-                (try_for_range, ":unused", 0,  3),
+                (try_for_range, ":unused", 0,  5),
                     (call_script, "script_party_spawn_bandits", ":party_no"),
                 (try_end),
             (try_end),
@@ -168,6 +168,42 @@ scripts = [
                 (troop_set_slot, ":merchant", slot_troop_last_met, -50000),
                 (troop_set_slot, ":merchant", slot_troop_merchant_center, -1),
             (try_end),
+
+            (store_random_in_range, ":camp", "p_camp_11", "p_camp_21"),
+            (enable_party, ":camp"),
+            (party_set_faction, ":camp", "fac_faction_1"),
+            (party_set_slot, ":camp", slot_party_wealth, 75000),
+            (party_add_prisoners, ":camp", "trp_swadian_peasant", 30),
+
+            (store_random_in_range, ":camp", "p_camp_21", "p_camp_31"),
+            (enable_party, ":camp"),
+            (party_set_faction, ":camp", "fac_faction_6"),
+            (party_set_slot, ":camp", slot_party_wealth, 75000),
+            (party_add_prisoners, ":camp", "trp_vaegir_peasant", 30),
+
+            (store_random_in_range, ":camp", "p_camp_31", "p_camp_41"),
+            (enable_party, ":camp"),
+            (party_set_faction, ":camp", "fac_faction_5"),
+            (party_set_slot, ":camp", slot_party_wealth, 75000),
+            (party_add_prisoners, ":camp", "trp_khergit_peasant", 30),
+
+            (store_random_in_range, ":camp", "p_camp_41", "p_camp_51"),
+            (enable_party, ":camp"),
+            (party_set_faction, ":camp", "fac_faction_4"),
+            (party_set_slot, ":camp", slot_party_wealth, 75000),
+            (party_add_prisoners, ":camp", "trp_nord_peasant", 30),
+
+            (store_random_in_range, ":camp", "p_camp_51", "p_camp_61"),
+            (enable_party, ":camp"),
+            (party_set_faction, ":camp", "fac_faction_3"),
+            (party_set_slot, ":camp", slot_party_wealth, 75000),
+            (party_add_prisoners, ":camp", "trp_rhodok_peasant", 30),
+
+            (store_random_in_range, ":camp", "p_camp_61", camps_end),
+            (enable_party, ":camp"),
+            (party_set_faction, ":camp", "fac_faction_7"),
+            (party_set_slot, ":camp", slot_party_wealth, 75000),
+            (party_add_prisoners, ":camp", "trp_sarranid_peasant", 30),
 
             (party_set_slot, "$g_player_party", slot_party_leader, "$g_player_troop"),
 
@@ -270,6 +306,9 @@ scripts = [
                     (else_try),
                         (jump_to_menu, "mnu_town"),
                     (try_end),
+                (else_try),
+                    (is_between, "$g_encountered_party", camps_begin, camps_end),
+                    (jump_to_menu, "mnu_camp_encounter"),
                 # (else_try),
                     # (is_between, "$g_encountered_party", "p_places_stone_obelisk", "p_Bridge_1"),
                     # (jump_to_menu, "mnu_visit_place"),
@@ -1089,6 +1128,10 @@ scripts = [
                 (try_end),
 
                 (call_script, "script_party_defeat_center", ":winner_party", ":defeated_party"),
+            (else_try),
+                (eq, ":party_type", spt_camp),
+                (disable_party, ":defeated_party"),
+                (party_set_faction, ":defeated_party", "fac_no_faction"),
             (else_try),
                 (eq, ":party_type", spt_caravan),
                 (call_script, "script_faction_political_event", ":party_faction", political_event_caravan_defeated, ":defeated_party", ":winner_party", -1),
@@ -4345,6 +4388,12 @@ scripts = [
                 (party_add_prisoners, ":receiving_party", ":troop_id", ":i_stack_size"),
                 (assign, ":really_added", reg0),
                 (party_remove_prisoners, ":party_to_transfer", ":troop_id", ":really_added"),
+                (try_begin),
+                    (troop_is_hero, ":troop_id"),
+                    (troop_get_slot, ":prisoner_of", ":troop_id", slot_troop_prisoner_of),
+                    (eq, ":prisoner_of", ":party_to_transfer"),
+                    (troop_set_slot, ":troop_id", slot_troop_prisoner_of, ":receiving_party"),
+                (try_end),
             (try_end),
         ]),
 
@@ -6334,7 +6383,7 @@ scripts = [
             (assign, ":growth", reg0),
             (val_mul, ":max", ":growth"),
             (val_div, ":max", 100),
-            
+
             (assign, reg0, ":max"),
         ]),
     
@@ -6357,6 +6406,7 @@ scripts = [
 
             (call_script, "script_party_get_max_population", ":party_no"),
             (assign, ":max_population", reg0),
+            (val_max, ":max_population", 1),
             (store_mul, ":population_growth", ":party_population", 100),
             (val_div, ":population_growth", ":max_population"),
             (val_sub, ":population_growth", 50), # We consider 50% to be the baseline population with highest growth
@@ -6836,7 +6886,8 @@ scripts = [
                 (this_or_next|eq, ":tax_type", tax_type_export),
                 (this_or_next|eq, ":tax_type", tax_type_import),
                 (this_or_next|eq, ":tax_type", tax_type_building_maintenance),
-                (eq, ":tax_type", tax_type_bank_investments),
+                (this_or_next|eq, ":tax_type", tax_type_bank_investments),
+                (eq, ":tax_type", tax_type_banditry),
                 
                 (party_get_slot, ":accumulated_taxes", ":party_no", slot_party_accumulated_taxes),
                 (val_add, ":accumulated_taxes", ":amount"),
@@ -8045,43 +8096,43 @@ scripts = [
             (faction_set_slot, "fac_faction_1", slot_faction_common_num_tries, -100),
             (faction_set_slot, "fac_faction_1", slot_faction_veteran_num_tries, 0),
             (faction_set_slot, "fac_faction_1", slot_faction_elite_num_tries, -100),
-            (faction_set_slot, "fac_faction_1", slot_faction_noble_num_tries, -100),
+            (faction_set_slot, "fac_faction_1", slot_faction_noble_num_tries, -50),
             
             (faction_set_slot, "fac_faction_2", slot_faction_peasant_num_tries, 0),
             (faction_set_slot, "fac_faction_2", slot_faction_common_num_tries, -100),
             (faction_set_slot, "fac_faction_2", slot_faction_veteran_num_tries, 0),
             (faction_set_slot, "fac_faction_2", slot_faction_elite_num_tries, -100),
-            (faction_set_slot, "fac_faction_2", slot_faction_noble_num_tries, -100),
+            (faction_set_slot, "fac_faction_2", slot_faction_noble_num_tries, -50),
             
             (faction_set_slot, "fac_faction_3", slot_faction_peasant_num_tries, 0),
             (faction_set_slot, "fac_faction_3", slot_faction_common_num_tries, -100),
             (faction_set_slot, "fac_faction_3", slot_faction_veteran_num_tries, 0),
             (faction_set_slot, "fac_faction_3", slot_faction_elite_num_tries, -100),
-            (faction_set_slot, "fac_faction_3", slot_faction_noble_num_tries, -100),
+            (faction_set_slot, "fac_faction_3", slot_faction_noble_num_tries, -50),
             
             (faction_set_slot, "fac_faction_4", slot_faction_peasant_num_tries, 0),
             (faction_set_slot, "fac_faction_4", slot_faction_common_num_tries, -100),
             (faction_set_slot, "fac_faction_4", slot_faction_veteran_num_tries, 0),
             (faction_set_slot, "fac_faction_4", slot_faction_elite_num_tries, -100),
-            (faction_set_slot, "fac_faction_4", slot_faction_noble_num_tries, -100),
+            (faction_set_slot, "fac_faction_4", slot_faction_noble_num_tries, -50),
             
             (faction_set_slot, "fac_faction_5", slot_faction_peasant_num_tries, 0),
             (faction_set_slot, "fac_faction_5", slot_faction_common_num_tries, -100),
             (faction_set_slot, "fac_faction_5", slot_faction_veteran_num_tries, 0),
             (faction_set_slot, "fac_faction_5", slot_faction_elite_num_tries, -100),
-            (faction_set_slot, "fac_faction_5", slot_faction_noble_num_tries, -100),
+            (faction_set_slot, "fac_faction_5", slot_faction_noble_num_tries, -50),
             
             (faction_set_slot, "fac_faction_6", slot_faction_peasant_num_tries, 0),
             (faction_set_slot, "fac_faction_6", slot_faction_common_num_tries, -100),
             (faction_set_slot, "fac_faction_6", slot_faction_veteran_num_tries, 0),
             (faction_set_slot, "fac_faction_6", slot_faction_elite_num_tries, -100),
-            (faction_set_slot, "fac_faction_6", slot_faction_noble_num_tries, -100),
+            (faction_set_slot, "fac_faction_6", slot_faction_noble_num_tries, -50),
             
             (faction_set_slot, "fac_faction_7", slot_faction_peasant_num_tries, 0),
             (faction_set_slot, "fac_faction_7", slot_faction_common_num_tries, -100),
             (faction_set_slot, "fac_faction_7", slot_faction_veteran_num_tries, 0),
             (faction_set_slot, "fac_faction_7", slot_faction_elite_num_tries, -100),
-            (faction_set_slot, "fac_faction_7", slot_faction_noble_num_tries, -100),
+            (faction_set_slot, "fac_faction_7", slot_faction_noble_num_tries, -50),
             
             (faction_set_slot, "fac_faction_1", slot_faction_culture, "fac_faction_1"),
             (faction_set_slot, "fac_faction_2", slot_faction_culture, "fac_faction_2"),
@@ -8229,6 +8280,10 @@ scripts = [
                 (try_for_range, ":kingdom", kingdoms_begin, kingdoms_end),
                     (set_relation, ":kingdom", ":bandit_faction", -20),
                 (try_end),
+            (try_end),
+
+            (try_for_range, ":camp", camps_begin, camps_end),
+                (party_set_slot, ":camp", slot_party_type, spt_camp),
             (try_end),
             # Add some inter-bandit relations ?
             # Sea raiders enemy of tundra bandits
@@ -11150,7 +11205,7 @@ scripts = [
                     (party_slot_eq, ":cur_town", slot_party_leader, ":leader"),
 
                     # Moves prisoners to center (only if the same lord)
-                    (call_script, "script_party_give_prisoners_to_party", ":party_no", ":cur_town"),
+                    (call_script, "script_party_transfer_prisoners_to_prisoners", ":party_no", ":cur_town", 1),
                     # Pay debts
                     (call_script, "script_party_pay_debts", ":party_no"),
                 (try_end),
@@ -12238,6 +12293,8 @@ scripts = [
                     (val_add, ":num_added", reg0),
                     (val_add, ":total_cost", reg1),
                 (try_end),
+            (else_try),
+                (eq, ":giver_party_type", spt_war_party),
             (else_try),
                 (eq, ":giver_party_type", spt_war_party),
                 (is_between, ":receiver_party_type", spt_village, spt_fort+1),
@@ -20782,7 +20839,7 @@ scripts = [
                 (val_add, ":bandit_strength", ":slave_strength_modifier"),
             (try_end),
 
-            (store_random_in_range, ":rand", 0, 100),
+            (store_random_in_range, ":rand", 0, 200),
             (try_begin),
                 (le, ":rand", ":bandit_chance"),
                 # (assign, ":bandit_strength", 0),
@@ -23569,38 +23626,6 @@ scripts = [
             (try_end),
         ]),
 
-    # script_party_give_prisoners_to_party
-        # input:
-        #   arg1: party_giver
-        #   arg2: party_receiver
-        # output:
-        #   reg0: num_prisoners_given
-    ("party_give_prisoners_to_party",
-        [
-            (store_script_param, ":party_giver", 1),
-            (store_script_param, ":party_receiver", 2),
-
-            (assign, ":num_prisoners_given", 0),
-
-            (party_get_num_prisoner_stacks, ":num_prisoner_stacks", ":party_giver"),
-            (try_for_range_backwards, ":cur_stack", 0, ":num_prisoner_stacks"),
-                (party_prisoner_stack_get_troop_id, ":prisoner_troop_id", ":party_giver", ":cur_stack"),
-
-                (party_prisoner_stack_get_size, ":stack_size", ":party_giver", ":cur_stack"),
-
-                (party_remove_prisoners, ":party_giver", ":prisoner_troop_id", ":stack_size"),
-                (assign, ":removed", reg0),
-                (gt, ":removed", 0),
-                (val_add, ":num_prisoners_given", ":stack_size"),
-                (party_force_add_prisoners, ":party_receiver", ":prisoner_troop_id", ":stack_size"),
-                (try_begin),
-                    (troop_is_hero, ":prisoner_troop_id"),
-                    (troop_set_slot, ":prisoner_troop_id", slot_troop_prisoner_of, ":party_receiver"),
-                (try_end),
-            (try_end),
-            (assign, reg0, ":num_prisoners_given"),
-        ]),
-
     # script_party_patrol_process
         # input:
         #   arg1: party_no
@@ -23657,7 +23682,7 @@ scripts = [
 
                     (try_begin),
                         (ge, ":num_prisoners", 1),
-                        (call_script, "script_party_give_prisoners_to_party", ":party_no", ":cur_town"),
+                        (call_script, "script_party_transfer_prisoners_to_prisoners", ":party_no", ":cur_town", 1),
                     (try_end),
                     (try_begin),
                         (le, ":current_wages", ":wanted_wages"),
@@ -23723,7 +23748,7 @@ scripts = [
                     (party_get_num_prisoners, ":num_prisoners", ":party_no"),
                     (try_begin),
                         (ge, ":num_prisoners", 1),
-                        (call_script, "script_party_give_prisoners_to_party", ":party_no", ":cur_town"),
+                        (call_script, "script_party_transfer_prisoners_to_prisoners", ":party_no", ":cur_town", 1),
                     (try_end),
 
                     (call_script, "script_party_empty_goods", ":party_no", ":home"),
@@ -30543,7 +30568,149 @@ scripts = [
                 # (party_set_banner_icon, ":leader_party", ":banner_type"),
                 (party_set_banner_icon, ":leader_party", "icon_heraldic_banner_03"),
             (try_end),
+        ]),
 
+    # script_party_process_bandit
+        # input:
+        #   arg1: party_no
+        # output: none
+    ("party_process_bandit",
+        [
+            (store_script_param, ":party_no", 1),
+
+            (party_get_slot, ":linked_party", ":party_no", slot_party_linked_party),
+            (party_get_slot, ":wealth", ":party_no", slot_party_wealth),
+
+            (party_get_num_prisoners, ":num_prisoners", ":party_no"),
+            (val_mul, ":num_prisoners", 500),
+            (val_add, ":wealth", ":num_prisoners"),
+
+            (try_begin),
+                (gt, ":wealth", bandit_start_camp_base_wealth),
+                (try_begin),
+                    (is_between, ":linked_party", camps_begin, camps_end),
+
+                    (try_begin),
+                        (party_get_attached_to, ":cur_camp", ":party_no"),
+                        (eq, ":cur_camp", ":linked_party"),
+
+                        (party_get_num_prisoners, ":num_prisoners", ":party_no"),
+
+                        (call_script, "script_party_transfer_wealth", ":party_no", ":cur_camp", ":wealth", tax_type_loot, tax_type_loot),
+                        (call_script, "script_party_group_transfer_prisoners_to_prisoners",  ":party_no", ":cur_camp", 1),
+
+                        (val_mul, ":num_prisoners", 25),
+                        (store_add, ":total_given", ":num_prisoners", ":wealth"),
+                        (try_begin),
+                            (party_get_num_companions, ":camp_members", ":cur_camp"),
+                            (gt, ":camp_members", 10),
+                            (store_div, ":reward_members", ":total_given", 1000),
+                            (store_div, ":max_reward", ":camp_members", 3),
+                            (val_min, ":reward_members", ":max_reward"),
+                            (call_script, "script_party_give_troops_to_party", ":cur_camp", ":party_no", ":reward_members"),
+                        (try_end),
+
+                        (call_script, "script_party_set_behavior", ":party_no", ai_bhvr_patrol_location, -1),
+                    (else_try),
+                        (call_script, "script_party_set_behavior", ":party_no", tai_traveling_to_party, ":linked_party"),
+                        (party_set_ai_behavior, ":party_no", ai_bhvr_travel_to_party),
+                        (party_set_ai_object, ":party_no", ":linked_party"),
+                    (try_end),
+
+                (else_try),
+                    (store_random_in_range, ":rand", 0, 100),
+                    (lt, ":rand", 10),
+
+                    (assign, ":nearest_camp", -1),
+                    (assign, ":min_distance", 9999),
+                    (try_for_range, ":camp", camps_begin, camps_end),
+                        (store_distance_to_party_from_party, ":distance", ":camp", ":party_no"),
+                        (lt, ":distance", ":min_distance"),
+                        (assign, ":nearest_camp", ":camp"),
+                        (assign, ":min_distance", ":distance"),
+                    (try_end),
+
+                    (try_begin),
+                        (is_between, ":nearest_camp", camps_begin, camps_end),
+                        (store_faction_of_party, ":camp_faction", ":nearest_camp"),
+                        (store_faction_of_party, ":party_faction", ":party_no"),
+
+                        (try_begin),
+                            (eq, ":camp_faction", "fac_no_faction"),
+                            (enable_party, ":nearest_camp"),
+                            (party_set_faction, ":nearest_camp", ":party_faction"),
+                            (assign, ":camp_faction", ":party_faction"),
+                        (try_end),
+                        (eq, ":party_faction", ":camp_faction"),
+
+                        (party_set_ai_behavior, ":party_no", ai_bhvr_travel_to_party),
+                        (party_set_ai_object, ":party_no", ":nearest_camp"),
+                        (party_set_slot, ":party_no", slot_party_linked_party, ":nearest_camp"),
+                    (try_end),
+                (try_end),
+            (try_end),
+        ]),
+
+    # script_party_process_camp
+        # input:
+        #   arg1: party_no
+        # output: none
+    ("party_process_camp",
+        [
+            (store_script_param, ":party_no", 1),
+
+            (try_begin),
+                (party_is_active, ":party_no"),
+
+                (party_get_slot, ":wealth", ":party_no", slot_party_wealth),
+
+                (party_get_num_prisoners, ":num_prisoners", ":party_no"),
+                (try_begin),
+                    (gt, ":num_prisoners", 0),
+                    (val_mul, ":num_prisoners", 25),
+                    (call_script, "script_party_add_accumulated_taxes", ":party_no", ":num_prisoners", tax_type_prisoner_ransom),
+                    (val_add, ":wealth", ":num_prisoners"),
+                (try_end),
+
+                (try_begin),
+                    (ge, ":wealth", 2000),
+                
+                    (call_script, "script_party_add_reinforcements", ":party_no"),
+                    (store_mul, ":gold_cost", reg1, -1),
+                    (call_script, "script_party_add_accumulated_taxes", ":party_no", ":gold_cost", tax_type_troops_hiring),
+                    (val_add, ":wealth", ":gold_cost"),
+                (try_end),
+                (try_begin),
+                    (party_get_num_companions, ":num_troops", ":party_no"),
+                    (gt, ":num_troops", 60),
+
+                    (store_random_in_range, ":rand", 0, 100),
+
+                    (this_or_next|ge, ":wealth", 5000),
+                    (lt, ":rand", 10),
+
+                    (store_faction_of_party, ":party_faction", ":party_no"),
+
+                    (call_script, "script_spawn_party_around_party", ":party_no", "pt_outlaws"),
+                    (assign, ":bandit_party", reg0),
+                    (party_set_faction, ":bandit_party", ":party_faction"),
+
+                    (party_set_slot, ":bandit_party", slot_party_type, spt_bandit),
+                    (party_set_ai_behavior, ":bandit_party", ai_bhvr_patrol_location),
+
+                    (store_random_in_range, ":num_reinforcements", 5, 20),
+                    (store_div, ":additional_troops", ":num_troops", 10),
+                    (val_add, ":num_reinforcements", ":additional_troops"),
+
+                    (call_script, "script_party_give_troops_to_party", ":party_no", ":bandit_party", ":num_reinforcements"),
+                    (call_script, "script_party_add_accumulated_taxes", ":party_no", -2000, tax_type_troops_hiring),
+                    (val_add, ":wealth", -2000),
+                (try_end),
+
+                (try_begin),
+                    (gt, ":wealth", 0),
+                (try_end),
+            (try_end),
         ]),
 
     # script_presentation_generate_select_lord_card

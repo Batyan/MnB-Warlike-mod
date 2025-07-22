@@ -905,6 +905,7 @@ strings = [
   ("party_tax_description_bank_investments", "Bank investments"),
   ("party_tax_description_mercenary_contract", "Mercenary contract"),
   ("party_tax_description_mercenary_contract_pay", "Mercenary payments"),
+  ("party_tax_description_banditry", "Banditry"),
 
   ("castle_name_plain_01", "plain_01"),
   ("castle_name_plain_02", "plain_02"),

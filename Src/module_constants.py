@@ -47,6 +47,9 @@ villages_end    = centers_end
 walled_centers_begin = towns_begin
 walled_centers_end = castles_end
 
+camps_begin = "p_camp_11"
+camps_end = "p_Bridge_1"
+
 # FACTIONS
 bandit_factions_begin = fac_faction_1
 bandit_factions_end = fac_kingdom_1
@@ -569,6 +572,8 @@ level_xp_multiplier = 10
 level_xp_base = 500
 level_xp_multiplier_sqrt = 5000
 
+bandit_start_camp_base_wealth = 10000
+
 ################
 ## Item Slots ##
 ################
@@ -1022,10 +1027,13 @@ spt_scout       = 9
 spt_convoy      = 10
 spt_war_party   = 11
 
-spt_village     = 12
-spt_castle      = 13
-spt_town        = 14
-spt_fort        = 15
+spt_camp        = 12
+
+spt_village     = 13
+spt_castle      = 14
+spt_town        = 15
+spt_fort        = 16
+
 
 slot_party_leader           = 2
 slot_party_lord             = slot_party_leader
@@ -1212,6 +1220,9 @@ slot_party_budget_import = slot_party_budget_export + 1
 slot_party_budget_building = slot_party_budget_import + 1
 slot_party_budget_building_maintenance = slot_party_budget_building + 1
 slot_party_budget_bank_investments = slot_party_budget_building_maintenance + 1
+slot_party_budget_mercenary_contract = slot_party_budget_bank_investments + 1
+slot_party_budget_mercenary_contract_pay = slot_party_budget_mercenary_contract + 1
+slot_party_budget_banditry = slot_party_budget_mercenary_contract_pay + 1
 
 tax_type_none = -1
 tax_type_population = 0
@@ -1249,9 +1260,10 @@ tax_type_building_maintenance = 31
 tax_type_bank_investments = 32
 tax_type_mercenary_contract = 33
 tax_type_mercenary_contract_pay = 34
+tax_type_banditry = 35
 
 slot_party_buget_taxes_begin = slot_party_budget_taxes
-slot_party_buget_taxes_end = slot_party_budget_bank_investments + 1
+slot_party_buget_taxes_end = slot_party_budget_banditry + 1
 
 slot_party_budget_reserved_party = slot_party_buget_taxes_end
 slot_party_budget_reserved_auxiliaries = slot_party_budget_reserved_party + 1
