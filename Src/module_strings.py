@@ -394,8 +394,8 @@ strings = [
   ("sarranid_rank_3_f", "Noble {s0}"),
   ("sarranid_rank_4_f", "Emir {s0}"),
   ("sarranid_rank_5_f", "Malik {s0}"),
-  ("sarranid_rank_6_f", "Caliph {s0}"),
-  ("sarranid_rank_7_f", "Sultan {s0}"),
+  ("sarranid_rank_6_f", "Calipha {s0}"),
+  ("sarranid_rank_7_f", "Sultana {s0}"),
 
   ("troop_type_begin", "Troop type begin"),
 

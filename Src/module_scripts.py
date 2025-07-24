@@ -9090,6 +9090,11 @@ scripts = [
                 (troop_get_slot, ":new_rank", ":troop_no", slot_troop_rank),
                 
                 (faction_get_slot, ":faction_name_begin", ":culture", slot_faction_lord_name_begin),
+                (troop_get_type, ":gender", ":troop_no"),
+                (try_begin),
+                    (eq, ":gender", tf_female),
+                    (faction_get_slot, ":faction_name_begin", ":culture", slot_faction_lady_name_begin),
+                (try_end),
                 (store_add, ":lord_name", ":faction_name_begin", ":new_rank"),
                 (str_store_troop_name_plural, s0, ":troop_no"),
                 (str_clear, s10),
