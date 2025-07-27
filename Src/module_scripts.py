@@ -2894,8 +2894,11 @@ scripts = [
                 (lt, ":agent_no", 0),
                 (try_begin),
                     (ge, ":troop_no", 0),
-                    (this_or_next|troop_slot_ge, ":troop_no", slot_troop_banner_scene_prop, 1),
+
+                    (call_script, "script_troop_get_banner", ":troop_no"),
+                    (this_or_next|ge, reg0, 1),
                     (eq, ":troop_no", "$g_player_troop"),
+
                     (assign, ":banner_troop", ":troop_no"),
                 (else_try),
                     (is_between, ":troop_no", companions_begin, companions_end),
@@ -2905,8 +2908,11 @@ scripts = [
                 (try_end),
             (else_try),
                 (agent_get_troop_id, ":troop_id", ":agent_no"),
-                (this_or_next|troop_slot_ge,  ":troop_id", slot_troop_banner_scene_prop, 1),
+
+                (call_script, "script_troop_get_banner", ":troop_id"),
+                (this_or_next|ge, reg0, 1),
                 (eq, ":troop_no", "$g_player_troop"),
+
                 (assign, ":banner_troop", ":troop_id"),
             (else_try),
                 (agent_get_party_id, ":agent_party", ":agent_no"),
@@ -2928,8 +2934,11 @@ scripts = [
                     (party_get_num_companion_stacks, ":num_stacks", ":agent_party"),
                     (gt, ":num_stacks", 0),
                     (party_stack_get_troop_id, ":leader_troop_id", ":agent_party", 0),
-                    (this_or_next|troop_slot_ge,  ":leader_troop_id", slot_troop_banner_scene_prop, 1),
+
+                    (call_script, "script_troop_get_banner", ":leader_troop_id"),
+                    (this_or_next|ge, reg0, 1),
                     (eq, ":leader_troop_id", "$g_player_troop"),
+
                     (assign, ":banner_troop", ":leader_troop_id"),
                 (try_end),
             (else_try),
@@ -2962,15 +2971,17 @@ scripts = [
                 (assign, ":banner_mesh", "$g_override_troop_banner_mesh"),
             (else_try),
                 (ge, ":banner_troop", 0),
+
+                (call_script, "script_troop_get_banner", ":banner_troop"),
+                (assign, ":banner", reg0),
                 (try_begin),
-                    (neg|troop_slot_ge, ":banner_troop", slot_troop_banner_scene_prop, 1),
+                    (lt, ":banner", 1),
                     (assign, ":banner_mesh", "mesh_banners_default_b"),
                 (else_try), 
-                    (troop_get_slot, ":banner_spr", ":banner_troop", slot_troop_banner_scene_prop),
                     (store_add, ":banner_scene_props_end", banner_scene_props_end_minus_one, 1),
-                    (is_between, ":banner_spr", banner_scene_props_begin, ":banner_scene_props_end"),
-                    (val_sub, ":banner_spr", banner_scene_props_begin),
-                    (store_add, ":banner_mesh", ":banner_spr", arms_meshes_begin),
+                    (is_between, ":banner", banner_scene_props_begin, ":banner_scene_props_end"),
+                    (val_sub, ":banner", banner_scene_props_begin),
+                    (store_add, ":banner_mesh", ":banner", arms_meshes_begin),
                 (try_end),
             (try_end),
             (assign, reg0, ":banner_mesh"),
@@ -13210,8 +13221,8 @@ scripts = [
             (call_script, "script_troop_update_name", ":lord_no"),
 
             # ToDo: refine banner selection
-            (store_random_in_range, ":banner", banner_scene_props_begin, banner_scene_props_end),
-            (call_script, "script_troop_set_banner", ":lord_no", ":banner"),
+            # (store_random_in_range, ":banner", banner_scene_props_begin, banner_scene_props_end),
+            # (call_script, "script_troop_set_banner", ":lord_no", ":banner"),
             
             (call_script, "script_troop_get_face_code", ":lord_no", -1, -1),
             (troop_set_face_keys, ":lord_no", s0),
@@ -13295,6 +13306,15 @@ scripts = [
                 (troop_slot_eq, ":clan", slot_clan_home, 0),
                 (troop_get_slot, ":leader_home", ":clan_leader", slot_troop_home),
                 (troop_set_slot, ":clan", slot_clan_home, ":leader_home"),
+            (try_end),
+
+            (try_begin),
+                (troop_get_slot, ":leader_banner", ":clan_leader", slot_troop_banner_scene_prop),
+                (ge, ":leader_banner", 1),
+                (troop_set_slot, ":clan", slot_clan_banner, ":leader_banner"),
+            (else_try),
+                (store_random_in_range, ":banner", banner_scene_props_begin, banner_scene_props_end),
+                (troop_set_slot, ":clan", slot_clan_banner, ":banner"),
             (try_end),
 
             (try_begin),
@@ -13503,6 +13523,8 @@ scripts = [
             (try_end),
 
             (call_script, "script_troop_update_name", ":troop_no"),
+            (troop_get_slot, ":clan_banner", ":clan", slot_clan_banner),
+            (call_script, "script_troop_set_banner", ":troop_no", ":clan_banner"),
         ]),
 
     # script_clan_get_empty
@@ -30575,6 +30597,27 @@ scripts = [
             (try_end),
         ]),
 
+    # script_troop_get_banner
+        # input:
+        #   arg1: troop_no
+        # output:
+        #   reg0: banner_no
+    ("troop_get_banner",
+        [
+            (store_script_param, ":troop_no", 1),
+
+            (assign, ":banner", -1),
+
+            (troop_get_slot, ":clan", ":troop_no", slot_troop_clan),
+            (try_begin),
+                (is_between, ":clan", clans_begin, clans_end),
+                (troop_get_slot, ":banner", ":clan", slot_clan_banner),
+            (else_try),
+                (troop_get_slot, ":banner", ":troop_no", slot_troop_banner_scene_prop),
+            (try_end),
+            (assign, reg0, ":banner"),
+        ]),
+
     # script_party_process_bandit
         # input:
         #   arg1: party_no
@@ -30765,7 +30808,8 @@ scripts = [
             (position_set_y, pos1, 380),
             (overlay_set_size, reg0, pos1),
 
-            (troop_get_slot, ":banner_spr", ":lord_no", slot_troop_banner_scene_prop),
+            (call_script, "script_troop_get_banner", ":lord_no"),
+            (assign, ":banner_spr", reg0),
             (try_begin),
                 (is_between, ":banner_spr", banner_scene_props_begin, banner_scene_props_end),
                 (store_sub, ":banner_mesh", ":banner_spr", banner_scene_props_begin),

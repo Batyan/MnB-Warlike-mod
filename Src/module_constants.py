@@ -673,8 +673,10 @@ name_type_name = 2
 name_type_leader = 3
 
 slot_clan_home = slot_clan_name_type + 1
+slot_clan_banner = slot_clan_home + 1
 
-slot_clan_end = slot_clan_home + 1
+slot_clan_end = slot_clan_banner + 1
+
 
 #################
 ## Agent Slots ##
@@ -1507,9 +1509,10 @@ merchant_type_armor = 2
 merchant_type_weapon = 3
 merchant_type_horse = 4
 
-# Regular troops
+# Hero npc
 slot_troop_banner_scene_prop        = 1
 
+# Regular troops
 slot_troop_type                     = slot_troop_banner_scene_prop + 1
 tt_infantry             = 1
 tt_spearman             = 2

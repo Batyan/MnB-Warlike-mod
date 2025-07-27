@@ -3064,7 +3064,8 @@ presentations = [
 
                     (set_container_overlay, -1),
 
-                    (troop_get_slot, ":selected_banner", "$g_player_troop", slot_troop_banner_scene_prop),
+                    (call_script, "script_troop_get_banner", "$g_player_troop"),
+                    (assign, ":selected_banner", reg0),
 
                     (try_begin),
                         (is_between, ":selected_banner", banner_scene_props_begin, banner_scene_props_end),

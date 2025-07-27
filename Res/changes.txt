@@ -5,6 +5,7 @@ v0.640:
 		* add banners to centers
 		* add bandit camps
 		* add genders for lord ranks
+		* clan members will now share the same banner
 	-Balances:
 		* reduce regular bandit spawn (to compensate for bandits generated from the camps)
 		* reduce bandit cargo slow down to increase party speed (26 -> 22)

@@ -585,11 +585,12 @@ script_party_pre_battle_init = 583
 script_troop_get_shared_experience_ratio = 584
 script_party_get_banner_mesh = 585
 script_troop_set_banner = 586
-script_party_process_bandit = 587
-script_party_process_camp = 588
-script_presentation_generate_select_lord_card = 589
-script_presentation_create_text_overlay = 590
-script_presentation_create_combo_button_overlay = 591
-script_presentation_create_check_box_overlay = 592
+script_troop_get_banner = 587
+script_party_process_bandit = 588
+script_party_process_camp = 589
+script_presentation_generate_select_lord_card = 590
+script_presentation_create_text_overlay = 591
+script_presentation_create_combo_button_overlay = 592
+script_presentation_create_check_box_overlay = 593
 
 
