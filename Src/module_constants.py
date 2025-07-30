@@ -671,6 +671,7 @@ slot_clan_name_type = slot_clan_name_template + 1
 name_type_center = 1
 name_type_name = 2
 name_type_leader = 3
+name_type_predefined = 4
 
 slot_clan_home = slot_clan_name_type + 1
 slot_clan_banner = slot_clan_home + 1

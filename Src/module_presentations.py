@@ -3201,6 +3201,12 @@ presentations = [
                         (store_add, ":selected_banner", ":offset", banner_scene_props_begin),
 
                         (call_script, "script_troop_set_banner", "$g_player_troop", ":selected_banner"),
+
+                        (troop_get_slot, ":player_clan", "$g_player_troop", slot_troop_clan),
+                        (try_begin),
+                            (is_between, ":player_clan", clans_begin, clans_end),
+                            (troop_set_slot, ":player_clan", slot_clan_banner, ":selected_banner"),
+                        (try_end),
                         # (troop_set_slot, "$g_player_troop", slot_troop_banner_scene_prop, ":selected_banner"),
                         # (party_set_banner_icon, "$g_player_party", "icon_heraldic_banner_03"),
                         (start_presentation, "prsnt_banner_selection"),
