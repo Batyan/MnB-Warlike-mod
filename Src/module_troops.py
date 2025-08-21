@@ -3124,7 +3124,7 @@ troops = [
     itm_cuir_bouilli_herald,
     itm_nordic_huscarl_helmet, itm_nordic_warlord_helmet,
     ],
-   str_26|agi_19|int_11|cha_19|level(52), wpex(125,115,145,70,30,110), knows_common|knows_ironflesh_7|knows_power_strike_7|knows_power_throw_5|knows_power_draw_3|knows_athletics_5|knows_riding_3|knows_horse_archery_1, nord_face_young_1, nord_face_old_2 ],
+   str_26|agi_19|int_11|cha_19|level(52), wpex(125,115,140,70,30,110), knows_common|knows_ironflesh_7|knows_power_strike_6|knows_power_throw_5|knows_power_draw_3|knows_athletics_5|knows_riding_3|knows_horse_archery_1, nord_face_young_1, nord_face_old_2 ],
   
   # Heavy cavalry, lances, shields
   # SPECIAL
@@ -3214,7 +3214,7 @@ troops = [
     itm_aketon_green_herald, itm_ragged_outfit,
     itm_footman_helmet, itm_mail_coif, itm_helmet_with_neckguard,
     ],
-   str_14|agi_11|int_7|cha_9|level(18), wpex(90,75,145,25,55,40), knows_common|knows_ironflesh_7|knows_power_strike_5|knows_power_throw_1|knows_athletics_2|knows_riding_1, rhodok_face_young_1, rhodok_face_old_2 ],
+   str_14|agi_11|int_7|cha_9|level(18), wpex(90,75,145,25,55,40), knows_common|knows_ironflesh_5|knows_power_strike_5|knows_power_throw_1|knows_athletics_2|knows_riding_1, rhodok_face_young_1, rhodok_face_old_2 ],
   
   # Light infantry, spears
   ["rhodok_guard", "Rhodok Guard", "Rhodok Guards", tf_guarantee_common_armor, no_scene, reserved, fac_kingdom_5,

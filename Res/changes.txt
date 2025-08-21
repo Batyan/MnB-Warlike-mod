@@ -9,6 +9,9 @@ v0.640:
 	-Balances:
 		* reduce regular bandit spawn (to compensate for bandits generated from the camps)
 		* reduce bandit cargo slow down to increase party speed (26 -> 22)
+		* reduce nord_noble_guard power_strike (7 -> 6)
+		* reduce nord_noble_guard polearm proficiency (145 -> 140)
+		* reduce rhodok_pikeman ironflesh (7 -> 5)
 	-Fixes:
 v0.630:
 	-Features:
