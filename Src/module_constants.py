@@ -663,8 +663,8 @@ clans_end = "trp_banner_background_color_array"
 slot_clan_active = 9
 
 slot_clan_leader = slot_clan_active + 1
-slot_clan_renown = slot_clan_leader + 1
-slot_clan_culture = slot_clan_renown + 1
+slot_clan_influence = slot_clan_leader + 1
+slot_clan_culture = slot_clan_influence + 1
 slot_clan_name_template = slot_clan_culture + 1
 slot_clan_name_type = slot_clan_name_template + 1
 
@@ -676,7 +676,9 @@ name_type_predefined = 4
 slot_clan_home = slot_clan_name_type + 1
 slot_clan_banner = slot_clan_home + 1
 
-slot_clan_end = slot_clan_banner + 1
+slot_clan_num_fiefs = slot_clan_banner + 1
+
+slot_clan_end = slot_clan_num_fiefs + 1
 
 
 #################
@@ -1038,13 +1040,13 @@ spt_town        = 15
 spt_fort        = 16
 
 
-slot_party_leader           = 2
+slot_party_leader           = slot_party_type + 1
 slot_party_lord             = slot_party_leader
 
-slot_party_weather_wet      = 3
-slot_party_weather_heat     = 4
+slot_party_weather_wet      = slot_party_lord + 1
+slot_party_weather_heat     = slot_party_weather_wet + 1
 
-slot_party_mission          = 5
+slot_party_mission          = slot_party_weather_heat + 1
 spm_colonise    = 1
 spm_courier     = 2
 spm_trade       = 3
@@ -1052,18 +1054,18 @@ spm_gather      = 4
 spm_reinforce   = 5
 spm_waiting     = 6
 
-slot_party_mission_object   = 6
+slot_party_mission_object   = slot_party_mission + 1
 
-slot_party_wealth           = 7
-slot_party_population       = 8   # Does not include slave population
-slot_party_population_noble = 9
-slot_party_population_artisan = 10
-slot_party_population_slave = 11
+slot_party_wealth           = slot_party_mission_object + 1
+slot_party_population       = slot_party_wealth + 1   # Does not include slave population
+slot_party_population_noble = slot_party_population + 1
+slot_party_population_artisan = slot_party_population_noble + 1
+slot_party_population_slave = slot_party_population_artisan + 1
 
 population_max_town = 34000
 population_max_castle = 8500
 population_max_village = 12000
-slot_party_population_max   = 12
+slot_party_population_max   = slot_party_population_slave + 1
 
 population_growth_castle_noble = 8
 population_growth_castle_artisan = 24
@@ -1084,20 +1086,20 @@ taxes_noble_amount = 16
 taxes_artisan_amount = 4
 taxes_serf_amount = 2
 
-slot_party_wanted_party_wages = 13
-slot_party_accumulated_taxes = 14
+slot_party_wanted_party_wages = slot_party_population_max + 1
+slot_party_accumulated_taxes = slot_party_wanted_party_wages + 1
 
-slot_party_wages_cache = 15 # Used to get non accurate wages
+slot_party_wages_cache = slot_party_accumulated_taxes + 1 # Used to get non accurate wages
 
-slot_party_ressource_radius = 16
+slot_party_ressource_radius = slot_party_wages_cache + 1
 
-slot_party_total_resources = 17
+slot_party_total_resources = slot_party_ressource_radius + 1
 
-slot_party_ressources_begin = itm_spice # 18
-slot_party_ressources_end = itm_saddle_horse # 66
-slot_party_ressources_count = slot_party_ressources_end - slot_party_ressources_begin # 48
+slot_party_ressources_begin = slot_party_total_resources + 1
+slot_party_ressources_end = slot_party_ressources_begin + itm_saddle_horse - itm_spice
+slot_party_ressources_count = slot_party_ressources_end - slot_party_ressources_begin
 
-slot_party_ressources_current_amount_begin = slot_party_ressources_end # 65
+slot_party_ressources_current_amount_begin = slot_party_ressources_end
 slot_party_ressources_current_amount_end = slot_party_ressources_current_amount_begin + slot_party_ressources_count # 113
 
 slot_party_original_faction = slot_party_ressources_current_amount_end + 1
@@ -1681,17 +1683,18 @@ slot_troop_clan             = 54
 
 slot_troop_died = 55 # Contains the date of death of an NPC
 
-slot_troop_honor = 56
-slot_troop_renown = 57
+slot_troop_honor = slot_troop_died + 1
+slot_troop_renown = slot_troop_honor + 1
+slot_troop_influence = slot_troop_renown + 1
 
-slot_troop_accompanying = 58 # Used for companions -- Stores the current party the troop is following
-slot_troop_companion_of = 59 # Used for companions -- Stores the leader it is following
+slot_troop_accompanying = slot_troop_influence + 1 # Used for companions -- Stores the current party the troop is following
+slot_troop_companion_of = slot_troop_accompanying + 1 # Used for companions -- Stores the leader it is following
 
-slot_troop_num_followers = 60 # Stores number of parties trying to follow
-slot_troop_num_followers_ready = 61 # Stores number of parties currently nearby and following
+slot_troop_num_followers = slot_troop_companion_of + 1 # Stores number of parties trying to follow
+slot_troop_num_followers_ready = slot_troop_num_followers + 1 # Stores number of parties currently nearby and following
 
-slot_troop_wanted_party_wages = 62
-slot_troop_accumulated_taxes = 63
+slot_troop_wanted_party_wages = slot_troop_num_followers_ready + 1
+slot_troop_accumulated_taxes = slot_troop_wanted_party_wages + 1
 
 slot_troop_budget_vassal_taxes = slot_troop_accumulated_taxes + 1
 slot_troop_budget_faction_member_taxes = slot_troop_budget_vassal_taxes + 1
