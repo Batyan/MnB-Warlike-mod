@@ -207,6 +207,25 @@ scripts = [
                 (call_script, "script_faction_process_free_center", ":party_faction"),
             (try_end),
 
+            (try_for_range, ":clan", clans_begin, clans_end),
+                (troop_slot_eq, ":clan", slot_clan_active, 1),
+                (call_script, "script_clan_reset_name", ":clan"),
+            (try_end),
+
+            (assign, ":max_tries", 10),
+            (try_for_range, ":unused", 0, ":max_tries"),
+                (assign, ":change", 0),
+                (try_for_range, ":troop_no", lords_begin, lords_end),
+                    (troop_slot_eq, ":troop_no", slot_troop_kingdom_occupation, tko_kingdom_hero),
+                    (call_script, "script_cf_troop_process_surplus_center", ":troop_no"),
+                    (assign, ":change", 1),
+                (try_end),
+                (try_begin),
+                    (eq, ":change", 0),
+                    (assign, ":max_tries", 0),
+                (try_end),
+            (try_end),
+
             (try_for_range, ":lord", npc_heroes_begin, npc_heroes_end),
                 (troop_slot_eq, ":lord", slot_troop_kingdom_occupation, tko_kingdom_hero),
                 (troop_get_slot, ":rank", ":lord", slot_troop_rank),
@@ -13406,6 +13425,23 @@ scripts = [
             (troop_set_name, ":clan", s0),
         ]),
 
+    # script_clan_reset_name
+        # input:
+        #   arg1: clan
+        # output: none
+    ("clan_reset_name",
+        [
+            (store_script_param, ":clan", 1),
+
+            (call_script, "script_clan_get_name", ":clan"),
+            (troop_set_name, ":clan", s0),
+
+            (try_for_range, ":lord_no", lords_begin, lords_end),
+                (troop_slot_eq, ":lord_no", slot_troop_clan, ":clan"),
+                (call_script, "script_troop_update_name", ":lord_no"),
+            (try_end),
+        ]),
+
     # script_clan_get_name_type
         # input:
         #   arg1: clan
@@ -13956,6 +13992,15 @@ scripts = [
             
             (call_script, "script_troop_update_name", ":troop_no"),
             (call_script, "script_troop_update_home", ":troop_no"),
+            
+            (party_get_slot, ":party_type", ":center_no", slot_party_type),
+            (party_set_banner_icon, ":center_no", 0),
+            (try_begin),
+                (eq, ":party_type", spt_village),
+                (party_set_banner_icon, ":center_no", "icon_heraldic_banner_01"),
+            (else_try),
+                (party_set_banner_icon, ":center_no", "icon_heraldic_banner_03"),
+            (try_end),
             
             (try_begin),
                 (ge, ":old_rank", rank_village),
@@ -19687,14 +19732,21 @@ scripts = [
     # script_generate_clan
         # input:
         #   arg1: faction_no
+        #   arg2: party_origin
         # output:
         #   reg0: clan
     ("generate_clan",
         [
             (store_script_param, ":faction_no", 1),
+            (store_script_param, ":party_origin", 2),
 
             (call_script, "script_clan_get_empty"),
             (assign, ":clan", reg0),
+
+            (try_begin),
+                (is_between, ":party_origin", centers_begin, centers_end),
+                (troop_set_slot, ":clan", slot_clan_home, ":party_origin"),
+            (try_end),
 
             (store_random_in_range, ":num_members", 1, 4),
             (store_random_in_range, ":num_members2", 1, 4),
@@ -29577,7 +29629,7 @@ scripts = [
                 (val_add, ":influence", ":influence_change"),
                 (troop_set_slot, ":selected", slot_troop_influence, ":influence"),
             (else_try), # Promote a relative/notable with a fief
-                (call_script, "script_generate_clan", ":faction"),
+                (call_script, "script_generate_clan", ":faction", ":surplus_fief"),
                 (assign, ":new_clan", reg0),
                 (is_between, ":new_clan", clans_begin, clans_end),
                 (troop_get_slot, ":clan_leader", ":new_clan", slot_clan_leader),
