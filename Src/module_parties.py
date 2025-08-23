@@ -449,7 +449,7 @@ parties = [
 	# Bandit lairs
 	("camp_11","Bandit Camp",icon_bandit_lair|pf_is_static|pf_disabled, no_menu, pt_none, fac_no_faction,0,ai_bhvr_hold,0,(-129.26, 21.35),[], 40),
 	("camp_12","Bandit Camp",icon_bandit_lair|pf_is_static|pf_disabled, no_menu, pt_none, fac_no_faction,0,ai_bhvr_hold,0,(-28.74, 16.22),[], 30),
-	("camp_13","Bandit Camp",icon_bandit_lair|pf_is_static|pf_disabled, no_menu, pt_none, fac_no_faction,0,ai_bhvr_hold,0,(-63.71, -17.87),[], -140),
+	("camp_13","Bandit Camp",icon_bandit_lair|pf_is_static|pf_disabled, no_menu, pt_none, fac_no_faction,0,ai_bhvr_hold,0,(-63.08, -16.98),[], -140),
 	("camp_14","Bandit Camp",icon_bandit_lair|pf_is_static|pf_disabled, no_menu, pt_none, fac_no_faction,0,ai_bhvr_hold,0,(4.96, 13.69),[], -130),
 
 	("camp_21","Bandit Camp",icon_bandit_lair|pf_is_static|pf_disabled, no_menu, pt_none, fac_no_faction,0,ai_bhvr_hold,0,(76.54, 28.22),[], -100),
