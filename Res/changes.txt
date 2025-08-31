@@ -14,6 +14,7 @@ v0.640:
 		* reduce nord_noble_guard power_strike (7 -> 6)
 		* reduce nord_noble_guard polearm proficiency (145 -> 140)
 		* reduce rhodok_pikeman ironflesh (7 -> 5)
+		* reduce xp required for level up
 	-Fixes:
 		* increase lord pool quantity
 		* increase clans pool quantity
