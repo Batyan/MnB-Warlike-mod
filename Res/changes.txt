@@ -19,6 +19,7 @@ v0.640:
 	-Fixes:
 		* increase lord pool quantity
 		* increase clans pool quantity
+		* fix incorrect building maintenance description (per month -> yearly)
 v0.630:
 	-Features:
 		* add player levels and leveling up

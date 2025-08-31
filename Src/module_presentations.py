@@ -2996,7 +2996,7 @@ presentations = [
                         (overlay_set_text, "$g_presentation_building_create_cost", s0),
 
                         (call_script, "script_game_get_money_text", ":maintenance"),
-                        (str_store_string, s10, "@{s0} per month"),
+                        (str_store_string, s10, "@{s0} yearly"),
                         (overlay_set_text, "$g_presentation_building_create_maintenance", s10),
 
                         (str_store_item_name, s10, ":building_card"),
