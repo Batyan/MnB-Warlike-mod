@@ -8,6 +8,7 @@ v0.640:
 		* clan members will now share the same banner
 		* improve starting clans generation
 		* improve fief giving selection
+		* add visit center quest
 	-Balances:
 		* reduce regular bandit spawn (to compensate for bandits generated from the camps)
 		* reduce bandit cargo slow down to increase party speed (26 -> 22)
