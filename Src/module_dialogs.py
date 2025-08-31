@@ -1070,14 +1070,15 @@ dialogs = [
  I know you shall prove yourself worthy of the trust I have placed in you.", "close_window",
         [
             (quest_get_slot, ":center", "qst_swear_vassalage_fief", slot_quest_object),
+            (call_script, "script_complete_quest", "qst_swear_vassalage_fief"),
+            (call_script, "script_troop_add_xp", "$g_player_troop", 50),
             (try_begin),
                 (is_between, ":center", centers_begin, centers_end),
                 (call_script, "script_troop_give_center_to_troop", "$g_talk_troop", ":center", "$g_player_troop"),
+                (call_script, "script_cf_start_quest_visit_center_new_owner", ":center"),
             (else_try),
                 (call_script, "script_troop_become_vassal", "$g_player_troop", "$g_talk_troop"),
             (try_end),
-            (call_script, "script_complete_quest", "qst_swear_vassalage_fief"),
-            (call_script, "script_troop_add_xp", "$g_player_troop", 50),
         ]],
 
     [anyone, "lord_offer_vassal_refused",

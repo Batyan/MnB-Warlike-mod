@@ -156,6 +156,7 @@ scripts = [
                             (val_add, ":renown", 350),
                         (else_try),
                             (eq, ":clan_leader", ":lord_no"),
+                            (neq, ":lord_no", ":faction_leader"),
                             (call_script, "script_troop_become_vassal", ":lord_no", ":faction_leader"),
                         (try_end),
 
@@ -314,6 +315,8 @@ scripts = [
             (assign, "$g_player_last_proposed_vassalage", -10000),
 
             (assign, "$g_intro_tutorial_trigger_date", 0),
+
+            (assign, "$g_quest_visit_center_new_owner_started", 0),
             
             (set_show_messages, 1),
         ]),
@@ -14625,6 +14628,18 @@ scripts = [
                         (assign, ":value", reg0),
                         (val_div, ":value", 2),
                         (val_sub, ":score", ":value"),
+                    (try_end),
+
+                    (try_begin),
+                        (eq, ":clan_leader", "$g_player_troop"),
+
+                        (call_script, "script_get_current_day"),
+                        (assign, ":current_day", reg0),
+
+                        # If the player previously refused an offer we don't ask for a while
+                        (store_add, ":threshold", "$g_player_last_proposed_vassalage", 365*2),
+                        (le, ":current_day", ":threshold"),
+                        (assign, ":score", -1000),
                     (try_end),
 
                     (gt, ":score", ":best_score"),
@@ -30796,6 +30811,22 @@ scripts = [
                     (gt, ":wealth", 0),
                 (try_end),
             (try_end),
+        ]),
+
+    # script_cf_start_quest_visit_center_new_owner
+        # input:
+        #   arg1: center_no
+        # output: none
+    ("cf_start_quest_visit_center_new_owner",
+        [
+            (store_script_param, ":center_no", 1),
+
+            (eq, "$g_quest_visit_center_new_owner_started", 0),
+
+            (quest_set_slot, "qst_visit_center_new_owner", slot_quest_destination, ":center_no"),
+            (call_script, "script_start_quest", "qst_visit_center_new_owner", -1),
+
+            (assign, "$g_quest_visit_center_new_owner_started", 1),
         ]),
 
     # script_presentation_generate_select_lord_card

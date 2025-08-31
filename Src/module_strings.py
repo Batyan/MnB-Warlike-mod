@@ -849,6 +849,7 @@ strings = [
   ("player_receive_center", "A messenger brings a message for you.^^{s10} wishes to offer you {s11} as a fief under the condition that you become his vassal^^^^Do you accept ?"),
   ("player_receive_center_vassal", "A messenger brings a message for you.^^Your lord {s10} wishes to offer you {s11} as a fief^Refusing would likely reduce your chances of being awarded another for some time.^^^Do you accept ?"),
   ("player_receive_center_vassal_player", "A messenger brings a message for you.^^Your vassal {s10} wishes to offer you {s11} as a fief.^^^Do you accept ?"),
+  ("player_receive_center_leader", "A messenger brings a message for you.^^{s10} wishes to grant you {s11} as a fief^Refusing would likely reduce your chances of being awarded another for some time.^^^Do you accept ?"),
 
   ("quest_description_introduction_default", "After your hard journey to Calradia, take a moment to rest in the town of {s59}."),
   ("quest_description_introduction_default_search", "{s58} had few informations on the whereabouts of his brother {s57}.^^He proposed that you look for answer in the nearby villages."),
@@ -861,7 +862,7 @@ strings = [
   ("quest_description_swear_vassalage_fief", "{s62} would like to receive your oath of allegience to him{reg60?, you would be granted {s11} in exchange:}."),
   ("quest_description_persuade_lord_vassalage", "Persuade a lord to become your vassal."),
   
-  ("quest_description_visit_center_new_owner", "As the newly appointed owner of {s62} you should head to the center to make yourself known and arrange the details of your fiefdom."),
+  ("quest_description_visit_center_new_owner", "As the newly appointed owner of {s59} you should head to the center to make yourself known and arrange the details of your fiefdom."),
 
   ("quest_description_village_deliver_grain", "The elder of the village of {s59} asked you to procure 10 items of grain."),
   ("quest_description_village_deliver_rare_good", " "),

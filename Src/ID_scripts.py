@@ -591,9 +591,10 @@ script_troop_set_banner = 589
 script_troop_get_banner = 590
 script_party_process_bandit = 591
 script_party_process_camp = 592
-script_presentation_generate_select_lord_card = 593
-script_presentation_create_text_overlay = 594
-script_presentation_create_combo_button_overlay = 595
-script_presentation_create_check_box_overlay = 596
+script_cf_start_quest_visit_center_new_owner = 593
+script_presentation_generate_select_lord_card = 594
+script_presentation_create_text_overlay = 595
+script_presentation_create_combo_button_overlay = 596
+script_presentation_create_check_box_overlay = 597
 
 
