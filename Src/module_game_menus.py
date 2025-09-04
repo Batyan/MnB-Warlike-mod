@@ -1593,6 +1593,8 @@ game_menus = [
                 [
                     (try_begin),
                         (check_quest_active, "qst_visit_center_new_owner"),
+                        (quest_get_slot, ":destination", "qst_visit_center_new_owner", slot_quest_destination),
+                        (eq, "$g_encountered_party", ":destination"),
                         (call_script, "script_troop_add_xp", "$g_player_troop", 50),
                         (call_script, "script_complete_quest", "qst_visit_center_new_owner"),
                     (try_end),
