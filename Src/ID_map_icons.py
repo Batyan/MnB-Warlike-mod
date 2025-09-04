@@ -41,3 +41,7 @@ icon_training_ground = 39
 icon_bridge_a = 40
 icon_bridge_b = 41
 icon_bridge_snow_a = 42
+icon_bandit_lair = 43
+icon_heraldic_banner_01 = 44
+icon_heraldic_banner_02 = 45
+icon_heraldic_banner_03 = 46

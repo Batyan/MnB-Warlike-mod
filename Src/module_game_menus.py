@@ -1592,6 +1592,14 @@ game_menus = [
             ("center_enter", [], "Ask permition to enter",
                 [
                     (try_begin),
+                        (check_quest_active, "qst_visit_center_new_owner"),
+                        (quest_get_slot, ":destination", "qst_visit_center_new_owner", slot_quest_destination),
+                        (eq, "$g_encountered_party", ":destination"),
+                        (call_script, "script_troop_add_xp", "$g_player_troop", 50),
+                        (call_script, "script_complete_quest", "qst_visit_center_new_owner"),
+                    (try_end),
+
+                    (try_begin),
                         (check_quest_active, "qst_introduction_default"),
                         (quest_get_slot, ":destination", "qst_introduction_default", slot_quest_destination),
                         (eq, "$g_encountered_party", ":destination"),
@@ -1842,6 +1850,7 @@ game_menus = [
                     (quest_get_slot, ":giver_troop", "qst_introduction_default_search", slot_quest_giver_troop),
                     (call_script, "script_setup_troop_meeting", ":giver_troop", -1),
                 ]),
+
             ("tavern_intro_quest_wait",
                 [
                     (check_quest_active, "qst_introduction_waiting"),
@@ -1856,7 +1865,14 @@ game_menus = [
                     (quest_get_slot, ":giver_troop", "qst_introduction_waiting", slot_quest_giver_troop),
                     (call_script, "script_setup_troop_meeting", ":giver_troop", -1),
                 ]),
-            
+
+            ("tavern_ransom_broker",
+                [], "Speak with the ransom broker",
+                [
+                    (assign, "$g_talk_party", "$g_encountered_party"),
+                    (call_script, "script_setup_troop_meeting", "trp_ransom_broker", -1),
+                ]),
+
             ("center_back", [], "Head back to the center",
                 [
                     (jump_to_menu, "mnu_town_center"),
@@ -2882,6 +2898,43 @@ game_menus = [
             (change_screen_map),
         ],
         [ ]),
+
+    ("camp_encounter", mnf_scale_picture,
+        "Camp encounter",
+        "none",
+        [
+            # (set_background_mesh, "mesh_pic_camp"),
+        ],
+        [
+            ("encounter_attack", 
+                [], "Launch an assault on the camp",
+                [
+                    # Preparation
+                    
+                    (assign, "$g_player_team", 1),
+                    (assign, "$g_enemy", "$g_encountered_party"),
+                    (assign, "$g_ally", -1),
+                    (assign, "$g_clear_battles", 0),
+
+                    (call_script, "script_party_pre_battle_init", "$g_encountered_party"),
+                    (call_script, "script_party_pre_battle_init", "$g_player_party"),
+
+                    (jump_to_menu, "mnu_encounter_battle"),
+                ]),
+            
+            ("encounter_leave", 
+                [
+                    (try_begin),
+                        (encountered_party_is_attacker),
+                        (disable_menu_option),
+                    (try_end),
+                ], "Leave",
+                [
+                    (leave_encounter),
+                    (change_screen_return),
+                ]),
+        ]),
+
     
     # ("visit_place", mnf_scale_picture,
         # "Visit the monument?",
@@ -3123,12 +3176,21 @@ game_menus = [
 
             (str_store_troop_name, s10, reg20),
             (str_store_party_name, s11, reg21),
+            (troop_get_slot, ":player_lord", "$g_player_troop", slot_troop_vassal_of),
             (try_begin),
-                (troop_slot_eq, "$g_player_troop", slot_troop_vassal_of, reg20),
+                (eq, ":player_lord", reg20),
                 (str_store_string, s12, "str_player_receive_center_vassal"),
             (else_try),
                 (troop_slot_eq, reg20, slot_troop_vassal_of, "$g_player_troop"),
                 (str_store_string, s12, "str_player_receive_center_vassal_player"),
+            (else_try),
+                (neq, ":player_lord", reg20),
+                (store_troop_faction, ":player_faction", "$g_player_troop"),
+                (store_troop_faction, ":giver_faction", reg20),
+                (eq, ":player_faction", ":giver_faction"),
+                (faction_get_slot, ":faction_leader", ":giver_faction", slot_faction_leader),
+                (eq, ":faction_leader", reg20),
+                (str_store_string, s12, "str_player_receive_center_leader"),
             (else_try),
                 (str_store_string, s12, "str_player_receive_center"),
             (try_end),
@@ -3140,14 +3202,32 @@ game_menus = [
                 (change_screen_return),
             ]),
             ("receive_center_accept", [], "Accept", [
+                (assign, ":vassalage", 0),
+                (troop_get_slot, ":player_lord", "$g_player_troop", slot_troop_vassal_of),
                 (try_begin),
-                    (neg|troop_slot_eq, "$g_player_troop", slot_troop_vassal_of, reg20),
-                    (party_set_slot, reg21, slot_party_reserved, "$g_player_troop"),
-                    # (call_script, "script_troop_give_center_to_troop", reg20, reg21, "$g_player_troop"),
+                    (eq, ":player_lord", reg20),
+                (else_try),
+                    (troop_slot_eq, reg20, slot_troop_vassal_of, "$g_player_troop"),
+                (else_try),
+                    (neq, ":player_lord", reg20),
+                    (store_troop_faction, ":player_faction", "$g_player_troop"),
+                    (store_troop_faction, ":giver_faction", reg20),
+                    (eq, ":player_faction", ":giver_faction"),
+                    (faction_get_slot, ":faction_leader", ":giver_faction", slot_faction_leader),
+                    (eq, ":faction_leader", reg20),
+                (else_try),
+                    (assign, ":vassalage", 1),
+                (try_end),
+
+                (try_begin),
+                    (eq, ":vassalage", 1),
+
                     (quest_set_slot, "qst_swear_vassalage_fief", slot_quest_object, reg21),
                     (call_script, "script_start_quest", "qst_swear_vassalage_fief", reg20),
                 (else_try),
                     (call_script, "script_troop_give_center_to_troop", reg20, reg21, "$g_player_troop"),
+
+                    (call_script, "script_cf_start_quest_visit_center_new_owner", reg21),
                 (try_end),
                 (change_screen_return),
             ]),

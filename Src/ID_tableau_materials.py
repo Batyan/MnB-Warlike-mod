@@ -131,3 +131,6 @@ tableau_tear_shield_c_plain_2 = 129
 tableau_tear_shield_d = 130
 tableau_tear_shield_d_plain_1 = 131
 tableau_tear_shield_d_plain_2 = 132
+tableau_heraldic_banner_tall = 133
+tableau_heraldic_banner_square = 134
+tableau_heraldic_banner_short = 135
