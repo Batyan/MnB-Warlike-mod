@@ -1,3 +1,7 @@
+v0.650:
+	-Features:
+	-Balances:
+	-Fixes:
 v0.640:
 	-Features:
 		* add ransom broker to sell prisoners in taverns
