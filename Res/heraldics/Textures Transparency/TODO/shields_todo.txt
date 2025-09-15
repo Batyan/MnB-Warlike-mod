@@ -1,0 +1,6 @@
+rond bois en haut a gauche
+	* version bordure normale (metalique)
+	* version bordure en bois
+triangle inversé vert a gauche
+	* version bordure normale (metalique)
+	* version bordure en bois
