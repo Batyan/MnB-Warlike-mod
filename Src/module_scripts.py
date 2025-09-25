@@ -9863,16 +9863,14 @@ scripts = [
             
             (troop_get_slot, ":rank", ":troop_no", slot_troop_level),
 
-            (troop_get_slot, ":culture", ":troop_no", slot_troop_culture),
-
             (try_begin),
                 (ge, ":rank", 6),
                 (assign, ":horse", 1),
             (else_try),
-                (eq, ":rank", 0),
+                (le, ":rank", 1),
                 (val_div, ":horse", 3),
             (else_try),
-                (le, ":rank", 2),
+                (le, ":rank", 3),
                 (val_div, ":horse", 2),
             (try_end),
             
@@ -9897,9 +9895,10 @@ scripts = [
                 (eq, ":culture", "fac_culture_1"),
                 (try_begin),
                     (eq, ":horse", 0),
-                    (assign, ":horse", 2),
+                    # (assign, ":horse", 0),
                 (else_try),
-                    (assign, ":horse", 3),
+                    (val_div, ":horse", 2),
+                    (val_add, ":horse", 1),
                 (try_end),
                 (troop_set_slot, ":troop_no", slot_troop_lord_horse, ":horse"),
                 
@@ -9986,8 +9985,7 @@ scripts = [
                 (try_end),
             (else_try),
                 (eq, ":culture", "fac_culture_4"),
-                (val_div, ":horse", 4),
-                (val_min, ":horse", 3),
+                (val_div, ":horse", 3),
                 (troop_set_slot, ":troop_no", slot_troop_lord_horse, ":horse"),
                 
                 (try_begin),
@@ -10011,8 +10009,7 @@ scripts = [
                 (try_end),
             (else_try),
                 (eq, ":culture", "fac_culture_5"),
-                (val_div, ":horse", 3),
-                (val_min, ":horse", 3),
+                (val_div, ":horse", 2),
                 (troop_set_slot, ":troop_no", slot_troop_lord_horse, ":horse"),
                 
                 (try_begin),
@@ -10039,7 +10036,7 @@ scripts = [
                 (eq, ":culture", "fac_culture_6"),
                 (try_begin),
                     (eq, ":horse", 0),
-                    (assign, ":horse", 2),
+                    (assign, ":horse", 1),
                 (else_try),
                     (assign, ":horse", 3),
                 (try_end),
@@ -10063,6 +10060,8 @@ scripts = [
                 (try_end),
             (else_try),
                 (troop_set_slot, ":troop_no", slot_troop_lord_horse, ":horse"),
+                (val_add, ":horse", 1),
+                (val_div, ":horse", 2),
                 
                 (try_begin),
                     (le, ":weapon", 4),
