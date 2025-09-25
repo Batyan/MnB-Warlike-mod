@@ -9153,6 +9153,22 @@ scripts = [
             (faction_get_slot, ":era", ":faction", slot_faction_era),
             
             (troop_get_slot, ":level", ":troop_no", slot_troop_level),
+
+            (val_clamp, ":level", rank_affiliated, rank_marshall+1),
+
+            (call_script, "script_troop_get_lord_horse_slot", ":troop_no"),
+            (assign, ":horse", reg0),
+            (troop_get_slot, ":equip_type", ":troop_no", slot_troop_lord_equipement),
+
+            (try_begin),
+                (eq, ":horse", 0),
+                (val_add, ":level", 1),
+            (try_end),
+            (try_begin),
+                (this_or_next|eq, ":equip_type", tle_light_bow),
+                (eq, ":equip_type", tle_heavy_bow),
+                (val_sub, ":level", 1),
+            (try_end),
             
             (try_begin),
                 (le, ":era", 1),
@@ -9166,8 +9182,10 @@ scripts = [
             (else_try),
                 (le, ":era", 5),
                 (val_sub, ":level", 1),
+            (else_try),
+                (ge, ":era", 9),
             (try_end),
-            (val_max, ":level", 0),
+            (val_clamp, ":level", rank_none, rank_king+1),
             
             (assign, reg0, ":level"),
         ]),
@@ -10055,6 +10073,9 @@ scripts = [
                 (else_try),
                     (le, ":weapon", 8),
                     (troop_set_slot, ":troop_no", slot_troop_lord_equipement, tle_light_crossbow),
+                (else_try),
+                    (le, ":weapon", 10),
+                    (troop_set_slot, ":troop_no", slot_troop_lord_equipement, tle_throwing),
                 (else_try),
                     (troop_set_slot, ":troop_no", slot_troop_lord_equipement, tle_none),
                 (try_end),

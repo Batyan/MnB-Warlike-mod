@@ -2,96 +2,95 @@ no horse -> +1 armor
 bow/crossbow -> -1 armor
 
 rank 0
-very light armor
-rank 1 -> base no fief
-high very light armor
 light armor
-rank 2 -> base village
+rank 1 -> base no fief
 high light armor
-rank 3 -> base 2 villages
+rank 2 -> base village
 low medium armor
-rank 4 -> base castle
+rank 3 -> base 2 villages
 high medium amror
-rank 5 -> base town
+rank 4 -> base castle
 heavy armor
+rank 5 -> base town
+high heavy armor
 rank 6 -> base leader
 high heavy armor
 rank 7
-highests heavy armor
+highest heavy armor
 
 swadian
 
-very light
-rich_shirt, tabard
-light
-leather_armor, gambeson, padded_cloth, leather_jerkin, padded_leather, heraldic_mail_with_tunic_b
-medium
-haubergeon, heraldic_mail_with_tunic, mail_with_surcoat
-heavy
-heraldic_mail_with_surcoat, heraldic_mail_with_tabard, coat_of_plates, plate_armor
+	very light
+	rich_shirt, tabard
+	light
+	leather_armor, gambeson, padded_cloth, leather_jerkin, padded_leather, heraldic_mail_with_tunic_b
+	medium
+	haubergeon, heraldic_mail_with_tunic, mail_with_surcoat
+	heavy
+	heraldic_mail_with_surcoat, heraldic_mail_with_tabard, coat_of_plates, plate_armor
 
 vaegir
 
-very light
-linen_tunic, fur_coat, rawhide_coat, leather_vest
-light
-leather_jerkin, tribal_warrior_outfit
-medium
-studded_leather_coat, mail_hauberk, lamellar_vest
-heavy
-brigandine_red, banded_armor, lamellar_armor, heraldic_mail_with_surcoat, heraldic_mail_with_tabard, vaegir_elite_armor
+	very light
+	linen_tunic, fur_coat, rawhide_coat, leather_vest
+	light
+	leather_jerkin, tribal_warrior_outfit
+	medium
+	studded_leather_coat, mail_hauberk, lamellar_vest
+	heavy
+	brigandine_red, banded_armor, lamellar_armor, heraldic_mail_with_surcoat, heraldic_mail_with_tabard, vaegir_elite_armor
 
 khergit
 
-very light
-coarse_tunic, leather_vest
-light
-steppe_armor, tribal_warrior_outfit, nomad_robe
-medium
-lamellar_vest
-heavy
-lamellar_armor, khergit_elite_armor
+	very light
+	coarse_tunic, leather_vest
+	light
+	steppe_armor, tribal_warrior_outfit, nomad_robe
+	medium
+	lamellar_vest
+	heavy
+	lamellar_armor, khergit_elite_armor
 
 nord
 
-very light
-tunic, coarse_tunic, fur_coat
-light
-leather_jerkin
-medium
-byrnie, mail_shirt, mail_hauberk
-heavy
-banded_armor, heraldic_mail_with_surcoat, heraldic_mail_with_tabard, cuir_bouilli
+	very light
+	tunic, coarse_tunic, fur_coat
+	light
+	leather_jerkin
+	medium
+	byrnie, mail_shirt, mail_hauberk
+	heavy
+	banded_armor, heraldic_mail_with_surcoat, heraldic_mail_with_tabard, cuir_bouilli
 
 rhodok
 
-very light
-tunic, tunic_with_green_cape, coarse_tunic, tabard
-light
-leather_armor, aketon_green, ragged_outfit
-medium
-byrnie, heraldic_mail_with_tunic, surcoat_over_mail_herald
-heavy
-scale_armor, heraldic_mail_with_surcoat, heraldic_mail_with_tabard, coat_of_plates
+	very light
+	tunic, tunic_with_green_cape, coarse_tunic, tabard
+	light
+	leather_armor, aketon_green, ragged_outfit
+	medium
+	byrnie, heraldic_mail_with_tunic, surcoat_over_mail_herald
+	heavy
+	scale_armor, heraldic_mail_with_surcoat, heraldic_mail_with_tabard, coat_of_plates
 
 sarranid
 
-very light
-sarranid_cloth_robe, sarranid_cloth_robe_b, skirmisher_armor
-light
-archers_vest, sarranid_leather_armor
-medium
-sarranid_cavalry_robe, arabian_armor_b, sarranid_mail_shirt
-heavy
-mamluke_mail, sarranid_elite_armor
+	very light
+	sarranid_cloth_robe, sarranid_cloth_robe_b, skirmisher_armor
+	light
+	archers_vest, sarranid_leather_armor
+	medium
+	sarranid_cavalry_robe, arabian_armor_b, sarranid_mail_shirt
+	heavy
+	mamluke_mail, sarranid_elite_armor
 
 mercenary
 
-very light
-tunic, coarse_tunic, tabard
-light
-leather_jerkin, heraldic_mail_with_tunic_b
-medium
-byrnie, heraldic_mail_with_tunic, mail_hauberk
-heavy
-heraldic_mail_with_surcoat, heraldic_mail_with_tabard
+	very light
+	tunic, coarse_tunic, tabard
+	light
+	leather_jerkin, heraldic_mail_with_tunic_b
+	medium
+	byrnie, heraldic_mail_with_tunic, mail_hauberk
+	heavy
+	heraldic_mail_with_surcoat, heraldic_mail_with_tabard

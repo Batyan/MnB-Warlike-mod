@@ -1,7 +1,13 @@
 v0.650:
 	-Features:
 	-Balances:
+		* normalize equipment level for lords in each faction
+		* add changes to lord equipment level depending on their equipment type
+			horse archers have lower equipment strength
+			foot infantry have higher equipment strength
 	-Fixes:
+		* fix incorrect faction specific equipment for lords
+		* add fallback for lord equipment if unknown culture
 v0.640:
 	-Features:
 		* add ransom broker to sell prisoners in taverns
