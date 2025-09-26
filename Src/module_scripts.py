@@ -9107,37 +9107,70 @@ scripts = [
             (store_script_param, ":new_rank", 2),
             
             (troop_get_slot, ":culture", ":troop_no", slot_troop_culture),
-            
             (faction_get_slot, ":template_troop", ":culture", slot_faction_template_troops_begin),
             
-            (val_clamp, ":new_rank", 0, 8),
+            (val_clamp, ":new_rank", rank_none, rank_king+1),
             
+            (troop_get_slot, ":old_rank", ":troop_no", slot_troop_level),
             (troop_set_slot, ":troop_no", slot_troop_level, ":new_rank"),
             
             (store_add, ":stats_troop", ":template_troop", ":new_rank"),
             
             # New stats
             (call_script, "script_troop_change_stat_with_template", ":troop_no", ":stats_troop"),
-            
-            # ToDo: pay for equipement upgrade
-            # Removing old equipment
-            (try_for_range, ":equip_slot", ek_item_0, ek_food),
-                (troop_get_inventory_slot, ":item", ":troop_no", ":equip_slot"),
-                (gt, ":item", 0),
-                (troop_remove_item, ":troop_no", ":item"),
+            (call_script, "script_troop_update_equipment_level", ":troop_no"),
+
+            (try_begin),
+                (call_script, "script_cf_debug", debug_simple|debug_faction),
+                (str_store_troop_name, s10, ":troop_no"),
+                (assign, reg10, ":new_rank"),
+                (assign, reg11, ":old_rank"),
+                (display_message, "@{s10} changed level: from {reg11} to {reg10}."),
             (try_end),
-            # Following does not remove equipped items
-            (troop_clear_inventory, ":troop_no"),
-            
+        ]),
+
+    # script_troop_update_equipment_level
+        # input:
+        #   arg1: troop_no
+        # output: none
+    ("troop_update_equipment_level",
+        [
+            (store_script_param, ":troop_no", 1),
+
+            (troop_get_slot, ":old_equipment_level", ":troop_no", slot_troop_equipement_level),
             (call_script, "script_troop_get_equipement_level", ":troop_no"),
-            (assign, ":equipement_level", reg0),
-            
-            (troop_set_slot, ":troop_no", slot_troop_equipement_level, ":equipement_level"),
-            
-            (store_add, ":equipement_template", ":template_troop", ":equipement_level"),
-            # New equipments
-            (call_script, "script_troop_change_equipement_with_template", ":troop_no", ":equipement_template"),
-            (troop_equip_items, ":troop_no"),
+            (assign, ":equipment_level", reg0),
+
+            (try_begin),
+                (neq, ":old_equipment_level", ":equipment_level"),
+                (troop_get_slot, ":culture", ":troop_no", slot_troop_culture),
+                (faction_get_slot, ":template_troop", ":culture", slot_faction_template_troops_begin),
+
+                # ToDo: pay for equipement upgrade
+                # Removing old equipment
+                (try_for_range, ":equip_slot", ek_item_0, ek_food),
+                    (troop_get_inventory_slot, ":item", ":troop_no", ":equip_slot"),
+                    (gt, ":item", 0),
+                    (troop_remove_item, ":troop_no", ":item"),
+                (try_end),
+                # Following does not remove equipped items
+                (troop_clear_inventory, ":troop_no"),
+                
+                (troop_set_slot, ":troop_no", slot_troop_equipement_level, ":equipment_level"),
+                
+                (store_add, ":equipement_template", ":template_troop", ":equipment_level"),
+                # New equipments
+                (call_script, "script_troop_change_equipement_with_template", ":troop_no", ":equipement_template"),
+                (troop_equip_items, ":troop_no"),
+
+                (try_begin),
+                    (call_script, "script_cf_debug", debug_simple|debug_faction),
+                    (str_store_troop_name, s10, ":troop_no"),
+                    (assign, reg10, ":equipment_level"),
+                    (assign, reg11, ":old_equipment_level"),
+                    (display_message, "@{s10} changed equipment level: from {reg11} to {reg10}."),
+                (try_end),
+            (try_end),
         ]),
     
     # script_troop_get_equipement_level
@@ -13252,7 +13285,6 @@ scripts = [
             (try_begin),
                 (lt, ":rand", ":chance"),
                 
-                (assign, reg11, ":cur_rank"),
                 (try_begin),
                     (gt, ":diff", 0),
                     (val_add, ":cur_rank", 1),
@@ -13260,12 +13292,6 @@ scripts = [
                     (val_sub, ":cur_rank", 1),
                 (try_end),
                 (call_script, "script_troop_change_level", ":troop_no", ":cur_rank"),
-                (try_begin),
-                    (call_script, "script_cf_debug", debug_simple|debug_faction),
-                    (str_store_troop_name, s10, ":troop_no"),
-                    (assign, reg10, ":cur_rank"),
-                    (display_message, "@{s10} changed level: from {reg11} to {reg10}."),
-                (try_end),
                 (assign, ":changed", 1),
             (try_end),
             
@@ -13292,6 +13318,7 @@ scripts = [
             (troop_set_slot, ":lord_no", slot_troop_noble, 0),
             (troop_set_slot, ":lord_no", slot_troop_clan, -1),
             (troop_set_slot, ":lord_no", slot_troop_xp_level, 1),
+            (troop_set_slot, ":lord_no", slot_troop_equipement_level, -1),
 
             # Reset family
             (try_for_range, ":slot", slot_troop_married_to, slot_troop_child_10+1),
