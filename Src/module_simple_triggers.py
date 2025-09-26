@@ -378,14 +378,14 @@ simple_triggers = [
                         
                         (troop_get_slot, ":lord_level", ":lord_no", slot_troop_level),
                         (troop_get_slot, ":real_rank", ":lord_no", slot_troop_rank),
-                        (troop_get_slot, ":equipment_rank", ":lord_no", slot_troop_equipement_level),
+                        (troop_get_slot, ":equipment_level", ":lord_no", slot_troop_equipement_level),
                         (call_script, "script_troop_get_equipement_level", ":lord_no"),
                         (assign, ":best_equipment_rank", reg0),
                         (try_begin),
                             (neq, ":lord_level", ":real_rank"),
                             (call_script, "script_troop_update_level", ":lord_no", ":lord_level", ":real_rank"),
                         (else_try),
-                            (neq, ":equipment_rank", ":best_equipment_rank"),
+                            (neq, ":equipment_level", ":best_equipment_rank"),
                             (call_script, "script_troop_update_equipment_level", ":lord_no"),
                         (try_end),
                         
