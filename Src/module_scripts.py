@@ -19845,21 +19845,33 @@ scripts = [
             (store_script_param, ":party_no", 1),
             (store_script_param, ":battling_party_1", 2),
             (store_script_param, ":battling_party_2", 3),
-            
+
             (party_is_active, ":party_no"),
             (neq, ":party_no", "$g_encountered_party"),
             (neq, ":party_no", "$g_encountered_party_2"),
-            (party_get_slot, ":party_type", ":party_no", slot_party_type),
-            (eq, ":party_type", spt_war_party),
+
             (party_get_attached_to, ":attached_party", ":party_no"),
             (lt, ":attached_party", 0),
+
             (store_distance_to_party_from_party, ":distance", ":party_no", "$g_encountered_party"),
             (lt, ":distance", reinforcement_range),
 
             (party_get_battle_opponent, ":opponent", ":party_no"),
             (eq, ":opponent", -1),
 
+            (assign, ":join", 0),
+            (party_get_slot, ":party_type", ":party_no", slot_party_type),
+            (try_begin),
+                (this_or_next|eq, ":party_type", spt_war_party),
+                (this_or_next|eq, ":party_type", spt_patrol),
+                (eq, ":party_type", spt_bandit),
+                (assign, ":join", 1),
+            (try_end),
+
+            (eq, ":join", 1),
+
             (call_script, "script_party_select_battle_side", ":party_no", ":battling_party_1", ":battling_party_2"),
+            (gt, reg0, 0),
         ]),
     
     # script_agent_get_archer_score

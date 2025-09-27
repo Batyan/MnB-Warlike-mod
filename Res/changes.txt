@@ -12,6 +12,8 @@ v0.650:
 		* add fallback for lord equipment if unknown culture
 		* fix prisoners not shared with allied parties
 		* fix lord equipment not updating when changing eras
+		* allow bandit parties to join nearby battles
+		* fix instances of messages stating a party has joined a battle they do not join
 v0.640:
 	-Features:
 		* add ransom broker to sell prisoners in taverns
