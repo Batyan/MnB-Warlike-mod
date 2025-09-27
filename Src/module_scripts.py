@@ -9897,9 +9897,6 @@ scripts = [
             (troop_get_slot, ":rank", ":troop_no", slot_troop_level),
 
             (try_begin),
-                (ge, ":rank", 6),
-                (assign, ":horse", 1),
-            (else_try),
                 (le, ":rank", 1),
                 (val_div, ":horse", 3),
             (else_try),
