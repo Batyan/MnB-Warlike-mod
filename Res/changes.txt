@@ -1,5 +1,6 @@
 v0.650:
 	-Features:
+		* add recruit troops restrictions in recruit troops presentation
 	-Balances:
 		* normalize equipment level for lords in each faction
 		* add changes to lord equipment level depending on their equipment type

@@ -15443,7 +15443,7 @@ scripts = [
                     (val_add, ":num_lines", 1),
                 (try_end),
             (try_end),
-            
+
             (assign, reg0, ":num_lines"),
         ]),
     
@@ -27759,6 +27759,29 @@ scripts = [
             (try_end),
         ]),
 
+    # script_troop_get_required_recruit_grants
+        # input:
+        #   arg1: troop_no
+        # output:
+        #   reg0: num_required_grants
+    ("troop_get_required_recruit_grants",
+        [
+            (store_script_param, ":troop_no", 1),
+
+            (troop_get_slot, ":troop_quality", ":troop_no", slot_troop_quality),
+            (val_mul, ":troop_quality", 2),
+            (val_add, ":troop_quality", 1),
+
+            (try_begin),
+                (is_between, ":troop_no", bandits_begin, bandits_end),
+                (val_sub, ":troop_quality", 1),
+            (try_end),
+
+            (val_max, ":troop_quality", 0),
+
+            (assign, reg0, ":troop_quality"),
+        ]),
+
     # script_cf_troop_available_for_recruit
         # input:
         #   arg1: troop_no
@@ -27772,42 +27795,163 @@ scripts = [
             (store_script_param, ":center_no", 2),
             (store_script_param, ":troop_recruiter", 3),
 
-            (assign, ":allowed_level", tq_peasant),
-            (troop_get_slot, ":troop_quality", ":troop_no", slot_troop_quality),
+            (call_script, "script_troop_get_required_recruit_grants", ":troop_no"),
+            (assign, ":required", reg0),
+            (call_script, "script_troop_get_center_recruit_grants", ":troop_recruiter", ":center_no"),
+            (assign, ":allowed_level", reg0),
+
+            (ge, ":allowed_level", ":required"),
+        ]),
+
+    # script_troop_get_center_recruit_grants
+        # input:
+        #   arg1: troop_no
+        #   arg2: center_no
+        # output:
+        #   reg0: num_grants
+    ("troop_get_center_recruit_grants",
+        [
+            (store_script_param, ":troop_no", 1),
+            (store_script_param, ":center_no", 2),
+
+            (assign, ":grants", 1),
 
             (party_get_slot, ":center_leader", ":center_no", slot_party_leader),
             (try_begin),
-                (eq, ":center_leader", ":troop_recruiter"),
-                (assign, ":allowed_level", tq_noble),
+                (eq, ":center_leader", ":troop_no"),
+                (val_add, ":grants", 100),
             (else_try),
-                (party_get_slot, ":center_type", ":center_no", slot_party_type),
+                (call_script, "script_troop_get_center_recruit_grants_center_type", "$g_player_troop", ":center_no"),
+                (val_add, ":grants", reg0),
 
-                (try_begin),
-                    (this_or_next|eq, ":center_type", spt_town),
-                    (eq, ":center_type", spt_castle),
-                    (val_add, ":allowed_level", 1),
-                (try_end),
+                (call_script, "script_troop_get_center_recruit_grants_faction", "$g_player_troop", ":center_no"),
+                (val_add, ":grants", reg0),
 
-                (store_troop_faction, ":recruiter_faction", ":troop_recruiter"),
-                (store_faction_of_party, ":center_faction", ":center_no"),
-                (try_begin),
-                    (eq, ":recruiter_faction", ":center_faction"),
-                    (val_add, ":allowed_level", 1),
-                (try_end),
+                (call_script, "script_troop_get_center_recruit_grants_relation", "$g_player_troop", ":center_no"),
+                (val_add, ":grants", reg0),
 
-                (try_begin),
-                    (ge, ":center_leader", 0),
-                    (call_script, "script_troop_get_relation_with_troop", ":center_leader", ":troop_recruiter"),
-                    (assign, ":relation", reg0),
-                    (store_skill_level, ":recruiter_persuasion", skl_persuasion, ":troop_recruiter"),
-                    (val_mul, ":recruiter_persuasion", 2),
-                    (val_add, ":relation", ":recruiter_persuasion"),
-                    (store_div, ":bonus", ":relation", 30),
-                    (val_add, ":allowed_level", ":bonus"),
-                (try_end),
+                (call_script, "script_troop_get_center_recruit_grants_renown", "$g_player_troop", ":center_no"),
+                (val_add, ":grants", reg0),
             (try_end),
 
-            (ge, ":allowed_level", ":troop_quality"),
+            (assign, reg0, ":grants"),
+        ]),
+
+    # script_troop_get_center_recruit_grants_center_type
+        # input:
+        #   arg1: troop_no
+        #   arg2: center_no
+        # output:
+        #   reg0: num_grants
+        #   s0: grant_description
+    ("troop_get_center_recruit_grants_center_type",
+        [
+            # (store_script_param, ":troop_no", 1),
+            (store_script_param, ":center_no", 2),
+
+            (assign, ":num_grants", 0),
+
+            (party_get_slot, ":center_type", ":center_no", slot_party_type),
+
+            (try_begin),
+                (eq, ":center_type", spt_town),
+                (val_add, ":num_grants", 2),
+                (str_store_string, s0, "@Town: +2"),
+            (else_try),
+                (eq, ":center_type", spt_castle),
+                (val_add, ":num_grants", 1),
+                (str_store_string, s0, "@Castle: +1"),
+            (else_try),
+                (str_store_string, s0, "@Village: 0"),
+            (try_end),
+
+            (assign, reg0, ":num_grants"),
+        ]),
+
+    # script_troop_get_center_recruit_grants_faction
+        # input:
+        #   arg1: troop_no
+        #   arg2: center_no
+        # output:
+        #   reg0: num_grants
+        #   s0: grant_description
+    ("troop_get_center_recruit_grants_faction",
+        [
+            (store_script_param, ":troop_no", 1),
+            (store_script_param, ":center_no", 2),
+
+            (assign, ":num_grants", 0),
+
+            (store_troop_faction, ":recruiter_faction", ":troop_no"),
+            (store_faction_of_party, ":center_faction", ":center_no"),
+            (try_begin),
+                (eq, ":recruiter_faction", ":center_faction"),
+                (assign, ":num_grants", 3),
+                (str_store_string, s0, "@Same faction: +3"),
+            (else_try),
+                (str_store_string, s0, "@Indiferent faction: 0"),
+            (try_end),
+
+            (assign, reg0, ":num_grants"),
+        ]),
+
+    # script_troop_get_center_recruit_grants_relation
+        # input:
+        #   arg1: troop_no
+        #   arg2: center_no
+        # output:
+        #   reg0: num_grants
+        #   s0: grant_description
+    ("troop_get_center_recruit_grants_relation",
+        [
+            (store_script_param, ":troop_no", 1),
+            (store_script_param, ":center_no", 2),
+
+            (party_get_slot, ":center_leader", ":center_no", slot_party_leader),
+
+            (assign, ":num_grants", 0),
+
+            (try_begin),
+                (ge, ":center_leader", 0),
+                (call_script, "script_troop_get_relation_with_troop", ":center_leader", ":troop_no"),
+                (assign, ":relation", reg0),
+                (store_skill_level, ":recruiter_persuasion", skl_persuasion, ":troop_no"),
+                (val_mul, ":recruiter_persuasion", 2),
+                (val_add, ":relation", ":recruiter_persuasion"),
+                (store_div, ":bonus", ":relation", 25),
+                (val_add, ":num_grants", ":bonus"),
+                (str_store_troop_name, s10, ":center_leader"),
+                (assign, reg10, ":num_grants"),
+                (str_store_string, s0, "@{s10}'s relation: {reg10}"),
+            (else_try),
+                (str_store_string, s0, "@Relation: 0"),
+            (try_end),
+
+            (assign, reg0, ":num_grants"),
+        ]),
+
+    # script_troop_get_center_recruit_grants_renown
+        # input:
+        #   arg1: troop_no
+        #   arg2: center_no
+        # output:
+        #   reg0: num_grants
+        #   s0: grant_description
+    ("troop_get_center_recruit_grants_renown",
+        [
+            (store_script_param, ":troop_no", 1),
+            # (store_script_param, ":center_no", 2),
+
+            (assign, ":num_grants", 0),
+
+            (troop_get_slot, ":num_grants", ":troop_no", slot_troop_renown),
+            (val_div, ":num_grants", 500),
+            (val_min, ":num_grants", 5),
+
+            (assign, reg10, ":num_grants"),
+            (str_store_string, s0, "@Renown: {reg10}"),
+
+            (assign, reg0, ":num_grants"),
         ]),
 
     # script_cf_party_shakedown
