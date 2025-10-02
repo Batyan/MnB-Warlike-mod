@@ -27687,6 +27687,10 @@ scripts = [
                     (assign, ":end", 0),
                 (try_end),
                 (gt, ":num_fiefless_vassals", 0),
+
+                (store_add, ":too_many_threshold", ":num_fiefless_vassals", 1),
+                (val_mul, ":too_many_threshold", ":threshold"),
+                (lt, ":score", ":too_many_threshold"),
                 (assign, reg0, vassal_outcome_too_many),
             (else_try),
                 (troop_get_slot, ":surplus_fief", ":troop_no", slot_troop_surplus_center),
