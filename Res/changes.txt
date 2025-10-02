@@ -9,6 +9,8 @@ v0.650:
 		* increase likelyhood of lords being dismounted
 		* allow high rank lords to be without a horse
 		* allow lords to accept a new vassal if they have a landless vassal already
+		* speed up bandit parties slightly
+		* slow down patrols
 	-Fixes:
 		* fix incorrect faction specific equipment for lords
 		* add fallback for lord equipment if unknown culture
