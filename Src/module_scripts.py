@@ -21209,6 +21209,12 @@ scripts = [
             (troop_set_slot, ":troop_id", slot_troop_prisoner_of, -1),
             # (troop_set_slot, ":troop_id", slot_troop_prisoner_in, -1),
 
+            (try_begin),
+                (eq, ":troop_id", "$g_player_troop"),
+                (assign, reg20, ":party_no"),
+                (jump_to_menu, "mnu_player_freed"),
+            (try_end),
+
             (assign, ":party_faction", -1),
             (try_begin),
                 (ge, ":party_no", 0),

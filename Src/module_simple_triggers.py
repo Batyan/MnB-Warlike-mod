@@ -318,6 +318,8 @@ simple_triggers = [
                 (try_end),
                 (set_camera_follow_party, ":player_prisoner"),
             (else_try),
+                (assign, reg20, -1),
+                (jump_to_menu, "mnu_player_freed"),
                 # ToDo: free player
             (try_end),
         ]),

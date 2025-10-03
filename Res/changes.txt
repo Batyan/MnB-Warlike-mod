@@ -18,6 +18,7 @@ v0.650:
 		* fix lord equipment not updating when changing eras
 		* allow bandit parties to join nearby battles
 		* fix instances of messages stating a party has joined a battle they do not join
+		* fix player stuck on world map if captor is defeated
 v0.640:
 	-Features:
 		* add ransom broker to sell prisoners in taverns

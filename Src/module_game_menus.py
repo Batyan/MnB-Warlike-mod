@@ -3346,4 +3346,28 @@ game_menus = [
                     (change_screen_return),
                 ]),
         ]),
+
+    ("player_freed", mnf_scale_picture,
+        "{s0}",
+        "none",
+        [
+
+            (try_begin),
+                (gt, reg20, 0),
+                (set_background_mesh, "mesh_pic_victory"),
+
+                (str_store_party_name, s10, reg20),
+                (str_store_string, s0, "@Your captors lost their last battle against {s10}, and you are set free as a result."),
+            (else_try),
+                (set_background_mesh, "mesh_pic_escape_1"),
+                (str_store_string, s0, "@You manage to escape from captivity."),
+            (try_end),
+        ],
+        [
+            ("continue",[],"Continue",
+                [
+                    (call_script, "script_player_party_free"),
+                    (change_screen_return),
+                ]),
+        ]),
  ]
