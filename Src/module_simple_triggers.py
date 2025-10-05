@@ -317,8 +317,6 @@ simple_triggers = [
                     (jump_to_menu, "mnu_player_prisoner_take_action"),
                 (try_end),
                 (set_camera_follow_party, ":player_prisoner"),
-            (else_try),
-                # ToDo: free player
             (try_end),
         ]),
 
@@ -378,13 +376,15 @@ simple_triggers = [
                         
                         (troop_get_slot, ":lord_level", ":lord_no", slot_troop_level),
                         (troop_get_slot, ":real_rank", ":lord_no", slot_troop_rank),
-                        (troop_get_slot, ":equipement_rank", ":lord_no", slot_troop_equipement_level),
+                        (troop_get_slot, ":equipment_level", ":lord_no", slot_troop_equipement_level),
                         (call_script, "script_troop_get_equipement_level", ":lord_no"),
-                        (assign, ":best_equipement_rank", reg0),
+                        (assign, ":best_equipment_rank", reg0),
                         (try_begin),
-                            (this_or_next|neq, ":lord_level", ":real_rank"),
-                            (neq, ":equipement_rank", ":best_equipement_rank"),
+                            (neq, ":lord_level", ":real_rank"),
                             (call_script, "script_troop_update_level", ":lord_no", ":lord_level", ":real_rank"),
+                        (else_try),
+                            (neq, ":equipment_level", ":best_equipment_rank"),
+                            (call_script, "script_troop_update_equipment_level", ":lord_no"),
                         (try_end),
                         
                         (try_begin),

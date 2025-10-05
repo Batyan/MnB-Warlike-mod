@@ -166,6 +166,72 @@ presentations = [
         			
         			(set_container_overlay, -1),
         		(try_end),
+
+                # Grants
+                (assign, ":x", 630),
+                (call_script, "script_troop_get_center_recruit_grants", "$g_player_troop", ":current_city"),
+                (str_store_string, s10, "@Total grants: {reg0}"),
+                (call_script, "script_presentation_create_text_overlay", tf_left_align, ":x", 150, 1000, 1000),
+
+                (party_get_slot, ":center_leader", ":current_city", slot_party_leader),
+                (try_begin),
+                    (eq, ":center_leader", "$g_player_troop"),
+                    (str_store_string, s10, "@Center owner: +100"),
+                    (call_script, "script_presentation_create_text_overlay", tf_left_align, ":x", 130, 900, 900),
+                    (overlay_set_color, reg0, text_color_valid),
+                (else_try),
+                    (str_store_string, s10, "@Base: 1"),
+                    (call_script, "script_presentation_create_text_overlay", tf_left_align, ":x", 130, 900, 900),
+                    (overlay_set_color, reg0, text_color_valid),
+
+                    (call_script, "script_troop_get_center_recruit_grants_center_type", "$g_player_troop", ":current_city"),
+                    (assign, ":num_grants", reg0),
+                    (str_store_string_reg, s10, s0),
+                    (call_script, "script_presentation_create_text_overlay", tf_left_align, ":x", 110, 900, 900),
+                    (try_begin),
+                        (gt, ":num_grants", 0),
+                        (overlay_set_color, reg0, text_color_valid),
+                    (else_try),
+                        (lt, ":num_grants", 0),
+                        (overlay_set_color, reg0, text_color_impossible),
+                    (try_end),
+
+                    (call_script, "script_troop_get_center_recruit_grants_faction", "$g_player_troop", ":current_city"),
+                    (assign, ":num_grants", reg0),
+                    (str_store_string_reg, s10, s0),
+                    (call_script, "script_presentation_create_text_overlay", tf_left_align, ":x", 90, 900, 900),
+                    (try_begin),
+                        (gt, ":num_grants", 0),
+                        (overlay_set_color, reg0, text_color_valid),
+                    (else_try),
+                        (lt, ":num_grants", 0),
+                        (overlay_set_color, reg0, text_color_impossible),
+                    (try_end),
+
+                    (call_script, "script_troop_get_center_recruit_grants_relation", "$g_player_troop", ":current_city"),
+                    (assign, ":num_grants", reg0),
+                    (str_store_string_reg, s10, s0),
+                    (call_script, "script_presentation_create_text_overlay", tf_left_align, ":x", 70, 900, 900),
+                    (try_begin),
+                        (gt, ":num_grants", 0),
+                        (overlay_set_color, reg0, text_color_valid),
+                    (else_try),
+                        (lt, ":num_grants", 0),
+                        (overlay_set_color, reg0, text_color_impossible),
+                    (try_end),
+
+                    (call_script, "script_troop_get_center_recruit_grants_renown", "$g_player_troop", ":current_city"),
+                    (assign, ":num_grants", reg0),
+                    (str_store_string_reg, s10, s0),
+                    (call_script, "script_presentation_create_text_overlay", tf_left_align, ":x", 50, 900, 900),
+                    (try_begin),
+                        (gt, ":num_grants", 0),
+                        (overlay_set_color, reg0, text_color_valid),
+                    (else_try),
+                        (lt, ":num_grants", 0),
+                        (overlay_set_color, reg0, text_color_impossible),
+                    (try_end),
+                (try_end),
         		
         		# Total cost
         		(str_store_string, s10, "@Total cost: 0 denars"),
@@ -204,7 +270,7 @@ presentations = [
         			(val_mul, ":troop_no", 2),
         			(create_mesh_overlay_with_tableau_material, reg0, -1, "tableau_game_party_window", ":troop_no"),
         			# (position_set_x, pos1, 600),
-        			(position_set_x, pos1, 520),
+        			(position_set_x, pos1, 530),
         			(position_set_y, pos1, 220),
         			(overlay_set_position, reg0, pos1),
         			(position_set_x, pos1, 1200),
@@ -217,22 +283,14 @@ presentations = [
         		# Troop informations
         		(str_clear, s0),
         		(create_text_overlay, "$g_hire_soldiers_troop_information", s0, tf_left_align),
-        		# (position_set_x, pos1, 820),
-        		# (position_set_y, pos1, 200),
-        		# (overlay_set_position, "$g_hire_soldiers_troop_information", pos1),
-        		# (position_set_x, pos1, 1000),
-        		# (position_set_y, pos1, 1000),
-        		# (overlay_set_size, "$g_hire_soldiers_troop_information", pos1),
         		
         		# Troop type
         		(str_clear, s0),
         		(create_text_overlay, "$g_hire_soldiers_troop_type", s0, tf_left_align),
-        		# (position_set_x, pos1, 630),
-        		# (position_set_y, pos1, 400),
-        		# (overlay_set_position, "$g_hire_soldiers_troop_type", pos1),
-        		# (position_set_x, pos1, 1000),
-        		# (position_set_y, pos1, 1000),
-        		# (overlay_set_size, "$g_hire_soldiers_troop_type", pos1),
+                
+                # Required grants
+                (str_clear, s0),
+                (create_text_overlay, "$g_hire_soldiers_troop_grants", s0, tf_left_align),
         		
         		# Buy button
                 (create_game_button_overlay, "$g_presentation_ok", "@Buy"),
@@ -265,6 +323,8 @@ presentations = [
                 #     (troop_is_hero, ":troop_no"),
                 #     (val_add, ":stack_no", 1),
                 # (try_end),
+
+                (assign, ":current_city", "$temp"),
         		
         		(store_add, ":portrait", ":stack_no", "$g_hide_soldiers_portrait_begin"),
         		
@@ -278,13 +338,13 @@ presentations = [
         			(overlay_set_display, ":portrait", 1),
         			(assign, "$last", ":portrait"),
         			
-        			(party_stack_get_troop_id, ":troop_no", "$temp", ":stack_no"),
+        			(party_stack_get_troop_id, ":troop_no", ":current_city", ":stack_no"),
         			(call_script, "script_troop_get_info", ":troop_no"),
         			(assign, ":num_lines", reg0),
         			(val_mul, ":num_lines", 18),
         			(store_sub, ":pos_y", 520, ":num_lines"),
         			(init_position, pos1),
-        			(position_set_x, pos1, 820),
+        			(position_set_x, pos1, 800),
         			(position_set_y, pos1, ":pos_y"),
         			(overlay_set_position, "$g_hire_soldiers_troop_information", pos1),
         			(position_set_x, pos1, 1000),
@@ -306,7 +366,29 @@ presentations = [
         			(overlay_set_size, "$g_hire_soldiers_troop_type", pos1),
         			
         			(overlay_set_text, "$g_hire_soldiers_troop_type", s0),
-        			
+
+                    (call_script, "script_troop_get_required_recruit_grants", ":troop_no"),
+                    (assign, ":required_grants", reg0),
+                    (call_script, "script_troop_get_center_recruit_grants", "$g_player_troop", ":current_city"),
+                    (assign, ":recruit_grants", reg0),
+
+                    (init_position, pos1),
+                    (position_set_x, pos1, 800),
+                    (position_set_y, pos1, 570),
+                    (overlay_set_position, "$g_hire_soldiers_troop_grants", pos1),
+                    (position_set_x, pos1, 1000),
+                    (position_set_y, pos1, 1000),
+                    (overlay_set_size, "$g_hire_soldiers_troop_grants", pos1),
+                    
+                    (assign, reg10, ":required_grants"),
+                    (str_store_string, s0, "@Requires {reg10} grants"),
+                    (overlay_set_text, "$g_hire_soldiers_troop_grants", s0),
+                    (try_begin),
+                        (ge, ":recruit_grants", ":required_grants"),
+                        (overlay_set_color, "$g_hire_soldiers_troop_grants", text_color_default),
+                    (else_try),
+                        (overlay_set_color, "$g_hire_soldiers_troop_grants", text_color_impossible),
+                    (try_end),
         		(try_end),
         	]),
         	

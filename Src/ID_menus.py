@@ -57,3 +57,5 @@ menu_player_receive_center = 55
 menu_mercenary_contract_end = 56
 menu_report_personal = 57
 menu_intro_quest_summon_letter = 58
+menu_player_freed = 59
+menu_introduction_default_search_1_letter = 60

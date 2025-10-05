@@ -282,7 +282,7 @@ base_building_slots = 1
 
 text_color_impossible = 0xc01010
 text_color_gold = 0xffdd55
-text_color_valid = 0x00ee55
+text_color_valid = 0x00c055
 text_color_info = 0x5555ff
 text_color_capture = 0xDD2200
 text_color_freed = 0x22DD00

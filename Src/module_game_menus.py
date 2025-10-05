@@ -2865,10 +2865,11 @@ game_menus = [
                     (try_end),
 
                     (try_begin),
-                        (this_or_next|call_script, "script_cf_party_has_prisoners", "p_battle_released_prisoners"),
-                        (call_script, "script_cf_party_has_members", "p_battle_released_prisoners"),
-
+                        (call_script, "script_cf_party_has_prisoners", "p_battle_released_prisoners"),
                         (call_script, "script_party_group_transfer_prisoners_to_party", "p_battle_released_prisoners", "$g_enemy", 1),
+                    (try_end),
+                    (try_begin),
+                        (call_script, "script_cf_party_has_members", "p_battle_released_prisoners"),
                         (call_script, "script_party_group_transfer_members_to_prisoners", "p_battle_released_prisoners", "$g_enemy", 0),
                     (try_end),
                     
@@ -2881,8 +2882,15 @@ game_menus = [
                         (party_leave_cur_battle, "$g_player_party"),
                     (try_end),
 
-                    (leave_encounter),
-                    (change_screen_return),
+                    (try_begin),
+                        (gt, "$g_next_menu", 0),
+                        (assign, ":next_menu", "$g_next_menu"),
+                        (assign, "$g_next_menu", -1),
+                        (jump_to_menu, ":next_menu"),
+                    (else_try),
+                        (leave_encounter),
+                        (change_screen_return),
+                    (try_end),
                 ]),
             ("error_leave", [(neq, "$g_battle_result", 1),(neq, "$g_battle_result", -1),], "Error! Leave the battle",
                 [
@@ -3342,6 +3350,58 @@ game_menus = [
         [
             ("continue",[],"Continue",
                 [
+                    (change_screen_return),
+                ]),
+        ]),
+
+    ("player_freed", mnf_scale_picture,
+        "{s0}",
+        "none",
+        [
+
+            (try_begin),
+                (gt, reg20, 0),
+                (set_background_mesh, "mesh_pic_victory"),
+
+                (str_store_party_name, s10, reg20),
+                (str_store_string, s0, "@Your captors lost their last battle against {s10}, and you are set free as a result."),
+            (else_try),
+                (set_background_mesh, "mesh_pic_escape_1"),
+                (str_store_string, s0, "@You manage to escape from captivity."),
+            (try_end),
+        ],
+        [
+            ("continue",[],"Continue",
+                [
+                    (call_script, "script_player_party_free"),
+                    (change_screen_return),
+                ]),
+        ]),
+
+    ("introduction_default_search_1_letter", mnf_scale_picture,
+        "After rummaging through the belongings of the thugs you come accross a letter addressed to the thug leader from a certain {s10}.^The content of the letter is a little vague but you learn that this {s10} is purchasing people from the bandits. It could be a lead to help finding {s11}.",
+        "none",
+        [
+            (set_background_mesh, "mesh_pic_defeat"),
+            (str_store_troop_name, s10, "trp_intro_quest_slaver"),
+
+            (quest_get_slot, ":object", "qst_introduction_default_search", slot_quest_object),
+            (str_store_troop_name_plural, s11, ":object"),
+        ],
+        [
+            ("continue",[],"Interesting...",
+                [
+                    (quest_set_slot, "qst_introduction_default_search_1", slot_quest_asked_who, 2),
+                    
+                    (str_store_troop_name, s10, "trp_intro_quest_slaver"),
+                    
+                    (quest_get_slot, ":object", "qst_introduction_default_search", slot_quest_object),
+                    (str_store_troop_name_plural, s11, ":object"),
+
+                    (str_store_string, s0, "@After rummaging through the belongings of the thugs you come accross a letter addressed to the thug leader from a certain {s10}.^The content of the letter is a little vague but you learn that this {s10} is purchasing people from the bandits. It could be a lead to help finding {s11}."),
+                    (call_script, "script_quest_add_note", "qst_introduction_default_search_1", 0),
+
+                    (call_script, "script_succeed_quest", "qst_introduction_default_search_1"),
                     (change_screen_return),
                 ]),
         ]),

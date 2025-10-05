@@ -330,7 +330,7 @@ dialogs = [
             (call_script, "script_troop_become_vassal", "$g_talk_troop", ":lord"),
             (call_script, "script_succeed_quest", "qst_persuade_lord_vassalage"),
             (call_script, "script_complete_quest", "qst_persuade_lord_vassalage"),
-            (call_script, "script_troop_add_xp", "$g_player_troop", 100),
+            (call_script, "script_troop_add_xp", "$g_player_troop", 200),
             (troop_set_slot, "$g_talk_troop", slot_troop_become_vassal_tried, 0),
         ]],
 
@@ -579,7 +579,7 @@ dialogs = [
             (call_script, "script_troop_apply_persuade_vassal_quest", "$g_talk_troop"),
             (call_script, "script_succeed_quest", "qst_persuade_lord_vassalage"),
             (call_script, "script_complete_quest", "qst_persuade_lord_vassalage"),
-            (call_script, "script_troop_add_xp", "$g_player_troop", 150),
+            (call_script, "script_troop_add_xp", "$g_player_troop", 250),
             (troop_set_slot, "$g_talk_troop", slot_troop_become_vassal_tried, 0),
         ]],
 
@@ -951,6 +951,10 @@ dialogs = [
                 (display_message, "@Home: {s10}"),
                 (troop_get_slot, reg10, ":leader", slot_troop_rank),
                 (display_message, "@Rank: {reg10}"),
+                (troop_get_slot, reg10, ":leader", slot_troop_equipement_level),
+                (display_message, "@Equipment Level: {reg10}"),
+                (troop_get_slot, reg10, ":leader", slot_troop_level),
+                (display_message, "@Level: {reg10}"),
                 (store_troop_faction, ":troop_faction", ":leader"),
                 (str_store_faction_name, s10, ":troop_faction"),
                 (display_message, "@Faction: {s10}"),
@@ -1071,7 +1075,7 @@ dialogs = [
         [
             (quest_get_slot, ":center", "qst_swear_vassalage_fief", slot_quest_object),
             (call_script, "script_complete_quest", "qst_swear_vassalage_fief"),
-            (call_script, "script_troop_add_xp", "$g_player_troop", 50),
+            (call_script, "script_troop_add_xp", "$g_player_troop", 100),
             (try_begin),
                 (is_between, ":center", centers_begin, centers_end),
                 (call_script, "script_troop_give_center_to_troop", "$g_talk_troop", ":center", "$g_player_troop"),
@@ -1862,7 +1866,7 @@ dialogs = [
         [
             (call_script, "script_troop_change_relation_with_troop", "$g_talk_troop", "$g_player_troop", -5),
             (quest_get_slot, ":reward", "qst_introduction_default", slot_quest_reward),
-            (val_add, ":reward", 500),
+            (val_add, ":reward", 1000),
             (quest_set_slot, "qst_introduction_default", slot_quest_reward, ":reward"),
         ]],
     [anyone|plyr, "intro_quest_player",
@@ -1870,14 +1874,14 @@ dialogs = [
         [
             (call_script, "script_troop_change_relation_with_troop", "$g_talk_troop", "$g_player_troop", -1),
             (quest_get_slot, ":reward", "qst_introduction_default", slot_quest_reward),
-            (val_add, ":reward", 200),
+            (val_add, ":reward", 400),
             (quest_set_slot, "qst_introduction_default", slot_quest_reward, ":reward"),
         ]],
     [anyone|plyr, "intro_quest_player",
         [(eq, "$g_intro_quest_stance", 1),], "That's not my problem, why would I care?", "intro_quest_explanation_refusing", 
         [
             (quest_get_slot, ":reward", "qst_introduction_default", slot_quest_reward),
-            (val_add, ":reward", 400),
+            (val_add, ":reward", 800),
             (quest_set_slot, "qst_introduction_default", slot_quest_reward, ":reward"),
             (call_script, "script_troop_change_relation_with_troop", "$g_talk_troop", "$g_player_troop", -2),
         ]],
@@ -1890,7 +1894,7 @@ dialogs = [
         [(eq, "$g_intro_quest_stance", 1),], "Would you care to elaborate more?", "intro_quest_explanation_detail",
         [
             (quest_get_slot, ":reward", "qst_introduction_default", slot_quest_reward),
-            (val_add, ":reward", 100),
+            (val_add, ":reward", 200),
             (quest_set_slot, "qst_introduction_default", slot_quest_reward, ":reward"),
         ]],
 
@@ -2514,11 +2518,15 @@ dialogs = [
                 (quest_slot_eq, "qst_introduction_default_search_1", slot_quest_asked_who, 1),
                 (str_store_troop_name, s14, "trp_intro_quest_slaver"),
                 (str_store_string, s13, "@. One of their main client was a certain {s14}, finding him could be a lead"),
+            (else_try),
+                (quest_slot_eq, "qst_introduction_default_search_1", slot_quest_asked_who, 2),
+                (str_store_troop_name, s14, "trp_intro_quest_slaver"),
+                (str_store_string, s13, "@. The thugs were corresponding with a certain {s14}, it seems he was buying people from the them."),
             (try_end),
             (quest_get_slot, ":destination", "qst_introduction_default_search_1", slot_quest_destination),
             (str_store_party_name, s10, ":destination"),
 
-        ], "There was a group of thugs kidnapping people in {s10} but it was not related to your brother{s11}{s12}{s13}.", "intro_quest_search_lead_1_detail_feedback", []],
+        ], "There was a group of thugs kidnapping people in {s10} but it was not related to your brother directly{s11}{s12}{s13}.", "intro_quest_search_lead_1_detail_feedback", []],
 
     [anyone, "intro_quest_search_lead_1_detail_feedback",
         [
@@ -2526,7 +2534,17 @@ dialogs = [
             (str_store_troop_name, s14, "trp_intro_quest_slaver"),
         ], "You are right, I will look into this {s14}. Nice work.", "intro_quest_search_lead_1_close",
         [
-            (call_script, "script_troop_change_relation_with_troop", "$g_talk_troop", "$g_player_troop", 1),
+            (call_script, "script_troop_change_relation_with_troop", "$g_talk_troop", "$g_player_troop", 2),
+        ]],
+    [anyone, "intro_quest_search_lead_1_detail_feedback",
+        [
+            (quest_slot_eq, "qst_introduction_default_search_1", slot_quest_asked_who, 2),
+            (str_store_troop_name, s14, "trp_intro_quest_slaver"),
+        ], "It could be a lead, I will look into this {s14}.", "intro_quest_search_lead_1_close",
+        [
+            (quest_get_slot, ":reward", "qst_introduction_default", slot_quest_reward),
+            (val_add, ":reward", 500),
+            (quest_set_slot, "qst_introduction_default", slot_quest_reward, ":reward"),
         ]],
     [anyone, "intro_quest_search_lead_1_detail_feedback", [], "This sounds like a false lead then, thank you for looking into it nonetheless.", "intro_quest_search_lead_1_close", []],
 
@@ -2538,7 +2556,7 @@ dialogs = [
         [
             (call_script, "script_troop_change_relation_with_troop", "$g_talk_troop", "$g_player_troop", 1),
             (call_script, "script_complete_quest", "qst_introduction_default_search_1"),
-            (call_script, "script_troop_add_xp", "$g_player_troop", 125),
+            (call_script, "script_troop_add_xp", "$g_player_troop", 250),
         ]],
 
 
@@ -2607,7 +2625,7 @@ dialogs = [
         [
             (call_script, "script_troop_change_relation_with_troop", "$g_talk_troop", "$g_player_troop", 1),
             (call_script, "script_complete_quest", "qst_introduction_default_search_2"),
-            (call_script, "script_troop_add_xp", "$g_player_troop", 125),
+            (call_script, "script_troop_add_xp", "$g_player_troop", 250),
         ]],
 
     [anyone, "intro_quest_search_return",
@@ -2657,7 +2675,7 @@ dialogs = [
             (val_add, ":reward", 5000),
             (troop_add_gold, "$g_player_troop", ":reward"),
             (call_script, "script_complete_quest", "qst_introduction_default_search"),
-            (call_script, "script_troop_add_xp", "$g_player_troop", 150),
+            (call_script, "script_troop_add_xp", "$g_player_troop", 750),
             # (call_script, "script_conclude_quest", "qst_introduction_default_search_1"),
             # (call_script, "script_conclude_quest", "qst_introduction_default_search_2"),
             # (call_script, "script_conclude_quest", "qst_introduction_default_search_3"),
@@ -2678,7 +2696,7 @@ dialogs = [
             (val_add, ":reward", 4000),
             (troop_add_gold, "$g_player_troop", ":reward"),
             (call_script, "script_complete_quest", "qst_introduction_default_search"),
-            (call_script, "script_troop_add_xp", "$g_player_troop", 150),
+            (call_script, "script_troop_add_xp", "$g_player_troop", 750),
             # (call_script, "script_conclude_quest", "qst_introduction_default_search_1"),
             # (call_script, "script_conclude_quest", "qst_introduction_default_search_2"),
             # (call_script, "script_conclude_quest", "qst_introduction_default_search_3"),
@@ -2750,7 +2768,7 @@ dialogs = [
         [
             (call_script, "script_troop_change_relation_with_troop", "$g_talk_troop", "$g_player_troop", -10),
             (call_script, "script_complete_quest", "qst_introduction_waiting"),
-            (call_script, "script_troop_add_xp", "$g_player_troop", 100),
+            (call_script, "script_troop_add_xp", "$g_player_troop", 250),
         ]],
 
     [anyone, "intro_quest_final_step_explain_2",
@@ -2773,7 +2791,7 @@ dialogs = [
         ], "You will first speak to {s10}, get him to free my brother and then, you will be able to deal with him how you like.", "intro_quest_final_step_explain_7",
         [
             (call_script, "script_complete_quest", "qst_introduction_waiting"),
-            (call_script, "script_troop_add_xp", "$g_player_troop", 100),
+            (call_script, "script_troop_add_xp", "$g_player_troop", 250),
         ]],
     [anyone, "intro_quest_final_step_explain_7",
         [], "Do you have any question before we go?", "intro_quest_final_step_player_question", []],
