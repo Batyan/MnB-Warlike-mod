@@ -2882,8 +2882,15 @@ game_menus = [
                         (party_leave_cur_battle, "$g_player_party"),
                     (try_end),
 
-                    (leave_encounter),
-                    (change_screen_return),
+                    (try_begin),
+                        (gt, "$g_next_menu", 0),
+                        (assign, ":next_menu", "$g_next_menu"),
+                        (assign, "$g_next_menu", -1),
+                        (jump_to_menu, ":next_menu"),
+                    (else_try),
+                        (leave_encounter),
+                        (change_screen_return),
+                    (try_end),
                 ]),
             ("error_leave", [(neq, "$g_battle_result", 1),(neq, "$g_battle_result", -1),], "Error! Leave the battle",
                 [

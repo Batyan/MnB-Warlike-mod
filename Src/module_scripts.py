@@ -317,6 +317,8 @@ scripts = [
             (assign, "$g_intro_tutorial_trigger_date", 0),
 
             (assign, "$g_quest_visit_center_new_owner_started", 0),
+
+            (assign, "$g_next_menu", -1),
             
             (set_show_messages, 1),
         ]),
@@ -31065,7 +31067,7 @@ scripts = [
                 (check_quest_active, "qst_introduction_default_search_1"),
                 (party_slot_eq, ":defeated_party", slot_party_related_quest, "qst_introduction_default_search_1"),
                 (quest_slot_eq, "qst_introduction_default_search_1", slot_quest_asked_who, -1),
-                (jump_to_menu, "mnu_introduction_default_search_1_letter"),
+                (assign, "$g_next_menu", "mnu_introduction_default_search_1_letter"),
             (try_end),
 
             (party_get_num_attached_parties, ":num_attached_parties", ":defeated_party"),

@@ -2521,7 +2521,7 @@ dialogs = [
             (else_try),
                 (quest_slot_eq, "qst_introduction_default_search_1", slot_quest_asked_who, 2),
                 (str_store_troop_name, s14, "trp_intro_quest_slaver"),
-                (str_store_string, s13, "@. The thugs corresponding with a certain {s14}, it seems he was buying people from the them."),
+                (str_store_string, s13, "@. The thugs were corresponding with a certain {s14}, it seems he was buying people from the them."),
             (try_end),
             (quest_get_slot, ":destination", "qst_introduction_default_search_1", slot_quest_destination),
             (str_store_party_name, s10, ":destination"),
