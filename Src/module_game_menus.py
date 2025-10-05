@@ -3370,4 +3370,32 @@ game_menus = [
                     (change_screen_return),
                 ]),
         ]),
+
+    ("introduction_default_search_1_letter", mnf_scale_picture,
+        "After rummaging through the belongings of the thugs you come accross a letter addressed to the thug leader from a certain {s10}.^The content of the letter is a little vague but you learn that this {s10} is purchasing people from the bandits. It could be a lead to help finding {s11}.",
+        "none",
+        [
+            (set_background_mesh, "mesh_pic_defeat"),
+            (str_store_troop_name, s10, "trp_intro_quest_slaver"),
+
+            (quest_get_slot, ":object", "qst_introduction_default_search", slot_quest_object),
+            (str_store_troop_name_plural, s11, ":object"),
+        ],
+        [
+            ("continue",[],"Interesting...",
+                [
+                    (quest_set_slot, "qst_introduction_default_search_1", slot_quest_asked_who, 2),
+                    
+                    (str_store_troop_name, s10, "trp_intro_quest_slaver"),
+                    
+                    (quest_get_slot, ":object", "qst_introduction_default_search", slot_quest_object),
+                    (str_store_troop_name_plural, s11, ":object"),
+
+                    (str_store_string, s0, "@After rummaging through the belongings of the thugs you come accross a letter addressed to the thug leader from a certain {s10}.^The content of the letter is a little vague but you learn that this {s10} is purchasing people from the bandits. It could be a lead to help finding {s11}."),
+                    (call_script, "script_quest_add_note", "qst_introduction_default_search_1", 0),
+
+                    (call_script, "script_succeed_quest", "qst_introduction_default_search_1"),
+                    (change_screen_return),
+                ]),
+        ]),
  ]

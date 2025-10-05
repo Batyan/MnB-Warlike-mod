@@ -1079,14 +1079,11 @@ scripts = [
             (else_try),
                 (call_script, "script_party_group_defeated", ":defeated_party", ":winner_party"),
             (try_end),
+            (call_script, "script_party_group_check_defeated_quests", ":winner_party", ":defeated_party", ":allied_party"),
             (call_script, "script_party_group_process_rewards", ":winner_party", ":defeated_party", ":allied_party"),
             (call_script, "script_party_group_loot_party_group", ":winner_party", ":defeated_party", ":allied_party"),
             (call_script, "script_party_group_take_party_group_prisoner", ":winner_party", ":defeated_party", ":allied_party"),
 
-            # (try_begin),
-            #     # (neq, ":defeated_party", "$g_player_party"),
-            #     (call_script, "script_clear_party_group", ":defeated_party"),
-            # (try_end),
             # /!\ Defeated_party should be considered no longer referenced! (unless it is a center) /!\
             
             (party_set_slot, ":winner_party", slot_party_battle_stage, bs_approach),
@@ -30549,7 +30546,6 @@ scripts = [
                 (troop_get_slot, ":proficiency_points", ":troop_no", slot_troop_proficiency_points),
 
                 (try_for_range, ":unused", 0, ":add_level"),
-
                     (try_begin),
                         (eq, ":troop_no", "$g_player_troop"),
                         (display_message, "@You have gained a level", text_color_gold),
@@ -31051,6 +31047,33 @@ scripts = [
             (call_script, "script_start_quest", "qst_visit_center_new_owner", -1),
 
             (assign, "$g_quest_visit_center_new_owner_started", 1),
+        ]),
+
+    # script_party_group_check_defeated_quests
+        # input:
+        #   arg1: winner_party
+        #   arg2: defeated_party
+        #   arg3: allied_party
+        # output: none
+    ("party_group_check_defeated_quests",
+        [
+            (store_script_param, ":winner_party", 1),
+            (store_script_param, ":defeated_party", 2),
+            (store_script_param, ":allied_party", 3),
+
+            (try_begin),
+                (check_quest_active, "qst_introduction_default_search_1"),
+                (party_slot_eq, ":defeated_party", slot_party_related_quest, "qst_introduction_default_search_1"),
+                (quest_slot_eq, "qst_introduction_default_search_1", slot_quest_asked_who, -1),
+                (jump_to_menu, "mnu_introduction_default_search_1_letter"),
+            (try_end),
+
+            (party_get_num_attached_parties, ":num_attached_parties", ":defeated_party"),
+            (try_for_range, ":attached_party_rank", 0, ":num_attached_parties"),
+                (party_get_attached_party_with_rank, ":attached_party", ":defeated_party", ":attached_party_rank"),
+                (call_script, "script_party_group_check_defeated_quests", ":winner_party", ":attached_party", ":allied_party"),
+            (try_end),
+
         ]),
 
     # script_presentation_generate_select_lord_card
