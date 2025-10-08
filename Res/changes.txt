@@ -1,3 +1,7 @@
+v0.700:
+	-Features:
+	-Balances:
+	-Fixes:
 v0.650:
 	-Features:
 		* add recruit troops restrictions in recruit troops presentation
