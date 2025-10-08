@@ -17,7 +17,7 @@ Swadia:
 		Position: hard
 		Troops: easy
 		Goals: hard
-		Party size: average
+		Party size: low
 
 Vaegir:
 	Average infantry
@@ -38,7 +38,7 @@ Vaegir:
 		Position: hard
 		Troops: average
 		Goals: easy
-		Party size: high
+		Party size: average
 
 Khergit:
 	Weak infantry
@@ -57,7 +57,7 @@ Khergit:
 		Position: average
 		Troops: hard
 		Goals: average
-		Party size: low
+		Party size: high
 
 Nord:
 	Good infantry
@@ -74,7 +74,7 @@ Nord:
 		Position: average
 		Troops: easy
 		Goals: average
-		Party size: average
+		Party size: low
 
 Rhodok:
 	Average infantry
