@@ -50,6 +50,9 @@ jobs:
     - name: Copy module.ini
       run: Copy-Item ./Res/module.ini -Destination ./Output
       
+    - name: Copy map.txt
+      run: Copy-Item ./Res/module.ini -Destination ./Output
+      
     - name: Copy Textures
       run: Copy-Item ./Res/Textures/* -Destination ./Output/Textures
       
