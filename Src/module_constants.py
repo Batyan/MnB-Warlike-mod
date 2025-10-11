@@ -574,6 +574,11 @@ level_xp_multiplier_sqrt = 5000
 
 bandit_start_camp_base_wealth = 10000
 
+battle_troop_control_none = 0x0
+battle_troop_control_own = 0x1
+battle_troop_control_allies = 0x2
+battle_troop_control_all = battle_troop_control_own|battle_troop_control_allies
+
 ################
 ## Item Slots ##
 ################
@@ -1456,6 +1461,11 @@ slot_party_face_options_storage = slot_party_face_key_storage + 1
 slot_party_mission_kills = slot_party_face_options_storage + 1
 slot_party_mission_deaths = slot_party_mission_kills + 1
 slot_party_mission_xp = slot_party_mission_deaths + 1
+
+slot_party_next_tournament_date = slot_party_mission_xp + 1
+slot_party_last_tournament_date = slot_party_next_tournament_date + 1
+
+min_tournament_cooldown = 365
 
 #################
 ## Scene Slots ##

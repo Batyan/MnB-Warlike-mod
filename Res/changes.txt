@@ -1,3 +1,17 @@
+v0.700:
+	-Features:
+		* add tournaments hosted by the cities
+		* add option to control allied troops in combat
+	-Balances:
+	-Fixes:
+v0.652:
+	-Other:
+		* fix incorrect release pipeline to copy map.txt file
+v0.651:
+	-Fixes:
+		* fix typo in introduction quest
+	-Other:
+		* fix release Output.zip file to be working module for the mod
 v0.650:
 	-Features:
 		* add recruit troops restrictions in recruit troops presentation

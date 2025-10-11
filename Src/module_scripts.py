@@ -92,7 +92,6 @@ scripts = [
                 (troop_set_slot, "$g_player_troop", slot_troop_banner_scene_prop, -1),
             (try_end),
 
-            (set_show_messages, 1),
             (try_for_range, ":faction_no", kingdoms_begin, kingdoms_end),
                 (faction_get_slot, ":size", ":faction_no", slot_faction_size),
 
@@ -112,10 +111,6 @@ scripts = [
                 (store_random_in_range, ":num_large_clans", ":min_large_clan", ":max_large_clan"),
                 (val_sub, ":num_clans", ":num_large_clans"), # We remove a clan for each large clan
 
-                (str_store_faction_name, s10, ":faction_no"),
-                (assign, reg10, ":num_clans"),
-                (assign, reg11, ":num_large_clans"),
-                (display_message, "@{s10} generates {reg10} clans with {reg11} large"),
                 (try_for_range, ":unused", 0, ":num_clans"),
                     (call_script, "script_clan_get_empty"),
                     (assign, ":clan", reg0),
@@ -183,7 +178,6 @@ scripts = [
                 # (troop_set_slot, ":lord_no", slot_troop_rank, ":rank"),
                 # (call_script, "script_troop_change_level", ":lord_no", ":rank"),
             (try_end),
-            (set_show_messages, 0),
 
             (try_for_range, ":party_no", centers_begin, centers_end),
                 (party_get_slot, ":party_type", ":party_no", slot_party_type),
@@ -317,6 +311,8 @@ scripts = [
             (assign, "$g_intro_tutorial_trigger_date", 0),
 
             (assign, "$g_quest_visit_center_new_owner_started", 0),
+
+            (assign, "$g_battle_troop_control", battle_troop_control_own),
 
             (assign, "$g_next_menu", -1),
             
@@ -3710,6 +3706,9 @@ scripts = [
             (party_set_slot, ":party_no", slot_party_max_prisoner_ratio, 25),
             (party_set_slot, ":party_no", slot_party_max_prisoner_outcome, mpo_default),
 
+            (party_set_slot, ":party_no", slot_party_next_tournament_date, -1),
+            (party_set_slot, ":party_no", slot_party_last_tournament_date, 0),
+
             (try_for_range, ":building_slot", slot_party_building_slot_begin, slot_party_building_slot_end),
                 (party_set_slot, ":party_no", ":building_slot", 0),
             (try_end),
@@ -4804,8 +4803,8 @@ scripts = [
         ]),
     
     # script_init_battle_ais
-    # input: none
-    # output: none
+        # input: none
+        # output: none
     ("init_battle_ais",
         [
             (try_for_range, ":cur_team", 0, 4),
@@ -4824,9 +4823,9 @@ scripts = [
         ]),
     
     # script_init_team_battle_ai
-    # input:
-    #   arg1: team_no
-    # output: none
+        # input:
+        #   arg1: team_no
+        # output: none
     ("init_team_battle_ai",
         [
             (store_script_param, ":team_no", 1),
@@ -4890,10 +4889,10 @@ scripts = [
         ]),
     
     # script_team_set_division_slots_for_formation
-    # input:
-    #   arg1: team_no
-    #   arg2: formation
-    # output: none
+        # input:
+        #   arg1: team_no
+        #   arg2: formation
+        # output: none
     ("team_set_division_slots_for_formation",
         [
             (store_script_param, ":team_no", 1),
@@ -5003,9 +5002,9 @@ scripts = [
         ]),
 
     # script_init_agent
-    # input:
-    #   arg1: agent_no
-    # output: none
+        # input:
+        #   arg1: agent_no
+        # output: none
     ("init_agent",
         [
             (store_script_param, ":agent_no", 1),
@@ -5014,8 +5013,48 @@ scripts = [
             (agent_set_slot, ":agent_no", slot_agent_target_entry_point, 0),
             (agent_set_slot, ":agent_no", slot_agent_is_in_scripted_mode, 0),
 
+            (agent_get_team, ":team", ":agent_no"),
             (try_begin),
-                (agent_get_team, ":team", ":agent_no"),
+                (eq, "$g_battle_troop_control", battle_troop_control_none),
+                (eq, ":team", "$g_player_team"),
+
+                (get_player_agent_no, ":player_agent"),
+                (neq, ":agent_no", ":player_agent"),
+                (agent_set_team, ":agent_no", 2),
+                (assign, ":team", 2),
+            (else_try),
+                (eq, "$g_battle_troop_control", battle_troop_control_all),
+                (eq, ":team", 2),
+
+                (assign, ":continue", 0),
+                (agent_get_party_id, ":agent_party", ":agent_no"),
+                (try_begin),
+                    (gt, ":agent_party", 0),
+
+                    (party_get_slot, ":party_leader", ":agent_party", slot_party_leader),
+                    (try_begin),
+                        (eq, ":party_leader", "$g_player_troop"),
+                        (assign, ":continue", 1),
+                    (else_try),
+                        (gt, ":party_leader", 0),
+                        (try_begin),
+                            (call_script, "script_cf_troop_is_vassal_of", ":party_leader", "$g_player_troop", 0, 10),
+                            (assign, ":continue", 1),
+                        (try_end),
+                    (else_try),
+                        (store_faction_of_party, ":agent_faction", ":agent_party"),
+                        (faction_get_slot, ":faction_leader", ":agent_faction", slot_faction_leader),
+                        (eq, ":faction_leader", "$g_player_troop"),
+                        (assign, ":continue", 1),
+                    (try_end),
+                (try_end),
+                (eq, ":continue", 1),
+
+                (agent_set_team, ":agent_no", "$g_player_team"),
+                (assign, ":team", "$g_player_team"),
+            (try_end),
+
+            (try_begin),
 
                 (eq, ":team", "$g_player_team"),
                 (agent_set_slot, ":agent_no", slot_agent_is_reinforcement, 0),
@@ -5023,8 +5062,8 @@ scripts = [
         ]),
 
     # script_process_battle_ais
-    # input: none
-    # output: none
+        # input: none
+        # output: none
     ("process_battle_ais",
         [
             (try_for_range, ":cur_team", 0, 4),
@@ -5034,9 +5073,9 @@ scripts = [
         ]),
     
     # script_process_team_battle_ai
-    # input:
-    #   arg1: team_no
-    # output: none
+        # input:
+        #   arg1: team_no
+        # output: none
     ("process_team_battle_ai",
         [
             (store_script_param, ":team_no", 1),
@@ -23788,7 +23827,7 @@ scripts = [
                             (party_get_slot, ":party_leader", ":party_no", slot_party_leader),
                             (neq, ":party_leader", -1),
                             (neq, ":related_leader", -1),
-                            (call_script, "script_cf_troop_is_vassal_of", ":related_leader", ":party_leader", 1),
+                            (call_script, "script_cf_troop_is_vassal_of", ":related_leader", ":party_leader", 1, 0),
                             (assign, ":mask", pgf_sell_vassals_mask),
                         (else_try),
                             (eq, ":party_type", spt_convoy),
@@ -28297,7 +28336,7 @@ scripts = [
                 (eq, ":lord", "$g_player_troop"),
                 (assign, ":continue", 1),
             (else_try),
-                (call_script, "script_cf_troop_is_vassal_of", ":lord", "$g_player_troop", 0),
+                (call_script, "script_cf_troop_is_vassal_of", ":lord", "$g_player_troop", 0, 10),
                 (assign, ":continue", 1),
             (try_end),
 
@@ -28309,6 +28348,7 @@ scripts = [
         #   arg1: troop_vassal
         #   arg2: troop_vassal_of
         #   arg3: direct
+        #   arg4: max_tries
         # output: none
         # fails if troop is not vassal
     ("cf_troop_is_vassal_of",
@@ -28316,6 +28356,7 @@ scripts = [
             (store_script_param, ":troop_vassal", 1),
             (store_script_param, ":troop_vassal_of", 2),
             (store_script_param, ":direct", 3),
+            (store_script_param, ":max_tries", 4),
 
             (assign, ":is_vassal", 0),
             (ge, ":troop_vassal", 0),
@@ -28326,7 +28367,8 @@ scripts = [
             (else_try),
                 (eq, ":direct", 0),
                 (ge, ":lord", 0),
-                (call_script, "script_cf_troop_is_vassal_of", ":lord", ":troop_vassal_of", ":direct"),
+                (val_sub, ":max_tries", 1),
+                (call_script, "script_cf_troop_is_vassal_of", ":lord", ":troop_vassal_of", ":direct", ":max_tries"),
                 (assign, ":is_vassal", 1),
             (try_end),
 
@@ -31075,7 +31117,90 @@ scripts = [
                 (party_get_attached_party_with_rank, ":attached_party", ":defeated_party", ":attached_party_rank"),
                 (call_script, "script_party_group_check_defeated_quests", ":winner_party", ":attached_party", ":allied_party"),
             (try_end),
+        ]),
 
+    # script_party_process_events
+        # input:
+        #   arg1: party_no
+        # output: none
+    ("party_process_events",
+        [
+            (store_script_param, ":party_no", 1),
+
+            (party_get_slot, ":party_type", ":party_no", slot_party_type),
+            (call_script, "script_get_current_day"),
+            (assign, ":current_day", reg0),
+            (try_begin),
+                (eq, ":party_type", spt_town),
+
+                (party_get_slot, ":next_tournament", ":party_no", slot_party_next_tournament_date),
+                (party_get_slot, ":last_tournament", ":party_no", slot_party_last_tournament_date),
+
+                (party_get_slot, ":governor", ":party_no", slot_party_governor),
+                (try_begin),
+                    (eq, ":governor", -1),
+                    (party_get_slot, ":leader", ":party_no", slot_party_leader),
+                    (ge, ":leader", 0),
+                    (troop_get_slot, ":leader_party", ":leader", slot_troop_leaded_party),
+                    (gt, ":leader_party", 0),
+                    (party_get_attached_to, ":attached_to", ":leader_party"),
+                    (eq, ":attached_to", ":party_no"),
+                    (assign, ":governor", ":leader"),
+                (try_end),
+                (gt, ":governor", 0),
+
+                (try_begin),
+                    (store_faction_of_party, ":current_faction", ":party_no"),
+                    (party_get_slot, ":party_faction", ":party_no", slot_party_faction),
+
+                    (neq, ":current_faction", ":party_faction"),
+                    (try_begin),
+                        (neq, ":next_tournament", -1),
+                        (party_set_slot, ":party_no", slot_party_next_tournament_date, -1),
+                        (try_begin),
+                            (call_script, "script_cf_debug", debug_faction|debug_current),
+                            (str_store_party_name, s10, ":party_no"),
+                            (display_message, "@{s10} cancelling tournament"),
+                        (try_end),
+                    (try_end),
+                (else_try),
+                    (eq, ":next_tournament", -1),
+                    # No tournament has been scheduled
+
+                    (store_sub, ":diff", ":current_day", ":last_tournament"),
+                    (try_begin),
+                        (gt, ":diff", min_tournament_cooldown),
+
+                        (store_add, ":chance", ":diff", 0),
+                        (party_get_slot, ":prosperity", ":party_no", slot_party_prosperity),
+                        (val_add, ":chance", ":prosperity"),
+
+                        (store_random_in_range, ":rand", 0, 20000),
+                        (gt, ":chance", ":rand"),
+
+                        (store_add, ":next_tournament_date", ":current_day", 90),
+                        (party_set_slot, ":party_no", slot_party_next_tournament_date, ":next_tournament_date"),
+
+                        (try_begin),
+                            (call_script, "script_cf_debug", debug_faction|debug_current),
+                            (str_store_party_name, s10, ":party_no"),
+                            (call_script, "script_game_get_date_text", -1, ":next_tournament_date"),
+                            (display_message, "@{s10} planning tournament in {s1}"),
+                        (try_end),
+                    (try_end),
+                (else_try),
+                    (store_add, ":tournament_end", ":next_tournament", 90),
+                    (gt, ":current_day", ":tournament_end"),
+                    (party_set_slot, ":party_no", slot_party_last_tournament_date, ":current_day"),
+                    (party_set_slot, ":party_no", slot_party_next_tournament_date, -1),
+
+                    (try_begin),
+                        (call_script, "script_cf_debug", debug_faction|debug_current),
+                        (str_store_party_name, s10, ":party_no"),
+                        (display_message, "@{s10} has finished tournament"),
+                    (try_end),
+                (try_end),
+            (try_end),
         ]),
 
     # script_presentation_generate_select_lord_card
