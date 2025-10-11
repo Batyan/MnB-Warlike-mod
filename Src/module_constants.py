@@ -574,6 +574,11 @@ level_xp_multiplier_sqrt = 5000
 
 bandit_start_camp_base_wealth = 10000
 
+battle_troop_control_none = 0x0
+battle_troop_control_own = 0x1
+battle_troop_control_allies = 0x2
+battle_troop_control_all = battle_troop_control_own|battle_troop_control_allies
+
 ################
 ## Item Slots ##
 ################

@@ -905,8 +905,8 @@ battle_spawn = (
 			# (get_player_agent_no, ":player_agent"),
 			(try_begin),
 				# (neq, ":agent_no", ":player_agent"),
-				(call_script, "script_agent_reassign_division", ":agent_no", 0),
 				(call_script, "script_init_agent", ":agent_no"),
+				(call_script, "script_agent_reassign_division", ":agent_no", 0),
 			(try_end),
 			(call_script, "script_agent_init_morale_values", ":agent_no"),
 		])
@@ -921,6 +921,7 @@ test_battle_siege_spawn = (
 				# (neq, ":agent_no", ":player_agent"),
 				(agent_get_team, ":team_no", ":agent_no"),
 				
+				(call_script, "script_init_agent", ":agent_no"),
 				(call_script, "script_agent_reassign_division_siege", ":agent_no"),
 				(assign, ":division", reg0),
 				
@@ -941,7 +942,6 @@ test_battle_siege_spawn = (
 					(agent_ai_set_always_attack_in_melee, ":agent_no", 1),
 				(try_end),
 				
-				(call_script, "script_init_agent", ":agent_no"),
 				(agent_set_slot, ":agent_no", slot_agent_forced_defend, 0),
 			(try_end),
 		])

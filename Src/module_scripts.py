@@ -312,6 +312,8 @@ scripts = [
 
             (assign, "$g_quest_visit_center_new_owner_started", 0),
 
+            (assign, "$g_battle_troop_control", battle_troop_control_own),
+
             (assign, "$g_next_menu", -1),
             
             (set_show_messages, 1),
@@ -4801,8 +4803,8 @@ scripts = [
         ]),
     
     # script_init_battle_ais
-    # input: none
-    # output: none
+        # input: none
+        # output: none
     ("init_battle_ais",
         [
             (try_for_range, ":cur_team", 0, 4),
@@ -4821,9 +4823,9 @@ scripts = [
         ]),
     
     # script_init_team_battle_ai
-    # input:
-    #   arg1: team_no
-    # output: none
+        # input:
+        #   arg1: team_no
+        # output: none
     ("init_team_battle_ai",
         [
             (store_script_param, ":team_no", 1),
@@ -4887,10 +4889,10 @@ scripts = [
         ]),
     
     # script_team_set_division_slots_for_formation
-    # input:
-    #   arg1: team_no
-    #   arg2: formation
-    # output: none
+        # input:
+        #   arg1: team_no
+        #   arg2: formation
+        # output: none
     ("team_set_division_slots_for_formation",
         [
             (store_script_param, ":team_no", 1),
@@ -5000,9 +5002,9 @@ scripts = [
         ]),
 
     # script_init_agent
-    # input:
-    #   arg1: agent_no
-    # output: none
+        # input:
+        #   arg1: agent_no
+        # output: none
     ("init_agent",
         [
             (store_script_param, ":agent_no", 1),
@@ -5011,8 +5013,48 @@ scripts = [
             (agent_set_slot, ":agent_no", slot_agent_target_entry_point, 0),
             (agent_set_slot, ":agent_no", slot_agent_is_in_scripted_mode, 0),
 
+            (agent_get_team, ":team", ":agent_no"),
             (try_begin),
-                (agent_get_team, ":team", ":agent_no"),
+                (eq, "$g_battle_troop_control", battle_troop_control_none),
+                (eq, ":team", "$g_player_team"),
+
+                (get_player_agent_no, ":player_agent"),
+                (neq, ":agent_no", ":player_agent"),
+                (agent_set_team, ":agent_no", 2),
+                (assign, ":team", 2),
+            (else_try),
+                (eq, "$g_battle_troop_control", battle_troop_control_all),
+                (eq, ":team", 2),
+
+                (assign, ":continue", 0),
+                (agent_get_party_id, ":agent_party", ":agent_no"),
+                (try_begin),
+                    (gt, ":agent_party", 0),
+
+                    (party_get_slot, ":party_leader", ":agent_party", slot_party_leader),
+                    (try_begin),
+                        (eq, ":party_leader", "$g_player_troop"),
+                        (assign, ":continue", 1),
+                    (else_try),
+                        (gt, ":party_leader", 0),
+                        (try_begin),
+                            (call_script, "script_cf_troop_is_vassal_of", ":party_leader", "$g_player_troop", 0, 10),
+                            (assign, ":continue", 1),
+                        (try_end),
+                    (else_try),
+                        (store_faction_of_party, ":agent_faction", ":agent_party"),
+                        (faction_get_slot, ":faction_leader", ":agent_faction", slot_faction_leader),
+                        (eq, ":faction_leader", "$g_player_troop"),
+                        (assign, ":continue", 1),
+                    (try_end),
+                (try_end),
+                (eq, ":continue", 1),
+
+                (agent_set_team, ":agent_no", "$g_player_team"),
+                (assign, ":team", "$g_player_team"),
+            (try_end),
+
+            (try_begin),
 
                 (eq, ":team", "$g_player_team"),
                 (agent_set_slot, ":agent_no", slot_agent_is_reinforcement, 0),
@@ -5020,8 +5062,8 @@ scripts = [
         ]),
 
     # script_process_battle_ais
-    # input: none
-    # output: none
+        # input: none
+        # output: none
     ("process_battle_ais",
         [
             (try_for_range, ":cur_team", 0, 4),
@@ -5031,9 +5073,9 @@ scripts = [
         ]),
     
     # script_process_team_battle_ai
-    # input:
-    #   arg1: team_no
-    # output: none
+        # input:
+        #   arg1: team_no
+        # output: none
     ("process_team_battle_ai",
         [
             (store_script_param, ":team_no", 1),
@@ -23785,7 +23827,7 @@ scripts = [
                             (party_get_slot, ":party_leader", ":party_no", slot_party_leader),
                             (neq, ":party_leader", -1),
                             (neq, ":related_leader", -1),
-                            (call_script, "script_cf_troop_is_vassal_of", ":related_leader", ":party_leader", 1),
+                            (call_script, "script_cf_troop_is_vassal_of", ":related_leader", ":party_leader", 1, 0),
                             (assign, ":mask", pgf_sell_vassals_mask),
                         (else_try),
                             (eq, ":party_type", spt_convoy),
@@ -28294,7 +28336,7 @@ scripts = [
                 (eq, ":lord", "$g_player_troop"),
                 (assign, ":continue", 1),
             (else_try),
-                (call_script, "script_cf_troop_is_vassal_of", ":lord", "$g_player_troop", 0),
+                (call_script, "script_cf_troop_is_vassal_of", ":lord", "$g_player_troop", 0, 10),
                 (assign, ":continue", 1),
             (try_end),
 
@@ -28306,6 +28348,7 @@ scripts = [
         #   arg1: troop_vassal
         #   arg2: troop_vassal_of
         #   arg3: direct
+        #   arg4: max_tries
         # output: none
         # fails if troop is not vassal
     ("cf_troop_is_vassal_of",
@@ -28313,6 +28356,7 @@ scripts = [
             (store_script_param, ":troop_vassal", 1),
             (store_script_param, ":troop_vassal_of", 2),
             (store_script_param, ":direct", 3),
+            (store_script_param, ":max_tries", 4),
 
             (assign, ":is_vassal", 0),
             (ge, ":troop_vassal", 0),
@@ -28323,7 +28367,8 @@ scripts = [
             (else_try),
                 (eq, ":direct", 0),
                 (ge, ":lord", 0),
-                (call_script, "script_cf_troop_is_vassal_of", ":lord", ":troop_vassal_of", ":direct"),
+                (val_sub, ":max_tries", 1),
+                (call_script, "script_cf_troop_is_vassal_of", ":lord", ":troop_vassal_of", ":direct", ":max_tries"),
                 (assign, ":is_vassal", 1),
             (try_end),
 

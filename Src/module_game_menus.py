@@ -2645,10 +2645,36 @@ game_menus = [
         [
         ],
         [
+            ("battle_troop_control",
+                [
+                    (try_begin),
+                        (eq, "$g_battle_troop_control", battle_troop_control_none),
+                        (str_store_string, s10, "@You leave control of your troops to your allies"),
+                    (else_try),
+                        (eq, "$g_battle_troop_control", battle_troop_control_own),
+                        (str_store_string, s10, "@You control your own troops"),
+                    (else_try),
+                        (eq, "$g_battle_troop_control", battle_troop_control_all),
+                        (str_store_string, s10, "@You control all troops"),
+                    (try_end),
+                ], "{s10}",
+                [
+                    (try_begin),
+                        (eq, "$g_battle_troop_control", battle_troop_control_none),
+                        (assign, "$g_battle_troop_control", battle_troop_control_own),
+                    (else_try),
+                        (eq, "$g_battle_troop_control", battle_troop_control_own),
+                        (assign, "$g_battle_troop_control", battle_troop_control_all),
+                    (else_try),
+                        (eq, "$g_battle_troop_control", battle_troop_control_all),
+                        (assign, "$g_battle_troop_control", battle_troop_control_none),
+                    (try_end),
+                    (jump_to_menu, "mnu_encounter_battle"),
+                ]),
+
             ("battle_charge", [], "Charge the enemy",
                 [
                     (set_party_battle_mode),
-                    # (encounter_attack),
                     (set_battle_advantage, 0),
                     
                     (call_script, "script_get_battle_scene"),
@@ -2671,10 +2697,36 @@ game_menus = [
         [
         ],
         [
+            ("battle_troop_control",
+                [
+                    (try_begin),
+                        (eq, "$g_battle_troop_control", battle_troop_control_none),
+                        (str_store_string, s10, "@You leave control of your troops to your allies"),
+                    (else_try),
+                        (eq, "$g_battle_troop_control", battle_troop_control_own),
+                        (str_store_string, s10, "@You control your own troops"),
+                    (else_try),
+                        (eq, "$g_battle_troop_control", battle_troop_control_all),
+                        (str_store_string, s10, "@You control all troops"),
+                    (try_end),
+                ], "{s10}",
+                [
+                    (try_begin),
+                        (eq, "$g_battle_troop_control", battle_troop_control_none),
+                        (assign, "$g_battle_troop_control", battle_troop_control_own),
+                    (else_try),
+                        (eq, "$g_battle_troop_control", battle_troop_control_own),
+                        (assign, "$g_battle_troop_control", battle_troop_control_all),
+                    (else_try),
+                        (eq, "$g_battle_troop_control", battle_troop_control_all),
+                        (assign, "$g_battle_troop_control", battle_troop_control_none),
+                    (try_end),
+                    (jump_to_menu, "mnu_encounter_battle_siege"),
+                ]),
+            
             ("battle_charge", [], "Charge the enemy",
                 [
                     (set_party_battle_mode),
-                    # (encounter_attack),
                     (set_battle_advantage, 0),
                     
                     (party_get_slot, ":scene", "$g_encountered_party", slot_party_siege_scene),

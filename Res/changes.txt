@@ -1,6 +1,7 @@
 v0.700:
 	-Features:
 		* add tournaments hosted by the cities
+		* add option to control allied troops in combat
 	-Balances:
 	-Fixes:
 v0.652:
