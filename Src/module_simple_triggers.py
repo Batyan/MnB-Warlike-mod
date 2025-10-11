@@ -64,6 +64,7 @@ simple_triggers = [
                     (call_script, "script_party_process_building_constructions", ":party_no"),
                     (call_script, "script_party_process_attached_parties", ":party_no"),
                     (call_script, "script_party_process_prisoners", ":party_no"),
+                    (call_script, "script_party_process_events", ":party_no"),
                 (else_try),
                     (eq, ":party_type", spt_war_party),
                     # (get_party_ai_object, ":object", ":party_no"),

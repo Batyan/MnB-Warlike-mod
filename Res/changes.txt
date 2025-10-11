@@ -1,5 +1,6 @@
 v0.700:
 	-Features:
+		* add tournaments hosted by the cities
 	-Balances:
 	-Fixes:
 v0.652:

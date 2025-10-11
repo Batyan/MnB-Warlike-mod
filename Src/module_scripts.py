@@ -92,7 +92,6 @@ scripts = [
                 (troop_set_slot, "$g_player_troop", slot_troop_banner_scene_prop, -1),
             (try_end),
 
-            (set_show_messages, 1),
             (try_for_range, ":faction_no", kingdoms_begin, kingdoms_end),
                 (faction_get_slot, ":size", ":faction_no", slot_faction_size),
 
@@ -112,10 +111,6 @@ scripts = [
                 (store_random_in_range, ":num_large_clans", ":min_large_clan", ":max_large_clan"),
                 (val_sub, ":num_clans", ":num_large_clans"), # We remove a clan for each large clan
 
-                (str_store_faction_name, s10, ":faction_no"),
-                (assign, reg10, ":num_clans"),
-                (assign, reg11, ":num_large_clans"),
-                (display_message, "@{s10} generates {reg10} clans with {reg11} large"),
                 (try_for_range, ":unused", 0, ":num_clans"),
                     (call_script, "script_clan_get_empty"),
                     (assign, ":clan", reg0),
@@ -183,7 +178,6 @@ scripts = [
                 # (troop_set_slot, ":lord_no", slot_troop_rank, ":rank"),
                 # (call_script, "script_troop_change_level", ":lord_no", ":rank"),
             (try_end),
-            (set_show_messages, 0),
 
             (try_for_range, ":party_no", centers_begin, centers_end),
                 (party_get_slot, ":party_type", ":party_no", slot_party_type),
@@ -3709,6 +3703,9 @@ scripts = [
 
             (party_set_slot, ":party_no", slot_party_max_prisoner_ratio, 25),
             (party_set_slot, ":party_no", slot_party_max_prisoner_outcome, mpo_default),
+
+            (party_set_slot, ":party_no", slot_party_next_tournament_date, -1),
+            (party_set_slot, ":party_no", slot_party_last_tournament_date, 0),
 
             (try_for_range, ":building_slot", slot_party_building_slot_begin, slot_party_building_slot_end),
                 (party_set_slot, ":party_no", ":building_slot", 0),
@@ -31075,7 +31072,90 @@ scripts = [
                 (party_get_attached_party_with_rank, ":attached_party", ":defeated_party", ":attached_party_rank"),
                 (call_script, "script_party_group_check_defeated_quests", ":winner_party", ":attached_party", ":allied_party"),
             (try_end),
+        ]),
 
+    # script_party_process_events
+        # input:
+        #   arg1: party_no
+        # output: none
+    ("party_process_events",
+        [
+            (store_script_param, ":party_no", 1),
+
+            (party_get_slot, ":party_type", ":party_no", slot_party_type),
+            (call_script, "script_get_current_day"),
+            (assign, ":current_day", reg0),
+            (try_begin),
+                (eq, ":party_type", spt_town),
+
+                (party_get_slot, ":next_tournament", ":party_no", slot_party_next_tournament_date),
+                (party_get_slot, ":last_tournament", ":party_no", slot_party_last_tournament_date),
+
+                (party_get_slot, ":governor", ":party_no", slot_party_governor),
+                (try_begin),
+                    (eq, ":governor", -1),
+                    (party_get_slot, ":leader", ":party_no", slot_party_leader),
+                    (ge, ":leader", 0),
+                    (troop_get_slot, ":leader_party", ":leader", slot_troop_leaded_party),
+                    (gt, ":leader_party", 0),
+                    (party_get_attached_to, ":attached_to", ":leader_party"),
+                    (eq, ":attached_to", ":party_no"),
+                    (assign, ":governor", ":leader"),
+                (try_end),
+                (gt, ":governor", 0),
+
+                (try_begin),
+                    (store_faction_of_party, ":current_faction", ":party_no"),
+                    (party_get_slot, ":party_faction", ":party_no", slot_party_faction),
+
+                    (neq, ":current_faction", ":party_faction"),
+                    (try_begin),
+                        (neq, ":next_tournament", -1),
+                        (party_set_slot, ":party_no", slot_party_next_tournament_date, -1),
+                        (try_begin),
+                            (call_script, "script_cf_debug", debug_faction|debug_current),
+                            (str_store_party_name, s10, ":party_no"),
+                            (display_message, "@{s10} cancelling tournament"),
+                        (try_end),
+                    (try_end),
+                (else_try),
+                    (eq, ":next_tournament", -1),
+                    # No tournament has been scheduled
+
+                    (store_sub, ":diff", ":current_day", ":last_tournament"),
+                    (try_begin),
+                        (gt, ":diff", min_tournament_cooldown),
+
+                        (store_add, ":chance", ":diff", 0),
+                        (party_get_slot, ":prosperity", ":party_no", slot_party_prosperity),
+                        (val_add, ":chance", ":prosperity"),
+
+                        (store_random_in_range, ":rand", 0, 20000),
+                        (gt, ":chance", ":rand"),
+
+                        (store_add, ":next_tournament_date", ":current_day", 90),
+                        (party_set_slot, ":party_no", slot_party_next_tournament_date, ":next_tournament_date"),
+
+                        (try_begin),
+                            (call_script, "script_cf_debug", debug_faction|debug_current),
+                            (str_store_party_name, s10, ":party_no"),
+                            (call_script, "script_game_get_date_text", -1, ":next_tournament_date"),
+                            (display_message, "@{s10} planning tournament in {s1}"),
+                        (try_end),
+                    (try_end),
+                (else_try),
+                    (store_add, ":tournament_end", ":next_tournament", 90),
+                    (gt, ":current_day", ":tournament_end"),
+                    (party_set_slot, ":party_no", slot_party_last_tournament_date, ":current_day"),
+                    (party_set_slot, ":party_no", slot_party_next_tournament_date, -1),
+
+                    (try_begin),
+                        (call_script, "script_cf_debug", debug_faction|debug_current),
+                        (str_store_party_name, s10, ":party_no"),
+                        (display_message, "@{s10} has finished tournament"),
+                    (try_end),
+                (try_end),
+            (try_end),
         ]),
 
     # script_presentation_generate_select_lord_card
