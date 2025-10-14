@@ -21495,9 +21495,8 @@ scripts = [
             (try_begin),
                 (call_script, "script_cf_party_can_create_buildings", ":party_no"),
 
-                (party_get_slot, ":leader", ":party_no", slot_party_leader),
-                (party_get_slot, ":governor", ":party_no", slot_party_governor),
-                (this_or_next|neq, ":leader", "$g_player_troop"),
+                (call_script, "script_party_get_administrator", ":party_no"),
+                (assign, ":governor", reg0),
                 (gt, ":governor", 0),
                 (neq, ":governor", "$g_player_troop"), ## We don't want to auto build if the player is governor
 
@@ -21556,9 +21555,9 @@ scripts = [
             (party_get_slot, ":besieged_by", ":party_no", slot_party_besieged_by),
             (lt, ":besieged_by", 0),
 
-            (party_get_slot, ":leader", ":party_no", slot_party_leader),
+            (call_script, "script_party_get_administrator", ":party_no"),
+            (assign, ":leader", reg0),
             (ge, ":leader", 0),
-            # (party_get_slot, ":governor", ":party_no", slot_party_governor),
 
             (call_script, "script_party_get_building_slots", ":party_no"),
             (assign, ":num_slots", reg0),
@@ -31136,17 +31135,8 @@ scripts = [
                 (party_get_slot, ":next_tournament", ":party_no", slot_party_next_tournament_date),
                 (party_get_slot, ":last_tournament", ":party_no", slot_party_last_tournament_date),
 
-                (party_get_slot, ":governor", ":party_no", slot_party_governor),
-                (try_begin),
-                    (eq, ":governor", -1),
-                    (party_get_slot, ":leader", ":party_no", slot_party_leader),
-                    (ge, ":leader", 0),
-                    (troop_get_slot, ":leader_party", ":leader", slot_troop_leaded_party),
-                    (gt, ":leader_party", 0),
-                    (party_get_attached_to, ":attached_to", ":leader_party"),
-                    (eq, ":attached_to", ":party_no"),
-                    (assign, ":governor", ":leader"),
-                (try_end),
+                (call_script, "script_party_get_administrator", ":party_no"),
+                (assign, ":governor", reg0),
                 (gt, ":governor", 0),
 
                 (try_begin),
@@ -31201,6 +31191,36 @@ scripts = [
                     (try_end),
                 (try_end),
             (try_end),
+        ]),
+
+    # script_party_get_administrator
+        # input:
+        #   arg1: party_no
+        # output:
+        #   reg0: administrator_troop
+    ("party_get_administrator",
+        [
+            (store_script_param, ":party_no", 1),
+
+            (party_get_slot, ":governor", ":party_no", slot_party_governor),
+            (try_begin),
+                (eq, ":governor", -1),
+                (party_get_slot, ":lord", ":party_no", slot_party_lord),
+                (gt, ":lord", 0),
+                (troop_get_slot, ":lord_party", ":lord", slot_troop_leaded_party),
+                (try_begin),
+                    (gt, ":lord_party", 0),
+                    (party_get_attached_to, ":attached_to", ":lord_party"),
+                    (eq, ":attached_to", ":party_no"),
+                    (assign, ":governor", ":lord"),
+                (else_try),
+                    (troop_get_slot, ":garrisoned", ":lord", slot_troop_garrisoned),
+                    (eq, ":garrisoned", ":party_no"),
+                    (assign, ":governor", ":lord"),
+                (try_end),
+            (try_end),
+
+            (assign, reg0, ":governor"),
         ]),
 
     # script_presentation_generate_select_lord_card
