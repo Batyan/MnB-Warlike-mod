@@ -27862,7 +27862,7 @@ scripts = [
             (store_script_param, ":troop_no", 1),
             (store_script_param, ":center_no", 2),
 
-            (assign, ":grants", 1),
+            (assign, ":grants", 0),
 
             (party_get_slot, ":center_leader", ":center_no", slot_party_leader),
             (try_begin),
@@ -27993,7 +27993,7 @@ scripts = [
             (assign, ":num_grants", 0),
 
             (troop_get_slot, ":num_grants", ":troop_no", slot_troop_renown),
-            (val_div, ":num_grants", 500),
+            (val_div, ":num_grants", 350),
             (val_min, ":num_grants", 5),
 
             (assign, reg10, ":num_grants"),

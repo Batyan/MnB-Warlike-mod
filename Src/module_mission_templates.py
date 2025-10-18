@@ -555,10 +555,10 @@ battle_reinforcements_siege = (
 				(assign, ":spawn_end", reg1),
 				
 				(store_random_in_range, ":spawn_point", ":spawn_begin", ":spawn_end"),
-				(add_reinforcements_to_entry, ":spawn_point", 4),
+				(add_reinforcements_to_entry, ":spawn_point", 2),
 				
 				(store_random_in_range, ":spawn_point", ":spawn_begin", ":spawn_end"),
-				(add_reinforcements_to_entry, ":spawn_point", 2),
+				(add_reinforcements_to_entry, ":spawn_point", 1),
 			(try_end),
 		(try_end),
 

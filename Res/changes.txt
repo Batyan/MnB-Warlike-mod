@@ -5,7 +5,11 @@ v0.700:
 		* add governor handling of fiefs
 		* add message to inform of options during captivity
 	-Balances:
+		* reduce siege reinforcements wave size
+		* remove base grant for recruiting troops
+		* reduce renown requirement for additional renown (500 -> 350)
 	-Fixes:
+		* fix character report showing incorrect clan name
 v0.652:
 	-Other:
 		* fix incorrect release pipeline to copy map.txt file

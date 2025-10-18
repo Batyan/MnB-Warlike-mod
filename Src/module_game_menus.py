@@ -3366,7 +3366,7 @@ game_menus = [
 
             (try_begin),
                 (is_between, ":clan", clans_begin, clans_end),
-                (str_store_faction_name, s13, ":clan"),
+                (str_store_troop_name, s13, ":clan"),
                 (str_store_string, s12, "@Belongs to clan {s13}"),
             (else_try),
                 (str_store_string, s12, "@Belongs to no clan"),
