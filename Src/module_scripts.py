@@ -302,11 +302,12 @@ scripts = [
             (assign, "$g_global_cloud_amount", 0),
 
             (assign, "$g_normalize_faction_color", 1),
+            
             (assign, "$g_player_update_name", 1),
+            (assign, "$g_player_last_proposed_vassalage", -10000),
+            (assign, "$g_player_prisoner_last_message", 0),
 
             (assign, "$g_presentation_preview_selected_culture", -1),
-
-            (assign, "$g_player_last_proposed_vassalage", -10000),
 
             (assign, "$g_intro_tutorial_trigger_date", 0),
 

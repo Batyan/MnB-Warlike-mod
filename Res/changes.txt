@@ -3,6 +3,7 @@ v0.700:
 		* add tournaments hosted by the cities
 		* add option to control allied troops in combat
 		* add governor handling of fiefs
+		* add message to inform of options during captivity
 	-Balances:
 	-Fixes:
 v0.652:
