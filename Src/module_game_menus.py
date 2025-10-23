@@ -1719,11 +1719,22 @@ game_menus = [
         ]),
     
     ("town_keep", mnf_scale_picture,
-        "You are in the political and military section of the center",
+        "{s10}",
         "none",
         [
             (set_background_mesh, "mesh_pic_camp"),
-            
+
+            (str_clear, s11),
+            (try_begin),
+                (call_script, "script_party_get_tournament_dates", "$g_encountered_party"),
+                (assign, ":begin_date", reg0),
+                (assign, ":end_date", reg1),
+                (call_script, "script_get_current_day"),
+                (assign, ":current_day", reg0),
+                (is_between, ":current_day", ":begin_date", ":end_date"),
+                (str_store_string, s11, "@A tournament is currently being held."),
+            (try_end),
+            (str_store_string, s10, "@You are in the political and military section of the center.^^{s11}"),
         ],
         [
             ("center_manage_clan", [(party_slot_eq, "$g_encountered_party", slot_party_leader, "$g_player_troop"),(troop_slot_eq, "$g_player_troop", slot_troop_home, "$g_encountered_party"),], "Manage clan",
@@ -1739,6 +1750,19 @@ game_menus = [
             ("center_hall", [(disable_menu_option),], "Go to the main hall",
                 [
                     #ToDo: hall
+                ]),
+
+            ("center_tournament",
+                [
+                    (call_script, "script_party_get_tournament_dates", "$g_encountered_party"),
+                    (assign, ":begin_date", reg0),
+                    (assign, ":end_date", reg1),
+                    (call_script, "script_get_current_day"),
+                    (assign, ":current_day", reg0),
+                    (is_between, ":current_day", ":begin_date", ":end_date"),
+                ], "Join the tournament",
+                [
+                    (jump_to_menu, "mnu_town_tournament"),
                 ]),
             
             ("center_recruit",
@@ -1770,6 +1794,32 @@ game_menus = [
                     # (leave_encounter),
                     (change_screen_return),
                     (change_screen_map),
+                ]),
+        ]),
+
+    ("town_tournament", mnf_scale_picture,
+        "A tournament is held in {s10}.",
+        "none",
+        [
+            (str_store_party_name, s10, "$g_encountered_party"),
+        ],
+        [
+            ("tournament_participants",
+                [], "View participants",
+                []),
+            ("tournament_prize",
+                [], "View prize",
+                []),
+            ("tournament_enter",
+                [], "Enter as a participant",
+                []),
+            ("tournament_watch",
+                [], "Watch the tournament",
+                []),
+            ("go_back",
+                [], "Go back",
+                [
+                    (jump_to_menu, "mnu_town_keep"),
                 ]),
         ]),
     
@@ -3374,7 +3424,7 @@ game_menus = [
             (assign, reg10, ":honor"),
             (assign, reg11, ":renown"),
             (str_store_faction_name, s11, ":culture"),
-            (str_store_string, s0, "@{s10}^^{s11}e^{s12}^^Honor: {reg10}^Renown: {reg11}^"),
+            (str_store_string, s0, "@{s10}^^{s11}^{s12}^^Honor: {reg10}^Renown: {reg11}^"),
         ],
         [
             ("go_back",[],"Return",

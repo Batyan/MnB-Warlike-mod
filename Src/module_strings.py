@@ -1179,7 +1179,7 @@ strings = [
   ("attribute_charisma_description", "Each point increases the amount of shared experience gained after combat by 2%. The following skills can not be developed beyond 1/3 of Charisma: Persuasion, Prisoner Management, Leadership, Trade"),
 
   ("skill_trade_description","Every level of this skill reduces your trade penalty. (Party skill)"),
-  ("skill_leadership_description","Every point reduces troop wages by 2%. (Leader skill)"),
+  ("skill_leadership_description","Every level of this skill reduces troop wages by 2%. (Leader skill)"),
   ("skill_prisoner_management_description", "Every level of this skill increases maximum number of prisoners by +5 + 10% of your party size and reduces the penalties of having prisoners in your party. (Leader skill)"),
   ("skill_reserved_1_description","Reserved Skill"),
   ("skill_reserved_2_description","Reserved Skill"),

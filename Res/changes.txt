@@ -7,9 +7,11 @@ v0.700:
 	-Balances:
 		* reduce siege reinforcements wave size
 		* remove base grant for recruiting troops
+		* switch castle and village bonus grant (+1->+0 and +0->+1 respectively)
 		* reduce renown requirement for additional renown (500 -> 350)
 	-Fixes:
 		* fix character report showing incorrect clan name
+		* fix inconsistency in leadershipp skill description
 v0.652:
 	-Other:
 		* fix incorrect release pipeline to copy map.txt file

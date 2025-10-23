@@ -27878,6 +27878,9 @@ scripts = [
                 (call_script, "script_troop_get_center_recruit_grants_relation", "$g_player_troop", ":center_no"),
                 (val_add, ":grants", reg0),
 
+                (call_script, "script_troop_get_center_recruit_grants_center_relation", "$g_player_troop", ":center_no"),
+                (val_add, ":grants", reg0),
+
                 (call_script, "script_troop_get_center_recruit_grants_renown", "$g_player_troop", ":center_no"),
                 (val_add, ":grants", reg0),
             (try_end),
@@ -27907,10 +27910,10 @@ scripts = [
                 (str_store_string, s0, "@Town: +2"),
             (else_try),
                 (eq, ":center_type", spt_castle),
-                (val_add, ":num_grants", 1),
-                (str_store_string, s0, "@Castle: +1"),
+                (str_store_string, s0, "@Castle: 0"),
             (else_try),
-                (str_store_string, s0, "@Village: 0"),
+                (val_add, ":num_grants", 1),
+                (str_store_string, s0, "@Village: +1"),
             (try_end),
 
             (assign, reg0, ":num_grants"),
@@ -27973,6 +27976,35 @@ scripts = [
                 (str_store_string, s0, "@{s10}'s relation: {reg10}"),
             (else_try),
                 (str_store_string, s0, "@Relation: 0"),
+            (try_end),
+
+            (assign, reg0, ":num_grants"),
+        ]),
+
+    # script_troop_get_center_recruit_grants_center_relation
+        # input:
+        #   arg1: troop_no
+        #   arg2: center_no
+        # output:
+        #   reg0: num_grants
+        #   s0: grant_description
+    ("troop_get_center_recruit_grants_center_relation",
+        [
+            (store_script_param, ":troop_no", 1),
+            (store_script_param, ":center_no", 2),
+
+            (assign, ":num_grants", 0),
+
+            (try_begin),
+                (eq, ":troop_no", "$g_player_troop"),
+                (party_get_slot, ":player_relation", ":center_no", slot_party_player_relation),
+                (store_div, ":num_grants", ":player_relation", 25),
+                (str_store_party_name, s10, ":center_no"),
+                (assign, reg10, ":num_grants"),
+                (str_store_string, s0, "@{s10}'s reputation: {reg10}"),
+            (else_try),
+                (str_store_party_name, s10, ":center_no"),
+                (str_store_string, s0, "@{s10}'s reputation: 0"),
             (try_end),
 
             (assign, reg0, ":num_grants"),
@@ -31222,6 +31254,29 @@ scripts = [
             (try_end),
 
             (assign, reg0, ":governor"),
+        ]),
+
+    # script_party_get_tournament_dates
+        # input:
+        #   arg1: party_no
+        # output:
+        #   reg0: start_date
+        #   reg1: end_date
+    ("party_get_tournament_dates",
+        [
+            (store_script_param, ":party_no", 1),
+
+            (party_get_slot, ":next_tournament", ":party_no", slot_party_next_tournament_date),
+            (try_begin),
+                (neq, ":next_tournament", -1),
+                (store_add, ":tournament_end", ":next_tournament", 90),
+
+                (assign, reg0, ":next_tournament"),
+                (assign, reg1, ":tournament_end"),
+            (else_try),
+                (assign, reg0, -1),
+                (assign, reg1, -1),
+            (try_end),
         ]),
 
     # script_presentation_generate_select_lord_card
