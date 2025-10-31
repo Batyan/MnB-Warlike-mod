@@ -1217,7 +1217,7 @@ dialogs = [
             (val_add, ":party_wealth", ":gold"),
             (party_set_slot, "$g_talk_party", slot_party_wealth, ":party_wealth"),
             (call_script, "script_get_bandit_dialog", "$g_talk_party", "str_bandit_accept_gold_forest"),
-        ], "{s0}", "close_window", [(leave_encounter),]],
+        ], "{s0}", "close_window", [(party_ignore_player, "$g_talk_party", 6),(leave_encounter),]],
     [anyone, "bandit_give_gold_half",
         [
             (store_troop_gold, ":gold", "$g_player_troop"),
@@ -1227,7 +1227,7 @@ dialogs = [
             (val_add, ":party_wealth", ":gold"),
             (party_set_slot, "$g_talk_party", slot_party_wealth, ":party_wealth"),
             (call_script, "script_get_bandit_dialog", "$g_talk_party", "str_bandit_accept_gold_half_forest"),
-        ], "{s0}", "close_window", [(leave_encounter),]],
+        ], "{s0}", "close_window", [(party_ignore_player, "$g_talk_party", 12),(leave_encounter),]],
     [anyone, "bandit_give_gold_all",
         [
             (store_troop_gold, ":gold", "$g_player_troop"),
@@ -1236,7 +1236,7 @@ dialogs = [
             (val_add, ":party_wealth", ":gold"),
             (party_set_slot, "$g_talk_party", slot_party_wealth, ":party_wealth"),
             (call_script, "script_get_bandit_dialog", "$g_talk_party", "str_bandit_accept_gold_all_forest"),
-        ], "{s0}", "close_window", [(leave_encounter),]],
+        ], "{s0}", "close_window", [(party_ignore_player, "$g_talk_party", 24),(leave_encounter),]],
     [anyone, "bandit_give_all",
         [
             (store_troop_gold, ":gold", "$g_player_troop"),
@@ -1245,7 +1245,7 @@ dialogs = [
             (val_add, ":party_wealth", ":gold"),
             (party_set_slot, "$g_talk_party", slot_party_wealth, ":party_wealth"),
             (call_script, "script_get_bandit_dialog", "$g_talk_party", "str_bandit_accept_all_forest"),
-        ], "{s0}", "close_window", [(leave_encounter),]],
+        ], "{s0}", "close_window", [(party_ignore_player, "$g_talk_party", 36),(leave_encounter),]],
     [anyone|plyr, "bandit_demand_all",
         [(call_script, "script_get_bandit_dialog", "$g_talk_party", "str_bandit_player_give_all_forest"),], "{s0}", "bandit_give_all", []],
     [anyone|plyr, "bandit_demand_all",
