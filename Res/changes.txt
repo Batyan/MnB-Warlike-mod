@@ -9,6 +9,19 @@ v0.700:
 		* remove base grant for recruiting troops
 		* switch castle and village bonus grant (+1->+0 and +0->+1 respectively)
 		* reduce renown requirement for additional renown (500 -> 350)
+		* reduce culture_1 archer ratio (30 -> 25)
+		* reduce culture_1 crossbow ratio (30 -> 25)
+		* increase culture_2 infantry ratio (80 -> 90)
+		* increase culture_2 spearman ratio (30 -> 35)
+		* decrease culture_2 archer ratio (90 -> 75)
+		* increase culture_3 spearman ratio (85 -> 90)
+		* increase culture_3 archer ratio (35 -> 40)
+		* decrease culture_3 cavalry ratio (80 -> 70)
+		* decrease culture_3 lancer ratio (100 -> 90)
+		* decrease culture_3 horse archer ratio (80 -> 70)
+		* decrease culture_3 mounted skirmisher ratio (50 -> 45)
+		* decrease small_kingdom_21 mounted skirmisher ratio change (65 -> 60)
+		* decrease small_kingdom_21 mounted skirmisher ratio change (-65 -> -60)
 	-Fixes:
 		* fix character report showing incorrect clan name
 		* fix inconsistency in leadershipp skill description
