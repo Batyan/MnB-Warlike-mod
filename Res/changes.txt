@@ -23,6 +23,7 @@ v0.700:
 		* decrease small_kingdom_21 mounted skirmisher ratio change (65 -> 60)
 		* decrease small_kingdom_21 mounted skirmisher ratio change (-65 -> -60)
 		* display current gold in raise levy menu
+		* add starting renown for player character starting options
 	-Fixes:
 		* fix character report showing incorrect clan name
 		* fix inconsistency in leadershipp skill description

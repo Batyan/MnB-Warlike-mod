@@ -26023,6 +26023,8 @@ scripts = [
 
                 (troop_set_slot, "$g_player_troop", slot_troop_noble, 1),
 
+                (call_script, "script_troop_change_renown", "$g_player_troop", 100),
+
                 (val_add, ":wealth", 1000),
             (else_try),
                 (eq, "$g_start_game_intro_parents", player_starting_2_farmer),
@@ -26059,6 +26061,8 @@ scripts = [
 
                 (troop_raise_proficiency_linear, "$g_player_troop", wpt_one_handed_weapon, 5),
                 (troop_raise_proficiency_linear, "$g_player_troop", wpt_crossbow, 5),
+
+                (call_script, "script_troop_change_renown", "$g_player_troop", 20),
                 
                 (val_add, ":wealth", 650),
             (else_try),
@@ -26070,6 +26074,8 @@ scripts = [
                 (troop_raise_attribute, "$g_player_troop", ca_charisma, 1),
 
                 (troop_raise_proficiency_linear, "$g_player_troop", wpt_one_handed_weapon, 5),
+
+                (call_script, "script_troop_change_renown", "$g_player_troop", 50),
                 
                 (val_add, ":wealth", 1500),
             (else_try),
@@ -26094,6 +26100,8 @@ scripts = [
                 (troop_raise_proficiency_linear, "$g_player_troop", wpt_throwing, 5),
                 (troop_raise_proficiency_linear, "$g_player_troop", wpt_archery, 5),
                 (troop_raise_proficiency_linear, "$g_player_troop", wpt_crossbow, 5),
+
+                (call_script, "script_troop_change_renown", "$g_player_troop", 40),
                 
                 (val_add, ":wealth", 300),
             (else_try),
@@ -26108,6 +26116,8 @@ scripts = [
                 (troop_raise_proficiency_linear, "$g_player_troop", wpt_throwing, 5),
                 (troop_raise_proficiency_linear, "$g_player_troop", wpt_archery, 5),
                 (troop_raise_proficiency_linear, "$g_player_troop", wpt_crossbow, 5),
+
+                (call_script, "script_troop_change_renown", "$g_player_troop", 10),
                 
                 (val_add, ":wealth", 200),
             (else_try),
@@ -26193,6 +26203,8 @@ scripts = [
                 (troop_raise_proficiency_linear, "$g_player_troop", wpt_one_handed_weapon, 10),
                 (troop_raise_proficiency_linear, "$g_player_troop", wpt_polearm, 5),
 
+                (call_script, "script_troop_change_renown", "$g_player_troop", 5),
+
                 (val_add, ":wealth", 240),
             (try_end),
 
@@ -26262,6 +26274,8 @@ scripts = [
                 (troop_raise_proficiency_linear, "$g_player_troop", wpt_one_handed_weapon, 20),
                 (troop_raise_proficiency_linear, "$g_player_troop", wpt_polearm, 20),
 
+                (call_script, "script_troop_change_renown", "$g_player_troop", 5),
+
                 (val_add, ":wealth", 550),
             (else_try),
                 (eq, "$g_start_game_intro_job", player_starting_5_outlaw),
@@ -26275,6 +26289,8 @@ scripts = [
                 (troop_raise_proficiency_linear, "$g_player_troop", wpt_throwing, 5),
                 (troop_raise_proficiency_linear, "$g_player_troop", wpt_archery, 5),
                 (troop_raise_proficiency_linear, "$g_player_troop", wpt_crossbow, 5),
+
+                (call_script, "script_troop_change_renown", "$g_player_troop", 5),
 
                 (val_add, ":wealth", 150),
             (else_try),
@@ -26336,6 +26352,8 @@ scripts = [
                 (troop_raise_attribute, "$g_player_troop", ca_intelligence, 1),
                 (troop_raise_attribute, "$g_player_troop", ca_charisma, 1),
 
+                (call_script, "script_troop_change_renown", "$g_player_troop", 5),
+
                 (val_add, ":wealth", 750),
             (else_try),
                 (eq, "$g_start_game_intro_job", player_starting_5_mercenary),
@@ -26354,6 +26372,8 @@ scripts = [
                 (troop_raise_proficiency_linear, "$g_player_troop", wpt_archery, 10),
                 (troop_raise_proficiency_linear, "$g_player_troop", wpt_crossbow, 10),
 
+                (call_script, "script_troop_change_renown", "$g_player_troop", 10),
+
                 (val_add, ":wealth", 800),
             (else_try),
                 (eq, "$g_start_game_intro_job", player_starting_5_artisan),
@@ -26366,6 +26386,8 @@ scripts = [
 
                 (troop_raise_proficiency_linear, "$g_player_troop", wpt_one_handed_weapon, 5),
                 (troop_raise_proficiency_linear, "$g_player_troop", wpt_crossbow, 5),
+
+                (call_script, "script_troop_change_renown", "$g_player_troop", 5),
 
                 (val_add, ":wealth", 700),
             (else_try),
@@ -26390,6 +26412,8 @@ scripts = [
                 (troop_raise_skill, "$g_player_troop", skl_inventory_management, 1),
                 (troop_raise_attribute, "$g_player_troop", ca_intelligence, 1),
                 (troop_raise_attribute, "$g_player_troop", ca_charisma, 1),
+
+                (call_script, "script_troop_change_renown", "$g_player_troop", 20),
 
                 (val_add, ":wealth", 1000),
             (else_try),
