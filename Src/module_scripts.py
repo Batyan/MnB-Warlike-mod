@@ -12862,7 +12862,7 @@ scripts = [
             (item_set_slot, "itm_building_barrack", ":stone_slot", 340),
             (item_set_slot, "itm_building_barrack", slot_building_cost_gold, 300000),
             (item_set_slot, "itm_building_barrack", slot_building_build_time, 3000),
-            (item_set_slot, "itm_building_barrack", slot_building_enabled, 0),
+            (item_set_slot, "itm_building_barrack", slot_building_enabled, 1),
             
             (item_set_slot, "itm_building_food_store", ":wood_slot", 280),
             (item_set_slot, "itm_building_food_store", ":stone_slot", 220),
@@ -12888,7 +12888,7 @@ scripts = [
             (item_set_slot, "itm_building_barrack_2", ":stone_slot", 510),
             (item_set_slot, "itm_building_barrack_2", slot_building_cost_gold, 450000),
             (item_set_slot, "itm_building_barrack_2", slot_building_build_time, 4500),
-            (item_set_slot, "itm_building_barrack_2", slot_building_enabled, 0),
+            (item_set_slot, "itm_building_barrack_2", slot_building_enabled, 1),
             (item_set_slot, "itm_building_barrack_2", slot_building_required_building, "itm_building_barrack"),
 
             (item_set_slot, "itm_building_smithy_2", ":wood_slot", 210),
@@ -22563,7 +22563,16 @@ scripts = [
                 # Garrisoned troops pay 1/2th wages
                 (is_between, ":party_no", centers_begin, centers_end),
                 (val_div, ":modifier", 2),
-                # ToDo: possible buildings reducing wages
+
+                (assign, ":building_modifier", 100),
+                (try_begin),
+                    (call_script, "script_cf_party_has_building", ":party_no", "itm_building_barrack"),
+                    (assign, ":building_modifier", 90),
+                    (call_script, "script_cf_party_has_building", ":party_no", "itm_building_barrack_2"),
+                    (assign, ":building_modifier", 80),
+                (try_end),
+                (val_mul, ":modifier", ":building_modifier"),
+                (val_div, ":modifier", 100),
             (else_try),
                 (party_get_slot, ":party_leader", ":party_no", slot_party_leader),
                 (try_begin), # 2% less per leadership point
