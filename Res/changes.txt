@@ -25,6 +25,9 @@ v0.700:
 		* display current gold in raise levy menu
 		* add starting renown for player character starting options
 		* add relation change when accepting mercenary contract
+		* starting bandit camps have an initial garrison
+		* increase bandit camps count on map startup
+		* increase bandits count on map startup
 	-Fixes:
 		* fix character report showing incorrect clan name
 		* fix inconsistency in leadershipp skill description
