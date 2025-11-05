@@ -17275,7 +17275,7 @@ scripts = [
                             (call_script, "script_faction_get_relation_with_faction", ":faction_no", ":preparing_war"),
                             (assign, ":relation", reg0),
 
-                            (gt, ":relation", -10),
+                            (gt, ":relation", -5),
                             (call_script, "script_faction_relation_change_event", ":faction_no", ":preparing_war", -10),
 
                             (faction_get_slot, ":faction_leader", ":faction_no", slot_faction_leader),
