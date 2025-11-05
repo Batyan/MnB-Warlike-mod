@@ -12863,6 +12863,7 @@ scripts = [
             (item_set_slot, "itm_building_barrack", slot_building_cost_gold, 300000),
             (item_set_slot, "itm_building_barrack", slot_building_build_time, 3000),
             (item_set_slot, "itm_building_barrack", slot_building_enabled, 1),
+            (item_set_slot, "itm_building_barrack", slot_building_type, bt_military),
             
             (item_set_slot, "itm_building_food_store", ":wood_slot", 280),
             (item_set_slot, "itm_building_food_store", ":stone_slot", 220),
@@ -12890,6 +12891,7 @@ scripts = [
             (item_set_slot, "itm_building_barrack_2", slot_building_build_time, 4500),
             (item_set_slot, "itm_building_barrack_2", slot_building_enabled, 1),
             (item_set_slot, "itm_building_barrack_2", slot_building_required_building, "itm_building_barrack"),
+            (item_set_slot, "itm_building_barrack_2", slot_building_type, bt_military),
 
             (item_set_slot, "itm_building_smithy_2", ":wood_slot", 210),
             (item_set_slot, "itm_building_smithy_2", ":stone_slot", 180),
