@@ -34,6 +34,7 @@ v0.700:
 		* fix inconsistency in leadershipp skill description
 		* fix bandits not ignoring player after bribe
 		* fix faction leader addressing himself in third person
+		* fix typo in besiege message
 v0.652:
 	-Other:
 		* fix incorrect release pipeline to copy map.txt file

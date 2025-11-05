@@ -18991,9 +18991,9 @@ scripts = [
                 (party_get_slot, ":leader", ":attacker", slot_party_leader),
                 (ge, ":leader", 0),
                 (str_store_troop_name_link, s11, ":leader"),
-                (display_log_message, "@{s10} is been besieged by {s11}"),
+                (display_log_message, "@{s10} has been besieged by {s11}"),
             (else_try),
-                (display_log_message, "@{s10} is been besieged"),
+                (display_log_message, "@{s10} has been besieged"),
             (try_end),
             
             (party_get_slot, ":besieged_lord", ":besieged", slot_party_lord),
