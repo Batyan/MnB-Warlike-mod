@@ -579,6 +579,26 @@ battle_troop_control_own = 0x1
 battle_troop_control_allies = 0x2
 battle_troop_control_all = battle_troop_control_own|battle_troop_control_allies
 
+tournament_round_type_foot_melee = 1
+tournament_round_type_foot_ranged = 2
+tournament_round_type_foot_mixed = 3
+tournament_round_type_mounted_melee = 4
+tournament_round_type_mounted_ranged = 5
+tournament_round_type_mounted_mixed = 6
+tournament_round_type_melee = 7
+tournament_round_type_ranged = 8
+tournament_round_type_mixed = 9
+tournament_round_type_brawl = 10
+tournament_round_type_joust = 11
+tournament_round_type_survival = 12
+
+tournament_round_size_duel = 1
+tournament_round_size_duo = 2
+tournament_round_size_4duo = 3
+tournament_round_size_teams = 4
+tournament_round_size_4teams = 5
+tournament_round_size_brawl = 6
+
 ################
 ## Item Slots ##
 ################
@@ -663,7 +683,7 @@ consumption_ratio_base = 1000000
 ## #############
 
 clans_begin = "trp_clan_storage_1"
-clans_end = "trp_banner_background_color_array"
+clans_end = "trp_tournament_participants_array"
 
 slot_clan_active = 9
 

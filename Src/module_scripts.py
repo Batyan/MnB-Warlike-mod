@@ -31304,17 +31304,8 @@ scripts = [
                 (eq, ":governor", -1),
                 (party_get_slot, ":lord", ":party_no", slot_party_lord),
                 (gt, ":lord", 0),
-                (troop_get_slot, ":lord_party", ":lord", slot_troop_leaded_party),
-                (try_begin),
-                    (gt, ":lord_party", 0),
-                    (party_get_attached_to, ":attached_to", ":lord_party"),
-                    (eq, ":attached_to", ":party_no"),
-                    (assign, ":governor", ":lord"),
-                (else_try),
-                    (troop_get_slot, ":garrisoned", ":lord", slot_troop_garrisoned),
-                    (eq, ":garrisoned", ":party_no"),
-                    (assign, ":governor", ":lord"),
-                (try_end),
+                (call_script, "script_cf_troop_is_in_center", ":lord", ":party_no"),
+                (assign, ":governor", ":lord"),
             (try_end),
 
             (assign, reg0, ":governor"),
@@ -31341,6 +31332,210 @@ scripts = [
                 (assign, reg0, -1),
                 (assign, reg1, -1),
             (try_end),
+        ]),
+
+    # script_party_get_tournament_participants
+        # input:
+        #   arg1: party_no
+        # output:
+        #   reg0: array_troop
+        #   reg1: array_start_index
+        #   reg2: array_length
+    ("party_get_tournament_participants",
+        [
+            (store_script_param, ":party_no", 1),
+
+            (set_fixed_point_multiplier, 1),
+
+            (assign, ":start_index", 1),
+            (assign, ":index", ":start_index"),
+
+            (assign, ":max_participants", 15),
+            (assign, ":num_participants", 0),
+            (assign, ":end", npc_heroes_end),
+            (try_for_range, ":troop_no", npc_heroes_begin, ":end"),
+                (call_script, "script_cf_troop_is_in_center", ":troop_no", ":party_no"),
+                (troop_set_slot, "trp_tournament_participants_array", ":index", ":troop_no"),
+                (val_add, ":num_participants", 1),
+                (val_add, ":index", 1),
+                (try_begin),
+                    (ge, ":num_participants", ":max_participants"),
+                    (assign, ":end", 0),
+                (try_end),
+            (try_end),
+
+            (try_begin),
+                (lt, ":num_participants", ":max_participants"),
+
+                (store_sub, ":diff", ":max_participants", ":num_participants"),
+
+                # TODO: Add mercenaries
+                # (store_div, ":max_mercenaries", ":diff", 3),
+
+                (party_get_num_companion_stacks, ":num_stacks", ":party_no"),
+                (assign, ":cur_town_index", ":num_stacks"),
+                (try_for_range, ":unused", 0, ":diff"),
+                    (assign, ":start", 0),
+                    (try_for_range_backwards, ":stack_no", ":start", ":cur_town_index"),
+                        (party_stack_get_troop_id, ":troop_id", ":party_no", ":stack_no"),
+                        (val_sub, ":cur_town_index", 1),
+                        (neg|troop_is_hero, ":troop_id"),
+
+                        (party_stack_get_size, ":size", ":party_no", ":stack_no"),
+                        (store_sqrt, ":tries", ":size"),
+
+                        (try_for_range, ":cur_try", 0, ":tries"),
+
+                            # We want a ~random number that is deterministic on a given day
+                            (store_add, ":value", ":troop_id", "$g_daily_random"),
+                            (val_add, ":value", ":stack_no"),
+
+                            (store_add, ":mod", 2, ":cur_try"),
+                            (store_mod, ":rand", ":value", ":mod"),
+                            (eq, ":rand", 0),
+
+                            (troop_set_slot, "trp_tournament_participants_array", ":index", ":troop_id"),
+                            (val_add, ":num_participants", 1),
+                            (val_add, ":index", 1),
+                            (assign, ":stack_no", ":cur_town_index"),
+                        (try_end),
+                    (try_end),
+                (try_end),
+            (try_end),
+
+            (try_begin),
+                (lt, ":num_participants", ":max_participants"),
+                (store_sub, ":diff", ":max_participants", ":num_participants"),
+                (party_clear, "p_temp_party"),
+
+                (store_faction_of_party, ":party_faction", ":party_no"),
+                (faction_get_slot, ":culture", ":party_faction", slot_faction_culture),
+                (faction_get_slot, ":peasant_troop", ":culture", slot_faction_peasant_troop),
+
+                (try_for_range, ":unused", 0, ":diff"),
+                    (troop_set_slot, "trp_tournament_participants_array", ":index", ":peasant_troop"),
+                    (val_add, ":num_participants", 1),
+                    (val_add, ":index", 1),
+                (try_end),
+
+                (party_set_faction, "p_temp_party", fac_commoners),
+            (try_end),
+
+            (assign, reg0, "trp_tournament_participants_array"),
+            (assign, reg1, ":start_index"),
+            (assign, reg2, ":num_participants"),
+        ]),
+
+    # script_party_get_tournament_prize
+        # input:
+        #   arg1: party_no
+        # output:
+        #   reg0: prize_amount
+    ("party_get_tournament_prize", 
+        [
+            (store_script_param, ":party_no", 1),
+
+            (party_get_slot, ":prosperity", ":party_no", slot_party_prosperity),
+            (assign, ":base_prize", 5000),
+
+            (call_script, "script_party_get_tournament_participants", ":party_no"),
+            (assign, ":array_troop", reg0),
+            (assign, ":start_index", reg1),
+            (assign, ":num_participants", reg2),
+
+            (assign, ":bonus_prize", 0),
+            (store_add, ":end_index", ":start_index", ":num_participants"),
+            (try_for_range, ":index", ":start_index", ":end_index"),
+                (troop_get_slot, ":troop_no", ":array_troop", ":index"),
+                (try_begin),
+                    (troop_is_hero, ":troop_no"),
+                    (troop_get_slot, ":rank", ":troop_no", slot_troop_rank),
+                    (troop_get_slot, ":level", ":troop_no", slot_troop_xp_level),
+
+                    (val_mul, ":rank", 200),
+                    (val_mul, ":level", 500),
+                    (val_add, ":bonus_prize", ":rank"),
+                    (val_add, ":bonus_prize", ":level"),
+                (else_try),
+                    (store_character_level, ":troop_level", ":troop_no"),
+                    (val_mul, ":troop_level", 5),
+
+                    (troop_get_slot, ":troop_rank", ":troop_no", slot_troop_quality),
+                    (val_add, ":troop_rank", 1),
+                    (val_mul, ":troop_rank", ":troop_rank"),
+
+                    (val_add, ":bonus_prize", ":troop_level"),
+                    (val_add, ":bonus_prize", ":troop_rank"),
+                (try_end),
+            (try_end),
+
+            (store_add, ":prize", ":base_prize", ":bonus_prize"),
+            (val_mul, ":prize", ":prosperity"),
+            (val_div, ":prize", 100),
+
+            (assign, reg0, ":prize"),
+        ]),
+
+    # script_party_get_tournament_round_type
+        # input:
+        #   arg1: party_no
+        #   arg2: round_number
+        # output:
+        #   reg0: round_type
+    ("party_get_tournament_round_type",
+        [
+            (store_script_param, ":party_no", 1),
+            (store_script_param, ":round_number", 2),
+
+            (assign, ":tournament_type", tournament_round_type_mixed),
+            
+            (party_get_slot, ":original_faction", ":party_no", slot_party_original_faction),
+            (faction_get_slot, ":culture", ":original_faction", slot_faction_culture),
+            (try_begin),
+                (eq, ":culture", "fac_culture_1"),
+            (else_try),
+                (eq, ":culture", "fac_culture_2"),
+            (else_try),
+                (eq, ":culture", "fac_culture_3"),
+            (else_try),
+                (eq, ":culture", "fac_culture_4"),
+            (else_try),
+                (eq, ":culture", "fac_culture_5"),
+            (else_try),
+                (eq, ":culture", "fac_culture_6"),
+            (else_try),
+            (try_end),
+
+            (assign, reg0, ":tournament_type"),
+        ]),
+
+    # script_cf_troop_is_in_center
+        # input:
+        #   arg1: troop_no
+        #   arg2: party_no
+        # output: none
+        #   fails if troop is not inside center
+    ("cf_troop_is_in_center",
+        [
+            (store_script_param, ":troop_no", 1),
+            (store_script_param, ":party_no", 2),
+
+            (assign, ":continue", 0),
+
+            (try_begin),
+                (troop_get_slot, ":garrisonned", ":troop_no", slot_troop_garrisoned),
+                (eq, ":garrisonned", ":party_no"),
+                (assign, ":continue", 1),
+            (else_try),
+                (troop_get_slot, ":lead_party", ":troop_no", slot_troop_leaded_party),
+                (ge, ":lead_party", 0),
+                (party_is_active, ":lead_party"),
+                (party_get_attached_to, ":attached", ":lead_party"),
+                (eq, ":attached", ":party_no"),
+                (assign, ":continue", 1),
+            (try_end),
+
+            (eq, ":continue", 1),
         ]),
 
     # script_presentation_generate_select_lord_card

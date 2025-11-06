@@ -6663,6 +6663,8 @@ troops = [
   ["clan_storage_398", "Clan", "Clan", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners, [], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
   ["clan_storage_399", "Clan", "Clan", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners, [], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
   ["clan_storage_400", "Clan", "Clan", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners, [], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
+
+  ["tournament_participants_array", "Participants", "Participants", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners, [], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
   
   ["banner_background_color_array","{!}banner_background_color_array","{!}banner_background_color_array",tf_hero|tf_inactive,0,reserved,fac_commoners,[],def_attrib,0,knows_common,0 ],
 

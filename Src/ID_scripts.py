@@ -604,9 +604,13 @@ script_party_group_check_defeated_quests = 602
 script_party_process_events = 603
 script_party_get_administrator = 604
 script_party_get_tournament_dates = 605
-script_presentation_generate_select_lord_card = 606
-script_presentation_create_text_overlay = 607
-script_presentation_create_combo_button_overlay = 608
-script_presentation_create_check_box_overlay = 609
+script_party_get_tournament_participants = 606
+script_party_get_tournament_prize = 607
+script_party_get_tournament_round_type = 608
+script_cf_troop_is_in_center = 609
+script_presentation_generate_select_lord_card = 610
+script_presentation_create_text_overlay = 611
+script_presentation_create_combo_button_overlay = 612
+script_presentation_create_check_box_overlay = 613
 
 
