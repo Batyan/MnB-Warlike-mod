@@ -69,7 +69,7 @@ scripts = [
                 (call_script, "script_party_init_center", ":party_no"),
             
                 ## Generate some bandits to begin with
-                (try_for_range, ":unused", 0,  5),
+                (try_for_range, ":unused", 0,  10),
                     (call_script, "script_party_spawn_bandits", ":party_no"),
                 (try_end),
             (try_end),
