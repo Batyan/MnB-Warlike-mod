@@ -30,6 +30,11 @@ v0.700:
 		* increase bandits count on map startup
 		* add barracks building to reduce garrison cost
 		* reduce delay before faction can declare war
+		* give rhodok_light_spearman to every rhodok culture
+		* restrict rhodok_pikeman to small_kingdom_52
+		* give rhodok_heavy_spearman to every rhodok culture
+		* restrict rhodok_heavy_pikeman to small_kingdom_52
+		* restrict rhodok_heavy_spearman from small_kingdom_51
 	-Fixes:
 		* fix character report showing incorrect clan name
 		* fix inconsistency in leadershipp skill description

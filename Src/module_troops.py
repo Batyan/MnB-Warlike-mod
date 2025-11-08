@@ -3407,14 +3407,14 @@ troops = [
     ],
    str_11|agi_13|int_7|cha_6|level(14), wpex(90,75,95,20,45,35), knows_common|knows_ironflesh_4|knows_power_strike_4|knows_athletics_4, rhodok_face_young_1, rhodok_face_old_2 ],
   
-  # Light infantry, spears
-  ["rhodok_pikeman", "Rhodok Pikeman", "Rhodok Pikemen", tf_guarantee_common_armor, no_scene, reserved, fac_kingdom_5,
-   [itm_pike,
+  # Light infantry, spears, shields
+  ["rhodok_light_spearman", "Rhodok Light Spearman", "Rhodok Light Spearmen", tf_guarantee_common_armor|tf_guarantee_shield, no_scene, reserved, fac_kingdom_5,
+   [itm_war_spear, itm_tab_shield_pavise_b,itm_tab_shield_pavise_b_plain_1,itm_tab_shield_pavise_b_plain_2,
     itm_leather_boots, itm_leather_gloves,
-    itm_aketon_green_herald, itm_ragged_outfit,
-    itm_footman_helmet, itm_mail_coif, itm_helmet_with_neckguard,
+    itm_leather_armor_herald, itm_aketon_green_herald, itm_ragged_outfit,
+    itm_footman_helmet, itm_helmet_with_neckguard, itm_padded_coif, itm_common_hood_herald, itm_mail_coif,
     ],
-   str_14|agi_11|int_7|cha_9|level(18), wpex(90,75,145,25,55,40), knows_common|knows_ironflesh_5|knows_power_strike_5|knows_power_throw_1|knows_athletics_2|knows_riding_1, rhodok_face_young_1, rhodok_face_old_2 ],
+   str_12|agi_11|int_7|cha_8|level(15), wpex(75,65,145,20,45,35), knows_common|knows_ironflesh_5|knows_power_strike_5|knows_athletics_5, rhodok_face_young_1, rhodok_face_old_2 ],
   
   # Light infantry, spears
   ["rhodok_guard", "Rhodok Guard", "Rhodok Guards", tf_guarantee_common_armor, no_scene, reserved, fac_kingdom_5,
@@ -3452,15 +3452,15 @@ troops = [
     itm_saddle_horse],
    str_9|agi_14|int_8|cha_7|level(15), wpex(65,55,65,30,130,40), knows_common|knows_ironflesh_1|knows_power_strike_2|knows_power_draw_1|knows_athletics_2|knows_riding_5|knows_horse_archery_5, rhodok_face_young_1, rhodok_face_old_2 ],
   
-  # Light infantry, spears, shields
+  # Light infantry, spears
   # SPECIAL
-  ["rhodok_light_spearman", "Rhodok Light Spearman", "Rhodok Light Spearmen", tf_guarantee_common_armor|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_54,
-   [itm_war_spear, itm_tab_shield_pavise_b,itm_tab_shield_pavise_b_plain_1,itm_tab_shield_pavise_b_plain_2,
+  ["rhodok_pikeman", "Rhodok Pikeman", "Rhodok Pikemen", tf_guarantee_common_armor, no_scene, reserved, fac_small_kingdom_52,
+   [itm_pike,
     itm_leather_boots, itm_leather_gloves,
-    itm_leather_armor_herald, itm_aketon_green_herald, itm_ragged_outfit,
-    itm_footman_helmet, itm_helmet_with_neckguard, itm_padded_coif, itm_common_hood_herald, itm_mail_coif,
+    itm_aketon_green_herald, itm_ragged_outfit,
+    itm_footman_helmet, itm_mail_coif, itm_helmet_with_neckguard,
     ],
-   str_12|agi_11|int_7|cha_8|level(15), wpex(75,65,145,20,45,35), knows_common|knows_ironflesh_5|knows_power_strike_5|knows_athletics_5, rhodok_face_young_1, rhodok_face_old_2 ],
+   str_14|agi_11|int_7|cha_9|level(18), wpex(90,75,145,25,55,40), knows_common|knows_ironflesh_5|knows_power_strike_5|knows_power_throw_1|knows_athletics_2|knows_riding_1, rhodok_face_young_1, rhodok_face_old_2 ],
   
   # Light cavalry ranged, swords, picks, bows
   # SPECIAL
@@ -3587,14 +3587,14 @@ troops = [
    str_12|agi_16|int_8|cha_11|level(24), wpex(75,60,65,115,60,40), knows_common|knows_ironflesh_3|knows_power_strike_3|knows_power_draw_4|knows_athletics_3|knows_riding_1, rhodok_face_young_1, rhodok_face_old_2 ],
   
   # Elite
-  # Heavy infantry, spears
-  ["rhodok_heavy_pikeman", "Rhodok Heavy Pikeman", "Rhodok Heavy Pikemen", tf_guarantee_trained_armor, no_scene, reserved, fac_kingdom_5,
-   [itm_pike,
-    itm_iron_greaves, itm_mail_boots, itm_mail_mittens, itm_gauntlets,
+  # Heavy infantry, spears, shields
+  ["rhodok_heavy_spearman", "Rhodok Heavy Spearman", "Rhodok Heavy Spearmen", tf_guarantee_trained_armor|tf_guarantee_shield, no_scene, reserved, fac_kingdom_5,
+   [itm_war_spear, itm_tab_shield_pavise_c,itm_tab_shield_pavise_c_plain_1,itm_tab_shield_pavise_c_plain_2,
+    itm_mail_boots, itm_mail_mittens,
     itm_surcoat_over_mail_herald,
     itm_bascinet_2, itm_bascinet_3, itm_guard_helmet, itm_bascinet,
     ],
-   str_20|agi_10|int_9|cha_12|level(28), wpex(95,80,150,25,60,40), knows_common|knows_ironflesh_9|knows_power_strike_5|knows_power_throw_1|knows_athletics_1|knows_riding_3, rhodok_face_young_1, rhodok_face_old_2 ],
+   str_19|agi_13|int_10|cha_13|level(32), wpex(95,80,150,40,60,40), knows_common|knows_ironflesh_8|knows_power_strike_4|knows_power_throw_1|knows_athletics_3|knows_riding_3|knows_shield_1, rhodok_face_young_1, rhodok_face_old_2 ],
   
   # Medium ranged, swords, picks, crossbows, shields
   ["rhodok_heavy_crossbowman", "Rhodok Heavy Crossbowman", "Rhodok Heavy Crossbowmen", tf_guarantee_trained_armor|tf_guarantee_ranged|tf_guarantee_shield, no_scene, reserved, fac_kingdom_5,
@@ -3604,6 +3604,16 @@ troops = [
     itm_helmet_with_neckguard, itm_kettle_hat,
     ],
    str_16|agi_13|int_10|cha_13|level(29), wpex(95,75,80,40,110,45), knows_common|knows_ironflesh_6|knows_power_strike_3|knows_power_draw_1|knows_athletics_2|knows_riding_2|knows_horse_archery_1, rhodok_face_young_1, rhodok_face_old_2 ],
+  
+  # Heavy infantry, spears
+  # SPECIAL
+  ["rhodok_heavy_pikeman", "Rhodok Heavy Pikeman", "Rhodok Heavy Pikemen", tf_guarantee_trained_armor, no_scene, reserved, fac_small_kingdom_52,
+   [itm_pike,
+    itm_iron_greaves, itm_mail_boots, itm_mail_mittens, itm_gauntlets,
+    itm_surcoat_over_mail_herald,
+    itm_bascinet_2, itm_bascinet_3, itm_guard_helmet, itm_bascinet,
+    ],
+   str_20|agi_10|int_9|cha_12|level(28), wpex(95,80,150,25,60,40), knows_common|knows_ironflesh_9|knows_power_strike_5|knows_power_throw_1|knows_athletics_1|knows_riding_3, rhodok_face_young_1, rhodok_face_old_2 ],
   
   # Heavy ranged, swords, picks, bows, shields
   # SPECIAL
@@ -3624,16 +3634,6 @@ troops = [
     itm_guard_helmet, itm_bascinet,
     itm_hunter],
    str_18|agi_14|int_9|cha_11|level(29), wpex(90,70,130,40,60,45), knows_common|knows_ironflesh_9|knows_power_strike_4|knows_power_draw_1|knows_athletics_3|knows_riding_5|knows_horse_archery_1, rhodok_face_young_1, rhodok_face_old_2 ],
-  
-  # Heavy infantry, spears, shields
-  # SPECIAL
-  ["rhodok_heavy_spearman", "Rhodok Heavy Spearman", "Rhodok Heavy Spearmen", tf_guarantee_trained_armor|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_54,
-   [itm_war_spear, itm_tab_shield_pavise_c,itm_tab_shield_pavise_c_plain_1,itm_tab_shield_pavise_c_plain_2,
-    itm_mail_boots, itm_mail_mittens,
-    itm_surcoat_over_mail_herald,
-    itm_bascinet_2, itm_bascinet_3, itm_guard_helmet, itm_bascinet,
-    ],
-   str_19|agi_13|int_10|cha_13|level(32), wpex(95,80,150,40,60,40), knows_common|knows_ironflesh_8|knows_power_strike_4|knows_power_throw_1|knows_athletics_3|knows_riding_3|knows_shield_1, rhodok_face_young_1, rhodok_face_old_2 ],
   
   # Medium cavalry, lances, shields
   # SPECIAL

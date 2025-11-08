@@ -8162,7 +8162,7 @@ scripts = [
             
             (faction_set_slot, "fac_culture_5", slot_faction_common_begin, "trp_rhodok_light_infantry"),
             (faction_set_slot, "fac_culture_5", slot_faction_veteran_begin, "trp_rhodok_heavy_infantry"),
-            (faction_set_slot, "fac_culture_5", slot_faction_elite_begin, "trp_rhodok_heavy_pikeman"),
+            (faction_set_slot, "fac_culture_5", slot_faction_elite_begin, "trp_rhodok_heavy_spearman"),
             (faction_set_slot, "fac_culture_5", slot_faction_noble_begin, "trp_rhodok_noble"),
             
             (faction_set_slot, "fac_culture_6", slot_faction_common_begin, "trp_sarranid_medium_infantry"),
@@ -14244,7 +14244,9 @@ scripts = [
             (troop_set_slot, "trp_rhodok_medium_crossbowman", slot_troop_faction_not_1, "fac_small_kingdom_51"), # Has Bowman instead
             (troop_set_slot, "trp_rhodok_heavy_crossbowman", slot_troop_faction_not_1, "fac_small_kingdom_51"), # Has Heavy Bowman instead
             (troop_set_slot, "trp_rhodok_noble", slot_troop_faction_not_1, "fac_small_kingdom_51"), # Has Highlander instead
+            (troop_set_slot, "trp_rhodok_heavy_spearman", slot_troop_faction_not_2, "fac_small_kingdom_51"), # Has Sergeant instead
             (troop_set_slot, "trp_rhodok_medium_cavalry", slot_troop_faction_not_2, "fac_small_kingdom_52"), # 
+            (troop_set_slot, "trp_rhodok_heavy_spearman", slot_troop_faction_not_1, "fac_small_kingdom_52"), # Has Heavy Pikeman instead
             (troop_set_slot, "trp_rhodok_noble", slot_troop_faction_not_2, "fac_small_kingdom_52"), # Has Heroic Pikeman instead
             (troop_set_slot, "trp_rhodok_medium_cavalry", slot_troop_faction_not_1, "fac_small_kingdom_54"), # Has Mounted Crossbowman instead
             
