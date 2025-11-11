@@ -41,6 +41,7 @@ v0.700:
 		* fix bandits not ignoring player after bribe
 		* fix faction leader addressing himself in third person
 		* fix typo in besiege message
+		* add latest version resources to prevent error message with wse
 v0.652:
 	-Other:
 		* fix incorrect release pipeline to copy map.txt file
