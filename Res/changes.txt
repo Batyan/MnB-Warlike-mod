@@ -42,6 +42,7 @@ v0.700:
 		* fix faction leader addressing himself in third person
 		* fix typo in besiege message
 		* add latest version resources to prevent error message with wse
+		* fix introduction quest first dialog camera
 v0.652:
 	-Other:
 		* fix incorrect release pipeline to copy map.txt file

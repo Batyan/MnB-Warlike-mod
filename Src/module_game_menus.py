@@ -787,29 +787,45 @@ game_menus = [
     ## Quests ##
     ############
     ("quest_introduction_default_meeting", 0,
-        "Before you are able to enter the city of {s10} you see a man running towards you.",
+        "{s11}",
         "none",
-        [],
+        [
+            (try_begin),
+                (check_quest_active, "qst_introduction_default"),
+                (str_store_party_name, s10, "$g_encountered_party"),
+                (str_store_string, s11, "@Before you are able to enter the city of {s10} you see a man running towards you."),
+            (else_try),
+                (str_store_party_name, s10, "$g_encountered_party"),
+                (str_store_string, s11, "@You are allowed inside {s10}"),
+            (try_end),
+        ],
         [
             ("wait",
-                [], "Wait for the man to approach.",
+                [
+                    (check_quest_active, "qst_introduction_default"),
+                ], "Wait for the man to approach.",
                 [
                     (assign, "$g_intro_quest_stance", 1),
                     (quest_get_slot, ":troop_object", "qst_introduction_default", slot_quest_object),
                     (troop_set_name, ":troop_object", "@Stranger"),
                     (call_script, "script_setup_troop_meeting", ":troop_object", -1),
-                    (change_screen_return),
-                    (start_map_conversation, ":troop_object"),
                 ]),
             ("prepare_weapons",
-                [], "Ready your weapons and prepare to strike.",
+                [
+                    (check_quest_active, "qst_introduction_default"),
+                ], "Ready your weapons and prepare to strike.",
                 [
                     (assign, "$g_intro_quest_stance", 2),
                     (quest_get_slot, ":troop_object", "qst_introduction_default", slot_quest_object),
                     (troop_set_name, ":troop_object", "@Stranger"),
                     (call_script, "script_setup_troop_meeting", ":troop_object", -1),
-                    (change_screen_return),
-                    (start_map_conversation, ":troop_object"),
+                ]),
+            ("continue",
+                [
+                    (neg|check_quest_active, "qst_introduction_default"),
+                ], "Continue",
+                [
+                    (jump_to_menu, "mnu_town"),
                 ]),
         ]),
 
