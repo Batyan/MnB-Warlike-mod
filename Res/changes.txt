@@ -20,8 +20,8 @@ v0.700:
 		* decrease culture_3 lancer ratio (100 -> 90)
 		* decrease culture_3 horse archer ratio (80 -> 70)
 		* decrease culture_3 mounted skirmisher ratio (50 -> 45)
-		* decrease small_kingdom_21 mounted skirmisher ratio change (65 -> 60)
-		* decrease small_kingdom_21 mounted skirmisher ratio change (-65 -> -60)
+		* decrease small_kingdom_21 horse archer ratio change (65 -> 60)
+		* decrease small_kingdom_21 archer ratio change (-65 -> -60)
 		* display current gold in raise levy menu
 		* add starting renown for player character starting options
 		* add relation change when accepting mercenary contract
