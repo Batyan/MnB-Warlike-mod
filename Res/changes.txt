@@ -4,6 +4,7 @@ v0.700:
 		* add option to control allied troops in combat
 		* add governor handling of fiefs
 		* add message to inform of options during captivity
+		* add banners on top of friendly troops (based on settings)
 	-Balances:
 		* reduce siege reinforcements wave size
 		* remove base grant for recruiting troops

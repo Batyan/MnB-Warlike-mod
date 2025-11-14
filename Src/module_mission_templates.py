@@ -1428,6 +1428,14 @@ battle_death_event = (
 			(try_end),
 		(try_end),
 	])
+
+common_battle_init_banner = (
+	ti_on_agent_spawn, 0, 0, [],
+	[
+		(store_trigger_param_1, ":agent_no"),
+		(agent_get_troop_id, ":troop_no", ":agent_no"),
+		(call_script, "script_troop_agent_set_banner", "tableau_game_troop_label_banner", ":agent_no", ":troop_no"),
+	])
 	
 #################
 ## Definitions ##
@@ -1491,6 +1499,7 @@ mission_templates = [
 			# (4, mtef_visitor_source|mtef_team_3, 0, aif_start_alarmed, 0, []),
 		],
 		[
+			common_battle_init_banner,
 			# test_battle_init_before_battle,
 			test_battle_init_siege,
 			test_battle_siege_spawn_troops,
@@ -1563,6 +1572,7 @@ mission_templates = [
 			(4, mtef_visitor_source|mtef_team_3, 0, aif_start_alarmed, 0, []),
 		],
 		[
+			common_battle_init_banner,
 			test_battle_init,
 			test_battle_spawn_troops,
 			battle_fix_division,
@@ -1631,6 +1641,7 @@ mission_templates = [
 			# (2, mtef_visitor_source|mtef_team_3, 0, aif_start_alarmed, 0, []),
 		],
 		[
+			common_battle_init_banner,
 			battle_init,
 			battle_reinforcements,
 			battle_fix_division,
@@ -1788,6 +1799,7 @@ mission_templates = [
 		],
 		[
 			# test_battle_init_before_battle,
+			common_battle_init_banner,
 			battle_init_siege,
 			battle_reinforcements_siege,
 			test_battle_siege_spawn,
