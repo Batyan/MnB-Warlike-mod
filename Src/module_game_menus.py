@@ -1671,12 +1671,12 @@ game_menus = [
         [
             ("center_keep", [], "Head to the keep",
                 [
-                    (jump_to_menu,"mnu_town_keep"),
+                    (jump_to_menu, "mnu_town_keep"),
                 ]),
             
             ("center_guildmaster",
                 [(disable_menu_option),
-                    (party_slot_eq,"$g_encountered_party", slot_party_type, spt_town),
+                    (party_slot_eq, "$g_encountered_party", slot_party_type, spt_town),
                 ], "Speak to the guildmaster",
                 [
                     #ToDo: guildmaster
@@ -1684,12 +1684,10 @@ game_menus = [
             
             ("center_elder",
                 [
-                    (party_slot_eq,"$g_encountered_party", slot_party_type, spt_village),
+                    (party_slot_eq, "$g_encountered_party", slot_party_type, spt_village),
                 ], "Speak to the village elder",
                 [
                     (call_script, "script_setup_meeting_village_elder", "$g_encountered_party"),
-                    # (change_screen_return),
-                    # (start_map_conversation, "trp_village_elder"),
                 ]),
             
             ("center_market", [], "Go to the marketplace",
@@ -1706,7 +1704,8 @@ game_menus = [
                 ]),
             
             ("center_inn", 
-                [(disable_menu_option),
+                [
+                    (disable_menu_option),
                     (neg|party_slot_eq, "$g_encountered_party", slot_party_type, spt_town),
                 ], "Go to the inn",
                 [
@@ -1833,7 +1832,7 @@ game_menus = [
             ("tournament_enter",
                 [], "Enter as a participant",
                 [
-                    (call_script, "script_party_get_tournament_participants", "$g_encountered_party"),
+                    (call_script, "script_party_get_tournament_participants", "$g_encountered_party", 1),
                     (assign, "$g_tournament_array_troop", reg0),
                     (assign, "$g_tournament_array_index", reg1),
                     (assign, "$g_tournament_array_count", reg2),
@@ -1843,9 +1842,9 @@ game_menus = [
 
                     (jump_to_menu, "mnu_town_tournament_participation"),
                 ]),
-            ("tournament_watch",
-                [], "Watch the tournament",
-                []),
+            # ("tournament_watch",
+            #     [], "Watch the tournament",
+            #     []),
             ("go_back",
                 [], "Go back",
                 [
@@ -1858,7 +1857,7 @@ game_menus = [
         "none",
         [
             (str_clear, s10),
-            (call_script, "script_party_get_tournament_participants", "$g_encountered_party"),
+            (call_script, "script_party_get_tournament_participants", "$g_encountered_party", 0),
 
             (assign, ":array_troop", reg0),
             (assign, ":start_index", reg1),
@@ -1916,7 +1915,7 @@ game_menus = [
                 (store_add, ":end_index", ":start_index", ":num_participants"),
                 (try_for_range, ":index", ":start_index", ":end_index"),
                     (troop_get_slot, ":troop_no", ":array_troop", ":index"),
-                    (gt, ":troop_no", 0),
+                    (ge, ":troop_no", 0),
                     (str_store_troop_name, s12, ":troop_no"),
                     (str_store_string, s11, "@{s11}^{s12}"),
                 (try_end),
@@ -1934,6 +1933,17 @@ game_menus = [
             ("withdraw",
                 [(le, "$g_tournament_current_round", "$g_tournament_num_rounds"),], "Withdraw from the tournament",
                 [
+                    (assign, ":array_troop", "$g_tournament_array_troop"),
+                    (assign, ":start_index", "$g_tournament_array_index"),
+                    (assign, ":num_participants", "$g_tournament_array_count"),
+                    (store_add, ":end_index", ":start_index", ":num_participants"),
+
+                    (try_for_range, ":index", ":start_index", ":end_index"),
+                        (troop_get_slot, ":troop_no", ":array_troop", ":index"),
+                        (eq, ":troop_no", "$g_player_troop"),
+                        (troop_set_slot, ":troop_no", ":array_troop", -1),
+                    (try_end),
+
                     (jump_to_menu, "mnu_town_tournament_end"),
                 ]),
             ("end",
@@ -1944,11 +1954,28 @@ game_menus = [
         ]),
 
     ("town_tournament_battle", mnf_scale_picture,
-        "The next round will consist of {reg0}",
+        "The next round will consist of {reg10} with {reg11} teams of {reg12} fighters",
         "none",
         [
             (str_clear, s10),
-            (call_script, "script_party_get_tournament_round_type", "$g_encountered_party", "$g_tournament_current_round"),
+
+            (assign, ":array_troop", "$g_tournament_array_troop"),
+            (assign, ":start_index", "$g_tournament_array_index"),
+            (assign, ":num_participants", "$g_tournament_array_count"),
+
+            (store_add, ":end_index", ":start_index", ":num_participants"),
+            (assign, ":active_participants", 0),
+            (try_for_range, ":index", ":start_index", ":end_index"),
+                (troop_get_slot, ":troop_no", ":array_troop", ":index"),
+                (ge, ":troop_no", 0),
+                (val_add, ":active_participants", 1),
+            (try_end),
+
+            (call_script, "script_party_get_tournament_round_type", "$g_encountered_party", ":active_participants"),
+            (assign, reg10, reg0),
+            (call_script, "script_party_get_tournament_round_teams", "$g_encountered_party", ":active_participants"),
+            (assign, reg11, reg0),
+            (assign, reg12, reg1),
         ],
         [
             ("continue",
@@ -1957,6 +1984,76 @@ game_menus = [
                     (assign, ":array_troop", "$g_tournament_array_troop"),
                     (assign, ":start_index", "$g_tournament_array_index"),
                     (assign, ":num_participants", "$g_tournament_array_count"),
+
+                    (store_add, ":end_index", ":start_index", ":num_participants"),
+                    (assign, ":active_participants", 0),
+                    (try_for_range, ":index", ":start_index", ":end_index"),
+                        (troop_get_slot, ":troop_no", ":array_troop", ":index"),
+                        (ge, ":troop_no", 0),
+                        (val_add, ":active_participants", 1),
+                    (try_end),
+
+                    (party_get_slot, ":arena_scene", "$g_encountered_party", slot_party_arena_scene),
+
+                    (store_random_in_range, "$g_temp", 0, 10),
+
+                    (set_jump_mission, "mt_arena_tournament"),
+
+                    (call_script, "script_party_get_tournament_round_teams", "$g_encountered_party", ":active_participants"),
+                    (assign, ":num_teams", reg0),
+                    (assign, ":round_team_size", reg1),
+                    # (call_script, "script_party_set_tournament_round_override", "$g_encountered_party", ":round_type"),
+
+                    (store_mul, ":total_visitors", ":num_teams", ":round_team_size"),
+                    (scene_set_slot, ":arena_scene", slot_scene_visitors_count, ":total_visitors"),
+                    (try_for_range, ":index", 0, ":active_participants"),
+                        (store_mul, ":offset", ":index", 2),
+                        (store_add, ":slot", ":offset", slot_scene_visitors_begin),
+                        (scene_set_slot, ":arena_scene", ":slot", -1),
+                    (try_end),
+
+                    (assign, ":scene_troop_index", 0),
+                    (try_for_range, ":index", ":start_index", ":end_index"),
+                        (troop_get_slot, ":troop_no", ":array_troop", ":index"),
+                        (ge, ":troop_no", 0),
+                        
+                        (store_mul, ":visitor_slot", ":scene_troop_index", 2),
+                        (val_add, ":visitor_slot", slot_scene_visitors_begin),
+
+                        (store_add, ":entry_slot", ":visitor_slot", 1),
+
+                        (store_random_in_range, ":rand", 0, ":num_teams"),
+
+                        (assign, ":team", ":rand"),
+                        (assign, ":max_try", ":num_teams"),
+                        (try_for_range, ":unused", 0, ":max_try"),
+                            (assign, ":team_members", 0),
+
+                            (try_for_range, ":cur_participant", 0, ":active_participants"),
+                                (store_mul, ":cur_visitor_slot", ":cur_participant", 2),
+                                (val_add, ":cur_visitor_slot", slot_scene_visitors_begin),
+                                (scene_get_slot, ":cur_visitor", ":arena_scene", ":cur_visitor_slot"),
+                                (ge, ":cur_visitor", 0),
+                                (store_add, ":cur_entry_slot", ":cur_visitor_slot", 1),
+                                (scene_get_slot, ":cur_team", ":arena_scene", ":cur_entry_slot"),
+                                (eq, ":cur_team", ":team"),
+                                (val_add, ":team_members", 1),
+                            (try_end),
+                            (try_begin),
+                                (lt, ":team_members", ":round_team_size"),
+                                (assign, ":max_try", 0),
+                            (else_try),
+                                (val_add, ":team", 1),
+                                (val_mod, ":team", ":num_teams"),
+                            (try_end),
+                        (try_end),
+
+                        (scene_set_slot, ":arena_scene", ":visitor_slot", ":troop_no"),
+                        (scene_set_slot, ":arena_scene", ":entry_slot", ":team"),
+                        (val_add, ":scene_troop_index", 1),
+                    (try_end),
+
+                    (jump_to_scene, ":arena_scene"),
 
                     (set_fixed_point_multiplier, 1),
 
@@ -1967,24 +2064,16 @@ game_menus = [
 
                     (try_for_range, ":unused", 0, ":troops_to_remove"),
                         (store_add, ":end_index", ":start_index", ":num_participants"),
-                        (assign, ":lowest_level", 100),
+                        (assign, ":lowest_level", 1000),
                         (assign, ":loser_index", -1),
                         (try_for_range, ":index", ":start_index", ":end_index"),
                             (troop_get_slot, ":troop_no", ":array_troop", ":index"),
-                            (gt, ":troop_no", 0),
-                            (assign, ":character_level", 0),
-                            (try_begin),
-                                (troop_is_hero, ":troop_no"),
-                                (troop_get_slot, ":character_level", ":troop_no", slot_troop_xp_level),
-                                (troop_get_slot, ":rank", ":troop_no", slot_troop_level),
-                                (val_add, ":rank", 5),
-                                (val_mul, ":rank", 5),
-                                (val_add, ":character_level", ":rank"),
-                            (else_try),
-                                (store_character_level, ":character_level", ":troop_no"),                
-                            (try_end),
-                            (store_random_in_range, ":rand", 0, 20),
-                            (val_add, ":character_level", ":rand"),
+                            (ge, ":troop_no", 0),
+                            (neq, ":troop_no", "$g_player_troop"),
+
+                            (call_script, "script_troop_get_tournament_score", ":troop_no"),
+                            (assign, ":character_level", reg0),
+                            
                             (lt, ":character_level", ":lowest_level"),
                             (assign, ":loser_index", ":index"),
                             (assign, ":lowest_level", ":character_level"),
@@ -1995,9 +2084,8 @@ game_menus = [
                         (try_end),
                     (try_end),
 
-                    (val_add, "$g_tournament_current_round", 1),
-
                     (jump_to_menu, "mnu_town_tournament_participation"),
+                    (change_screen_mission),
                 ]),
         ]),
 
@@ -2017,19 +2105,10 @@ game_menus = [
             (try_for_range, ":index", ":start_index", ":end_index"),
                 (troop_get_slot, ":troop_no", ":array_troop", ":index"),
                 (gt, ":troop_no", 0),
-                (assign, ":character_level", 0),
-                (try_begin),
-                    (troop_is_hero, ":troop_no"),
-                    (troop_get_slot, ":character_level", ":troop_no", slot_troop_xp_level),
-                    (troop_get_slot, ":rank", ":troop_no", slot_troop_level),
-                    (val_add, ":rank", 5),
-                    (val_mul, ":rank", 5),
-                    (val_add, ":character_level", ":rank"),
-                (else_try),
-                    (store_character_level, ":character_level", ":troop_no"),                
-                (try_end),
-                (store_random_in_range, ":rand", 0, 20),
-                (val_add, ":character_level", ":rand"),
+
+                (call_script, "script_troop_get_tournament_score", ":troop_no"),
+                (assign, ":character_level", reg0),
+
                 (gt, ":character_level", ":highest_level"),
                 (assign, ":winner", ":troop_no"),
                 (assign, ":highest_level", ":character_level"),
@@ -2037,7 +2116,7 @@ game_menus = [
 
             (call_script, "script_party_get_tournament_prize", "$g_encountered_party"),
             (assign, ":prize", reg0),
-            (store_div, ":renown", ":prize", 5000),
+            (store_div, ":renown", ":prize", 500),
 
             (try_begin),
                 (eq, ":winner", "$g_player_troop"),

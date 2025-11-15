@@ -5,4 +5,5 @@ mst_battle_test_siege = 3
 mst_battle_test_plain = 4
 mst_battle_field = 5
 mst_battle_siege = 6
-mst_visit_place = 7
+mst_arena_tournament = 7
+mst_visit_place = 8
