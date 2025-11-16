@@ -36,6 +36,7 @@ v0.700:
 		* give rhodok_heavy_spearman to every rhodok culture
 		* restrict rhodok_heavy_pikeman to small_kingdom_52
 		* restrict rhodok_heavy_spearman from small_kingdom_51
+		* increase vaegir_hunter special ratio 100 -> 150
 	-Fixes:
 		* fix character report showing incorrect clan name
 		* fix inconsistency in leadershipp skill description
