@@ -37,6 +37,7 @@ v0.700:
 		* restrict rhodok_heavy_pikeman to small_kingdom_52
 		* restrict rhodok_heavy_spearman from small_kingdom_51
 		* increase vaegir_hunter special ratio 100 -> 150
+		* increase troop ransom by a factor of 10
 	-Fixes:
 		* fix character report showing incorrect clan name
 		* fix inconsistency in leadershipp skill description
@@ -45,6 +46,7 @@ v0.700:
 		* fix typo in besiege message
 		* add latest version resources to prevent error message with wse
 		* fix introduction quest first dialog camera
+		* fix troop ransom favoring mounted troops
 v0.652:
 	-Other:
 		* fix incorrect release pipeline to copy map.txt file

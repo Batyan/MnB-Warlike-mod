@@ -1786,9 +1786,9 @@ scripts = [
             (assign, ":total_price", 0),
             (try_begin),
                 (eq, "$g_talk_troop", "trp_ransom_broker"),
-                (call_script, "script_troop_get_cost", ":troop_no"),
+                (call_script, "script_troop_get_base_cost", ":troop_no"),
                 (store_mul, ":total_price", reg0, 15),
-                (val_div, ":total_price", 100),
+                (val_div, ":total_price", 10),
             (try_end),
 
             (assign, reg0, ":total_price"),
@@ -15167,13 +15167,13 @@ scripts = [
             (assign, reg0, ":total_cost"),
             (assign, reg1, ":total_num_troops"),
         ]),
-    
-    # script_troop_get_cost
-    # input: 
-    #   arg1: troop_id
-    # output:
-    #   reg0: troop cost
-    ("troop_get_cost",
+
+    # script_troop_get_base_cost
+        # input: 
+        #   arg1: troop_id
+        # output:
+        #   reg0: troop cost
+    ("troop_get_base_cost",
         [
             (store_script_param, ":troop_id", 1),
             
@@ -15182,14 +15182,30 @@ scripts = [
             (store_add, ":join_cost", ":level", 8),
             (val_mul, ":join_cost", ":join_cost"),
             (val_div, ":join_cost", 5),
+
+            (val_mul, ":join_cost", 10),
+            
+            (assign, reg0, ":join_cost"), 
+        ]),
+
+    
+    # script_troop_get_cost
+        # input: 
+        #   arg1: troop_id
+        # output:
+        #   reg0: troop cost
+    ("troop_get_cost",
+        [
+            (store_script_param, ":troop_id", 1),
+
+            (call_script, "script_troop_get_base_cost", ":troop_id"),
+            (assign, ":join_cost", reg0),
             
             (try_begin),
                 (troop_is_mounted, ":troop_id"), # 50% increase for mounted troops
                 (val_mul, ":join_cost", 3),
                 (val_div, ":join_cost", 2),
             (try_end),
-
-            (val_mul, ":join_cost", 10),
             
             (assign, reg0, ":join_cost"), 
         ]),
@@ -21806,7 +21822,7 @@ scripts = [
             (party_prisoner_stack_get_troop_id, ":troop_no", ":party_no", ":stack_no"),
             (party_remove_prisoners, ":party_no", ":troop_no", ":amount"),
 
-            (call_script, "script_troop_get_cost", ":troop_no"),
+            (call_script, "script_troop_get_base_cost", ":troop_no"),
             (assign, ":cost", reg0),
             (val_mul, ":cost", 3),
             (val_div, ":cost", 2),
