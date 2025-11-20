@@ -48,6 +48,7 @@ v0.700:
 		* add latest version resources to prevent error message with wse
 		* fix introduction quest first dialog camera
 		* fix troop ransom favoring mounted troops
+		* fix experience messages when receiving 0 xp
 v0.652:
 	-Other:
 		* fix incorrect release pipeline to copy map.txt file
