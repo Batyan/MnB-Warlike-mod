@@ -1429,6 +1429,32 @@ battle_death_event = (
 		(try_end),
 	])
 
+battle_death_event_simple = (
+	ti_on_agent_killed_or_wounded, 0, 0,
+	[],
+	[
+		(store_trigger_param_1, ":dead_agent_no"),
+		(store_trigger_param_2, ":killer_agent_no"),
+		# (store_trigger_param_3, ":is_wounded"),
+
+		(try_begin),
+			(agent_is_human, ":dead_agent_no"),
+			(agent_get_troop_id, ":dead_troop_id", ":dead_agent_no"),
+			(agent_get_troop_id, ":killer_troop_id", ":killer_agent_no"),
+
+			(try_begin),
+				(ge, ":killer_troop_id", 0),
+				(ge, ":dead_troop_id", 0),
+
+				(troop_is_hero, ":killer_troop_id"),
+
+				(call_script, "script_troop_get_xp_value", ":dead_troop_id"),
+				(assign, ":xp_value", reg0),
+				(call_script, "script_troop_add_xp", ":killer_troop_id", ":xp_value"),
+			(try_end),
+		(try_end),
+	])
+
 common_battle_init_banner = (
 	ti_on_agent_spawn, 0, 0, [],
 	[
@@ -2004,6 +2030,8 @@ mission_templates = [
 			(8, mtef_visitor_source|mtef_team_3, af_override_all, aif_start_alarmed, 1, []),
 		],
 		[
+			battle_death_event_simple,
+
 			(ti_after_mission_start, 0, 0, [],
 				[
 					(store_current_scene, ":scene"),
@@ -2063,8 +2091,135 @@ mission_templates = [
 			
 			(ti_tab_pressed, 0, 0, [],
 				[
-                    (val_add, "$g_tournament_current_round", 1),
-					(finish_mission, 0),
+					(assign, ":team_alive", -1),
+					(try_for_agents, ":agent_no"),
+						(agent_is_alive, ":agent_no"),
+						(agent_is_human, ":agent_no"),
+
+						(agent_get_team, ":team", ":agent_no"),
+						(try_begin),
+							(this_or_next|eq, ":team_alive", -1),
+							(eq, ":team_alive", ":team"),
+
+							(assign, ":team_alive", ":team"),
+						(else_try),
+							(assign, ":team_alive", -2),
+						(try_end),
+					(try_end),
+
+					(try_begin),
+						(eq, ":team_alive", -2),
+						# multiple teams are still alive
+					(else_try),
+						# (eq, ":team_alive", -1),
+						# no teams are alive -- draw
+					# (else_try),
+                    	(set_fixed_point_multiplier, 1),
+	                    (assign, ":troops_to_remove", 0),
+	                    (store_pow, ":div", 2, "$g_tournament_current_round"),
+	                    (store_add, ":tournament_total_members", "$g_tournament_array_count", 1),
+	                    (store_div, ":troops_to_remove", ":tournament_total_members", ":div"),
+
+	                    (assign, ":array_troop", "$g_tournament_array_troop"),
+	                    (assign, ":start_index", "$g_tournament_array_index"),
+	                    (assign, ":num_participants", "$g_tournament_array_count"),
+
+	                    (try_for_range, ":unused", 0, ":troops_to_remove"),
+	                        (assign, ":lowest_level", 1000),
+	                        (assign, ":loser_troop", -1),
+
+							(try_for_agents, ":agent_no"),
+								(agent_is_human, ":agent_no"),
+								(agent_get_team, ":team", ":agent_no"),
+								(try_begin),
+									(neq, ":team", ":team_alive"),
+									(agent_get_troop_id, ":troop_no", ":agent_no"),
+
+									(assign, ":continue", 0),
+		                        	(store_add, ":end_index", ":start_index", ":num_participants"),
+		                        	(try_for_range, ":index", ":start_index", ":end_index"),
+	                        			(troop_get_slot, ":cur_troop", ":array_troop", ":index"),
+	                        			(eq, ":troop_no", ":cur_troop"),
+
+		                            	(assign, ":end_index", 0),
+		                            	(assign, ":continue", 1),
+		                        	(try_end),
+		                        	(eq, ":continue", 1),
+
+		                            (call_script, "script_troop_get_tournament_score", ":troop_no"),
+		                            (assign, ":character_level", reg0),
+	                            
+		                            (lt, ":character_level", ":lowest_level"),
+		                            (assign, ":loser_troop", ":troop_no"),
+		                            (assign, ":lowest_level", ":character_level"),
+								(try_end),
+							(try_end),
+	                        (try_begin),
+	                            (ge, ":loser_troop", 0),
+
+	                        	(store_add, ":end_index", ":start_index", ":num_participants"),
+	                        	(try_for_range, ":index", ":start_index", ":end_index"),
+                        			(troop_get_slot, ":troop_no", ":array_troop", ":index"),
+                        			(eq, ":troop_no", ":loser_troop"),
+
+	                            	(troop_set_slot, ":array_troop", ":index", -1),
+	                            	(assign, ":end_index", 0),
+
+		                            (try_begin),
+		                            	(call_script, "script_cf_debug", debug_simple),
+		                            	(str_store_troop_name, s10, ":loser_troop"),
+		                            	(display_message, "@Removing loser troop {s10}"),
+		                            (try_end),
+	                        	(try_end),
+	                        (try_end),
+	                    (try_end),
+
+	                    (try_begin),
+	                    	(eq, ":team_alive", -1),
+	                    	(assign, "$g_battle_result", outcome_neutral),
+	                    (else_try),
+	                    	(get_player_agent_no, ":player_agent"),
+	                    	(ge, ":player_agent", 0),
+	                    	(agent_get_team, ":player_team", ":player_agent"),
+	                    	(eq, ":player_team", ":team_alive"),
+	                    	(assign, "$g_battle_result", outcome_success),
+	                    (else_try),
+	                    	(assign, "$g_battle_result", outcome_failure),
+	                    (try_end),
+	                    
+	                    (val_add, "$g_tournament_current_round", 1),
+						(finish_mission, 0),
+					(try_end),
+				]),
+
+			(2, 0, 0, [],
+				[
+					(assign, ":team_alive", -1),
+					(try_for_agents, ":agent_no"),
+						(agent_is_alive, ":agent_no"),
+						(agent_is_human, ":agent_no"),
+
+						(agent_get_team, ":team", ":agent_no"),
+						(try_begin),
+							(this_or_next|eq, ":team_alive", -1),
+							(eq, ":team_alive", ":team"),
+
+							(assign, ":team_alive", ":team"),
+						(else_try),
+							(assign, ":team_alive", -2),
+						(try_end),
+					(try_end),
+
+					(try_begin),
+						(eq, ":team_alive", -2),
+						# multiple teams are still alive
+					(else_try),
+						(eq, ":team_alive", -1),
+						# no teams are alive -- draw
+						(display_message, "@Battle over. Press tab to continue."),
+					(else_try),
+						(display_message, "@Battle over. Press tab to continue."),
+					(try_end),
 				]),
 		]),
 	

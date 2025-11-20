@@ -31563,7 +31563,7 @@ scripts = [
                 (assign, ":num_teams", 2),
                 (assign, ":round_team_size", 1),
             (else_try),
-                (eq, ":num_participants", 16),
+                (ge, ":num_participants", 16),
                 (assign, ":num_teams", 4),
             (try_end),
 

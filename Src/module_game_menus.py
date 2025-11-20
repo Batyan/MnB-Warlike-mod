@@ -1926,7 +1926,28 @@ game_menus = [
         ],
         [
             ("next_round",
-                [(le, "$g_tournament_current_round", "$g_tournament_num_rounds"),], "Participate in the next round",
+                [
+                    (le, "$g_tournament_current_round", "$g_tournament_num_rounds"),
+
+                    (assign, ":array_troop", "$g_tournament_array_troop"),
+                    (assign, ":start_index", "$g_tournament_array_index"),
+                    (assign, ":num_participants", "$g_tournament_array_count"),
+                    (assign, ":player_participating", 0),
+
+                    (store_add, ":end_index", ":start_index", ":num_participants"),
+                    (try_for_range, ":index", ":start_index", ":end_index"),
+                        (troop_get_slot, ":troop_no", ":array_troop", ":index"),
+                        (eq, ":troop_no", "$g_player_troop"),
+                        (assign, ":player_participating", 1),
+                    (try_end),
+
+                    (try_begin),
+                        (eq, ":player_participating", 1),
+                        (str_store_string, s13, "@Participate in the next round"),
+                    (else_try),
+                        (str_store_string, s13, "@Watch the next round"),
+                    (try_end),
+                ], "{s13}",
                 [
                     (jump_to_menu, "mnu_town_tournament_battle"),
                 ]),
@@ -1954,7 +1975,7 @@ game_menus = [
         ]),
 
     ("town_tournament_battle", mnf_scale_picture,
-        "The next round will consist of {reg10} with {reg11} teams of {reg12} fighters",
+        "The next round will consist of {reg10} with {reg11} teams of {reg12} fighters^^{s11}",
         "none",
         [
             (str_clear, s10),
@@ -1976,6 +1997,13 @@ game_menus = [
             (call_script, "script_party_get_tournament_round_teams", "$g_encountered_party", ":active_participants"),
             (assign, reg11, reg0),
             (assign, reg12, reg1),
+
+            (try_begin),
+                (eq, reg11, 2),
+                (str_store_string, s11, "@Only the winning team will participate in the next round"),
+            (else_try),
+                (str_store_string, s11, "@The winning team and exemplary participants will be allowed in the next round"),
+            (try_end),
         ],
         [
             ("continue",
@@ -2055,37 +2083,44 @@ game_menus = [
 
                     (jump_to_scene, ":arena_scene"),
 
-                    (set_fixed_point_multiplier, 1),
-
-                    (assign, ":troops_to_remove", 0),
-                    (store_pow, ":div", 2, "$g_tournament_current_round"),
-                    (store_add, ":tournament_total_members", "$g_tournament_array_count", 1),
-                    (store_div, ":troops_to_remove", ":tournament_total_members", ":div"),
-
-                    (try_for_range, ":unused", 0, ":troops_to_remove"),
-                        (store_add, ":end_index", ":start_index", ":num_participants"),
-                        (assign, ":lowest_level", 1000),
-                        (assign, ":loser_index", -1),
-                        (try_for_range, ":index", ":start_index", ":end_index"),
-                            (troop_get_slot, ":troop_no", ":array_troop", ":index"),
-                            (ge, ":troop_no", 0),
-                            (neq, ":troop_no", "$g_player_troop"),
-
-                            (call_script, "script_troop_get_tournament_score", ":troop_no"),
-                            (assign, ":character_level", reg0),
-                            
-                            (lt, ":character_level", ":lowest_level"),
-                            (assign, ":loser_index", ":index"),
-                            (assign, ":lowest_level", ":character_level"),
-                        (try_end),
-                        (try_begin),
-                            (is_between, ":loser_index", ":start_index", ":end_index"),
-                            (troop_set_slot, ":array_troop", ":loser_index", -1),
-                        (try_end),
-                    (try_end),
-
-                    (jump_to_menu, "mnu_town_tournament_participation"),
+                    (jump_to_menu, "mnu_town_tournament_battle_end"),
                     (change_screen_mission),
+                ]),
+        ]),
+
+    ("town_tournament_battle_end", mnf_scale_picture,
+        "The round has ended {s10}",
+        "none",
+        [
+            (assign, ":player_participating", 0),
+
+            (assign, ":array_troop", "$g_tournament_array_troop"),
+            (assign, ":start_index", "$g_tournament_array_index"),
+            (assign, ":num_participants", "$g_tournament_array_count"),
+
+            (store_add, ":end_index", ":start_index", ":num_participants"),
+            (assign, ":player_participating", 0),
+            (try_for_range, ":index", ":start_index", ":end_index"),
+                (troop_get_slot, ":troop_no", ":array_troop", ":index"),
+                (eq, ":troop_no", "$g_player_troop"),
+                (assign, ":player_participating", 1),
+            (try_end),
+
+            (try_begin),
+                (eq, "$g_battle_result", outcome_success),
+                (str_store_string, s10, "@and your team was victorious"),
+            (else_try),
+                (eq, ":player_participating", 1),
+                (str_store_string, s10, "@and your team was defeated.^However you are allowed in the next round because of the valor you displayed in combat."),
+            (else_try),
+                (str_store_string, s10, "@and your team was defeated.^You have been removed from the participants."),
+            (try_end),
+        ],
+        [
+            ("continue",
+                [], "Continue",
+                [
+                    (jump_to_menu, "mnu_town_tournament_participation"),
                 ]),
         ]),
 
