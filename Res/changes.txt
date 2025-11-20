@@ -38,6 +38,7 @@ v0.700:
 		* restrict rhodok_heavy_spearman from small_kingdom_51
 		* increase vaegir_hunter special ratio 100 -> 150
 		* increase troop ransom by a factor of 10
+		* increase items price in shops by a factor of 10~40
 	-Fixes:
 		* fix character report showing incorrect clan name
 		* fix inconsistency in leadershipp skill description
