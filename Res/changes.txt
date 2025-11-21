@@ -41,6 +41,7 @@ v0.700:
 		* increase items price in shops by a factor of 10~40
 		* increase vaegir_militia special ratio 40 -> 50
 		* decrease vaegir_levy_infantry special ratio 80 -> 60
+		* increase staff weapons thrust damage
 	-Fixes:
 		* fix character report showing incorrect clan name
 		* fix inconsistency in leadershipp skill description
