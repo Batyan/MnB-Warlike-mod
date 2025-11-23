@@ -330,7 +330,7 @@ train_levies_cost = 25
 
 merchants_update_rate = 7*24
 
-reinforcement_range = 8
+reinforcement_range = 6
 
 starting_year = 733
 
