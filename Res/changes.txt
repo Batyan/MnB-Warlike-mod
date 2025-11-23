@@ -36,11 +36,11 @@ v0.700:
 		* give rhodok_heavy_spearman to every rhodok culture
 		* restrict rhodok_heavy_pikeman to small_kingdom_52
 		* restrict rhodok_heavy_spearman from small_kingdom_51
-		* increase vaegir_hunter special ratio 100 -> 150
-		* increase troop ransom by a factor of 10
-		* increase items price in shops by a factor of 10~40
-		* increase vaegir_militia special ratio 40 -> 50
-		* decrease vaegir_levy_infantry special ratio 80 -> 60
+		* increase vaegir_hunter special ratio (100 -> 150)
+		* increase troop ransom (x10)
+		* increase items price in shops (x10~40)
+		* increase vaegir_militia special ratio (40 -> 50)
+		* decrease vaegir_levy_infantry special ratio (80 -> 60)
 		* increase staff weapons thrust damage
 	-Fixes:
 		* fix character report showing incorrect clan name
