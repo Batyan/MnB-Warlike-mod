@@ -44,6 +44,7 @@ v0.700:
 		* decrease vaegir_levy_infantry special ratio (80 -> 60)
 		* increase staff weapons thrust damage
 		* reduce base party join range (8 -> 6)
+		* increase amount/quality of loot after battles
 	-Fixes:
 		* fix character report showing incorrect clan name
 		* fix inconsistency in leadershipp skill description

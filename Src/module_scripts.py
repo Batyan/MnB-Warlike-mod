@@ -15930,13 +15930,13 @@ scripts = [
                     (lt, ":free_inventory", 5),
                     # Not enough free space, remove low price items
                     (troop_sort_inventory, ":loot_storage"),
-                    (troop_ensure_inventory_space, ":loot_storage", 10),
+                    (troop_ensure_inventory_space, ":loot_storage", 8),
                 (try_end),
 
                 (party_stack_get_troop_id, ":troop_no", ":party_no", ":cur_stack"),
                 (party_stack_get_size, ":size", ":party_no", ":cur_stack"),
 
-                (store_mul, ":probability", ":size", 200),
+                (store_mul, ":probability", ":size", 2000),
                 (val_div, ":probability", ":divider"),
                 # Min amount of loot from troop
                 # Improves variety of loot
