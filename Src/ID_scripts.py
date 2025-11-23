@@ -612,9 +612,11 @@ script_entry_point_set_tournament_shield = 610
 script_entry_point_set_tournament_armor = 611
 script_troop_get_tournament_score = 612
 script_cf_troop_is_in_center = 613
-script_presentation_generate_select_lord_card = 614
-script_presentation_create_text_overlay = 615
-script_presentation_create_combo_button_overlay = 616
-script_presentation_create_check_box_overlay = 617
+script_party_group_end_battle_update_relations = 614
+script_party_end_battle_update_relations = 615
+script_presentation_generate_select_lord_card = 616
+script_presentation_create_text_overlay = 617
+script_presentation_create_combo_button_overlay = 618
+script_presentation_create_check_box_overlay = 619
 
 
