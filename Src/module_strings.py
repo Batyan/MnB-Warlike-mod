@@ -493,12 +493,12 @@ strings = [
   ("building_smithy",           "Presence of a smithy increases the quality^of weapons and helps keep them in shape.^^Increases melee damage by 5% when defending."),
   ("building_stables",          "A healthy home for weary horses.^The stables are a place for breeding ^and caring of horses.^^Allows for more horses to be sold^and they may be sold for profit."),
   ("building_archery_range",    "The archery range is a place of practice for archers.^When defending increases accuracy by 5%."),
-  ("building_barrack",          "The barracks are a place of rest and training for soldiers.^Increases the chance for common units to be trained. When defending, adds a random number of common units, trained from the population."),
+  ("building_barrack",          "The barracks are a place of rest for soldiers.^^Reduces garrison wages by 10%."),
   ("building_food_store",       "The food stores allows a center to hold more during sieges."),
   ("building_recruitement_camp", "The recruitment camp adds infrastructures^to facilitates recruitment of troops.^^Reduces recruitment cost of troops by 10%."),
   ("building_mason_guild",      "Creates a guild for handling masonry work. ^^Increases construction slots by 1.^Decreases building time by 10%"),
 
-  ("building_barrack_2",        "The improved barracks are a place of rest and training for soldiers.^Increases the chance for veteran units to be trained. When defending, adds a random number of common and veteran units, trained from the population."),
+  ("building_barrack_2",        "The improved barracks are a place of rest^for soldiers.^^Further reduces garrison wages by 10%."),
   ("building_smithy_2",         "The improved smithy further increases the quality of weapons.^Increases melee damage by and additionnal 10%."),
   ("building_training_camp",    "The training camp serves as a military training ground.^When defending, increases health of units by an additional 1HP for every 4 points of intelligence. Allows militia units to upgrade to better ones."),
   ("building_training_camp_2",  "The upgraded training camp serves as a military training ground.^When defending, increase health of units by an additional 1HP for every 2 points of intelligence."),
@@ -1179,7 +1179,7 @@ strings = [
   ("attribute_charisma_description", "Each point increases the amount of shared experience gained after combat by 2%. The following skills can not be developed beyond 1/3 of Charisma: Persuasion, Prisoner Management, Leadership, Trade"),
 
   ("skill_trade_description","Every level of this skill reduces your trade penalty. (Party skill)"),
-  ("skill_leadership_description","Every point reduces troop wages by 2%. (Leader skill)"),
+  ("skill_leadership_description","Every level of this skill reduces troop wages by 2%. (Leader skill)"),
   ("skill_prisoner_management_description", "Every level of this skill increases maximum number of prisoners by +5 + 10% of your party size and reduces the penalties of having prisoners in your party. (Leader skill)"),
   ("skill_reserved_1_description","Reserved Skill"),
   ("skill_reserved_2_description","Reserved Skill"),

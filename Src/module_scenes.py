@@ -44,10 +44,6 @@ scenes = [
   ("test_scene",sf_generate,"none", "none", (0,0),(120,120),-100,"0x0230817a00028ca300007f4a0000479400161992",
     [],[], "outer_terrain_plain"),
 	
-	
-	
-	
-	
 	###########
 	## Other ##
 	###########
@@ -139,9 +135,54 @@ scenes = [
 		[],[]),
 	("meeting_scene_desert_forest",0,"ch_meet_desert_a", "bo_encounter_spot", (-40,-40),(40,40),-100,"0",
 		[],[]),
-		
-		
-		
+
+
+	("town_1_arena",sf_generate,"none", "none", (0,0),(100,100),-100,"0xa0001d9300031ccb0000156f000048ba0000361c",
+		[],[],"outer_terrain_plain"),
+	("town_2_arena",sf_generate,"none", "none", (0,0),(100,100),-100,"0xa0001d9300031ccb0000156f000048ba0000361c",
+		[],[],"outer_terrain_town_thir_1"),
+	("town_3_arena",sf_generate,"none", "none", (0,0),(100,100),-100,"0xa0001d9300031ccb0000156f000048ba0000361c",
+		[],[]),
+	("town_4_arena",sf_generate,"none", "none", (0,0),(100,100),-100,"0xa0001d9300031ccb0000156f000048ba0000361c",
+		[],[],"outer_terrain_plain"),
+	("town_5_arena",sf_generate,"none", "none", (0,0),(100,100),-100,"0xa0001d9300031ccb0000156f000048ba0000361c",
+		[],[],"outer_terrain_plain"),
+	("town_6_arena",sf_generate,"none", "none", (0,0),(100,100),-100,"0xa0001d9300031ccb0000156f000048ba0000361c",
+		[],[],"outer_terrain_plain"),
+	("town_7_arena",sf_generate,"none", "none", (0,0),(100,100),-100,"0xa0001d9300031ccb0000156f000048ba0000361c",
+		[],[],"outer_terrain_plain"),
+	("town_8_arena",sf_generate,"none", "none", (0,0),(100,100),-100,"0xa0001d9300031ccb0000156f000048ba0000361c",
+		[],[],"outer_terrain_plain"),
+	("town_9_arena",sf_generate,"none", "none", (0,0),(100,100),-100,"0x40001d9300031ccb0000156f000048ba0000361c",
+		[],[],"outer_terrain_snow"),
+	("town_10_arena",sf_generate,"none", "none", (0,0),(100,100),-100,"0x00000002200005000005f57b00005885000046bd00006d9c",
+		[],[],"outer_terrain_steppe"),
+	("town_11_arena",sf_generate,"none", "none", (0,0),(100,100),-100,"0x40001d9300031ccb0000156f000048ba0000361c",
+		[],[],"outer_terrain_snow"),
+	("town_12_arena",sf_generate,"none", "none", (0,0),(100,100),-100,"0xa0001d9300031ccb0000156f000048ba0000361c",
+		[],[],"outer_terrain_town_thir_1"),
+	("town_13_arena",sf_generate,"none", "none", (0,0),(100,100),-100,"0xa0001d9300031ccb0000156f000048ba0000361c",
+		[],[]),
+	("town_14_arena",sf_generate,"none", "none", (0,0),(100,100),-100,"0x00000002200005000005f57b00005885000046bd00006d9c",
+		[],[],"outer_terrain_steppe"),
+	("town_15_arena",sf_generate,"none", "none", (0,0),(100,100),-100,"0xa0001d9300031ccb0000156f000048ba0000361c",
+		[],[],"outer_terrain_plain"),
+	("town_16_arena",sf_generate,"none", "none", (0,0),(100,100),-100,"0xa0001d9300031ccb0000156f000048ba0000361c",
+		[],[],"outer_terrain_plain"),
+	("town_17_arena",sf_generate,"none", "none", (0,0),(100,100),-100,"0x00000002200005000005f57b00005885000046bd00006d9c",
+		[],[],"outer_terrain_steppe"),
+	("town_18_arena",sf_generate,"none", "none", (0,0),(100,100),-100,"0x00000002200005000005f57b00005885000046bd00006d9c",
+		[],[],"outer_terrain_steppe"),
+	("town_19_arena",sf_generate,"none", "none", (0,0),(100,100),-100,"0x00000002200005000005f57b00005885000046bd00006d9c",
+		[],[],"outer_terrain_desert"),
+	("town_20_arena",sf_generate,"none", "none", (0,0),(100,100),-100,"0x00000002200005000005f57b00005885000046bd00006d9c",
+		[],[],"outer_terrain_desert"),
+	("town_21_arena",sf_generate,"none", "none", (0,0),(100,100),-100,"0x00000002200005000005f57b00005885000046bd00006d9c",
+		[],[],"outer_terrain_desert"),
+	("town_22_arena",sf_generate,"none", "none", (0,0),(100,100),-100,"0x00000002200005000005f57b00005885000046bd00006d9c",
+		[],[],"outer_terrain_desert"),
+
+
 	("places_plain_stone_obelisk",sf_generate,"none", "none", (-40,-40),(40,40),-100,"0x0000000239c0115d00087221000042c600005a4300000fa1",
 		[],[], "outer_terrain_plain"),
 	("places_desert_grand_tree",0,"none", "none", (-40,-40),(40,40),-100,"0x0000000239c0115d00087221000042c600005a4300000fa1",

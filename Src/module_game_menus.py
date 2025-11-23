@@ -787,29 +787,45 @@ game_menus = [
     ## Quests ##
     ############
     ("quest_introduction_default_meeting", 0,
-        "Before you are able to enter the city of {s10} you see a man running towards you.",
+        "{s11}",
         "none",
-        [],
+        [
+            (try_begin),
+                (check_quest_active, "qst_introduction_default"),
+                (str_store_party_name, s10, "$g_encountered_party"),
+                (str_store_string, s11, "@Before you are able to enter the city of {s10} you see a man running towards you."),
+            (else_try),
+                (str_store_party_name, s10, "$g_encountered_party"),
+                (str_store_string, s11, "@You are allowed inside {s10}"),
+            (try_end),
+        ],
         [
             ("wait",
-                [], "Wait for the man to approach.",
+                [
+                    (check_quest_active, "qst_introduction_default"),
+                ], "Wait for the man to approach.",
                 [
                     (assign, "$g_intro_quest_stance", 1),
                     (quest_get_slot, ":troop_object", "qst_introduction_default", slot_quest_object),
                     (troop_set_name, ":troop_object", "@Stranger"),
                     (call_script, "script_setup_troop_meeting", ":troop_object", -1),
-                    (change_screen_return),
-                    (start_map_conversation, ":troop_object"),
                 ]),
             ("prepare_weapons",
-                [], "Ready your weapons and prepare to strike.",
+                [
+                    (check_quest_active, "qst_introduction_default"),
+                ], "Ready your weapons and prepare to strike.",
                 [
                     (assign, "$g_intro_quest_stance", 2),
                     (quest_get_slot, ":troop_object", "qst_introduction_default", slot_quest_object),
                     (troop_set_name, ":troop_object", "@Stranger"),
                     (call_script, "script_setup_troop_meeting", ":troop_object", -1),
-                    (change_screen_return),
-                    (start_map_conversation, ":troop_object"),
+                ]),
+            ("continue",
+                [
+                    (neg|check_quest_active, "qst_introduction_default"),
+                ], "Continue",
+                [
+                    (jump_to_menu, "mnu_town"),
                 ]),
         ]),
 
@@ -1655,12 +1671,12 @@ game_menus = [
         [
             ("center_keep", [], "Head to the keep",
                 [
-                    (jump_to_menu,"mnu_town_keep"),
+                    (jump_to_menu, "mnu_town_keep"),
                 ]),
             
             ("center_guildmaster",
                 [(disable_menu_option),
-                    (party_slot_eq,"$g_encountered_party", slot_party_type, spt_town),
+                    (party_slot_eq, "$g_encountered_party", slot_party_type, spt_town),
                 ], "Speak to the guildmaster",
                 [
                     #ToDo: guildmaster
@@ -1668,12 +1684,10 @@ game_menus = [
             
             ("center_elder",
                 [
-                    (party_slot_eq,"$g_encountered_party", slot_party_type, spt_village),
+                    (party_slot_eq, "$g_encountered_party", slot_party_type, spt_village),
                 ], "Speak to the village elder",
                 [
                     (call_script, "script_setup_meeting_village_elder", "$g_encountered_party"),
-                    # (change_screen_return),
-                    # (start_map_conversation, "trp_village_elder"),
                 ]),
             
             ("center_market", [], "Go to the marketplace",
@@ -1690,7 +1704,8 @@ game_menus = [
                 ]),
             
             ("center_inn", 
-                [(disable_menu_option),
+                [
+                    (disable_menu_option),
                     (neg|party_slot_eq, "$g_encountered_party", slot_party_type, spt_town),
                 ], "Go to the inn",
                 [
@@ -1719,11 +1734,22 @@ game_menus = [
         ]),
     
     ("town_keep", mnf_scale_picture,
-        "You are in the political and military section of the center",
+        "{s10}",
         "none",
         [
             (set_background_mesh, "mesh_pic_camp"),
-            
+
+            (str_clear, s11),
+            (try_begin),
+                (call_script, "script_party_get_tournament_dates", "$g_encountered_party"),
+                (assign, ":begin_date", reg0),
+                (assign, ":end_date", reg1),
+                (call_script, "script_get_current_day"),
+                (assign, ":current_day", reg0),
+                (is_between, ":current_day", ":begin_date", ":end_date"),
+                (str_store_string, s11, "@A tournament is currently being held."),
+            (try_end),
+            (str_store_string, s10, "@You are in the political and military section of the center.^^{s11}"),
         ],
         [
             ("center_manage_clan", [(party_slot_eq, "$g_encountered_party", slot_party_leader, "$g_player_troop"),(troop_slot_eq, "$g_player_troop", slot_troop_home, "$g_encountered_party"),], "Manage clan",
@@ -1739,6 +1765,19 @@ game_menus = [
             ("center_hall", [(disable_menu_option),], "Go to the main hall",
                 [
                     #ToDo: hall
+                ]),
+
+            ("center_tournament",
+                [
+                    (call_script, "script_party_get_tournament_dates", "$g_encountered_party"),
+                    (assign, ":begin_date", reg0),
+                    (assign, ":end_date", reg1),
+                    (call_script, "script_get_current_day"),
+                    (assign, ":current_day", reg0),
+                    (is_between, ":current_day", ":begin_date", ":end_date"),
+                ], "Join the tournament",
+                [
+                    (jump_to_menu, "mnu_town_tournament"),
                 ]),
             
             ("center_recruit",
@@ -1770,6 +1809,365 @@ game_menus = [
                     # (leave_encounter),
                     (change_screen_return),
                     (change_screen_map),
+                ]),
+        ]),
+
+    ("town_tournament", mnf_scale_picture,
+        "A tournament is held in {s10}.",
+        "none",
+        [
+            (str_store_party_name, s10, "$g_encountered_party"),
+        ],
+        [
+            ("tournament_participants",
+                [], "View participants",
+                [
+                    (jump_to_menu, "mnu_town_tournament_participants"),
+                ]),
+            ("tournament_prize",
+                [], "View prize",
+                [
+                    (jump_to_menu, "mnu_town_tournament_prize"),
+                ]),
+            ("tournament_enter",
+                [], "Enter as a participant",
+                [
+                    (call_script, "script_party_get_tournament_participants", "$g_encountered_party", 1),
+                    (assign, "$g_tournament_array_troop", reg0),
+                    (assign, "$g_tournament_array_index", reg1),
+                    (assign, "$g_tournament_array_count", reg2),
+
+                    (assign, "$g_tournament_current_round", 1),
+                    (assign, "$g_tournament_num_rounds", 4),
+
+                    (jump_to_menu, "mnu_town_tournament_participation"),
+                ]),
+            # ("tournament_watch",
+            #     [], "Watch the tournament",
+            #     []),
+            ("go_back",
+                [], "Go back",
+                [
+                    (jump_to_menu, "mnu_town_keep"),
+                ]),
+        ]),
+
+    ("town_tournament_participants", mnf_scale_picture,
+        "Participants :^{s10}",
+        "none",
+        [
+            (str_clear, s10),
+            (call_script, "script_party_get_tournament_participants", "$g_encountered_party", 0),
+
+            (assign, ":array_troop", reg0),
+            (assign, ":start_index", reg1),
+            (assign, ":num_participants", reg2),
+
+            (store_add, ":end_index", ":start_index", ":num_participants"),
+            (try_for_range, ":index", ":start_index", ":end_index"),
+                (troop_get_slot, ":troop_no", ":array_troop", ":index"),
+                (str_store_troop_name, s11, ":troop_no"),
+                (str_store_string, s10, "@{s10}^{s11}"),
+            (try_end),
+        ],
+        [
+            ("go_back",
+                [], "Go back",
+                [
+                    (jump_to_menu, "mnu_town_tournament"),
+                ]),
+        ]),
+
+    ("town_tournament_prize", mnf_scale_picture,
+        "Prize for the tournament is {s0}{s11}",
+        "none",
+        [
+            (str_clear, s10),
+            (str_clear, s11),
+
+            (call_script, "script_party_get_tournament_prize", "$g_encountered_party"),
+            (assign, ":prize", reg0),
+            (call_script, "script_game_get_money_text", ":prize"),
+        ],
+        [
+            ("go_back",
+                [], "Go back",
+                [
+                    (jump_to_menu, "mnu_town_tournament"),
+                ]),
+        ]),
+
+    ("town_tournament_participation", mnf_scale_picture,
+        "{s10}",
+        "none",
+        [
+            (str_clear, s10),
+            (str_clear, s11),
+            (str_clear, s12),
+
+            (try_begin),
+                (le, "$g_tournament_current_round", "$g_tournament_num_rounds"),
+
+                (assign, ":array_troop", "$g_tournament_array_troop"),
+                (assign, ":start_index", "$g_tournament_array_index"),
+                (assign, ":num_participants", "$g_tournament_array_count"),
+
+                (store_add, ":end_index", ":start_index", ":num_participants"),
+                (try_for_range, ":index", ":start_index", ":end_index"),
+                    (troop_get_slot, ":troop_no", ":array_troop", ":index"),
+                    (ge, ":troop_no", 0),
+                    (str_store_troop_name, s12, ":troop_no"),
+                    (str_store_string, s11, "@{s11}^{s12}"),
+                (try_end),
+                (str_store_string, s10, "@Participants left: ^{s11}"),
+            (else_try),
+                (str_store_string, s10, "@The tournament has concluded"),
+            (try_end),
+        ],
+        [
+            ("next_round",
+                [
+                    (le, "$g_tournament_current_round", "$g_tournament_num_rounds"),
+
+                    (assign, ":array_troop", "$g_tournament_array_troop"),
+                    (assign, ":start_index", "$g_tournament_array_index"),
+                    (assign, ":num_participants", "$g_tournament_array_count"),
+                    (assign, ":player_participating", 0),
+
+                    (store_add, ":end_index", ":start_index", ":num_participants"),
+                    (try_for_range, ":index", ":start_index", ":end_index"),
+                        (troop_get_slot, ":troop_no", ":array_troop", ":index"),
+                        (eq, ":troop_no", "$g_player_troop"),
+                        (assign, ":player_participating", 1),
+                    (try_end),
+
+                    (try_begin),
+                        (eq, ":player_participating", 1),
+                        (str_store_string, s13, "@Participate in the next round"),
+                    (else_try),
+                        (str_store_string, s13, "@Watch the next round"),
+                    (try_end),
+                ], "{s13}",
+                [
+                    (jump_to_menu, "mnu_town_tournament_battle"),
+                ]),
+            ("withdraw",
+                [(le, "$g_tournament_current_round", "$g_tournament_num_rounds"),], "Withdraw from the tournament",
+                [
+                    (assign, ":array_troop", "$g_tournament_array_troop"),
+                    (assign, ":start_index", "$g_tournament_array_index"),
+                    (assign, ":num_participants", "$g_tournament_array_count"),
+                    (store_add, ":end_index", ":start_index", ":num_participants"),
+
+                    (try_for_range, ":index", ":start_index", ":end_index"),
+                        (troop_get_slot, ":troop_no", ":array_troop", ":index"),
+                        (eq, ":troop_no", "$g_player_troop"),
+                        (troop_set_slot, ":troop_no", ":array_troop", -1),
+                    (try_end),
+
+                    (jump_to_menu, "mnu_town_tournament_end"),
+                ]),
+            ("end",
+                [(gt, "$g_tournament_current_round", "$g_tournament_num_rounds"),], "Continue",
+                [
+                    (jump_to_menu, "mnu_town_tournament_end"),
+                ]),
+        ]),
+
+    ("town_tournament_battle", mnf_scale_picture,
+        "The next round will consist of {reg10} with {reg11} teams of {reg12} fighters^^{s11}",
+        "none",
+        [
+            (str_clear, s10),
+
+            (assign, ":array_troop", "$g_tournament_array_troop"),
+            (assign, ":start_index", "$g_tournament_array_index"),
+            (assign, ":num_participants", "$g_tournament_array_count"),
+
+            (store_add, ":end_index", ":start_index", ":num_participants"),
+            (assign, ":active_participants", 0),
+            (try_for_range, ":index", ":start_index", ":end_index"),
+                (troop_get_slot, ":troop_no", ":array_troop", ":index"),
+                (ge, ":troop_no", 0),
+                (val_add, ":active_participants", 1),
+            (try_end),
+
+            (call_script, "script_party_get_tournament_round_type", "$g_encountered_party", ":active_participants"),
+            (assign, reg10, reg0),
+            (call_script, "script_party_get_tournament_round_teams", "$g_encountered_party", ":active_participants"),
+            (assign, reg11, reg0),
+            (assign, reg12, reg1),
+
+            (try_begin),
+                (eq, reg11, 2),
+                (str_store_string, s11, "@Only the winning team will participate in the next round"),
+            (else_try),
+                (str_store_string, s11, "@The winning team and exemplary participants will be allowed in the next round"),
+            (try_end),
+        ],
+        [
+            ("continue",
+                [], "Continue",
+                [
+                    (assign, ":array_troop", "$g_tournament_array_troop"),
+                    (assign, ":start_index", "$g_tournament_array_index"),
+                    (assign, ":num_participants", "$g_tournament_array_count"),
+
+                    (store_add, ":end_index", ":start_index", ":num_participants"),
+                    (assign, ":active_participants", 0),
+                    (try_for_range, ":index", ":start_index", ":end_index"),
+                        (troop_get_slot, ":troop_no", ":array_troop", ":index"),
+                        (ge, ":troop_no", 0),
+                        (val_add, ":active_participants", 1),
+                    (try_end),
+
+                    (party_get_slot, ":arena_scene", "$g_encountered_party", slot_party_arena_scene),
+
+                    (store_random_in_range, "$g_temp", 0, 10),
+
+                    (set_jump_mission, "mt_arena_tournament"),
+
+                    (call_script, "script_party_get_tournament_round_teams", "$g_encountered_party", ":active_participants"),
+                    (assign, ":num_teams", reg0),
+                    (assign, ":round_team_size", reg1),
+                    # (call_script, "script_party_set_tournament_round_override", "$g_encountered_party", ":round_type"),
+
+                    (store_mul, ":total_visitors", ":num_teams", ":round_team_size"),
+                    (scene_set_slot, ":arena_scene", slot_scene_visitors_count, ":total_visitors"),
+                    (try_for_range, ":index", 0, ":active_participants"),
+                        (store_mul, ":offset", ":index", 2),
+                        (store_add, ":slot", ":offset", slot_scene_visitors_begin),
+                        (scene_set_slot, ":arena_scene", ":slot", -1),
+                    (try_end),
+
+                    (assign, ":scene_troop_index", 0),
+                    (try_for_range, ":index", ":start_index", ":end_index"),
+                        (troop_get_slot, ":troop_no", ":array_troop", ":index"),
+                        (ge, ":troop_no", 0),
+                        
+                        (store_mul, ":visitor_slot", ":scene_troop_index", 2),
+                        (val_add, ":visitor_slot", slot_scene_visitors_begin),
+
+                        (store_add, ":entry_slot", ":visitor_slot", 1),
+
+                        (store_random_in_range, ":rand", 0, ":num_teams"),
+
+                        (assign, ":team", ":rand"),
+                        (assign, ":max_try", ":num_teams"),
+                        (try_for_range, ":unused", 0, ":max_try"),
+                            (assign, ":team_members", 0),
+
+                            (try_for_range, ":cur_participant", 0, ":active_participants"),
+                                (store_mul, ":cur_visitor_slot", ":cur_participant", 2),
+                                (val_add, ":cur_visitor_slot", slot_scene_visitors_begin),
+                                (scene_get_slot, ":cur_visitor", ":arena_scene", ":cur_visitor_slot"),
+                                (ge, ":cur_visitor", 0),
+                                (store_add, ":cur_entry_slot", ":cur_visitor_slot", 1),
+                                (scene_get_slot, ":cur_team", ":arena_scene", ":cur_entry_slot"),
+                                (eq, ":cur_team", ":team"),
+                                (val_add, ":team_members", 1),
+                            (try_end),
+                            (try_begin),
+                                (lt, ":team_members", ":round_team_size"),
+                                (assign, ":max_try", 0),
+                            (else_try),
+                                (val_add, ":team", 1),
+                                (val_mod, ":team", ":num_teams"),
+                            (try_end),
+                        (try_end),
+
+                        (scene_set_slot, ":arena_scene", ":visitor_slot", ":troop_no"),
+                        (scene_set_slot, ":arena_scene", ":entry_slot", ":team"),
+                        (val_add, ":scene_troop_index", 1),
+                    (try_end),
+
+                    (jump_to_scene, ":arena_scene"),
+
+                    (jump_to_menu, "mnu_town_tournament_battle_end"),
+                    (change_screen_mission),
+                ]),
+        ]),
+
+    ("town_tournament_battle_end", mnf_scale_picture,
+        "The round has ended {s10}",
+        "none",
+        [
+            (assign, ":player_participating", 0),
+
+            (assign, ":array_troop", "$g_tournament_array_troop"),
+            (assign, ":start_index", "$g_tournament_array_index"),
+            (assign, ":num_participants", "$g_tournament_array_count"),
+
+            (store_add, ":end_index", ":start_index", ":num_participants"),
+            (assign, ":player_participating", 0),
+            (try_for_range, ":index", ":start_index", ":end_index"),
+                (troop_get_slot, ":troop_no", ":array_troop", ":index"),
+                (eq, ":troop_no", "$g_player_troop"),
+                (assign, ":player_participating", 1),
+            (try_end),
+
+            (try_begin),
+                (eq, "$g_battle_result", outcome_success),
+                (str_store_string, s10, "@and your team was victorious"),
+            (else_try),
+                (eq, ":player_participating", 1),
+                (str_store_string, s10, "@and your team was defeated.^However you are allowed in the next round because of the valor you displayed in combat."),
+            (else_try),
+                (str_store_string, s10, "@and your team was defeated.^You have been removed from the participants."),
+            (try_end),
+        ],
+        [
+            ("continue",
+                [], "Continue",
+                [
+                    (jump_to_menu, "mnu_town_tournament_participation"),
+                ]),
+        ]),
+
+    ("town_tournament_end", mnf_scale_picture,
+        "The tournament has ended, {s10} is victorious",
+        "none",
+        [
+            (assign, ":winner", "$g_player_troop"),
+
+            (assign, ":array_troop", "$g_tournament_array_troop"),
+            (assign, ":start_index", "$g_tournament_array_index"),
+            (assign, ":num_participants", "$g_tournament_array_count"),
+
+            (assign, ":highest_level", 0),
+
+            (store_add, ":end_index", ":start_index", ":num_participants"),
+            (try_for_range, ":index", ":start_index", ":end_index"),
+                (troop_get_slot, ":troop_no", ":array_troop", ":index"),
+                (gt, ":troop_no", 0),
+
+                (call_script, "script_troop_get_tournament_score", ":troop_no"),
+                (assign, ":character_level", reg0),
+
+                (gt, ":character_level", ":highest_level"),
+                (assign, ":winner", ":troop_no"),
+                (assign, ":highest_level", ":character_level"),
+            (try_end),
+
+            (call_script, "script_party_get_tournament_prize", "$g_encountered_party"),
+            (assign, ":prize", reg0),
+            (store_div, ":renown", ":prize", 500),
+
+            (try_begin),
+                (eq, ":winner", "$g_player_troop"),
+                (call_script, "script_troop_change_wealth", ":winner", ":prize"),
+            (else_try),
+                (call_script, "script_troop_add_accumulated_taxes", ":winner", ":prize", tax_type_loot, 1),
+            (try_end),
+            (call_script, "script_troop_change_renown", ":winner", ":renown"),
+
+            (str_store_troop_name, s10, ":winner"),
+        ],
+        [
+            ("continue",
+                [], "Continue",
+                [
+                    (jump_to_menu, "mnu_town_keep"),
                 ]),
         ]),
     
@@ -2003,7 +2401,7 @@ game_menus = [
         ]),
     
     ("town_raise_levies", mnf_scale_picture,
-        "How many levies do you wish to train?^^Available recruits:{s10}",
+        "How many levies do you wish to train?^^^Current money: {s11}^^Available recruits:{s10}",
         "none",
         [
             # (val_max, "$g_num_levies", 0),
@@ -2021,16 +2419,21 @@ game_menus = [
                 (troop_get_slot, ":only_faction_2", ":cur_troop", slot_troop_faction_reserved_2),
                 (troop_get_slot, ":no_faction_1", ":cur_troop", slot_troop_faction_not_1),
                 (troop_get_slot, ":no_faction_2", ":cur_troop", slot_troop_faction_not_2),
+                (troop_get_slot, ":no_faction_3", ":cur_troop", slot_troop_faction_not_3),
                 (try_begin),
                     (this_or_next|eq, ":only_faction_1", -1),
                     (this_or_next|eq, ":only_faction_1", ":faction"),
                     (eq, ":only_faction_2", ":faction"),
                     (neq, ":no_faction_1", ":faction"),
                     (neq, ":no_faction_2", ":faction"),
+                    (neq, ":no_faction_3", ":faction"),
                     (str_store_troop_name, s11, ":cur_troop"),
                     (str_store_string, s10, "@{s10}^{s11}"),
                 (try_end),
             (try_end),
+            (store_troop_gold, ":player_gold", "$g_player_troop"),
+            (call_script, "script_game_get_money_text", ":player_gold"),
+            (str_store_string, s11, "@{s0}"),
         ],
         [
             ("recruit_increase_x10", [], "Increase number of recruits (x10)",
@@ -2645,10 +3048,36 @@ game_menus = [
         [
         ],
         [
+            ("battle_troop_control",
+                [
+                    (try_begin),
+                        (eq, "$g_battle_troop_control", battle_troop_control_none),
+                        (str_store_string, s10, "@You leave control of your troops to your allies"),
+                    (else_try),
+                        (eq, "$g_battle_troop_control", battle_troop_control_own),
+                        (str_store_string, s10, "@You control your own troops"),
+                    (else_try),
+                        (eq, "$g_battle_troop_control", battle_troop_control_all),
+                        (str_store_string, s10, "@You control all troops"),
+                    (try_end),
+                ], "{s10}",
+                [
+                    (try_begin),
+                        (eq, "$g_battle_troop_control", battle_troop_control_none),
+                        (assign, "$g_battle_troop_control", battle_troop_control_own),
+                    (else_try),
+                        (eq, "$g_battle_troop_control", battle_troop_control_own),
+                        (assign, "$g_battle_troop_control", battle_troop_control_all),
+                    (else_try),
+                        (eq, "$g_battle_troop_control", battle_troop_control_all),
+                        (assign, "$g_battle_troop_control", battle_troop_control_none),
+                    (try_end),
+                    (jump_to_menu, "mnu_encounter_battle"),
+                ]),
+
             ("battle_charge", [], "Charge the enemy",
                 [
                     (set_party_battle_mode),
-                    # (encounter_attack),
                     (set_battle_advantage, 0),
                     
                     (call_script, "script_get_battle_scene"),
@@ -2671,10 +3100,36 @@ game_menus = [
         [
         ],
         [
+            ("battle_troop_control",
+                [
+                    (try_begin),
+                        (eq, "$g_battle_troop_control", battle_troop_control_none),
+                        (str_store_string, s10, "@You leave control of your troops to your allies"),
+                    (else_try),
+                        (eq, "$g_battle_troop_control", battle_troop_control_own),
+                        (str_store_string, s10, "@You control your own troops"),
+                    (else_try),
+                        (eq, "$g_battle_troop_control", battle_troop_control_all),
+                        (str_store_string, s10, "@You control all troops"),
+                    (try_end),
+                ], "{s10}",
+                [
+                    (try_begin),
+                        (eq, "$g_battle_troop_control", battle_troop_control_none),
+                        (assign, "$g_battle_troop_control", battle_troop_control_own),
+                    (else_try),
+                        (eq, "$g_battle_troop_control", battle_troop_control_own),
+                        (assign, "$g_battle_troop_control", battle_troop_control_all),
+                    (else_try),
+                        (eq, "$g_battle_troop_control", battle_troop_control_all),
+                        (assign, "$g_battle_troop_control", battle_troop_control_none),
+                    (try_end),
+                    (jump_to_menu, "mnu_encounter_battle_siege"),
+                ]),
+            
             ("battle_charge", [], "Charge the enemy",
                 [
                     (set_party_battle_mode),
-                    # (encounter_attack),
                     (set_battle_advantage, 0),
                     
                     (party_get_slot, ":scene", "$g_encountered_party", slot_party_siege_scene),
@@ -3314,7 +3769,7 @@ game_menus = [
 
             (try_begin),
                 (is_between, ":clan", clans_begin, clans_end),
-                (str_store_faction_name, s13, ":clan"),
+                (str_store_troop_name, s13, ":clan"),
                 (str_store_string, s12, "@Belongs to clan {s13}"),
             (else_try),
                 (str_store_string, s12, "@Belongs to no clan"),
@@ -3322,7 +3777,7 @@ game_menus = [
             (assign, reg10, ":honor"),
             (assign, reg11, ":renown"),
             (str_store_faction_name, s11, ":culture"),
-            (str_store_string, s0, "@{s10}^^{s11}e^{s12}^^Honor: {reg10}^Renown: {reg11}^"),
+            (str_store_string, s0, "@{s10}^^{s11}^{s12}^^Honor: {reg10}^Renown: {reg11}^"),
         ],
         [
             ("go_back",[],"Return",

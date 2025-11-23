@@ -1,3 +1,69 @@
+v0.700:
+	-Features:
+		* add tournaments hosted by the cities
+		* add option to control allied troops in combat
+		* add governor handling of fiefs
+		* add message to inform of options during captivity
+		* add banners on top of friendly troops (based on settings)
+		* add relation changes after battles
+	-Balances:
+		* reduce siege reinforcements wave size
+		* remove base grant for recruiting troops
+		* switch castle and village bonus grant (+1->+0 and +0->+1 respectively)
+		* reduce renown requirement for additional renown (500 -> 350)
+		* reduce culture_1 archer ratio (30 -> 25)
+		* reduce culture_1 crossbow ratio (30 -> 25)
+		* increase culture_2 infantry ratio (80 -> 90)
+		* increase culture_2 spearman ratio (30 -> 35)
+		* decrease culture_2 archer ratio (90 -> 75)
+		* increase culture_3 spearman ratio (85 -> 90)
+		* increase culture_3 archer ratio (35 -> 40)
+		* decrease culture_3 cavalry ratio (80 -> 70)
+		* decrease culture_3 lancer ratio (100 -> 90)
+		* decrease culture_3 horse archer ratio (80 -> 70)
+		* decrease culture_3 mounted skirmisher ratio (50 -> 45)
+		* decrease small_kingdom_21 horse archer ratio change (65 -> 60)
+		* decrease small_kingdom_21 archer ratio change (-65 -> -60)
+		* display current gold in raise levy menu
+		* add starting renown for player character starting options
+		* add relation change when accepting mercenary contract
+		* starting bandit camps have an initial garrison
+		* increase bandit camps count on map startup
+		* increase bandits count on map startup
+		* add barracks building to reduce garrison cost
+		* reduce delay before faction can declare war
+		* give rhodok_light_spearman to every rhodok culture
+		* restrict rhodok_pikeman to small_kingdom_52
+		* give rhodok_heavy_spearman to every rhodok culture
+		* restrict rhodok_heavy_pikeman to small_kingdom_52
+		* restrict rhodok_heavy_spearman from small_kingdom_51
+		* increase vaegir_hunter special ratio (100 -> 150)
+		* increase troop ransom (x10)
+		* increase items price in shops (x10~40)
+		* increase vaegir_militia special ratio (40 -> 50)
+		* decrease vaegir_levy_infantry special ratio (80 -> 60)
+		* increase staff weapons thrust damage
+		* reduce base party join range (8 -> 6)
+		* increase amount/quality of loot after battles
+	-Fixes:
+		* fix character report showing incorrect clan name
+		* fix inconsistency in leadershipp skill description
+		* fix bandits not ignoring player after bribe
+		* fix faction leader addressing himself in third person
+		* fix typo in besiege message
+		* add latest version resources to prevent error message with wse
+		* fix introduction quest first dialog camera
+		* fix troop ransom favoring mounted troops
+		* fix experience messages when receiving 0 xp
+		* fix ai parties sticking to player after joining battle
+v0.652:
+	-Other:
+		* fix incorrect release pipeline to copy map.txt file
+v0.651:
+	-Fixes:
+		* fix typo in introduction quest
+	-Other:
+		* fix release Output.zip file to be working module for the mod
 v0.650:
 	-Features:
 		* add recruit troops restrictions in recruit troops presentation

@@ -69,7 +69,7 @@ scripts = [
                 (call_script, "script_party_init_center", ":party_no"),
             
                 ## Generate some bandits to begin with
-                (try_for_range, ":unused", 0,  5),
+                (try_for_range, ":unused", 0,  10),
                     (call_script, "script_party_spawn_bandits", ":party_no"),
                 (try_end),
             (try_end),
@@ -92,7 +92,6 @@ scripts = [
                 (troop_set_slot, "$g_player_troop", slot_troop_banner_scene_prop, -1),
             (try_end),
 
-            (set_show_messages, 1),
             (try_for_range, ":faction_no", kingdoms_begin, kingdoms_end),
                 (faction_get_slot, ":size", ":faction_no", slot_faction_size),
 
@@ -112,10 +111,6 @@ scripts = [
                 (store_random_in_range, ":num_large_clans", ":min_large_clan", ":max_large_clan"),
                 (val_sub, ":num_clans", ":num_large_clans"), # We remove a clan for each large clan
 
-                (str_store_faction_name, s10, ":faction_no"),
-                (assign, reg10, ":num_clans"),
-                (assign, reg11, ":num_large_clans"),
-                (display_message, "@{s10} generates {reg10} clans with {reg11} large"),
                 (try_for_range, ":unused", 0, ":num_clans"),
                     (call_script, "script_clan_get_empty"),
                     (assign, ":clan", reg0),
@@ -183,7 +178,6 @@ scripts = [
                 # (troop_set_slot, ":lord_no", slot_troop_rank, ":rank"),
                 # (call_script, "script_troop_change_level", ":lord_no", ":rank"),
             (try_end),
-            (set_show_messages, 0),
 
             (try_for_range, ":party_no", centers_begin, centers_end),
                 (party_get_slot, ":party_type", ":party_no", slot_party_type),
@@ -256,41 +250,61 @@ scripts = [
                 (troop_set_slot, ":merchant", slot_troop_merchant_center, -1),
             (try_end),
 
-            (store_random_in_range, ":camp", "p_camp_11", "p_camp_21"),
-            (enable_party, ":camp"),
-            (party_set_faction, ":camp", "fac_faction_1"),
-            (party_set_slot, ":camp", slot_party_wealth, 75000),
-            (party_add_prisoners, ":camp", "trp_swadian_peasant", 30),
+            (try_for_range, ":unused", 0, 2),
+                (store_random_in_range, ":camp", "p_camp_11", "p_camp_21"),
+                (enable_party, ":camp"),
+                (party_set_faction, ":camp", "fac_faction_1"),
+                (party_set_slot, ":camp", slot_party_wealth, 75000),
+                (party_add_prisoners, ":camp", "trp_swadian_peasant", 30),
+                (try_for_range, ":unused", 0, 5),
+                    (call_script, "script_party_add_reinforcements", ":camp"),
+                (try_end),
 
-            (store_random_in_range, ":camp", "p_camp_21", "p_camp_31"),
-            (enable_party, ":camp"),
-            (party_set_faction, ":camp", "fac_faction_6"),
-            (party_set_slot, ":camp", slot_party_wealth, 75000),
-            (party_add_prisoners, ":camp", "trp_vaegir_peasant", 30),
+                (store_random_in_range, ":camp", "p_camp_21", "p_camp_31"),
+                (enable_party, ":camp"),
+                (party_set_faction, ":camp", "fac_faction_6"),
+                (party_set_slot, ":camp", slot_party_wealth, 75000),
+                (party_add_prisoners, ":camp", "trp_vaegir_peasant", 30),
+                (try_for_range, ":unused", 0, 5),
+                    (call_script, "script_party_add_reinforcements", ":camp"),
+                (try_end),
 
-            (store_random_in_range, ":camp", "p_camp_31", "p_camp_41"),
-            (enable_party, ":camp"),
-            (party_set_faction, ":camp", "fac_faction_5"),
-            (party_set_slot, ":camp", slot_party_wealth, 75000),
-            (party_add_prisoners, ":camp", "trp_khergit_peasant", 30),
+                (store_random_in_range, ":camp", "p_camp_31", "p_camp_41"),
+                (enable_party, ":camp"),
+                (party_set_faction, ":camp", "fac_faction_5"),
+                (party_set_slot, ":camp", slot_party_wealth, 75000),
+                (party_add_prisoners, ":camp", "trp_khergit_peasant", 30),
+                (try_for_range, ":unused", 0, 5),
+                    (call_script, "script_party_add_reinforcements", ":camp"),
+                (try_end),
 
-            (store_random_in_range, ":camp", "p_camp_41", "p_camp_51"),
-            (enable_party, ":camp"),
-            (party_set_faction, ":camp", "fac_faction_4"),
-            (party_set_slot, ":camp", slot_party_wealth, 75000),
-            (party_add_prisoners, ":camp", "trp_nord_peasant", 30),
+                (store_random_in_range, ":camp", "p_camp_41", "p_camp_51"),
+                (enable_party, ":camp"),
+                (party_set_faction, ":camp", "fac_faction_4"),
+                (party_set_slot, ":camp", slot_party_wealth, 75000),
+                (party_add_prisoners, ":camp", "trp_nord_peasant", 30),
+                (try_for_range, ":unused", 0, 5),
+                    (call_script, "script_party_add_reinforcements", ":camp"),
+                (try_end),
 
-            (store_random_in_range, ":camp", "p_camp_51", "p_camp_61"),
-            (enable_party, ":camp"),
-            (party_set_faction, ":camp", "fac_faction_3"),
-            (party_set_slot, ":camp", slot_party_wealth, 75000),
-            (party_add_prisoners, ":camp", "trp_rhodok_peasant", 30),
+                (store_random_in_range, ":camp", "p_camp_51", "p_camp_61"),
+                (enable_party, ":camp"),
+                (party_set_faction, ":camp", "fac_faction_3"),
+                (party_set_slot, ":camp", slot_party_wealth, 75000),
+                (party_add_prisoners, ":camp", "trp_rhodok_peasant", 30),
+                (try_for_range, ":unused", 0, 5),
+                    (call_script, "script_party_add_reinforcements", ":camp"),
+                (try_end),
 
-            (store_random_in_range, ":camp", "p_camp_61", camps_end),
-            (enable_party, ":camp"),
-            (party_set_faction, ":camp", "fac_faction_7"),
-            (party_set_slot, ":camp", slot_party_wealth, 75000),
-            (party_add_prisoners, ":camp", "trp_sarranid_peasant", 30),
+                (store_random_in_range, ":camp", "p_camp_61", camps_end),
+                (enable_party, ":camp"),
+                (party_set_faction, ":camp", "fac_faction_7"),
+                (party_set_slot, ":camp", slot_party_wealth, 75000),
+                (party_add_prisoners, ":camp", "trp_sarranid_peasant", 30),
+                (try_for_range, ":unused", 0, 5),
+                    (call_script, "script_party_add_reinforcements", ":camp"),
+                (try_end),
+            (try_end),
 
             (party_set_slot, "$g_player_party", slot_party_leader, "$g_player_troop"),
 
@@ -308,15 +322,18 @@ scripts = [
             (assign, "$g_global_cloud_amount", 0),
 
             (assign, "$g_normalize_faction_color", 1),
+            
             (assign, "$g_player_update_name", 1),
+            (assign, "$g_player_last_proposed_vassalage", -10000),
+            (assign, "$g_player_prisoner_last_message", 0),
 
             (assign, "$g_presentation_preview_selected_culture", -1),
-
-            (assign, "$g_player_last_proposed_vassalage", -10000),
 
             (assign, "$g_intro_tutorial_trigger_date", 0),
 
             (assign, "$g_quest_visit_center_new_owner_started", 0),
+
+            (assign, "$g_battle_troop_control", battle_troop_control_own),
 
             (assign, "$g_next_menu", -1),
             
@@ -1073,6 +1090,8 @@ scripts = [
             (store_script_param, ":allied_party", 3),
             
             (party_get_slot, ":party_type", ":defeated_party", slot_party_type),
+
+            (call_script, "script_party_group_end_battle_update_relations", ":winner_party", ":defeated_party", ":allied_party"),
             
             (try_begin),
                 (neq, ":allied_party", -1),
@@ -1112,6 +1131,7 @@ scripts = [
                     (neq, ":attached_party", "$g_player_party"),
                     (call_script, "script_party_process_mission", ":attached_party", 1),
                     (call_script, "script_party_process_ai", ":attached_party"),
+                    (party_detach, ":attached_party"),
                 (try_end),
             (try_end),
         ]),
@@ -1769,9 +1789,9 @@ scripts = [
             (assign, ":total_price", 0),
             (try_begin),
                 (eq, "$g_talk_troop", "trp_ransom_broker"),
-                (call_script, "script_troop_get_cost", ":troop_no"),
+                (call_script, "script_troop_get_base_cost", ":troop_no"),
                 (store_mul, ":total_price", reg0, 15),
-                (val_div, ":total_price", 100),
+                (val_div, ":total_price", 10),
             (try_end),
 
             (assign, reg0, ":total_price"),
@@ -3710,6 +3730,9 @@ scripts = [
             (party_set_slot, ":party_no", slot_party_max_prisoner_ratio, 25),
             (party_set_slot, ":party_no", slot_party_max_prisoner_outcome, mpo_default),
 
+            (party_set_slot, ":party_no", slot_party_next_tournament_date, -1),
+            (party_set_slot, ":party_no", slot_party_last_tournament_date, 0),
+
             (try_for_range, ":building_slot", slot_party_building_slot_begin, slot_party_building_slot_end),
                 (party_set_slot, ":party_no", ":building_slot", 0),
             (try_end),
@@ -3777,7 +3800,9 @@ scripts = [
 
             (party_set_slot, ":party_no", slot_party_face_key_storage, -1),
             (party_set_slot, ":party_no", slot_party_face_options_storage, -1),
-            
+
+            (party_set_slot, ":party_no", slot_party_arena_scene, "scn_town_1_arena"),
+        
             (call_script, "script_party_get_siege_scene", ":party_no"),
             (assign, ":siege_scene", reg0),
             (party_set_slot, ":party_no", slot_party_siege_scene, ":siege_scene"),
@@ -4804,8 +4829,8 @@ scripts = [
         ]),
     
     # script_init_battle_ais
-    # input: none
-    # output: none
+        # input: none
+        # output: none
     ("init_battle_ais",
         [
             (try_for_range, ":cur_team", 0, 4),
@@ -4824,9 +4849,9 @@ scripts = [
         ]),
     
     # script_init_team_battle_ai
-    # input:
-    #   arg1: team_no
-    # output: none
+        # input:
+        #   arg1: team_no
+        # output: none
     ("init_team_battle_ai",
         [
             (store_script_param, ":team_no", 1),
@@ -4890,10 +4915,10 @@ scripts = [
         ]),
     
     # script_team_set_division_slots_for_formation
-    # input:
-    #   arg1: team_no
-    #   arg2: formation
-    # output: none
+        # input:
+        #   arg1: team_no
+        #   arg2: formation
+        # output: none
     ("team_set_division_slots_for_formation",
         [
             (store_script_param, ":team_no", 1),
@@ -5003,9 +5028,9 @@ scripts = [
         ]),
 
     # script_init_agent
-    # input:
-    #   arg1: agent_no
-    # output: none
+        # input:
+        #   arg1: agent_no
+        # output: none
     ("init_agent",
         [
             (store_script_param, ":agent_no", 1),
@@ -5014,8 +5039,48 @@ scripts = [
             (agent_set_slot, ":agent_no", slot_agent_target_entry_point, 0),
             (agent_set_slot, ":agent_no", slot_agent_is_in_scripted_mode, 0),
 
+            (agent_get_team, ":team", ":agent_no"),
             (try_begin),
-                (agent_get_team, ":team", ":agent_no"),
+                (eq, "$g_battle_troop_control", battle_troop_control_none),
+                (eq, ":team", "$g_player_team"),
+
+                (get_player_agent_no, ":player_agent"),
+                (neq, ":agent_no", ":player_agent"),
+                (agent_set_team, ":agent_no", 2),
+                (assign, ":team", 2),
+            (else_try),
+                (eq, "$g_battle_troop_control", battle_troop_control_all),
+                (eq, ":team", 2),
+
+                (assign, ":continue", 0),
+                (agent_get_party_id, ":agent_party", ":agent_no"),
+                (try_begin),
+                    (gt, ":agent_party", 0),
+
+                    (party_get_slot, ":party_leader", ":agent_party", slot_party_leader),
+                    (try_begin),
+                        (eq, ":party_leader", "$g_player_troop"),
+                        (assign, ":continue", 1),
+                    (else_try),
+                        (gt, ":party_leader", 0),
+                        (try_begin),
+                            (call_script, "script_cf_troop_is_vassal_of", ":party_leader", "$g_player_troop", 0, 10),
+                            (assign, ":continue", 1),
+                        (try_end),
+                    (else_try),
+                        (store_faction_of_party, ":agent_faction", ":agent_party"),
+                        (faction_get_slot, ":faction_leader", ":agent_faction", slot_faction_leader),
+                        (eq, ":faction_leader", "$g_player_troop"),
+                        (assign, ":continue", 1),
+                    (try_end),
+                (try_end),
+                (eq, ":continue", 1),
+
+                (agent_set_team, ":agent_no", "$g_player_team"),
+                (assign, ":team", "$g_player_team"),
+            (try_end),
+
+            (try_begin),
 
                 (eq, ":team", "$g_player_team"),
                 (agent_set_slot, ":agent_no", slot_agent_is_reinforcement, 0),
@@ -5023,8 +5088,8 @@ scripts = [
         ]),
 
     # script_process_battle_ais
-    # input: none
-    # output: none
+        # input: none
+        # output: none
     ("process_battle_ais",
         [
             (try_for_range, ":cur_team", 0, 4),
@@ -5034,9 +5099,9 @@ scripts = [
         ]),
     
     # script_process_team_battle_ai
-    # input:
-    #   arg1: team_no
-    # output: none
+        # input:
+        #   arg1: team_no
+        # output: none
     ("process_team_battle_ai",
         [
             (store_script_param, ":team_no", 1),
@@ -7287,31 +7352,18 @@ scripts = [
             
             (assign, reg0, ":spawned_party"),
         ]),
-    
-    # script_cf_faction_need_party_nearby_resources
-        # input:
-        #   arg1: faction_no
-        #   arg2: party_no
-        # output: none
-    ("cf_faction_need_party_nearby_resources",
-        [
-            
-        ]),
-    
-    # script_spawn_new_center_marker_with_party_resources
-        # input:
-        #   arg1: party_no
-        # output: none
-    ("spawn_new_center_marker_with_party_resources",
-        [
-            
-        ]),
 
     # script_init_centers
         # input: none
         # output: none
     ("init_centers",
         [
+            (try_for_range, ":cur_center", centers_begin, centers_end),
+                (store_faction_of_party, ":original_faction", ":cur_center"),
+                (party_set_slot, ":cur_center", slot_party_original_faction, ":original_faction"),
+                (party_set_slot, ":cur_center", slot_party_faction, ":original_faction"),
+            (try_end),
+            
             (try_for_range, ":cur_center", towns_begin, towns_end),
                 (party_set_slot, ":cur_center", slot_party_type, spt_town),
             (try_end),
@@ -7355,12 +7407,6 @@ scripts = [
                     (try_end),
                 (try_end),
                 (party_set_slot, ":cur_center", slot_party_linked_party, ":best"),
-            (try_end),
-
-            (try_for_range, ":cur_center", centers_begin, centers_end),
-                (store_faction_of_party, ":original_faction", ":cur_center"),
-                (party_set_slot, ":cur_center", slot_party_original_faction, ":original_faction"),
-                (party_set_slot, ":cur_center", slot_party_faction, ":original_faction"),
             (try_end),
         ]),
         
@@ -7697,19 +7743,19 @@ scripts = [
             (faction_set_slot, "fac_kingdom_1", slot_faction_troop_ratio_pikeman, 5),
             (faction_set_slot, "fac_kingdom_1", slot_faction_troop_ratio_skirmisher, 20),
             (faction_set_slot, "fac_kingdom_1", slot_faction_troop_ratio_shock_infantry, 10),
-            (faction_set_slot, "fac_kingdom_1", slot_faction_troop_ratio_archer, 30),
-            (faction_set_slot, "fac_kingdom_1", slot_faction_troop_ratio_crossbow, 30),
+            (faction_set_slot, "fac_kingdom_1", slot_faction_troop_ratio_archer, 25),
+            (faction_set_slot, "fac_kingdom_1", slot_faction_troop_ratio_crossbow, 25),
             (faction_set_slot, "fac_kingdom_1", slot_faction_troop_ratio_cavalry, 70),
             (faction_set_slot, "fac_kingdom_1", slot_faction_troop_ratio_lancer, 15),
             (faction_set_slot, "fac_kingdom_1", slot_faction_troop_ratio_horse_archer, 15),
             (faction_set_slot, "fac_kingdom_1", slot_faction_troop_ratio_mounted_skirmisher, 5),
             
-            (faction_set_slot, "fac_kingdom_2", slot_faction_troop_ratio_infantry, 80),
-            (faction_set_slot, "fac_kingdom_2", slot_faction_troop_ratio_spearman, 30),
+            (faction_set_slot, "fac_kingdom_2", slot_faction_troop_ratio_infantry, 90),
+            (faction_set_slot, "fac_kingdom_2", slot_faction_troop_ratio_spearman, 35),
             (faction_set_slot, "fac_kingdom_2", slot_faction_troop_ratio_pikeman, 5),
             (faction_set_slot, "fac_kingdom_2", slot_faction_troop_ratio_skirmisher, 30),
             (faction_set_slot, "fac_kingdom_2", slot_faction_troop_ratio_shock_infantry, 25),
-            (faction_set_slot, "fac_kingdom_2", slot_faction_troop_ratio_archer, 90),
+            (faction_set_slot, "fac_kingdom_2", slot_faction_troop_ratio_archer, 75),
             (faction_set_slot, "fac_kingdom_2", slot_faction_troop_ratio_crossbow, 5),
             (faction_set_slot, "fac_kingdom_2", slot_faction_troop_ratio_cavalry, 90),
             (faction_set_slot, "fac_kingdom_2", slot_faction_troop_ratio_lancer, 25),
@@ -7717,16 +7763,16 @@ scripts = [
             (faction_set_slot, "fac_kingdom_2", slot_faction_troop_ratio_mounted_skirmisher, 30),
             
             (faction_set_slot, "fac_kingdom_3", slot_faction_troop_ratio_infantry, 45),
-            (faction_set_slot, "fac_kingdom_3", slot_faction_troop_ratio_spearman, 85),
+            (faction_set_slot, "fac_kingdom_3", slot_faction_troop_ratio_spearman, 90),
             (faction_set_slot, "fac_kingdom_3", slot_faction_troop_ratio_pikeman, 5),
             (faction_set_slot, "fac_kingdom_3", slot_faction_troop_ratio_skirmisher, 25),
             (faction_set_slot, "fac_kingdom_3", slot_faction_troop_ratio_shock_infantry, 10),
-            (faction_set_slot, "fac_kingdom_3", slot_faction_troop_ratio_archer, 35),
+            (faction_set_slot, "fac_kingdom_3", slot_faction_troop_ratio_archer, 40),
             (faction_set_slot, "fac_kingdom_3", slot_faction_troop_ratio_crossbow, 5),
-            (faction_set_slot, "fac_kingdom_3", slot_faction_troop_ratio_cavalry, 80),
-            (faction_set_slot, "fac_kingdom_3", slot_faction_troop_ratio_lancer, 100),
-            (faction_set_slot, "fac_kingdom_3", slot_faction_troop_ratio_horse_archer, 80),
-            (faction_set_slot, "fac_kingdom_3", slot_faction_troop_ratio_mounted_skirmisher, 50),
+            (faction_set_slot, "fac_kingdom_3", slot_faction_troop_ratio_cavalry, 70),
+            (faction_set_slot, "fac_kingdom_3", slot_faction_troop_ratio_lancer, 90),
+            (faction_set_slot, "fac_kingdom_3", slot_faction_troop_ratio_horse_archer, 70),
+            (faction_set_slot, "fac_kingdom_3", slot_faction_troop_ratio_mounted_skirmisher, 45),
             
             (faction_set_slot, "fac_kingdom_4", slot_faction_troop_ratio_infantry, 100),
             (faction_set_slot, "fac_kingdom_4", slot_faction_troop_ratio_spearman, 30),
@@ -7824,8 +7870,8 @@ scripts = [
             
             (call_script, "script_faction_change_slot", "fac_small_kingdom_21", slot_faction_troop_ratio_lancer, 50),
             (call_script, "script_faction_change_slot", "fac_small_kingdom_21", slot_faction_troop_ratio_cavalry, -50),
-            (call_script, "script_faction_change_slot", "fac_small_kingdom_21", slot_faction_troop_ratio_horse_archer, 65),
-            (call_script, "script_faction_change_slot", "fac_small_kingdom_21", slot_faction_troop_ratio_archer, -65),
+            (call_script, "script_faction_change_slot", "fac_small_kingdom_21", slot_faction_troop_ratio_horse_archer, 60),
+            (call_script, "script_faction_change_slot", "fac_small_kingdom_21", slot_faction_troop_ratio_archer, -60),
             (call_script, "script_faction_change_slot", "fac_small_kingdom_21", slot_faction_troop_ratio_infantry, 10),
             (call_script, "script_faction_change_slot", "fac_small_kingdom_21", slot_faction_troop_ratio_spearman, -5),
             (call_script, "script_faction_change_slot", "fac_small_kingdom_21", slot_faction_troop_ratio_shock_infantry, -5),
@@ -8102,7 +8148,7 @@ scripts = [
             
             (faction_set_slot, "fac_culture_5", slot_faction_common_begin, "trp_rhodok_light_infantry"),
             (faction_set_slot, "fac_culture_5", slot_faction_veteran_begin, "trp_rhodok_heavy_infantry"),
-            (faction_set_slot, "fac_culture_5", slot_faction_elite_begin, "trp_rhodok_heavy_pikeman"),
+            (faction_set_slot, "fac_culture_5", slot_faction_elite_begin, "trp_rhodok_heavy_spearman"),
             (faction_set_slot, "fac_culture_5", slot_faction_noble_begin, "trp_rhodok_noble"),
             
             (faction_set_slot, "fac_culture_6", slot_faction_common_begin, "trp_sarranid_medium_infantry"),
@@ -12802,7 +12848,8 @@ scripts = [
             (item_set_slot, "itm_building_barrack", ":stone_slot", 340),
             (item_set_slot, "itm_building_barrack", slot_building_cost_gold, 300000),
             (item_set_slot, "itm_building_barrack", slot_building_build_time, 3000),
-            (item_set_slot, "itm_building_barrack", slot_building_enabled, 0),
+            (item_set_slot, "itm_building_barrack", slot_building_enabled, 1),
+            (item_set_slot, "itm_building_barrack", slot_building_type, bt_military),
             
             (item_set_slot, "itm_building_food_store", ":wood_slot", 280),
             (item_set_slot, "itm_building_food_store", ":stone_slot", 220),
@@ -12828,8 +12875,9 @@ scripts = [
             (item_set_slot, "itm_building_barrack_2", ":stone_slot", 510),
             (item_set_slot, "itm_building_barrack_2", slot_building_cost_gold, 450000),
             (item_set_slot, "itm_building_barrack_2", slot_building_build_time, 4500),
-            (item_set_slot, "itm_building_barrack_2", slot_building_enabled, 0),
+            (item_set_slot, "itm_building_barrack_2", slot_building_enabled, 1),
             (item_set_slot, "itm_building_barrack_2", slot_building_required_building, "itm_building_barrack"),
+            (item_set_slot, "itm_building_barrack_2", slot_building_type, bt_military),
 
             (item_set_slot, "itm_building_smithy_2", ":wood_slot", 210),
             (item_set_slot, "itm_building_smithy_2", ":stone_slot", 180),
@@ -14182,7 +14230,9 @@ scripts = [
             (troop_set_slot, "trp_rhodok_medium_crossbowman", slot_troop_faction_not_1, "fac_small_kingdom_51"), # Has Bowman instead
             (troop_set_slot, "trp_rhodok_heavy_crossbowman", slot_troop_faction_not_1, "fac_small_kingdom_51"), # Has Heavy Bowman instead
             (troop_set_slot, "trp_rhodok_noble", slot_troop_faction_not_1, "fac_small_kingdom_51"), # Has Highlander instead
+            (troop_set_slot, "trp_rhodok_heavy_spearman", slot_troop_faction_not_2, "fac_small_kingdom_51"), # Has Sergeant instead
             (troop_set_slot, "trp_rhodok_medium_cavalry", slot_troop_faction_not_2, "fac_small_kingdom_52"), # 
+            (troop_set_slot, "trp_rhodok_heavy_spearman", slot_troop_faction_not_1, "fac_small_kingdom_52"), # Has Heavy Pikeman instead
             (troop_set_slot, "trp_rhodok_noble", slot_troop_faction_not_2, "fac_small_kingdom_52"), # Has Heroic Pikeman instead
             (troop_set_slot, "trp_rhodok_medium_cavalry", slot_troop_faction_not_1, "fac_small_kingdom_54"), # Has Mounted Crossbowman instead
             
@@ -14211,8 +14261,9 @@ scripts = [
             (troop_set_slot, "trp_khergit_clansman", slot_troop_ratio_special_multiplier, 20),
             (troop_set_slot, "trp_khergit_levy_horseman", slot_troop_ratio_special_multiplier, 25),
             (troop_set_slot, "trp_khergit_militia", slot_troop_ratio_special_multiplier, 200),
-            (troop_set_slot, "trp_vaegir_militia", slot_troop_ratio_special_multiplier, 40),
-            (troop_set_slot, "trp_vaegir_levy_infantry", slot_troop_ratio_special_multiplier, 80),
+            (troop_set_slot, "trp_vaegir_militia", slot_troop_ratio_special_multiplier, 50),
+            (troop_set_slot, "trp_vaegir_hunter", slot_troop_ratio_special_multiplier, 150),
+            (troop_set_slot, "trp_vaegir_levy_infantry", slot_troop_ratio_special_multiplier, 60),
             (troop_set_slot, "trp_vaegir_levy_axeman", slot_troop_ratio_special_multiplier, 40),
             (troop_set_slot, "trp_rhodok_levy_crossbowman", slot_troop_ratio_special_multiplier, 65),
         ]),
@@ -15119,13 +15170,13 @@ scripts = [
             (assign, reg0, ":total_cost"),
             (assign, reg1, ":total_num_troops"),
         ]),
-    
-    # script_troop_get_cost
-    # input: 
-    #   arg1: troop_id
-    # output:
-    #   reg0: troop cost
-    ("troop_get_cost",
+
+    # script_troop_get_base_cost
+        # input: 
+        #   arg1: troop_id
+        # output:
+        #   reg0: troop cost
+    ("troop_get_base_cost",
         [
             (store_script_param, ":troop_id", 1),
             
@@ -15134,14 +15185,30 @@ scripts = [
             (store_add, ":join_cost", ":level", 8),
             (val_mul, ":join_cost", ":join_cost"),
             (val_div, ":join_cost", 5),
+
+            (val_mul, ":join_cost", 10),
+            
+            (assign, reg0, ":join_cost"), 
+        ]),
+
+    
+    # script_troop_get_cost
+        # input: 
+        #   arg1: troop_id
+        # output:
+        #   reg0: troop cost
+    ("troop_get_cost",
+        [
+            (store_script_param, ":troop_id", 1),
+
+            (call_script, "script_troop_get_base_cost", ":troop_id"),
+            (assign, ":join_cost", reg0),
             
             (try_begin),
                 (troop_is_mounted, ":troop_id"), # 50% increase for mounted troops
                 (val_mul, ":join_cost", 3),
                 (val_div, ":join_cost", 2),
             (try_end),
-
-            (val_mul, ":join_cost", 10),
             
             (assign, reg0, ":join_cost"), 
         ]),
@@ -15864,13 +15931,13 @@ scripts = [
                     (lt, ":free_inventory", 5),
                     # Not enough free space, remove low price items
                     (troop_sort_inventory, ":loot_storage"),
-                    (troop_ensure_inventory_space, ":loot_storage", 10),
+                    (troop_ensure_inventory_space, ":loot_storage", 8),
                 (try_end),
 
                 (party_stack_get_troop_id, ":troop_no", ":party_no", ":cur_stack"),
                 (party_stack_get_size, ":size", ":party_no", ":cur_stack"),
 
-                (store_mul, ":probability", ":size", 200),
+                (store_mul, ":probability", ":size", 2000),
                 (val_div, ":probability", ":divider"),
                 # Min amount of loot from troop
                 # Improves variety of loot
@@ -17213,7 +17280,7 @@ scripts = [
                             (call_script, "script_faction_get_relation_with_faction", ":faction_no", ":preparing_war"),
                             (assign, ":relation", reg0),
 
-                            (gt, ":relation", -10),
+                            (gt, ":relation", -5),
                             (call_script, "script_faction_relation_change_event", ":faction_no", ":preparing_war", -10),
 
                             (faction_get_slot, ":faction_leader", ":faction_no", slot_faction_leader),
@@ -18929,9 +18996,9 @@ scripts = [
                 (party_get_slot, ":leader", ":attacker", slot_party_leader),
                 (ge, ":leader", 0),
                 (str_store_troop_name_link, s11, ":leader"),
-                (display_log_message, "@{s10} is been besieged by {s11}"),
+                (display_log_message, "@{s10} has been besieged by {s11}"),
             (else_try),
-                (display_log_message, "@{s10} is been besieged"),
+                (display_log_message, "@{s10} has been besieged"),
             (try_end),
             
             (party_get_slot, ":besieged_lord", ":besieged", slot_party_lord),
@@ -21456,9 +21523,8 @@ scripts = [
             (try_begin),
                 (call_script, "script_cf_party_can_create_buildings", ":party_no"),
 
-                (party_get_slot, ":leader", ":party_no", slot_party_leader),
-                (party_get_slot, ":governor", ":party_no", slot_party_governor),
-                (this_or_next|neq, ":leader", "$g_player_troop"),
+                (call_script, "script_party_get_administrator", ":party_no"),
+                (assign, ":governor", reg0),
                 (gt, ":governor", 0),
                 (neq, ":governor", "$g_player_troop"), ## We don't want to auto build if the player is governor
 
@@ -21517,9 +21583,9 @@ scripts = [
             (party_get_slot, ":besieged_by", ":party_no", slot_party_besieged_by),
             (lt, ":besieged_by", 0),
 
-            (party_get_slot, ":leader", ":party_no", slot_party_leader),
+            (call_script, "script_party_get_administrator", ":party_no"),
+            (assign, ":leader", reg0),
             (ge, ":leader", 0),
-            # (party_get_slot, ":governor", ":party_no", slot_party_governor),
 
             (call_script, "script_party_get_building_slots", ":party_no"),
             (assign, ":num_slots", reg0),
@@ -21759,7 +21825,7 @@ scripts = [
             (party_prisoner_stack_get_troop_id, ":troop_no", ":party_no", ":stack_no"),
             (party_remove_prisoners, ":party_no", ":troop_no", ":amount"),
 
-            (call_script, "script_troop_get_cost", ":troop_no"),
+            (call_script, "script_troop_get_base_cost", ":troop_no"),
             (assign, ":cost", reg0),
             (val_mul, ":cost", 3),
             (val_div, ":cost", 2),
@@ -22504,7 +22570,25 @@ scripts = [
                 # Garrisoned troops pay 1/2th wages
                 (is_between, ":party_no", centers_begin, centers_end),
                 (val_div, ":modifier", 2),
-                # ToDo: possible buildings reducing wages
+
+                (assign, ":building_modifier", 100),
+                (try_begin),
+                    (call_script, "script_cf_party_has_building", ":party_no", "itm_building_barrack"),
+                    (call_script, "script_party_get_building_efficiency", ":party_no", "itm_building_barrack"),
+                    (assign, ":efficiency", reg0),
+                    (val_mul, ":efficiency", -10),
+                    (val_div, ":efficiency", 100),
+                    (val_add, ":building_modifier", ":efficiency"),
+                    
+                    (call_script, "script_cf_party_has_building", ":party_no", "itm_building_barrack_2"),
+                    (call_script, "script_party_get_building_efficiency", ":party_no", "itm_building_barrack_2"),
+                    (assign, ":efficiency", reg0),
+                    (val_mul, ":efficiency", -10),
+                    (val_div, ":efficiency", 100),
+                    (val_add, ":building_modifier", ":efficiency"),
+                (try_end),
+                (val_mul, ":modifier", ":building_modifier"),
+                (val_div, ":modifier", 100),
             (else_try),
                 (party_get_slot, ":party_leader", ":party_no", slot_party_leader),
                 (try_begin), # 2% less per leadership point
@@ -23788,7 +23872,7 @@ scripts = [
                             (party_get_slot, ":party_leader", ":party_no", slot_party_leader),
                             (neq, ":party_leader", -1),
                             (neq, ":related_leader", -1),
-                            (call_script, "script_cf_troop_is_vassal_of", ":related_leader", ":party_leader", 1),
+                            (call_script, "script_cf_troop_is_vassal_of", ":related_leader", ":party_leader", 1, 0),
                             (assign, ":mask", pgf_sell_vassals_mask),
                         (else_try),
                             (eq, ":party_type", spt_convoy),
@@ -24712,18 +24796,22 @@ scripts = [
             (try_begin),
                 (is_between, ":party_no", centers_begin, centers_end),
                 (is_between, ":item_no", goods_begin, goods_end),
-                (party_get_slot, ":own_production", ":party_no", ":item_no"),
+
+                (store_sub, ":offset", ":item_no", goods_begin),
+                (store_add, ":slot", ":offset", slot_party_ressources_begin),
+                (party_get_slot, ":own_production", ":party_no", ":slot"),
                 (store_sub, ":production_modifier", 20, ":own_production"),
                 (try_begin),
                     # We reduce the effect of own production the more we produce
                     # It is to avoid buying for ridiculous prices in highly productive places
                     (lt, ":production_modifier", 0), 
                     (store_mul, ":inv_prod", ":production_modifier", -1),
-                    (val_div, ":inv_prod", 15),
+                    (val_div, ":inv_prod", 10),
                     (val_add, ":inv_prod", 1),
-                    (val_div, ":production_modifier", ":inv_prod"),
+                    (val_add, ":production_modifier", ":inv_prod"),
                 (try_end),
-                (val_sub, ":price", ":production_modifier"),
+                (val_mul, ":production_modifier", 5),
+                (val_add, ":price", ":production_modifier"),
             (try_end),
             
             (call_script, "script_party_get_skill_level", ":party_buyer", skl_trade),
@@ -24732,8 +24820,11 @@ scripts = [
             (val_mul, ":trade_skill", 5),
             (val_sub, ":price", ":trade_skill"),
 
-            (party_get_slot, ":tax_rate", ":party_no", slot_party_taxes_buy),
-            (val_add, ":price", ":tax_rate"),
+            (try_begin),
+                (is_between, ":party_no", centers_begin, centers_end),
+                (party_get_slot, ":tax_rate", ":party_no", slot_party_taxes_buy),
+                (val_add, ":price", ":tax_rate"),
+            (try_end),
 
             (assign, reg0, ":price"),
             (assign, reg1, ":tax_rate"),
@@ -24753,20 +24844,23 @@ scripts = [
             (store_script_param, ":party_seller", 2),
             (store_script_param, ":party_no", 3),
 
-            (assign, ":price", 25),
+            (assign, ":price", 50),
             
             (try_begin),
                 (is_between, ":party_no", centers_begin, centers_end),
                 (is_between, ":item_no", goods_begin, goods_end),
-                (party_get_slot, ":own_production", ":party_no", ":item_no"),
+
+                (store_sub, ":offset", ":item_no", goods_begin),
+                (store_add, ":slot", ":offset", slot_party_ressources_begin),
+                (party_get_slot, ":own_production", ":party_no", ":slot"),
                 (store_add, ":production_modifier", -20, ":own_production"),
                 (try_begin),
                     # We reduce the effect of own production the more we produce
                     # It is to avoid selling for ridiculous prices in highly productive places
                     (gt, ":production_modifier", 0),
-                    (store_div, ":prod", ":production_modifier", 30),
+                    (store_div, ":prod", ":production_modifier", 10),
                     (val_add, ":prod", 1),
-                    (val_div, ":production_modifier", ":prod"),
+                    (val_add, ":production_modifier", ":prod"),
                 (try_end),
                 (val_sub, ":price", ":production_modifier"),
             (try_end),
@@ -24782,8 +24876,11 @@ scripts = [
 
             (val_max, ":price", 105),
             
-            (party_get_slot, ":tax_rate", ":party_no", slot_party_taxes_sell),
-            (val_sub, ":price", ":tax_rate"),
+            (try_begin),
+                (is_between, ":party_no", centers_begin, centers_end),
+                (party_get_slot, ":tax_rate", ":party_no", slot_party_taxes_sell),
+                (val_sub, ":price", ":tax_rate"),
+            (try_end),
 
             (assign, reg0, ":price"),
             (assign, reg1, ":tax_rate"),
@@ -25984,6 +26081,8 @@ scripts = [
 
                 (troop_set_slot, "$g_player_troop", slot_troop_noble, 1),
 
+                (call_script, "script_troop_change_renown", "$g_player_troop", 100),
+
                 (val_add, ":wealth", 1000),
             (else_try),
                 (eq, "$g_start_game_intro_parents", player_starting_2_farmer),
@@ -26020,6 +26119,8 @@ scripts = [
 
                 (troop_raise_proficiency_linear, "$g_player_troop", wpt_one_handed_weapon, 5),
                 (troop_raise_proficiency_linear, "$g_player_troop", wpt_crossbow, 5),
+
+                (call_script, "script_troop_change_renown", "$g_player_troop", 20),
                 
                 (val_add, ":wealth", 650),
             (else_try),
@@ -26031,6 +26132,8 @@ scripts = [
                 (troop_raise_attribute, "$g_player_troop", ca_charisma, 1),
 
                 (troop_raise_proficiency_linear, "$g_player_troop", wpt_one_handed_weapon, 5),
+
+                (call_script, "script_troop_change_renown", "$g_player_troop", 50),
                 
                 (val_add, ":wealth", 1500),
             (else_try),
@@ -26055,6 +26158,8 @@ scripts = [
                 (troop_raise_proficiency_linear, "$g_player_troop", wpt_throwing, 5),
                 (troop_raise_proficiency_linear, "$g_player_troop", wpt_archery, 5),
                 (troop_raise_proficiency_linear, "$g_player_troop", wpt_crossbow, 5),
+
+                (call_script, "script_troop_change_renown", "$g_player_troop", 40),
                 
                 (val_add, ":wealth", 300),
             (else_try),
@@ -26069,6 +26174,8 @@ scripts = [
                 (troop_raise_proficiency_linear, "$g_player_troop", wpt_throwing, 5),
                 (troop_raise_proficiency_linear, "$g_player_troop", wpt_archery, 5),
                 (troop_raise_proficiency_linear, "$g_player_troop", wpt_crossbow, 5),
+
+                (call_script, "script_troop_change_renown", "$g_player_troop", 10),
                 
                 (val_add, ":wealth", 200),
             (else_try),
@@ -26154,6 +26261,8 @@ scripts = [
                 (troop_raise_proficiency_linear, "$g_player_troop", wpt_one_handed_weapon, 10),
                 (troop_raise_proficiency_linear, "$g_player_troop", wpt_polearm, 5),
 
+                (call_script, "script_troop_change_renown", "$g_player_troop", 5),
+
                 (val_add, ":wealth", 240),
             (try_end),
 
@@ -26223,6 +26332,8 @@ scripts = [
                 (troop_raise_proficiency_linear, "$g_player_troop", wpt_one_handed_weapon, 20),
                 (troop_raise_proficiency_linear, "$g_player_troop", wpt_polearm, 20),
 
+                (call_script, "script_troop_change_renown", "$g_player_troop", 5),
+
                 (val_add, ":wealth", 550),
             (else_try),
                 (eq, "$g_start_game_intro_job", player_starting_5_outlaw),
@@ -26236,6 +26347,8 @@ scripts = [
                 (troop_raise_proficiency_linear, "$g_player_troop", wpt_throwing, 5),
                 (troop_raise_proficiency_linear, "$g_player_troop", wpt_archery, 5),
                 (troop_raise_proficiency_linear, "$g_player_troop", wpt_crossbow, 5),
+
+                (call_script, "script_troop_change_renown", "$g_player_troop", 5),
 
                 (val_add, ":wealth", 150),
             (else_try),
@@ -26297,6 +26410,8 @@ scripts = [
                 (troop_raise_attribute, "$g_player_troop", ca_intelligence, 1),
                 (troop_raise_attribute, "$g_player_troop", ca_charisma, 1),
 
+                (call_script, "script_troop_change_renown", "$g_player_troop", 5),
+
                 (val_add, ":wealth", 750),
             (else_try),
                 (eq, "$g_start_game_intro_job", player_starting_5_mercenary),
@@ -26315,6 +26430,8 @@ scripts = [
                 (troop_raise_proficiency_linear, "$g_player_troop", wpt_archery, 10),
                 (troop_raise_proficiency_linear, "$g_player_troop", wpt_crossbow, 10),
 
+                (call_script, "script_troop_change_renown", "$g_player_troop", 10),
+
                 (val_add, ":wealth", 800),
             (else_try),
                 (eq, "$g_start_game_intro_job", player_starting_5_artisan),
@@ -26327,6 +26444,8 @@ scripts = [
 
                 (troop_raise_proficiency_linear, "$g_player_troop", wpt_one_handed_weapon, 5),
                 (troop_raise_proficiency_linear, "$g_player_troop", wpt_crossbow, 5),
+
+                (call_script, "script_troop_change_renown", "$g_player_troop", 5),
 
                 (val_add, ":wealth", 700),
             (else_try),
@@ -26351,6 +26470,8 @@ scripts = [
                 (troop_raise_skill, "$g_player_troop", skl_inventory_management, 1),
                 (troop_raise_attribute, "$g_player_troop", ca_intelligence, 1),
                 (troop_raise_attribute, "$g_player_troop", ca_charisma, 1),
+
+                (call_script, "script_troop_change_renown", "$g_player_troop", 20),
 
                 (val_add, ":wealth", 1000),
             (else_try),
@@ -27823,7 +27944,7 @@ scripts = [
             (store_script_param, ":troop_no", 1),
             (store_script_param, ":center_no", 2),
 
-            (assign, ":grants", 1),
+            (assign, ":grants", 0),
 
             (party_get_slot, ":center_leader", ":center_no", slot_party_leader),
             (try_begin),
@@ -27837,6 +27958,9 @@ scripts = [
                 (val_add, ":grants", reg0),
 
                 (call_script, "script_troop_get_center_recruit_grants_relation", "$g_player_troop", ":center_no"),
+                (val_add, ":grants", reg0),
+
+                (call_script, "script_troop_get_center_recruit_grants_center_relation", "$g_player_troop", ":center_no"),
                 (val_add, ":grants", reg0),
 
                 (call_script, "script_troop_get_center_recruit_grants_renown", "$g_player_troop", ":center_no"),
@@ -27868,10 +27992,10 @@ scripts = [
                 (str_store_string, s0, "@Town: +2"),
             (else_try),
                 (eq, ":center_type", spt_castle),
-                (val_add, ":num_grants", 1),
-                (str_store_string, s0, "@Castle: +1"),
+                (str_store_string, s0, "@Castle: 0"),
             (else_try),
-                (str_store_string, s0, "@Village: 0"),
+                (val_add, ":num_grants", 1),
+                (str_store_string, s0, "@Village: +1"),
             (try_end),
 
             (assign, reg0, ":num_grants"),
@@ -27939,6 +28063,35 @@ scripts = [
             (assign, reg0, ":num_grants"),
         ]),
 
+    # script_troop_get_center_recruit_grants_center_relation
+        # input:
+        #   arg1: troop_no
+        #   arg2: center_no
+        # output:
+        #   reg0: num_grants
+        #   s0: grant_description
+    ("troop_get_center_recruit_grants_center_relation",
+        [
+            (store_script_param, ":troop_no", 1),
+            (store_script_param, ":center_no", 2),
+
+            (assign, ":num_grants", 0),
+
+            (try_begin),
+                (eq, ":troop_no", "$g_player_troop"),
+                (party_get_slot, ":player_relation", ":center_no", slot_party_player_relation),
+                (store_div, ":num_grants", ":player_relation", 25),
+                (str_store_party_name, s10, ":center_no"),
+                (assign, reg10, ":num_grants"),
+                (str_store_string, s0, "@{s10}'s reputation: {reg10}"),
+            (else_try),
+                (str_store_party_name, s10, ":center_no"),
+                (str_store_string, s0, "@{s10}'s reputation: 0"),
+            (try_end),
+
+            (assign, reg0, ":num_grants"),
+        ]),
+
     # script_troop_get_center_recruit_grants_renown
         # input:
         #   arg1: troop_no
@@ -27954,7 +28107,7 @@ scripts = [
             (assign, ":num_grants", 0),
 
             (troop_get_slot, ":num_grants", ":troop_no", slot_troop_renown),
-            (val_div, ":num_grants", 500),
+            (val_div, ":num_grants", 350),
             (val_min, ":num_grants", 5),
 
             (assign, reg10, ":num_grants"),
@@ -28297,7 +28450,7 @@ scripts = [
                 (eq, ":lord", "$g_player_troop"),
                 (assign, ":continue", 1),
             (else_try),
-                (call_script, "script_cf_troop_is_vassal_of", ":lord", "$g_player_troop", 0),
+                (call_script, "script_cf_troop_is_vassal_of", ":lord", "$g_player_troop", 0, 10),
                 (assign, ":continue", 1),
             (try_end),
 
@@ -28309,6 +28462,7 @@ scripts = [
         #   arg1: troop_vassal
         #   arg2: troop_vassal_of
         #   arg3: direct
+        #   arg4: max_tries
         # output: none
         # fails if troop is not vassal
     ("cf_troop_is_vassal_of",
@@ -28316,6 +28470,7 @@ scripts = [
             (store_script_param, ":troop_vassal", 1),
             (store_script_param, ":troop_vassal_of", 2),
             (store_script_param, ":direct", 3),
+            (store_script_param, ":max_tries", 4),
 
             (assign, ":is_vassal", 0),
             (ge, ":troop_vassal", 0),
@@ -28326,7 +28481,8 @@ scripts = [
             (else_try),
                 (eq, ":direct", 0),
                 (ge, ":lord", 0),
-                (call_script, "script_cf_troop_is_vassal_of", ":lord", ":troop_vassal_of", ":direct"),
+                (val_sub, ":max_tries", 1),
+                (call_script, "script_cf_troop_is_vassal_of", ":lord", ":troop_vassal_of", ":direct", ":max_tries"),
                 (assign, ":is_vassal", 1),
             (try_end),
 
@@ -30489,41 +30645,45 @@ scripts = [
             (store_script_param, ":troop_no", 1),
             (store_script_param, ":xp", 2),
 
-            (troop_get_slot, ":current_xp", ":troop_no", slot_troop_xp),
-            (troop_get_slot, ":current_level", ":troop_no", slot_troop_xp_level),
-
-            (val_add, ":current_xp", ":xp"),
             (try_begin),
-                (eq, ":troop_no", "$g_player_troop"),
-                (assign, reg10, ":xp"),
-                (display_message, "@Gained {reg10} experience"),
-            (try_end),
-            (call_script, "script_get_level_xp_threshold", ":current_level"),
-            (assign, ":threshold", reg0),
-            (try_begin),
-                (gt, ":current_xp", ":threshold"),
-                (store_div, ":add_level", ":current_xp", ":threshold"),
-
-                (assign, ":end", ":add_level"),
-                (assign, ":added_level", 0),
-                (try_for_range, ":unused", 0, ":end"),
-                    (call_script, "script_get_level_xp_threshold", ":current_level"),
-                    (assign, ":threshold", reg0),
-                    (try_begin),
-                        (ge, ":current_xp", ":threshold"),
-                        (val_add, ":current_level", 1),
-                        (val_add, ":added_level", 1),
-                        (val_sub, ":current_xp", ":threshold"),
-                    (else_try),
-                        (assign, ":end", 0),
-                    (try_end),
+                (gt, ":xp", 0),
+                
+                (troop_get_slot, ":current_xp", ":troop_no", slot_troop_xp),
+                (troop_get_slot, ":current_level", ":troop_no", slot_troop_xp_level),
+                
+                (val_add, ":current_xp", ":xp"),
+                (try_begin),
+                    (eq, ":troop_no", "$g_player_troop"),
+                    (assign, reg10, ":xp"),
+                    (display_message, "@Gained {reg10} experience"),
                 (try_end),
+                (call_script, "script_get_level_xp_threshold", ":current_level"),
+                (assign, ":threshold", reg0),
+                (try_begin),
+                    (gt, ":current_xp", ":threshold"),
+                    (store_div, ":add_level", ":current_xp", ":threshold"),
 
-                (gt, ":added_level", 0),
-                (call_script, "script_troop_add_levels", ":troop_no", ":added_level"),
+                    (assign, ":end", ":add_level"),
+                    (assign, ":added_level", 0),
+                    (try_for_range, ":unused", 0, ":end"),
+                        (call_script, "script_get_level_xp_threshold", ":current_level"),
+                        (assign, ":threshold", reg0),
+                        (try_begin),
+                            (ge, ":current_xp", ":threshold"),
+                            (val_add, ":current_level", 1),
+                            (val_add, ":added_level", 1),
+                            (val_sub, ":current_xp", ":threshold"),
+                        (else_try),
+                            (assign, ":end", 0),
+                        (try_end),
+                    (try_end),
+
+                    (gt, ":added_level", 0),
+                    (call_script, "script_troop_add_levels", ":troop_no", ":added_level"),
+                (try_end),
+                (troop_set_slot, ":troop_no", slot_troop_xp, ":current_xp"),
+                (troop_set_slot, ":troop_no", slot_troop_xp_level, ":current_level"),
             (try_end),
-            (troop_set_slot, ":troop_no", slot_troop_xp, ":current_xp"),
-            (troop_set_slot, ":troop_no", slot_troop_xp_level, ":current_level"),
         ]),
 
     # script_troop_add_levels
@@ -31075,8 +31235,1176 @@ scripts = [
                 (party_get_attached_party_with_rank, ":attached_party", ":defeated_party", ":attached_party_rank"),
                 (call_script, "script_party_group_check_defeated_quests", ":winner_party", ":attached_party", ":allied_party"),
             (try_end),
-
         ]),
+
+    # script_party_process_events
+        # input:
+        #   arg1: party_no
+        # output: none
+    ("party_process_events",
+        [
+            (store_script_param, ":party_no", 1),
+
+            (party_get_slot, ":party_type", ":party_no", slot_party_type),
+            (call_script, "script_get_current_day"),
+            (assign, ":current_day", reg0),
+            (try_begin),
+                (eq, ":party_type", spt_town),
+
+                (party_get_slot, ":next_tournament", ":party_no", slot_party_next_tournament_date),
+                (party_get_slot, ":last_tournament", ":party_no", slot_party_last_tournament_date),
+
+                (call_script, "script_party_get_administrator", ":party_no"),
+                (assign, ":governor", reg0),
+                (gt, ":governor", 0),
+
+                (try_begin),
+                    (store_faction_of_party, ":current_faction", ":party_no"),
+                    (party_get_slot, ":party_faction", ":party_no", slot_party_faction),
+
+                    (neq, ":current_faction", ":party_faction"),
+                    (try_begin),
+                        (neq, ":next_tournament", -1),
+                        (party_set_slot, ":party_no", slot_party_next_tournament_date, -1),
+                        (try_begin),
+                            (call_script, "script_cf_debug", debug_faction|debug_current),
+                            (str_store_party_name, s10, ":party_no"),
+                            (display_message, "@{s10} cancelling tournament"),
+                        (try_end),
+                    (try_end),
+                (else_try),
+                    (eq, ":next_tournament", -1),
+                    # No tournament has been scheduled
+
+                    (store_sub, ":diff", ":current_day", ":last_tournament"),
+                    (try_begin),
+                        (gt, ":diff", min_tournament_cooldown),
+
+                        (store_add, ":chance", ":diff", 0),
+                        (party_get_slot, ":prosperity", ":party_no", slot_party_prosperity),
+                        (val_add, ":chance", ":prosperity"),
+
+                        (store_random_in_range, ":rand", 0, 20000),
+                        (gt, ":chance", ":rand"),
+
+                        (store_add, ":next_tournament_date", ":current_day", 90),
+                        (party_set_slot, ":party_no", slot_party_next_tournament_date, ":next_tournament_date"),
+
+                        (try_begin),
+                            (call_script, "script_cf_debug", debug_faction|debug_current),
+                            (str_store_party_name, s10, ":party_no"),
+                            (call_script, "script_game_get_date_text", -1, ":next_tournament_date"),
+                            (display_message, "@{s10} planning tournament in {s1}"),
+                        (try_end),
+                    (try_end),
+                (else_try),
+                    (store_add, ":tournament_end", ":next_tournament", 90),
+                    (gt, ":current_day", ":tournament_end"),
+                    (party_set_slot, ":party_no", slot_party_last_tournament_date, ":current_day"),
+                    (party_set_slot, ":party_no", slot_party_next_tournament_date, -1),
+
+                    (try_begin),
+                        (call_script, "script_cf_debug", debug_faction|debug_current),
+                        (str_store_party_name, s10, ":party_no"),
+                        (display_message, "@{s10} has finished tournament"),
+                    (try_end),
+                (try_end),
+            (try_end),
+        ]),
+
+    # script_party_get_administrator
+        # input:
+        #   arg1: party_no
+        # output:
+        #   reg0: administrator_troop
+    ("party_get_administrator",
+        [
+            (store_script_param, ":party_no", 1),
+
+            (party_get_slot, ":governor", ":party_no", slot_party_governor),
+            (try_begin),
+                (eq, ":governor", -1),
+                (party_get_slot, ":lord", ":party_no", slot_party_lord),
+                (gt, ":lord", 0),
+                (call_script, "script_cf_troop_is_in_center", ":lord", ":party_no"),
+                (assign, ":governor", ":lord"),
+            (try_end),
+
+            (assign, reg0, ":governor"),
+        ]),
+
+    # script_party_get_tournament_dates
+        # input:
+        #   arg1: party_no
+        # output:
+        #   reg0: start_date
+        #   reg1: end_date
+    ("party_get_tournament_dates",
+        [
+            (store_script_param, ":party_no", 1),
+
+            (party_get_slot, ":next_tournament", ":party_no", slot_party_next_tournament_date),
+            (try_begin),
+                (neq, ":next_tournament", -1),
+                (store_add, ":tournament_end", ":next_tournament", 90),
+
+                (assign, reg0, ":next_tournament"),
+                (assign, reg1, ":tournament_end"),
+            (else_try),
+                (assign, reg0, -1),
+                (assign, reg1, -1),
+            (try_end),
+        ]),
+
+    # script_party_get_tournament_participants
+        # input:
+        #   arg1: party_no
+        #   arg2: add_player
+        # output:
+        #   reg0: array_troop
+        #   reg1: array_start_index
+        #   reg2: array_length
+    ("party_get_tournament_participants",
+        [
+            (store_script_param, ":party_no", 1),
+            (store_script_param, ":add_player", 2),
+
+            (set_fixed_point_multiplier, 1),
+
+            (assign, ":start_index", 1),
+            (assign, ":index", ":start_index"),
+
+            (assign, ":max_participants", 16),
+            (assign, ":num_participants", 0),
+
+            (try_begin),
+                (eq, ":add_player", 1),
+                (troop_set_slot, "trp_tournament_participants_array", ":index", "$g_player_troop"),
+                (val_add, ":index", 1),
+                (val_add, ":num_participants", 1),
+            (try_end),
+            (assign, ":end", npc_heroes_end),
+            (try_for_range, ":troop_no", npc_heroes_begin, ":end"),
+                (call_script, "script_cf_troop_is_in_center", ":troop_no", ":party_no"),
+                (troop_set_slot, "trp_tournament_participants_array", ":index", ":troop_no"),
+                (val_add, ":num_participants", 1),
+                (val_add, ":index", 1),
+                (try_begin),
+                    (ge, ":num_participants", ":max_participants"),
+                    (assign, ":end", 0),
+                (try_end),
+            (try_end),
+
+            (try_begin),
+                (lt, ":num_participants", ":max_participants"),
+
+                (store_sub, ":diff", ":max_participants", ":num_participants"),
+
+                # TODO: Add mercenaries
+                # (store_div, ":max_mercenaries", ":diff", 3),
+
+                (party_get_num_companion_stacks, ":num_stacks", ":party_no"),
+                (assign, ":cur_town_index", ":num_stacks"),
+                (try_for_range, ":unused", 0, ":diff"),
+                    (assign, ":start", 0),
+                    (try_for_range_backwards, ":stack_no", ":start", ":cur_town_index"),
+                        (party_stack_get_troop_id, ":troop_id", ":party_no", ":stack_no"),
+                        (val_sub, ":cur_town_index", 1),
+                        (neg|troop_is_hero, ":troop_id"),
+
+                        (party_stack_get_size, ":size", ":party_no", ":stack_no"),
+                        (store_sqrt, ":tries", ":size"),
+
+                        (try_for_range, ":cur_try", 0, ":tries"),
+                            (lt, ":num_participants", ":max_participants"),
+
+                            # We want a ~random number that is deterministic on a given day
+                            (store_add, ":value", ":troop_id", "$g_daily_random"),
+                            (val_add, ":value", ":stack_no"),
+
+                            (store_add, ":mod", 2, ":cur_try"),
+                            (store_mod, ":rand", ":value", ":mod"),
+                            (eq, ":rand", 0),
+
+                            (troop_set_slot, "trp_tournament_participants_array", ":index", ":troop_id"),
+                            (val_add, ":num_participants", 1),
+                            (val_add, ":index", 1),
+                            (assign, ":stack_no", ":cur_town_index"),
+
+                            (try_begin),
+                                (ge, ":num_participants", ":max_participants"),
+                                (assign, ":tries", 0),
+                                (assign, ":diff", 0),
+                            (try_end),
+                        (try_end),
+                    (try_end),
+                (try_end),
+            (try_end),
+
+            (try_begin),
+                (lt, ":num_participants", ":max_participants"),
+                (store_sub, ":diff", ":max_participants", ":num_participants"),
+                (party_clear, "p_temp_party"),
+
+                (store_faction_of_party, ":party_faction", ":party_no"),
+                (faction_get_slot, ":culture", ":party_faction", slot_faction_culture),
+                (faction_get_slot, ":peasant_troop", ":culture", slot_faction_peasant_troop),
+
+                (try_for_range, ":unused", 0, ":diff"),
+                    (lt, ":num_participants", ":max_participants"),
+                    (troop_set_slot, "trp_tournament_participants_array", ":index", ":peasant_troop"),
+                    (val_add, ":num_participants", 1),
+                    (val_add, ":index", 1),
+                (try_end),
+            (try_end),
+
+            (assign, reg0, "trp_tournament_participants_array"),
+            (assign, reg1, ":start_index"),
+            (assign, reg2, ":num_participants"),
+        ]),
+
+    # script_party_get_tournament_prize
+        # input:
+        #   arg1: party_no
+        # output:
+        #   reg0: prize_amount
+    ("party_get_tournament_prize", 
+        [
+            (store_script_param, ":party_no", 1),
+
+            (party_get_slot, ":prosperity", ":party_no", slot_party_prosperity),
+            (assign, ":base_prize", 5000),
+
+            (call_script, "script_party_get_tournament_participants", ":party_no", 1),
+            (assign, ":array_troop", reg0),
+            (assign, ":start_index", reg1),
+            (assign, ":num_participants", reg2),
+
+            (assign, ":bonus_prize", 0),
+            (store_add, ":end_index", ":start_index", ":num_participants"),
+            (try_for_range, ":index", ":start_index", ":end_index"),
+                (troop_get_slot, ":troop_no", ":array_troop", ":index"),
+                (try_begin),
+                    (troop_is_hero, ":troop_no"),
+                    (troop_get_slot, ":rank", ":troop_no", slot_troop_rank),
+                    (troop_get_slot, ":level", ":troop_no", slot_troop_xp_level),
+
+                    (val_mul, ":rank", 200),
+                    (val_mul, ":level", 500),
+                    (val_add, ":bonus_prize", ":rank"),
+                    (val_add, ":bonus_prize", ":level"),
+                (else_try),
+                    (store_character_level, ":troop_level", ":troop_no"),
+                    (val_mul, ":troop_level", 5),
+
+                    (troop_get_slot, ":troop_rank", ":troop_no", slot_troop_quality),
+                    (val_add, ":troop_rank", 1),
+                    (val_mul, ":troop_rank", ":troop_rank"),
+
+                    (val_add, ":bonus_prize", ":troop_level"),
+                    (val_add, ":bonus_prize", ":troop_rank"),
+                (try_end),
+            (try_end),
+
+            (store_add, ":prize", ":base_prize", ":bonus_prize"),
+            (val_mul, ":prize", ":prosperity"),
+            (val_div, ":prize", 100),
+
+            (assign, reg0, ":prize"),
+        ]),
+
+    # script_party_get_tournament_round_type
+        # input:
+        #   arg1: party_no
+        #   arg2: num_participants
+        # output:
+        #   reg0: round_type
+    ("party_get_tournament_round_type",
+        [
+            (store_script_param, ":party_no", 1),
+            (store_script_param, ":num_participants", 2),
+
+            (assign, ":round_type", tournament_round_type_mixed),
+            (try_begin),
+                (eq, ":num_participants", 2),
+                (assign, ":round_type", tournament_round_type_melee),
+            (else_try),
+                
+                (party_get_slot, ":original_faction", ":party_no", slot_party_original_faction),
+                (faction_get_slot, ":culture", ":original_faction", slot_faction_culture),
+                (try_begin),
+                    (eq, ":culture", "fac_culture_1"),
+                (else_try),
+                    (eq, ":culture", "fac_culture_2"),
+                (else_try),
+                    (eq, ":culture", "fac_culture_3"),
+                (else_try),
+                    (eq, ":culture", "fac_culture_4"),
+                (else_try),
+                    (eq, ":culture", "fac_culture_5"),
+                (else_try),
+                    (eq, ":culture", "fac_culture_6"),
+                (else_try),
+                (try_end),
+            (try_end),
+
+            (assign, reg0, ":round_type"),
+        ]),
+
+    # script_party_get_tournament_round_teams
+        # input:
+        #   arg1: party_no
+        #   arg2: num_participants
+        # output:
+        #   reg0: num_teams
+        #   reg1: round_team_size
+    ("party_get_tournament_round_teams",
+        [
+            (store_script_param, ":party_no", 1),
+            (store_script_param, ":num_participants", 2),
+
+            (assign, ":num_teams", 2),
+            (assign, ":round_team_size", 4),
+            (try_begin),
+                (eq, ":num_participants", 2),
+                (assign, ":num_teams", 2),
+                (assign, ":round_team_size", 1),
+            (else_try),
+                (ge, ":num_participants", 16),
+                (assign, ":num_teams", 4),
+            (try_end),
+
+            (store_div, ":max_size", ":num_participants", ":num_teams"),
+            (val_min, ":round_team_size", ":max_size"),
+
+            (assign, reg0, ":num_teams"),
+            (assign, reg1, ":round_team_size"),
+        ]),
+
+    # script_party_set_tournament_round_override
+        # input:
+        #   arg1: party_no
+        #   arg2: round_type
+        #   arg3: entry_point
+        #   arg4: seed
+        # output: none
+    ("party_set_tournament_round_override",
+        [
+            (store_script_param, ":party_no", 1),
+            (store_script_param, ":round_type", 2),
+            (store_script_param, ":entry_point", 3),
+            (store_script_param, ":seed", 4),
+
+            (party_get_slot, ":original_faction", ":party_no", slot_party_original_faction),
+            (faction_get_slot, ":culture", ":original_faction", slot_faction_culture),
+
+            (mission_tpl_entry_clear_override_items, "mt_arena_tournament", ":entry_point"),
+
+            (try_begin),
+                (eq, ":round_type", tournament_round_type_mixed),
+
+                (try_begin),
+                    (eq, ":culture", "fac_culture_1"),
+                    (assign, ":mod", 10),
+
+                    (val_mod, ":seed", ":mod"),
+                    (try_begin),
+                        (eq, ":seed", 0),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_sword"),
+                        (call_script, "script_entry_point_set_tournament_shield", ":entry_point"),
+                    (else_try),
+                        (eq, ":seed", 1),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_staff"),
+                        (call_script, "script_entry_point_set_tournament_shield", ":entry_point"),
+                    (else_try),
+                        (eq, ":seed", 2),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_sword"),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_bow"),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_arrows"),
+                    (else_try),
+                        (eq, ":seed", 3),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_sword"),
+                        (call_script, "script_entry_point_set_tournament_shield", ":entry_point"),
+                    (else_try),
+                        (eq, ":seed", 4),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_sword"),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_horse"),
+                        (call_script, "script_entry_point_set_tournament_shield", ":entry_point"),
+                    (else_try),
+                        (eq, ":seed", 5),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_sword"),
+                        (call_script, "script_entry_point_set_tournament_shield", ":entry_point"),
+                    (else_try),
+                        (eq, ":seed", 6),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_heavy_practice_sword"),
+                    (else_try),
+                        (eq, ":seed", 7),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_sword"),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_crossbow"),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_bolts"),
+                    (else_try),
+                        (eq, ":seed", 8),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_sword"),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_horse"),
+                        (call_script, "script_entry_point_set_tournament_shield", ":entry_point"),
+                    (else_try),
+                        (eq, ":seed", 9),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_lance"),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_horse"),
+                        (call_script, "script_entry_point_set_tournament_shield", ":entry_point"),
+                    (try_end),
+                (else_try),
+                    (eq, ":culture", "fac_culture_2"),
+                    (assign, ":mod", 10),
+
+                    (val_mod, ":seed", ":mod"),
+                    (try_begin),
+                        (eq, ":seed", 0),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_sword"),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_bow"),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_arrows"),
+                    (else_try),
+                        (eq, ":seed", 1),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_sword"),
+                        (call_script, "script_entry_point_set_tournament_shield", ":entry_point"),
+                    (else_try),
+                        (eq, ":seed", 2),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_heavy_practice_sword"),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_horse"),
+                    (else_try),
+                        (eq, ":seed", 3),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_axe"),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_javelin"),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_horse"),
+                        (call_script, "script_entry_point_set_tournament_shield", ":entry_point"),
+                    (else_try),
+                        (eq, ":seed", 4),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_axe"),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_bow"),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_arrows"),
+                    (else_try),
+                        (eq, ":seed", 5),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_staff"),
+                        (call_script, "script_entry_point_set_tournament_shield", ":entry_point"),
+                    (else_try),
+                        (eq, ":seed", 6),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_axe"),
+                        (call_script, "script_entry_point_set_tournament_shield", ":entry_point"),
+                    (else_try),
+                        (eq, ":seed", 7),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_heavy_practice_sword"),
+                    (else_try),
+                        (eq, ":seed", 8),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_sword"),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_bow"),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_arrows"),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_horse"),
+                    (else_try),
+                        (eq, ":seed", 9),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_lance"),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_horse"),
+                        (call_script, "script_entry_point_set_tournament_shield", ":entry_point"),
+                    (try_end),
+                (else_try),
+                    (eq, ":culture", "fac_culture_3"),
+                    (assign, ":mod", 10),
+
+                    (val_mod, ":seed", ":mod"),
+                    (try_begin),
+                        (eq, ":seed", 0),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_lance"),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_horse"),
+                        (call_script, "script_entry_point_set_tournament_shield", ":entry_point"),
+                    (else_try),
+                        (eq, ":seed", 1),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_sword"),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_bow"),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_arrows"),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_horse"),
+                    (else_try),
+                        (eq, ":seed", 2),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_staff"),
+                        (call_script, "script_entry_point_set_tournament_shield", ":entry_point"),
+                    (else_try),
+                        (eq, ":seed", 3),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_sword"),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_bow"),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_arrows"),
+                        (call_script, "script_entry_point_set_tournament_shield", ":entry_point"),
+                    (else_try),
+                        (eq, ":seed", 4),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_sword"),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_javelin"),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_horse"),
+                        (call_script, "script_entry_point_set_tournament_shield", ":entry_point"),
+                    (else_try),
+                        (eq, ":seed", 5),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_lance"),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_horse"),
+                        (call_script, "script_entry_point_set_tournament_shield", ":entry_point"),
+                    (else_try),
+                        (eq, ":seed", 6),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_sword"),
+                        (call_script, "script_entry_point_set_tournament_shield", ":entry_point"),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_horse"),
+                    (else_try),
+                        (eq, ":seed", 7),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_staff"),
+                        (call_script, "script_entry_point_set_tournament_shield", ":entry_point"),
+                    (else_try),
+                        (eq, ":seed", 8),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_sword"),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_bow"),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_arrows"),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_horse"),
+                        (call_script, "script_entry_point_set_tournament_shield", ":entry_point"),
+                    (else_try),
+                        (eq, ":seed", 9),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_lance"),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_horse"),
+                        (call_script, "script_entry_point_set_tournament_shield", ":entry_point"),
+                    (try_end),
+                (else_try),
+                    (eq, ":culture", "fac_culture_4"),
+                    (assign, ":mod", 10),
+
+                    (val_mod, ":seed", ":mod"),
+                    (try_begin),
+                        (eq, ":seed", 0),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_axe"),
+                        (call_script, "script_entry_point_set_tournament_shield", ":entry_point"),
+                    (else_try),
+                        (eq, ":seed", 1),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_sword"),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_bow"),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_arrows"),
+                    (else_try),
+                        (eq, ":seed", 2),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_staff"),
+                        (call_script, "script_entry_point_set_tournament_shield", ":entry_point"),
+                    (else_try),
+                        (eq, ":seed", 3),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_sword"),
+                        (call_script, "script_entry_point_set_tournament_shield", ":entry_point"),
+                    (else_try),
+                        (eq, ":seed", 4),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_axe"),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_javelin"),
+                        (call_script, "script_entry_point_set_tournament_shield", ":entry_point"),
+                    (else_try),
+                        (eq, ":seed", 5),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_staff"),
+                        (call_script, "script_entry_point_set_tournament_shield", ":entry_point"),
+                    (else_try),
+                        (eq, ":seed", 6),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_axe"),
+                        (call_script, "script_entry_point_set_tournament_shield", ":entry_point"),
+                    (else_try),
+                        (eq, ":seed", 7),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_heavy_practice_sword"),
+                    (else_try),
+                        (eq, ":seed", 8),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_axe"),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_bow"),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_arrows"),
+                    (else_try),
+                        (eq, ":seed", 9),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_axe"),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_javelin"),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_horse"),
+                        (call_script, "script_entry_point_set_tournament_shield", ":entry_point"),
+                    (try_end),
+                (else_try),
+                    (eq, ":culture", "fac_culture_5"),
+                    (assign, ":mod", 10),
+
+                    (val_mod, ":seed", ":mod"),
+                    (try_begin),
+                        (eq, ":seed", 0),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_sword"),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_crossbow"),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_bolts"),
+                    (else_try),
+                        (eq, ":seed", 1),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_staff"),
+                        (call_script, "script_entry_point_set_tournament_shield", ":entry_point"),
+                    (else_try),
+                        (eq, ":seed", 2),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_sword"),
+                        (call_script, "script_entry_point_set_tournament_shield", ":entry_point"),
+                    (else_try),
+                        (eq, ":seed", 3),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_heavy_practice_sword"),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_crossbow"),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_bolts"),
+                    (else_try),
+                        (eq, ":seed", 4),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_sword"),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_horse"),
+                        (call_script, "script_entry_point_set_tournament_shield", ":entry_point"),
+                    (else_try),
+                        (eq, ":seed", 5),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_staff"),
+                        (call_script, "script_entry_point_set_tournament_shield", ":entry_point"),
+                    (else_try),
+                        (eq, ":seed", 6),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_sword"),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_crossbow"),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_bolts"),
+                        (call_script, "script_entry_point_set_tournament_shield", ":entry_point"),
+                    (else_try),
+                        (eq, ":seed", 7),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_sword"),
+                        (call_script, "script_entry_point_set_tournament_shield", ":entry_point"),
+                    (else_try),
+                        (eq, ":seed", 8),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_staff"),
+                        (call_script, "script_entry_point_set_tournament_shield", ":entry_point"),
+                    (else_try),
+                        (eq, ":seed", 9),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_sword"),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_crossbow"),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_bolts"),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_horse"),
+                    (try_end),
+                (else_try),
+                    (eq, ":culture", "fac_culture_6"),
+                    (assign, ":mod", 10),
+
+                    (val_mod, ":seed", ":mod"),
+                    (try_begin),
+                        (eq, ":seed", 0),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_sword"),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_javelin"),
+                        (call_script, "script_entry_point_set_tournament_shield", ":entry_point"),
+                    (else_try),
+                        (eq, ":seed", 1),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_sword"),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_bow"),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_arrows"),
+                    (else_try),
+                        (eq, ":seed", 2),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_sword"),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_horse"),
+                        (call_script, "script_entry_point_set_tournament_shield", ":entry_point"),
+                    (else_try),
+                        (eq, ":seed", 3),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_axe"),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_javelin"),
+                        (call_script, "script_entry_point_set_tournament_shield", ":entry_point"),
+                    (else_try),
+                        (eq, ":seed", 4),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_heavy_practice_sword"),
+                    (else_try),
+                        (eq, ":seed", 5),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_sword"),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_javelin"),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_horse"),
+                        (call_script, "script_entry_point_set_tournament_shield", ":entry_point"),
+                    (else_try),
+                        (eq, ":seed", 6),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_sword"),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_bow"),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_arrows"),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_horse"),
+                    (else_try),
+                        (eq, ":seed", 7),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_sword"),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_javelin"),
+                        (call_script, "script_entry_point_set_tournament_shield", ":entry_point"),
+                    (else_try),
+                        (eq, ":seed", 8),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_sword"),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_horse"),
+                        (call_script, "script_entry_point_set_tournament_shield", ":entry_point"),
+                    (else_try),
+                        (eq, ":seed", 9),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_sword"),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_javelin"),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_horse"),
+                        (call_script, "script_entry_point_set_tournament_shield", ":entry_point"),
+                    (try_end),
+                (try_end),
+            (else_try),
+                (eq, ":round_type", tournament_round_type_melee),
+
+                (try_begin),
+
+                    (eq, ":culture", "fac_culture_1"),
+                    (assign, ":mod", 8),
+
+                    (val_mod, ":seed", ":mod"),
+                    (try_begin),
+                        (eq, ":seed", 0),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_sword"),
+                        (call_script, "script_entry_point_set_tournament_shield", ":entry_point"),
+                    (else_try),
+                        (eq, ":seed", 1),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_staff"),
+                        (call_script, "script_entry_point_set_tournament_shield", ":entry_point"),
+                    (else_try),
+                        (eq, ":seed", 2),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_sword"),
+                        (call_script, "script_entry_point_set_tournament_shield", ":entry_point"),
+                    (else_try),
+                        (eq, ":seed", 3),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_sword"),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_horse"),
+                        (call_script, "script_entry_point_set_tournament_shield", ":entry_point"),
+                    (else_try),
+                        (eq, ":seed", 4),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_sword"),
+                        (call_script, "script_entry_point_set_tournament_shield", ":entry_point"),
+                    (else_try),
+                        (eq, ":seed", 5),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_heavy_practice_sword"),
+                    (else_try),
+                        (eq, ":seed", 6),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_sword"),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_horse"),
+                        (call_script, "script_entry_point_set_tournament_shield", ":entry_point"),
+                    (else_try),
+                        (eq, ":seed", 7),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_lance"),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_horse"),
+                        (call_script, "script_entry_point_set_tournament_shield", ":entry_point"),
+                    (try_end),
+                (else_try),
+                    (eq, ":culture", "fac_culture_2"),
+                    (assign, ":mod", 6),
+
+                    (val_mod, ":seed", ":mod"),
+                    (try_begin),
+                        (eq, ":seed", 0),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_sword"),
+                        (call_script, "script_entry_point_set_tournament_shield", ":entry_point"),
+                    (else_try),
+                        (eq, ":seed", 1),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_heavy_practice_sword"),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_horse"),
+                    (else_try),
+                        (eq, ":seed", 2),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_staff"),
+                        (call_script, "script_entry_point_set_tournament_shield", ":entry_point"),
+                    (else_try),
+                        (eq, ":seed", 3),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_axe"),
+                        (call_script, "script_entry_point_set_tournament_shield", ":entry_point"),
+                    (else_try),
+                        (eq, ":seed", 4),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_heavy_practice_sword"),
+                    (else_try),
+                        (eq, ":seed", 5),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_lance"),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_horse"),
+                        (call_script, "script_entry_point_set_tournament_shield", ":entry_point"),
+                    (try_end),
+                (else_try),
+                    (eq, ":culture", "fac_culture_3"),
+                    (assign, ":mod", 6),
+
+                    (val_mod, ":seed", ":mod"),
+                    (try_begin),
+                        (eq, ":seed", 0),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_lance"),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_horse"),
+                        (call_script, "script_entry_point_set_tournament_shield", ":entry_point"),
+                    (else_try),
+                        (eq, ":seed", 1),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_staff"),
+                        (call_script, "script_entry_point_set_tournament_shield", ":entry_point"),
+                    (else_try),
+                        (eq, ":seed", 2),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_lance"),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_horse"),
+                        (call_script, "script_entry_point_set_tournament_shield", ":entry_point"),
+                    (else_try),
+                        (eq, ":seed", 3),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_sword"),
+                        (call_script, "script_entry_point_set_tournament_shield", ":entry_point"),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_horse"),
+                    (else_try),
+                        (eq, ":seed", 4),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_staff"),
+                        (call_script, "script_entry_point_set_tournament_shield", ":entry_point"),
+                    (else_try),
+                        (eq, ":seed", 5),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_lance"),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_horse"),
+                        (call_script, "script_entry_point_set_tournament_shield", ":entry_point"),
+                    (try_end),
+                (else_try),
+                    (eq, ":culture", "fac_culture_4"),
+                    (assign, ":mod", 7),
+
+                    (val_mod, ":seed", ":mod"),
+                    (try_begin),
+                        (eq, ":seed", 0),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_axe"),
+                        (call_script, "script_entry_point_set_tournament_shield", ":entry_point"),
+                    (else_try),
+                        (eq, ":seed", 1),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_staff"),
+                        (call_script, "script_entry_point_set_tournament_shield", ":entry_point"),
+                    (else_try),
+                        (eq, ":seed", 2),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_sword"),
+                        (call_script, "script_entry_point_set_tournament_shield", ":entry_point"),
+                    (else_try),
+                        (eq, ":seed", 3),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_staff"),
+                        (call_script, "script_entry_point_set_tournament_shield", ":entry_point"),
+                    (else_try),
+                        (eq, ":seed", 4),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_axe"),
+                        (call_script, "script_entry_point_set_tournament_shield", ":entry_point"),
+                    (else_try),
+                        (eq, ":seed", 5),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_heavy_practice_sword"),
+                    (else_try),
+                        (eq, ":seed", 6),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_axe"),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_horse"),
+                        (call_script, "script_entry_point_set_tournament_shield", ":entry_point"),
+                    (try_end),
+                (else_try),
+                    (eq, ":culture", "fac_culture_5"),
+                    (assign, ":mod", 6),
+
+                    (val_mod, ":seed", ":mod"),
+                    (try_begin),
+                        (eq, ":seed", 0),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_staff"),
+                        (call_script, "script_entry_point_set_tournament_shield", ":entry_point"),
+                    (else_try),
+                        (eq, ":seed", 1),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_sword"),
+                        (call_script, "script_entry_point_set_tournament_shield", ":entry_point"),
+                    (else_try),
+                        (eq, ":seed", 2),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_sword"),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_horse"),
+                        (call_script, "script_entry_point_set_tournament_shield", ":entry_point"),
+                    (else_try),
+                        (eq, ":seed", 3),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_staff"),
+                        (call_script, "script_entry_point_set_tournament_shield", ":entry_point"),
+                    (else_try),
+                        (eq, ":seed", 4),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_sword"),
+                        (call_script, "script_entry_point_set_tournament_shield", ":entry_point"),
+                    (else_try),
+                        (eq, ":seed", 5),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_staff"),
+                        (call_script, "script_entry_point_set_tournament_shield", ":entry_point"),
+                    (try_end),
+                (else_try),
+                    (eq, ":culture", "fac_culture_6"),
+                    (assign, ":mod", 4),
+
+                    (val_mod, ":seed", ":mod"),
+                    (try_begin),
+                        (eq, ":seed", 0),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_sword"),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_horse"),
+                        (call_script, "script_entry_point_set_tournament_shield", ":entry_point"),
+                    (else_try),
+                        (eq, ":seed", 1),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_heavy_practice_sword"),
+                    (else_try),
+                        (eq, ":seed", 2),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_sword"),
+                        (call_script, "script_entry_point_set_tournament_shield", ":entry_point"),
+                    (else_try),
+                        (eq, ":seed", 3),
+                        (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_practice_axe"),
+                        (call_script, "script_entry_point_set_tournament_shield", ":entry_point"),
+                    (try_end),
+                (try_end),
+            (try_end),
+
+            (call_script, "script_entry_point_set_tournament_armor", ":entry_point"),
+        ]),
+
+    # script_entry_point_set_tournament_shield
+        # input:
+        #   arg1: entry_point
+        # output: none
+    ("entry_point_set_tournament_shield",
+        [
+            (store_script_param, ":entry_point", 1),
+
+            (store_mod, ":mod", ":entry_point", 4),
+
+            (try_begin),
+                (eq, ":mod", 0),
+                (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_arena_shield_red"),
+            (else_try),
+                (eq, ":mod", 1),
+                (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_arena_shield_blue"),
+            (else_try),
+                (eq, ":mod", 2),
+                (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_arena_shield_green"),
+            (else_try),
+                (eq, ":mod", 3),
+                (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_arena_shield_yellow"),
+            (try_end),
+        ]),
+
+    # script_entry_point_set_tournament_armor
+        # input:
+        #   arg1: entry_point
+        # output: none
+    ("entry_point_set_tournament_armor",
+        [
+            (store_script_param, ":entry_point", 1),
+
+            (store_mod, ":mod", ":entry_point", 4),
+
+            (try_begin),
+                (eq, ":mod", 0),
+                (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_arena_armor_red"),
+            (else_try),
+                (eq, ":mod", 1),
+                (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_arena_armor_blue"),
+            (else_try),
+                (eq, ":mod", 2),
+                (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_arena_armor_green"),
+            (else_try),
+                (eq, ":mod", 3),
+                (mission_tpl_entry_add_override_item, "mt_arena_tournament", ":entry_point", "itm_arena_armor_yellow"),
+            (try_end),
+        ]),
+
+    # script_troop_get_tournament_score
+        # input:
+        #   arg1: troop_no
+        # output:
+        #   reg0: score
+    ("troop_get_tournament_score",
+        [
+            (store_script_param, ":troop_no", 1),
+
+            (assign, ":score", 0),
+            (try_begin),
+                (troop_is_hero, ":troop_no"),
+                (troop_get_slot, ":score", ":troop_no", slot_troop_xp_level),
+                (troop_get_slot, ":rank", ":troop_no", slot_troop_level),
+                (val_add, ":rank", 5),
+                (val_mul, ":rank", 5),
+                (val_add, ":score", ":rank"),
+            (else_try),
+                (store_character_level, ":score", ":troop_no"),                
+            (try_end),
+            (store_random_in_range, ":rand", 0, 20),
+            (val_add, ":score", ":rand"),
+
+            (assign, reg0, ":score"),
+        ]),
+
+    # script_cf_troop_is_in_center
+        # input:
+        #   arg1: troop_no
+        #   arg2: party_no
+        # output: none
+        #   fails if troop is not inside center
+    ("cf_troop_is_in_center",
+        [
+            (store_script_param, ":troop_no", 1),
+            (store_script_param, ":party_no", 2),
+
+            (assign, ":continue", 0),
+
+            (try_begin),
+                (troop_get_slot, ":garrisonned", ":troop_no", slot_troop_garrisoned),
+                (eq, ":garrisonned", ":party_no"),
+                (assign, ":continue", 1),
+            (else_try),
+                (troop_get_slot, ":lead_party", ":troop_no", slot_troop_leaded_party),
+                (ge, ":lead_party", 0),
+                (party_is_active, ":lead_party"),
+                (party_get_attached_to, ":attached", ":lead_party"),
+                (eq, ":attached", ":party_no"),
+                (assign, ":continue", 1),
+            (try_end),
+
+            (eq, ":continue", 1),
+        ]),
+
+    # script_party_group_end_battle_update_relations
+        # input:
+        #   arg1: party_group_no
+        #   arg2: enemy_party_group
+        #   arg3: allied_party_group
+        # output: none
+    ("party_group_end_battle_update_relations",
+        [
+            (store_script_param, ":party_group_no", 1),
+            (store_script_param, ":enemy_party_group", 2),
+            (store_script_param, ":allied_party_group", 3),
+
+            (assign, ":advantage", 10),
+
+            (call_script, "script_party_end_battle_update_relations", ":party_group_no", ":party_group_no", ":advantage"),
+            (party_get_num_attached_parties, ":num_attached", ":party_group_no"),
+            (try_for_range, ":attached", 0, ":num_attached"),
+                (party_get_attached_party_with_rank, ":attached_party", ":party_group_no", ":attached"),
+                (call_script, "script_party_end_battle_update_relations", ":attached_party", ":party_group_no", ":advantage"),
+                (try_begin),
+                    (ge, ":allied_party_group", 0),
+                    (call_script, "script_party_end_battle_update_relations", ":attached_party", ":allied_party_group", ":advantage"),
+                (try_end),
+            (try_end),
+
+            (store_div, ":enemy_advantage", ":advantage", 3),
+            (assign, ":defeated_advantage", -1),
+            (call_script, "script_party_end_battle_update_relations", ":enemy_party_group", ":enemy_party_group", ":enemy_advantage"),
+            (call_script, "script_party_end_battle_update_relations", ":enemy_party_group", ":party_group_no", ":defeated_advantage"),
+            (party_get_num_attached_parties, ":num_attached", ":enemy_party_group"),
+            (try_for_range, ":attached", 0, ":num_attached"),
+                (party_get_attached_party_with_rank, ":attached_party", ":enemy_party_group", ":attached"),
+                (call_script, "script_party_end_battle_update_relations", ":attached_party", ":enemy_party_group", ":enemy_advantage"),
+                (call_script, "script_party_end_battle_update_relations", ":attached_party", ":party_group_no", ":defeated_advantage"),
+            (try_end),
+
+            (try_begin),
+                (ge, ":allied_party_group", 0),
+                (call_script, "script_party_end_battle_update_relations", ":allied_party_group", ":party_group_no", ":advantage"),
+                (call_script, "script_party_end_battle_update_relations", ":allied_party_group", ":allied_party_group", ":advantage"),
+                (call_script, "script_party_end_battle_update_relations", ":allied_party_group", ":enemy_party_group", ":defeated_advantage"),
+                (party_get_num_attached_parties, ":num_attached", ":allied_party_group"),
+                (try_for_range, ":attached", 0, ":num_attached"),
+                    (party_get_attached_party_with_rank, ":attached_party", ":allied_party_group", ":attached"),
+                    (call_script, "script_party_end_battle_update_relations", ":attached_party", ":party_group_no", ":advantage"),
+                    (call_script, "script_party_end_battle_update_relations", ":attached_party", ":allied_party_group", ":advantage"),
+                    (call_script, "script_party_end_battle_update_relations", ":attached_party", ":enemy_party_group", ":defeated_advantage"),
+                (try_end),
+            (try_end),
+        ]),
+
+    # script_party_end_battle_update_relations
+        # input:
+        #   arg1: party_group_no
+        #   arg2: allied_party_group
+        #   arg3: advantage
+        # output: none
+    ("party_end_battle_update_relations",
+        [
+            (store_script_param, ":party_no", 1),
+            (store_script_param, ":party_group_no", 2),
+            (store_script_param, ":advantage", 3),
+
+            (try_begin),
+                (neq, ":party_no", ":party_group_no"),
+
+                # Update relations
+                (assign, ":relation_change", 0),
+                (assign, ":abs", ":advantage"),
+                (set_fixed_point_multiplier, 1),
+                (val_abs, ":abs"),
+
+                (try_begin),
+                    (neq, ":advantage", 0),
+                    (party_get_slot, ":party_type", ":party_no", slot_party_type),
+                    (party_get_slot, ":other_party_type", ":party_group_no", slot_party_type),
+                    (try_begin),
+                        (this_or_next|eq, ":party_type", spt_bandit),
+                        (eq, ":other_party_type", spt_bandit),
+                        # bandits are ignored
+                        (assign, ":abs", 0),
+                    (else_try),
+                        (this_or_next|eq, ":party_type", spt_patrol),
+                        (eq, ":party_type", spt_caravan),
+                        (eq, ":party_group_no", "$g_player_party"),
+                    (else_try),
+                        (this_or_next|eq, ":other_party_type", spt_patrol),
+                        (eq, ":other_party_type", spt_caravan),
+                        (eq, ":party_no", "$g_player_party"),
+                    (else_try),
+                        (eq, ":party_type", spt_civilian),
+                        (eq, ":party_group_no", "$g_player_party"),
+                        (val_mul, ":abs", 10),
+                    (else_try),
+                        (eq, ":other_party_type", spt_civilian),
+                        (eq, ":party_no", "$g_player_party"),
+                        (val_mul, ":abs", 10),
+                    (else_try),
+                        (this_or_next|is_between, ":party_no", centers_begin, centers_end),
+                        (is_between, ":party_group_no", centers_begin, centers_end),
+                        (val_mul, ":abs", 2),
+                    (else_try),
+                        (eq, ":party_type", spt_war_party),
+                        (eq, ":other_party_type", spt_war_party),
+                        (val_div, ":abs", 2),
+                    (else_try),
+                        (assign, ":abs", 0),
+                    (try_end),
+                (try_end),
+
+                (store_div, ":relation_change", ":abs", 100),
+                (store_mod, ":relation_bonus", ":abs", 100),
+                (store_random_in_range, ":rand", 0, 100),
+                (try_begin),
+                    (gt, ":relation_bonus", ":rand"),
+                    (val_add, ":relation_change", 1),
+                (try_end),
+                (try_begin),
+                    (lt, ":advantage", 0),
+                    (val_mul, ":relation_change", -1),
+                (try_end),
+
+                (assign, ":party1", ":party_no"),
+                (assign, ":party2", ":party_group_no"),
+
+                (party_get_slot, ":party_type1", ":party1", slot_party_type),
+                (party_get_slot, ":party_type2", ":party2", slot_party_type),
+                (try_begin),
+                    (eq, ":party_type1", spt_civilian),
+                    (eq, ":party_type1", spt_caravan),
+                    (eq, ":party_type1", spt_patrol),
+
+                    (party_get_slot, ":party1", ":party1", slot_party_linked_party),
+                (try_end),
+                (try_begin),
+                    (eq, ":party_type2", spt_civilian),
+                    (eq, ":party_type2", spt_caravan),
+                    (eq, ":party_type2", spt_patrol),
+
+                    (party_get_slot, ":party2", ":party2", slot_party_linked_party),
+                (try_end),
+
+
+                (try_begin),
+                    (eq, ":relation_change", 0),
+                (else_try),
+                    (is_between, ":party1", centers_begin, centers_end),
+                    (eq, ":party2", "$g_player_party"),
+                    (call_script, "script_party_change_player_relation", ":party1", ":relation_change"),
+                (else_try),
+                    (is_between, ":party2", centers_begin, centers_end),
+                    (eq, ":party1", "$g_player_party"),
+                    (call_script, "script_party_change_player_relation", ":party2", ":relation_change"),
+                (else_try),
+                    (eq, ":party_type", spt_war_party),
+                    (eq, ":other_party_type", spt_war_party),
+                    (party_get_slot, ":leader", ":party1", slot_party_leader),
+                    (party_get_slot, ":other_leader", ":party2", slot_party_leader),
+                    (call_script, "script_troop_change_relation_with_troop", ":leader", ":other_leader", ":relation_change"),
+                (else_try),
+                    (call_script, "script_cf_debug", debug_current),
+                    (str_store_party_name, s10, ":party1"),
+                    (str_store_party_name, s11, ":party2"),
+                    (display_message, "@Unknown relation change for {s10}-{s11}"),
+                (try_end),
+
+                (party_get_num_attached_parties, ":num_attached", ":party_group_no"),
+                (try_for_range, ":attached", 0, ":num_attached"),
+                    (party_get_attached_party_with_rank, ":attached_party", ":party_group_no", ":attached"),
+                    (call_script, "script_party_end_battle_update_relations", ":party_no", ":attached_party", ":advantage"),
+                (try_end),
+            (try_end),
+        ]),
+
 
     # script_presentation_generate_select_lord_card
         # input:

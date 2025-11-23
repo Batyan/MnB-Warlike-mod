@@ -330,7 +330,7 @@ train_levies_cost = 25
 
 merchants_update_rate = 7*24
 
-reinforcement_range = 8
+reinforcement_range = 6
 
 starting_year = 733
 
@@ -574,6 +574,26 @@ level_xp_multiplier_sqrt = 5000
 
 bandit_start_camp_base_wealth = 10000
 
+battle_troop_control_none = 0x0
+battle_troop_control_own = 0x1
+battle_troop_control_allies = 0x2
+battle_troop_control_all = battle_troop_control_own|battle_troop_control_allies
+
+tournament_round_type_foot_melee = 1
+tournament_round_type_foot_ranged = 2
+tournament_round_type_foot_mixed = 3
+tournament_round_type_mounted_melee = 4
+tournament_round_type_mounted_ranged = 5
+tournament_round_type_mounted_mixed = 6
+tournament_round_type_melee = 7
+tournament_round_type_ranged = 8
+tournament_round_type_mixed = 9
+tournament_round_type_brawl = 10
+tournament_round_type_joust = 11
+tournament_round_type_survival = 12
+
+daily_random_max = 10000
+
 ################
 ## Item Slots ##
 ################
@@ -658,7 +678,7 @@ consumption_ratio_base = 1000000
 ## #############
 
 clans_begin = "trp_clan_storage_1"
-clans_end = "trp_banner_background_color_array"
+clans_end = "trp_tournament_participants_array"
 
 slot_clan_active = 9
 
@@ -1117,8 +1137,9 @@ bs_charge_2 = 6
 bs_melee = 7
 
 slot_party_siege_scene = slot_party_battle_stage + 1
+slot_party_arena_scene = slot_party_siege_scene + 1
 
-slot_party_linked_party = slot_party_siege_scene + 1
+slot_party_linked_party = slot_party_arena_scene + 1
 
 slot_party_faction = slot_party_linked_party + 1
 
@@ -1457,6 +1478,11 @@ slot_party_mission_kills = slot_party_face_options_storage + 1
 slot_party_mission_deaths = slot_party_mission_kills + 1
 slot_party_mission_xp = slot_party_mission_deaths + 1
 
+slot_party_next_tournament_date = slot_party_mission_xp + 1
+slot_party_last_tournament_date = slot_party_next_tournament_date + 1
+
+min_tournament_cooldown = 365
+
 #################
 ## Scene Slots ##
 #################
@@ -1489,6 +1515,9 @@ scene_construction_brick_snow = 0x100
 scene_construction_wood_fort = 0x200
 scene_construction_wood_pallisade = 0x400
 scene_construction_brick_desert = 0x800
+
+slot_scene_visitors_count = slot_scene_type + 1
+slot_scene_visitors_begin = slot_scene_visitors_count + 1
 
 #################
 ## Troop Slots ##
@@ -1866,7 +1895,8 @@ grc_reinforcement_infantry = 6
 grc_reinforcement_archer = 7
 grc_reinforcement_cavalry = 8
 
-daily_random_max = 10000
+slot_team_entry_seed = slot_team_division_9_type + 1
+slot_team_entry_offset = slot_team_entry_seed + 1
 
 #################
 ## Quest Slots ##
