@@ -1,3 +1,7 @@
+v0.710:
+	-Features:
+	-Balances:
+	-Fixes:
 v0.700:
 	-Features:
 		* add tournaments hosted by the cities
@@ -6,6 +10,7 @@ v0.700:
 		* add message to inform of options during captivity
 		* add banners on top of friendly troops (based on settings)
 		* add relation changes after battles
+		* add tournaments in cities
 	-Balances:
 		* reduce siege reinforcements wave size
 		* remove base grant for recruiting troops
