@@ -1131,6 +1131,7 @@ scripts = [
                     (neq, ":attached_party", "$g_player_party"),
                     (call_script, "script_party_process_mission", ":attached_party", 1),
                     (call_script, "script_party_process_ai", ":attached_party"),
+                    (party_detach, ":attached_party"),
                 (try_end),
             (try_end),
         ]),

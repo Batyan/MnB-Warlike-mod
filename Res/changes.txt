@@ -55,6 +55,7 @@ v0.700:
 		* fix introduction quest first dialog camera
 		* fix troop ransom favoring mounted troops
 		* fix experience messages when receiving 0 xp
+		* fix ai parties sticking to player after joining battle
 v0.652:
 	-Other:
 		* fix incorrect release pipeline to copy map.txt file
