@@ -1090,6 +1090,8 @@ scripts = [
             (store_script_param, ":allied_party", 3),
             
             (party_get_slot, ":party_type", ":defeated_party", slot_party_type),
+
+            (call_script, "script_party_group_end_battle_update_relations", ":winner_party", ":defeated_party", ":allied_party"),
             
             (try_begin),
                 (neq, ":allied_party", -1),
@@ -32227,6 +32229,181 @@ scripts = [
 
             (eq, ":continue", 1),
         ]),
+
+    # script_party_group_end_battle_update_relations
+        # input:
+        #   arg1: party_group_no
+        #   arg2: enemy_party_group
+        #   arg3: allied_party_group
+        # output: none
+    ("party_group_end_battle_update_relations",
+        [
+            (store_script_param, ":party_group_no", 1),
+            (store_script_param, ":enemy_party_group", 2),
+            (store_script_param, ":allied_party_group", 3),
+
+            (assign, ":advantage", 10),
+
+            (call_script, "script_party_end_battle_update_relations", ":party_group_no", ":party_group_no", ":advantage"),
+            (party_get_num_attached_parties, ":num_attached", ":party_group_no"),
+            (try_for_range, ":attached", 0, ":num_attached"),
+                (party_get_attached_party_with_rank, ":attached_party", ":party_group_no", ":attached"),
+                (call_script, "script_party_end_battle_update_relations", ":attached_party", ":party_group_no", ":advantage"),
+                (try_begin),
+                    (ge, ":allied_party_group", 0),
+                    (call_script, "script_party_end_battle_update_relations", ":attached_party", ":allied_party_group", ":advantage"),
+                (try_end),
+            (try_end),
+
+            (store_div, ":enemy_advantage", ":advantage", 3),
+            (assign, ":defeated_advantage", -1),
+            (call_script, "script_party_end_battle_update_relations", ":enemy_party_group", ":enemy_party_group", ":enemy_advantage"),
+            (call_script, "script_party_end_battle_update_relations", ":enemy_party_group", ":party_group_no", ":defeated_advantage"),
+            (party_get_num_attached_parties, ":num_attached", ":enemy_party_group"),
+            (try_for_range, ":attached", 0, ":num_attached"),
+                (party_get_attached_party_with_rank, ":attached_party", ":enemy_party_group", ":attached"),
+                (call_script, "script_party_end_battle_update_relations", ":attached_party", ":enemy_party_group", ":enemy_advantage"),
+                (call_script, "script_party_end_battle_update_relations", ":attached_party", ":party_group_no", ":defeated_advantage"),
+            (try_end),
+
+            (try_begin),
+                (ge, ":allied_party_group", 0),
+                (call_script, "script_party_end_battle_update_relations", ":allied_party_group", ":party_group_no", ":advantage"),
+                (call_script, "script_party_end_battle_update_relations", ":allied_party_group", ":allied_party_group", ":advantage"),
+                (call_script, "script_party_end_battle_update_relations", ":allied_party_group", ":enemy_party_group", ":defeated_advantage"),
+                (party_get_num_attached_parties, ":num_attached", ":allied_party_group"),
+                (try_for_range, ":attached", 0, ":num_attached"),
+                    (party_get_attached_party_with_rank, ":attached_party", ":allied_party_group", ":attached"),
+                    (call_script, "script_party_end_battle_update_relations", ":attached_party", ":party_group_no", ":advantage"),
+                    (call_script, "script_party_end_battle_update_relations", ":attached_party", ":allied_party_group", ":advantage"),
+                    (call_script, "script_party_end_battle_update_relations", ":attached_party", ":enemy_party_group", ":defeated_advantage"),
+                (try_end),
+            (try_end),
+        ]),
+
+    # script_party_end_battle_update_relations
+        # input:
+        #   arg1: party_group_no
+        #   arg2: allied_party_group
+        #   arg3: advantage
+        # output: none
+    ("party_end_battle_update_relations",
+        [
+            (store_script_param, ":party_no", 1),
+            (store_script_param, ":party_group_no", 2),
+            (store_script_param, ":advantage", 3),
+
+            (try_begin),
+                (neq, ":party_no", ":party_group_no"),
+
+                # Update relations
+                (assign, ":relation_change", 0),
+                (assign, ":abs", ":advantage"),
+                (set_fixed_point_multiplier, 1),
+                (val_abs, ":abs"),
+
+                (try_begin),
+                    (neq, ":advantage", 0),
+                    (party_get_slot, ":party_type", ":party_no", slot_party_type),
+                    (party_get_slot, ":other_party_type", ":party_group_no", slot_party_type),
+                    (try_begin),
+                        (this_or_next|eq, ":party_type", spt_bandit),
+                        (eq, ":other_party_type", spt_bandit),
+                        # bandits are ignored
+                        (assign, ":abs", 0),
+                    (else_try),
+                        (this_or_next|eq, ":party_type", spt_patrol),
+                        (eq, ":party_type", spt_caravan),
+                        (eq, ":party_group_no", "$g_player_party"),
+                    (else_try),
+                        (this_or_next|eq, ":other_party_type", spt_patrol),
+                        (eq, ":other_party_type", spt_caravan),
+                        (eq, ":party_no", "$g_player_party"),
+                    (else_try),
+                        (eq, ":party_type", spt_civilian),
+                        (eq, ":party_group_no", "$g_player_party"),
+                        (val_mul, ":abs", 10),
+                    (else_try),
+                        (eq, ":other_party_type", spt_civilian),
+                        (eq, ":party_no", "$g_player_party"),
+                        (val_mul, ":abs", 10),
+                    (else_try),
+                        (this_or_next|is_between, ":party_no", centers_begin, centers_end),
+                        (is_between, ":party_group_no", centers_begin, centers_end),
+                        (val_mul, ":abs", 2),
+                    (else_try),
+                        (eq, ":party_type", spt_war_party),
+                        (eq, ":other_party_type", spt_war_party),
+                        (val_div, ":abs", 2),
+                    (else_try),
+                        (assign, ":abs", 0),
+                    (try_end),
+                (try_end),
+
+                (store_div, ":relation_change", ":abs", 100),
+                (store_mod, ":relation_bonus", ":abs", 100),
+                (store_random_in_range, ":rand", 0, 100),
+                (try_begin),
+                    (gt, ":relation_bonus", ":rand"),
+                    (val_add, ":relation_change", 1),
+                (try_end),
+                (try_begin),
+                    (lt, ":advantage", 0),
+                    (val_mul, ":relation_change", -1),
+                (try_end),
+
+                (assign, ":party1", ":party_no"),
+                (assign, ":party2", ":party_group_no"),
+
+                (party_get_slot, ":party_type1", ":party1", slot_party_type),
+                (party_get_slot, ":party_type2", ":party2", slot_party_type),
+                (try_begin),
+                    (eq, ":party_type1", spt_civilian),
+                    (eq, ":party_type1", spt_caravan),
+                    (eq, ":party_type1", spt_patrol),
+
+                    (party_get_slot, ":party1", ":party1", slot_party_linked_party),
+                (try_end),
+                (try_begin),
+                    (eq, ":party_type2", spt_civilian),
+                    (eq, ":party_type2", spt_caravan),
+                    (eq, ":party_type2", spt_patrol),
+
+                    (party_get_slot, ":party2", ":party2", slot_party_linked_party),
+                (try_end),
+
+
+                (try_begin),
+                    (eq, ":relation_change", 0),
+                (else_try),
+                    (is_between, ":party1", centers_begin, centers_end),
+                    (eq, ":party2", "$g_player_party"),
+                    (call_script, "script_party_change_player_relation", ":party1", ":relation_change"),
+                (else_try),
+                    (is_between, ":party2", centers_begin, centers_end),
+                    (eq, ":party1", "$g_player_party"),
+                    (call_script, "script_party_change_player_relation", ":party2", ":relation_change"),
+                (else_try),
+                    (eq, ":party_type", spt_war_party),
+                    (eq, ":other_party_type", spt_war_party),
+                    (party_get_slot, ":leader", ":party1", slot_party_leader),
+                    (party_get_slot, ":other_leader", ":party2", slot_party_leader),
+                    (call_script, "script_troop_change_relation_with_troop", ":leader", ":other_leader", ":relation_change"),
+                (else_try),
+                    (call_script, "script_cf_debug", debug_current),
+                    (str_store_party_name, s10, ":party1"),
+                    (str_store_party_name, s11, ":party2"),
+                    (display_message, "@Unknown relation change for {s10}-{s11}"),
+                (try_end),
+
+                (party_get_num_attached_parties, ":num_attached", ":party_group_no"),
+                (try_for_range, ":attached", 0, ":num_attached"),
+                    (party_get_attached_party_with_rank, ":attached_party", ":party_group_no", ":attached"),
+                    (call_script, "script_party_end_battle_update_relations", ":party_no", ":attached_party", ":advantage"),
+                (try_end),
+            (try_end),
+        ]),
+
 
     # script_presentation_generate_select_lord_card
         # input:
