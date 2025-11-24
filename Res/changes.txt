@@ -1,5 +1,6 @@
 v0.710:
 	-Features:
+		* add current wars in faction notes
 	-Balances:
 		* introduction quest thugs are now visible during the quest
 	-Fixes:
