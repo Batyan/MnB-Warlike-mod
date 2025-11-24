@@ -1094,6 +1094,7 @@ dialogs = [
             (party_set_slot, "$g_encountered_party", slot_party_free_recruits, 20),
             (call_script, "script_spawn_party_around_party", "$g_encountered_party", "pt_thugs"),
             (assign, ":thugs_party", reg0),
+            (party_set_flags, ":thugs_party", pf_always_visible, 1),
             (party_set_faction, ":thugs_party", "fac_no_faction"),
             (call_script, "script_party_set_behavior", ":thugs_party", tai_patroling_center, "$g_encountered_party"),
             (party_add_members, ":thugs_party", "trp_bandit_thug", 1),

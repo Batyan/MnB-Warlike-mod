@@ -1,6 +1,7 @@
 v0.710:
 	-Features:
 	-Balances:
+		* introduction quest thugs are now visible during the quest
 	-Fixes:
 v0.700:
 	-Features:
