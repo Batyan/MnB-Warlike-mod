@@ -3,6 +3,7 @@ from ID_quests import *
 from ID_factions import *
 from ID_meshes import *
 from ID_strings import *
+from ID_scene_props import *
 
 
 
@@ -23,9 +24,9 @@ banner_meshes_begin = "mesh_banner_a01"
 banner_meshes_end = "mesh_banner_mesh_end"
 banner_meshes_end_minus_one = 1
 
-banner_scene_props_begin = "spr_banner_a"
-banner_scene_props_end = "spr_banner_end"
-banner_scene_props_end_minus_one = "spr_banner_kingdom_f"
+banner_scene_props_begin = spr_banner_a
+banner_scene_props_end = spr_banner_end
+banner_scene_props_end_minus_one = spr_banner_kingdom_f
 
 npc_kingdoms_begin = 0
 npc_kingdoms_end = 1
@@ -1788,6 +1789,11 @@ slot_faction_mission_kills = 400
 slot_faction_mission_deaths = 401
 # END
 
+slot_banner_used_begin = 1
+slot_banner_used_end = slot_banner_used_begin + banner_scene_props_end - banner_scene_props_begin
+slot_banner_culture_begin = slot_banner_used_end + 1
+slot_banner_culture_end = slot_banner_culture_begin + banner_scene_props_end - banner_scene_props_begin
+
 ##################
 ## Player Slots ##
 ##################
@@ -1961,17 +1967,11 @@ slot_party_template_type_troop_4 = 10
 slot_party_template_type_troop_5 = 11
 slot_party_template_type_troop_6 = 12
 
-
-
 ######################
 ## Scene Prop Slots ##
 ######################
 
 scene_prop_slots = 0
-
-
-
-
 
 ##################
 ## Achievements ##

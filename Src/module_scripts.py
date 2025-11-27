@@ -44,6 +44,7 @@ scripts = [
             (call_script, "script_init_bandits"),
             (call_script, "script_init_goods"),
             (call_script, "script_init_good_recipes"),
+            (call_script, "script_init_banners"),
             
             (call_script, "script_init_building_slots"),
             (call_script, "script_init_siege_scene_slots"),
@@ -13464,10 +13465,6 @@ scripts = [
             (call_script, "script_troop_set_name", ":lord_no"),
             (call_script, "script_troop_update_name", ":lord_no"),
 
-            # ToDo: refine banner selection
-            # (store_random_in_range, ":banner", banner_scene_props_begin, banner_scene_props_end),
-            # (call_script, "script_troop_set_banner", ":lord_no", ":banner"),
-            
             (call_script, "script_troop_get_face_code", ":lord_no", -1, -1),
             (troop_set_face_keys, ":lord_no", s0),
             
@@ -13557,8 +13554,45 @@ scripts = [
                 (ge, ":leader_banner", 1),
                 (troop_set_slot, ":clan", slot_clan_banner, ":leader_banner"),
             (else_try),
-                (store_random_in_range, ":banner", banner_scene_props_begin, banner_scene_props_end),
-                (troop_set_slot, ":clan", slot_clan_banner, ":banner"),
+                (troop_slot_eq, ":clan", slot_clan_banner, 0),
+
+                (troop_get_slot, ":clan_culture", ":clan", slot_clan_culture),
+
+                (store_sub, ":num_banners", banner_scene_props_end, banner_scene_props_begin),
+                (store_random_in_range, ":rand", 0, ":num_banners"),
+                (assign, ":num_tries", ":num_banners"),
+                (assign, ":best_banner", -1),
+                (try_for_range, ":unused", 0, ":num_tries"),
+                    (store_add, ":current_banner", ":rand", banner_scene_props_begin),
+                    (call_script, "script_get_banner_used", ":current_banner"),
+                    (assign, ":used", reg0),
+                    (call_script, "script_get_banner_culture", ":current_banner"),
+                    (assign, ":banner_culture", reg0),
+                    (try_begin),
+                        (eq, ":used", 0),
+                        (eq, ":banner_culture", ":clan_culture"),
+                        (assign, ":num_tries", 0),
+                        (troop_set_slot, ":clan", slot_clan_banner, ":current_banner"),
+                        (call_script, "script_set_banner_used", ":current_banner", 1),
+                    (else_try),
+                        (eq, ":used", 0),
+                        (eq, ":best_banner", -1),
+                        (assign, ":best_banner", ":current_banner"),
+                    (try_end),
+                    (val_add, ":rand", 1),
+                    (val_mod, ":rand", ":num_banners"),
+                (try_end),
+                (try_begin),
+                    (troop_slot_eq, ":clan", slot_clan_banner, 0),
+                    (is_between, ":best_banner", banner_scene_props_begin, banner_scene_props_end),
+                    (troop_set_slot, ":clan", slot_clan_banner, ":best_banner"),
+                    (call_script, "script_set_banner_used", ":best_banner", 1),
+                (else_try),
+                    (troop_slot_eq, ":clan", slot_clan_banner, 0),
+                    (store_random_in_range, ":rand", banner_scene_props_begin, banner_scene_props_end),
+                    (troop_set_slot, ":clan", slot_clan_banner, ":rand"),
+                    (call_script, "script_set_banner_used", ":rand", 1),
+                (try_end),
             (try_end),
 
             (try_begin),
@@ -32447,6 +32481,211 @@ scripts = [
             (try_end),
         ]),
 
+    # script_init_banners
+        # input: none
+        # output: none
+    ("init_banners",
+        [
+            (try_for_range, ":scene_prop", banner_scene_props_begin, banner_scene_props_end),
+                (call_script, "script_set_banner_used", ":scene_prop", 0),
+                (call_script, "script_set_banner_culture", ":scene_prop", -1),
+            (try_end),
+
+            (call_script, "script_set_banner_culture", "spr_banner_a", "fac_culture_1"),
+            (call_script, "script_set_banner_culture", "spr_banner_b", "fac_culture_2"),
+            (call_script, "script_set_banner_culture", "spr_banner_c", "fac_culture_4"),
+            (call_script, "script_set_banner_culture", "spr_banner_d", "fac_culture_5"),
+            (call_script, "script_set_banner_culture", "spr_banner_e", "fac_culture_5"),
+            (call_script, "script_set_banner_culture", "spr_banner_f", "fac_culture_5"),
+            (call_script, "script_set_banner_culture", "spr_banner_g", "fac_culture_2"),
+            (call_script, "script_set_banner_culture", "spr_banner_h", "fac_culture_4"),
+            (call_script, "script_set_banner_culture", "spr_banner_i", "fac_culture_2"),
+            (call_script, "script_set_banner_culture", "spr_banner_j", "fac_culture_5"),
+            (call_script, "script_set_banner_culture", "spr_banner_k", "fac_culture_1"),
+            (call_script, "script_set_banner_culture", "spr_banner_l", "fac_culture_4"),
+            (call_script, "script_set_banner_culture", "spr_banner_m", "fac_culture_4"),
+            (call_script, "script_set_banner_culture", "spr_banner_n", "fac_culture_1"),
+            (call_script, "script_set_banner_culture", "spr_banner_o", "fac_culture_1"),
+            (call_script, "script_set_banner_culture", "spr_banner_p", "fac_culture_1"),
+            (call_script, "script_set_banner_culture", "spr_banner_q", "fac_culture_1"),
+            (call_script, "script_set_banner_culture", "spr_banner_r", "fac_culture_4"),
+            (call_script, "script_set_banner_culture", "spr_banner_s", "fac_culture_2"),
+            (call_script, "script_set_banner_culture", "spr_banner_t", "fac_culture_5"),
+            (call_script, "script_set_banner_culture", "spr_banner_u", "fac_culture_1"),
+            (call_script, "script_set_banner_culture", "spr_banner_ba", "fac_culture_2"),
+            (call_script, "script_set_banner_culture", "spr_banner_bb", "fac_culture_2"),
+            (call_script, "script_set_banner_culture", "spr_banner_bc", "fac_culture_2"),
+            (call_script, "script_set_banner_culture", "spr_banner_bd", "fac_culture_2"),
+            (call_script, "script_set_banner_culture", "spr_banner_be", "fac_culture_5"),
+            (call_script, "script_set_banner_culture", "spr_banner_bf", "fac_culture_3"),
+            (call_script, "script_set_banner_culture", "spr_banner_bg", "fac_culture_1"),
+            (call_script, "script_set_banner_culture", "spr_banner_bh", "fac_culture_5"),
+            (call_script, "script_set_banner_culture", "spr_banner_bi", "fac_culture_3"),
+            (call_script, "script_set_banner_culture", "spr_banner_bj", "fac_culture_1"),
+            (call_script, "script_set_banner_culture", "spr_banner_bk", "fac_culture_2"),
+            (call_script, "script_set_banner_culture", "spr_banner_bl", "fac_culture_2"),
+            (call_script, "script_set_banner_culture", "spr_banner_bm", "fac_culture_1"),
+            (call_script, "script_set_banner_culture", "spr_banner_bn", "fac_culture_5"),
+            (call_script, "script_set_banner_culture", "spr_banner_bo", "fac_culture_4"),
+            (call_script, "script_set_banner_culture", "spr_banner_bp", "fac_culture_4"),
+            (call_script, "script_set_banner_culture", "spr_banner_bq", "fac_culture_2"),
+            (call_script, "script_set_banner_culture", "spr_banner_br", "fac_culture_2"),
+            (call_script, "script_set_banner_culture", "spr_banner_bs", "fac_culture_5"),
+            (call_script, "script_set_banner_culture", "spr_banner_bt", "fac_culture_4"),
+            (call_script, "script_set_banner_culture", "spr_banner_bu", "fac_culture_3"),
+            (call_script, "script_set_banner_culture", "spr_banner_ca", "fac_culture_5"),
+            (call_script, "script_set_banner_culture", "spr_banner_cb", "fac_culture_4"),
+            (call_script, "script_set_banner_culture", "spr_banner_cc", "fac_culture_1"),
+            (call_script, "script_set_banner_culture", "spr_banner_cd", "fac_culture_1"),
+            (call_script, "script_set_banner_culture", "spr_banner_ce", "fac_culture_3"),
+            (call_script, "script_set_banner_culture", "spr_banner_cf", "fac_culture_5"),
+            (call_script, "script_set_banner_culture", "spr_banner_cg", "fac_culture_3"),
+            (call_script, "script_set_banner_culture", "spr_banner_ch", "fac_culture_1"),
+            (call_script, "script_set_banner_culture", "spr_banner_ci", "fac_culture_1"),
+            (call_script, "script_set_banner_culture", "spr_banner_cj", "fac_culture_5"),
+            (call_script, "script_set_banner_culture", "spr_banner_ck", "fac_culture_5"),
+            (call_script, "script_set_banner_culture", "spr_banner_cl", "fac_culture_1"),
+            (call_script, "script_set_banner_culture", "spr_banner_cm", "fac_culture_1"),
+            (call_script, "script_set_banner_culture", "spr_banner_cn", "fac_culture_3"),
+            (call_script, "script_set_banner_culture", "spr_banner_co", "fac_culture_1"),
+            (call_script, "script_set_banner_culture", "spr_banner_cp", "fac_culture_5"),
+            (call_script, "script_set_banner_culture", "spr_banner_cq", "fac_culture_1"),
+            (call_script, "script_set_banner_culture", "spr_banner_cr", "fac_culture_3"),
+            (call_script, "script_set_banner_culture", "spr_banner_cs", "fac_culture_4"),
+            (call_script, "script_set_banner_culture", "spr_banner_ct", "fac_culture_5"),
+            (call_script, "script_set_banner_culture", "spr_banner_cu", "fac_culture_3"),
+            (call_script, "script_set_banner_culture", "spr_banner_da", "fac_culture_3"),
+            (call_script, "script_set_banner_culture", "spr_banner_db", "fac_culture_3"),
+            (call_script, "script_set_banner_culture", "spr_banner_dc", "fac_culture_3"),
+            (call_script, "script_set_banner_culture", "spr_banner_dd", "fac_culture_3"),
+            (call_script, "script_set_banner_culture", "spr_banner_de", "fac_culture_3"),
+            (call_script, "script_set_banner_culture", "spr_banner_df", "fac_culture_3"),
+            (call_script, "script_set_banner_culture", "spr_banner_dg", "fac_culture_3"),
+            (call_script, "script_set_banner_culture", "spr_banner_dh", "fac_culture_3"),
+            (call_script, "script_set_banner_culture", "spr_banner_di", "fac_culture_3"),
+            (call_script, "script_set_banner_culture", "spr_banner_dj", "fac_culture_3"),
+            (call_script, "script_set_banner_culture", "spr_banner_dk", "fac_culture_3"),
+            (call_script, "script_set_banner_culture", "spr_banner_dl", "fac_culture_3"),
+            (call_script, "script_set_banner_culture", "spr_banner_dm", "fac_culture_3"),
+            (call_script, "script_set_banner_culture", "spr_banner_dn", "fac_culture_3"),
+            (call_script, "script_set_banner_culture", "spr_banner_do", "fac_culture_5"),
+            (call_script, "script_set_banner_culture", "spr_banner_dp", "fac_culture_5"),
+            (call_script, "script_set_banner_culture", "spr_banner_dq", "fac_culture_3"),
+            (call_script, "script_set_banner_culture", "spr_banner_dr", "fac_culture_3"),
+            (call_script, "script_set_banner_culture", "spr_banner_ds", "fac_culture_3"),
+            (call_script, "script_set_banner_culture", "spr_banner_dt", "fac_culture_2"),
+            (call_script, "script_set_banner_culture", "spr_banner_du", "fac_culture_3"),
+            (call_script, "script_set_banner_culture", "spr_banner_ea", "fac_culture_4"),
+            (call_script, "script_set_banner_culture", "spr_banner_eb", "fac_culture_5"),
+            (call_script, "script_set_banner_culture", "spr_banner_ec", "fac_culture_1"),
+            (call_script, "script_set_banner_culture", "spr_banner_ed", "fac_culture_4"),
+            (call_script, "script_set_banner_culture", "spr_banner_ee", "fac_culture_5"),
+            (call_script, "script_set_banner_culture", "spr_banner_ef", "fac_culture_1"),
+            (call_script, "script_set_banner_culture", "spr_banner_eg", "fac_culture_5"),
+            (call_script, "script_set_banner_culture", "spr_banner_eh", "fac_culture_4"),
+            (call_script, "script_set_banner_culture", "spr_banner_ei", "fac_culture_4"),
+            (call_script, "script_set_banner_culture", "spr_banner_ej", "fac_culture_1"),
+            (call_script, "script_set_banner_culture", "spr_banner_ek", "fac_culture_3"),
+            (call_script, "script_set_banner_culture", "spr_banner_el", "fac_culture_5"),
+            (call_script, "script_set_banner_culture", "spr_banner_em", "fac_culture_2"),
+            (call_script, "script_set_banner_culture", "spr_banner_en", "fac_culture_4"),
+            (call_script, "script_set_banner_culture", "spr_banner_eo", "fac_culture_2"),
+            (call_script, "script_set_banner_culture", "spr_banner_ep", "fac_culture_2"),
+            (call_script, "script_set_banner_culture", "spr_banner_eq", "fac_culture_2"),
+            (call_script, "script_set_banner_culture", "spr_banner_er", "fac_culture_2"),
+            (call_script, "script_set_banner_culture", "spr_banner_es", "fac_culture_1"),
+            (call_script, "script_set_banner_culture", "spr_banner_et", "fac_culture_2"),
+            (call_script, "script_set_banner_culture", "spr_banner_eu", "fac_culture_2"),
+            (call_script, "script_set_banner_culture", "spr_banner_f01", "fac_culture_6"),
+            (call_script, "script_set_banner_culture", "spr_banner_f02", "fac_culture_6"),
+            (call_script, "script_set_banner_culture", "spr_banner_f03", "fac_culture_6"),
+            (call_script, "script_set_banner_culture", "spr_banner_f04", "fac_culture_6"),
+            (call_script, "script_set_banner_culture", "spr_banner_f05", "fac_culture_6"),
+            (call_script, "script_set_banner_culture", "spr_banner_f06", "fac_culture_6"),
+            (call_script, "script_set_banner_culture", "spr_banner_f07", "fac_culture_6"),
+            (call_script, "script_set_banner_culture", "spr_banner_f08", "fac_culture_6"),
+            (call_script, "script_set_banner_culture", "spr_banner_f09", "fac_culture_6"),
+            (call_script, "script_set_banner_culture", "spr_banner_f10", "fac_culture_6"),
+            (call_script, "script_set_banner_culture", "spr_banner_f11", "fac_culture_6"),
+            (call_script, "script_set_banner_culture", "spr_banner_f12", "fac_culture_6"),
+            (call_script, "script_set_banner_culture", "spr_banner_f13", "fac_culture_6"),
+            (call_script, "script_set_banner_culture", "spr_banner_f14", "fac_culture_6"),
+            (call_script, "script_set_banner_culture", "spr_banner_f15", "fac_culture_6"),
+            (call_script, "script_set_banner_culture", "spr_banner_f16", "fac_culture_6"),
+            (call_script, "script_set_banner_culture", "spr_banner_f17", "fac_culture_6"),
+            (call_script, "script_set_banner_culture", "spr_banner_f18", "fac_culture_6"),
+            (call_script, "script_set_banner_culture", "spr_banner_f19", "fac_culture_6"),
+            (call_script, "script_set_banner_culture", "spr_banner_f20", "fac_culture_6"),
+            (call_script, "script_set_banner_culture", "spr_banner_f21", "fac_culture_2"),
+            (call_script, "script_set_banner_culture", "spr_banner_kingdom_a", "fac_culture_4"),
+            (call_script, "script_set_banner_culture", "spr_banner_kingdom_b", "fac_culture_2"),
+            (call_script, "script_set_banner_culture", "spr_banner_kingdom_c", "fac_culture_3"),
+            (call_script, "script_set_banner_culture", "spr_banner_kingdom_d", "fac_culture_5"),
+            (call_script, "script_set_banner_culture", "spr_banner_kingdom_e", "fac_culture_6"),
+            (call_script, "script_set_banner_culture", "spr_banner_kingdom_f", "fac_culture_1"),
+        ]),
+
+    # script_get_banner_used
+        # input:
+        #   arg1: banner_scene_prop
+        # output:
+        #   reg0: used
+    ("get_banner_used",
+        [
+            (store_script_param, ":banner_scene_prop", 1),
+
+            (store_sub, ":offset", ":banner_scene_prop", banner_scene_props_begin),
+            (store_add, ":slot", ":offset", slot_banner_used_begin),
+
+            (troop_get_slot, reg0, "trp_banners_array", ":slot"),
+        ]),
+
+    # script_get_banner_culture
+        # input:
+        #   arg1: banner_scene_prop
+        # output:
+        #   reg0: culture
+    ("get_banner_culture",
+        [
+            (store_script_param, ":banner_scene_prop", 1),
+
+            (store_sub, ":offset", ":banner_scene_prop", banner_scene_props_begin),
+            (store_add, ":slot", ":offset", slot_banner_culture_begin),
+
+            (troop_get_slot, reg0, "trp_banners_array", ":slot"),
+        ]),
+
+    # script_set_banner_used
+        # input:
+        #   arg1: banner_scene_prop
+        #   arg2: used
+        # output: none
+    ("set_banner_used",
+        [
+            (store_script_param, ":banner_scene_prop", 1),
+            (store_script_param, ":used", 2),
+
+            (store_sub, ":offset", ":banner_scene_prop", banner_scene_props_begin),
+            (store_add, ":slot", ":offset", slot_banner_used_begin),
+
+            (troop_set_slot, "trp_banners_array", ":slot", ":used"),
+        ]),
+
+    # script_set_banner_culture
+        # input:
+        #   arg1: banner_scene_prop
+        #   arg2: culture
+        # output: none
+    ("set_banner_culture",
+        [
+            (store_script_param, ":banner_scene_prop", 1),
+            (store_script_param, ":culture", 2),
+
+            (store_sub, ":offset", ":banner_scene_prop", banner_scene_props_begin),
+            (store_add, ":slot", ":offset", slot_banner_culture_begin),
+
+            (troop_set_slot, "trp_banners_array", ":slot", ":culture"),
+        ]),
 
     # script_presentation_generate_select_lord_card
         # input:

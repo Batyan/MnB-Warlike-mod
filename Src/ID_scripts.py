@@ -614,9 +614,14 @@ script_troop_get_tournament_score = 612
 script_cf_troop_is_in_center = 613
 script_party_group_end_battle_update_relations = 614
 script_party_end_battle_update_relations = 615
-script_presentation_generate_select_lord_card = 616
-script_presentation_create_text_overlay = 617
-script_presentation_create_combo_button_overlay = 618
-script_presentation_create_check_box_overlay = 619
+script_init_banners = 616
+script_get_banner_used = 617
+script_get_banner_culture = 618
+script_set_banner_used = 619
+script_set_banner_culture = 620
+script_presentation_generate_select_lord_card = 621
+script_presentation_create_text_overlay = 622
+script_presentation_create_combo_button_overlay = 623
+script_presentation_create_check_box_overlay = 624
 
 
