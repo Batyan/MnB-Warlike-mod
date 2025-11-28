@@ -2553,11 +2553,13 @@ game_menus = [
                             (try_end),
                             
                             (assign, "$g_num_levies", 0),
+                            (change_screen_return),
+                            (change_screen_map),
                         (else_try),
                             (display_message, "@Not enough gold!", text_color_impossible),
+                            (jump_to_menu, "mnu_town_raise_levies"),
                         (try_end),
                     (try_end),
-                    (jump_to_menu, "mnu_town_raise_levies"),
                 ]),
             
             ("center_back", [], "Head back",

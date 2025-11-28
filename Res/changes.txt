@@ -4,6 +4,7 @@ v0.710:
 		* clans will try to pick an unused banner that match that clan's culture
 	-Balances:
 		* introduction quest thugs are now visible during the quest
+		* return to map after raising levies
 	-Fixes:
 v0.700:
 	-Features:
