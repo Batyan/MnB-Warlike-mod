@@ -31388,6 +31388,29 @@ scripts = [
             (try_end),
         ]),
 
+    # script_party_conclude_tournament
+        # input:
+        #   arg1: party_no
+        #   arg2: troop_winner
+        # output: none
+    ("party_conclude_tournament",
+        [
+            (store_script_param, ":party_no", 1),
+            (store_script_param, ":winner", 2),
+
+            (call_script, "script_party_get_tournament_prize", ":party_no"),
+            (assign, ":prize", reg0),
+            (store_div, ":renown", ":prize", 500),
+
+            (try_begin),
+                (eq, ":winner", "$g_player_troop"),
+                (call_script, "script_troop_change_wealth", ":winner", ":prize"),
+            (else_try),
+                (call_script, "script_troop_add_accumulated_taxes", ":winner", ":prize", tax_type_loot, 1),
+            (try_end),
+            (call_script, "script_troop_change_renown", ":winner", ":renown"),
+        ]),
+
     # script_party_get_administrator
         # input:
         #   arg1: party_no

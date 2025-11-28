@@ -6,6 +6,7 @@ v0.710:
 		* introduction quest thugs are now visible during the quest
 		* return to map after raising levies
 	-Fixes:
+		* fix tournaments non concluding properly
 v0.700:
 	-Features:
 		* add tournaments hosted by the cities

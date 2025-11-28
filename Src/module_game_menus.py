@@ -2149,18 +2149,7 @@ game_menus = [
                 (assign, ":highest_level", ":character_level"),
             (try_end),
 
-            (call_script, "script_party_get_tournament_prize", "$g_encountered_party"),
-            (assign, ":prize", reg0),
-            (store_div, ":renown", ":prize", 500),
-
-            (try_begin),
-                (eq, ":winner", "$g_player_troop"),
-                (call_script, "script_troop_change_wealth", ":winner", ":prize"),
-            (else_try),
-                (call_script, "script_troop_add_accumulated_taxes", ":winner", ":prize", tax_type_loot, 1),
-            (try_end),
-            (call_script, "script_troop_change_renown", ":winner", ":renown"),
-
+            (call_script, "script_party_conclude_tournament", "$g_encountered_party", ":winner"),
             (str_store_troop_name, s10, ":winner"),
         ],
         [
