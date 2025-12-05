@@ -7,6 +7,7 @@ v0.710:
 		* return to map after raising levies
 	-Fixes:
 		* fix tournaments non concluding properly
+		* fix possibility to speak to introduction quest giver before receiving the message
 v0.700:
 	-Features:
 		* add tournaments hosted by the cities

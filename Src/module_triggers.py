@@ -49,6 +49,8 @@ triggers = [
                 (str_store_string, s0, "@You received a letter indicating that {s10} wishes to see you.^You can meet him at the tavern of {s11}."),
                 (call_script, "script_quest_add_note", "qst_introduction_waiting", 0),
 
+                (assign, "$g_intro_tutorial_trigger_date", -1),
+
                 (jump_to_menu, "mnu_intro_quest_summon_letter"),
             (else_try),
                 # Trigger consequences for refusing to help

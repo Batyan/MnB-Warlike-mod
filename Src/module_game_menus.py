@@ -2245,6 +2245,8 @@ game_menus = [
                     (quest_get_slot, ":destination", "qst_introduction_waiting", slot_quest_destination),
                     (eq, "$g_encountered_party", ":destination"),
 
+                    (eq, "$g_intro_tutorial_trigger_date", -1),
+
                     (quest_get_slot, ":giver_troop", "qst_introduction_waiting", slot_quest_giver_troop),
                     (str_store_troop_name, s10, ":giver_troop"),
                 ], "Meet with {s10}",
