@@ -1,6 +1,7 @@
 v0.710:
 	-Features:
 		* add current wars in faction notes
+		* add planned wars in faction notes
 		* clans will try to pick an unused banner that match that clan's culture
 	-Balances:
 		* introduction quest thugs are now visible during the quest
