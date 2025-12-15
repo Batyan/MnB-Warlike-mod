@@ -3287,15 +3287,6 @@ game_menus = [
             ("battle_result_manage_prisoners",
                 [
                     (eq, "$g_battle_result", 1),
-                    (assign, ":continue", 0),
-                    (try_begin),
-                        (call_script, "script_cf_party_has_prisoners", "$g_enemy"),
-                        (assign, ":continue", 1),
-                    (else_try),
-                        (call_script, "script_cf_party_has_members", "$g_enemy"),
-                        (assign, ":continue", 1),
-                    (try_end),
-                    (eq, ":continue", 1),
                 ], "Handle prisoners",
                 [
                     (call_script, "script_party_group_transfer_prisoners_to_party", "$g_enemy", "p_battle_released_prisoners", 0),

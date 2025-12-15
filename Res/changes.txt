@@ -9,6 +9,7 @@ v0.710:
 	-Fixes:
 		* fix tournaments not concluding properly
 		* fix possibility to speak to introduction quest giver before receiving the message
+		* fix handle prisoner menu disapearing after accessing it
 v0.700:
 	-Features:
 		* add tournaments hosted by the cities
