@@ -7,7 +7,7 @@ v0.710:
 		* introduction quest thugs are now visible during the quest
 		* return to map after raising levies
 	-Fixes:
-		* fix tournaments non concluding properly
+		* fix tournaments not concluding properly
 		* fix possibility to speak to introduction quest giver before receiving the message
 v0.700:
 	-Features:
