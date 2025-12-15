@@ -23,7 +23,7 @@ v0.700:
 		* reduce siege reinforcements wave size
 		* remove base grant for recruiting troops
 		* switch castle and village bonus grant (+1->+0 and +0->+1 respectively)
-		* reduce renown requirement for additional renown (500 -> 350)
+		* reduce renown requirement for additional grant (500 -> 350)
 		* reduce culture_1 archer ratio (30 -> 25)
 		* reduce culture_1 crossbow ratio (30 -> 25)
 		* increase culture_2 infantry ratio (80 -> 90)
