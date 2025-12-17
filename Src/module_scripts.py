@@ -31260,7 +31260,8 @@ scripts = [
             (try_begin),
                 (party_is_active, ":party_no"),
 
-                (party_get_slot, ":wealth", ":party_no", slot_party_wealth),
+                (party_get_slot, ":current_wealth", ":party_no", slot_party_wealth),
+                (assign, ":wealth", ":current_wealth"),
 
                 (party_get_num_prisoners, ":num_prisoners", ":party_no"),
                 (try_begin),
@@ -31268,6 +31269,19 @@ scripts = [
                     (val_mul, ":num_prisoners", 25),
                     (call_script, "script_party_add_accumulated_taxes", ":party_no", ":num_prisoners", tax_type_prisoner_ransom),
                     (val_add, ":wealth", ":num_prisoners"),
+
+                    (store_div, ":bonus_prosperity", ":num_prisoners", bandit_start_camp_base_wealth),
+                    (store_mod, ":rest_prosperity", ":num_prisoners", bandit_start_camp_base_wealth),
+                    (store_random_in_range, ":rand", 0, bandit_start_camp_base_wealth),
+                    (try_begin),
+                        (lt, ":rand", ":rest_prosperity"),
+                        (val_add, ":bonus_prosperity", 1),
+                    (try_end),
+                    (try_begin),
+                        (gt, ":bonus_prosperity", 0),
+
+                        (call_script, "script_camp_update_prosperity", ":party_no", ":bonus_prosperity"),
+                    (try_end),
                 (try_end),
 
                 (try_begin),
@@ -31321,13 +31335,11 @@ scripts = [
             (store_script_param, ":camp", 1),
 
             (party_get_slot, ":prosperity", ":camp", slot_party_prosperity),
-            (try_begin),
-                (lt, ":prosperity", 20),
-                (val_add, ":prosperity", 5),
-                (val_mul, ":prosperity", 20),
-                (val_div, ":prosperity", 25),
-            (try_end),
-            (store_div, ":range", ":prosperity", 3),
+            (val_add, ":prosperity", 20),
+            (val_mul, ":prosperity", 100),
+            (val_div, ":prosperity", 120),
+
+            (store_div, ":range", ":prosperity", 2),
 
             (assign, reg0, ":range"),
         ]),
