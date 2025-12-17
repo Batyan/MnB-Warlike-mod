@@ -251,8 +251,8 @@ scripts = [
                 (troop_set_slot, ":merchant", slot_troop_merchant_center, -1),
             (try_end),
 
-            (try_for_range, ":unused", 0, 2),
-                (store_random_in_range, ":camp", "p_camp_11", "p_camp_21"),
+            (try_for_range, ":unused", 0, 3),
+                (store_random_in_range, ":camp", camps_begin, "p_camp_21"),
                 (enable_party, ":camp"),
                 (party_set_faction, ":camp", "fac_faction_1"),
                 (party_set_slot, ":camp", slot_party_wealth, 75000),
@@ -260,6 +260,7 @@ scripts = [
                 (try_for_range, ":unused", 0, 5),
                     (call_script, "script_party_add_reinforcements", ":camp"),
                 (try_end),
+                (call_script, "script_camp_update_prosperity", ":camp", 20),
 
                 (store_random_in_range, ":camp", "p_camp_21", "p_camp_31"),
                 (enable_party, ":camp"),
@@ -269,6 +270,7 @@ scripts = [
                 (try_for_range, ":unused", 0, 5),
                     (call_script, "script_party_add_reinforcements", ":camp"),
                 (try_end),
+                (call_script, "script_camp_update_prosperity", ":camp", 20),
 
                 (store_random_in_range, ":camp", "p_camp_31", "p_camp_41"),
                 (enable_party, ":camp"),
@@ -278,6 +280,7 @@ scripts = [
                 (try_for_range, ":unused", 0, 5),
                     (call_script, "script_party_add_reinforcements", ":camp"),
                 (try_end),
+                (call_script, "script_camp_update_prosperity", ":camp", 20),
 
                 (store_random_in_range, ":camp", "p_camp_41", "p_camp_51"),
                 (enable_party, ":camp"),
@@ -287,6 +290,7 @@ scripts = [
                 (try_for_range, ":unused", 0, 5),
                     (call_script, "script_party_add_reinforcements", ":camp"),
                 (try_end),
+                (call_script, "script_camp_update_prosperity", ":camp", 20),
 
                 (store_random_in_range, ":camp", "p_camp_51", "p_camp_61"),
                 (enable_party, ":camp"),
@@ -296,6 +300,7 @@ scripts = [
                 (try_for_range, ":unused", 0, 5),
                     (call_script, "script_party_add_reinforcements", ":camp"),
                 (try_end),
+                (call_script, "script_camp_update_prosperity", ":camp", 20),
 
                 (store_random_in_range, ":camp", "p_camp_61", camps_end),
                 (enable_party, ":camp"),
@@ -305,6 +310,7 @@ scripts = [
                 (try_for_range, ":unused", 0, 5),
                     (call_script, "script_party_add_reinforcements", ":camp"),
                 (try_end),
+                (call_script, "script_camp_update_prosperity", ":camp", 20),
             (try_end),
 
             (party_set_slot, "$g_player_party", slot_party_leader, "$g_player_troop"),
@@ -1239,8 +1245,7 @@ scripts = [
                 (call_script, "script_party_defeat_center", ":winner_party", ":defeated_party"),
             (else_try),
                 (eq, ":party_type", spt_camp),
-                (disable_party, ":defeated_party"),
-                (party_set_faction, ":defeated_party", "fac_no_faction"),
+                (call_script, "script_camp_disable", ":defeated_party"),
             (else_try),
                 (eq, ":party_type", spt_caravan),
                 (call_script, "script_faction_political_event", ":party_faction", political_event_caravan_defeated, ":defeated_party", ":winner_party", -1),
@@ -3774,6 +3779,7 @@ scripts = [
             (party_set_slot, ":party_no", slot_party_besieged_by, -1),
             
             (party_set_slot, ":party_no", slot_party_player_wages_limit, -1),
+            (party_set_slot, ":party_no", slot_party_camp_influence, -1),
 
             (party_set_slot, ":party_no", slot_party_autosort_options, autosort_low_level_first|autosort_foreign_first),
 
@@ -31175,6 +31181,19 @@ scripts = [
                             (call_script, "script_party_give_troops_to_party", ":cur_camp", ":party_no", ":reward_members"),
                         (try_end),
 
+                        (store_div, ":bonus_prosperity", ":wealth", bandit_start_camp_base_wealth),
+                        (store_mod, ":rest_prosperity", ":wealth", bandit_start_camp_base_wealth),
+                        (store_random_in_range, ":rand", 0, bandit_start_camp_base_wealth),
+                        (try_begin),
+                            (lt, ":rand", ":rest_prosperity"),
+                            (val_add, ":bonus_prosperity", 1),
+                        (try_end),
+                        (try_begin),
+                            (gt, ":bonus_prosperity", 0),
+
+                            (call_script, "script_camp_update_prosperity", ":cur_camp", ":bonus_prosperity"),
+                        (try_end),
+
                         (call_script, "script_party_set_behavior", ":party_no", ai_bhvr_patrol_location, -1),
                     (else_try),
                         (call_script, "script_party_set_behavior", ":party_no", tai_traveling_to_party, ":linked_party"),
@@ -31202,8 +31221,7 @@ scripts = [
 
                         (try_begin),
                             (eq, ":camp_faction", "fac_no_faction"),
-                            (enable_party, ":nearest_camp"),
-                            (party_set_faction, ":nearest_camp", ":party_faction"),
+                            (call_script, "script_party_init_camp", ":nearest_camp", ":party_faction"),
                             (assign, ":camp_faction", ":party_faction"),
                         (try_end),
                         (eq, ":party_faction", ":camp_faction"),
@@ -31214,6 +31232,21 @@ scripts = [
                     (try_end),
                 (try_end),
             (try_end),
+        ]),
+
+    # script_party_init_camp
+        # input:
+        #   arg1: party_no
+        #   arg2: camp_faction
+        # output: none
+    ("party_init_camp",
+        [
+            (store_script_param, ":camp", 1),
+            (store_script_param, ":camp_faction", 2),
+
+            (enable_party, ":camp"),
+            (party_set_slot, ":camp", slot_party_prosperity, 0),
+            (party_set_faction, ":camp", ":camp_faction"),
         ]),
 
     # script_party_process_camp
@@ -31275,6 +31308,133 @@ scripts = [
                 (try_begin),
                     (gt, ":wealth", 0),
                 (try_end),
+            (try_end),
+        ]),
+
+    # script_camp_get_influence_range
+        # input:
+        #   arg1: camp
+        # output:
+        #   reg0: influence_range
+    ("camp_get_influence_range",
+        [
+            (store_script_param, ":camp", 1),
+
+            (party_get_slot, ":prosperity", ":camp", slot_party_prosperity),
+            (try_begin),
+                (lt, ":prosperity", 20),
+                (val_add, ":prosperity", 5),
+                (val_mul, ":prosperity", 20),
+                (val_div, ":prosperity", 25),
+            (try_end),
+            (store_div, ":range", ":prosperity", 3),
+
+            (assign, reg0, ":range"),
+        ]),
+
+    # script_camp_update_influence
+        # input:
+        #   arg1: camp
+        # output: none
+    ("camp_update_influence",
+        [
+            (store_script_param, ":camp_no", 1),
+
+            (call_script, "script_camp_get_influence_range", ":camp_no"),
+            (assign, ":range", reg0),
+
+            (try_for_range, ":cur_center", villages_begin, villages_end),
+                (store_distance_to_party_from_party, ":dist", ":cur_center", ":camp_no"),
+                (lt, ":dist", ":range"),
+
+                (party_get_slot, ":current_influencer", ":cur_center", slot_party_camp_influence),
+                (assign, ":continue", 0),
+                (try_begin),
+                    (this_or_next|eq, ":current_influencer", ":camp_no"),
+                    (le, ":current_influencer", 0),
+                    (assign, ":continue", 1),
+                (else_try),
+                    (call_script, "script_camp_get_center_influence", ":camp_no", ":cur_center"),
+                    (assign, ":camp_influence", reg0),
+
+                    (call_script, "script_camp_get_center_influence", ":current_influencer", ":cur_center"),
+                    (assign, ":current_influence", reg0),
+
+                    (gt, ":camp_influence", ":current_influence"),
+                    (assign, ":continue", 1),
+                (try_end),
+
+                (eq, ":continue", 1),
+                (party_set_slot, ":cur_center", slot_party_camp_influence, ":camp_no"),
+                (try_begin),
+                    (call_script, "script_cf_debug", debug_current|debug_simple),
+                    (str_store_party_name, s10, ":cur_center"),
+                    (call_script, "script_camp_get_center_influence", ":camp_no", ":cur_center"),
+                    (assign, reg10, reg0),
+                    (display_message, "@Bandit camp is taking over {s10} ({reg10})"),
+                (try_end),
+            (try_end),
+        ]),
+
+    # script_camp_get_center_influence
+        # input:
+        #   arg1: camp
+        #   arg2: party_no
+        # output:
+        #   reg0: influence
+    ("camp_get_center_influence",
+        [
+            (store_script_param, ":camp_no", 1),
+            (store_script_param, ":party_no", 2),
+
+            (call_script, "script_camp_get_influence_range", ":camp_no"),
+            (assign, ":range", reg0),
+            (store_distance_to_party_from_party, ":dist", ":party_no", ":camp_no"),
+            (store_sub, ":efficiency", ":range", ":dist"),
+            (try_begin),
+                (gt, ":efficiency", 0),
+                (val_mul, ":efficiency", 100),
+                (val_div, ":efficiency", ":range"),
+
+                (party_get_slot, ":prosperity", ":camp_no", slot_party_prosperity),
+                (store_mul, reg0, ":efficiency", ":prosperity"),
+                (val_div, reg0, 100),
+            (else_try),
+                (assign, reg0, 0),
+            (try_end),
+        ]),
+
+    # script_camp_update_prosperity
+        # input:
+        #   arg1: camp
+        #   arg2: prosperity_change
+        # output: none
+    ("camp_update_prosperity",
+        [
+            (store_script_param, ":camp_no", 1),
+            (store_script_param, ":prosperity_change", 2),
+
+            (party_get_slot, ":prosperity", ":camp_no", slot_party_prosperity),
+            (val_add, ":prosperity", ":prosperity_change"),
+            (val_clamp, ":prosperity", 0, 101),
+            (party_set_slot, ":camp_no", slot_party_prosperity, ":prosperity"),
+
+            (call_script, "script_camp_update_influence", ":camp_no"),
+        ]),
+
+    # script_camp_disable
+        # input:
+        #   arg1: camp_no
+        # output: none
+    ("camp_disable",
+        [
+            (store_script_param, ":camp_no", 1),
+
+            (disable_party, ":camp_no"),
+            (party_set_faction, ":camp_no", "fac_no_faction"),
+            (try_for_range, ":center_no", villages_begin, villages_end),
+                (party_slot_eq, ":center_no", slot_party_camp_influence, ":camp_no"),
+                (party_set_slot, ":center_no", slot_party_camp_influence, -1),
             (try_end),
         ]),
 
@@ -32715,6 +32875,23 @@ scripts = [
             (store_add, ":slot", ":offset", slot_banner_culture_begin),
 
             (troop_set_slot, "trp_banners_array", ":slot", ":culture"),
+        ]),
+
+    # script_get_village_elder_quest_purchase_surplus_goods_buy_price
+        # input: none
+        # output:
+        #   reg0: price
+    ("get_village_elder_quest_purchase_surplus_goods_buy_price",
+        [
+            (quest_get_slot, ":item", "qst_village_purchase_surplus_goods", slot_quest_object),
+            (quest_get_slot, ":quantity", "qst_village_purchase_surplus_goods", slot_quest_value),
+            (quest_get_slot, ":seller", "qst_village_purchase_surplus_goods", slot_quest_destination),
+
+            (call_script, "script_item_get_sell_price", ":item", ":seller", "$g_player_party"),
+            (store_mul, ":price", reg0, 75),
+            (val_div, ":price", 100),
+            (val_mul, ":price", ":quantity"),
+            (assign, reg0, ":price"),
         ]),
 
     # script_presentation_generate_select_lord_card

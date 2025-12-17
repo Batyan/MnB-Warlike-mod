@@ -1484,6 +1484,8 @@ slot_party_last_tournament_date = slot_party_next_tournament_date + 1
 
 min_tournament_cooldown = 365
 
+slot_party_camp_influence = slot_party_last_tournament_date + 1
+
 #################
 ## Scene Slots ##
 #################

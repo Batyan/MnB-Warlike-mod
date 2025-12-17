@@ -3,6 +3,7 @@ v0.710:
 		* add current wars in faction notes
 		* add planned wars in faction notes
 		* clans will try to pick an unused banner that match that clan's culture
+		* add bandit camps influence on nearby villages
 	-Balances:
 		* introduction quest thugs are now visible during the quest
 		* return to map after raising levies

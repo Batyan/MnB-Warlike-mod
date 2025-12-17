@@ -1579,6 +1579,22 @@ game_menus = [
 
                 (party_get_slot, reg21, "$g_encountered_party", slot_party_budget_reserved_auxiliaries),
                 (display_message, "@budget_reserved_auxiliaries: {reg21}"),
+
+                (party_get_slot, ":influence_camp", "$g_encountered_party", slot_party_camp_influence),
+                (try_begin),
+                    (is_between, ":influence_camp", camps_begin, camps_end),
+                    (call_script, "script_camp_get_center_influence", ":influence_camp", "$g_encountered_party"),
+                    (assign, reg22, reg0),
+                    (display_message, "@camp_influence: {reg22}"),
+
+                    (call_script, "script_camp_get_influence_range", ":influence_camp"),
+                    (assign, reg23, reg0),
+                    (display_message, "@camp_influence_range: {reg23}"),
+
+                    (party_get_slot, ":prosperity", ":influence_camp", slot_party_prosperity),
+                    (assign, reg24, ":prosperity"),
+                    (display_message, "@camp_prosperity: {reg24}"),
+                (try_end),
             (try_end),
             (try_begin),
                 (call_script, "script_cf_debug", debug_economy|debug_trade),
