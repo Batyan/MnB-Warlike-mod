@@ -6821,6 +6821,24 @@ scripts = [
             (call_script, "script_party_get_expected_taxes", ":party_no"),
             (assign, ":taxes", reg0),
 
+            (party_get_slot, ":camp_influence", ":party_no", slot_party_camp_influence),
+            (try_begin),
+                (is_between, ":camp_influence", camps_begin, camps_end),
+
+                (call_script, "script_party_get_banditry_tax_ratio", ":party_no"),
+                (assign, ":banditry_ratio", reg0),
+
+                (gt, ":banditry_ratio", 0),
+                (gt, ":taxes", 0),
+
+                (store_mul, ":banditry", ":taxes", ":banditry_ratio"),
+                (val_div, ":banditry", ":taxes"),
+                (call_script, "script_party_add_accumulated_taxes", ":camp_influence", ":banditry", tax_type_banditry),
+
+                (val_mul, ":banditry", -1),
+                (call_script, "script_party_add_accumulated_taxes", ":party_no", ":banditry", tax_type_banditry),
+            (try_end),
+
             (assign, ":member_tax", 0),
             (assign, ":vassal_tax", 0),
             (assign, ":funds_tax", 0),
@@ -31448,6 +31466,27 @@ scripts = [
                 (party_slot_eq, ":center_no", slot_party_camp_influence, ":camp_no"),
                 (party_set_slot, ":center_no", slot_party_camp_influence, -1),
             (try_end),
+        ]),
+
+    # script_party_get_banditry_tax_ratio
+        # input:
+        #   arg1: party_no
+        # output:
+        #   reg0: tax_ratio
+    ("party_get_banditry_tax_ratio",
+        [
+            (store_script_param, ":party_no", 1),
+
+            (assign, ":ratio", 0),
+
+            (party_get_slot, ":camp_influence", ":party_no", slot_party_camp_influence),
+            (try_begin),
+                (is_between, ":camp_influence", camps_begin, camps_end),
+                (call_script, "script_camp_get_center_influence", ":camp_influence", ":party_no"),
+                (store_div, ":ratio", reg0, 10),
+            (try_end),
+
+            (assign, reg0, ":ratio"),
         ]),
 
     # script_cf_start_quest_visit_center_new_owner
