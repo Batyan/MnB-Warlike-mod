@@ -5,6 +5,7 @@ v0.710:
 		* clans will try to pick an unused banner that match that clan's culture
 		* add bandit camps influence on nearby villages
 		* bandit camps steal taxes from influenced villages
+		* add possibility to meet npcs that are in garrison
 	-Balances:
 		* introduction quest thugs are now visible during the quest
 		* return to map after raising levies
