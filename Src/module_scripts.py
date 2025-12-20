@@ -14274,6 +14274,9 @@ scripts = [
 
             (troop_set_slot, "trp_vaegir_hunter", slot_troop_faction_not_1, "fac_small_kingdom_23"), # Has Militia instead
             (troop_set_slot, "trp_vaegir_hunter", slot_troop_faction_not_2, "fac_small_kingdom_22"), # Has Militia instead
+            (troop_set_slot, "trp_vaegir_levy", slot_troop_faction_not_1, "fac_small_kingdom_22"), # Has Club Levy instead
+            (troop_set_slot, "trp_vaegir_levy", slot_troop_faction_not_2, "fac_small_kingdom_21"), # Has Levy Axeman instead
+            (troop_set_slot, "trp_vaegir_levy", slot_troop_faction_not_3, "fac_small_kingdom_23"), # Has Levy Infantry instead
             (troop_set_slot, "trp_vaegir_heavy_cavalry", slot_troop_faction_not_1, "fac_small_kingdom_22"), # Has Horseman instead
             (troop_set_slot, "trp_vaegir_light_infantry", slot_troop_faction_not_2, "fac_small_kingdom_22"), # Has Light Club Infantry instead
             (troop_set_slot, "trp_vaegir_heavy_infantry", slot_troop_faction_not_2, "fac_small_kingdom_22"), # Has Club Infantry instead
@@ -14369,9 +14372,11 @@ scripts = [
             (troop_set_slot, "trp_khergit_levy_horseman", slot_troop_ratio_special_multiplier, 25),
             (troop_set_slot, "trp_khergit_militia", slot_troop_ratio_special_multiplier, 200),
             (troop_set_slot, "trp_vaegir_militia", slot_troop_ratio_special_multiplier, 50),
-            (troop_set_slot, "trp_vaegir_hunter", slot_troop_ratio_special_multiplier, 150),
-            (troop_set_slot, "trp_vaegir_levy_infantry", slot_troop_ratio_special_multiplier, 60),
-            (troop_set_slot, "trp_vaegir_levy_axeman", slot_troop_ratio_special_multiplier, 40),
+            (troop_set_slot, "trp_vaegir_hunter", slot_troop_ratio_special_multiplier, 60),
+            (troop_set_slot, "trp_vaegir_levy_infantry", slot_troop_ratio_special_multiplier, 45),
+            (troop_set_slot, "trp_vaegir_levy_axeman", slot_troop_ratio_special_multiplier, 25),
+            (troop_set_slot, "trp_vaegir_levy", slot_troop_ratio_special_multiplier, 30),
+            (troop_set_slot, "trp_vaegir_club_levy", slot_troop_ratio_special_multiplier, 35),
             (troop_set_slot, "trp_rhodok_levy_crossbowman", slot_troop_ratio_special_multiplier, 65),
         ]),
     
@@ -32676,15 +32681,15 @@ scripts = [
                 (party_get_slot, ":party_type1", ":party1", slot_party_type),
                 (party_get_slot, ":party_type2", ":party2", slot_party_type),
                 (try_begin),
-                    (eq, ":party_type1", spt_civilian),
-                    (eq, ":party_type1", spt_caravan),
+                    (this_or_next|eq, ":party_type1", spt_civilian),
+                    (this_or_next|eq, ":party_type1", spt_caravan),
                     (eq, ":party_type1", spt_patrol),
 
                     (party_get_slot, ":party1", ":party1", slot_party_linked_party),
                 (try_end),
                 (try_begin),
-                    (eq, ":party_type2", spt_civilian),
-                    (eq, ":party_type2", spt_caravan),
+                    (this_or_next|eq, ":party_type2", spt_civilian),
+                    (this_or_next|eq, ":party_type2", spt_caravan),
                     (eq, ":party_type2", spt_patrol),
 
                     (party_get_slot, ":party2", ":party2", slot_party_linked_party),

@@ -5,14 +5,21 @@ v0.710:
 		* clans will try to pick an unused banner that match that clan's culture
 		* add bandit camps influence on nearby villages
 		* bandit camps steal taxes from influenced villages
-		* add possibility to meet npcs that are in garrison
+		* add option to meet npcs that are in garrison
 	-Balances:
 		* introduction quest thugs are now visible during the quest
 		* return to map after raising levies
+		* add vaegir_levy troop for culture_2
+		* changed vaegir_hunter to have guarantee ranged
+		* reduce vaegir_levy_axeman special ratio (40 -> 25)
+		* reduce vaegir_club_levy special ratio (100 -> 35)
+		* reduce vaegir_levy_nfantry special ratio (60 -> 45)
+		* slow down reinforcement parties
 	-Fixes:
 		* fix tournaments not concluding properly
 		* fix possibility to speak to introduction quest giver before receiving the message
 		* fix handle prisoner menu disapearing after accessing it
+		* fix relation changes not triggering with villagers, caravans and patrols
 v0.700:
 	-Features:
 		* add tournaments hosted by the cities

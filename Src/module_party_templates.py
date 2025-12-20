@@ -38,7 +38,7 @@ party_templates = [
 	("scout", "Scout", icon_player_horseman|carries_goods(10), pf_show_faction, fac_commoners, 0, []),
 	("war_party", "War Party", icon_gray_knight|carries_goods(20), pf_show_faction|pf_default_behavior, fac_commoners, 0, []),
 	
-	("reinforcements", "Reinforcements", icon_axeman|carries_goods(4), 0, fac_commoners, convoy_personality, []),
+	("reinforcements", "Reinforcements", icon_axeman|carries_goods(8), 0, fac_commoners, convoy_personality, []),
 	("convoy", "Convoy", icon_mule|carries_goods(20), 0, fac_commoners, convoy_personality, []),
 	
 	("outlaws", "Bandits", icon_axeman|carries_goods(20), 0, fac_commoners, bandit_personality, []),
