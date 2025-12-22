@@ -14262,7 +14262,7 @@ scripts = [
             # Troops not added to factions
             (troop_set_slot, "trp_swadian_champion", slot_troop_faction_not_1, "fac_small_kingdom_12"), # Has Heavy Infantry instead
             (troop_set_slot, "trp_swadian_light_cavalry", slot_troop_faction_not_1, "fac_small_kingdom_13"), # Has Horseman instead
-            (troop_set_slot, "trp_swadian_militia", slot_troop_faction_not_1, "fac_small_kingdom_14"), # Has Hunter instead
+            (troop_set_slot, "trp_swadian_militia", slot_troop_faction_not_1, "fac_small_kingdom_14"), # Has Levy Bowman instead
             (troop_set_slot, "trp_swadian_light_bowman", slot_troop_faction_not_1, "fac_small_kingdom_14"), # Has Light Longbowman instead
             (troop_set_slot, "trp_swadian_bowman", slot_troop_faction_not_1, "fac_small_kingdom_14"), # Has Heavy Longbowman instead
             (troop_set_slot, "trp_swadian_light_lancer", slot_troop_faction_not_1, "fac_small_kingdom_15"), # Has Lancer instead
@@ -14290,6 +14290,7 @@ scripts = [
             
             (troop_set_slot, "trp_vaegir_militia", slot_troop_faction_reserved_2, "fac_small_kingdom_22"),
 
+            (troop_set_slot, "trp_khergit_militia", slot_troop_faction_not_1, "fac_small_kingdom_32"), # Has Hunter instead
             (troop_set_slot, "trp_khergit_noble", slot_troop_faction_not_1, "fac_small_kingdom_31"), # Has Noble Mounted Skirmisher
             (troop_set_slot, "trp_khergit_light_lancer", slot_troop_faction_not_1, "fac_small_kingdom_31"), # Has Light Mounted Skirmisher instead
             (troop_set_slot, "trp_khergit_lancer", slot_troop_faction_not_1, "fac_small_kingdom_31"), # Has Mounted Skirmisher instead
@@ -14371,8 +14372,9 @@ scripts = [
             (troop_set_slot, "trp_khergit_clansman", slot_troop_ratio_special_multiplier, 20),
             (troop_set_slot, "trp_khergit_levy_horseman", slot_troop_ratio_special_multiplier, 25),
             (troop_set_slot, "trp_khergit_militia", slot_troop_ratio_special_multiplier, 200),
+            (troop_set_slot, "trp_khergit_hunter", slot_troop_ratio_special_multiplier, 65),
             (troop_set_slot, "trp_vaegir_militia", slot_troop_ratio_special_multiplier, 50),
-            (troop_set_slot, "trp_vaegir_hunter", slot_troop_ratio_special_multiplier, 60),
+            (troop_set_slot, "trp_vaegir_hunter", slot_troop_ratio_special_multiplier, 50),
             (troop_set_slot, "trp_vaegir_levy_infantry", slot_troop_ratio_special_multiplier, 45),
             (troop_set_slot, "trp_vaegir_levy_axeman", slot_troop_ratio_special_multiplier, 25),
             (troop_set_slot, "trp_vaegir_levy", slot_troop_ratio_special_multiplier, 30),

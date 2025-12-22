@@ -15,6 +15,8 @@ v0.710:
 		* reduce vaegir_club_levy special ratio (100 -> 35)
 		* reduce vaegir_levy_nfantry special ratio (60 -> 45)
 		* slow down reinforcement parties
+		* add khergit_hunter troop for small_faction_32
+		* rename swadian_militia to swadian_levy_bowman
 	-Fixes:
 		* fix tournaments not concluding properly
 		* fix possibility to speak to introduction quest giver before receiving the message

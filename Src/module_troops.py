@@ -1813,7 +1813,7 @@ troops = [
   
   # Basic ranged, picks, maces, daggers, bows, shields
   # SPECIAL
-  ["swadian_hunter", "Swadian Hunter", "Swadian Hunters", tf_guarantee_recruit_armor|tf_guarantee_ranged, no_scene, reserved, fac_small_kingdom_14,
+  ["swadian_levy_bowman", "Swadian Levy Bowman", "Swadian Levy Bowmen", tf_guarantee_recruit_armor|tf_guarantee_ranged, no_scene, reserved, fac_small_kingdom_14,
    [itm_fighting_pick, itm_mace_2, itm_dagger, itm_arrows_b, itm_hunting_bow2,
     itm_ankle_boots, itm_wrapping_boots,
     itm_leather_armor_herald,
@@ -2642,6 +2642,16 @@ troops = [
     ],
    str_8|agi_10|int_5|cha_6|level(6), wpex(65,55,70,50,20,40), knows_common|knows_ironflesh_1|knows_power_strike_3|knows_athletics_4|knows_riding_2, khergit_face_young_1, khergit_face_old_2 ],
 
+  # Basic ranged, spears, bows
+  # SPECIAL
+  ["khergit_hunter", "Khergit Hunter", "Khergit Hunters", tf_guarantee_recruit_armor|tf_guarantee_ranged, no_scene, reserved, fac_small_kingdom_32,
+   [itm_shortened_spear, itm_hunting_bow, itm_arrows_b,
+    itm_nomad_boots, itm_hide_boots,
+    itm_leather_vest_herald, itm_coarse_tunic_herald,
+    itm_nomad_cap_b, itm_nomad_cap, itm_leather_steppe_cap_a, itm_leather_steppe_cap_c,
+    ],
+   str_10|agi_9|int_6|cha_6|level(8), wpex(55,50,70,75,30,45), knows_common|knows_ironflesh_2|knows_power_strike_3|knows_power_draw_4|knows_athletics_2|knows_riding_2|knows_horse_archery_1, khergit_face_young_1, khergit_face_old_2 ],
+  
   # Common
   # Light infantry, sabres, maces, javelins, shields
   ["khergit_light_infantry", "Khergit Light Infantry", "Khergit Light Infantries", tf_guarantee_common_armor|tf_guarantee_shield, no_scene, reserved, fac_kingdom_3,
