@@ -13,7 +13,8 @@ qst_village_deliver_rare_good = 11
 qst_village_negociate_trade_arrangement = 12
 qst_village_hunt_notorious_bandit = 13
 qst_village_persuade_mercenaries_leave = 14
-qst_quests_end = 15
+qst_village_purchase_surplus_goods = 15
+qst_quests_end = 16
 qsttag_introduction_default = 504403158265495552
 qsttag_introduction_default_search = 504403158265495553
 qsttag_introduction_default_search_1 = 504403158265495554
@@ -29,6 +30,7 @@ qsttag_village_deliver_rare_good = 504403158265495563
 qsttag_village_negociate_trade_arrangement = 504403158265495564
 qsttag_village_hunt_notorious_bandit = 504403158265495565
 qsttag_village_persuade_mercenaries_leave = 504403158265495566
-qsttag_quests_end = 504403158265495567
+qsttag_village_purchase_surplus_goods = 504403158265495567
+qsttag_quests_end = 504403158265495568
 
 

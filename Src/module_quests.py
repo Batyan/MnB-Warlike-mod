@@ -36,6 +36,8 @@ quests = [
         "{!}"),
     ("village_persuade_mercenaries_leave", "Persuade troublesome mercenaries to leave {s62}", qf_random_quest,
         "{!}"),
+    ("village_purchase_surplus_goods", "Purchase surplus goods from {s62}", qf_random_quest,
+        "{!}"),
     
     ("quests_end", "Quests End", 0, "{!}."),
 ]

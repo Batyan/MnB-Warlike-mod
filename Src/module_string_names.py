@@ -115,7 +115,7 @@ names = [
   ("vaegir_name_44", "Vaerzun"),
   ("vaegir_name_45", "Gulym"),
   ("vaegir_name_46", "Torvald"),
-  # ("vaegir_name_47", ""),
+  ("vaegir_name_47", "Kiavik"),
   # ("vaegir_name_48", ""),
   # ("vaegir_name_49", ""),
   # ("vaegir_name_50", ""),
@@ -370,6 +370,7 @@ names = [
   ("vaegir_family_name_prefix_8", "Vezh"),
   ("vaegir_family_name_prefix_9", "Ubr"),
   ("vaegir_family_name_prefix_10", "Kost"),
+  ("vaegir_family_name_prefix_11", "Vod"),
 
   ("vaegir_family_name_suffix_1", "ar"),
   ("vaegir_family_name_suffix_2", "yor"),

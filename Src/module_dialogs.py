@@ -686,6 +686,14 @@ dialogs = [
 
     [anyone, "village_elder_quests",
         [
+            (eq, "$g_dialog_outcome", "qst_village_purchase_surplus_goods"),
+            (quest_get_slot, ":item", "qst_village_purchase_surplus_goods", slot_quest_object),
+            (str_store_item_name, s50, ":item"),
+            (quest_get_slot, reg50, "qst_village_purchase_surplus_goods", slot_quest_value),
+        ], "{s60}, we are having trouble selling our supplies and the roads are not safe for travel.^If you could find a buyer for {reg50} units of {s50} we would be most grateful to you.", "village_elder_quest_purchase_surplus_goods", []],
+
+    [anyone, "village_elder_quests",
+        [
             (call_script, "script_troop_get_player_name", "$g_talk_troop", "$g_encountered_party"),
         ], "We have no need at the moment {s60}", "village_elder_return", []],
 
@@ -1980,6 +1988,143 @@ dialogs = [
         [
             (call_script, "script_complete_quest", "qst_village_deliver_grain"),
             (call_script, "script_troop_add_xp", "$g_player_troop", 150),
+        ]],
+
+    [anyone|plyr, "village_elder_quest_purchase_surplus_goods",
+        [],
+        "Very well, do you have a potential buyer?",
+        "village_elder_quest_purchase_surplus_goods_find",
+        []],
+
+    [anyone|plyr, "village_elder_quest_purchase_surplus_goods",
+        [],
+        "I might be interested to buy it for myself, how much is it?",
+        "village_elder_quest_purchase_surplus_goods_buy", []],
+
+    [anyone|plyr, "village_elder_quest_purchase_surplus_goods",
+        [],
+        "I can't do that right now",
+        "village_elder_quest_purchase_surplus_goods_refused", []],
+
+    [anyone, "village_elder_quest_purchase_surplus_goods_refused",
+        [
+            (call_script, "script_troop_get_player_name", "$g_talk_troop", "$g_encountered_party"),
+        ],
+        "Of course {s60}, forgive me for asking",
+        "village_elder_return", []],
+        
+    [anyone, "village_elder_quest_purchase_surplus_goods_buy",
+        [
+            (call_script, "script_troop_get_player_name", "$g_talk_troop", "$g_encountered_party"),
+        ],
+        "Truly? {s60}, you are generous for even considering it",
+        "village_elder_quest_purchase_surplus_goods_buy_price",
+        []],
+        
+    [anyone, "village_elder_quest_purchase_surplus_goods_buy_price",
+        [
+            (quest_get_slot, ":item", "qst_village_purchase_surplus_goods", slot_quest_object),
+            (quest_get_slot, ":quantity", "qst_village_purchase_surplus_goods", slot_quest_value),
+            (call_script, "script_get_village_elder_quest_purchase_surplus_goods_buy_price"),
+            (assign, ":price", reg0),
+            (str_store_item_name, s10, ":item"),
+            (assign, reg10, ":quantity"),
+            (call_script, "script_game_get_money_text", ":price"),
+        ],
+        "I reckon we could sell you {reg10} items of {s10} for a price of {s0}",
+        "village_elder_quest_purchase_surplus_goods_buy_answer",
+        []],
+        
+    [anyone|plyr, "village_elder_quest_purchase_surplus_goods_buy_answer",
+        [],
+        "You have a deal, here is your money",
+        "village_elder_quest_purchase_surplus_goods_buy_confirm",
+        []],
+    [anyone|plyr, "village_elder_quest_purchase_surplus_goods_buy_answer",
+        [],
+        "I'll take it for half that price",
+        "village_elder_quest_purchase_surplus_goods_buy_half",
+        []],
+    [anyone|plyr, "village_elder_quest_purchase_surplus_goods_buy_answer",
+        [],
+        "I don't have enough money for that",
+        "village_elder_quest_purchase_surplus_goods_buy_refuse",
+        []],
+    [anyone|plyr, "village_elder_quest_purchase_surplus_goods_buy_answer",
+        [],
+        "On second thought, I'm not buying",
+        "village_elder_quest_purchase_surplus_goods_buy_refuse",
+        []],
+
+    [anyone, "village_elder_quest_purchase_surplus_goods_buy_confirm",
+        [
+            (call_script, "script_troop_get_player_name", "$g_talk_troop", "$g_encountered_party"),
+        ],
+        "{s60} I thank you on the behalf of the village of {s10}.",
+        "village_elder_quest_purchase_surplus_goods_buy_confirm_return",
+        []],
+    [anyone, "village_elder_quest_purchase_surplus_goods_buy_confirm_return",
+        [
+            (call_script, "script_troop_get_player_name", "$g_talk_troop", "$g_encountered_party"),
+            (quest_get_slot, ":item", "qst_village_purchase_surplus_goods", slot_quest_object),
+            (str_store_item_name, s10, ":item"),
+        ],
+        "Here are the items of {s10}, thank you for your help {s60}.",
+        "village_elder_return",
+        []],
+
+    [anyone, "village_elder_quest_purchase_surplus_goods_buy_half",
+        [
+            (call_script, "script_troop_get_player_name", "$g_talk_troop", "$g_encountered_party"),
+        ],
+        "I guess it is better than our reserves spoiling",
+        "village_elder_quest_purchase_surplus_goods_buy_half_confirm_return", ##
+        []],
+    [anyone, "village_elder_quest_purchase_surplus_goods_buy_half_confirm_return",
+        [
+            (call_script, "script_troop_get_player_name", "$g_talk_troop", "$g_encountered_party"),
+            (quest_get_slot, ":item", "qst_village_purchase_surplus_goods", slot_quest_object),
+            (str_store_item_name, s10, ":item"),
+        ],
+        "Here are the items of {s10}.",
+        "village_elder_return",
+        []],
+
+    [anyone, "village_elder_quest_purchase_surplus_goods_buy_refuse",
+        [
+            (call_script, "script_troop_get_player_name", "$g_talk_troop", "$g_encountered_party"),
+        ],
+        "Would you still be willing to find a buyer then {s60}?",
+        "village_elder_quest_purchase_surplus_goods_buy_refuse_confirm",
+        []],
+
+    [anyone|plyr, "village_elder_quest_purchase_surplus_goods_buy_refuse_confirm",
+        [],
+        "I will find someone to buy it for you",
+        "village_elder_quest_purchase_surplus_goods_find",
+        []],
+    [anyone|plyr, "village_elder_quest_purchase_surplus_goods_buy_refuse_confirm",
+        [],
+        "No, you will have to find someone else",
+        "village_elder_quest_purchase_surplus_goods_refused",
+        []],
+
+    [anyone, "village_elder_quest_purchase_surplus_goods_find",
+        [
+            (call_script, "script_troop_get_player_name", "$g_talk_troop", "$g_encountered_party"),
+        ],
+        "Many thanks {s60}, we usualy go to {s10} to do our trade {s11}. Last time we visited the prices were a little low but it's better than nothing.",
+        "village_elder_return",
+        [
+        ]],
+
+    [anyone, "village_elder_quest_purchase_surplus_goods_find",
+        [
+            (call_script, "script_troop_get_player_name", "$g_talk_troop", "$g_encountered_party"),
+        ],
+        "Many thanks {s60}, we usualy go to {s10} to do our trade {s11}. Last time we visited the prices were good so it could be enough to head there.",
+        "village_elder_return",
+        [
         ]],
 
     #######################

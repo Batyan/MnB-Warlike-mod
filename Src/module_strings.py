@@ -869,6 +869,7 @@ strings = [
   ("quest_description_village_negociate_trade_arrangement", " "),
   ("quest_description_village_hunt_notorious_bandit", " "),
   ("quest_description_village_persuade_mercenaries_leave", " "),
+  ("quest_description_village_purchase_surplus_goods", "The elder of the village of {s59} wishes you to purchase {reg50} items of {s60} to prevent the loss due too spoilage"),
   ("quest_description_end", "{!}QUESTS END"),
 
   ("party_tax_description_taxes", "Taxes"),
