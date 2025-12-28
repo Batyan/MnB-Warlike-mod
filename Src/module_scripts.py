@@ -30917,6 +30917,41 @@ scripts = [
             (assign, reg0, ":base_attribute"),
         ]),
 
+    # script_cf_troop_can_increase_proficiency
+        # input:
+        #   arg1: troop_no
+        #   arg2: proficiency
+        # output:
+        #   reg0: proficiency_points_cost
+        #   reg1: proficiency_points_increase
+    ("cf_troop_can_increase_proficiency",
+        [
+            (store_script_param, ":troop_no", 1),
+            (store_script_param, ":proficiency", 2),
+
+            (troop_get_slot, ":proficiency_points", ":troop_no", slot_troop_proficiency_points),
+
+            (gt, ":proficiency_points", 0),
+
+            (store_skill_level, ":weapon_master", skl_weapon_master, ":current_troop"),
+            (val_mul, ":weapon_master", 60),
+            (store_add, ":threshold", 40, ":weapon_master"),
+            (store_proficiency_level, ":proficiency_value", ":troop_no", ":proficiency"),
+            (lt, ":proficiency_value", ":threshold"),
+
+            (store_div, ":cost", ":proficiency_value", 100),
+            (val_add, ":cost", 1),
+
+            (store_sub, ":increase", ":threshold", ":proficiency_value"),
+            (val_div, ":increase", 100),
+            (val_add, ":increase", 1),
+
+            (ge, ":proficiency_points", ":cost"),
+
+            (assign, reg0, ":cost"),
+            (assign, reg1, ":increase"),
+        ]),
+
     # script_troop_add_attribute
         # input:
         #   arg1: troop_no
