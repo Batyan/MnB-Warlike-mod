@@ -652,7 +652,7 @@ dialogs = [
             #     (assign, ":continue", 1),
             (try_end),
             (eq, ":continue", 1),
-        ], "I'm looking for a missing person, might you be able to help me?", "intro_quest_village_elder_lead", []],
+        ], "I'm looking for a missing person, perhaps you can help me?", "intro_quest_village_elder_lead", []],
     [anyone|plyr, "village_elder", [], "Is there anything I can do to help?", "village_elder_quests", []],
 
     [anyone|plyr, "village_elder",
@@ -2039,7 +2039,11 @@ dialogs = [
         [],
         "You have a deal, here is your money",
         "village_elder_quest_purchase_surplus_goods_buy_confirm",
-        []],
+        [
+            (call_script, "script_get_village_elder_quest_purchase_surplus_goods_buy_price"),
+            (assign, ":price", reg0),
+            (troop_remove_gold, "$g_player_troop", ":price"),
+        ]],
     [anyone|plyr, "village_elder_quest_purchase_surplus_goods_buy_answer",
         [],
         "I'll take it for half that price",
@@ -2068,6 +2072,10 @@ dialogs = [
             (call_script, "script_troop_get_player_name", "$g_talk_troop", "$g_encountered_party"),
             (quest_get_slot, ":item", "qst_village_purchase_surplus_goods", slot_quest_object),
             (str_store_item_name, s10, ":item"),
+
+            (quest_get_slot, ":item", "qst_village_purchase_surplus_goods", slot_quest_object),
+            (quest_get_slot, ":quantity", "qst_village_purchase_surplus_goods", slot_quest_value),
+            (troop_add_items, "$g_player_troop", ":item", ":quantity"),
         ],
         "Here are the items of {s10}, thank you for your help {s60}.",
         "village_elder_return",
@@ -2078,13 +2086,22 @@ dialogs = [
             (call_script, "script_troop_get_player_name", "$g_talk_troop", "$g_encountered_party"),
         ],
         "I guess it is better than our reserves spoiling",
-        "village_elder_quest_purchase_surplus_goods_buy_half_confirm_return", ##
-        []],
+        "village_elder_quest_purchase_surplus_goods_buy_half_confirm_return",
+        [
+            (call_script, "script_get_village_elder_quest_purchase_surplus_goods_buy_price"),
+            (assign, ":price", reg0),
+            (val_div, ":price", 2),
+            (troop_remove_gold, "$g_player_troop", ":price"),
+        ]],
     [anyone, "village_elder_quest_purchase_surplus_goods_buy_half_confirm_return",
         [
             (call_script, "script_troop_get_player_name", "$g_talk_troop", "$g_encountered_party"),
             (quest_get_slot, ":item", "qst_village_purchase_surplus_goods", slot_quest_object),
             (str_store_item_name, s10, ":item"),
+
+            (quest_get_slot, ":item", "qst_village_purchase_surplus_goods", slot_quest_object),
+            (quest_get_slot, ":quantity", "qst_village_purchase_surplus_goods", slot_quest_value),
+            (troop_add_items, "$g_player_troop", ":item", ":quantity"),
         ],
         "Here are the items of {s10}.",
         "village_elder_return",
