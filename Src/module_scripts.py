@@ -30933,7 +30933,7 @@ scripts = [
 
             (gt, ":proficiency_points", 0),
 
-            (store_skill_level, ":weapon_master", skl_weapon_master, ":current_troop"),
+            (store_skill_level, ":weapon_master", skl_weapon_master, ":troop_no"),
             (val_mul, ":weapon_master", 60),
             (store_add, ":threshold", 40, ":weapon_master"),
             (store_proficiency_level, ":proficiency_value", ":troop_no", ":proficiency"),

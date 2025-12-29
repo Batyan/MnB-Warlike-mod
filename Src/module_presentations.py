@@ -3666,6 +3666,8 @@ presentations = [
 
                     (set_fixed_point_multiplier, 1000),
 
+                    (assign, ":current_troop", "$temp"),
+
                     (try_begin),
                         (eq, ":value", 0),
 
