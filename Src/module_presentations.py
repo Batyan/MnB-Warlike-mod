@@ -3708,7 +3708,7 @@ presentations = [
                             (overlay_set_text, "$g_presentation_stats_description", ":index"),
                             (try_begin),
                                 (call_script, "script_cf_troop_can_increase_proficiency", ":current_troop", ":proficiency"),
-                                (str_store_string, s11, "@Spend {reg0} proficiency points to increase by {reg1}"),
+                                (str_store_string, s11, "@Spend {reg0} points to increase by {reg1}"),
                                 (overlay_set_text, "$g_presentation_stats_requirements", s11),
                             (else_try),
                                 (overlay_set_text, "$g_presentation_stats_requirements", "str_empty_string"),
@@ -3749,7 +3749,11 @@ presentations = [
                         (store_sub, ":offset", ":object", "$g_presentation_proficiency_begin"),
                         (store_sub, ":proficiency", ":num_proficiencies", ":offset"),
 
-                        (call_script, "script_troop_add_proficiency", ":current_troop", ":proficiency", 1),
+                        (call_script, "script_cf_troop_can_increase_proficiency", ":current_troop", ":proficiency"),
+                        (assign, ":cost", reg0),
+                        (assign, ":amount", reg1),
+
+                        (call_script, "script_troop_add_proficiency", ":current_troop", ":proficiency", ":amount", ":cost"),
                         (assign, ":update", 1),
                     (else_try),
                         (eq, ":object", "$g_presentation_ok"),

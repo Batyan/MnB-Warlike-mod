@@ -23,6 +23,7 @@ v0.710:
 		* fix possibility to speak to introduction quest giver before receiving the message
 		* fix handle prisoner menu disapearing after accessing it
 		* fix relation changes not triggering with villagers, caravans and patrols
+		* fix control troops options not working during sieges
 v0.700:
 	-Features:
 		* add tournaments hosted by the cities
