@@ -18,6 +18,7 @@ v0.710:
 		* add khergit_hunter troop for small_faction_32
 		* rename swadian_militia to swadian_levy_bowman
 		* cost to increase weapon proficiency increases with higher proficiency level
+		* decrease small_kingdom_63 archer ratio change (+10 -> -10)
 	-Fixes:
 		* fix tournaments not concluding properly
 		* fix possibility to speak to introduction quest giver before receiving the message

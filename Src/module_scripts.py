@@ -8474,7 +8474,7 @@ scripts = [
             (call_script, "script_faction_change_slot", "fac_small_kingdom_63", slot_faction_troop_ratio_cavalry, 10),
             (call_script, "script_faction_change_slot", "fac_small_kingdom_63", slot_faction_troop_ratio_lancer, 20),
             (call_script, "script_faction_change_slot", "fac_small_kingdom_63", slot_faction_troop_ratio_infantry, 15),
-            (call_script, "script_faction_change_slot", "fac_small_kingdom_63", slot_faction_troop_ratio_archer, 10),
+            (call_script, "script_faction_change_slot", "fac_small_kingdom_63", slot_faction_troop_ratio_archer, -10),
             (call_script, "script_faction_change_slot", "fac_small_kingdom_63", slot_faction_troop_ratio_mounted_skirmisher, -60),
             (call_script, "script_faction_change_slot", "fac_small_kingdom_63", slot_faction_troop_ratio_skirmisher, -45),
             
