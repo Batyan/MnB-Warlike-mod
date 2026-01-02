@@ -690,7 +690,8 @@ dialogs = [
             (quest_get_slot, ":item", "qst_village_purchase_surplus_goods", slot_quest_object),
             (str_store_item_name, s50, ":item"),
             (quest_get_slot, reg50, "qst_village_purchase_surplus_goods", slot_quest_value),
-        ], "{s60}, we are having trouble selling our supplies and the roads are not safe for travel.^If you could find a buyer for {reg50} units of {s50} we would be most grateful to you.", "village_elder_quest_purchase_surplus_goods", []],
+        ], "{s60}, we are having trouble selling our supplies and the roads are not safe for travel.^If you could find a buyer for {reg50} units of {s50} we would be most grateful to you.",
+        "village_elder_quest_purchase_surplus_goods", []],
 
     [anyone, "village_elder_quests",
         [
@@ -1994,7 +1995,7 @@ dialogs = [
         [],
         "Very well, do you have a potential buyer?",
         "village_elder_quest_purchase_surplus_goods_find",
-        []],
+        [(call_script, "script_start_quest", "qst_village_purchase_surplus_goods", "$g_talk_troop"),]],
 
     [anyone|plyr, "village_elder_quest_purchase_surplus_goods",
         [],
@@ -2119,7 +2120,7 @@ dialogs = [
         [],
         "I will find someone to buy it for you",
         "village_elder_quest_purchase_surplus_goods_find",
-        []],
+        [(call_script, "script_start_quest", "qst_village_purchase_surplus_goods", "$g_talk_troop"),]],
     [anyone|plyr, "village_elder_quest_purchase_surplus_goods_buy_refuse_confirm",
         [],
         "No, you will have to find someone else",
@@ -2129,20 +2130,30 @@ dialogs = [
     [anyone, "village_elder_quest_purchase_surplus_goods_find",
         [
             (call_script, "script_troop_get_player_name", "$g_talk_troop", "$g_encountered_party"),
-        ],
-        "Many thanks {s60}, we usualy go to {s10} to do our trade {s11}. Last time we visited the prices were a little low but it's better than nothing.",
-        "village_elder_return",
-        [
-        ]],
 
-    [anyone, "village_elder_quest_purchase_surplus_goods_find",
-        [
-            (call_script, "script_troop_get_player_name", "$g_talk_troop", "$g_encountered_party"),
+            (party_get_slot, ":linked_city", "$g_encountered_party", slot_party_linked_party),
+            (str_store_party_name_link, s10, ":linked_city"),
+
+            (quest_get_slot, ":item", "qst_village_purchase_surplus_goods", slot_quest_object),
+
+            (call_script, "script_party_item_get_caravan_score", ":linked_city", ":item"),
+            (assign, ":score", reg0),
+            (try_begin),
+                (ge, ":score", 0),
+                (str_store_string, s11, "@Last time we visited the prices were a little low but it's better than nothing."),
+            (else_try),
+                (str_store_string, s11, "@Last time we visited the prices were good so it could be enough to head there."),
+            (try_end),
+
+            (party_get_slot, ":linked_city", "$g_encountered_party", slot_party_linked_party),
+            (str_store_party_name, s12, ":linked_city"),
+
+            (str_store_string, s0, "@The town of {s12} has below average prices."),
+            (call_script, "script_quest_add_note", "qst_village_purchase_surplus_goods", 0),
         ],
-        "Many thanks {s60}, we usualy go to {s10} to do our trade {s11}. Last time we visited the prices were good so it could be enough to head there.",
+        "Many thanks {s60}, we usualy go to the guildmaster of {s10} to do our trade. {s11}",
         "village_elder_return",
-        [
-        ]],
+        []],
 
     #######################
     # Agressive lord talk #

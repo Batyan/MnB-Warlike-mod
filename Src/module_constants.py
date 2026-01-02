@@ -1915,9 +1915,9 @@ quest_slots = 0
 slot_quest_giver_troop = 1
 slot_quest_expiration_days = slot_quest_giver_troop + 1
 slot_quest_dont_give_again_period = slot_quest_expiration_days + 1
-slot_quest_dont_give_again_remaining_days = slot_quest_dont_give_again_period + 1
+slot_quest_dont_give_again_until = slot_quest_dont_give_again_period + 1
 
-slot_quest_description = slot_quest_dont_give_again_remaining_days + 1
+slot_quest_description = slot_quest_dont_give_again_until + 1
 slot_quest_object = slot_quest_description + 1
 slot_quest_value = slot_quest_object + 1
 
