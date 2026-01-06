@@ -1816,10 +1816,10 @@ troops = [
   ["swadian_levy_bowman", "Swadian Levy Bowman", "Swadian Levy Bowmen", tf_guarantee_recruit_armor|tf_guarantee_ranged, no_scene, reserved, fac_small_kingdom_14,
    [itm_fighting_pick, itm_mace_2, itm_dagger, itm_arrows_b, itm_hunting_bow2,
     itm_ankle_boots, itm_wrapping_boots,
-    itm_leather_armor_herald,
+    itm_tunic_herald, itm_rich_shirt_herald, itm_tabard_herald,
     itm_padded_coif, itm_arming_cap,
     ],
-   str_8|agi_10|int_6|cha_7|level(8), wpex(65,50,60,70,40,45), knows_common|knows_power_strike_2|knows_power_draw_4|knows_athletics_2|knows_riding_1, swadian_face_young_1, swadian_face_old_2 ],
+   str_8|agi_10|int_6|cha_6|level(7), wpex(65,50,60,70,40,45), knows_common|knows_power_strike_2|knows_power_draw_4|knows_athletics_2|knows_riding_1, swadian_face_young_1, swadian_face_old_2 ],
   
   # Basic infantry, polearms
   # SPECIAL
