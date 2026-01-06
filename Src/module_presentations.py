@@ -3323,7 +3323,7 @@ presentations = [
                     (assign, ":attribute_container_x", 20),
 
                     (assign, ":header_info_x", 325),
-                    (assign, ":header_name_x", 465),
+                    (assign, ":header_name_x", 490),
 
                     (assign, ":skill_container_x", 325),
                     (assign, ":skill_x", 20),
@@ -3355,7 +3355,7 @@ presentations = [
                     (assign, ":proficiencies_color", 0x630C00),
 
                     (str_store_troop_name, s10, ":current_troop"),
-                    (call_script, "script_presentation_create_text_overlay", tf_left_align, ":header_name_x", 700, 1200, 1200),
+                    (call_script, "script_presentation_create_text_overlay", tf_center_justify, ":header_name_x", 700, 1200, 1200),
 
                     (troop_get_slot, ":current_level", ":current_troop", slot_troop_xp_level),
                     (assign, reg10, ":current_level"),
