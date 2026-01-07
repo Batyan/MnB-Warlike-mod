@@ -26269,6 +26269,30 @@ scripts = [
             (quest_set_slot, "qst_village_deliver_grain", slot_quest_availability_script, "script_cf_village_deliver_grain"),
         ]),
 
+    # script_cf_village_purchase_surplus_goods
+        # input:
+        #   arg1: party_no
+        # output:
+        #   reg0: score
+        # fails if quest is not available
+    ("cf_village_purchase_surplus_goods",
+        [
+            (eq, 1, 1),
+            (assign, reg0, 10),
+        ]),
+
+    # script_cf_village_deliver_grain
+        # input:
+        #   arg1: party_no
+        # output:
+        #   reg0: score
+        # fails if quest is not available
+    ("cf_village_deliver_grain",
+        [
+            (eq, 1, 1),
+            (assign, reg0, 10),
+        ]),
+
     # script_setup_quest_text
         # input:
         #   arg1: quest_no
