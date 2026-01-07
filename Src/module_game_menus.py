@@ -1031,6 +1031,16 @@ game_menus = [
                     (store_faction_of_party, "$g_test_player_faction", "$g_player_party"),
                     (jump_to_menu, "mnu_test_faction_join"),
                 ]),
+                
+            ("camp_test_clan_name", [(call_script, "script_cf_debug", debug_all),], "Change clan name",
+                [
+                    (start_presentation, "prsnt_clan_selection"),
+                ]),
+                
+            ("camp_test_clan_banner", [(call_script, "script_cf_debug", debug_all),], "Change clan banner",
+                [
+                    (start_presentation, "prsnt_banner_selection"),
+                ]),
 
             ("go_back",
                 [], "Go back",
@@ -4000,6 +4010,12 @@ game_menus = [
             (str_store_troop_name, s10, "$g_player_troop"),
 
             (try_begin),
+                (is_between, ":clan", clans_begin, clans_end),
+                (troop_get_slot, ":clan_leader", ":clan", slot_clan_leader),
+                (eq, ":clan_leader", "$g_player_troop"),
+                (str_store_troop_name, s13, ":clan"),
+                (str_store_string, s12, "@Leader of clan {s13}"),
+            (else_try),
                 (is_between, ":clan", clans_begin, clans_end),
                 (str_store_troop_name, s13, ":clan"),
                 (str_store_string, s12, "@Belongs to clan {s13}"),

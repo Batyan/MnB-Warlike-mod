@@ -6,6 +6,7 @@ v0.710:
 		* add bandit camps influence on nearby villages
 		* bandit camps steal taxes from influenced villages
 		* add option to meet npcs that are in garrison
+		* add clan naming for player
 	-Balances:
 		* introduction quest thugs are now visible during the quest
 		* return to map after raising levies
