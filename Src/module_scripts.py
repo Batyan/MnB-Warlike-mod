@@ -31484,7 +31484,7 @@ scripts = [
             (assign, ":current_day", reg0),
 
             (quest_get_slot, ":not_until", ":quest_no", slot_quest_dont_give_again_until),
-            (gt, ":urrent_day", ":not_until"),
+            (gt, ":current_day", ":not_until"),
         ]),
 
     # script_cf_quest_village_purchase_surplus_goods
@@ -31511,7 +31511,7 @@ scripts = [
 
             (neq, ":surplus_good", -1),
 
-            (quest_set_slot, ":qst_village_purchase_surplus_goods", slot_quest_object, ":surplus_good"),
+            (quest_set_slot, "qst_village_purchase_surplus_goods", slot_quest_object, ":surplus_good"),
             (store_div, reg0, ":most_amount", 10),
         ]),
 
