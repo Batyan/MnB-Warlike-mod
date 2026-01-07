@@ -1949,6 +1949,10 @@ slot_quest_asked_destination = slot_quest_asked_state + 1
 
 last_quest_slot = max(100, slot_quest_proposed_fief + 1, slot_quest_asked_destination + 1)
 
+# following slots are not reset on quest startup
+
+slot_quest_availability_script = last_quest_slot + 1
+
 ##########################
 ## Party Template Slots ##
 ##########################
