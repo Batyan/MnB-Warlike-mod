@@ -24,6 +24,7 @@ v0.710:
 		* decrease swadian_levy_bowman armor tier (light -> very_light)
 		* increase grants factor in center recruitment by x10
 			this change is made to have a more granular increase in grants
+		* add new clan names for swadian culture
 	-Fixes:
 		* fix tournaments not concluding properly
 		* fix possibility to speak to introduction quest giver before receiving the message

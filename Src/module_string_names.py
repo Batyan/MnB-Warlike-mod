@@ -348,6 +348,8 @@ names = [
   ("swadian_family_name_prefix_8", "Roth"),
   ("swadian_family_name_prefix_9", "Mer"),
   ("swadian_family_name_prefix_10", "Arrom"),
+  ("swadian_family_name_prefix_11", "Rem"),
+  ("swadian_family_name_prefix_12", "Pav"),
 
   ("swadian_family_name_suffix_1", "ant"),
   ("swadian_family_name_suffix_2", "ain"),
@@ -359,6 +361,7 @@ names = [
   ("swadian_family_name_suffix_8", "ad"),
   ("swadian_family_name_suffix_9", "oc"),
   ("swadian_family_name_suffix_10", "anc"),
+  ("swadian_family_name_suffix_11", "and"),
 
   ("vaegir_family_name_prefix_1", "Gund"),
   ("vaegir_family_name_prefix_2", "Kul"),
