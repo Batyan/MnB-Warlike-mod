@@ -1701,11 +1701,11 @@ game_menus = [
                 ]),
             
             ("center_guildmaster",
-                [(disable_menu_option),
+                [
                     (party_slot_eq, "$g_encountered_party", slot_party_type, spt_town),
                 ], "Speak to the guildmaster",
                 [
-                    #ToDo: guildmaster
+                    (call_script, "script_setup_meeting_center_elder", "$g_encountered_party", "trp_town_guildmaster"),
                 ]),
             
             ("center_elder",
@@ -1713,7 +1713,7 @@ game_menus = [
                     (party_slot_eq, "$g_encountered_party", slot_party_type, spt_village),
                 ], "Speak to the village elder",
                 [
-                    (call_script, "script_setup_meeting_village_elder", "$g_encountered_party"),
+                    (call_script, "script_setup_meeting_center_elder", "$g_encountered_party", "trp_village_elder"),
                 ]),
             
             ("center_market", [], "Go to the marketplace",

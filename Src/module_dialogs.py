@@ -630,6 +630,13 @@ dialogs = [
             (str_store_party_name, s11, "$g_encountered_party"),
             (call_script, "script_troop_get_player_name", "$g_talk_troop", "$g_encountered_party"),
         ], "Hello and welcome to {s11}. How may I help you {s60}", "village_elder", []],
+
+    [anyone, "start",
+        [
+            (eq, "$g_talk_troop", "trp_town_guildmaster"),
+            (str_store_party_name, s11, "$g_encountered_party"),
+            (call_script, "script_troop_get_player_name", "$g_talk_troop", "$g_encountered_party"),
+        ], "Hello and welcome to {s11}. How may I help you {s60}", "town_guildmaster", []],
     
     [anyone|plyr, "village_elder",
         [
@@ -702,7 +709,28 @@ dialogs = [
         [
             (call_script, "script_troop_get_player_name", "$g_talk_troop", "$g_encountered_party"),
         ], "Anything else {s60}?", "village_elder", []],
-    
+
+    [anyone|plyr, "town_guildmaster",
+        [
+            (check_quest_active, "qst_village_purchase_surplus_goods"),
+            (quest_get_slot, ":item", "qst_village_purchase_surplus_goods", slot_quest_object),
+            (str_store_item_name, s10,  ":item"),
+        ], "Do you have a need for {s10}?", "town_guildmaster_quests", []],
+
+    [anyone|plyr, "town_guildmaster", [], "Is there anything I can do to help?", "town_guildmaster_quests", []],
+
+    [anyone|plyr, "town_guildmaster", [], "Goodbye", "close_window", []],
+
+    [anyone, "town_guildmaster_quests",
+        [
+            (call_script, "script_troop_get_player_name", "$g_talk_troop", "$g_encountered_party"),
+        ], "We have no need at the moment {s60}", "town_guildmaster_return", []],
+
+    [anyone, "town_guildmaster_return",
+        [
+            (call_script, "script_troop_get_player_name", "$g_talk_troop", "$g_encountered_party"),
+        ], "Anything else {s60}?", "town_guildmaster", []],
+
 
     # [anyone, "party_relieved",
         # [(display_debug_message, "@Party relieved"),], "Hail traveller. It's a pleasure to meet you, what is your name?.", "player_greeting", []],

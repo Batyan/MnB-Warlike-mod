@@ -6278,6 +6278,8 @@ troops = [
 
   ["village_elder", "Village Elder", "Village Elder", tf_hero, no_scene, reserved, fac_commoners,
    [itm_coarse_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_common, 0x0000000007085111455ba5c8e382c91c00000000000d342b0000000000000000 ],
+  ["town_guildmaster", "Guildmaster", "Guildmaster", tf_hero, no_scene, reserved, fac_commoners,
+   [itm_red_shirt, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_common, 0x0000000007085111455ba5c8e382c91c00000000000d342b0000000000000000 ],
 
   ["ransom_broker", "Ransom broker", "Ransom broker", tf_hero, no_scene, reserved, fac_commoners,
    [itm_coarse_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_common, 0x0000000007085111455ba5c8e382c91c00000000000d342b0000000000000000 ],

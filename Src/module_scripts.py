@@ -30320,6 +30320,7 @@ scripts = [
                     (str_store_string, s60, "str_my_lord|my_lady"),
                 (else_try),
                     (this_or_next|eq, ":troop_no", "trp_village_elder"),
+                    (this_or_next|eq, ":troop_no", "trp_town_guildmaster"),
                     (eq, ":troop_no", "trp_ransom_broker"),
                     (str_store_string, s60, "str_my_lord|my_lady"),
                 (else_try),
@@ -30885,22 +30886,23 @@ scripts = [
             (try_end),
         ]),
 
-    # script_setup_meeting_village_elder
+    # script_setup_meeting_center_elder
         # input:
         #   arg1: village_elder_origin
         # output: none
-    ("setup_meeting_village_elder",
+    ("setup_meeting_center_elder",
         [
             (store_script_param, ":party_no", 1),
+            (store_script_param, ":meeting_troop", 2),
 
             (party_get_slot, ":elder_met", ":party_no", slot_party_elder_last_met),
-            (troop_set_slot, "trp_village_elder", slot_troop_last_met, ":elder_met"),
+            (troop_set_slot, ":meeting_troop", slot_troop_last_met, ":elder_met"),
 
-            (call_script, "script_center_get_elder_face_key", ":party_no"),
-            (troop_set_face_keys, "trp_village_elder", s0),
-            (troop_set_age, "trp_village_elder", 65),
+            (call_script, "script_center_get_elder_face_key", ":party_no", ":meeting_troop"),
+            (troop_set_face_keys, ":meeting_troop", s0),
+            (troop_set_age, ":meeting_troop", 65),
 
-            (call_script, "script_setup_troop_meeting", "trp_village_elder", -1),
+            (call_script, "script_setup_troop_meeting", ":meeting_troop", -1),
         ]),
 
     # script_center_get_elder_face_key
@@ -30911,16 +30913,17 @@ scripts = [
     ("center_get_elder_face_key",
         [
             (store_script_param, ":party_no", 1),
+            (store_script_param, ":meeting_troop", 2),
             
             (party_get_slot, ":original_faction", ":party_no", slot_party_original_faction),
             (faction_get_slot, ":culture", ":original_faction", slot_faction_culture),
-            (troop_set_faction, "trp_village_elder", ":original_faction"),
-            (troop_set_slot, "trp_village_elder", slot_troop_culture, ":culture"),
+            (troop_set_faction, ":meeting_troop", ":original_faction"),
+            (troop_set_slot, ":meeting_troop", slot_troop_culture, ":culture"),
 
             (party_get_slot, ":base_face_key", ":party_no", slot_party_face_key_storage),
             (party_get_slot, ":base_face_options", ":party_no", slot_party_face_options_storage),
 
-            (call_script, "script_troop_get_face_code", "trp_village_elder", ":base_face_key", ":base_face_options"),
+            (call_script, "script_troop_get_face_code", ":meeting_troop", ":base_face_key", ":base_face_options"),
             (assign, ":new_face_key", reg0),
             (assign, ":new_face_options", reg1),
 
