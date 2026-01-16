@@ -32,6 +32,7 @@ v0.710:
 		* fix relation changes not triggering with villagers, caravans and patrols
 		* fix control troops options not working during sieges
 		* fix missaligned player name in character sheet
+		* fix incorrect display when recruiting civilian troops in centers
 v0.700:
 	-Features:
 		* add tournaments hosted by the cities

@@ -12974,7 +12974,7 @@ scripts = [
                     (troop_get_slot, ":leader_rank", ":leader", slot_troop_rank),
                     (try_begin),
                         (le, ":leader_rank", rank_affiliated),
-                        (assign, ":priority", tq_peasant),
+                        (assign, ":priority", tq_levy),
                     (else_try),
                         (le, ":leader_rank", rank_two_village),
                         (assign, ":priority", tq_veteran),
@@ -13056,6 +13056,10 @@ scripts = [
                                 (val_div, ":value", 6),
                                 (val_max, ":value", 1),
                             (else_try),
+                                (eq, ":troop_quality", tq_levy),
+                                (val_div, ":value", 6),
+                                (val_max, ":value", 1),
+                            (else_try),
                                 (eq, ":troop_quality", tq_common),
                                 (val_div, ":value", 3),
                                 (val_max, ":value", 1),
@@ -13063,7 +13067,7 @@ scripts = [
                         (try_end),
                         (assign, ":flags", 0),
                         (try_begin),
-                            (eq, ":troop_quality", tq_peasant),
+                            (eq, ":troop_quality", tq_levy),
                             (store_and, ":flags", ":garrison_flags", pgf_levy_mask),
                         (else_try),
                             (eq, ":troop_quality", tq_common),
@@ -13077,6 +13081,9 @@ scripts = [
                         (else_try),
                             (eq, ":troop_quality", tq_noble),
                             (store_and, ":flags", ":garrison_flags", pgf_noble_mask),
+                        (else_try),
+                            (eq, ":troop_quality", tq_peasant),
+                            (assign, ":flags", 1),
                         (try_end),
                         (gt, ":flags", 0),
                         (val_add, ":cur_value", ":value"),
@@ -14892,7 +14899,7 @@ scripts = [
                 (faction_get_slot, ":end", ":culture", slot_faction_troops_end),
                 (try_begin),
                     (is_between, ":cur_troop", ":peasant", ":common"),
-                    (troop_set_slot, ":cur_troop", slot_troop_quality, tq_peasant),
+                    (troop_set_slot, ":cur_troop", slot_troop_quality, tq_levy),
                 (else_try),
                     (is_between, ":cur_troop", ":common", ":veteran"),
                     (troop_set_slot, ":cur_troop", slot_troop_quality, tq_common),
@@ -14905,6 +14912,8 @@ scripts = [
                 (else_try),
                     (is_between, ":cur_troop", ":noble", ":end"),
                     (troop_set_slot, ":cur_troop", slot_troop_quality, tq_noble),
+                (else_try),
+                    (troop_set_slot, ":cur_troop", slot_troop_quality, tq_levy),
                 (try_end),
                 
                 (assign, ":armor", -1),
@@ -15071,6 +15080,11 @@ scripts = [
             (troop_set_slot, "trp_khergit_militia", slot_troop_type, tt_archer),
             (troop_set_slot, "trp_khergit_light_steppe_lancer", slot_troop_type, tt_lancer),
             (troop_set_slot, "trp_khergit_heavy_steppe_lancer", slot_troop_type, tt_lancer),
+
+            (try_for_range, ":cur_troop", peasant_troops_begin, peasant_troops_end),
+                (troop_set_slot, ":cur_troop", slot_troop_quality, tq_peasant),
+                (troop_set_slot, ":cur_troop", slot_troop_type, tt_infantry),
+            (try_end),
         ]),
     
     # script_init_troops_archer_score
@@ -28442,7 +28456,7 @@ scripts = [
 
             (troop_get_slot, ":troop_quality", ":troop_no", slot_troop_quality),
             (val_mul, ":troop_quality", 2),
-            (val_add, ":troop_quality", 1),
+            (val_sub, ":troop_quality", 1),
 
             (try_begin),
                 (is_between, ":troop_no", bandits_begin, bandits_end),
@@ -32358,7 +32372,6 @@ scripts = [
                     (val_mul, ":troop_level", 5),
 
                     (troop_get_slot, ":troop_rank", ":troop_no", slot_troop_quality),
-                    (val_add, ":troop_rank", 1),
                     (val_mul, ":troop_rank", ":troop_rank"),
 
                     (val_add, ":bonus_prize", ":troop_level"),

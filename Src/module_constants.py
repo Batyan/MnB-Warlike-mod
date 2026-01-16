@@ -1563,10 +1563,11 @@ tt_mounted_skirmisher   = 11
 
 slot_troop_quality                  = slot_troop_type + 1
 tq_peasant      = 0
-tq_common       = 1
-tq_veteran      = 2
-tq_elite        = 3
-tq_noble        = 4
+tq_levy         = 1
+tq_common       = 2
+tq_veteran      = 3
+tq_elite        = 4
+tq_noble        = 5
 
 
 slot_troop_lord_equipement          = slot_troop_quality + 1
