@@ -176,7 +176,7 @@ presentations = [
                 (party_get_slot, ":center_leader", ":current_city", slot_party_leader),
                 (try_begin),
                     (eq, ":center_leader", "$g_player_troop"),
-                    (str_store_string, s10, "@Center owner: +100"),
+                    (str_store_string, s10, "@Center owner: +1000"),
                     (call_script, "script_presentation_create_text_overlay", tf_left_align, ":x", 130, 900, 900),
                     (overlay_set_color, reg0, text_color_valid),
                 (else_try),
