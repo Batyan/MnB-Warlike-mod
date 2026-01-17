@@ -13509,7 +13509,7 @@ scripts = [
                 (item_set_slot, ":building", slot_building_center_types, ":value"),
 
                 (item_get_slot, ":cost", ":building", slot_building_cost_gold),
-                (val_div, ":cost", 200),
+                (val_div, ":cost", 1000),
                 (item_set_slot, ":building", slot_building_cost_maintenance, ":cost"),
             (try_end),
         ]),
