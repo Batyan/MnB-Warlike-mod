@@ -124,6 +124,9 @@ items_end = "itm_items_end"
 soldiers_begin          = "trp_swadian_levy"
 soldiers_end            = "trp_common_hunter_bow"
 
+peasant_troops_begin = soldiers_end
+peasant_troops_end = "trp_swadian_lord_template_0"
+
 companions_begin = "trp_companion_noble_01_m"
 companions_end = soldiers_begin
 
