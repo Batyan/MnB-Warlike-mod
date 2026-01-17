@@ -417,7 +417,8 @@ strings = [
   ("weight_heavy", "Heavy"),
   ("weight_very_heavy", "Armoured"),
   
-  ("troop_quality_peasant", "Levy"),
+  ("troop_quality_peasant", "Peasant"),
+  ("troop_quality_levy", "Levy"),
   ("troop_quality_common", "Common"),
   ("troop_quality_veteran", "Veteran"),
   ("troop_quality_elite", "Elite"),
