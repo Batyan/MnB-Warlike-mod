@@ -20461,6 +20461,15 @@ scripts = [
 
             (eq, ":join", 1),
 
+            (assign, ":reinforcement_range", reinforcement_range),
+            (try_begin),
+                (eq, ":party_type", spt_bandit),
+                (val_div, ":reinforcement_range", 2),
+            (try_end),
+
+            (store_distance_to_party_from_party, ":distance", ":party_no", "$g_encountered_party"),
+            (lt, ":distance", ":reinforcement_range"),
+
             (call_script, "script_party_select_battle_side", ":party_no", ":battling_party_1", ":battling_party_2"),
             (gt, reg0, 0),
         ]),

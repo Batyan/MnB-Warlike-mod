@@ -26,6 +26,7 @@ v0.710:
 			this change is made to have a more granular increase in grants
 		* add new clan names for swadian culture
 		* decrease buildings maintenance cost by 80%
+		* decrease map reinforcement range for bandit parties
 	-Fixes:
 		* fix tournaments not concluding properly
 		* fix possibility to speak to introduction quest giver before receiving the message
