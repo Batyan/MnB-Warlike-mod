@@ -857,7 +857,7 @@ strings = [
   ("quest_description_introduction_default_search_1", "Search the village of {s59} for information on {s58}'s brother."),
   ("quest_description_introduction_default_search_2", "Search the village of {s59} for information on {s58}'s brother."),
   ("quest_description_introduction_default_search_3", "Search the village of {s59} for information on {s58}'s brother."),
-  ("quest_description_introduction_waiting", "{s62} is looking for additional leads regarding his missing brother. You aggreed to assist him should he need your help."),
+  ("quest_description_introduction_waiting", "{s58} is looking for additional leads regarding his missing brother. You aggreed to assist him should he need your help."),
   ("quest_description_introduction_waiting", "You have agreed to help {s62} to confront Cerval Phinius."),
 
   ("quest_description_swear_vassalage_fief", "{s62} would like to receive your oath of allegience to him{reg60?, you would be granted {s11} in exchange:}."),
@@ -865,12 +865,12 @@ strings = [
   
   ("quest_description_visit_center_new_owner", "As the newly appointed owner of {s59} you should head to the center to make yourself known and arrange the details of your fiefdom."),
 
-  ("quest_description_village_deliver_grain", "The elder of the village of {s59} asked you to procure 10 items of grain."),
+  ("quest_description_village_deliver_grain", "The elder of the village of {s58} asked you to procure 10 items of grain."),
   ("quest_description_village_deliver_rare_good", " "),
   ("quest_description_village_negociate_trade_arrangement", " "),
   ("quest_description_village_hunt_notorious_bandit", " "),
   ("quest_description_village_persuade_mercenaries_leave", " "),
-  ("quest_description_village_purchase_surplus_goods", "The elder of the village of {s59} wishes you to find a buyer for {reg50} items of {s60} to prevent the loss due too spoilage."),
+  ("quest_description_village_purchase_surplus_goods", "The elder of the village of {s58} wishes you to find a buyer for {reg50} items of {s60} to prevent the loss due to spoilage."),
   ("quest_description_end", "{!}QUESTS END"),
 
   ("party_tax_description_taxes", "Taxes"),
