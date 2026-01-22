@@ -12,7 +12,7 @@ quests = [
         "{!}."),
     ("introduction_default_search_3", "Search the village of {s59}", 0,
         "{!}."),
-    ("introduction_waiting", "Wait for a message from {s62}", 0,
+    ("introduction_waiting", "Wait for a message from {s58}", 0,
         "{!}."),
     ("introduction_confrontation", "Confront Cerval Phinius", 0,
         "{!}."),
