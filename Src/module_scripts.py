@@ -20444,9 +20444,6 @@ scripts = [
             (party_get_attached_to, ":attached_party", ":party_no"),
             (lt, ":attached_party", 0),
 
-            (store_distance_to_party_from_party, ":distance", ":party_no", "$g_encountered_party"),
-            (lt, ":distance", reinforcement_range),
-
             (party_get_battle_opponent, ":opponent", ":party_no"),
             (eq, ":opponent", -1),
 
