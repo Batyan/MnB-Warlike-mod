@@ -14,7 +14,7 @@ v0.710:
 		* changed vaegir_hunter to have guarantee ranged
 		* reduce vaegir_levy_axeman special ratio (40 -> 25)
 		* reduce vaegir_club_levy special ratio (100 -> 35)
-		* reduce vaegir_levy_nfantry special ratio (60 -> 45)
+		* reduce vaegir_levy_infantry special ratio (60 -> 45)
 		* slow down reinforcement parties
 		* add khergit_hunter troop for small_faction_32
 		* rename swadian_militia to swadian_levy_bowman
