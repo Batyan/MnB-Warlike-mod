@@ -35,6 +35,7 @@ v0.710:
 		* fix control troops options not working during sieges
 		* fix missaligned player name in character sheet
 		* fix incorrect display when recruiting civilian troops in centers
+		* fix village center quest description for quest giver
 v0.700:
 	-Features:
 		* add tournaments hosted by the cities
