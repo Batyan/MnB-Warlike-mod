@@ -36,6 +36,8 @@ v0.710:
 		* fix missaligned player name in character sheet
 		* fix incorrect display when recruiting civilian troops in centers
 		* fix village center quest description for quest giver
+	-Other:
+		* fix some harmless error messages when loading the mod
 v0.700:
 	-Features:
 		* add tournaments hosted by the cities
