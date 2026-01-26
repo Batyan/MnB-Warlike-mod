@@ -44,6 +44,7 @@ scripts = [
             (call_script, "script_init_bandits"),
             (call_script, "script_init_goods"),
             (call_script, "script_init_good_recipes"),
+            (call_script, "script_init_banners"),
             
             (call_script, "script_init_building_slots"),
             (call_script, "script_init_siege_scene_slots"),
@@ -250,8 +251,8 @@ scripts = [
                 (troop_set_slot, ":merchant", slot_troop_merchant_center, -1),
             (try_end),
 
-            (try_for_range, ":unused", 0, 2),
-                (store_random_in_range, ":camp", "p_camp_11", "p_camp_21"),
+            (try_for_range, ":unused", 0, 3),
+                (store_random_in_range, ":camp", camps_begin, "p_camp_21"),
                 (enable_party, ":camp"),
                 (party_set_faction, ":camp", "fac_faction_1"),
                 (party_set_slot, ":camp", slot_party_wealth, 75000),
@@ -259,6 +260,7 @@ scripts = [
                 (try_for_range, ":unused", 0, 5),
                     (call_script, "script_party_add_reinforcements", ":camp"),
                 (try_end),
+                (call_script, "script_camp_update_prosperity", ":camp", 20),
 
                 (store_random_in_range, ":camp", "p_camp_21", "p_camp_31"),
                 (enable_party, ":camp"),
@@ -268,6 +270,7 @@ scripts = [
                 (try_for_range, ":unused", 0, 5),
                     (call_script, "script_party_add_reinforcements", ":camp"),
                 (try_end),
+                (call_script, "script_camp_update_prosperity", ":camp", 20),
 
                 (store_random_in_range, ":camp", "p_camp_31", "p_camp_41"),
                 (enable_party, ":camp"),
@@ -277,6 +280,7 @@ scripts = [
                 (try_for_range, ":unused", 0, 5),
                     (call_script, "script_party_add_reinforcements", ":camp"),
                 (try_end),
+                (call_script, "script_camp_update_prosperity", ":camp", 20),
 
                 (store_random_in_range, ":camp", "p_camp_41", "p_camp_51"),
                 (enable_party, ":camp"),
@@ -286,6 +290,7 @@ scripts = [
                 (try_for_range, ":unused", 0, 5),
                     (call_script, "script_party_add_reinforcements", ":camp"),
                 (try_end),
+                (call_script, "script_camp_update_prosperity", ":camp", 20),
 
                 (store_random_in_range, ":camp", "p_camp_51", "p_camp_61"),
                 (enable_party, ":camp"),
@@ -295,6 +300,7 @@ scripts = [
                 (try_for_range, ":unused", 0, 5),
                     (call_script, "script_party_add_reinforcements", ":camp"),
                 (try_end),
+                (call_script, "script_camp_update_prosperity", ":camp", 20),
 
                 (store_random_in_range, ":camp", "p_camp_61", camps_end),
                 (enable_party, ":camp"),
@@ -304,6 +310,7 @@ scripts = [
                 (try_for_range, ":unused", 0, 5),
                     (call_script, "script_party_add_reinforcements", ":camp"),
                 (try_end),
+                (call_script, "script_camp_update_prosperity", ":camp", 20),
             (try_end),
 
             (party_set_slot, "$g_player_party", slot_party_leader, "$g_player_troop"),
@@ -1238,8 +1245,7 @@ scripts = [
                 (call_script, "script_party_defeat_center", ":winner_party", ":defeated_party"),
             (else_try),
                 (eq, ":party_type", spt_camp),
-                (disable_party, ":defeated_party"),
-                (party_set_faction, ":defeated_party", "fac_no_faction"),
+                (call_script, "script_camp_disable", ":defeated_party"),
             (else_try),
                 (eq, ":party_type", spt_caravan),
                 (call_script, "script_faction_political_event", ":party_faction", political_event_caravan_defeated, ":defeated_party", ":winner_party", -1),
@@ -2151,8 +2157,6 @@ scripts = [
 
             (else_try),
                 (eq, ":note_index", 1),
-                # ToDo: faction relations
-                # ToDo: faction territories
                 (str_store_string, s0, "@Current territories: ^"),
                 (str_clear, s10),
                 (try_for_range, ":cur_center", centers_begin, centers_end),
@@ -2174,11 +2178,62 @@ scripts = [
                 (try_end),
             (else_try),
                 (eq, ":note_index", 2),
-                # ToDo: faction policies
-                # (try_for_range, ":cur_faction", kingdoms_begin, kingdoms_end),
-                #     (neq, ":cur_faction", ":faction_no"),
-                #     (store_relation, ":relation", ":cur_faction", ":faction_no"),
-                # (try_end),
+
+                (str_store_string, s0, "@Foreign relations:"),
+                (assign, ":has_war", 0),
+                (try_for_range, ":war_storage", war_storages_begin, war_storages_end),
+                    (call_script, "script_faction_is_war_participant", ":faction_no", ":war_storage"),
+                    (assign, ":side", reg0),
+                    (neq, ":side", swkp_bystander),
+
+                    (assign, ":has_war", 1),
+
+                    (assign, ":ally_side", swkp_main_defender),
+                    (assign, ":enemy_side", swkp_main_aggressor),
+                    (try_begin),
+                        (gt, ":side", swkp_bystander),
+                        (assign, ":ally_side", swkp_main_aggressor),
+                        (assign, ":enemy_side", swkp_main_defender),
+                    (try_end),
+                    (assign, ":main_ally", -1),
+                    (assign, ":main_enemy", -1),
+                    (try_for_range, ":other_faction", kingdoms_begin, kingdoms_end),
+                        (call_script, "script_faction_is_war_participant", ":other_faction", ":war_storage"),
+                        (assign, ":other_side", reg0),
+                        (try_begin),
+                            (eq, ":other_side", ":ally_side"),
+                            (assign, ":main_ally", ":other_faction"),
+                        (else_try),
+                            (eq, ":other_side", ":enemy_side"),
+                            (assign, ":main_enemy", ":other_faction"),
+                        (try_end),
+                    (try_end),
+
+                    (try_begin),
+                        (this_or_next|eq, ":main_ally", -1),
+                        (eq, ":main_enemy", -1),
+                        (str_store_string, s0, "@{s0}^{s12} is in an invalid war"),
+                    (else_try),
+                        (eq, ":main_ally", ":faction_no"),
+                        (str_store_faction_name_link, s14, ":main_enemy"),
+                        (str_store_string, s0, "@{s0}^{s12} is at war against {s14}"),
+                    (else_try),
+                        (str_store_faction_name_link, s13, ":main_ally"),
+                        (str_store_faction_name_link, s14, ":main_enemy"),
+                        (str_store_string, s0, "@{s0}^{s12} is helping {s13} in its war against {s14}"),
+                    (try_end),
+                (try_end),
+                (try_begin),
+                    (eq, ":has_war", 0),
+                    (try_begin),
+                        (faction_get_slot, ":planned_war", ":faction_no", slot_faction_preparing_war),
+                        (is_between, ":planned_war", kingdoms_begin, kingdoms_end),
+                        (str_store_faction_name_link, s13, ":planned_war"),
+                        (str_store_string, s0, "@{s0}^{s12} is considering war with {s13}"),
+                    (else_try),
+                        (str_store_string, s0, "@{s0}^{s12} is at peace"),
+                    (try_end),
+                (try_end),
             (else_try),
                 (eq, ":note_index", 3),
 
@@ -3624,8 +3679,19 @@ scripts = [
             (store_script_param, ":agent_no", 1),
             
             (agent_get_team, ":team", ":agent_no"),
+
+            (assign, ":continue", 0),
             (try_begin),
                 (eq, ":team", 0),
+                (assign, ":continue", 1),
+            (else_try),
+                (eq, ":team", 2),
+                (eq, "$g_player_team", 0),
+                (assign, ":continue", 1),
+            (try_end),
+
+            (try_begin),
+                (eq, ":continue", 1),
                 (agent_get_division, ":division", ":agent_no"),
                 (agent_get_ammo, ":ammo", ":agent_no", 0),
                 
@@ -3724,6 +3790,7 @@ scripts = [
             (party_set_slot, ":party_no", slot_party_besieged_by, -1),
             
             (party_set_slot, ":party_no", slot_party_player_wages_limit, -1),
+            (party_set_slot, ":party_no", slot_party_camp_influence, -1),
 
             (party_set_slot, ":party_no", slot_party_autosort_options, autosort_low_level_first|autosort_foreign_first),
 
@@ -5316,10 +5383,10 @@ scripts = [
         ]),
     
     # script_apply_battle_formation_to_team
-    # input:
-    #   arg1: formation
-    #   arg2: team_no
-    # output: none
+        # input:
+        #   arg1: formation
+        #   arg2: team_no
+        # output: none
     ("apply_battle_formation_to_team",
         [
             (store_script_param, ":formation", 1),
@@ -5374,10 +5441,10 @@ scripts = [
             (try_end),
         ]),
     # script_apply_battle_reinforcements_formation_to_team
-    # input:
-    #   arg1: formation
-    #   arg2: team_no
-    # output: none
+        # input:
+        #   arg1: formation
+        #   arg2: team_no
+        # output: none
     ("apply_battle_reinforcements_formation_to_team",
         [
             # (store_script_param, ":formation", 1),
@@ -5392,10 +5459,10 @@ scripts = [
         ]),
     
     # script_team_get_average_position_of_enemies
-    # input: 
-    #   arg1: team_no
-    # output: 
-    #   pos0: average position
+        # input: 
+        #   arg1: team_no
+        # output: 
+        #   pos0: average position
     ("team_get_average_position_of_enemies",
         [
             (store_script_param_1, ":team_no"),
@@ -5439,11 +5506,11 @@ scripts = [
         ]),
     
     # script_get_closest3_distance_of_enemies_at_pos1
-    # input: 
-    #   arg1: team_no
-    #   pos1
-    # output: 
-    #   reg0: distance in cms
+        # input: 
+        #   arg1: team_no
+        #   pos1
+        # output: 
+        #   reg0: distance in cms
     ("get_closest3_distance_of_enemies_at_pos1",
         [
             (assign, ":min_distance_1", 100000),
@@ -5500,6 +5567,390 @@ scripts = [
             (assign, reg1, ":min_distance_1"),
             (assign, reg2, ":min_distance_2"),
             (assign, reg3, ":min_distance_3"),
+        ]),
+
+    # script_team_equalize_divisions
+        # input:
+        #   arg1: team
+        # output: none
+    ("team_equalize_divisions",
+        [
+            (store_script_param, ":current_team", 1),
+
+            (store_current_scene, ":cur_scene"),
+            (scene_get_slot, ":num_points", ":cur_scene", slot_scene_num_defend_points),
+            (store_add, ":end", ":num_points", grc_cavalry),
+
+            (assign, ":defender_team", ":current_team"),
+            
+            (assign, ":slot", slot_team_division_3_number),
+            (assign, ":num_total", 0),
+            (try_for_range, ":unused", grc_cavalry, ":end"),
+                (team_get_slot, ":num_current", ":defender_team", ":slot"),
+                (val_add, ":num_total", ":num_current"),
+                (val_add, ":slot", 1),
+            (try_end),
+            (store_div, ":avg", ":num_total", ":num_points"),
+
+            # TODO: remove defense division equalizer
+            (try_for_agents, ":agent_no"),
+                (agent_is_alive, ":agent_no"),
+                (agent_get_team, ":team", ":agent_no"),
+
+                (eq, ":team", ":defender_team"),
+
+                (agent_get_division, ":division", ":agent_no"),
+                (try_begin),
+                    (ge, ":division", grc_cavalry),
+                    (store_add, ":slot", ":division", slot_team_division_1_number),
+                    (team_get_slot, ":num_troops", ":team", ":slot"),
+                    (try_begin),
+                        # (ge, ":num_troops", ":avg"),
+                        (val_add, ":num_troops", -2),
+                        (ge, ":num_troops", ":avg"),
+                        (val_add, ":num_troops", 1),
+                        
+                        # ToDo: Seek least manned division
+                        (store_random_in_range, ":random_division", grc_cavalry, ":end"),
+                        (agent_set_division, ":agent_no", ":random_division"),
+                        (agent_set_slot, ":agent_no", slot_agent_new_division, ":random_division"),
+                        
+                        (team_set_slot, ":team", ":slot", ":num_troops"),
+                        (store_add, ":new_slot", ":random_division", slot_team_division_1_number),
+                        (team_get_slot, ":new_num_troops", ":team", ":new_slot"),
+                        (val_add, ":new_num_troops", 1),
+                        (team_set_slot, ":new_slot", ":team", ":new_num_troops"),
+                    (try_end),
+                (try_end),
+            (try_end),
+            # END
+            
+            (assign, reg20, -1),
+            (assign, reg21, -1),
+            (assign, reg22, -1),
+            (assign, reg23, -1),
+            (assign, reg24, -1),
+            (assign, reg25, -1),
+            (team_get_slot, ":num_archers", ":defender_team", slot_team_division_2_number),
+            (try_begin),
+                (ge, ":num_archers", ":num_total"),
+                (try_begin),
+                    (team_slot_eq, ":defender_team", slot_team_formation, stf_siege),
+                    (store_mul, ":num_total_max_throw", ":num_total", 2),
+                    (ge, ":num_archers", ":num_total_max_throw"),
+                    (team_set_slot, ":defender_team", slot_team_formation, stf_siege_no_throw),
+                    (call_script, "script_team_set_division_slots_for_formation", ":defender_team", stf_siege_no_throw),
+                    (try_begin),
+                        (call_script, "script_cf_debug", debug_simple),
+                        (display_message, "@Automatic change to siege no throw formation"),
+                    (try_end),
+                (else_try),
+                    (assign, ":reg20_score", 0),
+                    (assign, ":reg21_score", 0),
+                    (assign, ":reg22_score", 0),
+                    (assign, ":reg23_score", 0),
+                    (assign, ":reg24_score", 0),
+                    (assign, ":reg25_score", 0),
+                    (try_for_agents, ":agent_no"),
+                        (agent_is_alive, ":agent_no"),
+                        (agent_get_team, ":team", ":agent_no"),
+                        (eq, ":team", ":defender_team"),
+                        (agent_get_division, ":division", ":agent_no"),
+                        (eq, ":division", grc_archers),
+                        (agent_slot_eq, ":agent_no", slot_agent_forced_defend, 0),
+                        (try_begin),
+                            (eq, reg20, -1),
+                            (assign, reg20, ":agent_no"),
+                        (else_try),
+                            (eq, reg21, -1),
+                            (assign, reg21, ":agent_no"),
+                        (else_try),
+                            (eq, reg22, -1),
+                            (assign, reg22, ":agent_no"),
+                        (else_try),
+                            (eq, reg23, -1),
+                            (assign, reg23, ":agent_no"),
+                        (else_try),
+                            (eq, reg24, -1),
+                            (assign, reg24, ":agent_no"),
+                        (else_try),
+                            (eq, reg25, -1),
+                            (assign, reg25, ":agent_no"),
+                        (else_try),
+                            (call_script, "script_agent_get_archer_score", ":agent_no"),
+                            (assign, ":score", reg0),
+                            
+                            (call_script, "script_agent_get_archer_score", reg20),
+                            (assign, ":reg20_score", reg0),
+                            (call_script, "script_agent_get_archer_score", reg21),
+                            (assign, ":reg21_score", reg0),
+                            (call_script, "script_agent_get_archer_score", reg22),
+                            (assign, ":reg22_score", reg0),
+                            (call_script, "script_agent_get_archer_score", reg23),
+                            (assign, ":reg23_score", reg0),
+                            (call_script, "script_agent_get_archer_score", reg24),
+                            (assign, ":reg24_score", reg0),
+                            (call_script, "script_agent_get_archer_score", reg25),
+                            (assign, ":reg25_score", reg0),
+                            
+                            (try_begin),
+                                (gt, ":reg20_score", ":score"),
+                                (ge, ":reg20_score", ":reg21_score"),
+                                (ge, ":reg20_score", ":reg22_score"),
+                                (ge, ":reg20_score", ":reg23_score"),
+                                (ge, ":reg20_score", ":reg24_score"),
+                                (ge, ":reg20_score", ":reg25_score"),
+                                (assign, reg20, ":agent_no"),
+                            (else_try),
+                                (gt, ":reg21_score", ":score"),
+                                (ge, ":reg21_score", ":reg20_score"),
+                                (ge, ":reg21_score", ":reg22_score"),
+                                (ge, ":reg21_score", ":reg23_score"),
+                                (ge, ":reg21_score", ":reg24_score"),
+                                (ge, ":reg21_score", ":reg25_score"),
+                                (assign, reg21, ":agent_no"),
+                            (else_try),
+                                (gt, ":reg22_score", ":score"),
+                                (ge, ":reg22_score", ":reg20_score"),
+                                (ge, ":reg22_score", ":reg21_score"),
+                                (ge, ":reg22_score", ":reg23_score"),
+                                (ge, ":reg22_score", ":reg24_score"),
+                                (ge, ":reg22_score", ":reg25_score"),
+                                (assign, reg22, ":agent_no"),
+                            (else_try),
+                                (gt, ":reg23_score", ":score"),
+                                (ge, ":reg23_score", ":reg20_score"),
+                                (ge, ":reg23_score", ":reg21_score"),
+                                (ge, ":reg23_score", ":reg22_score"),
+                                (ge, ":reg23_score", ":reg24_score"),
+                                (ge, ":reg23_score", ":reg25_score"),
+                                (assign, reg23, ":agent_no"),
+                            (else_try),
+                                (gt, ":reg24_score", ":score"),
+                                (ge, ":reg24_score", ":reg20_score"),
+                                (ge, ":reg24_score", ":reg21_score"),
+                                (ge, ":reg24_score", ":reg22_score"),
+                                (ge, ":reg24_score", ":reg23_score"),
+                                (ge, ":reg24_score", ":reg25_score"),
+                                (assign, reg24, ":agent_no"),
+                            (else_try),
+                                (gt, ":reg25_score", ":score"),
+                                (assign, reg25, ":agent_no"),
+                            (try_end),
+                        (try_end),
+                    (try_end),
+                    (try_begin),
+                        (ge, reg20, 0),
+                        (agent_set_slot, reg20, slot_agent_forced_defend, 1),
+                        (try_begin),
+                            (call_script, "script_cf_debug", debug_simple),
+                            (agent_get_troop_id, ":troop_no", reg20),
+                            (str_store_troop_name, s10, ":troop_no"),
+                            (assign, reg10, ":reg20_score"),
+                            (display_message, "@{s10} goes defending (score: {reg10})"),
+                        (try_end),
+                        (ge, reg21, 0),
+                        (agent_set_slot, reg21, slot_agent_forced_defend, 1),
+                        (try_begin),
+                            (call_script, "script_cf_debug", debug_simple),
+                            (agent_get_troop_id, ":troop_no", reg21),
+                            (str_store_troop_name, s10, ":troop_no"),
+                            (assign, reg10, ":reg21_score"),
+                            (display_message, "@{s10} goes defending (score: {reg10})"),
+                        (try_end),
+                        (ge, reg22, 0),
+                        (agent_set_slot, reg22, slot_agent_forced_defend, 1),
+                        (try_begin),
+                            (call_script, "script_cf_debug", debug_simple),
+                            (agent_get_troop_id, ":troop_no", reg22),
+                            (str_store_troop_name, s10, ":troop_no"),
+                            (assign, reg10, ":reg22_score"),
+                            (display_message, "@{s10} goes defending (score: {reg10})"),
+                        (try_end),
+                        (ge, reg23, 0),
+                        (agent_set_slot, reg23, slot_agent_forced_defend, 1),
+                        (try_begin),
+                            (call_script, "script_cf_debug", debug_simple),
+                            (agent_get_troop_id, ":troop_no", reg23),
+                            (str_store_troop_name, s10, ":troop_no"),
+                            (assign, reg10, ":reg23_score"),
+                            (display_message, "@{s10} goes defending (score: {reg10})"),
+                        (try_end),
+                        (ge, reg24, 0),
+                        (agent_set_slot, reg24, slot_agent_forced_defend, 1),
+                        (try_begin),
+                            (call_script, "script_cf_debug", debug_simple),
+                            (agent_get_troop_id, ":troop_no", reg24),
+                            (str_store_troop_name, s10, ":troop_no"),
+                            (assign, reg10, ":reg24_score"),
+                            (display_message, "@{s10} goes defending (score: {reg10})"),
+                        (try_end),
+                        (ge, reg25, 0),
+                        (agent_set_slot, reg25, slot_agent_forced_defend, 1),
+                        (try_begin),
+                            (call_script, "script_cf_debug", debug_simple),
+                            (agent_get_troop_id, ":troop_no", reg25),
+                            (str_store_troop_name, s10, ":troop_no"),
+                            (assign, reg10, ":reg25_score"),
+                            (display_message, "@{s10} goes defending (score: {reg10})"),
+                        (try_end),
+                    (try_end),
+                (try_end),
+            (else_try),
+                (store_div, ":num_total_div_2", ":num_total", 2),
+                (lt, ":num_archers", ":num_total_div_2"),
+                (assign, reg20, -1),
+                (assign, reg21, -1),
+                (assign, reg22, -1),
+                (assign, reg23, -1),
+                (assign, reg24, -1),
+                (assign, reg25, -1),
+                (try_for_agents, ":agent_no"),
+                    (agent_is_alive, ":agent_no"),
+                    (agent_get_team, ":team", ":agent_no"),
+                    (eq, ":team", ":defender_team"),
+                    (agent_get_division, ":division", ":agent_no"),
+                    (neq, ":division", grc_archers),
+                    (agent_slot_eq, ":agent_no", slot_agent_forced_defend, 1),
+                    # Free some archers from defending positions if possible
+                    (try_begin),
+                        (eq, reg20, -1),
+                        (assign, reg20, ":agent_no"),
+                    (else_try),
+                        (eq, reg21, -1),
+                        (assign, reg21, ":agent_no"),
+                    (else_try),
+                        (eq, reg22, -1),
+                        (assign, reg22, ":agent_no"),
+                    (else_try),
+                        (eq, reg23, -1),
+                        (assign, reg23, ":agent_no"),
+                    (else_try),
+                        (eq, reg24, -1),
+                        (assign, reg24, ":agent_no"),
+                    (else_try),
+                        (eq, reg25, -1),
+                        (assign, reg25, ":agent_no"),
+                    (else_try),
+                        (call_script, "script_agent_get_archer_score", ":agent_no"),
+                        (assign, ":score", reg0),
+                        
+                        (call_script, "script_agent_get_archer_score", reg20),
+                        (assign, ":reg20_score", reg0),
+                        (call_script, "script_agent_get_archer_score", reg21),
+                        (assign, ":reg21_score", reg0),
+                        (call_script, "script_agent_get_archer_score", reg22),
+                        (assign, ":reg22_score", reg0),
+                        (call_script, "script_agent_get_archer_score", reg23),
+                        (assign, ":reg23_score", reg0),
+                        (call_script, "script_agent_get_archer_score", reg24),
+                        (assign, ":reg24_score", reg0),
+                        (call_script, "script_agent_get_archer_score", reg25),
+                        (assign, ":reg25_score", reg0),
+                        
+                        (try_begin),
+                            (lt, ":reg20_score", ":score"),
+                            (le, ":reg20_score", ":reg21_score"),
+                            (le, ":reg20_score", ":reg22_score"),
+                            (le, ":reg20_score", ":reg23_score"),
+                            (le, ":reg20_score", ":reg24_score"),
+                            (le, ":reg20_score", ":reg25_score"),
+                            (assign, reg20, ":agent_no"),
+                        (else_try),
+                            (lt, ":reg21_score", ":score"),
+                            (le, ":reg21_score", ":reg20_score"),
+                            (le, ":reg21_score", ":reg22_score"),
+                            (le, ":reg21_score", ":reg23_score"),
+                            (le, ":reg21_score", ":reg24_score"),
+                            (le, ":reg21_score", ":reg25_score"),
+                            (assign, reg21, ":agent_no"),
+                        (else_try),
+                            (lt, ":reg22_score", ":score"),
+                            (le, ":reg22_score", ":reg20_score"),
+                            (le, ":reg22_score", ":reg21_score"),
+                            (le, ":reg22_score", ":reg23_score"),
+                            (le, ":reg22_score", ":reg24_score"),
+                            (le, ":reg22_score", ":reg25_score"),
+                            (assign, reg22, ":agent_no"),
+                        (else_try),
+                            (lt, ":reg23_score", ":score"),
+                            (le, ":reg23_score", ":reg20_score"),
+                            (le, ":reg23_score", ":reg21_score"),
+                            (le, ":reg23_score", ":reg22_score"),
+                            (le, ":reg23_score", ":reg24_score"),
+                            (le, ":reg23_score", ":reg25_score"),
+                            (assign, reg23, ":agent_no"),
+                        (else_try),
+                            (lt, ":reg24_score", ":score"),
+                            (le, ":reg24_score", ":reg20_score"),
+                            (le, ":reg24_score", ":reg21_score"),
+                            (le, ":reg24_score", ":reg22_score"),
+                            (le, ":reg24_score", ":reg23_score"),
+                            (le, ":reg24_score", ":reg25_score"),
+                            (assign, reg24, ":agent_no"),
+                        (else_try),
+                            (lt, ":reg25_score", ":score"),
+                            (assign, reg25, ":agent_no"),
+                        (try_end),
+                    (try_end),
+                (try_end),
+                (try_begin),
+                    (ge, reg20, 0),
+                    (agent_set_slot, reg20, slot_agent_forced_defend, 0),
+                    (try_begin),
+                        (call_script, "script_cf_debug", debug_simple),
+                        (agent_get_troop_id, ":troop_no", reg20),
+                        (str_store_troop_name, s10, ":troop_no"),
+                        (assign, reg10, ":reg20_score"),
+                        (display_message, "@{s10} stops defending (score: {reg10})"),
+                    (try_end),
+                    (ge, reg21, 0),
+                    (agent_set_slot, reg21, slot_agent_forced_defend, 0),
+                    (try_begin),
+                        (call_script, "script_cf_debug", debug_simple),
+                        (agent_get_troop_id, ":troop_no", reg21),
+                        (str_store_troop_name, s10, ":troop_no"),
+                        (assign, reg10, ":reg21_score"),
+                        (display_message, "@{s10} stops defending (score: {reg10})"),
+                    (try_end),
+                    (ge, reg22, 0),
+                    (agent_set_slot, reg22, slot_agent_forced_defend, 0),
+                    (try_begin),
+                        (call_script, "script_cf_debug", debug_simple),
+                        (agent_get_troop_id, ":troop_no", reg22),
+                        (str_store_troop_name, s10, ":troop_no"),
+                        (assign, reg10, ":reg22_score"),
+                        (display_message, "@{s10} stops defending (score: {reg10})"),
+                    (try_end),
+                    (ge, reg23, 0),
+                    (agent_set_slot, reg23, slot_agent_forced_defend, 0),
+                    (try_begin),
+                        (call_script, "script_cf_debug", debug_simple),
+                        (agent_get_troop_id, ":troop_no", reg23),
+                        (str_store_troop_name, s10, ":troop_no"),
+                        (assign, reg10, ":reg23_score"),
+                        (display_message, "@{s10} stops defending (score: {reg10})"),
+                    (try_end),
+                    (ge, reg24, 0),
+                    (agent_set_slot, reg24, slot_agent_forced_defend, 0),
+                    (try_begin),
+                        (call_script, "script_cf_debug", debug_simple),
+                        (agent_get_troop_id, ":troop_no", reg24),
+                        (str_store_troop_name, s10, ":troop_no"),
+                        (assign, reg10, ":reg24_score"),
+                        (display_message, "@{s10} stops defending (score: {reg10})"),
+                    (try_end),
+                    (ge, reg25, 0),
+                    (agent_set_slot, reg25, slot_agent_forced_defend, 0),
+                    (try_begin),
+                        (call_script, "script_cf_debug", debug_simple),
+                        (agent_get_troop_id, ":troop_no", reg25),
+                        (str_store_troop_name, s10, ":troop_no"),
+                        (assign, reg10, ":reg25_score"),
+                        (display_message, "@{s10} stops defending (score: {reg10})"),
+                    (try_end),
+                (try_end),
+            (try_end),
         ]),
 
     # script_init_goods
@@ -6765,6 +7216,24 @@ scripts = [
             (call_script, "script_party_get_expected_taxes", ":party_no"),
             (assign, ":taxes", reg0),
 
+            (party_get_slot, ":camp_influence", ":party_no", slot_party_camp_influence),
+            (try_begin),
+                (is_between, ":camp_influence", camps_begin, camps_end),
+
+                (call_script, "script_party_get_banditry_tax_ratio", ":party_no"),
+                (assign, ":banditry_ratio", reg0),
+
+                (gt, ":banditry_ratio", 0),
+                (gt, ":taxes", 0),
+
+                (store_mul, ":banditry", ":taxes", ":banditry_ratio"),
+                (val_div, ":banditry", ":taxes"),
+                (call_script, "script_party_add_accumulated_taxes", ":camp_influence", ":banditry", tax_type_banditry),
+
+                (val_mul, ":banditry", -1),
+                (call_script, "script_party_add_accumulated_taxes", ":party_no", ":banditry", tax_type_banditry),
+            (try_end),
+
             (assign, ":member_tax", 0),
             (assign, ":vassal_tax", 0),
             (assign, ":funds_tax", 0),
@@ -7751,11 +8220,11 @@ scripts = [
             (faction_set_slot, "fac_kingdom_1", slot_faction_troop_ratio_mounted_skirmisher, 5),
             
             (faction_set_slot, "fac_kingdom_2", slot_faction_troop_ratio_infantry, 90),
-            (faction_set_slot, "fac_kingdom_2", slot_faction_troop_ratio_spearman, 35),
+            (faction_set_slot, "fac_kingdom_2", slot_faction_troop_ratio_spearman, 40),
             (faction_set_slot, "fac_kingdom_2", slot_faction_troop_ratio_pikeman, 5),
             (faction_set_slot, "fac_kingdom_2", slot_faction_troop_ratio_skirmisher, 30),
             (faction_set_slot, "fac_kingdom_2", slot_faction_troop_ratio_shock_infantry, 25),
-            (faction_set_slot, "fac_kingdom_2", slot_faction_troop_ratio_archer, 75),
+            (faction_set_slot, "fac_kingdom_2", slot_faction_troop_ratio_archer, 70),
             (faction_set_slot, "fac_kingdom_2", slot_faction_troop_ratio_crossbow, 5),
             (faction_set_slot, "fac_kingdom_2", slot_faction_troop_ratio_cavalry, 90),
             (faction_set_slot, "fac_kingdom_2", slot_faction_troop_ratio_lancer, 25),
@@ -8005,7 +8474,7 @@ scripts = [
             (call_script, "script_faction_change_slot", "fac_small_kingdom_63", slot_faction_troop_ratio_cavalry, 10),
             (call_script, "script_faction_change_slot", "fac_small_kingdom_63", slot_faction_troop_ratio_lancer, 20),
             (call_script, "script_faction_change_slot", "fac_small_kingdom_63", slot_faction_troop_ratio_infantry, 15),
-            (call_script, "script_faction_change_slot", "fac_small_kingdom_63", slot_faction_troop_ratio_archer, 10),
+            (call_script, "script_faction_change_slot", "fac_small_kingdom_63", slot_faction_troop_ratio_archer, -10),
             (call_script, "script_faction_change_slot", "fac_small_kingdom_63", slot_faction_troop_ratio_mounted_skirmisher, -60),
             (call_script, "script_faction_change_slot", "fac_small_kingdom_63", slot_faction_troop_ratio_skirmisher, -45),
             
@@ -10282,10 +10751,12 @@ scripts = [
         ]),
     
     # script_set_team_defend_points
-    # input: none
-    # output: none
+        # input: none
+        # output: none
     ("set_team_defend_points",
         [
+            (store_script_param, ":team", 1),
+            
             (call_script, "script_scene_get_defend_points_range"),
             (assign, ":defend_begin", reg0),
             (assign, ":defend_end", reg1),
@@ -10293,9 +10764,9 @@ scripts = [
             # (store_sub, ":num_defend", ":defend_end", ":defend_begin"),
             (assign, ":cur_division", 2),
             (try_for_range, ":cur_defend", ":defend_begin", ":defend_end"),
-                (team_give_order, 0, ":cur_division", mordr_hold),
+                (team_give_order, ":team", ":cur_division", mordr_hold),
                 (entry_point_get_position, pos0, ":cur_defend"),
-                (team_set_order_position, 0, ":cur_division", pos0),
+                (team_set_order_position, ":team", ":cur_division", pos0),
                 (val_add, ":cur_division", 1),
             (try_end),
         ]),
@@ -12503,7 +12974,7 @@ scripts = [
                     (troop_get_slot, ":leader_rank", ":leader", slot_troop_rank),
                     (try_begin),
                         (le, ":leader_rank", rank_affiliated),
-                        (assign, ":priority", tq_peasant),
+                        (assign, ":priority", tq_levy),
                     (else_try),
                         (le, ":leader_rank", rank_two_village),
                         (assign, ":priority", tq_veteran),
@@ -12585,6 +13056,10 @@ scripts = [
                                 (val_div, ":value", 6),
                                 (val_max, ":value", 1),
                             (else_try),
+                                (eq, ":troop_quality", tq_levy),
+                                (val_div, ":value", 6),
+                                (val_max, ":value", 1),
+                            (else_try),
                                 (eq, ":troop_quality", tq_common),
                                 (val_div, ":value", 3),
                                 (val_max, ":value", 1),
@@ -12592,7 +13067,7 @@ scripts = [
                         (try_end),
                         (assign, ":flags", 0),
                         (try_begin),
-                            (eq, ":troop_quality", tq_peasant),
+                            (eq, ":troop_quality", tq_levy),
                             (store_and, ":flags", ":garrison_flags", pgf_levy_mask),
                         (else_try),
                             (eq, ":troop_quality", tq_common),
@@ -12606,6 +13081,9 @@ scripts = [
                         (else_try),
                             (eq, ":troop_quality", tq_noble),
                             (store_and, ":flags", ":garrison_flags", pgf_noble_mask),
+                        (else_try),
+                            (eq, ":troop_quality", tq_peasant),
+                            (assign, ":flags", 1),
                         (try_end),
                         (gt, ":flags", 0),
                         (val_add, ":cur_value", ":value"),
@@ -13031,7 +13509,7 @@ scripts = [
                 (item_set_slot, ":building", slot_building_center_types, ":value"),
 
                 (item_get_slot, ":cost", ":building", slot_building_cost_gold),
-                (val_div, ":cost", 200),
+                (val_div, ":cost", 1000),
                 (item_set_slot, ":building", slot_building_cost_maintenance, ":cost"),
             (try_end),
         ]),
@@ -13422,10 +13900,6 @@ scripts = [
             (call_script, "script_troop_set_name", ":lord_no"),
             (call_script, "script_troop_update_name", ":lord_no"),
 
-            # ToDo: refine banner selection
-            # (store_random_in_range, ":banner", banner_scene_props_begin, banner_scene_props_end),
-            # (call_script, "script_troop_set_banner", ":lord_no", ":banner"),
-            
             (call_script, "script_troop_get_face_code", ":lord_no", -1, -1),
             (troop_set_face_keys, ":lord_no", s0),
             
@@ -13515,8 +13989,45 @@ scripts = [
                 (ge, ":leader_banner", 1),
                 (troop_set_slot, ":clan", slot_clan_banner, ":leader_banner"),
             (else_try),
-                (store_random_in_range, ":banner", banner_scene_props_begin, banner_scene_props_end),
-                (troop_set_slot, ":clan", slot_clan_banner, ":banner"),
+                (troop_slot_eq, ":clan", slot_clan_banner, 0),
+
+                (troop_get_slot, ":clan_culture", ":clan", slot_clan_culture),
+
+                (store_sub, ":num_banners", banner_scene_props_end, banner_scene_props_begin),
+                (store_random_in_range, ":rand", 0, ":num_banners"),
+                (assign, ":num_tries", ":num_banners"),
+                (assign, ":best_banner", -1),
+                (try_for_range, ":unused", 0, ":num_tries"),
+                    (store_add, ":current_banner", ":rand", banner_scene_props_begin),
+                    (call_script, "script_get_banner_used", ":current_banner"),
+                    (assign, ":used", reg0),
+                    (call_script, "script_get_banner_culture", ":current_banner"),
+                    (assign, ":banner_culture", reg0),
+                    (try_begin),
+                        (eq, ":used", 0),
+                        (eq, ":banner_culture", ":clan_culture"),
+                        (assign, ":num_tries", 0),
+                        (troop_set_slot, ":clan", slot_clan_banner, ":current_banner"),
+                        (call_script, "script_set_banner_used", ":current_banner", 1),
+                    (else_try),
+                        (eq, ":used", 0),
+                        (eq, ":best_banner", -1),
+                        (assign, ":best_banner", ":current_banner"),
+                    (try_end),
+                    (val_add, ":rand", 1),
+                    (val_mod, ":rand", ":num_banners"),
+                (try_end),
+                (try_begin),
+                    (troop_slot_eq, ":clan", slot_clan_banner, 0),
+                    (is_between, ":best_banner", banner_scene_props_begin, banner_scene_props_end),
+                    (troop_set_slot, ":clan", slot_clan_banner, ":best_banner"),
+                    (call_script, "script_set_banner_used", ":best_banner", 1),
+                (else_try),
+                    (troop_slot_eq, ":clan", slot_clan_banner, 0),
+                    (store_random_in_range, ":rand", banner_scene_props_begin, banner_scene_props_end),
+                    (troop_set_slot, ":clan", slot_clan_banner, ":rand"),
+                    (call_script, "script_set_banner_used", ":rand", 1),
+                (try_end),
             (try_end),
 
             (try_begin),
@@ -14155,7 +14666,7 @@ scripts = [
             # Troops not added to factions
             (troop_set_slot, "trp_swadian_champion", slot_troop_faction_not_1, "fac_small_kingdom_12"), # Has Heavy Infantry instead
             (troop_set_slot, "trp_swadian_light_cavalry", slot_troop_faction_not_1, "fac_small_kingdom_13"), # Has Horseman instead
-            (troop_set_slot, "trp_swadian_militia", slot_troop_faction_not_1, "fac_small_kingdom_14"), # Has Hunter instead
+            (troop_set_slot, "trp_swadian_militia", slot_troop_faction_not_1, "fac_small_kingdom_14"), # Has Levy Bowman instead
             (troop_set_slot, "trp_swadian_light_bowman", slot_troop_faction_not_1, "fac_small_kingdom_14"), # Has Light Longbowman instead
             (troop_set_slot, "trp_swadian_bowman", slot_troop_faction_not_1, "fac_small_kingdom_14"), # Has Heavy Longbowman instead
             (troop_set_slot, "trp_swadian_light_lancer", slot_troop_faction_not_1, "fac_small_kingdom_15"), # Has Lancer instead
@@ -14167,6 +14678,9 @@ scripts = [
 
             (troop_set_slot, "trp_vaegir_hunter", slot_troop_faction_not_1, "fac_small_kingdom_23"), # Has Militia instead
             (troop_set_slot, "trp_vaegir_hunter", slot_troop_faction_not_2, "fac_small_kingdom_22"), # Has Militia instead
+            (troop_set_slot, "trp_vaegir_levy", slot_troop_faction_not_1, "fac_small_kingdom_22"), # Has Club Levy instead
+            (troop_set_slot, "trp_vaegir_levy", slot_troop_faction_not_2, "fac_small_kingdom_21"), # Has Levy Axeman instead
+            (troop_set_slot, "trp_vaegir_levy", slot_troop_faction_not_3, "fac_small_kingdom_23"), # Has Levy Infantry instead
             (troop_set_slot, "trp_vaegir_heavy_cavalry", slot_troop_faction_not_1, "fac_small_kingdom_22"), # Has Horseman instead
             (troop_set_slot, "trp_vaegir_light_infantry", slot_troop_faction_not_2, "fac_small_kingdom_22"), # Has Light Club Infantry instead
             (troop_set_slot, "trp_vaegir_heavy_infantry", slot_troop_faction_not_2, "fac_small_kingdom_22"), # Has Club Infantry instead
@@ -14180,6 +14694,7 @@ scripts = [
             
             (troop_set_slot, "trp_vaegir_militia", slot_troop_faction_reserved_2, "fac_small_kingdom_22"),
 
+            (troop_set_slot, "trp_khergit_militia", slot_troop_faction_not_1, "fac_small_kingdom_32"), # Has Hunter instead
             (troop_set_slot, "trp_khergit_noble", slot_troop_faction_not_1, "fac_small_kingdom_31"), # Has Noble Mounted Skirmisher
             (troop_set_slot, "trp_khergit_light_lancer", slot_troop_faction_not_1, "fac_small_kingdom_31"), # Has Light Mounted Skirmisher instead
             (troop_set_slot, "trp_khergit_lancer", slot_troop_faction_not_1, "fac_small_kingdom_31"), # Has Mounted Skirmisher instead
@@ -14256,15 +14771,18 @@ scripts = [
 
             (troop_set_slot, "trp_sarranid_heavy_lancer", slot_troop_faction_reserved_2, "fac_small_kingdom_61"), # 
 
-            (troop_set_slot, "trp_sarranid_levy_horse", slot_troop_ratio_special_multiplier, 50),
+            (troop_set_slot, "trp_sarranid_levy_horse", slot_troop_ratio_special_multiplier, 30),
             (troop_set_slot, "trp_rhodok_militia", slot_troop_ratio_special_multiplier, 300),
             (troop_set_slot, "trp_khergit_clansman", slot_troop_ratio_special_multiplier, 20),
             (troop_set_slot, "trp_khergit_levy_horseman", slot_troop_ratio_special_multiplier, 25),
             (troop_set_slot, "trp_khergit_militia", slot_troop_ratio_special_multiplier, 200),
+            (troop_set_slot, "trp_khergit_hunter", slot_troop_ratio_special_multiplier, 65),
             (troop_set_slot, "trp_vaegir_militia", slot_troop_ratio_special_multiplier, 50),
-            (troop_set_slot, "trp_vaegir_hunter", slot_troop_ratio_special_multiplier, 150),
-            (troop_set_slot, "trp_vaegir_levy_infantry", slot_troop_ratio_special_multiplier, 60),
-            (troop_set_slot, "trp_vaegir_levy_axeman", slot_troop_ratio_special_multiplier, 40),
+            (troop_set_slot, "trp_vaegir_hunter", slot_troop_ratio_special_multiplier, 50),
+            (troop_set_slot, "trp_vaegir_levy_infantry", slot_troop_ratio_special_multiplier, 45),
+            (troop_set_slot, "trp_vaegir_levy_axeman", slot_troop_ratio_special_multiplier, 25),
+            (troop_set_slot, "trp_vaegir_levy", slot_troop_ratio_special_multiplier, 30),
+            (troop_set_slot, "trp_vaegir_club_levy", slot_troop_ratio_special_multiplier, 35),
             (troop_set_slot, "trp_rhodok_levy_crossbowman", slot_troop_ratio_special_multiplier, 65),
         ]),
     
@@ -14381,7 +14899,7 @@ scripts = [
                 (faction_get_slot, ":end", ":culture", slot_faction_troops_end),
                 (try_begin),
                     (is_between, ":cur_troop", ":peasant", ":common"),
-                    (troop_set_slot, ":cur_troop", slot_troop_quality, tq_peasant),
+                    (troop_set_slot, ":cur_troop", slot_troop_quality, tq_levy),
                 (else_try),
                     (is_between, ":cur_troop", ":common", ":veteran"),
                     (troop_set_slot, ":cur_troop", slot_troop_quality, tq_common),
@@ -14394,6 +14912,8 @@ scripts = [
                 (else_try),
                     (is_between, ":cur_troop", ":noble", ":end"),
                     (troop_set_slot, ":cur_troop", slot_troop_quality, tq_noble),
+                (else_try),
+                    (troop_set_slot, ":cur_troop", slot_troop_quality, tq_levy),
                 (try_end),
                 
                 (assign, ":armor", -1),
@@ -14560,6 +15080,11 @@ scripts = [
             (troop_set_slot, "trp_khergit_militia", slot_troop_type, tt_archer),
             (troop_set_slot, "trp_khergit_light_steppe_lancer", slot_troop_type, tt_lancer),
             (troop_set_slot, "trp_khergit_heavy_steppe_lancer", slot_troop_type, tt_lancer),
+
+            (try_for_range, ":cur_troop", peasant_troops_begin, peasant_troops_end),
+                (troop_set_slot, ":cur_troop", slot_troop_quality, tq_peasant),
+                (troop_set_slot, ":cur_troop", slot_troop_type, tt_infantry),
+            (try_end),
         ]),
     
     # script_init_troops_archer_score
@@ -19919,9 +20444,6 @@ scripts = [
             (party_get_attached_to, ":attached_party", ":party_no"),
             (lt, ":attached_party", 0),
 
-            (store_distance_to_party_from_party, ":distance", ":party_no", "$g_encountered_party"),
-            (lt, ":distance", reinforcement_range),
-
             (party_get_battle_opponent, ":opponent", ":party_no"),
             (eq, ":opponent", -1),
 
@@ -19935,6 +20457,15 @@ scripts = [
             (try_end),
 
             (eq, ":join", 1),
+
+            (assign, ":reinforcement_range", reinforcement_range),
+            (try_begin),
+                (eq, ":party_type", spt_bandit),
+                (val_div, ":reinforcement_range", 2),
+            (try_end),
+
+            (store_distance_to_party_from_party, ":distance", ":party_no", "$g_encountered_party"),
+            (lt, ":distance", ":reinforcement_range"),
 
             (call_script, "script_party_select_battle_side", ":party_no", ":battling_party_1", ":battling_party_2"),
             (gt, reg0, 0),
@@ -20559,6 +21090,9 @@ scripts = [
                 (str_store_troop_name_link, s10, ":troop_freed"),
                 (try_begin),
                     (ge, ":freeing_party", 0),
+
+                    (call_script, "script_troop_change_relation_with_party_heroes", ":troop_freed", ":freeing_party", 1),
+
                     (str_store_party_name_link, s11, ":freeing_party"),
                     (assign, reg10, 1),
                 (else_try),
@@ -25750,7 +26284,12 @@ scripts = [
                 (store_add, ":quest_index", ":offset", quest_descriptions_begin),
 
                 (quest_set_slot, ":quest_no", slot_quest_description, ":quest_index"),
+
+                (quest_set_slot, ":quest_no", slot_quest_availability_script, -1),
             (try_end),
+
+            (quest_set_slot, "qst_village_purchase_surplus_goods", slot_quest_availability_script, "script_quest_village_purchase_surplus_goods"),
+            (quest_set_slot, "qst_village_deliver_grain", slot_quest_availability_script, "script_quest_village_deliver_grain"),
         ]),
 
     # script_setup_quest_text
@@ -25771,6 +26310,13 @@ scripts = [
             (try_begin),
                 (eq, ":giver_troop_no", -1),
                 (str_store_string, s63, "@Political suggestion"),
+            (else_try),
+                (is_between, ":giver_troop_no", "trp_village_elder", "trp_ransom_broker"),
+                (quest_get_slot, ":giver_party", ":quest_no", slot_quest_giver_party),
+                (is_between, ":giver_party", centers_begin, centers_end),
+                (str_store_party_name, s58, ":giver_party"),
+                (str_store_party_name_link, s62, ":giver_party"),
+                (str_store_string, s63, "@Giver by center: {s62}"),
             (else_try),
                 (is_between, ":giver_troop_no", npc_heroes_begin, npc_heroes_end),
                 (str_store_troop_name, s58, ":giver_troop_no"),
@@ -25797,6 +26343,9 @@ scripts = [
                 (try_begin),
                     (eq, ":quest_no", "qst_introduction_default_search"),
                     (str_store_troop_name_link, s57, ":quest_object"),
+                (else_try),
+                    (eq, ":quest_no", "qst_village_purchase_surplus_goods"),
+                    (str_store_item_name, s57, ":quest_object"),
                 (try_end),
                 (str_store_string, s61, ":quest_description_index"),
             (else_try),
@@ -25846,7 +26395,9 @@ scripts = [
             (try_begin),
                 (quest_slot_ge, ":quest_no", slot_quest_dont_give_again_period, 1),
                 (quest_get_slot, ":dont_give_again_period", ":quest_no", slot_quest_dont_give_again_period),
-                (quest_set_slot, ":quest_no", slot_quest_dont_give_again_remaining_days, ":dont_give_again_period"),
+                (call_script, "script_get_current_day"),
+                (store_add, ":date", reg0, ":dont_give_again_period"),
+                (quest_set_slot, ":quest_no", slot_quest_dont_give_again_until, ":date"),
             (try_end),
             
             (start_quest, ":quest_no", ":giver_troop_no"),
@@ -27900,7 +28451,7 @@ scripts = [
 
             (troop_get_slot, ":troop_quality", ":troop_no", slot_troop_quality),
             (val_mul, ":troop_quality", 2),
-            (val_add, ":troop_quality", 1),
+            (val_sub, ":troop_quality", 1),
 
             (try_begin),
                 (is_between, ":troop_no", bandits_begin, bandits_end),
@@ -27908,6 +28459,7 @@ scripts = [
             (try_end),
 
             (val_max, ":troop_quality", 0),
+            (val_mul, ":troop_quality", 10),
 
             (assign, reg0, ":troop_quality"),
         ]),
@@ -27949,7 +28501,7 @@ scripts = [
             (party_get_slot, ":center_leader", ":center_no", slot_party_leader),
             (try_begin),
                 (eq, ":center_leader", ":troop_no"),
-                (val_add, ":grants", 100),
+                (val_add, ":grants", 1000),
             (else_try),
                 (call_script, "script_troop_get_center_recruit_grants_center_type", "$g_player_troop", ":center_no"),
                 (val_add, ":grants", reg0),
@@ -27988,14 +28540,14 @@ scripts = [
 
             (try_begin),
                 (eq, ":center_type", spt_town),
-                (val_add, ":num_grants", 2),
-                (str_store_string, s0, "@Town: +2"),
+                (val_add, ":num_grants", 20),
+                (str_store_string, s0, "@Town: +20"),
             (else_try),
                 (eq, ":center_type", spt_castle),
                 (str_store_string, s0, "@Castle: 0"),
             (else_try),
-                (val_add, ":num_grants", 1),
-                (str_store_string, s0, "@Village: +1"),
+                (val_add, ":num_grants", 10),
+                (str_store_string, s0, "@Village: +10"),
             (try_end),
 
             (assign, reg0, ":num_grants"),
@@ -28019,8 +28571,8 @@ scripts = [
             (store_faction_of_party, ":center_faction", ":center_no"),
             (try_begin),
                 (eq, ":recruiter_faction", ":center_faction"),
-                (assign, ":num_grants", 3),
-                (str_store_string, s0, "@Same faction: +3"),
+                (assign, ":num_grants", 30),
+                (str_store_string, s0, "@Same faction: +30"),
             (else_try),
                 (str_store_string, s0, "@Indiferent faction: 0"),
             (try_end),
@@ -28051,7 +28603,8 @@ scripts = [
                 (store_skill_level, ":recruiter_persuasion", skl_persuasion, ":troop_no"),
                 (val_mul, ":recruiter_persuasion", 2),
                 (val_add, ":relation", ":recruiter_persuasion"),
-                (store_div, ":bonus", ":relation", 25),
+                (store_mul, ":bonus", ":relation", 2),
+                (val_div, ":bonus", 5),
                 (val_add, ":num_grants", ":bonus"),
                 (str_store_troop_name, s10, ":center_leader"),
                 (assign, reg10, ":num_grants"),
@@ -28080,7 +28633,8 @@ scripts = [
             (try_begin),
                 (eq, ":troop_no", "$g_player_troop"),
                 (party_get_slot, ":player_relation", ":center_no", slot_party_player_relation),
-                (store_div, ":num_grants", ":player_relation", 25),
+                (store_mul, ":num_grants", ":player_relation", 2),
+                (val_div, ":num_grants", 5),
                 (str_store_party_name, s10, ":center_no"),
                 (assign, reg10, ":num_grants"),
                 (str_store_string, s0, "@{s10}'s reputation: {reg10}"),
@@ -28107,8 +28661,8 @@ scripts = [
             (assign, ":num_grants", 0),
 
             (troop_get_slot, ":num_grants", ":troop_no", slot_troop_renown),
-            (val_div, ":num_grants", 350),
-            (val_min, ":num_grants", 5),
+            (val_div, ":num_grants", 35),
+            (val_min, ":num_grants", 50),
 
             (assign, reg10, ":num_grants"),
             (str_store_string, s0, "@Renown: {reg10}"),
@@ -29775,6 +30329,7 @@ scripts = [
                     (str_store_string, s60, "str_my_lord|my_lady"),
                 (else_try),
                     (this_or_next|eq, ":troop_no", "trp_village_elder"),
+                    (this_or_next|eq, ":troop_no", "trp_town_guildmaster"),
                     (eq, ":troop_no", "trp_ransom_broker"),
                     (str_store_string, s60, "str_my_lord|my_lady"),
                 (else_try),
@@ -30340,22 +30895,23 @@ scripts = [
             (try_end),
         ]),
 
-    # script_setup_meeting_village_elder
+    # script_setup_meeting_center_elder
         # input:
         #   arg1: village_elder_origin
         # output: none
-    ("setup_meeting_village_elder",
+    ("setup_meeting_center_elder",
         [
             (store_script_param, ":party_no", 1),
+            (store_script_param, ":meeting_troop", 2),
 
             (party_get_slot, ":elder_met", ":party_no", slot_party_elder_last_met),
-            (troop_set_slot, "trp_village_elder", slot_troop_last_met, ":elder_met"),
+            (troop_set_slot, ":meeting_troop", slot_troop_last_met, ":elder_met"),
 
-            (call_script, "script_center_get_elder_face_key", ":party_no"),
-            (troop_set_face_keys, "trp_village_elder", s0),
-            (troop_set_age, "trp_village_elder", 65),
+            (call_script, "script_center_get_elder_face_key", ":party_no", ":meeting_troop"),
+            (troop_set_face_keys, ":meeting_troop", s0),
+            (troop_set_age, ":meeting_troop", 65),
 
-            (call_script, "script_setup_troop_meeting", "trp_village_elder", -1),
+            (call_script, "script_setup_troop_meeting", ":meeting_troop", -1),
         ]),
 
     # script_center_get_elder_face_key
@@ -30366,20 +30922,21 @@ scripts = [
     ("center_get_elder_face_key",
         [
             (store_script_param, ":party_no", 1),
+            (store_script_param, ":meeting_troop", 2),
             
             (party_get_slot, ":original_faction", ":party_no", slot_party_original_faction),
             (faction_get_slot, ":culture", ":original_faction", slot_faction_culture),
-            (troop_set_faction, "trp_village_elder", ":original_faction"),
-            (troop_set_slot, "trp_village_elder", slot_troop_culture, ":culture"),
+            (troop_set_faction, ":meeting_troop", ":original_faction"),
+            (troop_set_slot, ":meeting_troop", slot_troop_culture, ":culture"),
 
             (party_get_slot, ":base_face_key", ":party_no", slot_party_face_key_storage),
             (party_get_slot, ":base_face_options", ":party_no", slot_party_face_options_storage),
 
-            (call_script, "script_troop_get_face_code", "trp_village_elder", ":base_face_key", ":base_face_options"),
+            (call_script, "script_troop_get_face_code", ":meeting_troop", ":base_face_key", ":base_face_options"),
             (assign, ":new_face_key", reg0),
             (assign, ":new_face_options", reg1),
 
-            (display_message, "@face {reg0} optiosn: {reg1}"),
+            (display_message, "@face {reg0} options: {reg1}"),
 
             (try_begin),
                 (eq, ":base_face_key", -1),
@@ -30803,6 +31360,47 @@ scripts = [
             (assign, reg0, ":base_attribute"),
         ]),
 
+    # script_cf_troop_can_increase_proficiency
+        # input:
+        #   arg1: troop_no
+        #   arg2: proficiency
+        # output:
+        #   reg0: proficiency_points_cost
+        #   reg1: proficiency_points_increase
+    ("cf_troop_can_increase_proficiency",
+        [
+            (store_script_param, ":troop_no", 1),
+            (store_script_param, ":proficiency", 2),
+
+            (troop_get_slot, ":proficiency_points", ":troop_no", slot_troop_proficiency_points),
+
+            (gt, ":proficiency_points", 0),
+
+            (store_skill_level, ":weapon_master", skl_weapon_master, ":troop_no"),
+            (val_mul, ":weapon_master", 60),
+            (store_add, ":threshold", 40, ":weapon_master"),
+            (store_proficiency_level, ":proficiency_value", ":troop_no", ":proficiency"),
+            (lt, ":proficiency_value", ":threshold"),
+
+            (store_div, ":cost", ":proficiency_value", 10),
+            (val_add, ":cost", 1),
+
+            (store_div, ":div", ":threshold", 40),
+            (val_sub, ":cost", ":div"),
+            (val_max, ":cost", 1),
+
+            (store_mul, ":sub", ":proficiency_value", 100),
+            (val_div, ":sub", ":threshold"),
+            (store_sub, ":increase", ":threshold", ":sub"),
+            (val_div, ":increase", 100),
+            (val_max, ":increase", 1),
+
+            (ge, ":proficiency_points", ":cost"),
+
+            (assign, reg0, ":cost"),
+            (assign, reg1, ":increase"),
+        ]),
+
     # script_troop_add_attribute
         # input:
         #   arg1: troop_no
@@ -30859,54 +31457,135 @@ scripts = [
         #   arg1: troop_no
         #   arg2: proficiency
         #   arg3: value
+        #   arg4: cost
         # output: none
     ("troop_add_proficiency",
         [
             (store_script_param, ":troop_no", 1),
             (store_script_param, ":proficiency", 2),
             (store_script_param, ":value", 3),
+            (store_script_param, ":cost", 4),
 
             (troop_get_slot, ":proficiency_points", ":troop_no", slot_troop_proficiency_points),
-            (val_sub, ":proficiency_points", ":value"),
+            (val_sub, ":proficiency_points", ":cost"),
             (troop_set_slot, ":troop_no", slot_troop_proficiency_points, ":proficiency_points"),
 
             (troop_raise_proficiency_linear, ":troop_no", ":proficiency", ":value"),
         ]),
 
-    # script_cf_center_get_available_quest
+    # script_center_get_available_quest
         # input:
         #   arg1: center_no
         # output:
         #   reg0: quest_no
         # fails if no quest available
-    ("cf_center_get_available_quest",
+    ("center_get_available_quest",
         [
             (store_script_param, ":center_no", 1),
 
             (assign, ":quest", -1),
+            (assign, ":best_score", -1),
 
-            (store_sub, ":num_quests", village_quests_end, village_quests_begin),
-            (store_add, ":rand", "$g_daily_random", ":center_no"),
-            (val_mod, ":rand", ":num_quests"),
             (assign, ":end", village_quests_end),
-            (assign, ":i", 0),
-            (assign, ":try_end", ":num_quests"),
-            (try_for_range, ":unused", 0, ":try_end"),
-                (try_for_range, ":cur_quest", village_quests_begin, ":end"),
-                    (neg|check_quest_active, ":cur_quest"),
-                    (try_begin),
-                        (eq, ":rand", ":i"),
-                        (assign, ":quest", ":cur_quest"),
-                        (assign, ":end", 0),
-                        (assign, ":try_end", 0),
-                    (else_try),
-                        (val_add, ":i", 1),
-                    (try_end),
-                (try_end),
+
+            (try_for_range, ":cur_quest", village_quests_begin, ":end"),
+                (call_script, "script_cf_quest_available", ":cur_quest"),
+                (quest_get_slot, ":script", ":cur_quest", slot_quest_availability_script),
+                (call_script, "script_cf_quest_validate", ":script", ":center_no"),
+                (assign, ":score", reg0),
+
+                (store_random_in_range, ":noise", 0, 10),
+                (val_add, ":score", ":noise"),
+
+                (gt, ":score", ":best_score"),
+                (assign, ":quest", ":cur_quest"),
+                (assign, ":best_score", ":score"),
             (try_end),
 
             (assign, reg0, ":quest"),
-            (ge, ":quest", 0),
+        ]),
+
+    # script_cf_quest_available
+        # input:
+        #   arg1: quest_no
+        # output: none
+        # fails if quest unavailable
+    ("cf_quest_available",
+        [
+            (store_script_param, ":quest_no", 1),
+
+            (neg|check_quest_active, ":quest_no"),
+
+            (call_script, "script_get_current_day"),
+            (assign, ":current_day", reg0),
+
+            (quest_get_slot, ":not_until", ":quest_no", slot_quest_dont_give_again_until),
+            (gt, ":current_day", ":not_until"),
+        ]),
+
+    # script_cf_quest_validate
+        # input:
+        #   arg1: script
+        #   arg2: center_parameter
+        # output:
+        #   reg0: score
+        # fails if quest unavailable
+    ("cf_quest_validate",
+        [
+            (store_script_param, ":script", 1),
+            (store_script_param, ":center_no", 2),
+
+            (call_script, ":script", ":center_no"),
+            (gt, reg0, 0),
+        ]),
+
+    # script_quest_village_purchase_surplus_goods
+        # input:
+        #   arg1: center_no
+        # output: 
+        #   reg0: score
+        # fails if quest unavailable
+    ("quest_village_purchase_surplus_goods",
+        [
+            (store_script_param, ":center_no", 1),
+            (assign, ":surplus_good", -1),
+            (assign, ":most_amount", 0),
+
+            (try_for_range, ":good", goods_begin, goods_end),
+                (store_sub, ":offset", ":good", goods_begin),
+                (store_add, ":slot", ":offset", slot_party_ressources_current_amount_begin),
+
+                (party_get_slot, ":amount", ":center_no", ":slot"),
+                (gt, ":amount", ":most_amount"),
+                (assign, ":surplus_good", ":good"),
+                (assign, ":most_amount", ":amount"),
+            (try_end),
+
+            (quest_set_slot, "qst_village_purchase_surplus_goods", slot_quest_object, ":surplus_good"),
+            (quest_set_slot, "qst_village_purchase_surplus_goods", slot_quest_giver_party, ":center_no"),
+            (set_fixed_point_multiplier, 1),
+            (store_sqrt, ":quest_amount", ":most_amount"),
+            (quest_set_slot, "qst_village_purchase_surplus_goods", slot_quest_value, ":quest_amount"),
+            
+            (store_sub, reg0, ":quest_amount", 4),
+        ]),
+
+    # script_quest_village_deliver_grain
+        # input:
+        #   arg1: center_no
+        # output:
+        #   reg0: score
+        # fails if quest unavailable
+    ("quest_village_deliver_grain",
+        [
+            (store_script_param, ":center_no", 1),
+
+            (store_add, ":rand", "$g_daily_random", ":center_no"),
+
+            (store_mod, ":mod", ":rand", 10),
+            (val_sub, ":mod", 5),
+
+            (assign, reg0, ":mod"),
         ]),
 
     # script_party_change_player_relation
@@ -31092,6 +31771,19 @@ scripts = [
                             (call_script, "script_party_give_troops_to_party", ":cur_camp", ":party_no", ":reward_members"),
                         (try_end),
 
+                        (store_div, ":bonus_prosperity", ":wealth", bandit_start_camp_base_wealth),
+                        (store_mod, ":rest_prosperity", ":wealth", bandit_start_camp_base_wealth),
+                        (store_random_in_range, ":rand", 0, bandit_start_camp_base_wealth),
+                        (try_begin),
+                            (lt, ":rand", ":rest_prosperity"),
+                            (val_add, ":bonus_prosperity", 1),
+                        (try_end),
+                        (try_begin),
+                            (gt, ":bonus_prosperity", 0),
+
+                            (call_script, "script_camp_update_prosperity", ":cur_camp", ":bonus_prosperity"),
+                        (try_end),
+
                         (call_script, "script_party_set_behavior", ":party_no", ai_bhvr_patrol_location, -1),
                     (else_try),
                         (call_script, "script_party_set_behavior", ":party_no", tai_traveling_to_party, ":linked_party"),
@@ -31119,8 +31811,7 @@ scripts = [
 
                         (try_begin),
                             (eq, ":camp_faction", "fac_no_faction"),
-                            (enable_party, ":nearest_camp"),
-                            (party_set_faction, ":nearest_camp", ":party_faction"),
+                            (call_script, "script_party_init_camp", ":nearest_camp", ":party_faction"),
                             (assign, ":camp_faction", ":party_faction"),
                         (try_end),
                         (eq, ":party_faction", ":camp_faction"),
@@ -31131,6 +31822,21 @@ scripts = [
                     (try_end),
                 (try_end),
             (try_end),
+        ]),
+
+    # script_party_init_camp
+        # input:
+        #   arg1: party_no
+        #   arg2: camp_faction
+        # output: none
+    ("party_init_camp",
+        [
+            (store_script_param, ":camp", 1),
+            (store_script_param, ":camp_faction", 2),
+
+            (enable_party, ":camp"),
+            (party_set_slot, ":camp", slot_party_prosperity, 0),
+            (party_set_faction, ":camp", ":camp_faction"),
         ]),
 
     # script_party_process_camp
@@ -31144,7 +31850,8 @@ scripts = [
             (try_begin),
                 (party_is_active, ":party_no"),
 
-                (party_get_slot, ":wealth", ":party_no", slot_party_wealth),
+                (party_get_slot, ":current_wealth", ":party_no", slot_party_wealth),
+                (assign, ":wealth", ":current_wealth"),
 
                 (party_get_num_prisoners, ":num_prisoners", ":party_no"),
                 (try_begin),
@@ -31152,6 +31859,19 @@ scripts = [
                     (val_mul, ":num_prisoners", 25),
                     (call_script, "script_party_add_accumulated_taxes", ":party_no", ":num_prisoners", tax_type_prisoner_ransom),
                     (val_add, ":wealth", ":num_prisoners"),
+
+                    (store_div, ":bonus_prosperity", ":num_prisoners", bandit_start_camp_base_wealth),
+                    (store_mod, ":rest_prosperity", ":num_prisoners", bandit_start_camp_base_wealth),
+                    (store_random_in_range, ":rand", 0, bandit_start_camp_base_wealth),
+                    (try_begin),
+                        (lt, ":rand", ":rest_prosperity"),
+                        (val_add, ":bonus_prosperity", 1),
+                    (try_end),
+                    (try_begin),
+                        (gt, ":bonus_prosperity", 0),
+
+                        (call_script, "script_camp_update_prosperity", ":party_no", ":bonus_prosperity"),
+                    (try_end),
                 (try_end),
 
                 (try_begin),
@@ -31193,6 +31913,152 @@ scripts = [
                     (gt, ":wealth", 0),
                 (try_end),
             (try_end),
+        ]),
+
+    # script_camp_get_influence_range
+        # input:
+        #   arg1: camp
+        # output:
+        #   reg0: influence_range
+    ("camp_get_influence_range",
+        [
+            (store_script_param, ":camp", 1),
+
+            (party_get_slot, ":prosperity", ":camp", slot_party_prosperity),
+            (val_add, ":prosperity", 20),
+            (val_mul, ":prosperity", 100),
+            (val_div, ":prosperity", 120),
+
+            (store_div, ":range", ":prosperity", 2),
+
+            (assign, reg0, ":range"),
+        ]),
+
+    # script_camp_update_influence
+        # input:
+        #   arg1: camp
+        # output: none
+    ("camp_update_influence",
+        [
+            (store_script_param, ":camp_no", 1),
+
+            (call_script, "script_camp_get_influence_range", ":camp_no"),
+            (assign, ":range", reg0),
+
+            (try_for_range, ":cur_center", villages_begin, villages_end),
+                (store_distance_to_party_from_party, ":dist", ":cur_center", ":camp_no"),
+                (lt, ":dist", ":range"),
+
+                (party_get_slot, ":current_influencer", ":cur_center", slot_party_camp_influence),
+                (assign, ":continue", 0),
+                (try_begin),
+                    (this_or_next|eq, ":current_influencer", ":camp_no"),
+                    (le, ":current_influencer", 0),
+                    (assign, ":continue", 1),
+                (else_try),
+                    (call_script, "script_camp_get_center_influence", ":camp_no", ":cur_center"),
+                    (assign, ":camp_influence", reg0),
+
+                    (call_script, "script_camp_get_center_influence", ":current_influencer", ":cur_center"),
+                    (assign, ":current_influence", reg0),
+
+                    (gt, ":camp_influence", ":current_influence"),
+                    (assign, ":continue", 1),
+                (try_end),
+
+                (eq, ":continue", 1),
+                (party_set_slot, ":cur_center", slot_party_camp_influence, ":camp_no"),
+                (try_begin),
+                    (call_script, "script_cf_debug", debug_current|debug_simple),
+                    (str_store_party_name, s10, ":cur_center"),
+                    (call_script, "script_camp_get_center_influence", ":camp_no", ":cur_center"),
+                    (assign, reg10, reg0),
+                    (display_message, "@Bandit camp is taking over {s10} ({reg10})"),
+                (try_end),
+            (try_end),
+        ]),
+
+    # script_camp_get_center_influence
+        # input:
+        #   arg1: camp
+        #   arg2: party_no
+        # output:
+        #   reg0: influence
+    ("camp_get_center_influence",
+        [
+            (store_script_param, ":camp_no", 1),
+            (store_script_param, ":party_no", 2),
+
+            (call_script, "script_camp_get_influence_range", ":camp_no"),
+            (assign, ":range", reg0),
+            (store_distance_to_party_from_party, ":dist", ":party_no", ":camp_no"),
+            (store_sub, ":efficiency", ":range", ":dist"),
+            (try_begin),
+                (gt, ":efficiency", 0),
+                (val_mul, ":efficiency", 100),
+                (val_div, ":efficiency", ":range"),
+
+                (party_get_slot, ":prosperity", ":camp_no", slot_party_prosperity),
+                (store_mul, reg0, ":efficiency", ":prosperity"),
+                (val_div, reg0, 100),
+            (else_try),
+                (assign, reg0, 0),
+            (try_end),
+        ]),
+
+    # script_camp_update_prosperity
+        # input:
+        #   arg1: camp
+        #   arg2: prosperity_change
+        # output: none
+    ("camp_update_prosperity",
+        [
+            (store_script_param, ":camp_no", 1),
+            (store_script_param, ":prosperity_change", 2),
+
+            (party_get_slot, ":prosperity", ":camp_no", slot_party_prosperity),
+            (val_add, ":prosperity", ":prosperity_change"),
+            (val_clamp, ":prosperity", 0, 101),
+            (party_set_slot, ":camp_no", slot_party_prosperity, ":prosperity"),
+
+            (call_script, "script_camp_update_influence", ":camp_no"),
+        ]),
+
+    # script_camp_disable
+        # input:
+        #   arg1: camp_no
+        # output: none
+    ("camp_disable",
+        [
+            (store_script_param, ":camp_no", 1),
+
+            (disable_party, ":camp_no"),
+            (party_set_faction, ":camp_no", "fac_no_faction"),
+            (try_for_range, ":center_no", villages_begin, villages_end),
+                (party_slot_eq, ":center_no", slot_party_camp_influence, ":camp_no"),
+                (party_set_slot, ":center_no", slot_party_camp_influence, -1),
+            (try_end),
+        ]),
+
+    # script_party_get_banditry_tax_ratio
+        # input:
+        #   arg1: party_no
+        # output:
+        #   reg0: tax_ratio
+    ("party_get_banditry_tax_ratio",
+        [
+            (store_script_param, ":party_no", 1),
+
+            (assign, ":ratio", 0),
+
+            (party_get_slot, ":camp_influence", ":party_no", slot_party_camp_influence),
+            (try_begin),
+                (is_between, ":camp_influence", camps_begin, camps_end),
+                (call_script, "script_camp_get_center_influence", ":camp_influence", ":party_no"),
+                (store_div, ":ratio", reg0, 10),
+            (try_end),
+
+            (assign, reg0, ":ratio"),
         ]),
 
     # script_cf_start_quest_visit_center_new_owner
@@ -31310,6 +32176,29 @@ scripts = [
                     (try_end),
                 (try_end),
             (try_end),
+        ]),
+
+    # script_party_conclude_tournament
+        # input:
+        #   arg1: party_no
+        #   arg2: troop_winner
+        # output: none
+    ("party_conclude_tournament",
+        [
+            (store_script_param, ":party_no", 1),
+            (store_script_param, ":winner", 2),
+
+            (call_script, "script_party_get_tournament_prize", ":party_no"),
+            (assign, ":prize", reg0),
+            (store_div, ":renown", ":prize", 500),
+
+            (try_begin),
+                (eq, ":winner", "$g_player_troop"),
+                (call_script, "script_troop_change_wealth", ":winner", ":prize"),
+            (else_try),
+                (call_script, "script_troop_add_accumulated_taxes", ":winner", ":prize", tax_type_loot, 1),
+            (try_end),
+            (call_script, "script_troop_change_renown", ":winner", ":renown"),
         ]),
 
     # script_party_get_administrator
@@ -31498,7 +32387,6 @@ scripts = [
                     (val_mul, ":troop_level", 5),
 
                     (troop_get_slot, ":troop_rank", ":troop_no", slot_troop_quality),
-                    (val_add, ":troop_rank", 1),
                     (val_mul, ":troop_rank", ":troop_rank"),
 
                     (val_add, ":bonus_prize", ":troop_level"),
@@ -32359,15 +33247,15 @@ scripts = [
                 (party_get_slot, ":party_type1", ":party1", slot_party_type),
                 (party_get_slot, ":party_type2", ":party2", slot_party_type),
                 (try_begin),
-                    (eq, ":party_type1", spt_civilian),
-                    (eq, ":party_type1", spt_caravan),
+                    (this_or_next|eq, ":party_type1", spt_civilian),
+                    (this_or_next|eq, ":party_type1", spt_caravan),
                     (eq, ":party_type1", spt_patrol),
 
                     (party_get_slot, ":party1", ":party1", slot_party_linked_party),
                 (try_end),
                 (try_begin),
-                    (eq, ":party_type2", spt_civilian),
-                    (eq, ":party_type2", spt_caravan),
+                    (this_or_next|eq, ":party_type2", spt_civilian),
+                    (this_or_next|eq, ":party_type2", spt_caravan),
                     (eq, ":party_type2", spt_patrol),
 
                     (party_get_slot, ":party2", ":party2", slot_party_linked_party),
@@ -32405,6 +33293,228 @@ scripts = [
             (try_end),
         ]),
 
+    # script_init_banners
+        # input: none
+        # output: none
+    ("init_banners",
+        [
+            (try_for_range, ":scene_prop", banner_scene_props_begin, banner_scene_props_end),
+                (call_script, "script_set_banner_used", ":scene_prop", 0),
+                (call_script, "script_set_banner_culture", ":scene_prop", -1),
+            (try_end),
+
+            (call_script, "script_set_banner_culture", "spr_banner_a", "fac_culture_1"),
+            (call_script, "script_set_banner_culture", "spr_banner_b", "fac_culture_2"),
+            (call_script, "script_set_banner_culture", "spr_banner_c", "fac_culture_4"),
+            (call_script, "script_set_banner_culture", "spr_banner_d", "fac_culture_5"),
+            (call_script, "script_set_banner_culture", "spr_banner_e", "fac_culture_5"),
+            (call_script, "script_set_banner_culture", "spr_banner_f", "fac_culture_5"),
+            (call_script, "script_set_banner_culture", "spr_banner_g", "fac_culture_2"),
+            (call_script, "script_set_banner_culture", "spr_banner_h", "fac_culture_4"),
+            (call_script, "script_set_banner_culture", "spr_banner_i", "fac_culture_2"),
+            (call_script, "script_set_banner_culture", "spr_banner_j", "fac_culture_5"),
+            (call_script, "script_set_banner_culture", "spr_banner_k", "fac_culture_1"),
+            (call_script, "script_set_banner_culture", "spr_banner_l", "fac_culture_4"),
+            (call_script, "script_set_banner_culture", "spr_banner_m", "fac_culture_4"),
+            (call_script, "script_set_banner_culture", "spr_banner_n", "fac_culture_1"),
+            (call_script, "script_set_banner_culture", "spr_banner_o", "fac_culture_1"),
+            (call_script, "script_set_banner_culture", "spr_banner_p", "fac_culture_1"),
+            (call_script, "script_set_banner_culture", "spr_banner_q", "fac_culture_1"),
+            (call_script, "script_set_banner_culture", "spr_banner_r", "fac_culture_4"),
+            (call_script, "script_set_banner_culture", "spr_banner_s", "fac_culture_2"),
+            (call_script, "script_set_banner_culture", "spr_banner_t", "fac_culture_5"),
+            (call_script, "script_set_banner_culture", "spr_banner_u", "fac_culture_1"),
+            (call_script, "script_set_banner_culture", "spr_banner_ba", "fac_culture_2"),
+            (call_script, "script_set_banner_culture", "spr_banner_bb", "fac_culture_2"),
+            (call_script, "script_set_banner_culture", "spr_banner_bc", "fac_culture_2"),
+            (call_script, "script_set_banner_culture", "spr_banner_bd", "fac_culture_2"),
+            (call_script, "script_set_banner_culture", "spr_banner_be", "fac_culture_5"),
+            (call_script, "script_set_banner_culture", "spr_banner_bf", "fac_culture_3"),
+            (call_script, "script_set_banner_culture", "spr_banner_bg", "fac_culture_1"),
+            (call_script, "script_set_banner_culture", "spr_banner_bh", "fac_culture_5"),
+            (call_script, "script_set_banner_culture", "spr_banner_bi", "fac_culture_3"),
+            (call_script, "script_set_banner_culture", "spr_banner_bj", "fac_culture_1"),
+            (call_script, "script_set_banner_culture", "spr_banner_bk", "fac_culture_2"),
+            (call_script, "script_set_banner_culture", "spr_banner_bl", "fac_culture_2"),
+            (call_script, "script_set_banner_culture", "spr_banner_bm", "fac_culture_1"),
+            (call_script, "script_set_banner_culture", "spr_banner_bn", "fac_culture_5"),
+            (call_script, "script_set_banner_culture", "spr_banner_bo", "fac_culture_4"),
+            (call_script, "script_set_banner_culture", "spr_banner_bp", "fac_culture_4"),
+            (call_script, "script_set_banner_culture", "spr_banner_bq", "fac_culture_2"),
+            (call_script, "script_set_banner_culture", "spr_banner_br", "fac_culture_2"),
+            (call_script, "script_set_banner_culture", "spr_banner_bs", "fac_culture_5"),
+            (call_script, "script_set_banner_culture", "spr_banner_bt", "fac_culture_4"),
+            (call_script, "script_set_banner_culture", "spr_banner_bu", "fac_culture_3"),
+            (call_script, "script_set_banner_culture", "spr_banner_ca", "fac_culture_5"),
+            (call_script, "script_set_banner_culture", "spr_banner_cb", "fac_culture_4"),
+            (call_script, "script_set_banner_culture", "spr_banner_cc", "fac_culture_1"),
+            (call_script, "script_set_banner_culture", "spr_banner_cd", "fac_culture_1"),
+            (call_script, "script_set_banner_culture", "spr_banner_ce", "fac_culture_3"),
+            (call_script, "script_set_banner_culture", "spr_banner_cf", "fac_culture_5"),
+            (call_script, "script_set_banner_culture", "spr_banner_cg", "fac_culture_3"),
+            (call_script, "script_set_banner_culture", "spr_banner_ch", "fac_culture_1"),
+            (call_script, "script_set_banner_culture", "spr_banner_ci", "fac_culture_1"),
+            (call_script, "script_set_banner_culture", "spr_banner_cj", "fac_culture_5"),
+            (call_script, "script_set_banner_culture", "spr_banner_ck", "fac_culture_5"),
+            (call_script, "script_set_banner_culture", "spr_banner_cl", "fac_culture_1"),
+            (call_script, "script_set_banner_culture", "spr_banner_cm", "fac_culture_1"),
+            (call_script, "script_set_banner_culture", "spr_banner_cn", "fac_culture_3"),
+            (call_script, "script_set_banner_culture", "spr_banner_co", "fac_culture_1"),
+            (call_script, "script_set_banner_culture", "spr_banner_cp", "fac_culture_5"),
+            (call_script, "script_set_banner_culture", "spr_banner_cq", "fac_culture_1"),
+            (call_script, "script_set_banner_culture", "spr_banner_cr", "fac_culture_3"),
+            (call_script, "script_set_banner_culture", "spr_banner_cs", "fac_culture_4"),
+            (call_script, "script_set_banner_culture", "spr_banner_ct", "fac_culture_5"),
+            (call_script, "script_set_banner_culture", "spr_banner_cu", "fac_culture_3"),
+            (call_script, "script_set_banner_culture", "spr_banner_da", "fac_culture_3"),
+            (call_script, "script_set_banner_culture", "spr_banner_db", "fac_culture_3"),
+            (call_script, "script_set_banner_culture", "spr_banner_dc", "fac_culture_3"),
+            (call_script, "script_set_banner_culture", "spr_banner_dd", "fac_culture_3"),
+            (call_script, "script_set_banner_culture", "spr_banner_de", "fac_culture_3"),
+            (call_script, "script_set_banner_culture", "spr_banner_df", "fac_culture_3"),
+            (call_script, "script_set_banner_culture", "spr_banner_dg", "fac_culture_3"),
+            (call_script, "script_set_banner_culture", "spr_banner_dh", "fac_culture_3"),
+            (call_script, "script_set_banner_culture", "spr_banner_di", "fac_culture_3"),
+            (call_script, "script_set_banner_culture", "spr_banner_dj", "fac_culture_3"),
+            (call_script, "script_set_banner_culture", "spr_banner_dk", "fac_culture_3"),
+            (call_script, "script_set_banner_culture", "spr_banner_dl", "fac_culture_3"),
+            (call_script, "script_set_banner_culture", "spr_banner_dm", "fac_culture_3"),
+            (call_script, "script_set_banner_culture", "spr_banner_dn", "fac_culture_3"),
+            (call_script, "script_set_banner_culture", "spr_banner_do", "fac_culture_5"),
+            (call_script, "script_set_banner_culture", "spr_banner_dp", "fac_culture_5"),
+            (call_script, "script_set_banner_culture", "spr_banner_dq", "fac_culture_3"),
+            (call_script, "script_set_banner_culture", "spr_banner_dr", "fac_culture_3"),
+            (call_script, "script_set_banner_culture", "spr_banner_ds", "fac_culture_3"),
+            (call_script, "script_set_banner_culture", "spr_banner_dt", "fac_culture_2"),
+            (call_script, "script_set_banner_culture", "spr_banner_du", "fac_culture_3"),
+            (call_script, "script_set_banner_culture", "spr_banner_ea", "fac_culture_4"),
+            (call_script, "script_set_banner_culture", "spr_banner_eb", "fac_culture_5"),
+            (call_script, "script_set_banner_culture", "spr_banner_ec", "fac_culture_1"),
+            (call_script, "script_set_banner_culture", "spr_banner_ed", "fac_culture_4"),
+            (call_script, "script_set_banner_culture", "spr_banner_ee", "fac_culture_5"),
+            (call_script, "script_set_banner_culture", "spr_banner_ef", "fac_culture_1"),
+            (call_script, "script_set_banner_culture", "spr_banner_eg", "fac_culture_5"),
+            (call_script, "script_set_banner_culture", "spr_banner_eh", "fac_culture_4"),
+            (call_script, "script_set_banner_culture", "spr_banner_ei", "fac_culture_4"),
+            (call_script, "script_set_banner_culture", "spr_banner_ej", "fac_culture_1"),
+            (call_script, "script_set_banner_culture", "spr_banner_ek", "fac_culture_3"),
+            (call_script, "script_set_banner_culture", "spr_banner_el", "fac_culture_5"),
+            (call_script, "script_set_banner_culture", "spr_banner_em", "fac_culture_2"),
+            (call_script, "script_set_banner_culture", "spr_banner_en", "fac_culture_4"),
+            (call_script, "script_set_banner_culture", "spr_banner_eo", "fac_culture_2"),
+            (call_script, "script_set_banner_culture", "spr_banner_ep", "fac_culture_2"),
+            (call_script, "script_set_banner_culture", "spr_banner_eq", "fac_culture_2"),
+            (call_script, "script_set_banner_culture", "spr_banner_er", "fac_culture_2"),
+            (call_script, "script_set_banner_culture", "spr_banner_es", "fac_culture_1"),
+            (call_script, "script_set_banner_culture", "spr_banner_et", "fac_culture_2"),
+            (call_script, "script_set_banner_culture", "spr_banner_eu", "fac_culture_2"),
+            (call_script, "script_set_banner_culture", "spr_banner_f01", "fac_culture_6"),
+            (call_script, "script_set_banner_culture", "spr_banner_f02", "fac_culture_6"),
+            (call_script, "script_set_banner_culture", "spr_banner_f03", "fac_culture_6"),
+            (call_script, "script_set_banner_culture", "spr_banner_f04", "fac_culture_6"),
+            (call_script, "script_set_banner_culture", "spr_banner_f05", "fac_culture_6"),
+            (call_script, "script_set_banner_culture", "spr_banner_f06", "fac_culture_6"),
+            (call_script, "script_set_banner_culture", "spr_banner_f07", "fac_culture_6"),
+            (call_script, "script_set_banner_culture", "spr_banner_f08", "fac_culture_6"),
+            (call_script, "script_set_banner_culture", "spr_banner_f09", "fac_culture_6"),
+            (call_script, "script_set_banner_culture", "spr_banner_f10", "fac_culture_6"),
+            (call_script, "script_set_banner_culture", "spr_banner_f11", "fac_culture_6"),
+            (call_script, "script_set_banner_culture", "spr_banner_f12", "fac_culture_6"),
+            (call_script, "script_set_banner_culture", "spr_banner_f13", "fac_culture_6"),
+            (call_script, "script_set_banner_culture", "spr_banner_f14", "fac_culture_6"),
+            (call_script, "script_set_banner_culture", "spr_banner_f15", "fac_culture_6"),
+            (call_script, "script_set_banner_culture", "spr_banner_f16", "fac_culture_6"),
+            (call_script, "script_set_banner_culture", "spr_banner_f17", "fac_culture_6"),
+            (call_script, "script_set_banner_culture", "spr_banner_f18", "fac_culture_6"),
+            (call_script, "script_set_banner_culture", "spr_banner_f19", "fac_culture_6"),
+            (call_script, "script_set_banner_culture", "spr_banner_f20", "fac_culture_6"),
+            (call_script, "script_set_banner_culture", "spr_banner_f21", "fac_culture_2"),
+            (call_script, "script_set_banner_culture", "spr_banner_kingdom_a", "fac_culture_4"),
+            (call_script, "script_set_banner_culture", "spr_banner_kingdom_b", "fac_culture_2"),
+            (call_script, "script_set_banner_culture", "spr_banner_kingdom_c", "fac_culture_3"),
+            (call_script, "script_set_banner_culture", "spr_banner_kingdom_d", "fac_culture_5"),
+            (call_script, "script_set_banner_culture", "spr_banner_kingdom_e", "fac_culture_6"),
+            (call_script, "script_set_banner_culture", "spr_banner_kingdom_f", "fac_culture_1"),
+        ]),
+
+    # script_get_banner_used
+        # input:
+        #   arg1: banner_scene_prop
+        # output:
+        #   reg0: used
+    ("get_banner_used",
+        [
+            (store_script_param, ":banner_scene_prop", 1),
+
+            (store_sub, ":offset", ":banner_scene_prop", banner_scene_props_begin),
+            (store_add, ":slot", ":offset", slot_banner_used_begin),
+
+            (troop_get_slot, reg0, "trp_banners_array", ":slot"),
+        ]),
+
+    # script_get_banner_culture
+        # input:
+        #   arg1: banner_scene_prop
+        # output:
+        #   reg0: culture
+    ("get_banner_culture",
+        [
+            (store_script_param, ":banner_scene_prop", 1),
+
+            (store_sub, ":offset", ":banner_scene_prop", banner_scene_props_begin),
+            (store_add, ":slot", ":offset", slot_banner_culture_begin),
+
+            (troop_get_slot, reg0, "trp_banners_array", ":slot"),
+        ]),
+
+    # script_set_banner_used
+        # input:
+        #   arg1: banner_scene_prop
+        #   arg2: used
+        # output: none
+    ("set_banner_used",
+        [
+            (store_script_param, ":banner_scene_prop", 1),
+            (store_script_param, ":used", 2),
+
+            (store_sub, ":offset", ":banner_scene_prop", banner_scene_props_begin),
+            (store_add, ":slot", ":offset", slot_banner_used_begin),
+
+            (troop_set_slot, "trp_banners_array", ":slot", ":used"),
+        ]),
+
+    # script_set_banner_culture
+        # input:
+        #   arg1: banner_scene_prop
+        #   arg2: culture
+        # output: none
+    ("set_banner_culture",
+        [
+            (store_script_param, ":banner_scene_prop", 1),
+            (store_script_param, ":culture", 2),
+
+            (store_sub, ":offset", ":banner_scene_prop", banner_scene_props_begin),
+            (store_add, ":slot", ":offset", slot_banner_culture_begin),
+
+            (troop_set_slot, "trp_banners_array", ":slot", ":culture"),
+        ]),
+
+    # script_get_village_elder_quest_purchase_surplus_goods_buy_price
+        # input: none
+        # output:
+        #   reg0: price
+    ("get_village_elder_quest_purchase_surplus_goods_buy_price",
+        [
+            (quest_get_slot, ":item", "qst_village_purchase_surplus_goods", slot_quest_object),
+            (quest_get_slot, ":quantity", "qst_village_purchase_surplus_goods", slot_quest_value),
+            (quest_get_slot, ":seller", "qst_village_purchase_surplus_goods", slot_quest_destination),
+
+            (call_script, "script_item_get_sell_price", ":item", ":seller", "$g_player_party"),
+            (store_mul, ":price", reg0, 75),
+            (val_div, ":price", 100),
+            (val_mul, ":price", ":quantity"),
+            (assign, reg0, ":price"),
+        ]),
 
     # script_presentation_generate_select_lord_card
         # input:

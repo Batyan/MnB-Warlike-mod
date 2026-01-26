@@ -115,7 +115,7 @@ names = [
   ("vaegir_name_44", "Vaerzun"),
   ("vaegir_name_45", "Gulym"),
   ("vaegir_name_46", "Torvald"),
-  # ("vaegir_name_47", ""),
+  ("vaegir_name_47", "Kiavik"),
   # ("vaegir_name_48", ""),
   # ("vaegir_name_49", ""),
   # ("vaegir_name_50", ""),
@@ -348,6 +348,8 @@ names = [
   ("swadian_family_name_prefix_8", "Roth"),
   ("swadian_family_name_prefix_9", "Mer"),
   ("swadian_family_name_prefix_10", "Arrom"),
+  ("swadian_family_name_prefix_11", "Rem"),
+  ("swadian_family_name_prefix_12", "Pav"),
 
   ("swadian_family_name_suffix_1", "ant"),
   ("swadian_family_name_suffix_2", "ain"),
@@ -359,6 +361,7 @@ names = [
   ("swadian_family_name_suffix_8", "ad"),
   ("swadian_family_name_suffix_9", "oc"),
   ("swadian_family_name_suffix_10", "anc"),
+  ("swadian_family_name_suffix_11", "and"),
 
   ("vaegir_family_name_prefix_1", "Gund"),
   ("vaegir_family_name_prefix_2", "Kul"),
@@ -370,6 +373,7 @@ names = [
   ("vaegir_family_name_prefix_8", "Vezh"),
   ("vaegir_family_name_prefix_9", "Ubr"),
   ("vaegir_family_name_prefix_10", "Kost"),
+  ("vaegir_family_name_prefix_11", "Vod"),
 
   ("vaegir_family_name_suffix_1", "ar"),
   ("vaegir_family_name_suffix_2", "yor"),

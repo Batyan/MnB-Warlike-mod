@@ -12,7 +12,7 @@ quests = [
         "{!}."),
     ("introduction_default_search_3", "Search the village of {s59}", 0,
         "{!}."),
-    ("introduction_waiting", "Wait for a message from {s62}", 0,
+    ("introduction_waiting", "Wait for a message from {s58}", 0,
         "{!}."),
     ("introduction_confrontation", "Confront Cerval Phinius", 0,
         "{!}."),
@@ -35,6 +35,8 @@ quests = [
     ("village_hunt_notorious_bandit", "Hunt a notorious bandit near {s62}", qf_random_quest,
         "{!}"),
     ("village_persuade_mercenaries_leave", "Persuade troublesome mercenaries to leave {s62}", qf_random_quest,
+        "{!}"),
+    ("village_purchase_surplus_goods", "Find a buyer for the surplus goods from {s62}", qf_random_quest,
         "{!}"),
     
     ("quests_end", "Quests End", 0, "{!}."),

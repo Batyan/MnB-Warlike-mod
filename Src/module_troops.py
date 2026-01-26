@@ -1813,13 +1813,13 @@ troops = [
   
   # Basic ranged, picks, maces, daggers, bows, shields
   # SPECIAL
-  ["swadian_hunter", "Swadian Hunter", "Swadian Hunters", tf_guarantee_recruit_armor|tf_guarantee_ranged, no_scene, reserved, fac_small_kingdom_14,
+  ["swadian_levy_bowman", "Swadian Levy Bowman", "Swadian Levy Bowmen", tf_guarantee_recruit_armor|tf_guarantee_ranged, no_scene, reserved, fac_small_kingdom_14,
    [itm_fighting_pick, itm_mace_2, itm_dagger, itm_arrows_b, itm_hunting_bow2,
     itm_ankle_boots, itm_wrapping_boots,
-    itm_leather_armor_herald,
+    itm_tunic_herald, itm_rich_shirt_herald, itm_tabard_herald,
     itm_padded_coif, itm_arming_cap,
     ],
-   str_8|agi_10|int_6|cha_7|level(8), wpex(65,50,60,70,40,45), knows_common|knows_power_strike_2|knows_power_draw_4|knows_athletics_2|knows_riding_1, swadian_face_young_1, swadian_face_old_2 ],
+   str_8|agi_10|int_6|cha_6|level(7), wpex(65,50,60,70,40,45), knows_common|knows_power_strike_2|knows_power_draw_4|knows_athletics_2|knows_riding_1, swadian_face_young_1, swadian_face_old_2 ],
   
   # Basic infantry, polearms
   # SPECIAL
@@ -2135,7 +2135,7 @@ troops = [
   ###########
   # Peasant
   # Basic infantry, spears, shields
-  ["vaegir_levy", "Vaegir Levy Spearman", "Vaegir Levy Spearmen", tf_guarantee_recruit_armor|tf_guarantee_shield, no_scene, reserved, fac_kingdom_2,
+  ["vaegir_levy_spearman", "Vaegir Levy Spearman", "Vaegir Levy Spearmen", tf_guarantee_recruit_armor|tf_guarantee_shield, no_scene, reserved, fac_kingdom_2,
    [itm_spear, itm_tab_shield_kite_a,itm_tab_shield_kite_a_plain_1,itm_tab_shield_kite_a_plain_2,
     itm_hide_boots, itm_nomad_boots,
     itm_fur_coat, itm_leather_vest_herald, itm_linen_tunic_herald,
@@ -2144,13 +2144,22 @@ troops = [
    str_10|agi_8|int_5|cha_6|level(6), wpex(55,65,90,60,20,35), knows_common|knows_ironflesh_3|knows_power_strike_3|knows_power_draw_1|knows_athletics_3|knows_riding_1, vaegir_face_young_1, vaegir_face_old_2 ],
   
   # Basic ranged, axes, daggers, bows
-  ["vaegir_hunter", "Vaegir Hunter", "Vaegir Hunters", tf_guarantee_recruit_armor, no_scene, reserved, fac_kingdom_2,
+  ["vaegir_hunter", "Vaegir Hunter", "Vaegir Hunters", tf_guarantee_recruit_armor|tf_guarantee_ranged, no_scene, reserved, fac_kingdom_2,
    [itm_hatchet, itm_axe, itm_butchering_knife, itm_hunting_bow, itm_barbed_arrows,
     itm_nomad_boots, itm_hide_boots,
     itm_rawhide_coat, itm_leather_vest_herald, itm_linen_tunic_herald, itm_fur_coat,
     itm_vaegir_fur_cap, itm_leather_cap, itm_leather_warrior_cap,
     ],
    str_9|agi_8|int_6|cha_7|level(7), wpex(60,60,40,85,30,30), knows_common|knows_ironflesh_3|knows_power_strike_3|knows_power_draw_4|knows_athletics_2|knows_riding_2|knows_horse_archery_1, vaegir_face_young_1, vaegir_face_old_2 ],
+  
+  # Basic infantry, axes, daggers, shields
+  ["vaegir_levy", "Vaegir Levy", "Vaegir Levy", tf_guarantee_recruit_armor|tf_guarantee_shield, no_scene, reserved, fac_kingdom_2,
+   [itm_hatchet, itm_axe, itm_butchering_knife, itm_tab_shield_kite_a,itm_tab_shield_kite_a_plain_1,itm_tab_shield_kite_a_plain_2,
+    itm_nomad_boots, itm_hide_boots,
+    itm_rawhide_coat, itm_leather_vest_herald, itm_linen_tunic_herald, itm_fur_coat,
+    itm_vaegir_fur_cap, itm_leather_cap, itm_leather_warrior_cap,
+    ],
+   str_9|agi_9|int_6|cha_7|level(6), wpex(60,65,40,60,20,35), knows_common|knows_ironflesh_2|knows_power_strike_3|knows_power_draw_1|knows_athletics_3|knows_riding_1, vaegir_face_young_1, vaegir_face_old_2 ],
   
   # Basic infantry, clubs, shields
   # SPECIAL
@@ -2174,7 +2183,7 @@ troops = [
   
   # Basic infantry, axes, swords, shields
   # SPECIAL
-  ["vaegir_levy_infantry", "Vaegir Levy", "Vaegir Levies", tf_guarantee_recruit_armor|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_23,
+  ["vaegir_levy_infantry", "Vaegir Levy Infantry", "Vaegir Levy Infantries", tf_guarantee_recruit_armor|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_23,
    [itm_one_handed_war_axe_a, itm_sword_khergit_1, itm_tab_shield_kite_a,itm_tab_shield_kite_a_plain_1,itm_tab_shield_kite_a_plain_2,
     itm_hide_boots, itm_nomad_boots,
     itm_fur_coat, itm_leather_vest_herald, itm_linen_tunic_herald, itm_fur_coat, itm_rawhide_coat,
@@ -2633,6 +2642,16 @@ troops = [
     ],
    str_8|agi_10|int_5|cha_6|level(6), wpex(65,55,70,50,20,40), knows_common|knows_ironflesh_1|knows_power_strike_3|knows_athletics_4|knows_riding_2, khergit_face_young_1, khergit_face_old_2 ],
 
+  # Basic ranged, spears, bows
+  # SPECIAL
+  ["khergit_hunter", "Khergit Hunter", "Khergit Hunters", tf_guarantee_recruit_armor|tf_guarantee_ranged, no_scene, reserved, fac_small_kingdom_32,
+   [itm_shortened_spear, itm_hunting_bow, itm_arrows_b,
+    itm_nomad_boots, itm_hide_boots,
+    itm_leather_vest_herald, itm_coarse_tunic_herald,
+    itm_nomad_cap_b, itm_nomad_cap, itm_leather_steppe_cap_a, itm_leather_steppe_cap_c,
+    ],
+   str_10|agi_9|int_6|cha_6|level(8), wpex(55,50,70,75,30,45), knows_common|knows_ironflesh_2|knows_power_strike_3|knows_power_draw_4|knows_athletics_2|knows_riding_2|knows_horse_archery_1, khergit_face_young_1, khergit_face_old_2 ],
+  
   # Common
   # Light infantry, sabres, maces, javelins, shields
   ["khergit_light_infantry", "Khergit Light Infantry", "Khergit Light Infantries", tf_guarantee_common_armor|tf_guarantee_shield, no_scene, reserved, fac_kingdom_3,
@@ -6259,6 +6278,8 @@ troops = [
 
   ["village_elder", "Village Elder", "Village Elder", tf_hero, no_scene, reserved, fac_commoners,
    [itm_coarse_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_common, 0x0000000007085111455ba5c8e382c91c00000000000d342b0000000000000000 ],
+  ["town_guildmaster", "Guildmaster", "Guildmaster", tf_hero, no_scene, reserved, fac_commoners,
+   [itm_red_shirt, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_common, 0x0000000007085111455ba5c8e382c91c00000000000d342b0000000000000000 ],
 
   ["ransom_broker", "Ransom broker", "Ransom broker", tf_hero, no_scene, reserved, fac_commoners,
    [itm_coarse_tunic, itm_wrapping_boots], def_attrib|level(4), wp(50), knows_common, 0x0000000007085111455ba5c8e382c91c00000000000d342b0000000000000000 ],
@@ -6664,7 +6685,8 @@ troops = [
   ["clan_storage_399", "Clan", "Clan", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners, [], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
   ["clan_storage_400", "Clan", "Clan", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners, [], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
 
-  ["tournament_participants_array", "Participants", "Participants", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners, [], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
+  ["tournament_participants_array", "{!}tournament_participants_array", "{!}tournament_participants_array", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners, [], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
+  ["banners_array", "{!}banners_array", "{!}banners_array", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners, [], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
   
   ["banner_background_color_array","{!}banner_background_color_array","{!}banner_background_color_array",tf_hero|tf_inactive,0,reserved,fac_commoners,[],def_attrib,0,knows_common,0 ],
 

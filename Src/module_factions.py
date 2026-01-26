@@ -68,7 +68,7 @@ factions = [
 	("small_kingdom_25", "Uslum", 0, 0.9, [("outlaws",-0.5),], [], 0x885500), # Pikeman + Heavy Pikeman + Scout + Heavy Mounted Longbowman + Mounted Longbowman + Longbowman + Royal Longbowman + Royal Mounted Longbowman
 	
 	("small_kingdom_31", "Eastern", 0, 0.9, [("outlaws",-0.5),], [], 0xbb88bb), # Noble Mounted Skirmisher + Mounted Skirmisher + Heavy Mounted Skirmisher
-	("small_kingdom_32", "Warriors of Sungetche", 0, 0.9, [("outlaws",-0.5),], [], 0x997A99), # Champion + Light Skirmisher + Warrior + Heavy Skirmisher + Noble Skirmisher?
+	("small_kingdom_32", "Warriors of Sungetche", 0, 0.9, [("outlaws",-0.5),], [], 0x997A99), # Hunter + Champion + Light Skirmisher + Warrior + Heavy Skirmisher + Noble Skirmisher?
 	("small_kingdom_33", "Narra", 0, 0.9, [("outlaws",-0.5),], [], 0x7e0041), # Light Horse Archer + Light Steppe Cavalry + Heavy Steppe Cavalry
 	("small_kingdom_34", "Halmar", 0, 0.9, [("outlaws",-0.5),], [], 0x6D00C1), # Clansman +  Heavy Lancer + Noble Cavalry + Noble Lancer
 	("small_kingdom_35", "Uhhun", 0, 0.9, [("outlaws",-0.5),], [], 0x9966ff), # Levy Horseman + Light Horseman + Heavy Horseman + Noble Horseman

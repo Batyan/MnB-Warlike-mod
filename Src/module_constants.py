@@ -3,6 +3,7 @@ from ID_quests import *
 from ID_factions import *
 from ID_meshes import *
 from ID_strings import *
+from ID_scene_props import *
 
 
 
@@ -23,9 +24,9 @@ banner_meshes_begin = "mesh_banner_a01"
 banner_meshes_end = "mesh_banner_mesh_end"
 banner_meshes_end_minus_one = 1
 
-banner_scene_props_begin = "spr_banner_a"
-banner_scene_props_end = "spr_banner_end"
-banner_scene_props_end_minus_one = "spr_banner_kingdom_f"
+banner_scene_props_begin = spr_banner_a
+banner_scene_props_end = spr_banner_end
+banner_scene_props_end_minus_one = spr_banner_kingdom_f
 
 npc_kingdoms_begin = 0
 npc_kingdoms_end = 1
@@ -123,11 +124,14 @@ items_end = "itm_items_end"
 soldiers_begin          = "trp_swadian_levy"
 soldiers_end            = "trp_common_hunter_bow"
 
+peasant_troops_begin = soldiers_end
+peasant_troops_end = "trp_swadian_lord_template_0"
+
 companions_begin = "trp_companion_noble_01_m"
 companions_end = soldiers_begin
 
 kingdom_1_troops_begin  = "trp_swadian_levy"
-kingdom_2_troops_begin  = "trp_vaegir_levy"
+kingdom_2_troops_begin  = "trp_vaegir_levy_spearman"
 kingdom_3_troops_begin  = "trp_khergit_levy"
 kingdom_4_troops_begin  = "trp_nord_levy"
 kingdom_5_troops_begin  = "trp_rhodok_levy_spearman"
@@ -1483,6 +1487,8 @@ slot_party_last_tournament_date = slot_party_next_tournament_date + 1
 
 min_tournament_cooldown = 365
 
+slot_party_camp_influence = slot_party_last_tournament_date + 1
+
 #################
 ## Scene Slots ##
 #################
@@ -1560,10 +1566,11 @@ tt_mounted_skirmisher   = 11
 
 slot_troop_quality                  = slot_troop_type + 1
 tq_peasant      = 0
-tq_common       = 1
-tq_veteran      = 2
-tq_elite        = 3
-tq_noble        = 4
+tq_levy         = 1
+tq_common       = 2
+tq_veteran      = 3
+tq_elite        = 4
+tq_noble        = 5
 
 
 slot_troop_lord_equipement          = slot_troop_quality + 1
@@ -1788,6 +1795,11 @@ slot_faction_mission_kills = 400
 slot_faction_mission_deaths = 401
 # END
 
+slot_banner_used_begin = 1
+slot_banner_used_end = slot_banner_used_begin + banner_scene_props_end - banner_scene_props_begin
+slot_banner_culture_begin = slot_banner_used_end + 1
+slot_banner_culture_end = slot_banner_culture_begin + banner_scene_props_end - banner_scene_props_begin
+
 ##################
 ## Player Slots ##
 ##################
@@ -1905,11 +1917,12 @@ slot_team_entry_offset = slot_team_entry_seed + 1
 quest_slots = 0
 
 slot_quest_giver_troop = 1
-slot_quest_expiration_days = slot_quest_giver_troop + 1
+slot_quest_giver_party = slot_quest_giver_troop + 1
+slot_quest_expiration_days = slot_quest_giver_party + 1
 slot_quest_dont_give_again_period = slot_quest_expiration_days + 1
-slot_quest_dont_give_again_remaining_days = slot_quest_dont_give_again_period + 1
+slot_quest_dont_give_again_until = slot_quest_dont_give_again_period + 1
 
-slot_quest_description = slot_quest_dont_give_again_remaining_days + 1
+slot_quest_description = slot_quest_dont_give_again_until + 1
 slot_quest_object = slot_quest_description + 1
 slot_quest_value = slot_quest_object + 1
 
@@ -1921,7 +1934,9 @@ slot_quest_note_index = slot_quest_given_on + 1
 
 slot_quest_reward = slot_quest_note_index + 1
 
-last_generic_quest_slot = slot_quest_reward + 1
+slot_quest_outcome = slot_quest_reward + 1
+
+last_generic_quest_slot = slot_quest_outcome + 1
 
 # qst_persuade_lord_vassalage
 
@@ -1939,7 +1954,15 @@ slot_quest_asked_who = last_generic_quest_slot
 slot_quest_asked_state = slot_quest_asked_who + 1
 slot_quest_asked_destination = slot_quest_asked_state + 1
 
-last_quest_slot = max(100, slot_quest_proposed_fief + 1, slot_quest_asked_destination + 1)
+# qst_village_purchase_surplus_goods
+
+slot_quest_proposed_amount = last_generic_quest_slot
+
+last_quest_slot = max(100, slot_quest_proposed_fief + 1, slot_quest_asked_destination + 1, slot_quest_proposed_amount + 1)
+
+# following slots are not reset on quest startup
+
+slot_quest_availability_script = last_quest_slot + 1
 
 ##########################
 ## Party Template Slots ##
@@ -1961,17 +1984,11 @@ slot_party_template_type_troop_4 = 10
 slot_party_template_type_troop_5 = 11
 slot_party_template_type_troop_6 = 12
 
-
-
 ######################
 ## Scene Prop Slots ##
 ######################
 
 scene_prop_slots = 0
-
-
-
-
 
 ##################
 ## Achievements ##

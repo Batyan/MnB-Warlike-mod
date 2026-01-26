@@ -176,7 +176,7 @@ presentations = [
                 (party_get_slot, ":center_leader", ":current_city", slot_party_leader),
                 (try_begin),
                     (eq, ":center_leader", "$g_player_troop"),
-                    (str_store_string, s10, "@Center owner: +100"),
+                    (str_store_string, s10, "@Center owner: +1000"),
                     (call_script, "script_presentation_create_text_overlay", tf_left_align, ":x", 130, 900, 900),
                     (overlay_set_color, reg0, text_color_valid),
                 (else_try),
@@ -558,92 +558,6 @@ presentations = [
                     (try_end),
         		# (else_try),
         			# (display_message, "@Event change, not a known object."),
-        		(try_end),
-        	]),
-        ]),
-
-    ("intro_select_kingdom", 0, mesh_load_window, 
-        [
-        	(ti_on_presentation_load,
-        	[
-        		(set_fixed_point_multiplier, 1000),
-        		
-        		# Culture selection
-        		(str_store_string, s10, "@Select a culture you wish to start as"),
-                (call_script, "script_presentation_create_text_overlay", tf_left_align, 50, 550, 1000, 1000),
-        		
-        		(create_combo_button_overlay, "$g_presentation_culture_choice"),
-        		(position_set_x, pos1, 240),
-        		(position_set_y, pos1, 500),
-        		(overlay_set_position, "$g_presentation_culture_choice", pos1),
-        		(position_set_x, pos1, 1000),
-        		(position_set_y, pos1, 1000),
-        		(overlay_set_size, "$g_presentation_culture_choice", pos1),
-        		
-        		(try_for_range_backwards, ":culture", cultures_begin, cultures_end),
-        			(str_store_faction_name, s10, ":culture"),
-        			(overlay_add_item, "$g_presentation_culture_choice", s10),
-        		(try_end),
-        		(overlay_set_val, "$g_presentation_culture_choice", 6),
-
-                (assign, "$g_presentation_culture", cultures_begin),
-        		
-        		# Accept button
-        		(create_game_button_overlay, "$g_presentation_ok", "@Accept"),
-        		(position_set_x, pos1, 150),
-        		(position_set_y, pos1, 120),
-        		(overlay_set_position, "$g_presentation_ok", pos1),
-        		
-        		# Cancel button
-        		# (create_button_overlay, "$g_presentation_cancel", "@Cancel"),
-        		# (position_set_x, pos1, 50),
-        		# (position_set_y, pos1, 90),
-        		# (overlay_set_position, "$g_presentation_cancel", pos1),
-        		
-        		(presentation_set_duration, 999999),
-        	]),
-        	
-        	(ti_on_presentation_event_state_change,
-        	[
-        		(store_trigger_param_1, ":object"),
-        		(store_trigger_param_2, ":value"),
-        		
-        		(try_begin),
-        			(eq, ":object", "$g_presentation_ok"),
-        			
-
-                    (troop_set_slot, "$g_player_troop", slot_troop_culture, "$g_presentation_culture"),
-                    (troop_set_slot, "$g_player_troop", slot_troop_original_faction, "$g_test_player_faction"),
-
-        			(assign, reg10, "$g_test_player_faction"),
-        			(str_store_faction_name, s10, "$g_test_player_faction"),
-        			(display_message, "@Faction is {reg10}: {s10}"),
-        			
-        			(presentation_set_duration, 1),
-        		(else_try),
-        			(eq, ":object", "$g_presentation_culture_choice"),
-        			
-        			(store_sub, ":num_cultures", cultures_end, cultures_begin),
-        			
-        			(assign, ":faction", 0),
-        			
-        			(store_sub, ":culture", ":num_cultures", ":value"),
-        			(val_sub, ":culture", 1),
-        			(val_add, ":culture", cultures_begin),
-
-                    (assign, "$g_presentation_culture", ":culture"),
-        			        			
-        			(assign, ":end", kingdoms_end),
-        			(try_for_range, ":faction_no", kingdoms_begin, ":end"),
-        				(faction_slot_eq, ":faction_no", slot_faction_culture, ":culture"),
-        				(assign, ":faction", ":faction_no"),
-        				(assign, ":end", 0),
-        			(try_end),
-        			(assign, "$g_test_player_faction", ":faction"),
-        			
-        			(assign, reg10, "$g_test_player_faction"),
-        			(str_store_faction_name, s10, "$g_test_player_faction"),
-        			(display_message, "@Faction is {reg10}: {s10}"),
         		(try_end),
         	]),
         ]),
@@ -3323,7 +3237,7 @@ presentations = [
                     (assign, ":attribute_container_x", 20),
 
                     (assign, ":header_info_x", 325),
-                    (assign, ":header_name_x", 465),
+                    (assign, ":header_name_x", 490),
 
                     (assign, ":skill_container_x", 325),
                     (assign, ":skill_x", 20),
@@ -3355,7 +3269,7 @@ presentations = [
                     (assign, ":proficiencies_color", 0x630C00),
 
                     (str_store_troop_name, s10, ":current_troop"),
-                    (call_script, "script_presentation_create_text_overlay", tf_left_align, ":header_name_x", 700, 1200, 1200),
+                    (call_script, "script_presentation_create_text_overlay", tf_center_justify, ":header_name_x", 700, 1200, 1200),
 
                     (troop_get_slot, ":current_level", ":current_troop", slot_troop_xp_level),
                     (assign, reg10, ":current_level"),
@@ -3583,11 +3497,7 @@ presentations = [
                         (set_container_overlay, ":proficiency_container"),
                         (try_for_range_backwards, ":proficiency", wpt_one_handed_weapon, wpt_throwing + 1),
                             (try_begin),
-                                (store_skill_level, ":weapon_master", skl_weapon_master, ":current_troop"),
-                                (val_mul, ":weapon_master", 60),
-                                (store_add, ":threshold", 40, ":weapon_master"),
-                                (store_proficiency_level, ":proficiency_value", ":current_troop", ":proficiency"),
-                                (lt, ":proficiency_value", ":threshold"),
+                                (call_script, "script_cf_troop_can_increase_proficiency", ":current_troop", ":proficiency"),
 
                                 (store_add, ":y", ":cur_y", 6),
                                 (create_image_button_overlay, reg0, "mesh_small_arrow_up", "mesh_small_arrow_up_clicked"),
@@ -3670,6 +3580,8 @@ presentations = [
 
                     (set_fixed_point_multiplier, 1000),
 
+                    (assign, ":current_troop", "$temp"),
+
                     (try_begin),
                         (eq, ":value", 0),
 
@@ -3708,7 +3620,13 @@ presentations = [
 
                             (store_add, ":index", ":proficiency", "str_proficiency_one_handed_weapon_description"),
                             (overlay_set_text, "$g_presentation_stats_description", ":index"),
-                            (overlay_set_text, "$g_presentation_stats_requirements", "str_empty_string"),
+                            (try_begin),
+                                (call_script, "script_cf_troop_can_increase_proficiency", ":current_troop", ":proficiency"),
+                                (str_store_string, s11, "@Spend {reg0} points to increase by {reg1}"),
+                                (overlay_set_text, "$g_presentation_stats_requirements", s11),
+                            (else_try),
+                                (overlay_set_text, "$g_presentation_stats_requirements", "str_empty_string"),
+                            (try_end),
                         (try_end),
                     (try_end),
                 ]),
@@ -3745,7 +3663,11 @@ presentations = [
                         (store_sub, ":offset", ":object", "$g_presentation_proficiency_begin"),
                         (store_sub, ":proficiency", ":num_proficiencies", ":offset"),
 
-                        (call_script, "script_troop_add_proficiency", ":current_troop", ":proficiency", 1),
+                        (call_script, "script_cf_troop_can_increase_proficiency", ":current_troop", ":proficiency"),
+                        (assign, ":cost", reg0),
+                        (assign, ":amount", reg1),
+
+                        (call_script, "script_troop_add_proficiency", ":current_troop", ":proficiency", ":amount", ":cost"),
                         (assign, ":update", 1),
                     (else_try),
                         (eq, ":object", "$g_presentation_ok"),
@@ -3758,6 +3680,62 @@ presentations = [
                     (try_end),
                 ]),
 
+        ]),
+
+    ("clan_selection", 0, mesh_load_window,
+        [
+            (ti_on_presentation_load,
+                [
+                    (set_fixed_point_multiplier, 1000),
+
+                    (str_store_string, s10, "@As a noble you are given the priviledge of having a clan to represent your lineage."),
+                    (call_script, "script_presentation_create_text_overlay", tf_left_align, 50, 650, 1000, 1000),
+
+                    (create_simple_text_box_overlay, "$g_presentation_clan_name"),
+                    (position_set_x, pos1, 50),
+                    (position_set_y, pos1, 600),
+                    (overlay_set_position, "$g_presentation_clan_name", pos1),
+                    (position_set_x, pos1, 300),
+                    (position_set_y, pos1, 1000),
+                    (overlay_set_size, "$g_presentation_clan_name", pos1),
+
+                    (str_store_troop_name, s10, "$g_player_troop"),
+                    (call_script, "script_presentation_create_text_overlay", tf_left_align, 50, 550, 1000, 1000),
+                    (assign, "$g_presentation_clan_player_name", reg0),
+
+                    (create_game_button_overlay, "$g_presentation_ok", "@Accept clan name"),
+                    (position_set_x, pos1, 150),
+                    (position_set_y, pos1, 50),
+                    (overlay_set_position, "$g_presentation_ok", pos1),
+
+                    (presentation_set_duration, 999999),
+                ]),
+
+            (ti_on_presentation_event_state_change,
+                [
+                    (store_trigger_param_1, ":object"),
+
+                    (try_begin),
+                        (eq, ":object", "$g_presentation_ok"),
+                        (presentation_set_duration, 0),
+
+                        (start_presentation, "prsnt_banner_selection"),
+                    (else_try),
+                        (eq, ":object", "$g_presentation_clan_name"),
+                        (troop_get_slot, ":player_clan", "$g_player_troop", slot_troop_clan),
+                        (try_begin),
+                            (is_between, ":player_clan", clans_begin, clans_end),
+                            (troop_set_name, ":player_clan", s0),
+
+                            (call_script, "script_troop_update_name", "$g_player_troop"),
+
+                            (str_store_troop_name, s10, "$g_player_troop"),
+                            (overlay_set_text, "$g_presentation_clan_player_name", s10),
+                        (else_try),
+                            (display_message, "@ERROR: invalid player clan", text_color_impossible),
+                        (try_end),
+                    (try_end),
+                ]),
         ]),
 
     ("setting_shield_painting", 0, mesh_load_window,
