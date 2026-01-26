@@ -1,3 +1,7 @@
+v0.720:
+	-Features:
+	-Balances:
+	-Fixes:
 v0.710:
 	-Features:
 		* add current wars in faction notes
