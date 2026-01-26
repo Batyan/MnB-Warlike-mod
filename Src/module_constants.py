@@ -1917,7 +1917,8 @@ slot_team_entry_offset = slot_team_entry_seed + 1
 quest_slots = 0
 
 slot_quest_giver_troop = 1
-slot_quest_expiration_days = slot_quest_giver_troop + 1
+slot_quest_giver_party = slot_quest_giver_troop + 1
+slot_quest_expiration_days = slot_quest_giver_party + 1
 slot_quest_dont_give_again_period = slot_quest_expiration_days + 1
 slot_quest_dont_give_again_until = slot_quest_dont_give_again_period + 1
 
@@ -1933,7 +1934,9 @@ slot_quest_note_index = slot_quest_given_on + 1
 
 slot_quest_reward = slot_quest_note_index + 1
 
-last_generic_quest_slot = slot_quest_reward + 1
+slot_quest_outcome = slot_quest_reward + 1
+
+last_generic_quest_slot = slot_quest_outcome + 1
 
 # qst_persuade_lord_vassalage
 
@@ -1951,7 +1954,11 @@ slot_quest_asked_who = last_generic_quest_slot
 slot_quest_asked_state = slot_quest_asked_who + 1
 slot_quest_asked_destination = slot_quest_asked_state + 1
 
-last_quest_slot = max(100, slot_quest_proposed_fief + 1, slot_quest_asked_destination + 1)
+# qst_village_purchase_surplus_goods
+
+slot_quest_proposed_amount = last_generic_quest_slot
+
+last_quest_slot = max(100, slot_quest_proposed_fief + 1, slot_quest_asked_destination + 1, slot_quest_proposed_amount + 1)
 
 # following slots are not reset on quest startup
 

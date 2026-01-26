@@ -8224,7 +8224,7 @@ scripts = [
             (faction_set_slot, "fac_kingdom_2", slot_faction_troop_ratio_pikeman, 5),
             (faction_set_slot, "fac_kingdom_2", slot_faction_troop_ratio_skirmisher, 30),
             (faction_set_slot, "fac_kingdom_2", slot_faction_troop_ratio_shock_infantry, 25),
-            (faction_set_slot, "fac_kingdom_2", slot_faction_troop_ratio_archer, 75),
+            (faction_set_slot, "fac_kingdom_2", slot_faction_troop_ratio_archer, 70),
             (faction_set_slot, "fac_kingdom_2", slot_faction_troop_ratio_crossbow, 5),
             (faction_set_slot, "fac_kingdom_2", slot_faction_troop_ratio_cavalry, 90),
             (faction_set_slot, "fac_kingdom_2", slot_faction_troop_ratio_lancer, 25),
@@ -14771,7 +14771,7 @@ scripts = [
 
             (troop_set_slot, "trp_sarranid_heavy_lancer", slot_troop_faction_reserved_2, "fac_small_kingdom_61"), # 
 
-            (troop_set_slot, "trp_sarranid_levy_horse", slot_troop_ratio_special_multiplier, 50),
+            (troop_set_slot, "trp_sarranid_levy_horse", slot_troop_ratio_special_multiplier, 30),
             (troop_set_slot, "trp_rhodok_militia", slot_troop_ratio_special_multiplier, 300),
             (troop_set_slot, "trp_khergit_clansman", slot_troop_ratio_special_multiplier, 20),
             (troop_set_slot, "trp_khergit_levy_horseman", slot_troop_ratio_special_multiplier, 25),
@@ -21090,6 +21090,9 @@ scripts = [
                 (str_store_troop_name_link, s10, ":troop_freed"),
                 (try_begin),
                     (ge, ":freeing_party", 0),
+
+                    (call_script, "script_troop_change_relation_with_party_heroes", ":troop_freed", ":freeing_party", 1),
+
                     (str_store_party_name_link, s11, ":freeing_party"),
                     (assign, reg10, 1),
                 (else_try),
@@ -26285,32 +26288,8 @@ scripts = [
                 (quest_set_slot, ":quest_no", slot_quest_availability_script, -1),
             (try_end),
 
-            (quest_set_slot, "qst_village_purchase_surplus_goods", slot_quest_availability_script, "script_cf_village_purchase_surplus_goods"),
-            (quest_set_slot, "qst_village_deliver_grain", slot_quest_availability_script, "script_cf_village_deliver_grain"),
-        ]),
-
-    # script_cf_village_purchase_surplus_goods
-        # input:
-        #   arg1: party_no
-        # output:
-        #   reg0: score
-        # fails if quest is not available
-    ("cf_village_purchase_surplus_goods",
-        [
-            (eq, 1, 1),
-            (assign, reg0, 10),
-        ]),
-
-    # script_cf_village_deliver_grain
-        # input:
-        #   arg1: party_no
-        # output:
-        #   reg0: score
-        # fails if quest is not available
-    ("cf_village_deliver_grain",
-        [
-            (eq, 1, 1),
-            (assign, reg0, 10),
+            (quest_set_slot, "qst_village_purchase_surplus_goods", slot_quest_availability_script, "script_quest_village_purchase_surplus_goods"),
+            (quest_set_slot, "qst_village_deliver_grain", slot_quest_availability_script, "script_quest_village_deliver_grain"),
         ]),
 
     # script_setup_quest_text
@@ -26364,6 +26343,9 @@ scripts = [
                 (try_begin),
                     (eq, ":quest_no", "qst_introduction_default_search"),
                     (str_store_troop_name_link, s57, ":quest_object"),
+                (else_try),
+                    (eq, ":quest_no", "qst_village_purchase_surplus_goods"),
+                    (str_store_item_name, s57, ":quest_object"),
                 (try_end),
                 (str_store_string, s61, ":quest_description_index"),
             (else_try),
@@ -31491,13 +31473,13 @@ scripts = [
             (troop_raise_proficiency_linear, ":troop_no", ":proficiency", ":value"),
         ]),
 
-    # script_cf_center_get_available_quest
+    # script_center_get_available_quest
         # input:
         #   arg1: center_no
         # output:
         #   reg0: quest_no
         # fails if no quest available
-    ("cf_center_get_available_quest",
+    ("center_get_available_quest",
         [
             (store_script_param, ":center_no", 1),
 
@@ -31507,11 +31489,9 @@ scripts = [
             (assign, ":end", village_quests_end),
 
             (try_for_range, ":cur_quest", village_quests_begin, ":end"),
-                (neg|check_quest_active, ":cur_quest"),
-
                 (call_script, "script_cf_quest_available", ":cur_quest"),
                 (quest_get_slot, ":script", ":cur_quest", slot_quest_availability_script),
-                (call_script, ":script", ":center_no"),
+                (call_script, "script_cf_quest_validate", ":script", ":center_no"),
                 (assign, ":score", reg0),
 
                 (store_random_in_range, ":noise", 0, 10),
@@ -31523,7 +31503,6 @@ scripts = [
             (try_end),
 
             (assign, reg0, ":quest"),
-            (ge, ":quest", 0),
         ]),
 
     # script_cf_quest_available
@@ -31544,17 +31523,33 @@ scripts = [
             (gt, ":current_day", ":not_until"),
         ]),
 
-    # script_cf_quest_village_purchase_surplus_goods
+    # script_cf_quest_validate
+        # input:
+        #   arg1: script
+        #   arg2: center_parameter
+        # output:
+        #   reg0: score
+        # fails if quest unavailable
+    ("cf_quest_validate",
+        [
+            (store_script_param, ":script", 1),
+            (store_script_param, ":center_no", 2),
+
+            (call_script, ":script", ":center_no"),
+            (gt, reg0, 0),
+        ]),
+
+    # script_quest_village_purchase_surplus_goods
         # input:
         #   arg1: center_no
         # output: 
         #   reg0: score
         # fails if quest unavailable
-    ("cf_quest_village_purchase_surplus_goods",
+    ("quest_village_purchase_surplus_goods",
         [
             (store_script_param, ":center_no", 1),
             (assign, ":surplus_good", -1),
-            (assign, ":most_amount", -1),
+            (assign, ":most_amount", 0),
 
             (try_for_range, ":good", goods_begin, goods_end),
                 (store_sub, ":offset", ":good", goods_begin),
@@ -31566,24 +31561,31 @@ scripts = [
                 (assign, ":most_amount", ":amount"),
             (try_end),
 
-            (neq, ":surplus_good", -1),
-
             (quest_set_slot, "qst_village_purchase_surplus_goods", slot_quest_object, ":surplus_good"),
-            (store_div, reg0, ":most_amount", 10),
+            (quest_set_slot, "qst_village_purchase_surplus_goods", slot_quest_giver_party, ":center_no"),
+            (set_fixed_point_multiplier, 1),
+            (store_sqrt, ":quest_amount", ":most_amount"),
+            (quest_set_slot, "qst_village_purchase_surplus_goods", slot_quest_value, ":quest_amount"),
+            
+            (store_sub, reg0, ":quest_amount", 4),
         ]),
 
-    # script_cf_quest_village_deliver_grain
+    # script_quest_village_deliver_grain
         # input:
         #   arg1: center_no
         # output:
         #   reg0: score
         # fails if quest unavailable
-    ("cf_quest_village_deliver_grain",
+    ("quest_village_deliver_grain",
         [
-            # (store_script_param, ":center_no", 1),
+            (store_script_param, ":center_no", 1),
 
-            (eq, 1, 1),
-            (assign, reg0, 10),
+            (store_add, ":rand", "$g_daily_random", ":center_no"),
+
+            (store_mod, ":mod", ":rand", 10),
+            (val_sub, ":mod", 5),
+
+            (assign, reg0, ":mod"),
         ]),
 
     # script_party_change_player_relation

@@ -7,14 +7,15 @@ v0.710:
 		* bandit camps steal taxes from influenced villages
 		* add option to meet npcs that are in garrison
 		* add clan naming for player
+		* add purchase goods from village elder quest
 	-Balances:
 		* introduction quest thugs are now visible during the quest
 		* return to map after raising levies
 		* add vaegir_levy troop for culture_2
 		* changed vaegir_hunter to have guarantee ranged
-		* reduce vaegir_levy_axeman special ratio (40 -> 25)
-		* reduce vaegir_club_levy special ratio (100 -> 35)
-		* reduce vaegir_levy_infantry special ratio (60 -> 45)
+		* decrease vaegir_levy_axeman special ratio (40 -> 25)
+		* decrease vaegir_club_levy special ratio (100 -> 35)
+		* decrease vaegir_levy_infantry special ratio (60 -> 45)
 		* slow down reinforcement parties
 		* add khergit_hunter troop for small_faction_32
 		* rename swadian_militia to swadian_levy_bowman
@@ -27,6 +28,9 @@ v0.710:
 		* add new clan names for swadian culture
 		* decrease buildings maintenance cost by 80%
 		* decrease map reinforcement range for bandit parties
+		* decrease sarranid_levy_horse special ratio (50 -> 30)
+		* decrease culture_2 archer ratio (75 -> 70)
+		* increase culture_2 spearman ratio (35 -> 40)
 	-Fixes:
 		* fix tournaments not concluding properly
 		* fix possibility to speak to introduction quest giver before receiving the message
@@ -52,8 +56,8 @@ v0.700:
 		* remove base grant for recruiting troops
 		* switch castle and village bonus grant (+1->+0 and +0->+1 respectively)
 		* reduce renown requirement for additional grant (500 -> 350)
-		* reduce culture_1 archer ratio (30 -> 25)
-		* reduce culture_1 crossbow ratio (30 -> 25)
+		* decrease culture_1 archer ratio (30 -> 25)
+		* decrease culture_1 crossbow ratio (30 -> 25)
 		* increase culture_2 infantry ratio (80 -> 90)
 		* increase culture_2 spearman ratio (30 -> 35)
 		* decrease culture_2 archer ratio (90 -> 75)
