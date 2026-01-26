@@ -8220,7 +8220,7 @@ scripts = [
             (faction_set_slot, "fac_kingdom_1", slot_faction_troop_ratio_mounted_skirmisher, 5),
             
             (faction_set_slot, "fac_kingdom_2", slot_faction_troop_ratio_infantry, 90),
-            (faction_set_slot, "fac_kingdom_2", slot_faction_troop_ratio_spearman, 35),
+            (faction_set_slot, "fac_kingdom_2", slot_faction_troop_ratio_spearman, 40),
             (faction_set_slot, "fac_kingdom_2", slot_faction_troop_ratio_pikeman, 5),
             (faction_set_slot, "fac_kingdom_2", slot_faction_troop_ratio_skirmisher, 30),
             (faction_set_slot, "fac_kingdom_2", slot_faction_troop_ratio_shock_infantry, 25),
