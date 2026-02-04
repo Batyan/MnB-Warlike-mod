@@ -2,6 +2,9 @@ v0.720:
 	-Features:
 	-Balances:
 		* split bandit in multiple types to prevent overcrowding of a single type of bandit
+		* increase military_scythe thrust damage (24 -> 31)
+		* decrease military_scythe swing damage (37 -> 35)
+		* increase military_scythe swing speed (89 -> 90)
 	-Fixes:
 v0.710:
 	-Features:
