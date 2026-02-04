@@ -21701,12 +21701,18 @@ scripts = [
 
                 (try_begin),
                     (neq, ":bandit_faction", -1),
+                    (call_script, "script_get_bandit_party_template", ":bandit_faction"),
+                    (assign, ":template", reg0),
+
+                    (store_num_parties_of_template, ":num_parties", ":template"),
+                    (lt, ":num_parties", max_bandit_party),
+                    
                     (try_begin),
                         (call_script, "script_cf_debug", debug_ai),
                         (str_store_party_name, s10, ":center_no"),
                         (display_message, "@Spawning bandit party at {s10}."),
                     (try_end),
-                    (call_script, "script_spawn_party_around_party", ":center_no", "pt_outlaws"),
+                    (call_script, "script_spawn_party_around_party", ":center_no", ":template"),
                     (assign, ":bandit_party", reg0),
                     (party_set_faction, ":bandit_party", ":bandit_faction"),
 
@@ -21743,6 +21749,44 @@ scripts = [
             (assign, reg0, ":bandit_party"),
             (assign, reg1, ":bandit_faction"),
         ]),
+
+    # script_get_bandit_party_template
+        # input:
+        #   arg1: faction_no
+        # output:
+        #   reg0: party_template
+    ("get_bandit_party_template",
+        [
+            (store_script_param, ":faction_no", 1),
+
+            (assign, ":template", "pt_outlaws_bandits"),
+
+            (try_begin),
+                (eq, ":faction_no", "fac_faction_1"),
+                (assign, ":template", "pt_outlaws_forest"),
+            (else_try),
+                (eq, ":faction_no", "fac_faction_2"),
+                (assign, ":template", "pt_outlaws_bandits"),
+            (else_try),
+                (eq, ":faction_no", "fac_faction_3"),
+                (assign, ":template", "pt_outlaws_mountain"),
+            (else_try),
+                (eq, ":faction_no", "fac_faction_4"),
+                (assign, ":template", "pt_outlaws_searaider"),
+            (else_try),
+                (eq, ":faction_no", "fac_faction_5"),
+                (assign, ":template", "pt_outlaws_steppe"),
+            (else_try),
+                (eq, ":faction_no", "fac_faction_6"),
+                (assign, ":template", "pt_outlaws_tundra"),
+            (else_try),
+                (eq, ":faction_no", "fac_faction_7"),
+                (assign, ":template", "pt_outlaws_desert"),
+            (try_end),
+
+            (assign, reg0, ":template"),
+        ]),
+
 
     # script_party_take_troop_prisoner
         # input:
@@ -31893,7 +31937,9 @@ scripts = [
 
                     (store_faction_of_party, ":party_faction", ":party_no"),
 
-                    (call_script, "script_spawn_party_around_party", ":party_no", "pt_outlaws"),
+                    (call_script, "script_get_bandit_party_template", ":party_faction"),
+                    (assign, ":template", reg0),
+                    (call_script, "script_spawn_party_around_party", ":party_no", ":template"),
                     (assign, ":bandit_party", reg0),
                     (party_set_faction, ":bandit_party", ":party_faction"),
 

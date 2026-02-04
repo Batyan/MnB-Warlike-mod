@@ -431,7 +431,8 @@ attitude_positive = 1
 relation_weight_faction = 1
 relation_weight_leader = 1
 
-max_bandit_party = 75
+# max number of bandit for each type pt_outlaws_*
+max_bandit_party = 20
 
 prisoner_escape_chance = 1
 prisoner_ransom_chance = 25

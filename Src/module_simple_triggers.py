@@ -17,29 +17,18 @@ simple_triggers = [
 
     (monthly*2, # Parties trigger
         [
-            (store_num_parties_of_template, ":num_parties", "pt_outlaws"),
-
             (try_for_range, ":party_no", centers_begin, centers_end),
                 (call_script, "script_party_recruit_troops", ":party_no"),
                 (assign, ":num_recruited", reg0),
                 (val_mul, ":num_recruited", -1),
                 (call_script, "script_party_modify_population", ":party_no", ":num_recruited"),
                 
-                (try_begin),
-                    (lt, ":num_parties", max_bandit_party),
-                    # Generate bandits
-                    # (store_random_in_range, ":rand", 0, 50),
-                    # (try_begin), # Generate bandits more often if center prosperity is low
-                    #     (le, ":rand", 3),
-                    (call_script, "script_party_spawn_bandits", ":party_no"),
-                    # (try_end),
-                (try_end),
-            (try_end),
-
-            (try_begin),
-                (call_script, "script_cf_debug", debug_simple),
-                (gt, ":num_parties", max_bandit_party),
-                (display_message, "@Reached bandit party limit", text_color_debug),
+                # Generate bandits
+                # (store_random_in_range, ":rand", 0, 50),
+                # (try_begin), # Generate bandits more often if center prosperity is low
+                #     (le, ":rand", 3),
+                (call_script, "script_party_spawn_bandits", ":party_no"),
+                # (try_end),
             (try_end),
         ]),
     

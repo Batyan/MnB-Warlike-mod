@@ -41,7 +41,13 @@ party_templates = [
 	("reinforcements", "Reinforcements", icon_axeman|carries_goods(8), 0, fac_commoners, convoy_personality, []),
 	("convoy", "Convoy", icon_mule|carries_goods(20), 0, fac_commoners, convoy_personality, []),
 	
-	("outlaws", "Bandits", icon_axeman|carries_goods(20), 0, fac_commoners, bandit_personality, []),
+	("outlaws_forest", "Forest Bandits", icon_axeman|carries_goods(18), 0, fac_commoners, bandit_personality, []),
+	("outlaws_bandits", "Bandits", icon_axeman|carries_goods(18), 0, fac_commoners, bandit_personality, []),
+	("outlaws_mountain", "Mountain Bandits", icon_axeman|carries_goods(18), 0, fac_commoners, bandit_personality, []),
+	("outlaws_searaider", "Sea Raiders", icon_axeman|carries_goods(18), 0, fac_commoners, bandit_personality, []),
+	("outlaws_steppe", "Steppe Bandits", icon_axeman|carries_goods(22), 0, fac_commoners, bandit_personality, []),
+	("outlaws_tundra", "Tundra Bandits", icon_axeman|carries_goods(18), 0, fac_commoners, bandit_personality, []),
+	("outlaws_desert", "Desert Bandits", icon_axeman|carries_goods(22), 0, fac_commoners, bandit_personality, []),
 	("thugs", "Thugs", icon_axeman|carries_goods(30), 0, fac_commoners, bandit_personality, []),
 	("templates_end", "end", 0, 0, 0, 0, [ ]),
 
