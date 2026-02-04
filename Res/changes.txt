@@ -1,7 +1,7 @@
 v0.720:
 	-Features:
 	-Balances:
-		* separate bandit types to prevent overcrowding of a single type of bandit
+		* split bandit in multiple types to prevent overcrowding of a single type of bandit
 	-Fixes:
 v0.710:
 	-Features:
