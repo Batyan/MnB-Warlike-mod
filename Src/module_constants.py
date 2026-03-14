@@ -1490,6 +1490,8 @@ min_tournament_cooldown = 365
 
 slot_party_camp_influence = slot_party_last_tournament_date + 1
 
+slot_party_mercenaries_amount = slot_party_camp_influence + 1
+
 #################
 ## Scene Slots ##
 #################
@@ -1680,9 +1682,6 @@ slot_troop_last_attack              = 35
 slot_troop_last_rest                = 36
 
 slot_troop_archer_score             = 37
-
-slot_troop_mercenary_from           = 38
-slot_troop_mercenary_captain        = 39
 
 # Handles notes
 slot_troop_notes                    = 40

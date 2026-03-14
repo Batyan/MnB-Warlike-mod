@@ -324,6 +324,10 @@ scripts = [
             (party_set_slot, "p_town_41", ":bank_slot", 100),
             (party_set_slot, "p_town_51", ":bank_slot", 100),
             (party_set_slot, "p_town_61", ":bank_slot", 100),
+
+            (party_set_faction, "p_recruit_mercenaries", "fac_faction_8"),
+            (party_set_slot, "p_recruit_mercenaries", slot_party_original_faction, "fac_faction_8"),
+            (party_set_slot, "p_recruit_mercenaries", slot_party_autosort_options, autosort_low_level_first|autosort_foreign_first),
             
             (assign, "$g_global_haze_amount", 0),
             (assign, "$g_global_cloud_amount", 0),
@@ -3791,6 +3795,9 @@ scripts = [
             
             (party_set_slot, ":party_no", slot_party_player_wages_limit, -1),
             (party_set_slot, ":party_no", slot_party_camp_influence, -1),
+
+            (store_random_in_range, ":rand", 5, 25),
+            (party_set_slot, ":party_no", slot_party_mercenaries_amount, ":rand"),
 
             (party_set_slot, ":party_no", slot_party_autosort_options, autosort_low_level_first|autosort_foreign_first),
 
@@ -8684,11 +8691,10 @@ scripts = [
             (faction_set_slot, "fac_culture_7", slot_faction_troops_begin, mercenaries_begin),
             (faction_set_slot, "fac_culture_7", slot_faction_troops_end, factional_mercenaries_begin),
 
-            # For now, mercenaries do not share the same recruitment system as factional troops
-            # (faction_set_slot, "fac_culture_7", slot_faction_common_begin, "trp_mercenary_light_infantry"),
-            # (faction_set_slot, "fac_culture_7", slot_faction_veteran_begin, "trp_mercenary_infantry"),
-            # (faction_set_slot, "fac_culture_7", slot_faction_elite_begin, "trp_mercenary_heavy_infantry"),
-            # (faction_set_slot, "fac_culture_7", slot_faction_noble_begin, "trp_mercenary_knight"),
+            (faction_set_slot, "fac_culture_7", slot_faction_common_begin, "trp_mercenary_light_infantry"),
+            (faction_set_slot, "fac_culture_7", slot_faction_veteran_begin, "trp_mercenary_infantry"),
+            (faction_set_slot, "fac_culture_7", slot_faction_elite_begin, "trp_mercenary_heavy_infantry"),
+            (faction_set_slot, "fac_culture_7", slot_faction_noble_begin, "trp_mercenary_knight"),
 
             # Rank names should not be relevant ?
             (faction_set_slot, "fac_culture_7", slot_faction_lord_name_begin, "str_kingdom_rank_0"),
@@ -14651,6 +14657,7 @@ scripts = [
                 (store_troop_faction, ":troop_faction", ":cur_troop"),
                 (try_begin),
                     (neg|is_between, ":troop_faction", kingdoms_begin, small_kingdoms_begin),
+                    (neq, ":troop_faction", "fac_commoners"),
                     (troop_set_slot, ":cur_troop", slot_troop_faction_reserved_1, ":troop_faction"),
                 (else_try),
                     (troop_set_slot, ":cur_troop", slot_troop_faction_reserved_1, -1),
@@ -25759,6 +25766,7 @@ scripts = [
     # script_party_sort_troops
         # input:
         #   arg1: party_no
+        #   arg2: num_tries
         # output: none
     ("party_sort_troops",
         [
@@ -28544,6 +28552,9 @@ scripts = [
 
             (party_get_slot, ":center_leader", ":center_no", slot_party_leader),
             (try_begin),
+                (eq, ":center_no", "p_recruit_mercenaries"),
+                (val_add, ":grants", 1000),
+            (else_try),
                 (eq, ":center_leader", ":troop_no"),
                 (val_add, ":grants", 1000),
             (else_try),
@@ -33560,6 +33571,123 @@ scripts = [
             (val_div, ":price", 100),
             (val_mul, ":price", ":quantity"),
             (assign, reg0, ":price"),
+        ]),
+
+    # script_party_process_mercenaries
+        # input:
+        #   arg1: party_no
+        # output: none
+    ("party_process_mercenaries",
+        [
+            (store_script_param, ":party_no", 1),
+
+            (party_get_slot, ":current_mercenaries", ":party_no", slot_party_mercenaries_amount),
+
+            (call_script, "script_party_get_max_mercenaries", ":party_no"),
+            (assign, ":max", reg0),
+
+            (try_begin),
+                (lt, ":current_mercenaries", ":max"),
+                (store_sub, ":diff", ":max", ":current_mercenaries"),
+                (val_div, ":diff", 4),
+                (val_max, ":diff", 1),
+                (val_add, ":current_mercenaries", ":diff"),
+                (party_set_slot, ":party_no", slot_party_mercenaries_amount, ":current_mercenaries"),
+            (try_end),
+        ]),
+
+    # script_party_get_max_mercenaries
+        # input:
+        #   arg1: party_no
+        # output: 
+        #   reg0: max_mercenaries
+    ("party_get_max_mercenaries",
+        [
+            (store_script_param, ":party_no", 1),
+
+            (party_get_slot, ":prosperity", ":party_no", slot_party_prosperity),
+            (store_div, reg0, ":prosperity", 4),
+            (val_add, reg0, 5),
+        ]),
+
+    # script_party_get_mercenaries
+        # input:
+        #   arg1: party_no
+        # output:
+        #   reg0: recruit_mercenaries_party
+        # fills p_recruit_mercenaries with recruitable mercenaries
+    ("party_get_mercenaries",
+        [
+            (store_script_param, ":party_no", 1),
+
+            (party_get_slot, ":linked_center", "p_recruit_mercenaries", slot_party_linked_party),
+            (try_begin),
+                (eq, ":linked_center", ":party_no"),
+                (party_get_slot, ":last_rest", "p_recruit_mercenaries", slot_party_last_rest),
+                (call_script, "script_get_current_day"),
+                (assign, ":current_day", reg0),
+
+                (store_add, ":force_refresh", ":last_rest", 14),
+                (lt, ":current_day", ":force_refresh"),
+                (assign, reg0, "p_recruit_mercenaries"),
+            (else_try),
+                (party_clear, "p_recruit_mercenaries"),
+                (call_script, "script_get_current_day"),
+                (assign, ":current_day", reg0),
+
+                (party_set_slot, "p_recruit_mercenaries", slot_party_linked_party, ":party_no"),
+                (party_set_slot, "p_recruit_mercenaries", slot_party_last_rest, ":current_day"),
+
+                (faction_get_slot, ":peasant_begin", "fac_culture_7", slot_faction_peasant_begin),
+                (faction_get_slot, ":common_begin", "fac_culture_7", slot_faction_common_begin),
+                (faction_get_slot, ":veteran_begin", "fac_culture_7", slot_faction_veteran_begin),
+                (faction_get_slot, ":elite_begin", "fac_culture_7", slot_faction_elite_begin),
+                (faction_get_slot, ":noble_begin", "fac_culture_7", slot_faction_noble_begin),
+                (faction_get_slot, ":troops_end", "fac_culture_7", slot_faction_troops_end),
+
+                (assign, ":troops_range_begin", ":peasant_begin"),
+                (assign, ":troops_range_end", ":common_begin"),
+
+                (party_get_slot, ":prosperity", ":party_no", slot_party_prosperity),
+                (store_mul, ":max_range", ":prosperity", 2),
+
+                (party_get_slot, ":current_mercenaries", ":party_no", slot_party_mercenaries_amount),
+                (try_for_range, ":unused", 0, ":current_mercenaries"),
+
+                    (store_random_in_range, ":rand", 0, ":max_range"),
+
+                    (try_begin),
+                        (store_div, ":continue", ":rand", 100000000),
+                        (ge, ":continue", 1),
+                        (assign, ":troops_range_begin", ":noble_begin"),
+                        (assign, ":troops_range_end", ":troops_end"),
+                    (else_try),
+                        (store_div, ":continue", ":rand", 10000000),
+                        (ge, ":continue", 1),
+                        (assign, ":troops_range_begin", ":elite_begin"),
+                        (assign, ":troops_range_end", ":noble_begin"),
+                    (else_try),
+                        (store_div, ":continue", ":rand", 100000),
+                        (ge, ":continue", 1),
+                        (assign, ":troops_range_begin", ":veteran_begin"),
+                        (assign, ":troops_range_end", ":elite_begin"),
+                    (else_try),
+                        (store_div, ":continue", ":rand", 100),
+                        (ge, ":continue", 1),
+                        (assign, ":troops_range_begin", ":common_begin"),
+                        (assign, ":troops_range_end", ":veteran_begin"),
+                    (else_try),
+                        (assign, ":troops_range_begin", ":peasant_begin"),
+                        (assign, ":troops_range_end", ":common_begin"),
+                    (try_end),
+
+                    (call_script, "script_party_add_troops", "p_recruit_mercenaries", ":troops_range_begin", ":troops_range_end", 1),
+
+                    (val_add, ":max_range", ":rand"),
+                    (val_min, ":max_range", 200000000),
+                (try_end),
+                (assign, reg0, "p_recruit_mercenaries"),
+            (try_end),
         ]),
 
     # script_presentation_generate_select_lord_card

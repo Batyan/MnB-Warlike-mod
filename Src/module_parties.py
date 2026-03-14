@@ -52,6 +52,8 @@ parties = [
 	("resources_party", "Resources Party", icon_player|pf_disabled, 0, pt_none, fac_commoners, 0, ai_bhvr_hold, 0, (0, 0), []),
 
 	("prisoners_party", "prisoners_party", pf_disabled, 0, pt_none, fac_commoners, 0, ai_bhvr_hold, 0, (0,0), []),
+
+	("recruit_mercenaries", "recruit_mercenaries", pf_disabled, 0, pt_none, fac_commoners, 0, ai_bhvr_hold, 0, (0,0), []),
 	
 	("town_11","Praven", icon_town|pf_town, 0, pt_none, fac_kingdom_1,0,ai_bhvr_hold,0,(-96, 26.4),[], 170),
 	("town_12","Suno", icon_town|pf_town, 0, pt_none, fac_kingdom_1,0,ai_bhvr_hold,0,(-46.7, 13.8),[], 80),

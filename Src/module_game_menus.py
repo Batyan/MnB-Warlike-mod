@@ -2478,6 +2478,18 @@ game_menus = [
         "none",
         [
             (set_background_mesh, "mesh_pic_camp"),
+
+            (try_begin),
+                (call_script, "script_party_get_mercenaries", "$g_encountered_party"),
+                (assign, ":mercenary_party", reg0),
+
+                (call_script, "script_party_sort_troops", ":mercenary_party", 50),
+                
+                (party_get_num_companions, ":num_mercenaries", ":mercenary_party"),
+                (party_get_slot, ":current_mercenaries", "$g_encountered_party", slot_party_mercenaries_amount),
+                (neq, ":current_mercenaries", ":num_mercenaries"),
+                (party_set_slot, "$g_encountered_party", slot_party_mercenaries_amount, ":num_mercenaries"),
+            (try_end),
         ],
         [
             ("tavern_intro_quest_report",
@@ -2518,6 +2530,14 @@ game_menus = [
                 [
                     (assign, "$g_talk_party", "$g_encountered_party"),
                     (call_script, "script_setup_troop_meeting", "trp_ransom_broker", -1),
+                ]),
+
+            ("tavern_hire_mercenaries",
+                [], "Hire mercenaries",
+                [
+                    (call_script, "script_party_get_mercenaries", "$g_encountered_party"),
+                    (assign, "$temp", reg0),
+                    (start_presentation, "prsnt_recruit_from_town_garrison"),
                 ]),
 
             ("center_back", [], "Head back to the center",

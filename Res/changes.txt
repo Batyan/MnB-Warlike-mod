@@ -1,5 +1,7 @@
 v0.720:
 	-Features:
+		* add tavern mercenaries
+		* allow player recruitment of mercenaries
 	-Balances:
 		* split bandit in multiple types to prevent overcrowding of a single type of bandit
 		* increase military_scythe thrust damage (24 -> 31)

@@ -635,9 +635,12 @@ script_get_banner_culture = 633
 script_set_banner_used = 634
 script_set_banner_culture = 635
 script_get_village_elder_quest_purchase_surplus_goods_buy_price = 636
-script_presentation_generate_select_lord_card = 637
-script_presentation_create_text_overlay = 638
-script_presentation_create_combo_button_overlay = 639
-script_presentation_create_check_box_overlay = 640
+script_party_process_mercenaries = 637
+script_party_get_max_mercenaries = 638
+script_party_get_mercenaries = 639
+script_presentation_generate_select_lord_card = 640
+script_presentation_create_text_overlay = 641
+script_presentation_create_combo_button_overlay = 642
+script_presentation_create_check_box_overlay = 643
 
 
