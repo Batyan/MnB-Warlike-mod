@@ -948,6 +948,23 @@ game_menus = [
                 [(eq, "$g_disable_faction_ai", 1)],"Enable faction ais",
                 [(assign, "$g_disable_faction_ai", 0),(jump_to_menu, "mnu_debug_menu"),]),
 
+            ("debug_check_used_lord",
+                [], "Check unused npcs",
+                [
+                    (store_sub, reg12, npc_heroes_end, npc_heroes_begin),
+                    (display_message, "@{reg12} total npcs"),
+                    (try_for_range, ":occupation", tko_none, tko_reserved_quest +1),
+                        (assign, ":count", 0),
+                        (try_for_range, ":npc", npc_heroes_begin, npc_heroes_end),  
+                            (troop_slot_eq, ":npc", slot_troop_kingdom_occupation, ":occupation"),
+                            (val_add, ":count", 1),
+                        (try_end),
+                        (assign, reg10, ":count"),
+                        (assign, reg11, ":occupation"),
+                        (display_message, "@{reg10} npc for occupation {reg11}"),
+                    (try_end),
+                ]),
+
 
             ("debug_increase_haze",
                 [(assign, reg10, "$g_global_haze_amount"),],"Increase Haze ({reg10})",

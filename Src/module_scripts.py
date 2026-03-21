@@ -1226,7 +1226,8 @@ scripts = [
 
             (party_get_slot, ":party_type", ":defeated_party", slot_party_type),
             (try_begin),
-                (eq, ":party_type", spt_war_party),
+                (this_or_next|eq, ":party_type", spt_war_party),
+                (eq, ":party_type", spt_traveller),
 
                 (call_script, "script_faction_political_event", ":party_faction", political_event_war_party_defeated, ":defeated_party", ":winner_party", -1),
 
@@ -7825,6 +7826,11 @@ scripts = [
 
             (party_set_slot, ":spawned_party", slot_party_origin_center, ":party_no"),
             (party_set_slot, ":spawned_party", slot_party_leader, -1),
+
+            (call_script, "script_get_current_day"),
+            (assign, ":current_day", reg0),
+            (party_set_slot, ":spawned_party", slot_party_last_rest, ":current_day"),
+            (party_set_slot, ":spawned_party", slot_party_last_travel, ":current_day"),
             
             (assign, reg0, ":spawned_party"),
         ]),
@@ -9755,9 +9761,13 @@ scripts = [
                 (eq, ":troop_no", "$g_player_troop"),
                 (eq, "$g_player_update_name", 0),
             (else_try),
-            
                 (store_troop_faction, ":faction", ":troop_no"),
-                (faction_get_slot, ":culture", ":faction", slot_faction_culture),
+                (try_begin),
+                    (is_between, ":faction", kingdoms_begin, kingdoms_end),
+                    (faction_get_slot, ":culture", ":faction", slot_faction_culture),
+                (else_try),
+                    (troop_get_slot, ":culture", ":troop_no", slot_troop_culture),
+                (try_end),
                 (troop_get_slot, ":new_rank", ":troop_no", slot_troop_rank),
                 
                 (faction_get_slot, ":faction_name_begin", ":culture", slot_faction_lord_name_begin),
@@ -9777,14 +9787,17 @@ scripts = [
                     (str_store_string, s12, ":lord_name"),
                     (str_store_string, s11, "@{s12} {s10}"),
                 (else_try),
+                    (troop_slot_eq, ":troop_no", slot_troop_noble, 1),
                     (str_store_string, s11, ":lord_name"),
+                (else_try),
+                    (str_store_string, s11, "@{s0}"),
                 (try_end),
 
                 (troop_set_name, ":troop_no", s11),
                 
                 (troop_get_slot, ":party", ":troop_no", slot_troop_leaded_party),
                 (try_begin),
-                    (gt, ":party", 0),
+                    (ge, ":party", 0),
                     (party_slot_eq, ":party", slot_party_type, spt_war_party),
                     (party_set_name, ":party", s11),
                 (try_end),
@@ -10310,6 +10323,11 @@ scripts = [
                 (party_get_slot, ":wanted_wages", ":party_no", slot_party_player_wages_limit),
                 (ge, ":wanted_wages", 0),
             (else_try),
+                (party_get_slot, ":party_type", ":party_no", slot_party_type),
+                (eq, ":party_type", spt_traveller),
+                (call_script, "script_party_get_total_wealth", ":party_no", 0),
+                (store_div, ":wanted_wages", reg0, 10),
+            (else_try),
                 (assign, ":at_war", 0),
                 (assign, ":preparing_for_war", 0),
                 (try_begin),
@@ -10319,7 +10337,6 @@ scripts = [
                     (faction_get_slot, ":preparing_for_war", ":party_faction", slot_faction_preparing_war),
                 (try_end),
 
-                (party_get_slot, ":party_type", ":party_no", slot_party_type),
                 (try_begin),
                     (eq, ":party_type", spt_war_party),
                     (party_get_slot, ":leader", ":party_no", slot_party_leader),
@@ -10841,10 +10858,13 @@ scripts = [
             (party_set_slot, ":party", slot_party_autosort_options, autosort_low_level_first|autosort_foreign_first),
             
             (call_script, "script_party_set_behavior", ":party", tai_traveling_to_party, ":center_no"),
-            (call_script, "script_party_process_mission", ":party", 1),
 
             (party_attach_to_party, ":party", ":center_no"),
-            (party_set_banner_icon, ":party", "icon_heraldic_banner_03"),
+
+            (try_begin),
+                (troop_slot_eq, ":troop_no", slot_troop_noble, 1),
+                (party_set_banner_icon, ":party", "icon_heraldic_banner_03"),
+            (try_end),
             
             # ToDo: special name for parties
             (str_store_troop_name, s10, ":troop_no"),
@@ -11007,10 +11027,10 @@ scripts = [
         ]),
 
     # script_troop_get_home
-    # input:
-    #   arg1: troop_no
-    # output:
-    #   reg0: home
+        # input:
+        #   arg1: troop_no
+        # output:
+        #   reg0: home
     ("troop_get_home",
         [
             (store_script_param, ":troop_no", 1),
@@ -11019,6 +11039,8 @@ scripts = [
             
             (troop_get_slot, ":home", ":troop_no", slot_troop_home),
             (try_begin),
+                (eq, ":troop_faction", "fac_commoners"),
+            (else_try),
                 (is_between, ":home", centers_begin, centers_end),
                 (party_slot_eq, ":home", slot_party_faction, ":troop_faction"),
                 (party_slot_eq, ":home", slot_party_lord, ":troop_no"),
@@ -11030,12 +11052,40 @@ scripts = [
             (assign, reg0, ":home"),
         ]),
 
+    # script_party_get_home
+        # input:
+        #   arg1: party_no
+        # output:
+        #   reg0: home
+    ("party_get_home",
+        [
+            (store_script_param, ":party_no", 1),
+
+            (assign, ":home", -1),
+
+            (party_get_slot, ":party_type", ":party_no", slot_party_type),
+            (try_begin),
+                (this_or_next|eq, ":party_type", spt_patrol),
+                (this_or_next|eq, ":party_type", spt_caravan),
+                (this_or_next|eq, ":party_type", spt_civilian),
+                (eq, ":party_type", spt_scout),
+
+                (party_get_slot, ":home", ":party_no", slot_party_linked_party),
+            (else_try),
+                (party_get_slot, ":leader", ":party_no", slot_party_leader),
+                (ge, ":leader", 0),
+                (call_script, "script_troop_get_home", ":leader"),
+            (try_end),
+            
+            (assign, reg0, ":home"),
+        ]),
+
     # script_cf_troop_check_home
-    # input:
-    #   arg1: troop_no
-    #   arg2: home
-    #   arg3: walled (if home needs to be a walled center)
-    # output: fails if home is unsuited
+        # input:
+        #   arg1: troop_no
+        #   arg2: home
+        #   arg3: walled (if home needs to be a walled center)
+        # output: fails if home is unsuited
     ("cf_troop_check_home",
         [
             (store_script_param, ":troop_no", 1),
@@ -11054,15 +11104,16 @@ scripts = [
             (store_troop_faction, ":troop_faction", ":troop_no"),
             (store_faction_of_party, ":home_faction", ":home"),
 
+            (this_or_next|eq, ":troop_faction", "fac_commoners"),
             (eq, ":home_faction", ":troop_faction"),
         ]),
 
     # script_troop_get_current_home
-    # input:
-    #   arg1: troop_no
-    #   arg2: walled (if home needs to be a walled center)
-    # output:
-    #   reg0: home
+        # input:
+        #   arg1: troop_no
+        #   arg2: walled (if home needs to be a walled center)
+        # output:
+        #   reg0: home
     ("troop_get_current_home",
         [
             (store_script_param, ":troop_no", 1),
@@ -11139,9 +11190,9 @@ scripts = [
         ]),
     
     # script_party_process_ai
-    # input:
-    #   arg1: party_no
-    # output: none
+        # input:
+        #   arg1: party_no
+        # output: none
     ("party_process_ai",
         [
             (store_script_param, ":party_no", 1),
@@ -12082,6 +12133,14 @@ scripts = [
                 (assign, ":courage", 10),
                 (assign, ":aggressiveness", 1),
                 (assign, ":help", 50),
+            (else_try),
+                (eq, ":behavior", tai_patrol_location),
+                (assign, ":ai_behavior", ai_bhvr_patrol_location),
+                (party_set_ai_patrol_radius, ":party_no", 2),
+                (assign, ":object", -1),
+                (assign, ":courage", 10),
+                (assign, ":aggressiveness", 5),
+                (assign, ":help", 100),
             (else_try),
                 (assign, ":ai_behavior", ai_bhvr_patrol_location),
                 (party_set_ai_patrol_radius, ":party_no", 1),
@@ -13847,6 +13906,9 @@ scripts = [
             (troop_set_slot, ":lord_no", slot_troop_clan, -1),
             (troop_set_slot, ":lord_no", slot_troop_xp_level, 1),
             (troop_set_slot, ":lord_no", slot_troop_equipement_level, -1),
+            (troop_set_slot, ":lord_no", slot_troop_renown, 0),
+            (troop_set_slot, ":lord_no", slot_troop_influence, 0),
+            (troop_set_slot, ":lord_no", slot_troop_num_vassal, 0),
 
             # Reset family
             (try_for_range, ":slot", slot_troop_married_to, slot_troop_child_10+1),
@@ -13893,9 +13955,6 @@ scripts = [
             
             (troop_set_slot, ":lord_no", slot_troop_original_faction, ":faction_no"),
             (troop_set_slot, ":lord_no", slot_troop_culture, ":culture"),
-            (troop_set_slot, ":lord_no", slot_troop_renown, 0),
-            (troop_set_slot, ":lord_no", slot_troop_influence, 0),
-            (troop_set_slot, ":lord_no", slot_troop_num_vassal, 0),
             (troop_set_slot, ":lord_no", slot_troop_noble, 1),
             
             (troop_set_slot, ":lord_no", slot_troop_kingdom_occupation, tko_reserved),
@@ -13920,6 +13979,56 @@ scripts = [
             (try_begin),
                 (eq, ":activate", 1),
                 (call_script, "script_activate_lord", ":lord_no"),
+            (try_end),
+        ]),
+
+    # script_ready_neutral_hero
+        # input:
+        #   arg1: troop_no
+        # output: none
+    ("ready_neutral_hero",
+        [
+            (store_script_param, ":troop_no", 1),
+
+            (store_random_in_range, ":home", towns_begin, towns_end),
+            (troop_set_slot, ":troop_no", slot_troop_home, ":home"),
+
+            (party_get_slot, ":original_faction", ":home", slot_party_original_faction),
+            (faction_get_slot, ":culture", ":original_faction", slot_faction_culture),
+            (troop_set_slot, ":troop_no", slot_troop_culture, ":culture"),
+
+            (troop_set_faction, ":troop_no", "fac_commoners"),
+
+            (troop_set_slot, ":troop_no", slot_troop_kingdom_occupation, tko_neutral_hero),
+
+            (store_random_in_range, ":rand", 0, 10),
+            (try_begin),
+                (eq, ":rand", 0),
+                (troop_set_slot, ":troop_no", slot_troop_noble, 1),
+                (call_script, "script_troop_change_level", ":troop_no", 0),
+            (else_try),
+                (faction_get_slot, ":troops_begin", ":culture", slot_faction_troops_begin),
+                (faction_get_slot, ":troops_end", ":culture", slot_faction_troops_end),
+                (store_random_in_range, ":template", ":troops_begin", ":troops_end"),
+
+                (call_script, "script_troop_change_stat_with_template", ":troop_no", ":template"),
+                (call_script, "script_troop_change_equipement_with_template", ":troop_no", ":template"),
+            (try_end),
+
+            (call_script, "script_troop_set_name", ":troop_no"),
+            (call_script, "script_troop_update_name", ":troop_no"),
+
+            (call_script, "script_troop_get_face_code", ":troop_no", -1, -1),
+            (troop_set_face_keys, ":troop_no", s0),
+
+            (store_random_in_range, ":random_money", 5000, 50000),
+            (troop_add_gold, ":troop_no", ":random_money"),
+
+            (try_begin),
+                (call_script, "script_cf_debug", debug_simple),
+                (str_store_troop_name, s10, ":troop_no"),
+                (str_store_party_name, s11, ":home"),
+                (display_message, "@Generating neutral hero {s10} in {s11}"),
             (try_end),
         ]),
 
@@ -24206,10 +24315,6 @@ scripts = [
 
                     (party_set_slot, ":spawned_party", slot_party_autosort_options, autosort_low_level_first|autosort_foreign_first),
 
-                    (call_script, "script_get_current_day"),
-                    (assign, ":current_day", reg0),
-                    (party_set_slot, ":spawned_party", slot_party_last_rest, ":current_day"),
-
                     (party_attach_to_party, ":spawned_party", ":party_no"),
 
                     (party_set_slot, ":party_no", ":slot", ":spawned_party"),
@@ -25193,6 +25298,872 @@ scripts = [
             (try_end),
         ]),
 
+    # script_party_generic_process
+        # input:
+        #   arg1: party_no
+        # output: none
+    ("party_generic_process",
+        [
+            (store_script_param, ":party_no", 1),
+
+            (try_begin),
+                (call_script, "script_cf_debug", debug_simple),
+
+                (str_store_party_name, s10, ":party_no"),
+                (display_message, "@Processing behavior for {s10}"),
+            (try_end),
+
+            (assign, ":end", party_generic_behavior_count),
+            (try_for_range, ":unused", 0, ":end"),
+                (assign, ":max_weight", 0),
+                (assign, ":best_behavior", -1),
+                (assign, ":behavior_end", party_behavior_weight_end),
+                (try_for_range, ":behavior", party_behavior_weight_begin, ":behavior_end"),
+                    (call_script, "script_party_get_behavior_weight", ":party_no", ":behavior"),
+                    (assign, ":weight", reg0),
+
+                    (gt, ":weight", ":max_weight"),
+                    (assign, ":max_weight", ":weight"),
+                    (assign, ":best_behavior", ":behavior"),
+                (try_end),
+                (try_begin),
+                    (neq, ":best_behavior", -1),
+
+                    (try_begin),
+                        (call_script, "script_party_get_behavior_action", ":party_no", ":best_behavior"),
+                        (assign, ":completed", reg0),
+                        (eq, ":completed", 1),
+                        (assign, ":end", -1),
+                        (assign, ":behavior_end", -1),
+                    (try_end),
+                (else_try),
+                    # we didn't find a best slot -> stop
+                    (assign, ":end", -1),
+                (try_end),
+            (try_end),
+        ]),
+
+    # script_party_get_behavior_weight
+        # input:
+        #   arg1: party_no
+        #   arg2: behavior
+        # output:
+        #   reg0: weight
+    ("party_get_behavior_weight",
+        [
+            (store_script_param, ":party_no", 1),
+            (store_script_param, ":behavior", 2),
+
+            (party_get_slot, ":party_type", ":party_no", slot_party_type),
+
+            (assign, ":weight", 0),
+
+            (assign, ":action", -1),
+
+            # (try_begin),
+            #     (eq, ":behavior", party_behavior_weight_patrol_home),
+            #     (assign, ":action", "script_party_get_behavior_weight_patrol_home"),
+            # (else_try),
+            #     (eq, ":behavior", party_behavior_weight_patrol),
+            #     (assign, ":action", "script_party_get_behavior_weight_patrol"),
+            # (else_try),
+            #     (eq, ":behavior", party_behavior_weight_travel),
+            #     (assign, ":action", "script_party_get_behavior_weight_travel"),
+            # (else_try),
+            #     (eq, ":behavior", party_behavior_weight_attack_lairs),
+            #     (assign, ":action", "script_party_get_behavior_weight_attack_lairs"),
+            # (else_try),
+            #     (eq, ":behavior", party_behavior_weight_attack_centers),
+            #     (assign, ":action", "script_party_get_behavior_weight_attack_centers"),
+            # (else_try),
+            #     (eq, ":behavior", party_behavior_weight_trade),
+            #     (assign, ":action", "script_party_get_behavior_weight_trade"),
+            # (else_try),
+            #     (eq, ":behavior", party_behavior_weight_recruit_troops),
+            #     (assign, ":action", "script_party_get_behavior_weight_recruit_troops"),
+            # (else_try),
+            #     (eq, ":behavior", party_behavior_weight_recruit_troops_home),
+            #     (assign, ":action", "script_party_get_behavior_weight_recruit_troops_home"),
+            # (else_try),
+            #     (eq, ":behavior", party_behavior_weight_recruit_troops_mercenaries),
+            #     (assign, ":action", "script_party_get_behavior_weight_recruit_troops_mercenaries"),
+            # (else_try),
+            #     (eq, ":behavior", party_behavior_weight_rest),
+            #     (assign, ":action", "script_party_get_behavior_weight_rest"),
+            # (else_try),
+            #     (eq, ":behavior", party_behavior_weight_escort),
+            #     (assign, ":action", "script_party_get_behavior_weight_escort"),
+            # (else_try),
+            #     (eq, ":behavior", party_behavior_weight_deposit_troops),
+            #     (assign, ":action", "script_party_get_behavior_weight_deposit_troops"),
+            # (else_try),
+            #     (eq, ":behavior", party_behavior_weight_deposit_civilians),
+            #     (assign, ":action", "script_party_get_behavior_weight_deposit_civilians"),
+            # (try_end),
+
+            (try_begin),
+                (eq, ":party_type", spt_traveller),
+
+                (try_begin),
+                    (eq, ":behavior", party_behavior_weight_patrol),
+                    (assign, ":action", "script_party_get_behavior_weight_patrol"),
+                (else_try),
+                    (eq, ":behavior", party_behavior_weight_travel),
+                    (assign, ":action", "script_party_get_behavior_weight_travel"),
+                (else_try),
+                    (eq, ":behavior", party_behavior_weight_attack_lairs),
+                    # (assign, ":action", "script_party_get_behavior_weight_attack_lairs"),
+                (else_try),
+                    (eq, ":behavior", party_behavior_weight_trade),
+                    # (assign, ":action", "script_party_get_behavior_weight_trade"),
+                (else_try),
+                    (eq, ":behavior", party_behavior_weight_recruit_troops),
+                    (assign, ":action", "script_party_get_behavior_weight_recruit_troops"),
+                (else_try),
+                    (eq, ":behavior", party_behavior_weight_recruit_troops_mercenaries),
+                    (assign, ":action", "script_party_get_behavior_weight_recruit_troops_mercenaries"),
+                (else_try),
+                    (eq, ":behavior", party_behavior_weight_rest),
+                    (assign, ":action", "script_party_get_behavior_weight_rest"),
+                (else_try),
+                    (eq, ":behavior", party_behavior_weight_deposit_civilians),
+                    # (assign, ":action", "script_party_get_behavior_weight_deposit_civilians"),
+                (try_end),
+            (try_end),
+
+            (try_begin),
+                (neq, ":action", -1),
+                (call_script, ":action", ":party_no"),
+                (assign, ":weight", reg0),
+
+                (try_begin),
+                    (call_script, "script_cf_debug", debug_simple),
+
+                    (str_store_party_name, s10, ":party_no"),
+                    (assign, reg10, ":weight"),
+                    (assign, reg11, ":action"),
+                    (display_message, "@{s10} get weight {reg10} for action {reg11}"),
+                (try_end),
+
+                (store_random_in_range, ":rand", 0, party_behavior_variance),
+                (val_add, ":weight", ":rand"),
+
+                (party_get_slot, ":current_behavior", ":party_no", slot_party_current_behavior),
+                (try_begin),
+                    (eq, ":current_behavior", ":behavior"),
+                    (val_add, ":weight", party_behavior_current_bonus),
+                (try_end),
+            (try_end),
+
+            (assign, reg0, ":weight"),
+        ]),
+
+    # script_party_get_behavior_weight_patrol_home
+        # input:
+        #   arg1: party_no
+        # output:
+        #   reg0: weight
+    ("party_get_behavior_weight_patrol_home",
+        [
+            # (store_script_param, ":party_no", 1),
+
+            (assign, ":weight", 50),
+
+            (assign, reg0, ":weight"),
+        ]),
+
+    # script_party_get_behavior_weight_patrol
+        # input:
+        #   arg1: party_no
+        # output:
+        #   reg0: weight
+    ("party_get_behavior_weight_patrol", 
+        [
+            # (store_script_param, ":party_no", 1),
+
+            (assign, ":weight", 40),
+
+            (assign, reg0, ":weight"),
+        ]),
+
+    # script_party_get_behavior_weight_travel
+        # input:
+        #   arg1: party_no
+        # output:
+        #   reg0: weight
+    ("party_get_behavior_weight_travel", 
+        [
+            (store_script_param, ":party_no", 1),
+
+            (party_get_slot, ":last_travel", ":party_no", slot_party_last_travel),
+            (call_script, "script_get_current_day"),
+            (assign, ":current_day", reg0),
+
+            (call_script, "script_get_current_day"),
+            (assign, ":current_day", reg0),
+            (store_sub, ":last_travel_time", ":current_day", ":last_travel"),
+
+            (store_mul, ":weight", 50, ":last_travel_time"),
+            (val_div, ":weight", 14*24),
+
+            (assign, reg0, ":weight"),
+        ]),
+
+    # script_party_get_behavior_weight_attack_lairs
+        # input:
+        #   arg1: party_no
+        # output:
+        #   reg0: weight
+    ("party_get_behavior_weight_attack_lairs", 
+        [
+            # (store_script_param, ":party_no", 1),
+
+            (assign, ":weight", 0),
+
+            (assign, reg0, ":weight"),
+        ]),
+
+    # script_party_get_behavior_weight_attack_centers
+        # input:
+        #   arg1: party_no
+        # output:
+        #   reg0: weight
+    ("party_get_behavior_weight_attack_centers", 
+        [
+            # (store_script_param, ":party_no", 1),
+
+            (assign, ":weight", 0),
+
+            (assign, reg0, ":weight"),
+        ]),
+
+    # script_party_get_behavior_weight_trade
+        # input:
+        #   arg1: party_no
+        # output:
+        #   reg0: weight
+    ("party_get_behavior_weight_trade", 
+        [
+            # (store_script_param, ":party_no", 1),
+
+            (assign, ":weight", 0),
+
+            (assign, reg0, ":weight"),
+        ]),
+
+    # script_party_get_behavior_weight_recruit_troops
+        # input:
+        #   arg1: party_no
+        # output:
+        #   reg0: weight
+    ("party_get_behavior_weight_recruit_troops", 
+        [
+            (store_script_param, ":party_no", 1),
+
+            (assign, ":weight", 0),
+
+            (call_script, "script_party_get_prefered_wages_limit", ":party_no"),
+            (assign, ":wanted_wages", reg0),
+            (assign, ":min_wages", reg1),
+            # (assign, ":max_wages", reg2),
+
+            (call_script, "script_party_get_wages", ":party_no"),
+            (assign, ":current_wages", reg0),
+
+            (try_begin),
+                (lt, ":current_wages", ":min_wages"),
+
+                (assign, ":weight", 100),
+            (else_try),
+                (lt, ":current_wages", ":wanted_wages"),
+
+                (store_mul, ":percentage", ":current_wages", 100),
+                (val_div, ":percentage", ":wanted_wages"),
+
+                (store_sub, ":weight", 100, ":percentage"),
+
+                (call_script, "script_party_get_holding_center", ":party_no"),
+                (assign, ":cur_town", reg0),
+
+                (try_begin),
+                    (is_between, ":cur_town", centers_begin, centers_end),
+
+                    (call_script, "script_party_get_home", ":party_no"),
+                    (assign, ":home", reg0),
+                    (val_add, ":weight", 25),
+                    (eq, ":cur_town", ":home"),
+                    (val_add, ":weight", 25),
+                (try_end),
+            (try_end),
+
+            (assign, reg0, ":weight"),
+        ]),
+
+    # script_party_get_behavior_weight_recruit_troops_home
+        # input:
+        #   arg1: party_no
+        # output:
+        #   reg0: weight
+    ("party_get_behavior_weight_recruit_troops_home", 
+        [
+            (store_script_param, ":party_no", 1),
+
+            (assign, ":weight", 0),
+
+            (call_script, "script_party_get_prefered_wages_limit", ":party_no"),
+            (assign, ":wanted_wages", reg0),
+            (assign, ":min_wages", reg1),
+            # (assign, ":max_wages", reg2),
+
+            (call_script, "script_party_get_wages", ":party_no"),
+            (assign, ":current_wages", reg0),
+
+            (try_begin),
+                (lt, ":current_wages", ":min_wages"),
+
+                (assign, ":weight", 100),
+            (else_try),
+                (lt, ":current_wages", ":wanted_wages"),
+
+                (store_mul, ":percentage", ":current_wages", 100),
+                (val_div, ":percentage", ":wanted_wages"),
+
+                (store_sub, ":weight", 100, ":percentage"),
+
+                (call_script, "script_party_get_holding_center", ":party_no"),
+                (assign, ":cur_town", reg0),
+
+                (try_begin),
+                    (is_between, ":cur_town", centers_begin, centers_end),
+                    (call_script, "script_party_get_home", ":party_no"),
+                    (assign, ":home", reg0),
+
+                    (eq, ":cur_town", ":home"),
+                    (val_add, ":weight", 50),
+                (try_end),
+            (try_end),
+
+            (assign, reg0, ":weight"),
+        ]),
+
+    # script_party_get_behavior_weight_recruit_troops_mercenaries
+        # input:
+        #   arg1: party_no
+        # output:
+        #   reg0: weight
+    ("party_get_behavior_weight_recruit_troops_mercenaries", 
+        [
+            (store_script_param, ":party_no", 1),
+
+            (assign, ":weight", 0),
+
+            (call_script, "script_party_get_prefered_wages_limit", ":party_no"),
+            (assign, ":wanted_wages", reg0),
+            (assign, ":min_wages", reg1),
+            # (assign, ":max_wages", reg2),
+
+            (call_script, "script_party_get_wages", ":party_no"),
+            (assign, ":current_wages", reg0),
+
+            (try_begin),
+                (lt, ":current_wages", ":min_wages"),
+
+                (assign, ":weight", 90),
+            (else_try),
+                (lt, ":current_wages", ":wanted_wages"),
+
+                (store_mul, ":percentage", ":current_wages", 100),
+                (val_div, ":percentage", ":wanted_wages"),
+
+                (store_sub, ":weight", 100, ":percentage"),
+
+                (call_script, "script_party_get_holding_center", ":party_no"),
+                (assign, ":cur_town", reg0),
+
+                (try_begin),
+                    (is_between, ":cur_town", centers_begin, centers_end),
+
+                    (val_add, ":weight", 25),
+                (try_end),
+            (try_end),
+
+            (assign, reg0, ":weight"),
+        ]),
+
+    # script_party_get_behavior_weight_rest
+        # input:
+        #   arg1: party_no
+        # output:
+        #   reg0: weight
+    ("party_get_behavior_weight_rest", 
+        [
+            (store_script_param, ":party_no", 1),
+
+            (assign, ":weight", 0),
+
+            (party_get_slot, ":last_rest", ":party_no", slot_party_last_rest),
+
+            (call_script, "script_get_current_day"),
+            (assign, ":current_day", reg0),
+            (store_sub, ":rest_time", ":current_day", ":last_rest"),
+
+            (store_mul, ":weight", 50, ":rest_time"),
+            (val_div, ":weight", 10*24),
+
+            (call_script, "script_party_get_holding_center", ":party_no"),
+            (assign, ":cur_town", reg0),
+            (try_begin),
+                (is_between, ":cur_town", centers_begin, centers_end),
+                (gt, ":weight", 10),
+                (val_add, ":weight", 30),
+            (try_end),
+
+            (assign, reg0, ":weight"),
+        ]),
+
+    # script_party_get_behavior_weight_escort
+        # input:
+        #   arg1: party_no
+        # output:
+        #   reg0: weight
+    ("party_get_behavior_weight_escort", 
+        [
+            # (store_script_param, ":party_no", 1),
+
+            (assign, ":weight", 0),
+
+            (assign, reg0, ":weight"),
+        ]),
+
+    # script_party_get_behavior_weight_deposit_troops
+        # input:
+        #   arg1: party_no
+        # output:
+        #   reg0: weight
+    ("party_get_behavior_weight_deposit_troops", 
+        [
+            (store_script_param, ":party_no", 1),
+
+            (assign, ":weight", 0),
+
+            (call_script, "script_party_get_prefered_wages_limit", ":party_no"),
+            # (assign, ":wanted_wages", reg0),
+            # (assign, ":min_wages", reg1),
+            (assign, ":max_wages", reg2),
+
+            (call_script, "script_party_get_wages", ":party_no"),
+            (assign, ":current_wages", reg0),
+
+            (try_begin),
+                (gt, ":current_wages", ":max_wages"),
+
+                (store_mul, ":percentage", ":current_wages", 100),
+                (val_div, ":percentage", ":max_wages"),
+
+                (store_sub, ":weight", 100, ":percentage"),
+
+                (call_script, "script_party_get_holding_center", ":party_no"),
+                (assign, ":cur_town", reg0),
+
+                (try_begin),
+                    (is_between, ":cur_town", centers_begin, centers_end),
+                    (call_script, "script_party_get_home", ":party_no"),
+                    (assign, ":home", reg0),
+
+                    (eq, ":cur_town", ":home"),
+                    (val_add, ":weight", 50),
+                (try_end),
+            (try_end),
+
+            (assign, reg0, ":weight"),
+        ]),
+
+    # script_party_get_behavior_weight_deposit_civilians
+        # input:
+        #   arg1: party_no
+        # output:
+        #   reg0: weight
+    ("party_get_behavior_weight_deposit_civilians", 
+        [
+            (store_script_param, ":party_no", 1),
+
+            (assign, ":weight", 0),
+
+            (assign, ":total_civilians", 0),
+            (party_get_num_companion_stacks, ":num_stacks", ":party_no"),
+            (try_for_range, ":cur_stack", 0, ":num_stacks"),
+                (party_stack_get_troop_id, ":troop_id", ":party_no", ":cur_stack"),
+                (neg|troop_is_hero, ":troop_id"),
+                (troop_get_slot, ":troop_quality", ":troop_id", slot_troop_quality),
+                (eq, ":troop_quality", tq_peasant),
+                (party_stack_get_size, ":size", ":party_no", ":cur_stack"),
+                (val_add, ":total_civilians", ":size"),
+            (try_end),
+            (assign, ":weight", ":total_civilians"),
+
+            (call_script, "script_party_get_holding_center", ":party_no"),
+            (assign, ":cur_town", reg0),
+            (try_begin),
+                (is_between, ":cur_town", centers_begin, centers_end),
+                (gt, ":total_civilians", 0),
+                (val_add, ":weight", 40),
+            (try_end),
+
+            (assign, reg0, ":weight"),
+        ]),
+
+    # script_party_get_behavior_action
+        # input:
+        #   arg1: party_no
+        #   arg2: behavior
+        # output:
+        #   reg0: completed
+    ("party_get_behavior_action",
+        [
+            (store_script_param, ":party_no", 1),
+            (store_script_param, ":behavior", 2),
+
+            (assign, ":action", -1),
+            (assign, ":completed", -1),
+
+            (party_get_slot, ":party_type", ":party_no", slot_party_type),
+
+            (try_begin),
+                (eq, ":party_type", spt_traveller),
+
+                (try_begin),
+                    (eq, ":behavior", party_behavior_weight_patrol),
+                    (assign, ":action", "script_party_get_behavior_action_patrol"),
+                (else_try),
+                    (eq, ":behavior", party_behavior_weight_travel),
+                    (assign, ":action", "script_party_get_behavior_action_travel"),
+                (else_try),
+                    (eq, ":behavior", party_behavior_weight_attack_lairs),
+                    # (assign, ":action", "script_party_get_behavior_action_attack_lairs"),
+                (else_try),
+                    (eq, ":behavior", party_behavior_weight_trade),
+                    # (assign, ":action", "script_party_get_behavior_action_trade"),
+                (else_try),
+                    (eq, ":behavior", party_behavior_weight_recruit_troops),
+                    (assign, ":action", "script_party_get_behavior_action_recruit_troops"),
+                (else_try),
+                    (eq, ":behavior", party_behavior_weight_recruit_troops_mercenaries),
+                    (assign, ":action", "script_party_get_behavior_action_recruit_troops_mercenaries"),
+                (else_try),
+                    (eq, ":behavior", party_behavior_weight_rest),
+                    (assign, ":action", "script_party_get_behavior_action_rest"),
+                (else_try),
+                    (eq, ":behavior", party_behavior_weight_deposit_civilians),
+                    # (assign, ":action", "script_party_get_behavior_action_deposit_civilians"),
+                (try_end),
+            (try_end),
+
+
+            (try_begin),
+                (neq, ":action", -1),
+                (call_script, ":action", ":party_no"),
+                (assign, ":completed", reg0),
+            (try_end),
+            (assign, reg0, ":completed"),
+        ]),
+
+    # script_party_get_behavior_action_patrol
+        # input:
+        #   arg1: party_no
+        # output:
+        #   reg0: completed
+    ("party_get_behavior_action_patrol",
+        [
+            (store_script_param, ":party_no", 1),
+
+            (call_script, "script_party_set_behavior", ":party_no", tai_patrol_location, -1),
+            (assign, ":completed", 1),
+
+            (assign, reg0, ":completed"),
+        ]),
+
+    # script_party_get_behavior_action_travel
+        # input:
+        #   arg1: party_no
+        # output:
+        #   reg0: completed
+    ("party_get_behavior_action_travel",
+        [
+            (store_script_param, ":party_no", 1),
+
+            (assign, ":completed", -1),
+
+            (party_get_slot, ":current_objective", ":party_no", slot_party_mission_object),
+
+            (try_begin),
+                (is_between, ":current_objective", centers_begin, centers_end),
+                (try_begin),
+                    (call_script, "script_party_get_holding_center", ":party_no"),
+                    (assign, ":cur_town", reg0),
+                    (eq, ":cur_town", ":current_objective"),
+                    (party_set_slot, ":party_no", slot_party_current_behavior, -1),
+                    (call_script, "script_get_current_day"),
+                    (assign, ":current_day", reg0),
+                    (party_set_slot, ":party_no", slot_party_last_travel, ":current_day"),
+                (else_try),
+                    (call_script, "script_party_set_behavior", ":party_no", tai_traveling_to_party, ":current_objective"),
+                (try_end),
+                (assign, ":completed", 1),
+            (else_try),
+                (party_get_slot, ":leader", ":party_no", slot_party_leader),
+                (troop_get_slot, ":home", ":leader", slot_troop_home),
+
+                (call_script, "script_party_get_holding_center", ":party_no"),
+                (assign, ":cur_town", reg0),
+                (store_random_in_range, ":rand", 0, 10),
+
+                (assign, ":destinations_begin", -1),
+                (assign, ":destinations_end", -1),
+                (assign, ":distance_weight", 1),
+                (assign, ":noise_max", 90),
+
+                (assign, ":destination", -1),
+                (try_begin),
+                    (eq, ":rand", 0),
+
+                    (store_random_in_range, ":rand", 0, 10),
+                    (try_begin),
+                        # Go back home
+                        (lt, ":rand", 1),
+
+                        (assign, ":destination", ":home"),
+                    (else_try),
+                        # Visit nearby villages
+                        (lt, ":rand", 3),
+                        (assign, ":destinations_begin", villages_begin),
+                        (assign, ":destinations_end", villages_end),
+                        (assign, ":distance_weight", 5),
+                    (else_try),
+                        # Visit nearby castles
+                        (lt, ":rand", 5),
+                        (assign, ":destinations_begin", castles_begin),
+                        (assign, ":destinations_end", castles_end),
+                        (assign, ":distance_weight", 3),
+                    (else_try),
+                        # Visit nearby town
+                        (assign, ":destinations_begin", towns_begin),
+                        (assign, ":destinations_end", towns_end),
+                        (assign, ":distance_weight", 1),
+                    (try_end),
+                (try_end),
+
+                (try_begin),
+                    (eq, ":destination", -1),
+
+                    (try_for_range, ":candidate", ":destinations_begin", ":destinations_end"),
+                        (store_distance_to_party_from_party, ":dist", ":candidate", ":party_no"),
+                        (store_mul, ":score", ":dist", ":distance_weight"),
+                        (store_random_in_range, ":noise", 0, ":noise_max"),
+                        (val_add, ":score", ":noise"),
+                        (party_set_slot, ":candidate", slot_party_temp, ":score"),
+                    (try_end),
+
+                    (assign, ":best_score", 9999),
+                    (try_for_range, ":candidate", ":destinations_begin", ":destinations_end"),
+                        (party_get_slot, ":score", ":candidate", slot_party_temp),
+                        (lt, ":score", ":best_score"),
+                        (neq, ":candidate", ":cur_town"),
+                        (assign, ":destination", ":candidate"),
+                        (assign, ":best_score", ":score"),
+                    (try_end),
+                (try_end),
+                (try_begin),
+                    (is_between, ":destination", centers_begin, centers_end),
+                    (call_script, "script_party_set_behavior", ":party_no", tai_traveling_to_party, ":destination"),
+                    (party_set_slot, ":party_no", slot_party_mission_object, ":destination"),
+                    (assign, ":completed", 1),
+                (try_end),
+            (try_end),
+            (assign, reg0, ":completed"),
+        ]),
+
+    # script_party_get_behavior_action_attack_lairs
+        # input:
+        #   arg1: party_no
+        # output:
+        #   reg0: completed
+    ("party_get_behavior_action_attack_lair",
+        [
+            # (store_script_param, ":party_no", 1),
+
+            (assign, ":completed", -1),
+
+            (assign, reg0, ":completed"),
+        ]),
+
+    # script_party_get_behavior_action_trade
+        # input:
+        #   arg1: party_no
+        # output:
+        #   reg0: completed
+    ("party_get_behavior_action_trade",
+        [
+            # (store_script_param, ":party_no", 1),
+
+            (assign, ":completed", -1),
+
+            (assign, reg0, ":completed"),
+        ]),
+
+    # script_party_get_behavior_action_recruit_troops
+        # input:
+        #   arg1: party_no
+        # output:
+        #   reg0: completed
+    ("party_get_behavior_action_recruit_troops",
+        [
+            (store_script_param, ":party_no", 1),
+
+            (assign, ":completed", -1),
+
+            (try_begin),
+                (call_script, "script_party_get_holding_center", ":party_no"),
+                (assign, ":cur_center", reg0),
+                (is_between, ":cur_center", centers_begin, centers_end),
+
+                (call_script, "script_party_give_troops_to_party", ":cur_center", ":party_no", 5),
+                (assign, ":total_cost", reg0),
+
+                (call_script, "script_party_transfer_wealth", ":party_no", ":cur_center", ":total_cost", tax_type_troops_selling, tax_type_troops_buying),
+                (party_set_slot, ":party_no", slot_party_mission_object, -1),
+                (assign, ":completed", 1),
+            (else_try),
+                (party_get_slot, ":destination", ":party_no", slot_party_mission_object),
+
+                (is_between, ":destination", centers_begin, centers_end),
+                (call_script, "script_party_set_behavior", ":party_no", tai_traveling_to_party, ":destination"),
+                (assign, ":completed", 1),
+            (else_try),
+                (assign, ":best_candidate", -1),
+                (assign, ":best_distance", 9999),
+                (party_get_slot, ":leader", ":party_no", slot_party_leader),
+                (try_for_range, ":center_no", centers_begin, centers_end),
+                    (party_get_slot, ":party_type", ":center_no", slot_party_type),
+                    (store_distance_to_party_from_party, ":distance", ":party_no", ":center_no"),
+
+                    (try_begin),
+                        (is_between, ":leader", npc_heroes_begin, npc_heroes_end),
+                        (troop_get_slot, ":home", ":leader", slot_troop_home),
+                        (eq, ":center_no", ":home"),
+                        (val_div, ":distance", 2),
+                    (else_try),
+                        (eq, ":party_type", spt_village),
+                        (val_mul, ":distance", 2),
+                    (else_try),
+                        (eq, ":party_type", spt_castle),
+                        (val_mul, ":distance", 3),
+                        (val_div, ":distance", 2),
+                    (try_end),
+
+                    (lt, ":distance", ":best_distance"),
+                    (assign, ":best_candidate", ":center_no"),
+                    (assign, ":best_distance", ":distance"),
+                (try_end),
+
+                (try_begin),
+                    (is_between, ":best_candidate", centers_begin, centers_end),
+                    (party_set_slot, ":party_no", slot_party_mission_object, ":best_candidate"),
+                    (call_script, "script_party_set_behavior", ":party_no", tai_traveling_to_party, ":best_candidate"),
+                    (assign, ":completed", 1),
+                (try_end),
+
+            (try_end),
+
+
+            (assign, reg0, ":completed"),
+        ]),
+
+    # script_party_get_behavior_action_recruit_troops_mercenaries
+        # input:
+        #   arg1: party_no
+        # output:
+        #   reg0: completed
+    ("party_get_behavior_action_recruit_troops_mercenaries",
+        [
+            # (store_script_param, ":party_no", 1),
+
+            (assign, ":completed", -1),
+
+            (assign, reg0, ":completed"),
+        ]),
+
+    # script_party_get_behavior_action_rest
+        # input:
+        #   arg1: party_no
+        # output:
+        #   reg0: completed
+    ("party_get_behavior_action_rest",
+        [
+            (store_script_param, ":party_no", 1),
+
+            (assign, ":completed", -1),
+
+            (try_begin),
+                (call_script, "script_party_get_holding_center", ":party_no"),
+                (assign, ":cur_town", reg0),
+                (is_between, ":cur_town", centers_begin, centers_end),
+                (call_script, "script_get_current_day"),
+                (assign, ":current_day", reg0),
+                (party_set_slot, ":party_no", slot_party_last_rest, ":current_day"),
+                (party_set_slot, ":party_no", slot_party_mission_object, -1),
+                (assign, ":completed", 1),
+            (else_try),
+                (party_get_slot, ":destination", ":party_no", slot_party_mission_object),
+
+                (is_between, ":destination", centers_begin, centers_end),
+                (call_script, "script_party_set_behavior", ":party_no", tai_traveling_to_party, ":destination"),
+                (assign, ":completed", 1),
+            (else_try),
+                (assign, ":best_candidate", -1),
+                (assign, ":best_distance", 9999),
+                (try_for_range, ":center_no", centers_begin, centers_end),
+                    (party_get_slot, ":party_type", ":center_no", slot_party_type),
+                    (store_distance_to_party_from_party, ":distance", ":party_no", ":center_no"),
+
+                    (try_begin),
+                        (eq, ":party_type", spt_village),
+                        (val_mul, ":distance", 2),
+                    (else_try),
+                        (eq, ":party_type", spt_castle),
+                        (val_mul, ":distance", 3),
+                        (val_div, ":distance", 2),
+                    (try_end),
+
+                    (lt, ":distance", ":best_distance"),
+                    (assign, ":best_candidate", ":center_no"),
+                    (assign, ":best_distance", ":distance"),
+                (try_end),
+
+                (try_begin),
+                    (is_between, ":best_candidate", centers_begin, centers_end),
+                    (party_set_slot, ":party_no", slot_party_mission_object, ":best_candidate"),
+                    (call_script, "script_party_set_behavior", ":party_no", tai_traveling_to_party, ":best_candidate"),
+                    (assign, ":completed", 1),
+                (try_end),
+            (try_end),
+
+            (assign, reg0, ":completed"),
+        ]),
+
+    # script_party_get_behavior_action_deposit_civilians
+        # input:
+        #   arg1: party_no
+        # output:
+        #   reg0: completed
+    ("party_get_behavior_action_deposit_civilians",
+        [
+            # (store_script_param, ":party_no", 1),
+
+            (assign, ":completed", -1),
+
+            (assign, reg0, ":completed"),
+        ]),
+
     # script_party_civilian_load_goods
         # input:
         #   arg1: party_no
@@ -25566,6 +26537,7 @@ scripts = [
             (party_get_slot, ":party_type", ":party_no", slot_party_type),
             (try_begin),
                 (neq, ":party_type", spt_civilian),
+                (neq, ":party_type", spt_traveller),
                 (party_attach_to_party, ":party_no", ":center_no"),
             (try_end),
 
@@ -31839,11 +32811,9 @@ scripts = [
                             (call_script, "script_camp_update_prosperity", ":cur_camp", ":bonus_prosperity"),
                         (try_end),
 
-                        (call_script, "script_party_set_behavior", ":party_no", ai_bhvr_patrol_location, -1),
+                        (call_script, "script_party_set_behavior", ":party_no", tai_patrol_location, -1),
                     (else_try),
                         (call_script, "script_party_set_behavior", ":party_no", tai_traveling_to_party, ":linked_party"),
-                        (party_set_ai_behavior, ":party_no", ai_bhvr_travel_to_party),
-                        (party_set_ai_object, ":party_no", ":linked_party"),
                     (try_end),
 
                 (else_try),
@@ -33168,12 +34138,35 @@ scripts = [
                 (troop_get_slot, ":lead_party", ":troop_no", slot_troop_leaded_party),
                 (ge, ":lead_party", 0),
                 (party_is_active, ":lead_party"),
-                (party_get_attached_to, ":attached", ":lead_party"),
+                (call_script, "script_party_get_holding_center", ":lead_party"),
+                (assign, ":attached", reg0),
                 (eq, ":attached", ":party_no"),
                 (assign, ":continue", 1),
             (try_end),
 
             (eq, ":continue", 1),
+        ]),
+
+    # script_party_get_holding_center
+        # input:
+        #   arg1: party_no
+        # output:
+        #   reg0: holding_center
+    ("party_get_holding_center",
+        [
+            (store_script_param, ":party_no", 1),
+
+            (assign, ":holding_center", -1),
+            (try_begin),
+                (party_get_attached_to, ":attached_to", ":party_no"),
+                (is_between, ":attached_to", centers_begin, centers_end),
+                (assign, ":holding_center", ":attached_to"),
+            (else_try),
+                (party_get_cur_town, ":cur_town", ":party_no"),
+                (is_between, ":cur_town", centers_begin, centers_end),
+                (assign, ":holding_center", ":cur_town"),
+            (try_end),
+            (assign, reg0, ":holding_center"),
         ]),
 
     # script_party_group_end_battle_update_relations

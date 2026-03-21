@@ -228,6 +228,7 @@ tai_accompanying_troop = 8
 tai_traveling_to_party = 9
 tai_traveling_to_point = 10
 tai_attacking_center = 11
+tai_patrol_location = 12
 
 names_begin = "str_swadian_name_1"
 names_end = "str_names_end"
@@ -598,6 +599,25 @@ tournament_round_type_joust = 11
 tournament_round_type_survival = 12
 
 daily_random_max = 10000
+
+party_behavior_weight_patrol_home = 1
+party_behavior_weight_patrol = party_behavior_weight_patrol_home + 1
+party_behavior_weight_travel = party_behavior_weight_patrol + 1
+party_behavior_weight_attack_lairs = party_behavior_weight_travel + 1
+party_behavior_weight_attack_centers = party_behavior_weight_attack_lairs + 1
+party_behavior_weight_trade = party_behavior_weight_attack_centers + 1
+party_behavior_weight_recruit_troops = party_behavior_weight_trade + 1
+party_behavior_weight_recruit_troops_home = party_behavior_weight_recruit_troops + 1
+party_behavior_weight_recruit_troops_mercenaries = party_behavior_weight_recruit_troops_home + 1
+party_behavior_weight_rest = party_behavior_weight_recruit_troops_mercenaries + 1
+party_behavior_weight_escort = party_behavior_weight_rest + 1
+party_behavior_weight_deposit_troops = party_behavior_weight_escort + 1
+party_behavior_weight_deposit_civilians = party_behavior_weight_deposit_troops + 1
+
+party_behavior_weight_begin = party_behavior_weight_patrol_home
+party_behavior_weight_end = party_behavior_weight_deposit_civilians + 1
+
+party_generic_behavior_count = party_behavior_weight_end - party_behavior_weight_begin
 
 ################
 ## Item Slots ##
@@ -1056,14 +1076,14 @@ spt_patrol      = 8
 spt_scout       = 9
 spt_convoy      = 10
 spt_war_party   = 11
-
-spt_camp        = 12
+spt_traveller   = 12
 
 spt_village     = 13
 spt_castle      = 14
 spt_town        = 15
 spt_fort        = 16
 
+spt_camp        = 17
 
 slot_party_leader           = slot_party_type + 1
 slot_party_lord             = slot_party_leader
@@ -1308,8 +1328,9 @@ slot_party_attached_party_2 = slot_party_attached_party_1 + 1
 slot_party_attached_party_3 = slot_party_attached_party_2 + 1
 
 slot_party_last_rest = slot_party_attached_party_3 + 1 # for small parties
+slot_party_last_travel = slot_party_last_rest + 1
 
-slot_party_mission_target_1 = slot_party_last_rest + 1
+slot_party_mission_target_1 = slot_party_last_travel + 1
 slot_party_mission_target_2 = slot_party_mission_target_1 + 1
 slot_party_mission_target_3 = slot_party_mission_target_2 + 1
 slot_party_mission_objective_1 = slot_party_mission_target_3 + 1
@@ -1492,6 +1513,11 @@ slot_party_camp_influence = slot_party_last_tournament_date + 1
 
 slot_party_mercenaries_amount = slot_party_camp_influence + 1
 
+slot_party_current_behavior = slot_party_mercenaries_amount + 1
+
+party_behavior_current_bonus = 20
+party_behavior_variance = 25
+
 #################
 ## Scene Slots ##
 #################
@@ -1606,9 +1632,10 @@ tko_none = 0
 tko_kingdom_hero = 1
 tko_mercenary = 2
 tko_bandit = 3
-tko_follower = 4
-tko_reserved = 5
-tko_reserved_quest = 6
+tko_neutral_hero = 4
+tko_follower = 5
+tko_reserved = 6
+tko_reserved_quest = 7
 
 slot_troop_personality              = slot_troop_kingdom_occupation + 1
 tp_default = 0x0000

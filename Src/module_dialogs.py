@@ -2351,6 +2351,7 @@ dialogs = [
         [ 
             (encountered_party_is_attacker),
             (is_between, "$g_talk_troop", lords_begin, lords_end),
+            (troop_slot_eq, "$g_talk_troop", slot_troop_kingdom_occupation, tko_kingdom_hero),
             (troop_slot_eq, "$g_talk_troop", slot_troop_last_met, -1),
             (call_script, "script_troop_get_title_string", "$g_talk_troop"),
             (str_store_string_reg, s11, s0),
@@ -2365,6 +2366,7 @@ dialogs = [
         [ 
             (encountered_party_is_attacker),
             (is_between, "$g_talk_troop", lords_begin, lords_end),
+            (troop_slot_eq, "$g_talk_troop", slot_troop_kingdom_occupation, tko_kingdom_hero),
             (call_script, "script_troop_get_player_name", "$g_talk_troop", "$g_talk_party"),
         ], "{s60}... We meet again, do you have anything to say before I crush you?", "player_lord_greeting_attacked", []],
 
@@ -2394,6 +2396,7 @@ dialogs = [
     [anyone, "start", 
         [
             (is_between, "$g_talk_troop", lords_begin, lords_end),
+            (troop_slot_eq, "$g_talk_troop", slot_troop_kingdom_occupation, tko_kingdom_hero),
             (check_quest_active, "qst_swear_vassalage_fief"),
             (quest_slot_eq, "qst_swear_vassalage_fief", slot_quest_giver_troop, "$g_talk_troop"),
             (call_script, "script_troop_get_player_name", "$g_talk_troop", "$g_talk_party"),
@@ -2402,6 +2405,7 @@ dialogs = [
     [anyone, "start", 
         [
             (is_between, "$g_talk_troop", lords_begin, lords_end),
+            (troop_slot_eq, "$g_talk_troop", slot_troop_kingdom_occupation, tko_kingdom_hero),
             (troop_slot_eq, "$g_talk_troop", slot_troop_last_met, -1),
 
             (call_script, "script_cf_lord_knows_player", "$g_talk_troop"),
@@ -2417,6 +2421,7 @@ dialogs = [
     [anyone, "start", 
         [
             (is_between, "$g_talk_troop", lords_begin, lords_end),
+            (troop_slot_eq, "$g_talk_troop", slot_troop_kingdom_occupation, tko_kingdom_hero),
             (troop_slot_eq, "$g_talk_troop", slot_troop_last_met, -1),
 
             (call_script, "script_get_lord_first_greeting_dialog", "$g_talk_troop"),
@@ -2430,6 +2435,7 @@ dialogs = [
     [anyone, "start", 
         [
             (is_between, "$g_talk_troop", lords_begin, lords_end),
+            (troop_slot_eq, "$g_talk_troop", slot_troop_kingdom_occupation, tko_kingdom_hero),
             (call_script, "script_get_lord_greeting_dialog", "$g_talk_troop"),
         ], "{s0}", "player_lord_main", []],
 
