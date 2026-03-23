@@ -1330,7 +1330,9 @@ slot_party_attached_party_3 = slot_party_attached_party_2 + 1
 slot_party_last_rest = slot_party_attached_party_3 + 1 # for small parties
 slot_party_last_travel = slot_party_last_rest + 1
 
-slot_party_mission_target_1 = slot_party_last_travel + 1
+slot_party_last_travel_location = slot_party_last_travel + 1
+
+slot_party_mission_target_1 = slot_party_last_travel_location + 1
 slot_party_mission_target_2 = slot_party_mission_target_1 + 1
 slot_party_mission_target_3 = slot_party_mission_target_2 + 1
 slot_party_mission_objective_1 = slot_party_mission_target_3 + 1

@@ -9,6 +9,7 @@ v0.720:
 		* decrease military_scythe swing damage (37 -> 35)
 		* increase military_scythe swing speed (89 -> 90)
 		* update head and body armor for mercenary troops
+		* increase frequency of lords recruitment in centers
 	-Fixes:
 v0.710:
 	-Features:

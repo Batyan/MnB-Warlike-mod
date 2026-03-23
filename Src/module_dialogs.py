@@ -3,6 +3,7 @@ from header_dialogs import *
 from header_operations import *
 from header_parties import *
 from header_item_modifiers import *
+from header_items import *
 from header_skills import *
 from header_triggers import *
 from ID_troops import *
@@ -116,7 +117,7 @@ dialogs = [
             (call_script, "script_troop_get_gold_rating", "$g_player_troop", "$g_talk_troop"),
             (assign, ":estimated_gold", reg0),
             (store_troop_gold, ":gold", "$g_player_troop"),
-            (val_mul, ":estimated_gold", 100),
+            (val_mul, ":estimated_gold", 10),
             (val_div, ":estimated_gold", ":gold"),
             (ge, ":estimated_gold", 75),
             (call_script, "script_party_group_calculate_strength", "p_main_party"),
@@ -3436,6 +3437,81 @@ dialogs = [
             (call_script, "script_complete_quest", "qst_swear_vassalage_fief"),
             (call_script, "script_troop_add_xp", "$g_player_troop", 50),
         ]],
+
+    [anyone, "start",
+        [
+            (is_between, "$g_talk_troop", lords_begin, lords_end),
+            (troop_slot_eq, "$g_talk_troop", slot_troop_kingdom_occupation, tko_neutral_hero),
+        ], "Hello there traveller, what do you need?", "hero_main", []],
+
+    # [anyone|plyr, "hero_main", [],
+    #     "", "", []],
+    [anyone|plyr, "hero_main", [],
+        "Would you like to join me?", "hero_join", []],
+    [anyone|plyr, "hero_main", [],
+        "Goodbye", "close_window", []],
+
+
+    [anyone, "hero_join",
+        [
+            (assign, ":total_amount", 0),
+            (try_for_range, ":item_slot", ek_item_0, ek_horse + 1),
+                (troop_get_inventory_slot, ":item", "$g_talk_troop", ":item_slot"),
+                (gt, ":item", 0),
+                (store_item_value, ":price", ":item"),
+                (val_add, ":total_amount", ":price"),
+            (try_end),
+            (call_script, "script_game_get_money_text", ":total_amount"),
+        ],  
+        "I won't mind if you pay me {s0}", "hero_join_condition", []],
+    [anyone|plyr, "hero_join_condition",
+        [
+            (assign, ":total_amount", 0),
+            (try_for_range, ":item_slot", ek_item_0, ek_horse + 1),
+                (troop_get_inventory_slot, ":item", "$g_talk_troop", ":item_slot"),
+                (gt, ":item", 0),
+                (store_item_value, ":price", ":item"),
+                (val_add, ":total_amount", ":price"),
+            (try_end),
+            (store_troop_gold, ":player_gold", "$g_player_troop"),
+            (lt, ":player_gold", ":total_amount"),
+        ],
+        "I don't have the money for this", "hero_join_accept", []],
+    [anyone|plyr, "hero_join_condition",
+        [
+            (assign, ":total_amount", 0),
+            (try_for_range, ":item_slot", ek_item_0, ek_horse + 1),
+                (troop_get_inventory_slot, ":item", "$g_talk_troop", ":item_slot"),
+                (gt, ":item", 0),
+                (store_item_value, ":price", ":item"),
+                (val_add, ":total_amount", ":price"),
+            (try_end),
+            (store_troop_gold, ":player_gold", "$g_player_troop"),
+            (ge, ":player_gold", ":total_amount"),
+        ],
+        "Of course", "hero_join_accept",
+        [
+            (assign, ":total_amount", 0),
+            (try_for_range, ":item_slot", ek_item_0, ek_horse + 1),
+                (troop_get_inventory_slot, ":item", "$g_talk_troop", ":item_slot"),
+                (gt, ":item", 0),
+                (store_item_value, ":price", ":item"),
+                (val_add, ":total_amount", ":price"),
+            (try_end),
+            (troop_remove_gold, "$g_player_troop", ":total_amount"),
+        ]],
+    [anyone|plyr, "hero_join_condition", [],
+        "Let me think about it", "hero_join_refuse", []],
+
+    [anyone, "hero_join_accept", [],
+        "I'm at your service", "close_window",
+        [
+            (troop_set_slot, "$g_talk_troop", slot_troop_kingdom_occupation, tko_follower),
+            (party_join),
+            (change_screen_return),
+        ]],
+    [anyone, "hero_join_refuse", [],
+        "Anything else?", "hero_main", []],
 
 
     #################
