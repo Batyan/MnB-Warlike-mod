@@ -3441,7 +3441,8 @@ dialogs = [
     [anyone, "start",
         [
             (is_between, "$g_talk_troop", lords_begin, lords_end),
-            (troop_slot_eq, "$g_talk_troop", slot_troop_kingdom_occupation, tko_neutral_hero),
+            (this_or_next|troop_slot_eq, "$g_talk_troop", slot_troop_kingdom_occupation, tko_neutral_hero),
+            (troop_slot_eq, "$g_talk_troop", slot_troop_kingdom_occupation, tko_wanderer),
         ], "Hello there traveller, what do you need?", "hero_main", []],
 
     # [anyone|plyr, "hero_main", [],
@@ -3464,6 +3465,7 @@ dialogs = [
             (call_script, "script_game_get_money_text", ":total_amount"),
         ],  
         "I won't mind if you pay me {s0}", "hero_join_condition", []],
+        
     [anyone|plyr, "hero_join_condition",
         [
             (assign, ":total_amount", 0),
@@ -3476,7 +3478,7 @@ dialogs = [
             (store_troop_gold, ":player_gold", "$g_player_troop"),
             (lt, ":player_gold", ":total_amount"),
         ],
-        "I don't have the money for this", "hero_join_accept", []],
+        "I don't have the money for this", "hero_join_refuse", []],
     [anyone|plyr, "hero_join_condition",
         [
             (assign, ":total_amount", 0),
@@ -3507,7 +3509,27 @@ dialogs = [
         "I'm at your service", "close_window",
         [
             (troop_set_slot, "$g_talk_troop", slot_troop_kingdom_occupation, tko_follower),
-            (party_join),
+
+            (troop_get_slot, ":leader_party", "$g_talk_troop", slot_troop_leaded_party),
+            (try_begin),
+                (gt, ":leader_party", 0),
+                (party_is_active, ":leader_party"),
+                (party_get_num_prisoner_stacks, ":num_stacks", ":leader_party"),
+                (try_for_range, ":stack_no", 0, ":num_stacks"),
+                    (party_prisoner_stack_get_size, ":size", ":leader_party", ":stack_no"),
+                    (party_prisoner_stack_get_troop_id, ":troop", ":leader_party", ":stack_no"),
+                    (party_force_add_prisoners, "$g_player_party", ":troop", ":size"),
+                (try_end),
+                (party_get_num_companion_stacks, ":num_stacks", ":leader_party"),
+                (try_for_range, ":stack_no", 0, ":num_stacks"),
+                    (party_stack_get_size, ":size", ":leader_party", ":stack_no"),
+                    (party_stack_get_troop_id, ":troop", ":leader_party", ":stack_no"),
+                    (party_force_add_members, "$g_player_party", ":troop", ":size"),
+                (try_end),
+                (party_clear, ":leader_party"),
+            (else_try),
+                (party_force_add_members, "$g_player_party", "$g_talk_troop", 1),
+            (try_end),
             (change_screen_return),
         ]],
     [anyone, "hero_join_refuse", [],

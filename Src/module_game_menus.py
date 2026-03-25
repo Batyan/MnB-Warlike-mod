@@ -2491,21 +2491,37 @@ game_menus = [
         ]),
     
     ("town_tavern", mnf_scale_picture,
-        "Heading toward the inn",
+        "Heading toward the inn.^{s11}",
         "none",
         [
             (set_background_mesh, "mesh_pic_camp"),
 
-            (try_begin),
-                (call_script, "script_party_get_mercenaries", "$g_encountered_party"),
-                (assign, ":mercenary_party", reg0),
+            (call_script, "script_party_get_mercenaries", "$g_encountered_party"),
+            (assign, ":mercenary_party", reg0),
 
-                (call_script, "script_party_sort_troops", ":mercenary_party", 50),
-                
-                (party_get_num_companions, ":num_mercenaries", ":mercenary_party"),
-                (party_get_slot, ":current_mercenaries", "$g_encountered_party", slot_party_mercenaries_amount),
+            (call_script, "script_party_sort_troops", ":mercenary_party", 50),
+            
+            (party_get_num_companions, ":num_mercenaries", ":mercenary_party"),
+            (party_get_slot, ":current_mercenaries", "$g_encountered_party", slot_party_mercenaries_amount),
+
+            (try_begin),
                 (neq, ":current_mercenaries", ":num_mercenaries"),
                 (party_set_slot, "$g_encountered_party", slot_party_mercenaries_amount, ":num_mercenaries"),
+            (try_end),
+
+            (try_begin),
+                (eq, ":num_mercenaries", 0),
+            (else_try),
+                (lt, ":num_mercenaries", 10),
+                (str_store_string, s11, "@You spot a small group of mercenaries waiting for employment."),
+            (else_try),
+                (lt, ":num_mercenaries", 25),
+                (str_store_string, s11, "@You spot an average number of mercenaries waiting for employment."),
+            (else_try),
+                (lt, ":num_mercenaries", 40),
+                (str_store_string, s11, "@You spot a sizable number of mercenaries waiting for employment."),
+            (else_try),
+                (str_store_string, s11, "@You spot a large number of mercenaries waiting for employment."),
             (try_end),
         ],
         [

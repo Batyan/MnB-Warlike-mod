@@ -2,7 +2,8 @@ v0.720:
 	-Features:
 		* add tavern mercenaries
 		* allow player recruitment of mercenaries
-		* add traveller companions
+		* add potential traveller companions
+		* add potential companions resting in cities
 	-Balances:
 		* split bandit in multiple types to prevent overcrowding of a single type of bandit
 		* increase military_scythe thrust damage (24 -> 31)
@@ -10,6 +11,7 @@ v0.720:
 		* increase military_scythe swing speed (89 -> 90)
 		* update head and body armor for mercenary troops
 		* increase frequency of lords recruitment in centers
+		* add indication of number of mercenaries in taverns
 	-Fixes:
 v0.710:
 	-Features:

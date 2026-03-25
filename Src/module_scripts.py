@@ -249,6 +249,11 @@ scripts = [
                 (assign, ":npc", reg0),
                 (call_script, "script_ready_neutral_hero", ":npc"),
             (try_end),
+            (try_for_range, ":unused", 0, 20),
+                (call_script, "script_find_free_lord"),
+                (assign, ":npc", reg0),
+                (call_script, "script_ready_wanderer", ":npc"),
+            (try_end),
 
             (call_script, "script_init_quests"),
 
@@ -10835,12 +10840,14 @@ scripts = [
         # input:
         #   arg1: troop_no
         #   arg2: center_no
+        #   arg3: attach_party
         # output:
         #   reg0: created_party
     ("create_lord_party",
         [
             (store_script_param, ":troop_no", 1),
             (store_script_param, ":center_no", 2),
+            (store_script_param, ":attach_party", 3),
 
             (call_script, "script_spawn_party_around_party", ":center_no", "pt_war_party"),
             (assign, ":party", reg0),
@@ -10865,7 +10872,10 @@ scripts = [
             
             (call_script, "script_party_set_behavior", ":party", tai_traveling_to_party, ":center_no"),
 
-            (party_attach_to_party, ":party", ":center_no"),
+            (try_begin),
+                (eq, ":attach_party", 1),
+                (party_attach_to_party, ":party", ":center_no"),
+            (try_end),
 
             (try_begin),
                 (troop_slot_eq, ":troop_no", slot_troop_noble, 1),
@@ -14015,7 +14025,7 @@ scripts = [
                 (call_script, "script_troop_change_level", ":troop_no", 1),
                 (val_add, ":random_money", 35000),
             (else_try),
-                (faction_get_slot, ":troops_begin", ":culture", slot_faction_troops_begin),
+                (faction_get_slot, ":troops_begin", ":culture", slot_faction_common_begin),
                 (faction_get_slot, ":troops_end", ":culture", slot_faction_troops_end),
                 (store_random_in_range, ":template", ":troops_begin", ":troops_end"),
 
@@ -14034,6 +14044,62 @@ scripts = [
                 (str_store_troop_name, s10, ":troop_no"),
                 (str_store_party_name, s11, ":home"),
                 (display_message, "@Generating neutral hero {s10} in {s11}"),
+            (try_end),
+        ]),
+
+    # script_ready_wanderer
+        # input:
+        #   arg1: troop_no
+        # output: none
+    ("ready_wanderer",
+        [
+            (store_script_param, ":troop_no", 1),
+
+            (store_random_in_range, ":village_bound", 0, 10),
+            (try_begin),
+                (eq, ":village_bound", 0),
+                (store_random_in_range, ":home", villages_begin, villages_end),
+                (troop_set_slot, ":troop_no", slot_troop_home, ":home"),
+            (else_try),
+                (store_random_in_range, ":home", towns_begin, towns_end),
+                (troop_set_slot, ":troop_no", slot_troop_home, ":home"),
+            (try_end),
+
+            (party_get_slot, ":original_faction", ":home", slot_party_original_faction),
+            (faction_get_slot, ":culture", ":original_faction", slot_faction_culture),
+            (troop_set_slot, ":troop_no", slot_troop_culture, ":culture"),
+
+            (troop_set_faction, ":troop_no", "fac_commoners"),
+
+            (troop_set_slot, ":troop_no", slot_troop_kingdom_occupation, tko_wanderer),
+
+            (store_random_in_range, ":random_money", 500, 1500),
+            (store_random_in_range, ":rand", 0, 10),
+            (try_begin),
+                (eq, ":rand", 0),
+                (troop_set_slot, ":troop_no", slot_troop_noble, 1),
+                (call_script, "script_troop_change_level", ":troop_no", 0),
+                (val_add, ":random_money", 3500),
+            (else_try),
+                (faction_get_slot, ":troops_begin", ":culture", slot_faction_troops_begin),
+                (faction_get_slot, ":troops_end", ":culture", slot_faction_veteran_begin),
+                (store_random_in_range, ":template", ":troops_begin", ":troops_end"),
+
+                (call_script, "script_troop_use_template_troop", ":troop_no", ":template"),
+            (try_end),
+
+            (call_script, "script_troop_set_name", ":troop_no"),
+            (call_script, "script_troop_update_name", ":troop_no"),
+
+            (call_script, "script_troop_get_face_code", ":troop_no", -1, -1),
+            (troop_set_face_keys, ":troop_no", s0),
+            (troop_add_gold, ":troop_no", ":random_money"),
+
+            (try_begin),
+                (call_script, "script_cf_debug", debug_simple),
+                (str_store_troop_name, s10, ":troop_no"),
+                (str_store_party_name, s11, ":home"),
+                (display_message, "@Generating wanderer {s10} in {s11}"),
             (try_end),
         ]),
 
@@ -25435,6 +25501,16 @@ scripts = [
                     (eq, ":behavior", party_behavior_weight_deposit_civilians),
                     # (assign, ":action", "script_party_get_behavior_weight_deposit_civilians"),
                 (try_end),
+            (else_try),
+                (eq, ":party_type", spt_traveller),
+
+                (try_begin),
+                    (eq, ":behavior", party_behavior_weight_travel),
+                    (assign, ":action", "script_party_get_behavior_weight_travel"),
+                (else_try),
+                    (eq, ":behavior", party_behavior_weight_rest),
+                    (assign, ":action", "script_party_get_behavior_weight_rest"),
+                (try_end),
             (try_end),
 
             (try_begin),
@@ -25502,6 +25578,8 @@ scripts = [
 
             (store_mul, ":weight", 50, ":last_travel_time"),
             (val_div, ":weight", 14*24),
+
+            (val_sub, ":weight", 50),
 
             (assign, reg0, ":weight"),
         ]),
@@ -25685,17 +25763,23 @@ scripts = [
 
             (call_script, "script_get_current_day"),
             (assign, ":current_day", reg0),
-            (store_sub, ":rest_time", ":current_day", ":last_rest"),
 
-            (store_mul, ":weight", 50, ":rest_time"),
-            (val_div, ":weight", 10*24),
-
-            (call_script, "script_party_get_holding_center", ":party_no"),
-            (assign, ":cur_town", reg0),
             (try_begin),
-                (is_between, ":cur_town", centers_begin, centers_end),
-                (gt, ":weight", 10),
-                (val_add, ":weight", 30),
+                (gt, ":current_day", ":last_rest"),
+                (store_sub, ":rest_time", ":current_day", ":last_rest"),
+
+                (store_mul, ":weight", 50, ":rest_time"),
+                (val_div, ":weight", 10*24),
+
+                (call_script, "script_party_get_holding_center", ":party_no"),
+                (assign, ":cur_town", reg0),
+                (try_begin),
+                    (is_between, ":cur_town", centers_begin, centers_end),
+                    (gt, ":weight", 10),
+                    (val_add, ":weight", 30),
+                (try_end),
+            (else_try),
+                (assign, ":weight", 100),
             (try_end),
 
             (assign, reg0, ":weight"),
@@ -26084,6 +26168,7 @@ scripts = [
                 (call_script, "script_party_modify_wealth", ":party_no", ":total_cost"),
                 (party_get_num_companions, ":num_mercenaries", ":mercenaries"),
                 (party_set_slot, ":cur_center", slot_party_mercenaries_amount, ":num_mercenaries"),
+                (assign, ":completed", 1),
             (try_end),
 
             (assign, reg0, ":completed"),
@@ -26104,10 +26189,14 @@ scripts = [
                 (call_script, "script_party_get_holding_center", ":party_no"),
                 (assign, ":cur_town", reg0),
                 (is_between, ":cur_town", centers_begin, centers_end),
-                (call_script, "script_get_current_day"),
-                (assign, ":current_day", reg0),
-                (party_set_slot, ":party_no", slot_party_last_rest, ":current_day"),
-                (party_set_slot, ":party_no", slot_party_mission_object, -1),
+                (try_begin),
+                    (party_get_slot, ":mission_object", ":party_no", slot_party_mission_object),
+                    (neq, ":mission_object", -1),
+                    (call_script, "script_get_current_day"),
+                    (store_add, ":current_day", reg0, 24*7),
+                    (party_set_slot, ":party_no", slot_party_last_rest, ":current_day"),
+                    (party_set_slot, ":party_no", slot_party_mission_object, -1),
+                (try_end),
                 (assign, ":completed", 1),
             (else_try),
                 (party_get_slot, ":destination", ":party_no", slot_party_mission_object),
@@ -26535,6 +26624,7 @@ scripts = [
             (try_begin),
                 (neq, ":party_type", spt_civilian),
                 (neq, ":party_type", spt_traveller),
+                (neq, ":party_type", spt_wanderer),
                 (party_attach_to_party, ":party_no", ":center_no"),
             (try_end),
 

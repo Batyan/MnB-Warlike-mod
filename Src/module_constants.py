@@ -1077,13 +1077,14 @@ spt_scout       = 9
 spt_convoy      = 10
 spt_war_party   = 11
 spt_traveller   = 12
+spt_wanderer    = 13
 
-spt_village     = 13
-spt_castle      = 14
-spt_town        = 15
-spt_fort        = 16
+spt_village     = 14
+spt_castle      = 15
+spt_town        = 16
+spt_fort        = 17
 
-spt_camp        = 17
+spt_camp        = 18
 
 slot_party_leader           = slot_party_type + 1
 slot_party_lord             = slot_party_leader
@@ -1635,9 +1636,10 @@ tko_kingdom_hero = 1
 tko_mercenary = 2
 tko_bandit = 3
 tko_neutral_hero = 4
-tko_follower = 5
-tko_reserved = 6
-tko_reserved_quest = 7
+tko_wanderer = 5
+tko_follower = 6
+tko_reserved = 7
+tko_reserved_quest = 8
 
 slot_troop_personality              = slot_troop_kingdom_occupation + 1
 tp_default = 0x0000
