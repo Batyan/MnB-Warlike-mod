@@ -793,6 +793,35 @@ dialogs = [
             (store_conversation_troop, "$g_talk_troop"),
             (eq, 0, 1),
         ], "!No dialog", "close_window", []],
+
+    [anyone, "member_chat",
+        [
+            (troop_is_hero, "$g_talk_troop"),
+            (troop_slot_eq, "$g_talk_troop", slot_troop_kingdom_occupation, tko_follower),
+
+            (call_script, "script_troop_get_player_name", "$g_talk_troop", -1),
+        ], "Yes {s60}?", "member_chat_follower_player", []],
+    [anyone|plyr, "member_chat_follower_player",
+        [
+        ], "Show me your stats.", "close_window",
+        [
+            (assign, "$temp", "$g_talk_troop"),
+            (start_presentation, "prsnt_character_screen"),
+        ]],
+    [anyone|plyr, "member_chat_follower_player",
+        [
+        ], "Show me your items.", "member_chat_follower_end",
+        [
+            (change_screen_equip_other, "$g_talk_troop"),
+        ]],
+    [anyone|plyr, "member_chat_follower_player",
+        [], "Nothing.", "close_window",
+        []],
+    [anyone, "member_chat_follower_end",
+        [
+            (call_script, "script_troop_get_player_name", "$g_talk_troop", -1),
+        ], "Anything else {s60}?", "member_chat_follower_player", []],
+
     [anyone, "member_chat",
         [(troop_equip_items, "$g_talk_troop"), # TEST
         ], "Yes {My Lord/My Lady}?", "member_chat_player", []],

@@ -14030,6 +14030,9 @@ scripts = [
                 (store_random_in_range, ":template", ":troops_begin", ":troops_end"),
 
                 (call_script, "script_troop_use_template_troop", ":troop_no", ":template"),
+
+                (store_character_level, ":level", ":template"),
+                (troop_set_slot, ":troop_no", slot_troop_xp_level, ":level"),
             (try_end),
 
             (call_script, "script_troop_set_name", ":troop_no"),

@@ -4,6 +4,8 @@ v0.720:
 		* allow player recruitment of mercenaries
 		* add potential traveller companions
 		* add potential companions resting in cities
+		* allow access to follower equipments
+		* allow access to follower skills
 	-Balances:
 		* split bandit in multiple types to prevent overcrowding of a single type of bandit
 		* increase military_scythe thrust damage (24 -> 31)
