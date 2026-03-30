@@ -3556,6 +3556,7 @@ dialogs = [
                     (party_force_add_members, "$g_player_party", ":troop", ":size"),
                 (try_end),
                 (party_clear, ":leader_party"),
+                (remove_party, ":leader_party"),
             (else_try),
                 (party_force_add_members, "$g_player_party", "$g_talk_troop", 1),
             (try_end),
