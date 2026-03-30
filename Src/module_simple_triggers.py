@@ -310,6 +310,7 @@ simple_triggers = [
                     (assign, "$g_player_prisoner_last_message", ":current_day"),
                 (try_end),
                 (set_camera_follow_party, ":player_prisoner"),
+                (party_set_flags, ":player_prisoner", pf_always_visible, 1),
             (try_end),
         ]),
 

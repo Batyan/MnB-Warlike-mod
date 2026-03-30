@@ -15,6 +15,7 @@ v0.720:
 		* increase frequency of lords recruitment in centers
 		* add indication of number of mercenaries in taverns
 	-Fixes:
+		* fix player captor party disapearing
 v0.710:
 	-Features:
 		* add current wars in faction notes

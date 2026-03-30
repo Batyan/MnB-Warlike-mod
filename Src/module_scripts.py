@@ -24133,8 +24133,6 @@ scripts = [
         [
             (store_script_param, ":party_no", 1),
 
-            (assign, "$g_player_captor_party", ":party_no"),
-            
             (call_script, "script_party_group_defeat_party_group", ":party_no", "$g_player_party", -1),
 
             (troop_set_slot, "$g_player_troop", slot_troop_prisoner_of, ":party_no"),
@@ -24150,10 +24148,16 @@ scripts = [
     ("player_party_free",
         [
             (enable_party, "$g_player_party"),
+
+            (troop_get_slot, ":prisoner_of", "$g_player_party", slot_troop_prisoner_of),
+            (try_begin),
+                (gt, ":prisoner_of", 0),
+                (party_set_flags, ":prisoner_of", pf_always_visible, 0),
+            (try_end),
+
             (call_script, "script_troop_freed", "$g_player_troop", -1),
             # (party_force_add_members, "$g_player_party", "$g_player_troop", 1),
-            (party_relocate_near_party, "$g_player_party", "$g_player_captor_party", 5),
-            (assign, "$g_player_captor_party", -1),
+            (party_relocate_near_party, "$g_player_party", ":prisoner_of", 5),
 
             (set_camera_follow_party, "$g_player_party"),
             (rest_for_hours, 0, 0, 0),
