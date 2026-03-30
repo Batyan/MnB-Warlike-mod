@@ -15084,6 +15084,10 @@ scripts = [
                 
                 (store_troop_faction, ":faction", ":cur_troop"),
                 (faction_get_slot, ":culture", ":faction", slot_faction_culture),
+                (try_begin),
+                    (eq, ":faction", "fac_commoners"),
+                    (assign, ":culture", "fac_culture_7"),
+                (try_end),
                 (faction_get_slot, ":peasant", ":culture", slot_faction_peasant_begin),
                 (faction_get_slot, ":common", ":culture", slot_faction_common_begin),
                 (faction_get_slot, ":veteran", ":culture", slot_faction_veteran_begin),

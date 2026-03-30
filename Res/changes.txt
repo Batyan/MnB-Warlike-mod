@@ -16,6 +16,7 @@ v0.720:
 		* add indication of number of mercenaries in taverns
 	-Fixes:
 		* fix player captor party disapearing
+		* fix mercenary troops quality category
 v0.710:
 	-Features:
 		* add current wars in faction notes
