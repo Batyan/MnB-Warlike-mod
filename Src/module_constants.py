@@ -1803,9 +1803,13 @@ become_vassal_try_failed_persuasion = 2
 slot_troop_become_vassal_tried = slot_troop_log_target_end + 1
 slot_troop_become_vassal_last_try = slot_troop_become_vassal_tried + 1
 
-slot_troop_noble = slot_troop_become_vassal_last_try + 1
+slot_troop_nobility_rank = slot_troop_become_vassal_last_try + 1
 
-slot_troop_mercenary_contract_wages_ratio = slot_troop_noble + 1
+nr_commoner = 0
+nr_lesser = 1
+nr_noble = 2
+
+slot_troop_mercenary_contract_wages_ratio = slot_troop_nobility_rank + 1
 slot_troop_mercenary_contract_monthly_pay = slot_troop_mercenary_contract_wages_ratio + 1
 slot_troop_mercenary_contract_end_date = slot_troop_mercenary_contract_monthly_pay + 1
 

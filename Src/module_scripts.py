@@ -131,6 +131,7 @@ scripts = [
                         (assign, ":lord_no", reg0),
                         (gt, ":lord_no", 0),
                 
+                        (troop_set_slot, ":lord_no", slot_troop_nobility_rank, nr_noble),
                         (call_script, "script_ready_lord", ":lord_no", ":faction_no", 1),
 
                         (call_script, "script_troop_add_to_clan", ":lord_no", ":clan"),
@@ -158,26 +159,7 @@ scripts = [
 
                         (call_script, "script_troop_change_renown", ":lord_no", ":renown"),
                     (try_end),
-                    
                 (try_end),
-
-                # (call_script, "script_find_free_lord"),
-                # (assign, ":lord_no", reg0),
-                # (gt, ":lord_no", 0),
-
-                # (faction_set_slot, ":faction_no", slot_faction_leader, ":lord_no"),
-                
-                # (call_script, "script_ready_lord", ":lord_no", ":faction_no", 1),
-
-                # (call_script, "script_clan_get_empty"),
-                # (assign, ":clan", reg0),
-                # (is_between, ":clan", clans_begin, clans_end),
-                # (call_script, "script_troop_add_to_clan", ":lord_no", ":clan"),
-
-                # (call_script, "script_troop_get_rank", ":lord_no"),
-                # (assign, ":rank", reg0),
-                # (troop_set_slot, ":lord_no", slot_troop_rank, ":rank"),
-                # (call_script, "script_troop_change_level", ":lord_no", ":rank"),
             (try_end),
 
             (try_for_range, ":party_no", centers_begin, centers_end),
@@ -9798,7 +9780,7 @@ scripts = [
                     (str_store_string, s12, ":lord_name"),
                     (str_store_string, s11, "@{s12} {s10}"),
                 (else_try),
-                    (troop_slot_eq, ":troop_no", slot_troop_noble, 1),
+                    (troop_slot_ge, ":troop_no", slot_troop_nobility_rank, nr_lesser),
                     (str_store_string, s11, ":lord_name"),
                 (else_try),
                     (str_store_string, s11, "@{s0}"),
@@ -10878,7 +10860,7 @@ scripts = [
             (try_end),
 
             (try_begin),
-                (troop_slot_eq, ":troop_no", slot_troop_noble, 1),
+                (troop_slot_ge, ":troop_no", slot_troop_nobility_rank, nr_lesser),
                 (party_set_banner_icon, ":party", "icon_heraldic_banner_03"),
             (try_end),
             
@@ -13918,7 +13900,7 @@ scripts = [
             (troop_set_slot, ":lord_no", slot_troop_prisoner_of, -1),
             (troop_set_slot, ":lord_no", slot_troop_last_met, -1),
             (troop_set_slot, ":lord_no", slot_troop_gathering, -1),
-            (troop_set_slot, ":lord_no", slot_troop_noble, 0),
+            (troop_set_slot, ":lord_no", slot_troop_nobility_rank, nr_commoner),
             (troop_set_slot, ":lord_no", slot_troop_clan, -1),
             (troop_set_slot, ":lord_no", slot_troop_xp_level, 1),
             (troop_set_slot, ":lord_no", slot_troop_equipement_level, -1),
@@ -13971,7 +13953,7 @@ scripts = [
             
             (troop_set_slot, ":lord_no", slot_troop_original_faction, ":faction_no"),
             (troop_set_slot, ":lord_no", slot_troop_culture, ":culture"),
-            (troop_set_slot, ":lord_no", slot_troop_noble, 1),
+            (troop_set_slot, ":lord_no", slot_troop_nobility_rank, nr_lesser),
             
             (troop_set_slot, ":lord_no", slot_troop_kingdom_occupation, tko_reserved),
             
@@ -14021,7 +14003,7 @@ scripts = [
             (store_random_in_range, ":rand", 0, 10),
             (try_begin),
                 (eq, ":rand", 0),
-                (troop_set_slot, ":troop_no", slot_troop_noble, 1),
+                (troop_set_slot, ":troop_no", slot_troop_nobility_rank, nr_lesser),
                 (call_script, "script_troop_change_level", ":troop_no", 1),
                 (val_add, ":random_money", 35000),
             (else_try),
@@ -14080,7 +14062,7 @@ scripts = [
             (store_random_in_range, ":rand", 0, 10),
             (try_begin),
                 (eq, ":rand", 0),
-                (troop_set_slot, ":troop_no", slot_troop_noble, 1),
+                (troop_set_slot, ":troop_no", slot_troop_nobility_rank, nr_lesser),
                 (call_script, "script_troop_change_level", ":troop_no", 0),
                 (val_add, ":random_money", 3500),
             (else_try),
@@ -14508,6 +14490,7 @@ scripts = [
                     (call_script, "script_find_free_lord"),
                     (assign, ":new_lord", reg0),
 
+                    (troop_set_slot, ":new_lord", slot_troop_nobility_rank, nr_lesser),
                     (call_script, "script_ready_lord", ":new_lord", ":faction_no", 0),
 
                     (call_script, "script_clan_get_empty"),
@@ -14724,6 +14707,8 @@ scripts = [
             (call_script, "script_troop_get_surplus_center", ":receiver_troop"),
             (assign, ":surplus_center", reg0),
             (troop_set_slot, ":receiver_troop", slot_troop_surplus_center, ":surplus_center"),
+
+            (call_script, "script_troop_grant_fief_penalties", ":giver_troop_no", ":center", ":receiver_troop"),
             
             (try_begin),
                 (store_troop_faction, ":player_faction", "$g_player_troop"),
@@ -14767,7 +14752,7 @@ scripts = [
                 (troop_set_slot, ":overlord", slot_troop_num_vassal, ":num_vassal"),
             (try_end),
             (troop_set_slot, ":vassal", slot_troop_vassal_of, ":overlord"),
-            (troop_set_slot, ":vassal", slot_troop_noble, 1),
+            (troop_set_slot, ":vassal", slot_troop_nobility_rank, nr_lesser),
 
             (store_troop_faction, ":vassal_faction", ":vassal"),
             (store_troop_faction, ":overlord_faction", ":overlord"),
@@ -17779,8 +17764,8 @@ scripts = [
                 (call_script, "script_troop_change_renown", ":best_candidate", ":renown_gain"),
 
                 (try_begin),
-                    (troop_slot_eq, ":best_candidate", slot_troop_noble, -1),
-                    (troop_set_slot, ":best_candidate", slot_troop_noble, 1),
+                    (troop_slot_eq, ":best_candidate", slot_troop_nobility_rank, nr_commoner),
+                    (troop_set_slot, ":best_candidate", slot_troop_nobility_rank, nr_lesser),
                 (try_end),
 
                 (try_begin),
@@ -27755,7 +27740,7 @@ scripts = [
                 (troop_raise_proficiency_linear, "$g_player_troop", wpt_two_handed_weapon, 10),
                 (troop_raise_proficiency_linear, "$g_player_troop", wpt_polearm, 20),
 
-                (troop_set_slot, "$g_player_troop", slot_troop_noble, 1),
+                (troop_set_slot, "$g_player_troop", slot_troop_nobility_rank, nr_lesser),
 
                 (call_script, "script_troop_change_renown", "$g_player_troop", 100),
 
@@ -30200,6 +30185,7 @@ scripts = [
                     (assign, ":new_lord", reg0),
 
                     (call_script, "script_troop_add_to_clan", ":new_lord", ":clan"),
+                    (troop_set_slot, ":new_lord", slot_troop_nobility_rank, nr_lesser),
                     (call_script, "script_ready_lord", ":new_lord", ":faction_no", 1),
                     (call_script, "script_troop_become_vassal", ":new_lord", ":lord"),
                 (try_end),
@@ -32090,11 +32076,13 @@ scripts = [
 
             (call_script, "script_find_free_lord"),
             (assign, ":new_lord", reg0),
+            (troop_set_slot, ":new_lord", slot_troop_nobility_rank, nr_noble),
             (call_script, "script_ready_lord", ":new_lord", ":starting_town_faction", 0),
             (troop_set_slot, ":new_lord", slot_troop_kingdom_occupation, tko_reserved_quest),
 
             (call_script, "script_find_free_lord"),
             (assign, ":new_lord_brother", reg0),
+            (troop_set_slot, ":new_lord_brother", slot_troop_nobility_rank, nr_noble),
             (call_script, "script_ready_lord", ":new_lord_brother", ":starting_town_faction", 0),
             (troop_set_slot, ":new_lord_brother", slot_troop_kingdom_occupation, tko_reserved_quest),
 
@@ -34786,6 +34774,73 @@ scripts = [
                     (val_min, ":max_range", 200000000),
                 (try_end),
                 (assign, reg0, "p_recruit_mercenaries"),
+            (try_end),
+        ]),
+
+    # script_troop_grant_fief_penalties
+        # input:
+        #   arg1: troop_giver
+        #   arg2: fief
+        #   arg3: troop_receiver
+        # output: none
+    ("troop_grant_fief_penalties", 
+        [
+            (store_script_param, ":troop_giver", 1),
+            (store_script_param, ":fief", 2),
+            (store_script_param, ":troop_receiver", 3),
+
+            (store_troop_faction, ":troop_faction", ":troop_giver"),
+
+            (party_get_slot, ":party_type", ":fief", slot_party_type),
+            (assign, ":base_penalty", 0),
+
+            (try_begin),
+                (eq, ":party_type", spt_village),
+                (assign, ":base_penalty", 1),
+            (else_try),
+                (eq, ":party_type", spt_castle),
+                (assign, ":base_penalty", 3),
+            (else_try),
+                (eq, ":party_type", spt_town),
+                (assign, ":base_penalty", 5),
+            (try_end),
+
+            (troop_get_slot, ":nobility_receiver", ":troop_receiver", slot_troop_nobility_rank),
+
+            (try_for_range, ":npc", npc_heroes_begin, npc_heroes_end),
+                (troop_slot_eq, ":npc", slot_troop_kingdom_occupation, tko_kingdom_hero),
+                (neq, ":npc", ":troop_receiver"),
+                (neq, ":npc", ":troop_giver"),
+
+                (assign, ":penalty", ":base_penalty"),
+
+                (troop_get_slot, ":nobility_npc", ":npc", slot_troop_nobility_rank),
+                (store_sub, ":diff", ":nobility_npc", ":nobility_receiver"),
+                (val_mul, ":diff", 3),
+
+                (store_add, ":penalty", ":penalty", ":diff"),
+
+                (store_troop_faction, ":npc_faction", ":npc"),
+                (try_begin),
+                    (neq, ":troop_faction", ":npc_faction"),
+                    (val_sub, ":penalty", 2),
+
+                    (call_script, "script_faction_get_distance_from_faction", ":npc_faction", ":troop_faction"),
+                    (store_div, ":distance_score", reg0, 20),
+                    (val_sub, ":penalty", ":distance_score"),
+                (try_end),
+
+                (troop_get_slot, ":rank", ":npc", slot_troop_rank),
+                (val_div, ":rank", 2),
+
+                (gt, ":penalty", 0),
+
+                (val_mul, ":penalty", ":penalty"),
+                (val_mul, ":penalty", -1),
+
+                (call_script, "script_troop_change_relation_with_troop", ":npc", ":troop_giver", ":penalty"),
+                (val_div, ":penalty", 3),
+                (call_script, "script_troop_change_relation_with_troop", ":npc", ":troop_receiver", ":penalty"),
             (try_end),
         ]),
 
