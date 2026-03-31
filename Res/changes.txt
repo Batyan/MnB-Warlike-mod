@@ -18,6 +18,7 @@ v0.720:
 	-Fixes:
 		* fix player captor party disapearing
 		* fix mercenary troops quality category
+		* fix incorrect hero npc wages
 v0.710:
 	-Features:
 		* add current wars in faction notes

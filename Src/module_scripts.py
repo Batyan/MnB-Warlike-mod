@@ -14709,7 +14709,7 @@ scripts = [
             (troop_set_slot, ":receiver_troop", slot_troop_surplus_center, ":surplus_center"),
 
             (call_script, "script_troop_grant_fief_penalties", ":giver_troop_no", ":center", ":receiver_troop"),
-            
+
             (try_begin),
                 (store_troop_faction, ":player_faction", "$g_player_troop"),
                 (store_troop_faction, ":giver_faction", ":giver_troop_no"),
@@ -15887,14 +15887,20 @@ scripts = [
         [
             (store_script_param, ":troop_id", 1),
             
-            (store_character_level, ":level", ":troop_id"),
-            
+            (assign, ":level", 0),
+            (try_begin),
+                (troop_is_hero, ":troop_id"),
+                (troop_get_slot, ":level", ":troop_id", slot_troop_xp_level),
+            (else_try),
+                (store_character_level, ":level", ":troop_id"),
+            (try_end),
+                
             (store_add, ":join_cost", ":level", 8),
             (val_mul, ":join_cost", ":join_cost"),
             (val_div, ":join_cost", 5),
 
             (val_mul, ":join_cost", 10),
-            
+        
             (assign, reg0, ":join_cost"), 
         ]),
 
@@ -23393,6 +23399,10 @@ scripts = [
             (store_script_param, ":troop_no", 1),
 
             (store_character_level, ":troop_level", ":troop_no"),
+            (try_begin),
+                (troop_is_hero, ":troop_no"),
+                (troop_get_slot, ":troop_level", ":troop_no", slot_troop_xp_level),
+            (try_end),
             
             (store_add, ":divider", ":troop_level", 60),
             (val_add, ":troop_level", 8),
