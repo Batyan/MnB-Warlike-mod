@@ -1813,7 +1813,11 @@ slot_troop_mercenary_contract_wages_ratio = slot_troop_nobility_rank + 1
 slot_troop_mercenary_contract_monthly_pay = slot_troop_mercenary_contract_wages_ratio + 1
 slot_troop_mercenary_contract_end_date = slot_troop_mercenary_contract_monthly_pay + 1
 
-slot_troop_mission_kills = slot_troop_mercenary_contract_end_date + 1
+slot_troop_mercenary_old_occupation = slot_troop_mercenary_contract_end_date + 1
+slot_troop_mercenary_old_faction = slot_troop_mercenary_old_occupation + 1
+slot_troop_mercenary_old_party_type = slot_troop_mercenary_old_faction + 1
+
+slot_troop_mission_kills = slot_troop_mercenary_old_party_type + 1
 slot_troop_mission_deaths = slot_troop_mission_kills + 1
 
 slot_troop_xp = slot_troop_mission_deaths + 1
