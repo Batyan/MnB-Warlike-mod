@@ -4040,12 +4040,7 @@ game_menus = [
                 ]),
             ("mercenary_contract_end", [], "End contract",
                 [
-                    (troop_set_slot, "$g_player_troop", slot_troop_kingdom_occupation, tko_kingdom_hero),
-                    (troop_set_faction, "$g_player_troop", "fac_player_faction"),
-                    (party_set_faction, "$g_player_party", "fac_player_faction"),
-
-                    (troop_set_slot, "$g_player_troop", slot_troop_mercenary_contract_monthly_pay, 0),
-                    (troop_set_slot, "$g_player_troop", slot_troop_mercenary_contract_wages_ratio, 0),
+                    (call_script, "script_troop_end_mercenary", "$g_player_troop"),
 
                     (change_screen_return),
                 ]),

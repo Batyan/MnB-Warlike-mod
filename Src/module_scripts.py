@@ -32284,6 +32284,7 @@ scripts = [
             (store_script_param, ":troop_leader", 2),
 
             (troop_get_slot, ":occupation", ":troop_no", slot_troop_kingdom_occupation),
+            (troop_set_slot, ":troop_no", slot_troop_mercenary_old_occupation, ":occupation"),
             (try_begin),
                 (neq, ":occupation", tko_mercenary),
                 (troop_set_slot, ":troop_no", slot_troop_kingdom_occupation, tko_mercenary),
@@ -32300,15 +32301,48 @@ scripts = [
 
             (store_troop_faction, ":troop_faction", ":troop_no"),
             (store_troop_faction, ":leader_faction", ":troop_leader"),
+            (troop_set_slot, ":troop_no", slot_troop_mercenary_old_faction, ":troop_faction"),
             (try_begin),
                 (neq, ":troop_faction", ":leader_faction"),
 
                 (troop_set_faction, ":troop_no", ":leader_faction"),
 
                 (troop_get_slot, ":troop_party", ":troop_no", slot_troop_leaded_party),
-                (ge, ":troop_party", 0),
-                (party_set_faction, ":troop_party", ":leader_faction"),
+                (try_begin),
+                    (ge, ":troop_party", 0),
+                    (party_set_faction, ":troop_party", ":leader_faction"),
+                    (party_get_slot, ":party_type", ":troop_party", slot_party_type),
+
+                    (troop_set_slot, ":troop_no", slot_troop_mercenary_old_party_type, ":party_type"),
+                    (party_set_slot, ":troop_party", slot_party_type, spt_war_party),
+                (try_end),
             (try_end),
+        ]),
+
+    # script_troop_end_mercenary
+        # input:
+        #   arg1: troop_no
+        # output: none
+    ("troop_end_mercenary",
+        [
+            (store_script_param, ":troop_no", 1),
+
+            (troop_get_slot, ":old_occupation", ":troop_no", slot_troop_mercenary_old_occupation),
+            (troop_get_slot, ":old_faction", ":troop_no", slot_troop_mercenary_old_faction),
+            (troop_get_slot, ":old_party_type", ":troop_no", slot_troop_mercenary_old_party_type),
+
+            (troop_set_slot, ":troop_no", slot_troop_kingdom_occupation, ":old_occupation"),
+            (troop_set_faction, ":troop_no", ":old_faction"),
+            (troop_get_slot, ":party", ":troop_no", slot_troop_leaded_party),
+            (try_begin),
+                (ge, ":party", 0),
+                (party_is_active, ":party"),
+                (party_set_faction, ":party", ":old_faction"),
+                (party_set_slot, ":troop_party", slot_party_type, ":old_party_type"),
+            (try_end),
+
+            (troop_set_slot, ":troop_no", slot_troop_mercenary_contract_monthly_pay, 0),
+            (troop_set_slot, ":troop_no", slot_troop_mercenary_contract_wages_ratio, 0),
         ]),
 
     # script_cf_faction_needs_mercenaries
