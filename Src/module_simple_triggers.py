@@ -452,7 +452,6 @@ simple_triggers = [
 
                 (call_script, "script_party_process_buildings_maintenance", ":center"),
 
-
                 (try_begin),
                     (call_script, "script_cf_party_has_building", ":center", "itm_building_bank"),
                     (call_script, "script_party_get_building_efficiency", ":center", "itm_building_bank"),
