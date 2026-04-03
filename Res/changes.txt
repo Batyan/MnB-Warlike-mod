@@ -15,6 +15,7 @@ v0.720:
 		* increase frequency of lords recruitment in centers
 		* add indication of number of mercenaries in taverns
 		* add penalties for giving out fiefs and promoting lords
+		* give priority to horse archer over lancer for troop type assignment
 	-Fixes:
 		* fix player captor party disapearing
 		* fix mercenary troops quality category
@@ -175,7 +176,7 @@ v0.640:
 		* increase lord pool quantity
 		* increase clans pool quantity
 		* fix incorrect building maintenance description (per month -> yearly)
-v0.630:
+v0.630: ~~ alpha test 01 ~~
 	-Features:
 		* add player levels and leveling up
 		* player kills increase experience
