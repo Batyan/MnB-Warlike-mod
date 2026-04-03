@@ -25386,13 +25386,6 @@ scripts = [
         [
             (store_script_param, ":party_no", 1),
 
-            (try_begin),
-                (call_script, "script_cf_debug", debug_simple),
-
-                (str_store_party_name, s10, ":party_no"),
-                (display_message, "@Processing behavior for {s10}"),
-            (try_end),
-
             (assign, ":end", party_generic_behavior_count),
             (try_for_range, ":unused", 0, ":end"),
                 (assign, ":max_weight", 0),
