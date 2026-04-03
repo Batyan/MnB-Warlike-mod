@@ -25590,6 +25590,8 @@ scripts = [
 
             (val_sub, ":weight", 50),
 
+            (val_min, ":weight", 100),
+
             (assign, reg0, ":weight"),
         ]),
 
@@ -25603,6 +25605,8 @@ scripts = [
             # (store_script_param, ":party_no", 1),
 
             (assign, ":weight", 0),
+
+            (val_min, ":weight", 100),
 
             (assign, reg0, ":weight"),
         ]),
@@ -25618,6 +25622,8 @@ scripts = [
 
             (assign, ":weight", 0),
 
+            (val_min, ":weight", 100),
+
             (assign, reg0, ":weight"),
         ]),
 
@@ -25631,6 +25637,8 @@ scripts = [
             # (store_script_param, ":party_no", 1),
 
             (assign, ":weight", 0),
+
+            (val_min, ":weight", 100),
 
             (assign, reg0, ":weight"),
         ]),
@@ -25680,6 +25688,8 @@ scripts = [
                 (try_end),
             (try_end),
 
+            (val_min, ":weight", 100),
+
             (assign, reg0, ":weight"),
         ]),
 
@@ -25727,6 +25737,8 @@ scripts = [
                 (try_end),
             (try_end),
 
+            (val_min, ":weight", 100),
+
             (assign, reg0, ":weight"),
         ]),
 
@@ -25753,6 +25765,8 @@ scripts = [
                     (val_add, ":weight", party_behavior_variance*2),
                 (try_end),
             (try_end),
+
+            (val_min, ":weight", 100),
 
             (assign, reg0, ":weight"),
         ]),
@@ -25791,6 +25805,8 @@ scripts = [
                 (assign, ":weight", 100),
             (try_end),
 
+            (val_min, ":weight", 100),
+
             (assign, reg0, ":weight"),
         ]),
 
@@ -25804,6 +25820,8 @@ scripts = [
             # (store_script_param, ":party_no", 1),
 
             (assign, ":weight", 0),
+
+            (val_min, ":weight", 100),
 
             (assign, reg0, ":weight"),
         ]),
@@ -25848,6 +25866,8 @@ scripts = [
                 (try_end),
             (try_end),
 
+            (val_min, ":weight", 100),
+
             (assign, reg0, ":weight"),
         ]),
 
@@ -25881,6 +25901,8 @@ scripts = [
                 (gt, ":total_civilians", 0),
                 (val_add, ":weight", 40),
             (try_end),
+
+            (val_min, ":weight", 100),
 
             (assign, reg0, ":weight"),
         ]),
