@@ -3560,6 +3560,8 @@ dialogs = [
             (else_try),
                 (party_force_add_members, "$g_player_party", "$g_talk_troop", 1),
             (try_end),
+            (troop_equip_items, "$g_talk_troop"),
+            (troop_set_auto_equip, "$g_talk_troop", 0),
             (change_screen_return),
         ]],
     [anyone, "hero_join_refuse", [],
