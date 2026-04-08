@@ -2201,6 +2201,16 @@ troops = [
     ],
    str_8|agi_8|int_6|cha_6|level(5), wpex(55,50,45,75,20,40), knows_common|knows_ironflesh_1|knows_power_strike_2|knows_power_draw_4|knows_athletics_3|knows_riding_2|knows_horse_archery_1, vaegir_face_young_1, vaegir_face_old_2 ],
   
+  # Basic cavalry ranged, axes, swords, bows
+  # SPECIAL
+  ["vaegir_levy_hussar", "Vaegir Levy Hussar", "Vaegir Levy Hussar", tf_guarantee_recruit_armor|tf_guarantee_ranged|tf_guarantee_horseman, no_scene, reserved, fac_small_kingdom_21,
+   [itm_one_handed_war_axe_a, itm_sword_khergit_1, itm_hunting_bow, itm_arrows_b,
+    itm_nomad_boots, itm_hide_boots,
+    itm_linen_tunic_herald,
+    itm_vaegir_fur_cap, itm_leather_cap, itm_leather_warrior_cap,
+    itm_steppe_horse],
+   str_8|agi_9|int_7|cha_7|level(8), wpex(55,50,50,75,25,25), knows_common|knows_ironflesh_1|knows_power_strike_2|knows_power_draw_4|knows_athletics_2|knows_riding_5|knows_horse_archery_3, vaegir_face_young_1, vaegir_face_old_2 ],
+  
   # Common
   # Light infantry, sabres, axes, 2h axes, shields
   ["vaegir_light_infantry", "Vaegir Light Infantry", "Vaegir Light Infantries", tf_guarantee_common_armor|tf_guarantee_shield, no_scene, reserved, fac_kingdom_2,

@@ -14958,6 +14958,7 @@ scripts = [
             (troop_set_slot, "trp_khergit_hunter", slot_troop_ratio_special_multiplier, 65),
             (troop_set_slot, "trp_vaegir_militia", slot_troop_ratio_special_multiplier, 50),
             (troop_set_slot, "trp_vaegir_hunter", slot_troop_ratio_special_multiplier, 50),
+            (troop_set_slot, "trp_vaegir_levy_hussar", slot_troop_ratio_special_multiplier, 20),
             (troop_set_slot, "trp_vaegir_levy_infantry", slot_troop_ratio_special_multiplier, 45),
             (troop_set_slot, "trp_vaegir_levy_axeman", slot_troop_ratio_special_multiplier, 25),
             (troop_set_slot, "trp_vaegir_levy", slot_troop_ratio_special_multiplier, 30),
