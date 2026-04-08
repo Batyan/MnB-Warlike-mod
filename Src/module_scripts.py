@@ -4817,8 +4817,8 @@ scripts = [
             (store_script_param, ":party", 1),
 
             (party_get_slot, ":xp", ":party", slot_party_mission_xp),
-
             (call_script, "script_party_share_xp", ":party", ":xp"),
+            (party_set_slot, ":party", slot_party_mission_xp, 0),
 
             (party_get_num_attached_parties, ":num_attached", ":party"),
             (try_for_range, ":rank", 0, ":num_attached"),
@@ -4848,7 +4848,6 @@ scripts = [
                 (val_div, ":xp_gained", 500),
                 (call_script, "script_troop_add_xp", ":troop_id", ":xp_gained"),
             (try_end),
-            (party_set_slot, ":party_no", slot_party_mission_xp, 0),
         ]),
 
     # script_party_group_get_total_xp
