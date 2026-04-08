@@ -613,9 +613,10 @@ party_behavior_weight_rest = party_behavior_weight_recruit_troops_mercenaries + 
 party_behavior_weight_escort = party_behavior_weight_rest + 1
 party_behavior_weight_deposit_troops = party_behavior_weight_escort + 1
 party_behavior_weight_deposit_civilians = party_behavior_weight_deposit_troops + 1
+party_behavior_weight_center_actions = party_behavior_weight_deposit_civilians + 1
 
 party_behavior_weight_begin = party_behavior_weight_patrol_home
-party_behavior_weight_end = party_behavior_weight_deposit_civilians + 1
+party_behavior_weight_end = party_behavior_weight_center_actions + 1
 
 party_generic_behavior_count = party_behavior_weight_end - party_behavior_weight_begin
 
@@ -840,7 +841,9 @@ slot_faction_num_vassals_active = slot_faction_num_vassals + 1
 slot_faction_num_fiefs = slot_faction_num_vassals_active + 1
 slot_faction_num_walled_fiefs = slot_faction_num_fiefs + 1
 
-slot_faction_strength_active = slot_faction_num_walled_fiefs + 1
+slot_faction_num_mercenaries = slot_faction_num_walled_fiefs + 1
+
+slot_faction_strength_active = slot_faction_num_mercenaries + 1
 slot_faction_strength_ready = slot_faction_strength_active + 1
 
 slot_faction_strength_defensive_allies = slot_faction_strength_ready + 1

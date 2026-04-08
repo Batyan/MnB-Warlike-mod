@@ -10309,6 +10309,7 @@ scripts = [
             (assign, ":tolerance_min", 80),
             (assign, ":tolerance_max", 125),
 
+            (party_get_slot, ":party_type", ":party_no", slot_party_type),
             (try_begin),
                 (is_between, ":party_no", centers_begin, centers_end),
                 (party_get_slot, ":lord", ":party_no", slot_party_lord),
@@ -10316,10 +10317,26 @@ scripts = [
                 (party_get_slot, ":wanted_wages", ":party_no", slot_party_player_wages_limit),
                 (ge, ":wanted_wages", 0),
             (else_try),
-                (party_get_slot, ":party_type", ":party_no", slot_party_type),
                 (eq, ":party_type", spt_traveller),
                 (call_script, "script_party_get_total_wealth", ":party_no", 0),
-                (store_div, ":wanted_wages", reg0, 10),
+                (store_div, ":wanted_wages", reg0, 15),
+                (val_add, ":wanted_wages", 2000),
+            (else_try),
+                (eq, ":party_type", spt_war_party),
+                (party_get_slot, ":leader", ":party_no", slot_party_leader),
+                (ge, ":leader", 0),
+                (troop_slot_eq, ":leader", slot_troop_kingdom_occupation, tko_mercenary),
+                (assign, ":div", 10),
+                (try_begin),
+                    (troop_get_slot, ":last_date", ":leader", slot_troop_mercenary_contract_end_date),
+                    (call_script, "script_get_current_day"),
+                    (assign, ":current_day", reg0),
+                    (gt, ":current_day", ":last_date"),
+                    (assign, ":div", 25),
+                (try_end),
+                (call_script, "script_party_get_total_wealth", ":party_no", 0),
+                (store_div, ":wanted_wages", reg0, ":div"),
+                (val_add, ":wanted_wages", 2000),
             (else_try),
                 (assign, ":at_war", 0),
                 (assign, ":preparing_for_war", 0),
@@ -25503,9 +25520,12 @@ scripts = [
                 (else_try),
                     (eq, ":behavior", party_behavior_weight_deposit_civilians),
                     # (assign, ":action", "script_party_get_behavior_weight_deposit_civilians"),
+                (else_try),
+                    (eq, ":behavior", party_behavior_weight_center_actions),
+                    (assign, ":action", "script_party_get_behavior_weight_become_mercenary"),
                 (try_end),
             (else_try),
-                (eq, ":party_type", spt_traveller),
+                (eq, ":party_type", spt_wanderer),
 
                 (try_begin),
                     (eq, ":behavior", party_behavior_weight_travel),
@@ -25901,6 +25921,39 @@ scripts = [
             (assign, reg0, ":weight"),
         ]),
 
+    # script_party_get_behavior_weight_become_mercenary
+        # input:
+        #   arg1: party_no
+        # output:
+        #   reg0: weight
+    ("party_get_behavior_weight_become_mercenary", 
+        [
+            (store_script_param, ":party_no", 1),
+
+            (assign, ":weight", 0),
+
+            (call_script, "script_party_get_holding_center", ":party_no"),
+            (assign, ":holding", reg0),
+            (try_begin),
+                (is_between, ":holding", centers_begin, centers_end),
+
+                (party_get_slot, ":current_faction", ":holding", slot_party_faction),
+                (store_faction_of_party, ":center_faction", ":holding"),
+                (eq, ":current_faction", ":center_faction"),
+
+                (party_get_slot, ":leader", ":holding", slot_party_leader),
+                (is_between, ":leader", npc_heroes_begin, npc_heroes_end),
+                (call_script, "script_cf_troop_is_in_center", ":leader", ":holding"),
+
+                (call_script, "script_cf_faction_needs_mercenaries", ":current_faction"),
+                (assign, ":weight", 80),
+            (try_end),
+
+            (val_min, ":weight", 100),
+
+            (assign, reg0, ":weight"),
+        ]),
+
     # script_party_get_behavior_action
         # input:
         #   arg1: party_no
@@ -25944,6 +25997,18 @@ scripts = [
                 (else_try),
                     (eq, ":behavior", party_behavior_weight_deposit_civilians),
                     # (assign, ":action", "script_party_get_behavior_action_deposit_civilians"),
+                (else_try),
+                    (eq, ":behavior", party_behavior_weight_center_actions),
+                    (assign, ":action", "script_party_get_behavior_action_become_mercenary"),
+                (try_end),
+            (else_try),
+                (eq, ":party_type", spt_wanderer),
+                (try_begin),
+                    (eq, ":behavior", party_behavior_weight_travel),
+                    (assign, ":action", "script_party_get_behavior_action_travel"),
+                (else_try),
+                    (eq, ":behavior", party_behavior_weight_rest),
+                    (assign, ":action", "script_party_get_behavior_action_rest"),
                 (try_end),
             (try_end),
 
@@ -26271,6 +26336,41 @@ scripts = [
             # (store_script_param, ":party_no", 1),
 
             (assign, ":completed", -1),
+
+            (assign, reg0, ":completed"),
+        ]),
+
+    # script_party_get_behavior_action_become_mercenary
+        # input:
+        #   arg1: party_no
+        # output:
+        #   reg0: completed
+    ("party_get_behavior_action_become_mercenary",
+        [
+            (store_script_param, ":party_no", 1),
+
+            (assign, ":completed", -1),
+
+            (call_script, "script_party_get_holding_center", ":party_no"),
+            (assign, ":center", reg0),
+            (try_begin),
+                (is_between, ":center", centers_begin, centers_end),
+                (party_get_slot, ":leader", ":party_no", slot_party_leader),
+                (is_between, ":leader", npc_heroes_begin, npc_heroes_end),
+                (party_get_slot, ":center_leader", ":center", slot_party_leader),
+                (is_between, ":center_leader", npc_heroes_begin, npc_heroes_end),
+                (call_script, "script_troop_become_mercenary", ":leader", ":center_leader"),
+                (assign, ":completed", 1),
+
+                (try_begin),
+                    (call_script, "script_cf_debug", debug_simple),
+                    (str_store_troop_name, s10, ":leader"),
+                    (str_store_troop_name, s11, ":center_leader"),
+                    (store_faction_of_party, ":center_faction", ":center"),
+                    (str_store_faction_name, s12, ":center_faction"),
+                    (display_message, "@{s10} becomes mercenary for {s11} of {s12}"),
+                (try_end),
+            (try_end),
 
             (assign, reg0, ":completed"),
         ]),
@@ -32332,7 +32432,7 @@ scripts = [
                 (ge, ":party", 0),
                 (party_is_active, ":party"),
                 (party_set_faction, ":party", ":old_faction"),
-                (party_set_slot, ":troop_party", slot_party_type, ":old_party_type"),
+                (party_set_slot, ":party", slot_party_type, ":old_party_type"),
             (try_end),
 
             (troop_set_slot, ":troop_no", slot_troop_mercenary_contract_monthly_pay, 0),
@@ -32353,6 +32453,21 @@ scripts = [
             (faction_get_slot, ":preparing_war", ":faction_no", slot_faction_preparing_war),
             (this_or_next|gt, ":at_war", 0),
             (gt, ":preparing_war", 0),
+
+            (faction_get_slot, ":num_mercenaries", ":faction_no", slot_faction_num_mercenaries),
+            (faction_get_slot, ":size_category", ":faction_no", slot_faction_size_category),
+            (assign, ":max_mercenaries", 0),
+            (try_begin),
+                (eq, ":size_category", sfs_small),
+                (assign, ":max_mercenaries", 2),
+            (else_try),
+                (eq, ":size_category", sfs_medium),
+                (assign, ":max_mercenaries", 3),
+            (else_try),
+                (eq, ":size_category", sfs_large),
+                (assign, ":max_mercenaries", 4),
+            (try_end),
+            (lt, ":num_mercenaries", ":max_mercenaries"),
         ]),
 
     # script_troop_get_xp_value

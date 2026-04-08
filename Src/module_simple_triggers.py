@@ -605,9 +605,17 @@ simple_triggers = [
 
                     (store_troop_faction, ":lord_kingdom", ":lord_no"),
 
-                    (faction_get_slot, ":num_vassals", ":lord_kingdom", slot_faction_num_vassals),
-                    (val_add, ":num_vassals", 1),
-                    (faction_set_slot, ":lord_kingdom", slot_faction_num_vassals, ":num_vassals"),
+                    (try_begin),
+                        (eq, ":occupation", tko_kingdom_hero),
+                        (faction_get_slot, ":num_vassals", ":lord_kingdom", slot_faction_num_vassals),
+                        (val_add, ":num_vassals", 1),
+                        (faction_set_slot, ":lord_kingdom", slot_faction_num_vassals, ":num_vassals"),
+                    (else_try),
+                        (eq, ":occupation", tko_mercenary),
+                        (faction_get_slot, ":num_mercenaries", ":lord_kingdom", slot_faction_num_mercenaries),
+                        (val_add, ":num_mercenaries", 1),
+                        (faction_set_slot, ":lord_kingdom", slot_faction_num_mercenaries, ":num_mercenaries"),
+                    (try_end),
 
                     (try_begin),
                         (troop_get_slot, ":leaded_party", ":lord_no", slot_troop_leaded_party),
