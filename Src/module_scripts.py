@@ -1220,7 +1220,8 @@ scripts = [
             (party_get_slot, ":party_type", ":defeated_party", slot_party_type),
             (try_begin),
                 (this_or_next|eq, ":party_type", spt_war_party),
-                (eq, ":party_type", spt_traveller),
+                (this_or_next|eq, ":party_type", spt_traveller),
+                (eq, ":party_type", spt_wanderer),
 
                 (call_script, "script_faction_political_event", ":party_faction", political_event_war_party_defeated, ":defeated_party", ":winner_party", -1),
 
