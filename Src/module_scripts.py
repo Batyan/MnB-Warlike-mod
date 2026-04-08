@@ -4845,7 +4845,7 @@ scripts = [
                 (assign, ":ratio", reg0),
 
                 (store_mul, ":xp_gained", ":xp", ":ratio"),
-                (val_div, ":xp_gained", 1000),
+                (val_div, ":xp_gained", 500),
                 (call_script, "script_troop_add_xp", ":troop_id", ":xp_gained"),
             (try_end),
             (party_set_slot, ":party_no", slot_party_mission_xp, 0),

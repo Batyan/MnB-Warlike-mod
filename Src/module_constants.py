@@ -574,9 +574,9 @@ ta_threatening = 8
 ta_loving = 9
 ta_caring = 10
 
-level_xp_multiplier = 10
-level_xp_base = 100
-level_xp_multiplier_sqrt = 5000
+level_xp_multiplier = 45
+level_xp_base = 30
+level_xp_multiplier_sqrt = 3000
 
 bandit_start_camp_base_wealth = 10000
 

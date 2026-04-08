@@ -16,6 +16,8 @@ v0.720:
 		* add indication of number of mercenaries in taverns
 		* add penalties for giving out fiefs and promoting lords
 		* give priority to horse archer over lancer for troop type assignment
+		* increase base xp share (5% -> 10%)
+		* reduce xp required to level up for character levels < 35
 	-Fixes:
 		* fix player captor party disapearing
 		* fix mercenary troops quality category
