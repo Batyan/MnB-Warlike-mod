@@ -29813,7 +29813,7 @@ scripts = [
                 (assign, ":num_grants", 30),
                 (str_store_string, s0, "@Same faction: +30"),
             (else_try),
-                (str_store_string, s0, "@Indiferent faction: 0"),
+                (str_store_string, s0, "@Indifferent faction: 0"),
             (try_end),
 
             (assign, reg0, ":num_grants"),
