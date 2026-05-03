@@ -16610,14 +16610,23 @@ scripts = [
             # (party_get_num_companions, ":num_enemy", ":looted_party"),
             (party_get_num_companion_stacks, ":num_stack", ":looted_party"),
             (assign, ":total_gold", 0),
+
+            # ToDo: percent gold removed global difficulty parameter
+            (assign, ":gold_stolen_divider", 20),
+
+            (party_get_slot, ":wealth", ":looted_party", slot_party_wealth),
+            (try_begin),
+                (gt, ":wealth", 0),
+                (val_div, ":wealth", ":gold_stolen_divider"),
+                (val_add, ":total_gold", ":wealth"),
+            (try_end),
             (try_for_range, ":stack_no", 0, ":num_stack"),
                 (party_stack_get_troop_id, ":cur_troop", ":looted_party", ":stack_no"),
 
                 (try_begin),
                     (troop_is_hero, ":cur_troop"),
                     (store_troop_gold, ":current_gold", ":cur_troop"),
-                    # ToDo: percent gold removed global difficulty parameter
-                    (store_div, ":removed_gold", ":current_gold", 20),
+                    (store_div, ":removed_gold", ":current_gold", ":gold_stolen_divider"),
                     (troop_remove_gold, ":cur_troop", ":removed_gold"),
                     (val_add, ":total_gold", ":removed_gold"),
                 (else_try),
