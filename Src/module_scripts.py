@@ -14936,7 +14936,7 @@ scripts = [
             (troop_set_slot, "trp_rhodok_militia", slot_troop_faction_not_1, "fac_small_kingdom_54"), # Has Levy Crossbowman instead
             (troop_set_slot, "trp_rhodok_militia", slot_troop_faction_not_2, "fac_small_kingdom_55"), # Has Levy Crossbowman instead
             (troop_set_slot, "trp_rhodok_light_crossbowman", slot_troop_faction_not_1, "fac_small_kingdom_51"), # 
-            (troop_set_slot, "trp_rhodok_light_horse_archer", slot_troop_faction_not_1, "fac_small_kingdom_51"), # Has Mounted Archer instead
+            (troop_set_slot, "trp_rhodok_light_mounted_crossbowman", slot_troop_faction_not_1, "fac_small_kingdom_51"), # Has Mounted Archer instead
             (troop_set_slot, "trp_rhodok_medium_crossbowman", slot_troop_faction_not_1, "fac_small_kingdom_51"), # Has Bowman instead
             (troop_set_slot, "trp_rhodok_heavy_crossbowman", slot_troop_faction_not_1, "fac_small_kingdom_51"), # Has Heavy Bowman instead
             (troop_set_slot, "trp_rhodok_noble", slot_troop_faction_not_1, "fac_small_kingdom_51"), # Has Highlander instead
