@@ -335,6 +335,32 @@ simple_triggers = [
                 (troop_get_slot, ":occupation", ":lord_no", slot_troop_kingdom_occupation),
                 (neg|troop_slot_ge, ":lord_no", slot_troop_prisoner_of, 0), # Do not process prisoners
                 (try_begin),
+                    (eq, ":occupation", tko_mercenary),
+                    (troop_get_slot, ":last_date", ":lord_no", slot_troop_mercenary_contract_end_date),
+                    (call_script, "script_get_current_day"),
+                    (assign, ":current_day", reg0),
+                    (gt, ":current_day", ":last_date"),
+
+                    (assign, ":left", 0),
+                    (try_begin),
+
+                        (store_troop_faction, ":faction", ":lord_no"),
+                        (call_script, "script_cf_faction_needs_mercenaries", ":faction"),
+                        # We leave a chance to end mercenary contract
+                        (store_random_in_range, ":rand", 0, 10),
+                        (gt, ":rand", 0),
+
+                        (call_script, "script_get_current_day"),
+                        (assign, ":end_date", reg0),
+                        (val_add, ":end_date", 365*3),
+                        (troop_set_slot, ":lord_no", slot_troop_mercenary_contract_end_date, ":end_date"),
+                    (else_try),
+                        (call_script, "script_troop_end_mercenary", ":lord_no"),
+                        (assign, ":left", 1),
+                    (try_end),
+
+                    (eq, ":left", 1),
+                (else_try),
                     (is_between, ":occupation", tko_kingdom_hero, tko_mercenary + 1),
                     (troop_get_slot, ":leaded_party", ":lord_no", slot_troop_leaded_party),
                     (gt, ":leaded_party", 0),
