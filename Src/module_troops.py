@@ -3473,7 +3473,7 @@ troops = [
    str_9|agi_14|int_7|cha_7|level(14), wpex(60,50,55,120,55,30), knows_common|knows_ironflesh_2|knows_power_strike_2|knows_power_draw_4|knows_athletics_4|knows_riding_1, rhodok_face_young_1, rhodok_face_old_2 ],
   
   # Light cavalry ranged, swords, picks, crossbows
-  ["rhodok_light_horse_archer", "Rhodok Mounted Skirmisher", "Rhodok Mounted Skirmisher", tf_guarantee_recruit_armor|tf_guarantee_ranged|tf_guarantee_horseman, no_scene, reserved, fac_kingdom_5,
+  ["rhodok_light_mounted_crossbowman", "Rhodok Light Mounted Crossbowman", "Rhodok Light Mounted Crossbowman", tf_guarantee_recruit_armor|tf_guarantee_ranged|tf_guarantee_horseman, no_scene, reserved, fac_kingdom_5,
    [itm_sword_medieval_a, itm_fighting_pick, itm_light_crossbow, itm_bolts, itm_bolts,
     itm_leather_boots, itm_leather_gloves,
     itm_aketon_green_herald, itm_leather_armor_herald,
