@@ -24729,7 +24729,8 @@ scripts = [
 
             (try_begin),
                 # Do center business
-                (party_get_attached_to, ":cur_town", ":party_no"),
+                (call_script, "script_party_get_holding_center", ":party_no"),
+                (assign, ":cur_town", reg0),
                 (try_begin),
                     (is_between, ":cur_town", centers_begin, centers_end),
 
@@ -24783,7 +24784,8 @@ scripts = [
             (party_get_slot, ":mission", ":party_no", slot_party_mission),
             (party_get_slot, ":home", ":party_no", slot_party_linked_party),
 
-            (party_get_attached_to, ":cur_town", ":party_no"),
+            (call_script, "script_party_get_holding_center", ":party_no"),
+            (assign, ":cur_town", reg0),
 
             (try_begin),
                 (eq, ":cur_town", ":mission_object"),
@@ -26762,6 +26764,7 @@ scripts = [
                 (neq, ":party_type", spt_civilian),
                 (neq, ":party_type", spt_traveller),
                 (neq, ":party_type", spt_wanderer),
+                (neq, ":party_type", spt_caravan),
                 (party_attach_to_party, ":party_no", ":center_no"),
             (try_end),
 
