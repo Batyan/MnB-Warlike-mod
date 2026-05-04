@@ -735,4 +735,23 @@ simple_triggers = [
                 (call_script, "script_ready_wanderer", ":npc"),
             (try_end),
         ]),
+
+    (yearly, # Reserved heroes cleanup
+        [
+            (try_for_range, ":npc", npc_heroes_begin, npc_heroes_end),
+                (troop_slot_eq, ":npc", slot_troop_kingdom_occupation, tko_reserved),
+                (call_script, "script_troop_get_age", ":npc"),
+                (assign, ":age", reg0),
+
+                (gt, ":age", 60),
+                # Retire old notables
+                (try_begin),
+                    (call_script, "script_cf_debug", debug_simple),
+                    (str_store_troop_name, s10, ":npc"),
+                    (assign, reg10, ":age"),
+                    (display_message, "@Retiring old reserved {s10} at age {reg10}"),
+                (try_end),
+                (call_script, "script_init_lord", ":npc"),
+            (try_end),
+        ]),
 ]

@@ -2533,7 +2533,7 @@ presentations = [
 
                     (store_troop_faction, ":player_faction", "$g_player_troop"),
 
-                    (call_script, "script_faction_get_notables", ":player_faction"),
+                    (call_script, "script_faction_get_notables", ":player_faction", "$g_player_troop"),
                     (assign, ":num_constables", reg0),
                     (store_add, ":end", slot_troop_temp_array_begin, ":num_constables"),
 

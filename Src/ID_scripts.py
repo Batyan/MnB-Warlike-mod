@@ -670,9 +670,10 @@ script_party_process_mercenaries = 668
 script_party_get_max_mercenaries = 669
 script_party_get_mercenaries = 670
 script_troop_grant_fief_penalties = 671
-script_presentation_generate_select_lord_card = 672
-script_presentation_create_text_overlay = 673
-script_presentation_create_combo_button_overlay = 674
-script_presentation_create_check_box_overlay = 675
+script_troop_get_age = 672
+script_presentation_generate_select_lord_card = 673
+script_presentation_create_text_overlay = 674
+script_presentation_create_combo_button_overlay = 675
+script_presentation_create_check_box_overlay = 676
 
 

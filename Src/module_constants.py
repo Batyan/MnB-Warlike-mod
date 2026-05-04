@@ -1829,7 +1829,9 @@ slot_troop_attribute_points = slot_troop_xp_level + 1
 slot_troop_skill_points = slot_troop_attribute_points + 1
 slot_troop_proficiency_points = slot_troop_skill_points + 1
 
-slot_troop_relations_begin = slot_troop_proficiency_points + 1
+slot_troop_birth_date = slot_troop_proficiency_points + 1
+
+slot_troop_relations_begin = slot_troop_birth_date + 1
 
 # TODO: remove or move to specific slot type
 slot_item_mission_kills = 400

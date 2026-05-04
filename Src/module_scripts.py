@@ -1980,7 +1980,7 @@ scripts = [
             (try_end),
             (set_result_string, s1),
         ]),
-  
+
     #script_game_get_money_text:
         # This script is called from the game engine when an amount of money needs to be displayed.
         # INPUT: arg1 = amount in units
@@ -13979,6 +13979,7 @@ scripts = [
             (call_script, "script_troop_set_name", ":lord_no"),
             (call_script, "script_troop_update_name", ":lord_no"),
 
+
             (call_script, "script_troop_get_face_code", ":lord_no", -1, -1),
             (troop_set_face_keys, ":lord_no", s0),
             
@@ -13987,6 +13988,15 @@ scripts = [
             (assign, ":current_day", reg0),
             (troop_set_slot, ":lord_no", slot_troop_last_attack, ":current_day"),
             (troop_set_slot, ":lord_no", slot_troop_last_rest, ":current_day"),
+
+            (store_random_in_range, ":random_age", 20, 60),
+            (store_mul, ":days_passed", ":random_age", 36525),
+            (val_div, ":days_passed", 100),
+            (store_random_in_range, ":random_day", 0, 365),
+            (val_add, ":days_passed", ":random_day"),
+            (store_sub, ":birth_day", ":current_day", ":days_passed"),
+            (troop_set_slot, ":lord_no", slot_troop_birth_date, ":birth_day"),
+            (troop_set_age, ":lord_no", ":random_age"),
 
             (troop_set_note_available, ":lord_no", 1),
             
@@ -14039,6 +14049,18 @@ scripts = [
             (call_script, "script_troop_get_face_code", ":troop_no", -1, -1),
             (troop_set_face_keys, ":troop_no", s0),
             (troop_add_gold, ":troop_no", ":random_money"),
+
+            (call_script, "script_get_current_day"),
+            (assign, ":current_day", reg0),
+
+            (store_random_in_range, ":random_age", 18, 50),
+            (store_mul, ":days_passed", ":random_age", 36525),
+            (val_div, ":days_passed", 100),
+            (store_random_in_range, ":random_day", 0, 365),
+            (val_add, ":days_passed", ":random_day"),
+            (store_sub, ":birth_day", ":current_day", ":days_passed"),
+            (troop_set_slot, ":troop_no", slot_troop_birth_date, ":birth_day"),
+            (troop_set_age, ":troop_no", ":random_age"),
 
             (try_begin),
                 (call_script, "script_cf_debug", debug_simple),
@@ -14098,6 +14120,18 @@ scripts = [
             (call_script, "script_troop_get_face_code", ":troop_no", -1, -1),
             (troop_set_face_keys, ":troop_no", s0),
             (troop_add_gold, ":troop_no", ":random_money"),
+
+            (call_script, "script_get_current_day"),
+            (assign, ":current_day", reg0),
+            
+            (store_random_in_range, ":random_age", 16, 40),
+            (store_mul, ":days_passed", ":random_age", 36525),
+            (val_div, ":days_passed", 100),
+            (store_random_in_range, ":random_day", 0, 365),
+            (val_add, ":days_passed", ":random_day"),
+            (store_sub, ":birth_day", ":current_day", ":days_passed"),
+            (troop_set_slot, ":troop_no", slot_troop_birth_date, ":birth_day"),
+            (troop_set_age, ":troop_no", ":random_age"),
 
             (try_begin),
                 (call_script, "script_cf_debug", debug_simple),
@@ -14481,13 +14515,22 @@ scripts = [
     # script_faction_get_notables
         # input:
         #   arg1: faction_no
+        #   arg2: promoter
         # output:
         #   reg0: num_notables
         #   result in temp_troop slots slot_troop_temp_array_begin
     ("faction_get_notables",
         [
             (store_script_param, ":faction_no", 1),
+            (store_script_param, ":promoter_troop", 2),
+
             (assign, ":begin", slot_troop_temp_array_begin),
+
+            (assign, ":max_notables", 2),
+            (try_begin),
+                (troop_get_slot, ":rank", ":promoter_troop", slot_troop_rank),
+                (val_add, ":max_notables", ":rank"),
+            (try_end),
 
             (assign, ":num_notables", 0),
             (try_for_range, ":lord_no", lords_begin, lords_end),
@@ -14500,8 +14543,8 @@ scripts = [
                 (val_add, ":num_notables", 1),
             (try_end),
             (try_begin),
-                (lt, ":num_notables", 6),
-                (store_sub, ":missing", 6,  ":num_notables"),
+                (lt, ":num_notables", ":max_notables"),
+                (store_sub, ":missing", ":max_notables", ":num_notables"),
                 (try_for_range, ":unused", 0, ":missing"),
                     (call_script, "script_find_free_lord"),
                     (assign, ":new_lord", reg0),
@@ -35032,6 +35075,26 @@ scripts = [
                 (val_div, ":penalty", 3),
                 (call_script, "script_troop_change_relation_with_troop", ":npc", ":troop_receiver", ":penalty"),
             (try_end),
+        ]),
+
+    # script_troop_get_age
+        # input:
+        #   arg1: troop_no
+        # output:
+        #   reg0: age
+    ("troop_get_age",
+        [
+            (store_script_param, ":troop_no", 1),
+
+            (troop_get_slot, ":birth_day", ":troop_no", slot_troop_birth_date),
+            (call_script, "script_get_current_day"),
+            (assign, ":current_day", reg0),
+
+            (store_sub, ":age", ":current_day", ":birth_day"),
+            (val_mul, ":age", 100),
+            (val_div, ":age", 36525),
+            
+            (assign, reg0, ":age"),
         ]),
 
     # script_presentation_generate_select_lord_card
