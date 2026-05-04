@@ -22,6 +22,7 @@ v0.720:
 		* reduce xp required to level up for character levels < 35
 		* add vaegir_levy_hussar to small_kingdom_21
 		* change rhodok_mounted_skirmisher name to rhodok_light_mounted_crossbowman
+		* update faction colors
 	-Fixes:
 		* fix player captor party disapearing
 		* fix mercenary troops quality category
