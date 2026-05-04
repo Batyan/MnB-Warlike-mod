@@ -53,13 +53,13 @@ factions = [
 	("kingdom_5", "Rhodoks", 0, 0.9, [("outlaws",-0.5),], [], 0x00008f),
 	("kingdom_6", "Sarranid", 0, 0.9, [("outlaws",-0.5),], [], 0x928f00),
 	
-	("small_kingdom_11", "Tevarin", 0, 0.9, [("outlaws",-0.5),], [], 0xB04444), # Heavy Crossbow + Heavy Pikeman
-	("small_kingdom_12", "Elberl", 0, 0.9, [("outlaws",-0.5),], [], 0xDD8888), # Guard + Levy Infantry + Heavy Infantry + Foot Knight
+	("small_kingdom_11", "Tevarin", 0, 0.9, [("outlaws",-0.5),], [], 0xFFA584), # Heavy Crossbow + Heavy Pikeman
+	("small_kingdom_12", "Elberl", 0, 0.9, [("outlaws",-0.5),], [], 0xFFB7E1), # Guard + Levy Infantry + Heavy Infantry + Foot Knight
 	("small_kingdom_13", "Dhirim", 0, 0.9, [("outlaws",-0.5),], [], 0x644330), # Light Horseman + Horseman
-	("small_kingdom_14", "Gisim", 0, 0.9, [("outlaws",-0.5),], [], 0xD35DB2), # Light Longbowman + Longbowman + Hunter
-	("small_kingdom_15", "Burglen", 0, 0.9, [("outlaws",-0.5),], [], 0xDD0055), # Levy Spearman + Heavy Lancer + Lancer +  Scout
+	("small_kingdom_14", "Gisim", 0, 0.9, [("outlaws",-0.5),], [], 0x9C80CE), # Light Longbowman + Longbowman + Hunter
+	("small_kingdom_15", "Burglen", 0, 0.9, [("outlaws",-0.5),], [], 0xDB4C85), # Levy Spearman + Heavy Lancer + Lancer +  Scout
 	("small_kingdom_16", "Tilbaut", 0, 0.9, [("outlaws",-0.5),], [], 0xBB5500), # Mounted Skirmisher + Levy Skirmisher
-	("small_kingdom_17", "Uxkhal", 0, 0.9, [("outlaws",-0.5),], [], 0x8a3656), # Squire + Light Spearman + Spearman + Levy Spearman + Foot Knight
+	("small_kingdom_17", "Uxkhal", 0, 0.9, [("outlaws",-0.5),], [], 0x913D7C), # Squire + Light Spearman + Spearman + Levy Spearman + Foot Knight
 	
 	("small_kingdom_21", "Slezhk", 0, 0.9, [("outlaws",-0.5),], [], 0xcbdb5e), # Royal Lancer + Heavy Lancer + Levy Axeman + Hussar + Heavy Hussar + Levy Axeman
 	("small_kingdom_22", "Khudan", 0, 0.9, [("outlaws",-0.5),], [], 0xC4A285), # Club Levy + Horseman + Royal Horseman + Light Club Infantry + Club Infantry + Heavy Club Infantry
