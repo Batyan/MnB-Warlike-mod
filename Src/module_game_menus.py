@@ -1797,6 +1797,9 @@ game_menus = [
         [
             ("center_manage_clan", [(party_slot_eq, "$g_encountered_party", slot_party_leader, "$g_player_troop"),(troop_slot_eq, "$g_player_troop", slot_troop_home, "$g_encountered_party"),], "Manage clan",
                 [
+                    (assign, "$g_filter_center", filter_any),
+                    (assign, "$g_filter_lord", filter_any),
+                    (assign, "$g_filter_governor", filter_any),
                     (start_presentation, "prsnt_clan_management"),
                 ]),
 

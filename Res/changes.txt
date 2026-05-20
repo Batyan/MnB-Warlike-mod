@@ -9,6 +9,7 @@ v0.720:
 		* allow traveler companions to join a kingdom as a mercenary
 		* add new names for vaegir, khergit, rhodok and sarranid clans
 		* retire old notables
+		* add filtering in manage clan
 	-Balances:
 		* split bandit in multiple types to prevent overcrowding of a single type of bandit
 		* increase military_scythe thrust damage (24 -> 31)

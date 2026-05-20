@@ -620,6 +620,9 @@ party_behavior_weight_end = party_behavior_weight_center_actions + 1
 
 party_generic_behavior_count = party_behavior_weight_end - party_behavior_weight_begin
 
+filter_any = -2
+filter_none = -1
+
 ################
 ## Item Slots ##
 ################
