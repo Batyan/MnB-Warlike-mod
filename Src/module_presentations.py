@@ -2730,12 +2730,12 @@ presentations = [
                                     (store_sub, ":offset", ":leader", npc_heroes_begin),
                                     (store_add, ":slot", ":offset", 1),
                                 (try_end),
-
-                                (assign, ":val", ":cur_value"),
-                                (val_add, ":cur_value", 1),
                                 
                                 (troop_slot_eq, "trp_temp_troop", ":slot", 0),
                                 (troop_set_slot, "trp_temp_troop", ":slot", 1),
+                                
+                                (assign, ":val", ":cur_value"),
+                                (val_add, ":cur_value", 1),
 
                                 (try_begin),
                                     (eq, ":val", ":value"),
@@ -2776,11 +2776,11 @@ presentations = [
                                     (val_add, ":slot", 2),
                                 (try_end),
 
-                                (assign, ":val", ":cur_value"),
-                                (val_add, ":cur_value", 1),
-
                                 (troop_slot_eq, "trp_temp_troop", ":slot", 0),
                                 (troop_set_slot, "trp_temp_troop", ":slot", 1),
+
+                                (assign, ":val", ":cur_value"),
+                                (val_add, ":cur_value", 1),
 
                                 (try_begin),
                                     (eq, ":val", ":value"),
