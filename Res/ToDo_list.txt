@@ -1068,3 +1068,6 @@ ToDo:
     persuade the nearby city to provide trade arrangements
     hunt a notorious bandit
     persuade group of mercenaries to leave a village
+    rescue a villager's relative that was taken by the local lord as servant
+    investigate a series of murder in a village and the surrouding lands
+        revenge of a previously bullied villager that was protected by his mother/father/friend that led to their death
