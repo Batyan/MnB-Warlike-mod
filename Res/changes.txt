@@ -26,6 +26,7 @@ v0.720:
 		* change rhodok_mounted_skirmisher name to rhodok_light_mounted_crossbowman
 		* update faction colors
 		* stop caravan from joining garrison of centers
+		* allow khergit clan name suffix variation
 	-Fixes:
 		* fix player captor party disapearing
 		* fix mercenary troops quality category
