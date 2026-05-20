@@ -7,7 +7,7 @@ v0.720:
 		* allow access to follower equipments
 		* allow access to follower skills
 		* allow traveler companions to join a kingdom as a mercenary
-		* add new names for vaegir, khergit, rhodok and sarranid clans
+		* add new names for vaegir, khergit, nord, rhodok and sarranid clans
 		* retire old notables
 		* add filtering in manage clan
 	-Balances:

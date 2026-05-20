@@ -510,6 +510,8 @@ names = [
   ("nord_family_name_prefix_23", "Swift"),
   ("nord_family_name_prefix_24", "Sharp"),
   ("nord_family_name_prefix_25", "Salty"),
+  ("nord_family_name_prefix_26", "Warm"),
+  ("nord_family_name_prefix_27", "Silent"),
 
   ("nord_family_name_suffix_1", "-Breeks"),
   ("nord_family_name_suffix_2", "-Arms"),
@@ -532,6 +534,11 @@ names = [
   ("nord_family_name_suffix_19", "-Helm"),
   ("nord_family_name_suffix_20", "-Feet"),
   ("nord_family_name_suffix_21", "-Wits"),
+  ("nord_family_name_suffix_22", "-Smile"),
+  ("nord_family_name_suffix_23", "-Grin"),
+  ("nord_family_name_suffix_24", "-Brow"),
+  ("nord_family_name_suffix_25", "-Swing"),
+  ("nord_family_name_suffix_26", "-Step"),
 
   ("rhodok_family_name_prefix_1", "Caern"),
   ("rhodok_family_name_prefix_2", "Eing"),
