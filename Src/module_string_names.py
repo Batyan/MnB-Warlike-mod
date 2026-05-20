@@ -359,6 +359,8 @@ names = [
   ("swadian_family_name_prefix_17", "Pernic"),
   ("swadian_family_name_prefix_18", "Berr"),
   ("swadian_family_name_prefix_19", "Corz"),
+  ("swadian_family_name_prefix_20", "Prav"),
+  ("swadian_family_name_prefix_21", "Ring"),
 
   ("swadian_family_name_suffix_1", "ant"),
   ("swadian_family_name_suffix_2", "ain"),
@@ -372,6 +374,8 @@ names = [
   ("swadian_family_name_suffix_10", "anc"),
   ("swadian_family_name_suffix_11", "and"),
   ("swadian_family_name_suffix_12", "anz"),
+  ("swadian_family_name_suffix_13", "end"),
+  ("swadian_family_name_suffix_14", "oth"),
 
   ("vaegir_family_name_prefix_1", "Gund"),
   ("vaegir_family_name_prefix_2", "Kul"),
