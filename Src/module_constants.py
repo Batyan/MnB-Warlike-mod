@@ -1641,8 +1641,8 @@ tko_none = 0
 tko_kingdom_hero = 1
 tko_mercenary = 2
 tko_bandit = 3
-tko_neutral_hero = 4
-tko_wanderer = 5
+tko_neutral_hero = 4 # wandering party and potential mercenary
+tko_wanderer = 5 # tavern companion that sometimes travel
 tko_follower = 6
 tko_reserved = 7
 tko_reserved_quest = 8
@@ -1818,8 +1818,9 @@ nr_noble = 2
 slot_troop_mercenary_contract_wages_ratio = slot_troop_nobility_rank + 1
 slot_troop_mercenary_contract_monthly_pay = slot_troop_mercenary_contract_wages_ratio + 1
 slot_troop_mercenary_contract_end_date = slot_troop_mercenary_contract_monthly_pay + 1
+slot_troop_mercenary_contract_leader = slot_troop_mercenary_contract_end_date + 1
 
-slot_troop_mercenary_old_occupation = slot_troop_mercenary_contract_end_date + 1
+slot_troop_mercenary_old_occupation = slot_troop_mercenary_contract_leader + 1
 slot_troop_mercenary_old_faction = slot_troop_mercenary_old_occupation + 1
 slot_troop_mercenary_old_party_type = slot_troop_mercenary_old_faction + 1
 

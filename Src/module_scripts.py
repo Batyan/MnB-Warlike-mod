@@ -11705,6 +11705,11 @@ scripts = [
                 (try_begin),
                     # Follow liege
                     (troop_get_slot, ":liege", ":leader", slot_troop_vassal_of),
+                    (try_begin),
+                        (lt, ":liege", 0),
+                        (troop_slot_eq, ":leader", slot_troop_kingdom_occupation, tko_mercenary),
+                        (troop_get_slot, ":liege", ":leader", slot_troop_mercenary_contract_leader),
+                    (try_end),
                     (ge, ":liege", 0),
                     (troop_slot_eq, ":liege", slot_troop_gathering, 1),
                     (troop_get_slot, ":liege_party", ":liege", slot_troop_leaded_party),
@@ -11789,7 +11794,7 @@ scripts = [
                 (store_troop_faction, ":lord_faction", ":lord_no"),
                 (troop_get_slot, ":liege", ":lord_no", slot_troop_vassal_of),
                 (troop_get_slot, ":lord_party", ":lord_no", slot_troop_leaded_party),
-                
+
                 (assign, ":follow_score", 0),
                 (try_begin),
                     (eq, ":liege", ":party_leader"),
@@ -13923,6 +13928,7 @@ scripts = [
             (troop_set_slot, ":lord_no", slot_troop_renown, 0),
             (troop_set_slot, ":lord_no", slot_troop_influence, 0),
             (troop_set_slot, ":lord_no", slot_troop_num_vassal, 0),
+            (troop_set_slot, ":lord_no", slot_troop_mercenary_contract_leader, -1),
 
             # Reset family
             (try_for_range, ":slot", slot_troop_married_to, slot_troop_child_10+1),
@@ -19773,6 +19779,13 @@ scripts = [
                 (str_store_faction_name, s11, ":troop_faction"),
                 (str_store_string, s10, "@{s10}{reg10?, v:V}assal for the {s11}"),
                 (val_add, reg10, 2),
+            (try_end),
+
+            (try_begin),
+                (call_script, "script_cf_troop_is_mercenary", ":troop_no"),
+                (assign, ":leader", reg0),
+                (str_store_troop_name, s12, ":leader"),
+                (str_store_string, s10, "@{s10}{reg10?, c:C}urrently employed under the esteemed {s12}"),
             (try_end),
             
             # Family strings (son/daughter of, wife/husband of, father/mother of) -- only important persons!
@@ -26435,6 +26448,10 @@ scripts = [
                 (is_between, ":leader", npc_heroes_begin, npc_heroes_end),
                 (party_get_slot, ":center_leader", ":center", slot_party_leader),
                 (is_between, ":center_leader", npc_heroes_begin, npc_heroes_end),
+
+                (store_faction_of_party, ":center_faction", ":center"),
+                (call_script, "script_cf_faction_needs_mercenaries", ":center_faction"),
+
                 (call_script, "script_troop_become_mercenary", ":leader", ":center_leader"),
                 (assign, ":completed", 1),
 
@@ -32470,6 +32487,8 @@ scripts = [
             (val_add, ":end_date", 365*3), # Default terms is 3 years
             (troop_set_slot, ":troop_no", slot_troop_mercenary_contract_end_date, ":end_date"),
 
+            (troop_set_slot, ":troop_no", slot_troop_mercenary_contract_leader, ":troop_leader"),
+
             (store_troop_faction, ":troop_faction", ":troop_no"),
             (store_troop_faction, ":leader_faction", ":troop_leader"),
             (troop_set_slot, ":troop_no", slot_troop_mercenary_old_faction, ":troop_faction"),
@@ -32488,6 +32507,19 @@ scripts = [
                     (party_set_slot, ":troop_party", slot_party_type, spt_war_party),
                 (try_end),
             (try_end),
+        ]),
+
+    # script_cf_troop_is_mercenary
+        # input:
+        #   arg1: troop_no
+        # output:
+        #   reg0: employer
+    ("cf_troop_is_mercenary",
+        [
+            (store_script_param, ":troop_no", 1),
+
+            (troop_slot_eq, ":troop_no", slot_troop_kingdom_occupation, tko_mercenary),
+            (troop_get_slot, reg0, ":troop_no", slot_troop_mercenary_contract_leader),
         ]),
 
     # script_troop_end_mercenary
@@ -32514,6 +32546,7 @@ scripts = [
 
             (troop_set_slot, ":troop_no", slot_troop_mercenary_contract_monthly_pay, 0),
             (troop_set_slot, ":troop_no", slot_troop_mercenary_contract_wages_ratio, 0),
+            (troop_set_slot, ":troop_no", slot_troop_mercenary_contract_leader, -1),
         ]),
 
     # script_cf_faction_needs_mercenaries

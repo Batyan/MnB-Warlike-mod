@@ -3478,6 +3478,9 @@ dialogs = [
     #     "", "", []],
     [anyone|plyr, "hero_main", [],
         "Would you like to join me?", "hero_join", []],
+    [anyone|plyr, "hero_main",
+        [(troop_slot_eq, "$g_talk_troop", slot_troop_kingdom_occupation, tko_neutral_hero),],
+        "Would you be willing to offer your mercenary services to me?", "mercenary_offer_contract", []],
     [anyone|plyr, "hero_main", [],
         "Goodbye", "close_window", []],
 
@@ -3566,6 +3569,136 @@ dialogs = [
         ]],
     [anyone, "hero_join_refuse", [],
         "Anything else?", "hero_main", []],
+
+    [anyone, "start",
+        [
+            (encountered_party_is_attacker),
+            (troop_slot_eq, "$g_talk_troop", slot_troop_kingdom_occupation, tko_mercenary),
+            (troop_slot_eq, "$g_talk_troop", slot_troop_last_met, -1),
+
+            (call_script, "script_troop_get_title_string", "$g_talk_troop"),
+            (str_store_string_reg, s10, s0),
+        ],
+        "Halt! State you name and surrender your weapons or face the wrath of {s10}", "mercenary_aggressive_player_introduction",
+        [
+            (call_script, "script_get_current_day"),
+            (assign, ":current_day", reg0),
+            (troop_set_slot, "$g_talk_troop", slot_troop_last_met, ":current_day"),
+        ]],
+    [anyone, "start",
+        [
+            (encountered_party_is_attacker),
+            (troop_slot_eq, "$g_talk_troop", slot_troop_kingdom_occupation, tko_mercenary),
+
+            (call_script, "script_troop_get_player_name", "$g_talk_troop", "$g_talk_party"),
+        ],
+        "Halt {s60}! We have you cornered, surrender your weapons and the lives of your men may be spared", "mercenary_aggressive_talk", []],
+    [anyone, "start",
+        [
+            (troop_slot_eq, "$g_talk_troop", slot_troop_kingdom_occupation, tko_mercenary),
+            (troop_slot_eq, "$g_talk_troop", slot_troop_last_met, -1),
+
+            (call_script, "script_troop_get_title_string", "$g_talk_troop"),
+            (str_store_string_reg, s10, s0),
+        ],
+        "Hello traveller, my name is {s10}. I've not had the pleasure of knowing your name.", "mercenary_player_introduction",
+        [
+            (call_script, "script_get_current_day"),
+            (assign, ":current_day", reg0),
+            (troop_set_slot, "$g_talk_troop", slot_troop_last_met, ":current_day"),
+        ]],
+    [anyone, "start",
+        [
+            (troop_slot_eq, "$g_talk_troop", slot_troop_kingdom_occupation, tko_mercenary),
+            (call_script, "script_troop_get_player_name", "$g_talk_troop", "$g_talk_party"),
+        ],
+        "We meet again {s60}, what do you wish to discuss?", "mercenary_talk", []],
+
+    [anyone|plyr, "mercenary_aggressive_player_introduction",
+        [
+            (str_store_troop_name, s10, "$g_player_troop"),
+        ],
+        "I am {s10}", "mercenary_aggressive_surrender", [
+        ]],
+    [anyone, "mercenary_aggressive_surrender", [],
+        "Very well {s10}, now surrender your weapons and the lives of your men may be spared", "mercenary_aggressive_talk",
+        [
+        ]],
+
+    [anyone|plyr, "mercenary_aggressive_talk",
+        [],
+        "I won't surrender without a fight", "mercenary_aggressive_refuse_surrender", []],
+    [anyone|plyr, "mercenary_aggressive_talk",
+        [],
+        "Stay your weapons, we surrender", "mercenary_aggressive_surrender", []],
+
+    [anyone|plyr, "mercenary_aggressive_refuse_surrender",
+        [],
+        "Then we let steel speak in our stead", "close_window",
+        [
+            (party_set_slot, "$g_talk_party", slot_party_speak_allowed, 0),
+            (encounter_attack),
+        ]],
+    [anyone|plyr, "mercenary_aggressive_surrender",
+        [],
+        "Wise choice", "close_window",
+        [
+            (call_script, "script_party_take_player_party_prisoner", "$g_encountered_party"),
+            (leave_encounter),
+        ]],
+
+    [anyone|plyr, "mercenary_player_introduction",
+        [],
+        "I am {s10}, a pleasure to meet you aswell", "mercenary_player_introduction_return", []],
+    [anyone|plyr, "mercenary_player_introduction",
+        [],
+        "I am {s10}, remember my name well for you will hear it alot", "mercenary_player_introduction_return", []],
+
+    [anyone, "mercenary_player_introduction_return",
+        [],
+        "Now then, did you need something?", "mercenary_talk", []],
+    [anyone, "mercenary_return",
+        [],
+        "Did you need anything else?", "mercenary_talk", []],
+
+    [anyone|plyr, "mercenary_talk",
+        [],
+        "Would you be willing to offer your mercenary services to me?", "mercenary_offer_contract", []],
+    [anyone|plyr, "mercenary_talk",
+        [],
+        "I must take my leave.", "close_window", []],
+
+    [anyone, "mercenary_offer_contract",
+        [(troop_slot_eq, "$g_talk_troop", slot_troop_mercenary_contract_leader, "$g_player_troop"),],
+        "I'm already in a contract with you", "mercenary_return", []],
+    [anyone, "mercenary_offer_contract",
+        [
+            (troop_get_slot, ":mercenary_leader", "$g_talk_troop", slot_troop_mercenary_contract_leader),
+            (is_between, ":mercenary_leader", npc_heroes_begin, npc_heroes_end),
+            (str_store_troop_name, s10, ":mercenary_leader"),
+        ],
+        "I'm afraid I am currenctly serving {s10}", "mercenary_return", []],
+    [anyone, "mercenary_offer_contract",
+        [],
+        "I'm all ears if your purse is full", "mercenary_offer_contract_answer", []],
+
+    [anyone|plyr, "mercenary_offer_contract_answer",
+        [
+            (call_script, "script_troop_get_mercenary_payment", "$g_talk_troop"),
+            (assign, ":flat_amount", reg0),
+            (assign, reg10, reg1),
+            (call_script, "script_game_get_money_text", ":flat_amount"),
+        ],
+        "I propose {s0} each year and the payment for {reg10}% of your wages.", "mercenary_offer_contract_accept", []],
+
+    [anyone, "mercenary_offer_contract_accept",
+        [
+            (troop_get_type, reg10, "$g_player_troop"),
+        ],
+        "Wonderfull, my blade is yours to command, {reg10?my Lady:my Lord}.", "mercenary_return",
+        [
+            (call_script, "script_troop_become_mercenary", "$g_talk_troop", "$g_player_troop"),
+        ]],
 
 
     #################

@@ -343,7 +343,6 @@ simple_triggers = [
 
                     (assign, ":left", 0),
                     (try_begin),
-
                         (store_troop_faction, ":faction", ":lord_no"),
                         (call_script, "script_cf_faction_needs_mercenaries", ":faction"),
                         # We leave a chance to end mercenary contract
