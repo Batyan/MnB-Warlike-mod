@@ -14062,6 +14062,11 @@ scripts = [
             (troop_set_slot, ":troop_no", slot_troop_birth_date, ":birth_day"),
             (troop_set_age, ":troop_no", ":random_age"),
 
+            (store_mul, ":renown", ":random_age", 20),
+            (store_random_in_range, ":rand_renown", 0, 500),
+            (val_add, ":renown", ":rand_renown"),
+            (call_script, "script_troop_change_renown", ":lord_no", ":renown"),
+
             (try_begin),
                 (call_script, "script_cf_debug", debug_simple),
                 (str_store_troop_name, s10, ":troop_no"),
@@ -14132,6 +14137,11 @@ scripts = [
             (store_sub, ":birth_day", ":current_day", ":days_passed"),
             (troop_set_slot, ":troop_no", slot_troop_birth_date, ":birth_day"),
             (troop_set_age, ":troop_no", ":random_age"),
+
+            (store_mul, ":renown", ":random_age", 2),
+            (store_random_in_range, ":rand_renown", 0, 50),
+            (val_add, ":renown", ":rand_renown"),
+            (call_script, "script_troop_change_renown", ":lord_no", ":renown"),
 
             (try_begin),
                 (call_script, "script_cf_debug", debug_simple),
