@@ -14071,7 +14071,7 @@ scripts = [
             (store_mul, ":renown", ":random_age", 20),
             (store_random_in_range, ":rand_renown", 0, 500),
             (val_add, ":renown", ":rand_renown"),
-            (call_script, "script_troop_change_renown", ":lord_no", ":renown"),
+            (call_script, "script_troop_change_renown", ":troop_no", ":renown"),
 
             (try_begin),
                 (call_script, "script_cf_debug", debug_simple),
@@ -14147,7 +14147,7 @@ scripts = [
             (store_mul, ":renown", ":random_age", 2),
             (store_random_in_range, ":rand_renown", 0, 50),
             (val_add, ":renown", ":rand_renown"),
-            (call_script, "script_troop_change_renown", ":lord_no", ":renown"),
+            (call_script, "script_troop_change_renown", ":troop_no", ":renown"),
 
             (try_begin),
                 (call_script, "script_cf_debug", debug_simple),
