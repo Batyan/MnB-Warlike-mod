@@ -966,7 +966,7 @@ items = [
     ["glaive",                      "Glaive", [("glaive_b",0)], itp_type_polearm|itp_offset_lance|itp_merchandise| itp_cant_use_on_horseback|itp_primary|itp_two_handed|itp_wooden_parry|itp_unbalanced, itc_staff|itcf_carry_spear,
      10710, weight(5.0)|difficulty(10)|spd_rtng(89) | weapon_length(160)|swing_damage(36, cut) | thrust_damage(23, pierce),imodbits_polearm , [], [fac_kingdom_5] ],
     ["military_scythe",             "Military Scythe", [("spear_e_2-5m",0)], itp_type_polearm|itp_cant_use_on_horseback|itp_offset_lance|itp_merchandise| itp_primary|itp_wooden_parry|itp_unbalanced|itp_two_handed, itc_staff|itcf_carry_spear,
-     12095, weight(5.3)|difficulty(10)|spd_rtng(89) | weapon_length(154)|swing_damage(37, cut) | thrust_damage(24, pierce),imodbits_polearm , [], [fac_kingdom_5] ],
+     12095, weight(5.3)|difficulty(10)|spd_rtng(90) | weapon_length(154)|swing_damage(35, cut) | thrust_damage(31, pierce),imodbits_polearm , [], [fac_kingdom_5] ],
     ["poleaxe",                     "Poleaxe", [("pole_ax",0)], itp_type_polearm|itp_offset_lance|itp_merchandise| itp_primary|itp_cant_use_on_horseback|itp_two_handed|itp_wooden_parry|itp_crush_through|itp_unbalanced|itp_bonus_against_shield, itc_staff|itcf_carry_spear,
      16185, weight(7.5)|difficulty(12)|spd_rtng(77) | weapon_length(182)|swing_damage(36, pierce) | thrust_damage(14, blunt),imodbits_polearm ],
     ["polehammer",                  "Polehammer", [("pole_hammer",0)], itp_type_polearm|itp_offset_lance| itp_merchandise|itp_primary|itp_two_handed|itp_cant_use_on_horseback|itp_wooden_parry|itp_crush_through|itp_unbalanced, itc_staff|itcf_carry_spear,

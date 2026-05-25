@@ -948,6 +948,23 @@ game_menus = [
                 [(eq, "$g_disable_faction_ai", 1)],"Enable faction ais",
                 [(assign, "$g_disable_faction_ai", 0),(jump_to_menu, "mnu_debug_menu"),]),
 
+            ("debug_check_used_lord",
+                [], "Check unused npcs",
+                [
+                    (store_sub, reg12, npc_heroes_end, npc_heroes_begin),
+                    (display_message, "@{reg12} total npcs"),
+                    (try_for_range, ":occupation", tko_none, tko_reserved_quest +1),
+                        (assign, ":count", 0),
+                        (try_for_range, ":npc", npc_heroes_begin, npc_heroes_end),  
+                            (troop_slot_eq, ":npc", slot_troop_kingdom_occupation, ":occupation"),
+                            (val_add, ":count", 1),
+                        (try_end),
+                        (assign, reg10, ":count"),
+                        (assign, reg11, ":occupation"),
+                        (display_message, "@{reg10} npc for occupation {reg11}"),
+                    (try_end),
+                ]),
+
 
             ("debug_increase_haze",
                 [(assign, reg10, "$g_global_haze_amount"),],"Increase Haze ({reg10})",
@@ -1780,6 +1797,9 @@ game_menus = [
         [
             ("center_manage_clan", [(party_slot_eq, "$g_encountered_party", slot_party_leader, "$g_player_troop"),(troop_slot_eq, "$g_player_troop", slot_troop_home, "$g_encountered_party"),], "Manage clan",
                 [
+                    (assign, "$g_filter_center", filter_any),
+                    (assign, "$g_filter_lord", filter_any),
+                    (assign, "$g_filter_governor", filter_any),
                     (start_presentation, "prsnt_clan_management"),
                 ]),
 
@@ -2474,10 +2494,38 @@ game_menus = [
         ]),
     
     ("town_tavern", mnf_scale_picture,
-        "Heading toward the inn",
+        "Heading toward the inn.^{s11}",
         "none",
         [
             (set_background_mesh, "mesh_pic_camp"),
+
+            (call_script, "script_party_get_mercenaries", "$g_encountered_party"),
+            (assign, ":mercenary_party", reg0),
+
+            (call_script, "script_party_sort_troops", ":mercenary_party", 50),
+            
+            (party_get_num_companions, ":num_mercenaries", ":mercenary_party"),
+            (party_get_slot, ":current_mercenaries", "$g_encountered_party", slot_party_mercenaries_amount),
+
+            (try_begin),
+                (neq, ":current_mercenaries", ":num_mercenaries"),
+                (party_set_slot, "$g_encountered_party", slot_party_mercenaries_amount, ":num_mercenaries"),
+            (try_end),
+
+            (try_begin),
+                (eq, ":num_mercenaries", 0),
+            (else_try),
+                (lt, ":num_mercenaries", 10),
+                (str_store_string, s11, "@You spot a small group of mercenaries waiting for employment."),
+            (else_try),
+                (lt, ":num_mercenaries", 25),
+                (str_store_string, s11, "@You spot an average number of mercenaries waiting for employment."),
+            (else_try),
+                (lt, ":num_mercenaries", 40),
+                (str_store_string, s11, "@You spot a sizable number of mercenaries waiting for employment."),
+            (else_try),
+                (str_store_string, s11, "@You spot a large number of mercenaries waiting for employment."),
+            (try_end),
         ],
         [
             ("tavern_intro_quest_report",
@@ -2518,6 +2566,14 @@ game_menus = [
                 [
                     (assign, "$g_talk_party", "$g_encountered_party"),
                     (call_script, "script_setup_troop_meeting", "trp_ransom_broker", -1),
+                ]),
+
+            ("tavern_hire_mercenaries",
+                [], "Hire mercenaries",
+                [
+                    (call_script, "script_party_get_mercenaries", "$g_encountered_party"),
+                    (assign, "$temp", reg0),
+                    (start_presentation, "prsnt_recruit_from_town_garrison"),
                 ]),
 
             ("center_back", [], "Head back to the center",
@@ -3987,12 +4043,7 @@ game_menus = [
                 ]),
             ("mercenary_contract_end", [], "End contract",
                 [
-                    (troop_set_slot, "$g_player_troop", slot_troop_kingdom_occupation, tko_kingdom_hero),
-                    (troop_set_faction, "$g_player_troop", "fac_player_faction"),
-                    (party_set_faction, "$g_player_party", "fac_player_faction"),
-
-                    (troop_set_slot, "$g_player_troop", slot_troop_mercenary_contract_monthly_pay, 0),
-                    (troop_set_slot, "$g_player_troop", slot_troop_mercenary_contract_wages_ratio, 0),
+                    (call_script, "script_troop_end_mercenary", "$g_player_troop"),
 
                     (change_screen_return),
                 ]),

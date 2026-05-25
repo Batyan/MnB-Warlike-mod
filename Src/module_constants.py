@@ -228,6 +228,7 @@ tai_accompanying_troop = 8
 tai_traveling_to_party = 9
 tai_traveling_to_point = 10
 tai_attacking_center = 11
+tai_patrol_location = 12
 
 names_begin = "str_swadian_name_1"
 names_end = "str_names_end"
@@ -431,7 +432,8 @@ attitude_positive = 1
 relation_weight_faction = 1
 relation_weight_leader = 1
 
-max_bandit_party = 75
+# max number of bandit for each type pt_outlaws_*
+max_bandit_party = 20
 
 prisoner_escape_chance = 1
 prisoner_ransom_chance = 25
@@ -572,9 +574,9 @@ ta_threatening = 8
 ta_loving = 9
 ta_caring = 10
 
-level_xp_multiplier = 10
-level_xp_base = 100
-level_xp_multiplier_sqrt = 5000
+level_xp_multiplier = 45
+level_xp_base = 30
+level_xp_multiplier_sqrt = 3000
 
 bandit_start_camp_base_wealth = 10000
 
@@ -597,6 +599,29 @@ tournament_round_type_joust = 11
 tournament_round_type_survival = 12
 
 daily_random_max = 10000
+
+party_behavior_weight_patrol_home = 1
+party_behavior_weight_patrol = party_behavior_weight_patrol_home + 1
+party_behavior_weight_travel = party_behavior_weight_patrol + 1
+party_behavior_weight_attack_lairs = party_behavior_weight_travel + 1
+party_behavior_weight_attack_centers = party_behavior_weight_attack_lairs + 1
+party_behavior_weight_trade = party_behavior_weight_attack_centers + 1
+party_behavior_weight_recruit_troops = party_behavior_weight_trade + 1
+party_behavior_weight_recruit_troops_home = party_behavior_weight_recruit_troops + 1
+party_behavior_weight_recruit_troops_mercenaries = party_behavior_weight_recruit_troops_home + 1
+party_behavior_weight_rest = party_behavior_weight_recruit_troops_mercenaries + 1
+party_behavior_weight_escort = party_behavior_weight_rest + 1
+party_behavior_weight_deposit_troops = party_behavior_weight_escort + 1
+party_behavior_weight_deposit_civilians = party_behavior_weight_deposit_troops + 1
+party_behavior_weight_center_actions = party_behavior_weight_deposit_civilians + 1
+
+party_behavior_weight_begin = party_behavior_weight_patrol_home
+party_behavior_weight_end = party_behavior_weight_center_actions + 1
+
+party_generic_behavior_count = party_behavior_weight_end - party_behavior_weight_begin
+
+filter_any = -2
+filter_none = -1
 
 ################
 ## Item Slots ##
@@ -819,7 +844,9 @@ slot_faction_num_vassals_active = slot_faction_num_vassals + 1
 slot_faction_num_fiefs = slot_faction_num_vassals_active + 1
 slot_faction_num_walled_fiefs = slot_faction_num_fiefs + 1
 
-slot_faction_strength_active = slot_faction_num_walled_fiefs + 1
+slot_faction_num_mercenaries = slot_faction_num_walled_fiefs + 1
+
+slot_faction_strength_active = slot_faction_num_mercenaries + 1
 slot_faction_strength_ready = slot_faction_strength_active + 1
 
 slot_faction_strength_defensive_allies = slot_faction_strength_ready + 1
@@ -1055,14 +1082,15 @@ spt_patrol      = 8
 spt_scout       = 9
 spt_convoy      = 10
 spt_war_party   = 11
+spt_traveller   = 12
+spt_wanderer    = 13
 
-spt_camp        = 12
+spt_village     = 14
+spt_castle      = 15
+spt_town        = 16
+spt_fort        = 17
 
-spt_village     = 13
-spt_castle      = 14
-spt_town        = 15
-spt_fort        = 16
-
+spt_camp        = 18
 
 slot_party_leader           = slot_party_type + 1
 slot_party_lord             = slot_party_leader
@@ -1307,8 +1335,11 @@ slot_party_attached_party_2 = slot_party_attached_party_1 + 1
 slot_party_attached_party_3 = slot_party_attached_party_2 + 1
 
 slot_party_last_rest = slot_party_attached_party_3 + 1 # for small parties
+slot_party_last_travel = slot_party_last_rest + 1
 
-slot_party_mission_target_1 = slot_party_last_rest + 1
+slot_party_last_travel_location = slot_party_last_travel + 1
+
+slot_party_mission_target_1 = slot_party_last_travel_location + 1
 slot_party_mission_target_2 = slot_party_mission_target_1 + 1
 slot_party_mission_target_3 = slot_party_mission_target_2 + 1
 slot_party_mission_objective_1 = slot_party_mission_target_3 + 1
@@ -1489,6 +1520,13 @@ min_tournament_cooldown = 365
 
 slot_party_camp_influence = slot_party_last_tournament_date + 1
 
+slot_party_mercenaries_amount = slot_party_camp_influence + 1
+
+slot_party_current_behavior = slot_party_mercenaries_amount + 1
+
+party_behavior_current_bonus = 20
+party_behavior_variance = 25
+
 #################
 ## Scene Slots ##
 #################
@@ -1603,9 +1641,11 @@ tko_none = 0
 tko_kingdom_hero = 1
 tko_mercenary = 2
 tko_bandit = 3
-tko_follower = 4
-tko_reserved = 5
-tko_reserved_quest = 6
+tko_neutral_hero = 4 # wandering party and potential mercenary
+tko_wanderer = 5 # tavern companion that sometimes travel
+tko_follower = 6
+tko_reserved = 7
+tko_reserved_quest = 8
 
 slot_troop_personality              = slot_troop_kingdom_occupation + 1
 tp_default = 0x0000
@@ -1679,9 +1719,6 @@ slot_troop_last_attack              = 35
 slot_troop_last_rest                = 36
 
 slot_troop_archer_score             = 37
-
-slot_troop_mercenary_from           = 38
-slot_troop_mercenary_captain        = 39
 
 # Handles notes
 slot_troop_notes                    = 40
@@ -1772,13 +1809,22 @@ become_vassal_try_failed_persuasion = 2
 slot_troop_become_vassal_tried = slot_troop_log_target_end + 1
 slot_troop_become_vassal_last_try = slot_troop_become_vassal_tried + 1
 
-slot_troop_noble = slot_troop_become_vassal_last_try + 1
+slot_troop_nobility_rank = slot_troop_become_vassal_last_try + 1
 
-slot_troop_mercenary_contract_wages_ratio = slot_troop_noble + 1
+nr_commoner = 0
+nr_lesser = 1
+nr_noble = 2
+
+slot_troop_mercenary_contract_wages_ratio = slot_troop_nobility_rank + 1
 slot_troop_mercenary_contract_monthly_pay = slot_troop_mercenary_contract_wages_ratio + 1
 slot_troop_mercenary_contract_end_date = slot_troop_mercenary_contract_monthly_pay + 1
+slot_troop_mercenary_contract_leader = slot_troop_mercenary_contract_end_date + 1
 
-slot_troop_mission_kills = slot_troop_mercenary_contract_end_date + 1
+slot_troop_mercenary_old_occupation = slot_troop_mercenary_contract_leader + 1
+slot_troop_mercenary_old_faction = slot_troop_mercenary_old_occupation + 1
+slot_troop_mercenary_old_party_type = slot_troop_mercenary_old_faction + 1
+
+slot_troop_mission_kills = slot_troop_mercenary_old_party_type + 1
 slot_troop_mission_deaths = slot_troop_mission_kills + 1
 
 slot_troop_xp = slot_troop_mission_deaths + 1
@@ -1787,7 +1833,9 @@ slot_troop_attribute_points = slot_troop_xp_level + 1
 slot_troop_skill_points = slot_troop_attribute_points + 1
 slot_troop_proficiency_points = slot_troop_skill_points + 1
 
-slot_troop_relations_begin = slot_troop_proficiency_points + 1
+slot_troop_birth_date = slot_troop_proficiency_points + 1
+
+slot_troop_relations_begin = slot_troop_birth_date + 1
 
 # TODO: remove or move to specific slot type
 slot_item_mission_kills = 400

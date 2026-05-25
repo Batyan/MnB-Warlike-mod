@@ -17,29 +17,18 @@ simple_triggers = [
 
     (monthly*2, # Parties trigger
         [
-            (store_num_parties_of_template, ":num_parties", "pt_outlaws"),
-
             (try_for_range, ":party_no", centers_begin, centers_end),
                 (call_script, "script_party_recruit_troops", ":party_no"),
                 (assign, ":num_recruited", reg0),
                 (val_mul, ":num_recruited", -1),
                 (call_script, "script_party_modify_population", ":party_no", ":num_recruited"),
                 
-                (try_begin),
-                    (lt, ":num_parties", max_bandit_party),
-                    # Generate bandits
-                    # (store_random_in_range, ":rand", 0, 50),
-                    # (try_begin), # Generate bandits more often if center prosperity is low
-                    #     (le, ":rand", 3),
-                    (call_script, "script_party_spawn_bandits", ":party_no"),
-                    # (try_end),
-                (try_end),
-            (try_end),
-
-            (try_begin),
-                (call_script, "script_cf_debug", debug_simple),
-                (gt, ":num_parties", max_bandit_party),
-                (display_message, "@Reached bandit party limit", text_color_debug),
+                # Generate bandits
+                # (store_random_in_range, ":rand", 0, 50),
+                # (try_begin), # Generate bandits more often if center prosperity is low
+                #     (le, ":rand", 3),
+                (call_script, "script_party_spawn_bandits", ":party_no"),
+                # (try_end),
             (try_end),
         ]),
     
@@ -65,15 +54,8 @@ simple_triggers = [
                     (call_script, "script_party_process_attached_parties", ":party_no"),
                     (call_script, "script_party_process_prisoners", ":party_no"),
                     (call_script, "script_party_process_events", ":party_no"),
-                (else_try),
-                    (eq, ":party_type", spt_war_party),
-                    # (get_party_ai_object, ":object", ":party_no"),
-                    (party_get_attached_to, ":cur_town", ":party_no"),
-                    # (party_get_cur_town, ":cur_town", ":party_no"),
-                    (try_begin),
-                        (ge, ":cur_town", centers_begin),
-                        (call_script, "script_party_does_center_business", ":party_no", ":cur_town"),
-                    (try_end),
+                    (call_script, "script_party_process_mercenaries", ":party_no"),
+
                 (else_try),
                     (eq, ":party_type", spt_bandit),
                     (call_script, "script_party_process_bandit", ":party_no"),
@@ -87,7 +69,7 @@ simple_triggers = [
             (store_random_in_range, "$g_daily_random", 0, daily_random_max),
         ]),
 
-    (weekly, 
+    (weekly,
         [
             (try_for_parties, ":party_no"),
                 (party_is_active, ":party_no"),
@@ -102,6 +84,18 @@ simple_triggers = [
                 (else_try),
                     (eq, ":party_type", spt_civilian),
                     (call_script, "script_party_civilian_process", ":party_no"),
+                (else_try),
+                    (this_or_next|eq, ":party_type", spt_traveller),
+                    (eq, ":party_type", spt_wanderer),
+                    (call_script, "script_party_generic_process", ":party_no"),
+                (else_try),
+                    (eq, ":party_type", spt_war_party),
+                    (call_script, "script_party_get_holding_center", ":party_no"),
+                    (assign, ":cur_town", reg0),
+                    (try_begin),
+                        (is_between, ":cur_town", centers_begin, centers_end),
+                        (call_script, "script_party_does_center_business", ":party_no", ":cur_town"),
+                    (try_end),
                 (try_end),
             (try_end),
         ]),
@@ -316,6 +310,7 @@ simple_triggers = [
                     (assign, "$g_player_prisoner_last_message", ":current_day"),
                 (try_end),
                 (set_camera_follow_party, ":player_prisoner"),
+                (party_set_flags, ":player_prisoner", pf_always_visible, 1),
             (try_end),
         ]),
 
@@ -340,6 +335,31 @@ simple_triggers = [
                 (troop_get_slot, ":occupation", ":lord_no", slot_troop_kingdom_occupation),
                 (neg|troop_slot_ge, ":lord_no", slot_troop_prisoner_of, 0), # Do not process prisoners
                 (try_begin),
+                    (eq, ":occupation", tko_mercenary),
+                    (troop_get_slot, ":last_date", ":lord_no", slot_troop_mercenary_contract_end_date),
+                    (call_script, "script_get_current_day"),
+                    (assign, ":current_day", reg0),
+                    (gt, ":current_day", ":last_date"),
+
+                    (assign, ":left", 0),
+                    (try_begin),
+                        (store_troop_faction, ":faction", ":lord_no"),
+                        (call_script, "script_cf_faction_needs_mercenaries", ":faction"),
+                        # We leave a chance to end mercenary contract
+                        (store_random_in_range, ":rand", 0, 10),
+                        (gt, ":rand", 0),
+
+                        (call_script, "script_get_current_day"),
+                        (assign, ":end_date", reg0),
+                        (val_add, ":end_date", 365*3),
+                        (troop_set_slot, ":lord_no", slot_troop_mercenary_contract_end_date, ":end_date"),
+                    (else_try),
+                        (call_script, "script_troop_end_mercenary", ":lord_no"),
+                        (assign, ":left", 1),
+                    (try_end),
+
+                    (eq, ":left", 1),
+                (else_try),
                     (is_between, ":occupation", tko_kingdom_hero, tko_mercenary + 1),
                     (troop_get_slot, ":leaded_party", ":lord_no", slot_troop_leaded_party),
                     (gt, ":leaded_party", 0),
@@ -366,7 +386,9 @@ simple_triggers = [
                             (is_between, ":garrisoned", centers_begin, centers_end),
                             (try_begin),
                                 (call_script, "script_cf_lord_can_create_party", ":lord_no"),
-                                (call_script, "script_create_lord_party", ":lord_no", ":garrisoned"),
+                                (call_script, "script_create_lord_party", ":lord_no", ":garrisoned", 1),
+                                (assign, ":party", reg0),
+                                (call_script, "script_party_process_mission", ":party", 1),
                             (try_end),
                         (else_try),
                             (call_script, "script_cf_lord_can_spawn", ":lord_no"),
@@ -397,6 +419,28 @@ simple_triggers = [
                         (val_sub, ":days_left", 1),
                         (val_max, ":days_left", 0),
                         (troop_set_slot, ":lord_no", slot_troop_days_next_rethink, ":days_left"),
+                    (else_try),
+                        (eq, ":occupation", tko_neutral_hero),
+                        (troop_get_slot, ":leaded_party", ":lord_no", slot_troop_leaded_party),
+                        (try_begin),
+                            (gt, ":leaded_party", 0),
+                        (else_try),
+                            (troop_get_slot, ":home", ":lord_no", slot_troop_home),
+                            (call_script, "script_create_lord_party", ":lord_no", ":home", 0),
+                            (assign, ":party", reg0),
+                            (party_set_slot, ":party", slot_party_type, spt_traveller),
+                        (try_end),
+                    (else_try),
+                        (eq, ":occupation", tko_wanderer),
+                        (troop_get_slot, ":leaded_party", ":lord_no", slot_troop_leaded_party),
+                        (try_begin),
+                            (gt, ":leaded_party", 0),
+                        (else_try),
+                            (troop_get_slot, ":home", ":lord_no", slot_troop_home),
+                            (call_script, "script_create_lord_party", ":lord_no", ":home", 0),
+                            (assign, ":party", reg0),
+                            (party_set_slot, ":party", slot_party_type, spt_wanderer),
+                        (try_end),
                     (try_end),
                 (else_try),
                     # Try to free lord
@@ -432,7 +476,6 @@ simple_triggers = [
                 (call_script, "script_party_process_ideal_party_wages", ":center"),
 
                 (call_script, "script_party_process_buildings_maintenance", ":center"),
-
 
                 (try_begin),
                     (call_script, "script_cf_party_has_building", ":center", "itm_building_bank"),
@@ -587,9 +630,17 @@ simple_triggers = [
 
                     (store_troop_faction, ":lord_kingdom", ":lord_no"),
 
-                    (faction_get_slot, ":num_vassals", ":lord_kingdom", slot_faction_num_vassals),
-                    (val_add, ":num_vassals", 1),
-                    (faction_set_slot, ":lord_kingdom", slot_faction_num_vassals, ":num_vassals"),
+                    (try_begin),
+                        (eq, ":occupation", tko_kingdom_hero),
+                        (faction_get_slot, ":num_vassals", ":lord_kingdom", slot_faction_num_vassals),
+                        (val_add, ":num_vassals", 1),
+                        (faction_set_slot, ":lord_kingdom", slot_faction_num_vassals, ":num_vassals"),
+                    (else_try),
+                        (eq, ":occupation", tko_mercenary),
+                        (faction_get_slot, ":num_mercenaries", ":lord_kingdom", slot_faction_num_mercenaries),
+                        (val_add, ":num_mercenaries", 1),
+                        (faction_set_slot, ":lord_kingdom", slot_faction_num_mercenaries, ":num_mercenaries"),
+                    (try_end),
 
                     (try_begin),
                         (troop_get_slot, ":leaded_party", ":lord_no", slot_troop_leaded_party),
@@ -652,6 +703,54 @@ simple_triggers = [
 
                 (faction_set_slot, ":war_storage", slot_war_defender_strength, ":defender_strength"),
                 (faction_set_slot, ":war_storage", slot_war_attacker_strength, ":attacker_strength"),
+            (try_end),
+        ]),
+
+    (yearly, # Neutral heroes population
+        [
+            (assign, ":num_heroes", 0),
+            (try_for_range, ":npc", npc_heroes_begin, npc_heroes_end),
+                (troop_slot_eq, ":npc", slot_troop_kingdom_occupation, tko_neutral_hero),
+                (val_add, ":num_heroes", 1),
+            (try_end),
+
+            (try_begin),
+                (lt, ":num_heroes", 12),
+                (call_script, "script_find_free_lord"),
+                (assign, ":npc", reg0),
+                (call_script, "script_ready_neutral_hero", ":npc"),
+            (try_end),
+
+            (assign, ":num_heroes", 0),
+            (try_for_range, ":npc", npc_heroes_begin, npc_heroes_end),
+                (troop_slot_eq, ":npc", slot_troop_kingdom_occupation, tko_wanderer),
+                (val_add, ":num_heroes", 1),
+            (try_end),
+
+            (try_begin),
+                (lt, ":num_heroes", 20),
+                (call_script, "script_find_free_lord"),
+                (assign, ":npc", reg0),
+                (call_script, "script_ready_wanderer", ":npc"),
+            (try_end),
+        ]),
+
+    (yearly, # Reserved heroes cleanup
+        [
+            (try_for_range, ":npc", npc_heroes_begin, npc_heroes_end),
+                (troop_slot_eq, ":npc", slot_troop_kingdom_occupation, tko_reserved),
+                (call_script, "script_troop_get_age", ":npc"),
+                (assign, ":age", reg0),
+
+                (gt, ":age", 60),
+                # Retire old notables
+                (try_begin),
+                    (call_script, "script_cf_debug", debug_simple),
+                    (str_store_troop_name, s10, ":npc"),
+                    (assign, reg10, ":age"),
+                    (display_message, "@Retiring old reserved {s10} at age {reg10}"),
+                (try_end),
+                (call_script, "script_init_lord", ":npc"),
             (try_end),
         ]),
 ]

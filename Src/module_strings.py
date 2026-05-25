@@ -1230,4 +1230,7 @@ strings = [
   ("proficiency_crossbow_description", "Crossbows: Covers usage of crossbows."),
   ("proficiency_throwing_description", "Throwing: Covers usage of thrown weapons like javelins, darts, stones, etc."),
 
+  ("none", "None"),
+  ("any", "Any"),
+
 ] + names + faces

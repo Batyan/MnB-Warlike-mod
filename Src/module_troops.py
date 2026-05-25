@@ -2201,6 +2201,16 @@ troops = [
     ],
    str_8|agi_8|int_6|cha_6|level(5), wpex(55,50,45,75,20,40), knows_common|knows_ironflesh_1|knows_power_strike_2|knows_power_draw_4|knows_athletics_3|knows_riding_2|knows_horse_archery_1, vaegir_face_young_1, vaegir_face_old_2 ],
   
+  # Basic cavalry ranged, axes, swords, bows
+  # SPECIAL
+  ["vaegir_levy_hussar", "Vaegir Levy Hussar", "Vaegir Levy Hussar", tf_guarantee_recruit_armor|tf_guarantee_ranged|tf_guarantee_horseman, no_scene, reserved, fac_small_kingdom_21,
+   [itm_one_handed_war_axe_a, itm_sword_khergit_1, itm_hunting_bow, itm_arrows_b,
+    itm_nomad_boots, itm_hide_boots,
+    itm_linen_tunic_herald,
+    itm_vaegir_fur_cap, itm_leather_cap, itm_leather_warrior_cap,
+    itm_steppe_horse],
+   str_8|agi_9|int_7|cha_7|level(8), wpex(55,50,50,75,25,25), knows_common|knows_ironflesh_1|knows_power_strike_2|knows_power_draw_4|knows_athletics_2|knows_riding_5|knows_horse_archery_3, vaegir_face_young_1, vaegir_face_old_2 ],
+  
   # Common
   # Light infantry, sabres, axes, 2h axes, shields
   ["vaegir_light_infantry", "Vaegir Light Infantry", "Vaegir Light Infantries", tf_guarantee_common_armor|tf_guarantee_shield, no_scene, reserved, fac_kingdom_2,
@@ -3463,7 +3473,7 @@ troops = [
    str_9|agi_14|int_7|cha_7|level(14), wpex(60,50,55,120,55,30), knows_common|knows_ironflesh_2|knows_power_strike_2|knows_power_draw_4|knows_athletics_4|knows_riding_1, rhodok_face_young_1, rhodok_face_old_2 ],
   
   # Light cavalry ranged, swords, picks, crossbows
-  ["rhodok_light_horse_archer", "Rhodok Mounted Skirmisher", "Rhodok Mounted Skirmisher", tf_guarantee_recruit_armor|tf_guarantee_ranged|tf_guarantee_horseman, no_scene, reserved, fac_kingdom_5,
+  ["rhodok_light_mounted_crossbowman", "Rhodok Light Mounted Crossbowman", "Rhodok Light Mounted Crossbowman", tf_guarantee_recruit_armor|tf_guarantee_ranged|tf_guarantee_horseman, no_scene, reserved, fac_kingdom_5,
    [itm_sword_medieval_a, itm_fighting_pick, itm_light_crossbow, itm_bolts, itm_bolts,
     itm_leather_boots, itm_leather_gloves,
     itm_aketon_green_herald, itm_leather_armor_herald,
@@ -4182,7 +4192,7 @@ troops = [
    [itm_sword_medieval_a, itm_mace_2, itm_fighting_pick, itm_tab_shield_heater_a, itm_tab_shield_heater_a_plain_1, itm_tab_shield_heater_a_plain_2,
     itm_wrapping_boots, itm_ankle_boots, itm_nomad_boots,
     itm_tabard_herald, itm_linen_tunic_herald, itm_rich_shirt_herald, itm_coarse_tunic_herald,
-
+    itm_head_wrappings, itm_common_hood_herald, itm_common_hood_herald2, itm_arming_cap, itm_padded_coif,
     ],
    str_10|agi_8|int_5|cha_6|level(6), wpex(65,60,60,30,30,25), knows_common|knows_ironflesh_2|knows_power_strike_3|knows_athletics_3, man_face_young_1, man_face_old_2],
   
@@ -4191,7 +4201,7 @@ troops = [
    [itm_sword_medieval_a, itm_mace_2, itm_fighting_pick, itm_hunting_bow, itm_arrows_b,
     itm_wrapping_boots, itm_ankle_boots, itm_nomad_boots,
     itm_tabard_herald, itm_linen_tunic_herald, itm_rich_shirt_herald, itm_coarse_tunic_herald,
-
+    itm_head_wrappings, itm_common_hood_herald, itm_common_hood_herald2, itm_arming_cap, itm_padded_coif,
     ],
    str_8|agi_11|int_5|cha_6|level(7), wpex(50,45,45,65,30,25), knows_common|knows_power_strike_2|knows_power_draw_4|knows_athletics_2, man_face_young_1, man_face_old_2],
   
@@ -4200,7 +4210,7 @@ troops = [
    [itm_sword_medieval_a, itm_mace_2, itm_fighting_pick, itm_hunting_crossbow, itm_bolts,
     itm_wrapping_boots, itm_ankle_boots, itm_nomad_boots,
     itm_tabard_herald, itm_linen_tunic_herald, itm_rich_shirt_herald, itm_coarse_tunic_herald,
-
+    itm_head_wrappings, itm_common_hood_herald, itm_common_hood_herald2, itm_arming_cap, itm_padded_coif,
     ],
    str_9|agi_10|int_5|cha_6|level(7), wpex(50,45,45,30,60,25), knows_common|knows_power_strike_2|knows_athletics_2, man_face_young_1, man_face_old_2],
   
@@ -4209,7 +4219,7 @@ troops = [
    [itm_spear, itm_tab_shield_heater_a, itm_tab_shield_heater_a_plain_1, itm_tab_shield_heater_a_plain_2,
     itm_wrapping_boots, itm_ankle_boots, itm_nomad_boots,
     itm_tabard_herald, itm_linen_tunic_herald, itm_rich_shirt_herald, itm_coarse_tunic_herald,
-
+    itm_head_wrappings, itm_common_hood_herald, itm_common_hood_herald2, itm_arming_cap, itm_padded_coif,
     ],
    str_11|agi_7|int_5|cha_6|level(6), wpex(60,55,75,30,30,25), knows_common|knows_ironflesh_3|knows_power_strike_3|knows_athletics_3, man_face_young_1, man_face_old_2],
   
@@ -4218,7 +4228,7 @@ troops = [
    [itm_sword_medieval_a, itm_mace_2, itm_fighting_pick, itm_darts, itm_tab_shield_heater_a, itm_tab_shield_heater_a_plain_1, itm_tab_shield_heater_a_plain_2,
     itm_wrapping_boots, itm_ankle_boots, itm_nomad_boots,
     itm_tabard_herald, itm_linen_tunic_herald, itm_rich_shirt_herald, itm_coarse_tunic_herald,
-
+    itm_head_wrappings, itm_common_hood_herald, itm_common_hood_herald2, itm_arming_cap, itm_padded_coif,
     ],
    str_9|agi_9|int_5|cha_6|level(6), wpex(60,55,55,30,30,70), knows_common|knows_ironflesh_1|knows_power_strike_3|knows_power_throw_2|knows_athletics_3, man_face_young_1, man_face_old_2],
   
@@ -4228,7 +4238,7 @@ troops = [
    [itm_sword_medieval_a, itm_mace_3, itm_fighting_pick, itm_tab_shield_heater_b,itm_tab_shield_heater_b_plain_1,itm_tab_shield_heater_b_plain_2, itm_tab_shield_kite_b,itm_tab_shield_kite_b_plain_1,itm_tab_shield_kite_b_plain_2,
     itm_leather_boots, itm_leather_gloves,
     itm_leather_jerkin_herald,
-    itm_footman_helmet, itm_helmet_with_neckguard, itm_mail_coif
+    itm_footman_helmet, itm_helmet_with_neckguard, itm_mail_coif, itm_nasal_helmet, itm_segmented_helmet
     ],
    str_13|agi_13|int_6|cha_7|level(16), wpex(100,75,75,35,40,40), knows_common|knows_ironflesh_1|knows_power_strike_4|knows_power_throw_1|knows_athletics_4|knows_riding_2, man_face_young_1, man_face_old_2 ],
   
@@ -4237,7 +4247,7 @@ troops = [
    [itm_sword_medieval_a, itm_mace_3, itm_fighting_pick, itm_war_darts, itm_war_darts, itm_tab_shield_heater_b,itm_tab_shield_heater_b_plain_1,itm_tab_shield_heater_b_plain_2, itm_tab_shield_kite_b,itm_tab_shield_kite_b_plain_1,itm_tab_shield_kite_b_plain_2,
     itm_leather_boots, itm_leather_gloves,
     itm_leather_jerkin_herald,
-    itm_footman_helmet, itm_helmet_with_neckguard, itm_mail_coif
+    itm_footman_helmet, itm_helmet_with_neckguard, itm_mail_coif, itm_nasal_helmet, itm_segmented_helmet
     ],
    str_12|agi_14|int_7|cha_7|level(17), wpex(85,60,60,35,40,100), knows_common|knows_ironflesh_1|knows_power_strike_4|knows_power_throw_1|knows_athletics_4|knows_riding_2, man_face_young_1, man_face_old_2 ],
   
@@ -4246,7 +4256,7 @@ troops = [
    [itm_spear, itm_tab_shield_heater_b,itm_tab_shield_heater_b_plain_1,itm_tab_shield_heater_b_plain_2, itm_tab_shield_kite_b,itm_tab_shield_kite_b_plain_1,itm_tab_shield_kite_b_plain_2,
     itm_leather_boots, itm_leather_gloves,
     itm_leather_jerkin_herald,
-    itm_footman_helmet, itm_helmet_with_neckguard, itm_mail_coif
+    itm_footman_helmet, itm_helmet_with_neckguard, itm_mail_coif, itm_nasal_helmet, itm_segmented_helmet
     ],
    str_14|agi_12|int_6|cha_7|level(16), wpex(75,75,100,40,40,35), knows_common|knows_ironflesh_2|knows_power_strike_4|knows_power_throw_1|knows_athletics_4|knows_riding_2, man_face_young_1, man_face_old_2 ],
   
@@ -4254,8 +4264,8 @@ troops = [
   ["mercenary_light_archer", "Mercenary Light Archer", "Mercenary Light Archers", tf_guarantee_trained_armor|tf_guarantee_ranged, no_scene, reserved, fac_commoners,
    [itm_sword_medieval_a, itm_dagger, itm_mace_2, itm_fighting_pick, itm_hunting_bow, itm_barbed_arrows,
     itm_leather_boots, itm_leather_gloves,
-    itm_leather_jerkin_herald, itm_padded_leather_herald, itm_leather_armor_herald,
-    itm_mail_coif, itm_footman_helmet, itm_helmet_with_neckguard,
+    itm_leather_armor_herald, itm_leather_vest_herald,
+    itm_mail_coif, itm_footman_helmet, itm_nasal_helmet
     ],
    str_9|agi_16|int_6|cha_6|level(14), wpex(70,60,60,105,50,55), knows_common|knows_power_strike_2|knows_power_throw_1|knows_power_draw_4|knows_athletics_4|knows_riding_2, man_face_young_1, man_face_old_2 ],
   
@@ -4263,8 +4273,8 @@ troops = [
   ["mercenary_light_crossbowman", "Mercenary Light Crossbowman", "Mercenary Light Crossbowmen", tf_guarantee_trained_armor|tf_guarantee_ranged, no_scene, reserved, fac_commoners,
    [itm_sword_medieval_a, itm_dagger, itm_mace_2, itm_fighting_pick, itm_light_crossbow, itm_bolts,
     itm_leather_boots, itm_leather_gloves,
-    itm_leather_jerkin_herald, itm_padded_leather_herald, itm_leather_armor_herald,
-    itm_mail_coif, itm_footman_helmet, itm_helmet_with_neckguard,
+    itm_leather_armor_herald, itm_leather_vest_herald,
+    itm_mail_coif, itm_footman_helmet, itm_nasal_helmet
     ],
    str_11|agi_15|int_6|cha_7|level(16), wpex(75,65,65,45,90,55), knows_common|knows_ironflesh_1|knows_power_strike_2|knows_power_throw_1|knows_athletics_3|knows_riding_2, man_face_young_1, man_face_old_2 ],
   
@@ -4273,7 +4283,7 @@ troops = [
    [itm_sword_medieval_a, itm_sword_medieval_a_long, itm_fighting_pick, itm_mace_3, itm_tab_shield_heater_cav_a,itm_tab_shield_heater_cav_a_plain_1,itm_tab_shield_heater_cav_a_plain_2, itm_tab_shield_kite_cav_a,itm_tab_shield_kite_cav_a_plain_1,itm_tab_shield_kite_cav_a_plain_2,
     itm_leather_boots, itm_leather_gloves,
     itm_leather_jerkin_herald,
-    itm_footman_helmet, itm_helmet_with_neckguard, itm_mail_coif,
+    itm_footman_helmet, itm_helmet_with_neckguard, itm_mail_coif, itm_nasal_helmet, itm_segmented_helmet,
     itm_saddle_horse],
    str_10|agi_17|int_7|cha_7|level(18), wpex(105,80,90,40,45,55), knows_common|knows_ironflesh_1|knows_power_strike_3|knows_power_throw_1|knows_athletics_3|knows_riding_6|knows_horse_archery_1, man_face_young_1, man_face_old_2 ],
   
@@ -4283,7 +4293,7 @@ troops = [
    [itm_sword_medieval_b, itm_sword_medieval_b_small, itm_military_sickle_a, itm_mace_4, itm_tab_shield_heater_c,itm_tab_shield_heater_c_plain_1,itm_tab_shield_heater_c_plain_2, itm_tab_shield_kite_c,itm_tab_shield_kite_c_plain_1,itm_tab_shield_kite_c_plain_2,
     itm_mail_chausses, itm_mail_mittens,
     itm_mail_hauberk_herald, itm_mail_shirt_herald, itm_heraldic_mail_with_tunic,
-    itm_kettle_hat, itm_mail_coif, itm_helmet_with_neckguard
+    itm_kettle_hat, itm_helmet_with_neckguard, itm_nasal_helmet, itm_segmented_helmet
     ],
    str_15|agi_15|int_7|cha_8|level(22), wpex(105,80,80,40,45,45), knows_common|knows_ironflesh_3|knows_power_strike_3|knows_power_throw_1|knows_athletics_2|knows_riding_2|knows_shield_1, man_face_young_1, man_face_old_2 ],
   
@@ -4292,7 +4302,7 @@ troops = [
    [itm_war_spear, itm_tab_shield_heater_c,itm_tab_shield_heater_c_plain_1,itm_tab_shield_heater_c_plain_2, itm_tab_shield_kite_c,itm_tab_shield_kite_c_plain_1,itm_tab_shield_kite_c_plain_2,
     itm_mail_chausses, itm_mail_mittens,
     itm_mail_hauberk_herald, itm_mail_shirt_herald, itm_heraldic_mail_with_tunic,
-    itm_kettle_hat, itm_mail_coif, itm_helmet_with_neckguard
+    itm_kettle_hat, itm_helmet_with_neckguard, itm_nasal_helmet, itm_segmented_helmet
     ],
    str_16|agi_14|int_7|cha_8|level(22), wpex(80,80,105,45,45,40), knows_common|knows_ironflesh_4|knows_power_strike_3|knows_power_throw_1|knows_athletics_2|knows_riding_2|knows_shield_1, man_face_young_1, man_face_old_2 ],
   
@@ -4301,7 +4311,7 @@ troops = [
    [itm_sword_medieval_b, itm_mace_4, itm_military_sickle_a, itm_light_lance, itm_tab_shield_heater_cav_a,itm_tab_shield_heater_cav_a_plain_1,itm_tab_shield_heater_cav_a_plain_2, itm_tab_shield_kite_cav_a,itm_tab_shield_kite_cav_a_plain_1,itm_tab_shield_kite_cav_a_plain_2,
     itm_leather_boots, itm_mail_chausses, itm_leather_gloves,
     itm_mail_shirt_herald, itm_mail_hauberk_herald,
-    itm_kettle_hat, itm_mail_coif, itm_helmet_with_neckguard,
+    itm_kettle_hat, itm_mail_coif, itm_helmet_with_neckguard, itm_nasal_helmet, itm_segmented_helmet,
     itm_pack_horse, itm_hunter],
    str_13|agi_16|int_8|cha_8|level(22), wpex(95,75,110,40,45,55), knows_common|knows_ironflesh_2|knows_power_strike_2|knows_power_throw_1|knows_athletics_1|knows_riding_5|knows_horse_archery_1, man_face_young_1, man_face_old_2 ],
   
@@ -4310,7 +4320,7 @@ troops = [
    [itm_sword_medieval_b, itm_sword_medieval_b_small, itm_military_sickle_a, itm_mace_4, itm_short_bow, itm_bodkin_arrows, itm_tab_shield_heater_b,itm_tab_shield_heater_b_plain_1,itm_tab_shield_heater_b_plain_2, itm_tab_shield_kite_b,itm_tab_shield_kite_b_plain_1,itm_tab_shield_kite_b_plain_2,
     itm_leather_boots, itm_leather_gloves,
     itm_heraldic_mail_with_tunic_b,
-    itm_mail_coif, itm_footman_helmet, itm_helmet_with_neckguard,
+    itm_mail_coif, itm_kettle_hat, itm_helmet_with_neckguard,
     ],
    str_12|agi_18|int_8|cha_7|level(22), wpex(75,65,65,100,50,55), knows_common|knows_ironflesh_2|knows_power_strike_2|knows_power_throw_1|knows_power_draw_4|knows_athletics_3|knows_riding_2, man_face_young_1, man_face_old_2 ],
   
@@ -4356,7 +4366,7 @@ troops = [
    [itm_sword_medieval_b, itm_sword_medieval_b_small, itm_mace_4, itm_military_sickle_a, itm_long_bow2, itm_bodkin_arrows, itm_tab_shield_heater_c,itm_tab_shield_heater_c_plain_1,itm_tab_shield_heater_c_plain_2, itm_tab_shield_kite_b,itm_tab_shield_kite_b_plain_1,itm_tab_shield_kite_b_plain_2,
     itm_leather_boots, itm_mail_chausses, itm_leather_gloves,
     itm_mail_shirt_herald, itm_mail_hauberk_herald,
-    itm_kettle_hat, itm_mail_coif, itm_helmet_with_neckguard,
+    itm_kettle_hat, itm_mail_coif, itm_helmet_with_neckguard, itm_nasal_helmet, itm_segmented_helmet
     ],
    str_16|agi_19|int_9|cha_8|level(29), wpex(80,70,70,70,50,60), knows_common|knows_ironflesh_4|knows_power_strike_2|knows_power_throw_1|knows_power_draw_6|knows_athletics_2|knows_riding_2, man_face_young_1, man_face_old_2 ],
   
@@ -4365,7 +4375,7 @@ troops = [
    [itm_sword_medieval_b, itm_sword_medieval_b_small, itm_mace_4, itm_military_sickle_a, itm_heavy_crossbow, itm_steel_bolts, itm_tab_shield_heater_c,itm_tab_shield_heater_c_plain_1,itm_tab_shield_heater_c_plain_2, itm_tab_shield_kite_b,itm_tab_shield_kite_b_plain_1,itm_tab_shield_kite_b_plain_2,
     itm_leather_boots, itm_mail_chausses, itm_leather_gloves,
     itm_mail_shirt_herald, itm_mail_hauberk_herald,
-    itm_kettle_hat, itm_mail_coif, itm_helmet_with_neckguard,
+    itm_kettle_hat, itm_mail_coif, itm_helmet_with_neckguard, itm_nasal_helmet, itm_segmented_helmet
     ],
    str_18|agi_17|int_9|cha_9|level(30), wpex(85,75,75,50,70,60), knows_common|knows_ironflesh_5|knows_power_strike_2|knows_power_throw_1|knows_athletics_1|knows_riding_2, man_face_young_1, man_face_old_2 ],
   
@@ -4374,7 +4384,7 @@ troops = [
    [itm_sword_medieval_d, itm_mace_4, itm_military_sickle_a, itm_javelin, itm_javelin, itm_tab_shield_heater_c,itm_tab_shield_heater_c_plain_1,itm_tab_shield_heater_c_plain_2, itm_tab_shield_kite_c,itm_tab_shield_kite_c_plain_1,itm_tab_shield_kite_c_plain_2,
     itm_mail_chausses, itm_mail_mittens,
     itm_mail_hauberk_herald, itm_mail_shirt_herald, itm_heraldic_mail_with_tunic,
-    itm_kettle_hat, itm_mail_coif, itm_helmet_with_neckguard
+    itm_kettle_hat, itm_helmet_with_neckguard, itm_nasal_helmet, itm_segmented_helmet
     ],
    str_15|agi_17|int_8|cha_9|level(26), wpex(90,65,65,40,45,85), knows_common|knows_ironflesh_3|knows_power_strike_3|knows_power_throw_3|knows_athletics_3|knows_riding_2|knows_shield_1, man_face_young_1, man_face_old_2 ],
   

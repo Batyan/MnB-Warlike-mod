@@ -17,7 +17,7 @@ triggers = [
         [
             (map_free, 0),
             (neg|troop_slot_ge, "$g_player_troop", slot_troop_banner_scene_prop, 1),
-            (troop_slot_eq, "$g_player_troop", slot_troop_noble, 1),
+            (troop_slot_ge, "$g_player_troop", slot_troop_nobility_rank, nr_lesser),
         ],
         [
             (start_presentation, "prsnt_clan_selection"),

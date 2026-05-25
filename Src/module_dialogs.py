@@ -3,6 +3,7 @@ from header_dialogs import *
 from header_operations import *
 from header_parties import *
 from header_item_modifiers import *
+from header_items import *
 from header_skills import *
 from header_triggers import *
 from ID_troops import *
@@ -116,7 +117,7 @@ dialogs = [
             (call_script, "script_troop_get_gold_rating", "$g_player_troop", "$g_talk_troop"),
             (assign, ":estimated_gold", reg0),
             (store_troop_gold, ":gold", "$g_player_troop"),
-            (val_mul, ":estimated_gold", 100),
+            (val_mul, ":estimated_gold", 10),
             (val_div, ":estimated_gold", ":gold"),
             (ge, ":estimated_gold", 75),
             (call_script, "script_party_group_calculate_strength", "p_main_party"),
@@ -792,6 +793,35 @@ dialogs = [
             (store_conversation_troop, "$g_talk_troop"),
             (eq, 0, 1),
         ], "!No dialog", "close_window", []],
+
+    [anyone, "member_chat",
+        [
+            (troop_is_hero, "$g_talk_troop"),
+            (troop_slot_eq, "$g_talk_troop", slot_troop_kingdom_occupation, tko_follower),
+
+            (call_script, "script_troop_get_player_name", "$g_talk_troop", -1),
+        ], "Yes {s60}?", "member_chat_follower_player", []],
+    [anyone|plyr, "member_chat_follower_player",
+        [
+        ], "Show me your stats.", "close_window",
+        [
+            (assign, "$temp", "$g_talk_troop"),
+            (start_presentation, "prsnt_character_screen"),
+        ]],
+    [anyone|plyr, "member_chat_follower_player",
+        [
+        ], "Show me your items.", "member_chat_follower_end",
+        [
+            (change_screen_equip_other, "$g_talk_troop"),
+        ]],
+    [anyone|plyr, "member_chat_follower_player",
+        [], "Nothing.", "close_window",
+        []],
+    [anyone, "member_chat_follower_end",
+        [
+            (call_script, "script_troop_get_player_name", "$g_talk_troop", -1),
+        ], "Anything else {s60}?", "member_chat_follower_player", []],
+
     [anyone, "member_chat",
         [(troop_equip_items, "$g_talk_troop"), # TEST
         ], "Yes {My Lord/My Lady}?", "member_chat_player", []],
@@ -2351,6 +2381,7 @@ dialogs = [
         [ 
             (encountered_party_is_attacker),
             (is_between, "$g_talk_troop", lords_begin, lords_end),
+            (troop_slot_eq, "$g_talk_troop", slot_troop_kingdom_occupation, tko_kingdom_hero),
             (troop_slot_eq, "$g_talk_troop", slot_troop_last_met, -1),
             (call_script, "script_troop_get_title_string", "$g_talk_troop"),
             (str_store_string_reg, s11, s0),
@@ -2365,6 +2396,7 @@ dialogs = [
         [ 
             (encountered_party_is_attacker),
             (is_between, "$g_talk_troop", lords_begin, lords_end),
+            (troop_slot_eq, "$g_talk_troop", slot_troop_kingdom_occupation, tko_kingdom_hero),
             (call_script, "script_troop_get_player_name", "$g_talk_troop", "$g_talk_party"),
         ], "{s60}... We meet again, do you have anything to say before I crush you?", "player_lord_greeting_attacked", []],
 
@@ -2394,6 +2426,7 @@ dialogs = [
     [anyone, "start", 
         [
             (is_between, "$g_talk_troop", lords_begin, lords_end),
+            (troop_slot_eq, "$g_talk_troop", slot_troop_kingdom_occupation, tko_kingdom_hero),
             (check_quest_active, "qst_swear_vassalage_fief"),
             (quest_slot_eq, "qst_swear_vassalage_fief", slot_quest_giver_troop, "$g_talk_troop"),
             (call_script, "script_troop_get_player_name", "$g_talk_troop", "$g_talk_party"),
@@ -2402,6 +2435,7 @@ dialogs = [
     [anyone, "start", 
         [
             (is_between, "$g_talk_troop", lords_begin, lords_end),
+            (troop_slot_eq, "$g_talk_troop", slot_troop_kingdom_occupation, tko_kingdom_hero),
             (troop_slot_eq, "$g_talk_troop", slot_troop_last_met, -1),
 
             (call_script, "script_cf_lord_knows_player", "$g_talk_troop"),
@@ -2417,6 +2451,7 @@ dialogs = [
     [anyone, "start", 
         [
             (is_between, "$g_talk_troop", lords_begin, lords_end),
+            (troop_slot_eq, "$g_talk_troop", slot_troop_kingdom_occupation, tko_kingdom_hero),
             (troop_slot_eq, "$g_talk_troop", slot_troop_last_met, -1),
 
             (call_script, "script_get_lord_first_greeting_dialog", "$g_talk_troop"),
@@ -2430,6 +2465,7 @@ dialogs = [
     [anyone, "start", 
         [
             (is_between, "$g_talk_troop", lords_begin, lords_end),
+            (troop_slot_eq, "$g_talk_troop", slot_troop_kingdom_occupation, tko_kingdom_hero),
             (call_script, "script_get_lord_greeting_dialog", "$g_talk_troop"),
         ], "{s0}", "player_lord_main", []],
 
@@ -3429,6 +3465,304 @@ dialogs = [
             (call_script, "script_troop_change_relation_with_troop", "$g_talk_troop", "$g_player_troop", -25),
             (call_script, "script_complete_quest", "qst_swear_vassalage_fief"),
             (call_script, "script_troop_add_xp", "$g_player_troop", 50),
+        ]],
+
+    [anyone, "start",
+        [
+            (is_between, "$g_talk_troop", lords_begin, lords_end),
+            (this_or_next|troop_slot_eq, "$g_talk_troop", slot_troop_kingdom_occupation, tko_neutral_hero),
+            (troop_slot_eq, "$g_talk_troop", slot_troop_kingdom_occupation, tko_wanderer),
+        ], "Hello there traveller, what do you need?", "hero_main", []],
+
+    # [anyone|plyr, "hero_main", [],
+    #     "", "", []],
+    [anyone|plyr, "hero_main", [],
+        "Would you like to join me?", "hero_join", []],
+    [anyone|plyr, "hero_main",
+        [(troop_slot_eq, "$g_talk_troop", slot_troop_kingdom_occupation, tko_neutral_hero),],
+        "Would you be willing to offer your mercenary services to me?", "mercenary_offer_contract", []],
+    [anyone|plyr, "hero_main", [],
+        "Goodbye", "close_window", []],
+
+
+    [anyone, "hero_join",
+        [
+            (assign, ":total_amount", 0),
+            (try_for_range, ":item_slot", ek_item_0, ek_horse + 1),
+                (troop_get_inventory_slot, ":item", "$g_talk_troop", ":item_slot"),
+                (gt, ":item", 0),
+                (store_item_value, ":price", ":item"),
+                (val_add, ":total_amount", ":price"),
+            (try_end),
+            (call_script, "script_game_get_money_text", ":total_amount"),
+        ],  
+        "I won't mind if you pay me {s0}", "hero_join_condition", []],
+        
+    [anyone|plyr, "hero_join_condition",
+        [
+            (assign, ":total_amount", 0),
+            (try_for_range, ":item_slot", ek_item_0, ek_horse + 1),
+                (troop_get_inventory_slot, ":item", "$g_talk_troop", ":item_slot"),
+                (gt, ":item", 0),
+                (store_item_value, ":price", ":item"),
+                (val_add, ":total_amount", ":price"),
+            (try_end),
+            (store_troop_gold, ":player_gold", "$g_player_troop"),
+            (lt, ":player_gold", ":total_amount"),
+        ],
+        "I don't have the money for this", "hero_join_refuse", []],
+    [anyone|plyr, "hero_join_condition",
+        [
+            (assign, ":total_amount", 0),
+            (try_for_range, ":item_slot", ek_item_0, ek_horse + 1),
+                (troop_get_inventory_slot, ":item", "$g_talk_troop", ":item_slot"),
+                (gt, ":item", 0),
+                (store_item_value, ":price", ":item"),
+                (val_add, ":total_amount", ":price"),
+            (try_end),
+            (store_troop_gold, ":player_gold", "$g_player_troop"),
+            (ge, ":player_gold", ":total_amount"),
+        ],
+        "Of course", "hero_join_accept",
+        [
+            (assign, ":total_amount", 0),
+            (try_for_range, ":item_slot", ek_item_0, ek_horse + 1),
+                (troop_get_inventory_slot, ":item", "$g_talk_troop", ":item_slot"),
+                (gt, ":item", 0),
+                (store_item_value, ":price", ":item"),
+                (val_add, ":total_amount", ":price"),
+            (try_end),
+            (troop_remove_gold, "$g_player_troop", ":total_amount"),
+        ]],
+    [anyone|plyr, "hero_join_condition", [],
+        "Let me think about it", "hero_join_refuse", []],
+
+    [anyone, "hero_join_accept", [],
+        "I'm at your service", "close_window",
+        [
+            (troop_set_slot, "$g_talk_troop", slot_troop_kingdom_occupation, tko_follower),
+
+            (troop_get_slot, ":leader_party", "$g_talk_troop", slot_troop_leaded_party),
+            (try_begin),
+                (gt, ":leader_party", 0),
+                (party_is_active, ":leader_party"),
+                (party_get_num_prisoner_stacks, ":num_stacks", ":leader_party"),
+                (try_for_range, ":stack_no", 0, ":num_stacks"),
+                    (party_prisoner_stack_get_size, ":size", ":leader_party", ":stack_no"),
+                    (party_prisoner_stack_get_troop_id, ":troop", ":leader_party", ":stack_no"),
+                    (party_force_add_prisoners, "$g_player_party", ":troop", ":size"),
+                (try_end),
+                (party_get_num_companion_stacks, ":num_stacks", ":leader_party"),
+                (try_for_range, ":stack_no", 0, ":num_stacks"),
+                    (party_stack_get_size, ":size", ":leader_party", ":stack_no"),
+                    (party_stack_get_troop_id, ":troop", ":leader_party", ":stack_no"),
+                    (party_force_add_members, "$g_player_party", ":troop", ":size"),
+                (try_end),
+                (party_clear, ":leader_party"),
+                (remove_party, ":leader_party"),
+            (else_try),
+                (party_force_add_members, "$g_player_party", "$g_talk_troop", 1),
+            (try_end),
+            (troop_equip_items, "$g_talk_troop"),
+            (troop_set_auto_equip, "$g_talk_troop", 0),
+            (change_screen_return),
+        ]],
+    [anyone, "hero_join_refuse", [],
+        "Anything else?", "hero_main", []],
+
+    [anyone, "start",
+        [
+            (encountered_party_is_attacker),
+            (troop_slot_eq, "$g_talk_troop", slot_troop_kingdom_occupation, tko_mercenary),
+            (troop_slot_eq, "$g_talk_troop", slot_troop_last_met, -1),
+
+            (call_script, "script_troop_get_title_string", "$g_talk_troop"),
+            (str_store_string_reg, s10, s0),
+        ],
+        "Halt! State you name and surrender your weapons or face the wrath of {s10}", "mercenary_aggressive_player_introduction",
+        [
+            (call_script, "script_get_current_day"),
+            (assign, ":current_day", reg0),
+            (troop_set_slot, "$g_talk_troop", slot_troop_last_met, ":current_day"),
+        ]],
+    [anyone, "start",
+        [
+            (encountered_party_is_attacker),
+            (troop_slot_eq, "$g_talk_troop", slot_troop_kingdom_occupation, tko_mercenary),
+
+            (call_script, "script_troop_get_player_name", "$g_talk_troop", "$g_talk_party"),
+        ],
+        "Halt {s60}! We have you cornered, surrender your weapons and the lives of your men may be spared", "mercenary_aggressive_talk", []],
+    [anyone, "start",
+        [
+            (troop_slot_eq, "$g_talk_troop", slot_troop_kingdom_occupation, tko_mercenary),
+            (troop_slot_eq, "$g_talk_troop", slot_troop_last_met, -1),
+
+            (call_script, "script_troop_get_title_string", "$g_talk_troop"),
+            (str_store_string_reg, s10, s0),
+        ],
+        "Hello traveller, my name is {s10}. I've not had the pleasure of knowing your name.", "mercenary_player_introduction",
+        [
+            (call_script, "script_get_current_day"),
+            (assign, ":current_day", reg0),
+            (troop_set_slot, "$g_talk_troop", slot_troop_last_met, ":current_day"),
+        ]],
+    [anyone, "start",
+        [
+            (troop_slot_eq, "$g_talk_troop", slot_troop_kingdom_occupation, tko_mercenary),
+            (call_script, "script_troop_get_player_name", "$g_talk_troop", "$g_talk_party"),
+        ],
+        "We meet again {s60}, what do you wish to discuss?", "mercenary_talk", []],
+
+    [anyone|plyr, "mercenary_aggressive_player_introduction",
+        [
+            (str_store_troop_name, s10, "$g_player_troop"),
+        ],
+        "I am {s10}", "mercenary_aggressive_surrender", [
+        ]],
+    [anyone, "mercenary_aggressive_surrender", [],
+        "Very well {s10}, now surrender your weapons and the lives of your men may be spared", "mercenary_aggressive_talk",
+        [
+        ]],
+
+    [anyone|plyr, "mercenary_aggressive_talk",
+        [],
+        "I won't surrender without a fight", "mercenary_aggressive_refuse_surrender", []],
+    [anyone|plyr, "mercenary_aggressive_talk",
+        [],
+        "Stay your weapons, we surrender", "mercenary_aggressive_surrender", []],
+
+    [anyone|plyr, "mercenary_aggressive_refuse_surrender",
+        [],
+        "Then we let steel speak in our stead", "close_window",
+        [
+            (party_set_slot, "$g_talk_party", slot_party_speak_allowed, 0),
+            (encounter_attack),
+        ]],
+    [anyone|plyr, "mercenary_aggressive_surrender",
+        [],
+        "Wise choice", "close_window",
+        [
+            (call_script, "script_party_take_player_party_prisoner", "$g_encountered_party"),
+            (leave_encounter),
+        ]],
+
+    [anyone|plyr, "mercenary_player_introduction",
+        [],
+        "I am {s10}, a pleasure to meet you aswell", "mercenary_player_introduction_return", []],
+    [anyone|plyr, "mercenary_player_introduction",
+        [],
+        "I am {s10}, remember my name well for you will hear it alot", "mercenary_player_introduction_return", []],
+
+    [anyone, "mercenary_player_introduction_return",
+        [],
+        "Now then, did you need something?", "mercenary_talk", []],
+    [anyone, "mercenary_return",
+        [],
+        "Did you need anything else?", "mercenary_talk", []],
+
+    [anyone|plyr, "mercenary_talk",
+        [],
+        "Would you be willing to offer your mercenary services to me?", "mercenary_offer_contract", []],
+    [anyone|plyr, "mercenary_talk",
+        [],
+        "I must take my leave.", "close_window", []],
+
+    [anyone, "mercenary_offer_contract",
+        [(troop_slot_eq, "$g_talk_troop", slot_troop_mercenary_contract_leader, "$g_player_troop"),],
+        "I'm already in a contract with you", "mercenary_return", []],
+    [anyone, "mercenary_offer_contract",
+        [
+            (troop_get_slot, ":mercenary_leader", "$g_talk_troop", slot_troop_mercenary_contract_leader),
+            (is_between, ":mercenary_leader", npc_heroes_begin, npc_heroes_end),
+            (str_store_troop_name, s10, ":mercenary_leader"),
+        ],
+        "I'm afraid I am currenctly serving {s10}", "mercenary_return", []],
+    [anyone, "mercenary_offer_contract",
+        [],
+        "I'm all ears if your purse is full", "mercenary_offer_contract_answer", []],
+
+    [anyone|plyr, "mercenary_offer_contract_answer",
+        [
+            (call_script, "script_troop_get_mercenary_payment", "$g_talk_troop"),
+            (store_mul, ":flat_amount", reg0, 80),
+            (val_div, ":flat_amount", 100),
+            (store_mul, reg10, reg1, 80),
+            (val_div, reg10, 100),
+            (call_script, "script_game_get_money_text", ":flat_amount"),
+        ],
+        "[LOW] I propose {s0} each year and the payment for {reg10}% of your wages.", "mercenary_offer_contract_accept_low", []],
+    [anyone|plyr, "mercenary_offer_contract_answer",
+        [
+            (call_script, "script_troop_get_mercenary_payment", "$g_talk_troop"),
+            (assign, ":flat_amount", reg0),
+            (assign, reg10, reg1),
+            (call_script, "script_game_get_money_text", ":flat_amount"),
+        ],
+        "[STANDARD] I propose {s0} each year and the payment for {reg10}% of your wages.", "mercenary_offer_contract_accept", []],
+    [anyone|plyr, "mercenary_offer_contract_answer",
+        [
+            (call_script, "script_troop_get_mercenary_payment", "$g_talk_troop"),
+            (store_mul, ":flat_amount", reg0, 120),
+            (val_div, ":flat_amount", 100),
+            (store_mul, reg10, reg1, 120),
+            (val_div, reg10, 100),
+            (call_script, "script_game_get_money_text", ":flat_amount"),
+        ],
+        "[HIGH] I propose {s0} each year and the payment for {reg10}% of your wages.", "mercenary_offer_contract_accept_high", []],
+    [anyone|plyr, "mercenary_offer_contract_answer",
+        [], "Nevermind.", "mercenary_return", []],
+
+    [anyone, "mercenary_offer_contract_accept",
+        [
+            (troop_get_type, reg10, "$g_player_troop"),
+        ],
+        "Wonderfull, my blade is yours to command, {reg10?my Lady:my Lord}.", "mercenary_return",
+        [
+            (call_script, "script_troop_become_mercenary", "$g_talk_troop", "$g_player_troop"),
+            (call_script, "script_troop_change_relation_with_troop", "$g_talk_troop", "$g_player_troop", 1),
+        ]],
+    [anyone, "mercenary_offer_contract_accept_low",
+        [
+            (troop_get_type, reg10, "$g_player_troop"),
+        ],
+        "Fine, my blade is yours to command, {reg10?my Lady:my Lord}.", "mercenary_return",
+        [
+            (call_script, "script_troop_become_mercenary", "$g_talk_troop", "$g_player_troop"),
+
+            (troop_get_slot, ":flat", ":troop_no", slot_troop_mercenary_contract_monthly_pay),
+            (troop_get_slot, ":ratio", ":troop_no", slot_troop_mercenary_contract_wages_ratio),
+
+            (val_mul, ":flat", 80),
+            (val_div, ":flat", 100),
+            (val_mul, ":ratio", 80),
+            (val_div, ":ratio", 100),
+
+            (troop_set_slot, ":troop_no", slot_troop_mercenary_contract_monthly_pay, ":flat"),
+            (troop_set_slot, ":troop_no", slot_troop_mercenary_contract_wages_ratio, ":ratio"),
+
+            (call_script, "script_troop_change_relation_with_troop", "$g_talk_troop", "$g_player_troop", -1),
+        ]],
+    [anyone, "mercenary_offer_contract_accept_high",
+        [
+            (troop_get_type, reg10, "$g_player_troop"),
+        ],
+        "Wonderfull, my blade is yours to command, {reg10?my Lady:my Lord}.", "mercenary_return",
+        [
+            (call_script, "script_troop_become_mercenary", "$g_talk_troop", "$g_player_troop"),
+
+            (troop_get_slot, ":flat", ":troop_no", slot_troop_mercenary_contract_monthly_pay),
+            (troop_get_slot, ":ratio", ":troop_no", slot_troop_mercenary_contract_wages_ratio),
+
+            (val_mul, ":flat", 120),
+            (val_div, ":flat", 100),
+            (val_mul, ":ratio", 120),
+            (val_div, ":ratio", 100),
+
+            (troop_set_slot, ":troop_no", slot_troop_mercenary_contract_monthly_pay, ":flat"),
+            (troop_set_slot, ":troop_no", slot_troop_mercenary_contract_wages_ratio, ":ratio"),
+
+            (call_script, "script_troop_change_relation_with_troop", "$g_talk_troop", "$g_player_troop", 3),
         ]],
 
 
