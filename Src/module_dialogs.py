@@ -3685,11 +3685,33 @@ dialogs = [
     [anyone|plyr, "mercenary_offer_contract_answer",
         [
             (call_script, "script_troop_get_mercenary_payment", "$g_talk_troop"),
+            (store_mul, ":flat_amount", reg0, 80),
+            (val_div, ":flat_amount", 100),
+            (store_mul, reg10, reg1, 80),
+            (val_div, reg10, 100),
+            (call_script, "script_game_get_money_text", ":flat_amount"),
+        ],
+        "[LOW] I propose {s0} each year and the payment for {reg10}% of your wages.", "mercenary_offer_contract_accept_low", []],
+    [anyone|plyr, "mercenary_offer_contract_answer",
+        [
+            (call_script, "script_troop_get_mercenary_payment", "$g_talk_troop"),
             (assign, ":flat_amount", reg0),
             (assign, reg10, reg1),
             (call_script, "script_game_get_money_text", ":flat_amount"),
         ],
-        "I propose {s0} each year and the payment for {reg10}% of your wages.", "mercenary_offer_contract_accept", []],
+        "[STANDARD] I propose {s0} each year and the payment for {reg10}% of your wages.", "mercenary_offer_contract_accept", []],
+    [anyone|plyr, "mercenary_offer_contract_answer",
+        [
+            (call_script, "script_troop_get_mercenary_payment", "$g_talk_troop"),
+            (store_mul, ":flat_amount", reg0, 120),
+            (val_div, ":flat_amount", 100),
+            (store_mul, reg10, reg1, 120),
+            (val_div, reg10, 100),
+            (call_script, "script_game_get_money_text", ":flat_amount"),
+        ],
+        "[HIGH] I propose {s0} each year and the payment for {reg10}% of your wages.", "mercenary_offer_contract_accept_high", []],
+    [anyone|plyr, "mercenary_offer_contract_answer",
+        [], "Nevermind.", "mercenary_return", []],
 
     [anyone, "mercenary_offer_contract_accept",
         [
@@ -3698,6 +3720,49 @@ dialogs = [
         "Wonderfull, my blade is yours to command, {reg10?my Lady:my Lord}.", "mercenary_return",
         [
             (call_script, "script_troop_become_mercenary", "$g_talk_troop", "$g_player_troop"),
+            (call_script, "script_troop_change_relation_with_troop", "$g_talk_troop", "$g_player_troop", 1),
+        ]],
+    [anyone, "mercenary_offer_contract_accept_low",
+        [
+            (troop_get_type, reg10, "$g_player_troop"),
+        ],
+        "Fine, my blade is yours to command, {reg10?my Lady:my Lord}.", "mercenary_return",
+        [
+            (call_script, "script_troop_become_mercenary", "$g_talk_troop", "$g_player_troop"),
+
+            (troop_get_slot, ":flat", ":troop_no", slot_troop_mercenary_contract_monthly_pay),
+            (troop_get_slot, ":ratio", ":troop_no", slot_troop_mercenary_contract_wages_ratio),
+
+            (val_mul, ":flat", 80),
+            (val_div, ":flat", 100),
+            (val_mul, ":ratio", 80),
+            (val_div, ":ratio", 100),
+
+            (troop_set_slot, ":troop_no", slot_troop_mercenary_contract_monthly_pay, ":flat"),
+            (troop_set_slot, ":troop_no", slot_troop_mercenary_contract_wages_ratio, ":ratio"),
+
+            (call_script, "script_troop_change_relation_with_troop", "$g_talk_troop", "$g_player_troop", -1),
+        ]],
+    [anyone, "mercenary_offer_contract_accept_high",
+        [
+            (troop_get_type, reg10, "$g_player_troop"),
+        ],
+        "Wonderfull, my blade is yours to command, {reg10?my Lady:my Lord}.", "mercenary_return",
+        [
+            (call_script, "script_troop_become_mercenary", "$g_talk_troop", "$g_player_troop"),
+
+            (troop_get_slot, ":flat", ":troop_no", slot_troop_mercenary_contract_monthly_pay),
+            (troop_get_slot, ":ratio", ":troop_no", slot_troop_mercenary_contract_wages_ratio),
+
+            (val_mul, ":flat", 120),
+            (val_div, ":flat", 100),
+            (val_mul, ":ratio", 120),
+            (val_div, ":ratio", 100),
+
+            (troop_set_slot, ":troop_no", slot_troop_mercenary_contract_monthly_pay, ":flat"),
+            (troop_set_slot, ":troop_no", slot_troop_mercenary_contract_wages_ratio, ":ratio"),
+
+            (call_script, "script_troop_change_relation_with_troop", "$g_talk_troop", "$g_player_troop", 3),
         ]],
 
 

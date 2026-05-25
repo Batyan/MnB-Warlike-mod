@@ -10,6 +10,7 @@ v0.720:
 		* add new names for swadian, vaegir, khergit, nord, rhodok and sarranid clans
 		* retire old notables
 		* add filtering in manage clan
+		* allow player to hire mercenaries
 	-Balances:
 		* split bandit in multiple types to prevent overcrowding of a single type of bandit
 		* increase military_scythe thrust damage (24 -> 31)
@@ -32,6 +33,7 @@ v0.720:
 		* fix mercenary troops quality category
 		* fix incorrect hero npc wages
 		* fix lords becoming vassals of themselves
+		* fiefless npcs now roam around nearby cities instead of disappearing
 v0.710:
 	-Features:
 		* add current wars in faction notes
