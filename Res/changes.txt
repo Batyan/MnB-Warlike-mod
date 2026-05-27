@@ -1,5 +1,6 @@
 v0.730:
 	-Features:
+		* add mercenary guild buildings
 	-Balances:
 	-Fixes:
 v0.720:

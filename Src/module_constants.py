@@ -1092,6 +1092,8 @@ spt_fort        = 17
 
 spt_camp        = 18
 
+spt_garrison    = 19
+
 slot_party_leader           = slot_party_type + 1
 slot_party_lord             = slot_party_leader
 
@@ -1373,6 +1375,8 @@ autosort_level_flag = 0x0F
 autosort_culture_flag = 0xF0
 autosort_level_clearer = 0xF0
 autosort_culture_clearer = 0x0F
+
+autosort_default = autosort_low_level_first|autosort_foreign_first
 
 slot_party_reserved = slot_party_autosort_options + 1
 

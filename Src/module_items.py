@@ -1341,6 +1341,8 @@ items = [
     ["building_trading_post_2", "Trading Post (2)", [("shield_round_a",0)], 0, 0, 1, 0, 0 ],    # Increases trade profits of caravans by 10%, allows bigger escorts
     ["building_bank", "Bank", [("shield_round_a",0)], 0, 0, 1, 0, 0 ],                          # Adds small income from bank taxes, adds the bank options
     ["building_mason_guild_3", "Mason's Guild (3)", [("shield_round_a",0)], 0, 0, 1, 0, 0 ],    # Further increase building queue by 1. Decrease building time and cost by 10%
+    ["building_mercenary_guild", "Mercenary Guild", [("shield_round_a",0)], 0, 0, 1, 0, 0 ],    # Increase mercenaries quantity, give small free party of mercenaries to protect the center
+    ["building_mercenary_guild_2", "Mercenary Guild (2)", [("shield_round_a",0)], 0, 0, 1, 0, 0 ],# Further increase mercenaries quantity, increase mercenaries party size to protect the center
     
     ["buildings_end", "END", [("shield_round_a",0)], 0, 0, 1, 0, 0 ],
 
