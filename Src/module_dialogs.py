@@ -3717,7 +3717,7 @@ dialogs = [
         [
             (troop_get_type, reg10, "$g_player_troop"),
         ],
-        "Wonderfull, my blade is yours to command, {reg10?my Lady:my Lord}.", "mercenary_return",
+        "Great, my blade is yours to command, {reg10?my Lady:my Lord}.", "mercenary_return",
         [
             (call_script, "script_troop_become_mercenary", "$g_talk_troop", "$g_player_troop"),
             (call_script, "script_troop_change_relation_with_troop", "$g_talk_troop", "$g_player_troop", 1),
@@ -3730,16 +3730,16 @@ dialogs = [
         [
             (call_script, "script_troop_become_mercenary", "$g_talk_troop", "$g_player_troop"),
 
-            (troop_get_slot, ":flat", ":troop_no", slot_troop_mercenary_contract_monthly_pay),
-            (troop_get_slot, ":ratio", ":troop_no", slot_troop_mercenary_contract_wages_ratio),
+            (troop_get_slot, ":flat", "$g_talk_troop", slot_troop_mercenary_contract_monthly_pay),
+            (troop_get_slot, ":ratio", "$g_talk_troop", slot_troop_mercenary_contract_wages_ratio),
 
             (val_mul, ":flat", 80),
             (val_div, ":flat", 100),
             (val_mul, ":ratio", 80),
             (val_div, ":ratio", 100),
 
-            (troop_set_slot, ":troop_no", slot_troop_mercenary_contract_monthly_pay, ":flat"),
-            (troop_set_slot, ":troop_no", slot_troop_mercenary_contract_wages_ratio, ":ratio"),
+            (troop_set_slot, "$g_talk_troop", slot_troop_mercenary_contract_monthly_pay, ":flat"),
+            (troop_set_slot, "$g_talk_troop", slot_troop_mercenary_contract_wages_ratio, ":ratio"),
 
             (call_script, "script_troop_change_relation_with_troop", "$g_talk_troop", "$g_player_troop", -1),
         ]],
@@ -3751,16 +3751,16 @@ dialogs = [
         [
             (call_script, "script_troop_become_mercenary", "$g_talk_troop", "$g_player_troop"),
 
-            (troop_get_slot, ":flat", ":troop_no", slot_troop_mercenary_contract_monthly_pay),
-            (troop_get_slot, ":ratio", ":troop_no", slot_troop_mercenary_contract_wages_ratio),
+            (troop_get_slot, ":flat", "$g_talk_troop", slot_troop_mercenary_contract_monthly_pay),
+            (troop_get_slot, ":ratio", "$g_talk_troop", slot_troop_mercenary_contract_wages_ratio),
 
             (val_mul, ":flat", 120),
             (val_div, ":flat", 100),
             (val_mul, ":ratio", 120),
             (val_div, ":ratio", 100),
 
-            (troop_set_slot, ":troop_no", slot_troop_mercenary_contract_monthly_pay, ":flat"),
-            (troop_set_slot, ":troop_no", slot_troop_mercenary_contract_wages_ratio, ":ratio"),
+            (troop_set_slot, "$g_talk_troop", slot_troop_mercenary_contract_monthly_pay, ":flat"),
+            (troop_set_slot, "$g_talk_troop", slot_troop_mercenary_contract_wages_ratio, ":ratio"),
 
             (call_script, "script_troop_change_relation_with_troop", "$g_talk_troop", "$g_player_troop", 3),
         ]],
