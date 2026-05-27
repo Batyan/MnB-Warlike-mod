@@ -35409,6 +35409,18 @@ scripts = [
             (assign, reg0, ":age"),
         ]),
 
+    # script_cf_troop_can_player_update_skills
+        # input:
+        #   arg1: troop_no
+        # output: none
+        # fails if troop cannot have its skills changed by player
+    ("cf_troop_can_player_update_skills",
+        [
+            (store_script_param, ":troop_no", 1),
+
+            (troop_slot_eq, ":troop_no", slot_troop_kingdom_occupation, tko_follower),
+        ]),
+
     # script_presentation_generate_select_lord_card
         # input:
         #   arg1: troop_no

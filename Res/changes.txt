@@ -1,6 +1,7 @@
 v0.730:
 	-Features:
 		* add mercenary guild buildings
+		* allow changing character on character sheet to update follower skills
 	-Balances:
 	-Fixes:
 v0.720:
