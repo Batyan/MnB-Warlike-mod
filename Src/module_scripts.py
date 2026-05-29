@@ -27131,10 +27131,48 @@ scripts = [
                 (store_skill_level, ":troop_skill", ":skill", ":troop_no"),
                 (call_script, "script_game_get_skill_modifier_for_troop", ":troop_no", ":skill"),
                 (val_add, ":troop_skill", reg0),
-                (val_add, ":total_skill", ":troop_skill"),
+                (val_max, ":total_skill", ":troop_skill"),
+            (try_end),
+
+            (party_get_slot, ":leader", ":party_no", slot_party_leader),
+            (try_begin),
+                (ge, ":leader", 0),
+                (call_script, "script_troop_get_skill_assist_modifier", ":leader", ":skill"),
+                (val_add, ":total_skill", reg0),
             (try_end),
 
             (assign, reg0, ":total_skill"),
+        ]),
+
+    # script_troop_get_skill_assist_modifier
+        # input:
+        #   arg1: troop_no
+        #   arg2: skill
+        # output:
+        #   reg0: skill_bonus
+    ("troop_get_skill_assist_modifier",
+        [
+            (store_script_param, ":troop_no", 1),
+            (store_script_param, ":skill", 2),
+
+            (assign, ":bonus", 0),
+
+            (store_skill_level, ":level", ":skill", ":troop_no"),
+            (try_begin),
+                (ge, ":level", 10),
+                (assign, ":bonus", 4),
+            (else_try),
+                (ge, ":level", 8),
+                (assign, ":bonus", 3),
+            (else_try),
+                (ge, ":level", 5),
+                (assign, ":bonus", 2),
+            (else_try),
+                (ge, ":level", 2),
+                (assign, ":bonus", 1),
+            (else_try),
+
+            (assign, reg0, ":bonus"),
         ]),
 
     # script_party_empty_goods

@@ -4,6 +4,7 @@ v0.730:
 		* allow changing character on character sheet to update follower skills
 	-Balances:
 	-Fixes:
+		* fix party skills cumulating with each companion
 v0.720:
 	-Features:
 		* add tavern mercenaries
