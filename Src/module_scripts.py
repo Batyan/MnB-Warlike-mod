@@ -27,7 +27,7 @@ scripts = [
             (assign, "$g_player_troop", "trp_player"),
             (assign, "$g_player_party", "p_main_party"),
             (party_set_slot, "$g_player_party", slot_party_type, spt_war_party),
-            (party_set_slot, "$g_player_party", slot_party_autosort_options, autosort_low_level_first|autosort_foreign_first),
+            (party_set_slot, "$g_player_party", slot_party_autosort_options, autosort_default),
             (troop_set_slot, "$g_player_troop", slot_troop_kingdom_occupation, tko_kingdom_hero),
             (troop_set_slot, "$g_player_troop", slot_troop_vassal_of, -1),
             (troop_set_slot, "$g_player_troop", slot_troop_renown, 0),
@@ -319,9 +319,13 @@ scripts = [
             (party_set_slot, "p_town_51", ":bank_slot", 100),
             (party_set_slot, "p_town_61", ":bank_slot", 100),
 
+            (store_sub, ":merc_guild_offset", "itm_building_mercenary_guild", center_buildings_begin),
+            (store_add, ":merc_guild_slot", ":merc_guild_offset", slot_party_building_slot_begin),
+            (party_set_slot, "p_town_11", ":merc_guild_slot", 100),
+
             (party_set_faction, "p_recruit_mercenaries", "fac_faction_8"),
             (party_set_slot, "p_recruit_mercenaries", slot_party_original_faction, "fac_faction_8"),
-            (party_set_slot, "p_recruit_mercenaries", slot_party_autosort_options, autosort_low_level_first|autosort_foreign_first),
+            (party_set_slot, "p_recruit_mercenaries", slot_party_autosort_options, autosort_default),
             
             (assign, "$g_global_haze_amount", 0),
             (assign, "$g_global_cloud_amount", 0),
@@ -3795,7 +3799,7 @@ scripts = [
             (store_random_in_range, ":rand", 10, 35),
             (party_set_slot, ":party_no", slot_party_mercenaries_amount, ":rand"),
 
-            (party_set_slot, ":party_no", slot_party_autosort_options, autosort_low_level_first|autosort_foreign_first),
+            (party_set_slot, ":party_no", slot_party_autosort_options, autosort_default),
 
             (party_set_slot, ":party_no", slot_party_max_prisoner_ratio, 25),
             (party_set_slot, ":party_no", slot_party_max_prisoner_outcome, mpo_default),
@@ -10867,7 +10871,7 @@ scripts = [
             (party_set_slot, ":party", slot_party_type, spt_war_party),
             (party_set_slot, ":party", slot_party_wages_cache, 0),
 
-            (party_set_slot, ":party", slot_party_autosort_options, autosort_low_level_first|autosort_foreign_first),
+            (party_set_slot, ":party", slot_party_autosort_options, autosort_default),
             
             (call_script, "script_party_set_behavior", ":party", tai_traveling_to_party, ":center_no"),
 
@@ -13604,6 +13608,21 @@ scripts = [
             (item_set_slot, "itm_building_mason_guild_3", slot_building_enabled, 1),
             (item_set_slot, "itm_building_mason_guild_3", slot_building_required_building, "itm_building_mason_guild_2"),
             (item_set_slot, "itm_building_mason_guild_3", slot_building_type, bt_growth|bt_service),
+
+            (item_set_slot, "itm_building_mercenary_guild", ":wood_slot", 250),
+            (item_set_slot, "itm_building_mercenary_guild", ":stone_slot", 180),
+            (item_set_slot, "itm_building_mercenary_guild", slot_building_cost_gold, 450000),
+            (item_set_slot, "itm_building_mercenary_guild", slot_building_build_time, 5500),
+            (item_set_slot, "itm_building_mercenary_guild", slot_building_enabled, 1),
+            (item_set_slot, "itm_building_mercenary_guild", slot_building_type, bt_military|bt_recruit),
+
+            (item_set_slot, "itm_building_mercenary_guild_2", ":wood_slot", 350),
+            (item_set_slot, "itm_building_mercenary_guild_2", ":stone_slot", 250),
+            (item_set_slot, "itm_building_mercenary_guild_2", slot_building_cost_gold, 940000),
+            (item_set_slot, "itm_building_mercenary_guild_2", slot_building_build_time, 7000),
+            (item_set_slot, "itm_building_mercenary_guild_2", slot_building_enabled, 1),
+            (item_set_slot, "itm_building_mercenary_guild_2", slot_building_required_building, "itm_building_mercenary_guild"),
+            (item_set_slot, "itm_building_mercenary_guild_2", slot_building_type, bt_military|bt_recruit),
 
             (try_for_range, ":building", center_buildings_begin, center_buildings_end),
                 (assign, ":value", 1),
@@ -24439,6 +24458,7 @@ scripts = [
             (party_get_slot, ":party_type", ":party_no", slot_party_type),
             (party_get_slot, ":attached_party_1", ":party_no", slot_party_attached_party_1),
             (party_get_slot, ":attached_party_2", ":party_no", slot_party_attached_party_2),
+            (party_get_slot, ":attached_party_3", ":party_no", slot_party_attached_party_3),
 
             (try_begin),
                 (eq, ":party_type", spt_town),
@@ -24467,6 +24487,28 @@ scripts = [
                         (str_store_party_name, s10, ":party_no"),
                         (display_message, "@{s10} releasing inactive attached party 2"),
                     (try_end),
+                (try_end),
+                (try_begin),
+                    (le, ":attached_party_3", 0),
+                    (assign, ":continue", 0),
+                    (try_begin),
+                        (call_script, "script_cf_party_has_building", ":party_no", "itm_building_mercenary_guild"),
+                        (assign, ":continue", 1),
+                    (else_try),
+                        (call_script, "script_cf_party_has_building", ":party_no", "itm_building_mercenary_guild_2"),
+                        (assign, ":continue", 1),
+                    (try_end),
+                    (eq, ":continue", 1),
+                    (call_script, "script_cf_party_create_mercenary_garrison", ":party_no", slot_party_attached_party_3),
+                (else_try),
+                    (neg|party_is_active, ":attached_party_3"),
+                    (party_set_slot, ":party_no", slot_party_attached_party_3, -1),
+                    (try_begin),
+                        (call_script, "script_cf_debug", debug_war),
+                        (str_store_party_name, s10, ":party_no"),
+                        (display_message, "@{s10} releasing inactive attached party 3"),
+                    (try_end),
+
                 (try_end),
             (else_try),
                 (eq, ":party_type", spt_castle),
@@ -24528,7 +24570,7 @@ scripts = [
                     (party_set_slot, ":spawned_party", slot_party_type, spt_patrol),
                     (party_set_slot, ":spawned_party", slot_party_linked_party, ":party_no"),
 
-                    (party_set_slot, ":spawned_party", slot_party_autosort_options, autosort_low_level_first|autosort_foreign_first),
+                    (party_set_slot, ":spawned_party", slot_party_autosort_options, autosort_default),
 
                     (party_attach_to_party, ":spawned_party", ":party_no"),
 
@@ -24684,6 +24726,61 @@ scripts = [
                 (call_script, "script_cf_debug", debug_simple),
                 (assign, reg10, ":slot"),
                 (display_message, "@Generating incorrect slot {reg10} for peasants spawn", text_color_impossible),
+            (try_end),
+        ]),
+
+    # script_cf_party_create_mercenary_garrison
+        # input:
+        #   arg1: party_no
+        #   arg2: store_slot
+        # output: none
+    ("cf_party_create_mercenary_garrison",
+        [
+            (store_script_param, ":party_no", 1),
+            (store_script_param, ":slot", 2),
+
+            (try_begin),
+                (is_between, ":slot", slot_party_attached_party_1, slot_party_attached_party_3 + 1),
+            
+                (try_begin),
+                    (call_script, "script_cf_center_can_give_troops", ":party_no", -1),
+
+
+                    (store_faction_of_party, ":party_faction", ":party_no"),
+                    (party_slot_eq, ":party_no", slot_party_faction, ":party_faction"),
+
+                    (call_script, "script_spawn_party_around_party", ":party_no", "pt_garrison"),
+                    (assign, ":spawned_party", reg0),
+
+                    (party_set_faction, ":spawned_party", ":party_faction"),
+
+                    (party_set_slot, ":spawned_party", slot_party_type, spt_garrison),
+                    (party_set_slot, ":spawned_party", slot_party_linked_party, ":party_no"),
+                    (party_set_slot, ":spawned_party", slot_party_mission_object, -1),
+
+                    (party_set_slot, ":spawned_party", slot_party_autosort_options, autosort_default),
+
+                    (party_set_aggressiveness, ":spawned_party", 0),
+
+                    (party_set_slot, ":party_no", ":slot", ":spawned_party"),
+
+                    (party_attach_to_party, ":spawned_party", ":party_no"),
+
+                    (call_script, "script_party_get_mercenaries", ":party_no"),
+                    (assign, ":mercenaries", reg0),
+
+                    (call_script, "script_party_give_troops_to_party", ":mercenaries", ":spawned_party", 1),
+
+                    (try_begin),
+                        (call_script, "script_cf_debug", debug_trade|debug_ai),
+                        (str_store_party_name, s10, ":party_no"),
+                        (display_message, "@{s10} generating attached party mercenary garrison"),
+                    (try_end),
+                (try_end),
+            (else_try),
+                (call_script, "script_cf_debug", debug_simple),
+                (assign, reg10, ":slot"),
+                (display_message, "@Generating incorrect slot {reg10} for mercenary garrison spawn", text_color_impossible),
             (try_end),
         ]),
 
@@ -25512,6 +25609,70 @@ scripts = [
                 (else_try),
                     (call_script, "script_party_set_behavior", ":party_no", tai_traveling_to_party, ":target_3"),
                 (try_end),
+            (try_end),
+        ]),
+
+    # script_party_garrison_process
+        # input:
+        #   arg1: party_no
+        # output: none
+    ("party_garrison_process",
+        [
+            (store_script_param, ":party_no", 1),
+
+            (party_get_slot, ":home", ":party_no", slot_party_linked_party),
+
+            (store_random_in_range, ":rand", 0, 10),
+            (try_begin),
+                (lt, ":rand", 3),
+                (call_script, "script_party_get_wages", ":party_no"),
+                (assign, ":current_wages", reg0),
+
+                (assign, ":budget", 2500),
+                (try_begin),
+                    (call_script, "script_cf_party_has_building", ":home", "itm_building_mercenary_guild"),
+                    (call_script, "script_party_get_building_efficiency", ":home", "itm_building_mercenary_guild"),
+                    (assign, ":efficiency", reg0),
+                    (assign, ":bonus", 5000),
+                    (val_mul, ":bonus", ":efficiency"),
+                    (val_div, ":bonus", 100),
+                    (val_add, ":budget", ":bonus"),
+                (try_end),
+                (try_begin),
+                    (call_script, "script_cf_party_has_building", ":home", "itm_building_mercenary_guild_2"),
+                    (call_script, "script_party_get_building_efficiency", ":home", "itm_building_mercenary_guild_2"),
+                    (assign, ":efficiency", reg0),
+                    (assign, ":bonus", 5000),
+                    (val_mul, ":bonus", ":efficiency"),
+                    (val_div, ":bonus", 100),
+                    (val_add, ":budget", ":bonus"),
+                (try_end),
+
+                (party_set_slot, ":party_no", slot_party_wanted_party_wages, ":budget"),
+                (call_script, "script_party_get_prefered_wages_limit", ":party_no"),
+                (assign, ":wanted_wages", reg0),
+                # (assign, ":max_wages", reg2),
+
+                (try_begin),
+                    (le, ":current_wages", ":wanted_wages"),
+                    (party_get_slot, ":besieger",  ":home", slot_party_besieged_by),
+                    (lt, ":besieger", 0),
+
+                    (call_script, "script_party_get_mercenaries", ":home"),
+                    (assign, ":mercenaries", reg0),
+
+                    (call_script, "script_party_give_troops_to_party", ":mercenaries", ":party_no", 1),
+                (try_end),
+            (else_try),
+                (lt, ":rand", 4),
+                # Upgrade existing mercenaries
+            (try_end),
+
+
+            (party_get_num_prisoners, ":num_prisoners", ":party_no"),
+            (try_begin),
+                (ge, ":num_prisoners", 1),
+                (call_script, "script_party_transfer_prisoners_to_prisoners", ":party_no", ":home", 1),
             (try_end),
         ]),
 
@@ -26970,10 +27131,48 @@ scripts = [
                 (store_skill_level, ":troop_skill", ":skill", ":troop_no"),
                 (call_script, "script_game_get_skill_modifier_for_troop", ":troop_no", ":skill"),
                 (val_add, ":troop_skill", reg0),
-                (val_add, ":total_skill", ":troop_skill"),
+                (val_max, ":total_skill", ":troop_skill"),
+            (try_end),
+
+            (party_get_slot, ":leader", ":party_no", slot_party_leader),
+            (try_begin),
+                (ge, ":leader", 0),
+                (call_script, "script_troop_get_skill_assist_modifier", ":leader", ":skill"),
+                (val_add, ":total_skill", reg0),
             (try_end),
 
             (assign, reg0, ":total_skill"),
+        ]),
+
+    # script_troop_get_skill_assist_modifier
+        # input:
+        #   arg1: troop_no
+        #   arg2: skill
+        # output:
+        #   reg0: skill_bonus
+    ("troop_get_skill_assist_modifier",
+        [
+            (store_script_param, ":troop_no", 1),
+            (store_script_param, ":skill", 2),
+
+            (assign, ":bonus", 0),
+
+            (store_skill_level, ":level", ":skill", ":troop_no"),
+            (try_begin),
+                (ge, ":level", 10),
+                (assign, ":bonus", 4),
+            (else_try),
+                (ge, ":level", 8),
+                (assign, ":bonus", 3),
+            (else_try),
+                (ge, ":level", 5),
+                (assign, ":bonus", 2),
+            (else_try),
+                (ge, ":level", 2),
+                (assign, ":bonus", 1),
+            (else_try),
+
+            (assign, reg0, ":bonus"),
         ]),
 
     # script_party_empty_goods
@@ -32831,6 +33030,26 @@ scripts = [
             (val_div, ":increase", 100),
             (val_max, ":increase", 1),
 
+            (try_begin),
+                (gt, ":cost", 1),
+                (gt, ":increase", 1),
+                (try_begin),    
+                    (eq, ":cost", ":increase"),
+                    (assign, ":cost", 1),
+                    (assign, ":increase", 1),
+                (else_try),
+                    (gt, ":cost", ":increase"),
+                    (val_sub, ":cost", ":increase"),
+                    (val_add, ":cost", 1),
+                    (assign, ":increase", 1),
+                (else_try),
+                    (gt, ":increase", ":cost"),
+                    (val_sub, ":increase", ":cost"),
+                    (val_add, ":increase", 1),
+                    (assign, ":cost", 1),
+                (try_end),
+            (try_end),
+
             (ge, ":proficiency_points", ":cost"),
 
             (assign, reg0, ":cost"),
@@ -35008,8 +35227,31 @@ scripts = [
             (store_script_param, ":party_no", 1),
 
             (party_get_slot, ":prosperity", ":party_no", slot_party_prosperity),
-            (store_div, reg0, ":prosperity", 2),
-            (val_add, reg0, 10),
+            (store_div, ":max_amount", ":prosperity", 2),
+            (val_add, ":max_amount", 10),
+
+            (assign, ":mult", 100),
+            (try_begin),
+                (call_script, "script_cf_party_has_building", ":party_no", "itm_building_mercenary_guild"),
+                (assign, ":bonus", 10),
+                (call_script, "script_party_get_building_efficiency", ":party_no", "itm_building_mercenary_guild"),
+                (assign, ":efficiency", reg0),
+                (val_mul, ":bonus", ":efficiency"),
+                (val_div, ":bonus", 100),
+                (val_add, ":mult", ":bonus"),
+            (try_end),
+            (try_begin),
+                (call_script, "script_cf_party_has_building", ":party_no", "itm_building_mercenary_guild_2"),
+                (assign, ":bonus", 15),
+                (call_script, "script_party_get_building_efficiency", ":party_no", "itm_building_mercenary_guild_2"),
+                (assign, ":efficiency", reg0),
+                (val_mul, ":bonus", ":efficiency"),
+                (val_div, ":bonus", 100),
+                (val_add, ":mult", ":bonus"),
+            (try_end),
+
+            (val_mul, ":max_amount", ":mult"),
+            (store_div, reg0, ":max_amount", 100),
         ]),
 
     # script_party_get_mercenaries
@@ -35053,10 +35295,36 @@ scripts = [
                 (party_get_slot, ":prosperity", ":party_no", slot_party_prosperity),
                 (store_mul, ":max_range", ":prosperity", 2),
 
+                (assign, ":mult", 100),
+                (try_begin),
+                    (call_script, "script_cf_party_has_building", ":party_no", "itm_building_mercenary_guild"),
+                    (assign, ":bonus", 50),
+                    (call_script, "script_party_get_building_efficiency", ":party_no", "itm_building_mercenary_guild"),
+                    (assign, ":efficiency", reg0),
+                    (val_mul, ":bonus", ":efficiency"),
+                    (val_div, ":bonus", 100),
+                    (val_add, ":mult", ":bonus"),
+                (try_end),
+                (try_begin),
+                    (call_script, "script_cf_party_has_building", ":party_no", "itm_building_mercenary_guild_2"),
+                    (assign, ":bonus", 50),
+                    (call_script, "script_party_get_building_efficiency", ":party_no", "itm_building_mercenary_guild_2"),
+                    (assign, ":efficiency", reg0),
+                    (val_mul, ":bonus", ":efficiency"),
+                    (val_div, ":bonus", 100),
+                    (val_add, ":mult", ":bonus"),
+                (try_end),
+
+                (val_mul, ":max_range", ":mult"),
+                (val_div, ":max_range", 100),
+
                 (party_get_slot, ":current_mercenaries", ":party_no", slot_party_mercenaries_amount),
                 (try_for_range, ":unused", 0, ":current_mercenaries"),
 
                     (store_random_in_range, ":rand", 0, ":max_range"),
+                    
+                    (val_mul, ":rand", ":mult"),
+                    (val_div, ":rand", 100),
 
                     (try_begin),
                         (store_div, ":continue", ":rand", 100000000),
@@ -35177,6 +35445,18 @@ scripts = [
             (val_div, ":age", 36525),
             
             (assign, reg0, ":age"),
+        ]),
+
+    # script_cf_troop_can_player_update_skills
+        # input:
+        #   arg1: troop_no
+        # output: none
+        # fails if troop cannot have its skills changed by player
+    ("cf_troop_can_player_update_skills",
+        [
+            (store_script_param, ":troop_no", 1),
+
+            (troop_slot_eq, ":troop_no", slot_troop_kingdom_occupation, tko_follower),
         ]),
 
     # script_presentation_generate_select_lord_card

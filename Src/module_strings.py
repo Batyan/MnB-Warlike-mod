@@ -521,6 +521,8 @@ strings = [
   ("building_trading_post_2",   "The improved trading post increases profits from trade by 10% and gives caravans a big escort."),
   ("building_bank",             "The bank gives the capability for citizens to ^lend their money for safekeeping and ^investment.^^Add a special income from bank taxes.^Increase fame by 5^Increase growth by 5^Add the bank features in town."),
   ("building_mason_guild_3",    "Further improves the mason's guild. ^^Increases construction slots by 1.^Decreases building cost by 10%"),
+  ("building_mercenary_guild",    "Creates a guild for mercenaries to gather. ^^Increases maximum amount of mercenaries by 10%.^Increases quality of mercenaries by 50%"),
+  ("building_mercenary_guild_2",    "Improves the mercenary guild. ^^Increases maximum amount of mercenaries by 15%.^Increases quality of mercenaries by 50%"),
 
   ("item_taxes_sell", "Town selling taxes: {reg10}%"),
   ("item_taxes_buy", "Town buying taxes: {reg10}%"),
