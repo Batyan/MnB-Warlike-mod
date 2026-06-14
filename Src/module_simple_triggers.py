@@ -319,6 +319,7 @@ simple_triggers = [
 
     (daily,
         [
+            # Check player mercenary contract
             (try_begin),
                 (troop_get_slot, ":occupation", "$g_player_troop", slot_troop_kingdom_occupation),
                 (eq, ":occupation", tko_mercenary),
@@ -328,6 +329,20 @@ simple_triggers = [
                 (gt, ":current_day", ":last_date"),
 
                 (jump_to_menu, "mnu_mercenary_contract_end"),
+            (try_end),
+            # Check qst_lord_gather_vassals progress
+            (try_begin),
+                (check_quest_active, "qst_lord_gather_vassals"),
+                (quest_get_slot, ":giver_troop", "qst_lord_gather_vassals", slot_quest_giver_troop),
+                (try_begin),
+                    (is_between, ":giver_troop", npc_heroes_begin, npc_heroes_end),
+                    (troop_get_slot, ":giver_party", ":giver_troop", slot_troop_leaded_party),
+                    (gt, ":giver_party", 0),
+                    (party_is_active, ":giver_party"),
+                    (troop_slot_eq, ":giver_troop", slot_troop_gathering, 1),
+                (else_try),
+                    (call_script, "script_cancel_quest", "qst_lord_gather_vassals"),
+                (try_end),
             (try_end),
         ]),
     

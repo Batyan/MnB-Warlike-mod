@@ -866,6 +866,8 @@ strings = [
   ("quest_description_persuade_lord_vassalage", "Persuade a lord to become your vassal."),
   
   ("quest_description_visit_center_new_owner", "As the newly appointed owner of {s59} you should head to the center to make yourself known and arrange the details of your fiefdom."),
+  
+  ("quest_description_lord_gather_vassals", "{s58} is gathering vassals for his campaign and asks that you join him."),
 
   ("quest_description_village_deliver_grain", "The elder of the village of {s58} asked you to procure 10 items of grain."),
   ("quest_description_village_deliver_rare_good", " "),

@@ -2433,6 +2433,24 @@ dialogs = [
         ], "Ah {s60}, I was waiting for your arrival. My messenger has delivered the offer then?", "player_lord_offer_vassal", []],
     
     [anyone, "start", 
+        [   # Lord gathering quest
+            (is_between, "$g_talk_troop", lords_begin, lords_end),
+            (troop_slot_eq, "$g_talk_troop", slot_troop_kingdom_occupation, tko_kingdom_hero),
+
+            (check_quest_active, "qst_lord_gather_vassals"),
+            (quest_slot_eq, "qst_lord_gather_vassals", slot_quest_giver_troop, "$g_talk_troop"),
+            (neg|check_quest_succeeded, "qst_lord_gather_vassals"),
+
+            (call_script, "script_troop_get_player_name", "$g_talk_troop", "$g_talk_party"),
+
+        ], "{s60}, I trust you received my message, are you ready to join my campaign?", "player_lord_gathering",
+        [
+            (call_script, "script_get_current_day"),
+            (assign, ":date", reg0),
+            (troop_set_slot, "$g_talk_troop", slot_troop_last_met, ":date"),
+        ]],
+
+    [anyone, "start", 
         [
             (is_between, "$g_talk_troop", lords_begin, lords_end),
             (troop_slot_eq, "$g_talk_troop", slot_troop_kingdom_occupation, tko_kingdom_hero),
@@ -2474,6 +2492,38 @@ dialogs = [
             (eq, "$g_talk_troop", "trp_ransom_broker"),
             (call_script, "script_troop_get_player_name", "$g_talk_troop", "$g_talk_party"),
         ], "Welcome {s60}, do you require my services?", "ransom_broker", []],
+
+    [anyone|plyr, "player_lord_gathering",
+        [], "I am ready to join you", "player_lord_gathering_ready", []],
+    [anyone|plyr, "player_lord_gathering",
+        [], "I need more time to prepare", "player_lord_gathering_time", []],
+
+    [anyone, "player_lord_gathering_ready",
+        [
+            (call_script, "script_player_get_expected_party_wage"),
+            (assign, ":expected", reg0),
+            (call_script, "script_party_get_wages", "$g_player_party"),
+            (assign, ":wages", reg0),
+            (lt, ":expected", ":wages"),
+        ], "I was expecting more men from you but it will have to do", "player_lord_gathering_confirm", []],
+    [anyone, "player_lord_gathering_ready",
+        [], "Good, I trust your men are prepared aswell", "player_lord_gathering_confirm", []],
+    [anyone, "player_lord_gathering_time",
+        [
+            (call_script, "script_troop_get_player_name", "$g_talk_troop", "$g_talk_party"),
+        ], "We are pressed by time {s60}, we are leaving soon", "player_lord_greeting_after", []],
+
+    [anyone, "player_lord_gathering_confirm",
+        [
+            (quest_get_slot, ":giver_troop", "qst_lord_gather_vassals", slot_quest_giver_troop),
+            (str_store_troop_name, s10, ":giver_troop"),
+            (str_store_string, s0, "@You have met with {s10}, he instructed you to keep supporting him until further instructions."),
+            (call_script, "script_quest_add_note", "qst_lord_gather_vassals", 0),
+
+            (call_script, "script_troop_change_relation_with_troop", ":giver_troop", "$g_player_troop", 1),
+            
+            (call_script, "script_succeed_quest", "qst_lord_gather_vassals"),
+        ], "Keep close to me, I may have tasks for you along the way", "lord_main_return", []],
     
     [anyone|plyr, "player_lord_greeting",
         [], "My name is {playername}, the pleasure is shared.", "player_lord_greeting_after", []],
@@ -2492,7 +2542,7 @@ dialogs = [
         [], "Right then, ", "player_lord_greeting_after", []],
     
     [anyone, "player_lord_greeting_after",
-        [], "Now... What do you need?", "player_lord_main", []],
+        [], "Now... Did you need something?", "player_lord_main", []],
     
     [anyone|plyr, "player_lord_greeting_attacked",
         [], "My name is of no matter to you, now send your dogs so that I can kill them.", "close_window", []],
@@ -2502,7 +2552,7 @@ dialogs = [
         [], "I am {playername} and I demand to settle this with a duel.", "duel_request", []],
 
     [anyone, "lord_main_return",
-        [], "Anything else ?", "player_lord_main", []],
+        [], "Anything else?", "player_lord_main", []],
     
     # Main lord talk (player)
     [anyone|plyr, "player_lord_main",

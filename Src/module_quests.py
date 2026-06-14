@@ -26,6 +26,9 @@ quests = [
     ("visit_center_new_owner", "Visit {s59}", qf_random_quest,
         "{!}As the newly appointed owner of {s59} you should head to the center to make yourself known and arrange the details of your fiefdom."),
 
+    ("lord_gather_vassals", "{s58} summons his vassals to aid him in his campaign", qf_random_quest,
+        "{!}{s58} is gathering his vassals and ask that you join his party at the earliest time."),
+
     ("village_deliver_grain", "Deliver grain to the village elder of {s59}", qf_random_quest,
         "{!}"),
     ("village_deliver_rare_good", "Deliver {s11} to {s62}", qf_random_quest,

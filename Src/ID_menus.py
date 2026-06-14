@@ -67,3 +67,4 @@ menu_report_personal = 65
 menu_intro_quest_summon_letter = 66
 menu_player_freed = 67
 menu_introduction_default_search_1_letter = 68
+menu_lord_summon_player = 69

@@ -11820,6 +11820,23 @@ scripts = [
             (troop_get_slot, ":leader_rank", ":party_leader", slot_troop_rank),
             
             (assign, ":num_gathered", 0),
+
+            (try_begin),
+                (neg|check_quest_active, "qst_lord_gather_vassals"),
+                
+                (troop_get_slot, ":player_lord", "$g_player_troop", slot_troop_vassal_of),
+                (troop_get_slot, ":player_mercenary_leader", "$g_player_troop", slot_troop_mercenary_contract_leader),
+                (store_troop_faction, ":player_faction", "$g_player_troop"),
+                (faction_get_slot, ":faction_leader", ":player_faction", slot_faction_leader),
+
+                (this_or_next|eq, ":player_lord", ":party_leader"),
+                (this_or_next|eq, ":player_mercenary_leader", ":party_leader"),
+                (eq, ":faction_leader", ":party_leader"),
+
+                # Call player
+                (call_script, "script_start_quest", "qst_lord_gather_vassals", ":party_leader"),
+                (jump_to_menu, "mnu_lord_summon_player"),
+            (try_end),
             
             (try_for_range, ":lord_no", lords_begin, lords_end),
                 (troop_get_slot, ":lord_occupation", ":lord_no", slot_troop_kingdom_occupation),
@@ -11892,12 +11909,12 @@ scripts = [
         ]),
         
     # script_faction_find_nearest_enemy_center
-    # input:
-    #   arg1: faction_no
-    #   arg2: party
-    #   arg2: party_type
-    # output:
-    #   reg0: enemy_center
+        # input:
+        #   arg1: faction_no
+        #   arg2: party
+        #   arg2: party_type
+        # output:
+        #   reg0: enemy_center
     ("faction_find_nearest_enemy_center",
         [
             (store_script_param, ":faction_no", 1),
@@ -11933,13 +11950,47 @@ scripts = [
             
             (assign, reg0, ":best_center"),
         ]),
+
+    # script_troop_get_nearest_center
+        # input:
+        #   arg1: troop_no
+        # output:
+        #   reg0: nearest_center
+    ("troop_get_nearest_center",
+        [
+            (store_script_param, ":troop_no", 1),
+
+            (assign, ":nearest", -1),
+
+            (troop_get_slot, ":garrisonned", ":troop_no", slot_troop_garrisoned),
+            (troop_get_slot, ":lead_party", ":troop_no", slot_troop_leaded_party),
+            (try_begin),
+                (is_between, ":garrisonned", centers_begin, centers_end),
+                (assign, ":nearest", ":garrisonned"),
+            (else_try),
+                (ge, ":lead_party", 0),
+                (party_get_attached_to, ":attached", ":lead_party"),
+                (is_between, ":attached", centers_begin, centers_end),
+                (assign, ":nearest", ":attached"),
+            (else_try),
+                (ge, ":lead_party", 0),
+                (assign, ":best_distance", 999),
+                (try_for_range, ":center", centers_begin, centers_end),
+                    (store_distance_to_party_from_party, ":dist", ":lead_party", ":center"),
+                    (lt, ":dist", ":best_distance"),
+                    (assign, ":nearest", ":center"),
+                    (assign, ":best_distance", ":dist"),
+                (try_end),
+            (try_end),
+            (assign, reg0, ":nearest"),
+        ]),
     
     # script_decide_follow_or_not
-    # input:
-    #   arg1: troop_no
-    #   arg2: troop_to_follow
-    # output:
-    #   reg0: follow (1: yes, 0: no)
+        # input:
+        #   arg1: troop_no
+        #   arg2: troop_to_follow
+        # output:
+        #   reg0: follow (1: yes, 0: no)
     ("decide_follow_or_not",
         [
             (store_script_param, ":troop_no", 1),
@@ -11971,10 +12022,10 @@ scripts = [
         ]),
     
     # script_party_does_center_business
-    # input:
-    #   arg1: party_no
-    #   arg2: cur_town
-    # output: none
+        # input:
+        #   arg1: party_no
+        #   arg2: cur_town
+        # output: none
     ("party_does_center_business",
         [
             (store_script_param, ":party_no", 1),
@@ -12101,11 +12152,11 @@ scripts = [
         ]),
     
     # script_party_set_behavior
-    # input:
-    #   arg1: party_no
-    #   arg2: behavior
-    #   arg3: object
-    # output: none
+        # input:
+        #   arg1: party_no
+        #   arg2: behavior
+        #   arg3: object
+        # output: none
     ("party_set_behavior",
         [
             (store_script_param, ":party_no", 1),
@@ -35457,6 +35508,37 @@ scripts = [
             (store_script_param, ":troop_no", 1),
 
             (troop_slot_eq, ":troop_no", slot_troop_kingdom_occupation, tko_follower),
+        ]),
+
+    # script_player_get_expected_party_wage
+        # input: none
+        # output:
+        #   reg0: expected_party_size
+    ("player_get_expected_party_wage",
+        [
+            (troop_get_slot, ":rank", "$g_player_troop", slot_troop_rank),
+
+            (call_script, "script_troop_get_wages", "trp_swadian_militia"),
+            (assign, ":expected_wages", reg0),
+
+            (assign, ":expected_troops", 10),
+            (try_begin),
+                (eq, ":rank", rank_affiliated),
+                (val_add, ":expected_troops", 5),
+            (else_try),
+                (eq, ":rank", rank_village),
+                (val_add, ":expected_troops", 20),
+            (else_try),
+                (eq, ":rank", rank_two_village),
+                (val_add, ":expected_troops", 30),
+            (else_try),
+                (eq, ":rank", rank_castle),
+                (val_add, ":expected_troops", 50),
+            (else_try),
+                (ge, ":rank", rank_city),
+                (val_add, ":expected_troops", 90),
+            (try_end),
+            (store_mul, reg0, ":expected_wages", ":expected_troops"),
         ]),
 
     # script_presentation_generate_select_lord_card

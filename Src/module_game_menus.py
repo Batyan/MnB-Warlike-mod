@@ -4159,4 +4159,30 @@ game_menus = [
                     (change_screen_return),
                 ]),
         ]),
+
+    ("lord_summon_player", mnf_scale_picture,
+        "A messenger arrives bearing news.^^{s10} asks that you join him in his campaign.{s11} will soon depart from his current position to engage the enemy.",
+        "none",
+        [
+            (set_background_mesh, "mesh_pic_messenger"),
+            (quest_get_slot, ":giver", "qst_lord_gather_vassals", slot_quest_giver_troop),
+
+            (call_script, "script_troop_get_nearest_center", ":giver"),
+            (assign, ":center", reg0),
+            (try_begin),
+                (is_between, ":center", centers_begin, centers_end),
+                (str_store_party_name, s12, ":center"),
+                (str_store_string, s11, "@He informs you that he is currently gathered near {s12} and"),
+            (else_try),
+                (str_store_string, s11, "@He"),
+            (try_end),
+
+            (str_store_troop_name, s10, ":giver"),
+        ],
+        [
+            ("continue",[],"Continue",
+                [
+                    (change_screen_return),
+                ]),
+        ]),
  ]
