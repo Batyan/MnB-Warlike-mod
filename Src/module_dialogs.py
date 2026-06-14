@@ -2507,7 +2507,9 @@ dialogs = [
             (lt, ":expected", ":wages"),
         ], "I was expecting more men from you but it will have to do", "player_lord_gathering_confirm", []],
     [anyone, "player_lord_gathering_ready",
-        [], "Good, I trust your men are prepared aswell", "player_lord_gathering_confirm", []],
+        [
+            (call_script, "script_troop_change_relation_with_troop", "$g_talk_troop", "$g_player_troop", 1),
+        ], "Good, I trust your men are prepared aswell", "player_lord_gathering_confirm", []],
     [anyone, "player_lord_gathering_time",
         [
             (call_script, "script_troop_get_player_name", "$g_talk_troop", "$g_talk_party"),
@@ -2515,12 +2517,11 @@ dialogs = [
 
     [anyone, "player_lord_gathering_confirm",
         [
-            (quest_get_slot, ":giver_troop", "qst_lord_gather_vassals", slot_quest_giver_troop),
-            (str_store_troop_name, s10, ":giver_troop"),
+            (str_store_troop_name, s10, "$g_talk_troop"),
             (str_store_string, s0, "@You have met with {s10}, he instructed you to keep supporting him until further instructions."),
             (call_script, "script_quest_add_note", "qst_lord_gather_vassals", 0),
 
-            (call_script, "script_troop_change_relation_with_troop", ":giver_troop", "$g_player_troop", 1),
+            (call_script, "script_troop_change_relation_with_troop", "$g_talk_troop", "$g_player_troop", 1),
             
             (call_script, "script_succeed_quest", "qst_lord_gather_vassals"),
         ], "Keep close to me, I may have tasks for you along the way", "lord_main_return", []],
