@@ -736,7 +736,7 @@ simple_triggers = [
                 (lt, ":num_heroes", 12),
                 (call_script, "script_find_free_lord"),
                 (assign, ":npc", reg0),
-                (call_script, "script_ready_neutral_hero", ":npc"),
+                (call_script, "script_ready_npc", ":npc", -1, tko_neutral_hero, 1),
             (try_end),
 
             (assign, ":num_heroes", 0),
@@ -749,7 +749,7 @@ simple_triggers = [
                 (lt, ":num_heroes", 20),
                 (call_script, "script_find_free_lord"),
                 (assign, ":npc", reg0),
-                (call_script, "script_ready_wanderer", ":npc"),
+                (call_script, "script_ready_npc", ":npc", -1, tko_wanderer, 1),
             (try_end),
         ]),
 

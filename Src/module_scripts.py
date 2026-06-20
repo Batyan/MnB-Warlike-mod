@@ -10,6 +10,7 @@ from header_terrain_types import *
 from header_music import *
 from ID_animations import *
 from ID_meshes import *
+from module_scripts_presentation import *
 
 
 scripts = [ 
@@ -133,7 +134,7 @@ scripts = [
                         (gt, ":lord_no", 0),
                 
                         (troop_set_slot, ":lord_no", slot_troop_nobility_rank, nr_noble),
-                        (call_script, "script_ready_lord", ":lord_no", ":faction_no", 1),
+                        (call_script, "script_ready_npc", ":lord_no", ":faction_no", tko_kingdom_hero, 1),
 
                         (call_script, "script_troop_add_to_clan", ":lord_no", ":clan"),
 
@@ -230,12 +231,12 @@ scripts = [
             (try_for_range, ":unused", 0, 10),
                 (call_script, "script_find_free_lord"),
                 (assign, ":npc", reg0),
-                (call_script, "script_ready_neutral_hero", ":npc"),
+                (call_script, "script_ready_npc", ":npc", -1, tko_neutral_hero, 1),
             (try_end),
             (try_for_range, ":unused", 0, 20),
                 (call_script, "script_find_free_lord"),
                 (assign, ":npc", reg0),
-                (call_script, "script_ready_wanderer", ":npc"),
+                (call_script, "script_ready_npc", ":npc", -1, tko_wanderer, 1),
             (try_end),
 
             (call_script, "script_init_quests"),
@@ -9837,10 +9838,10 @@ scripts = [
         ]),
     
     # script_troop_change_equipement_with_template
-    # input:
-    #   arg1: troop_no
-    #   arg2: template
-    # output: none
+        # input:
+        #   arg1: troop_no
+        #   arg2: template
+        # output: none
     ("troop_change_equipement_with_template",
         [
             (store_script_param, ":troop_no", 1),
@@ -9876,11 +9877,11 @@ scripts = [
         ]),
         
     # script_troop_change_equipement_primary_with_template
-    # input:
-    #   arg1: troop_no
-    #   arg2: template
-    # output:
-    #   reg0: item_added
+        # input:
+        #   arg1: troop_no
+        #   arg2: template
+        # output:
+        #   reg0: item_added
     ("troop_change_equipement_primary_with_template",
         [
             (store_script_param, ":troop_no", 1),
@@ -9920,12 +9921,12 @@ scripts = [
         ]),
     
     # script_troop_change_equipement_secondary_with_template
-    # input:
-    #   arg1: troop_no
-    #   arg2: template
-    # output:
-    #   reg0: item_added
-    #   reg1: item_added_2
+        # input:
+        #   arg1: troop_no
+        #   arg2: template
+        # output:
+        #   reg0: item_added
+        #   reg1: item_added_2
     ("troop_change_equipement_secondary_with_template",
         [
             (store_script_param, ":troop_no", 1),
@@ -9988,11 +9989,11 @@ scripts = [
         ]),
     
     # script_troop_change_equipement_head_with_template
-    # input:
-    #   arg1: troop_no
-    #   arg2: template
-    # output:
-    #   reg0: item_added
+        # input:
+        #   arg1: troop_no
+        #   arg2: template
+        # output:
+        #   reg0: item_added
     ("troop_change_equipement_head_with_template",
         [
             (store_script_param, ":troop_no", 1),
@@ -10019,11 +10020,11 @@ scripts = [
         ]),
     
     # script_troop_change_equipement_feet_with_template
-    # input:
-    #   arg1: troop_no
-    #   arg2: template
-    # output:
-    #   reg0: item_added
+        # input:
+        #   arg1: troop_no
+        #   arg2: template
+        # output:
+        #   reg0: item_added
     ("troop_change_equipement_feet_with_template",
         [
             (store_script_param, ":troop_no", 1),
@@ -10050,11 +10051,11 @@ scripts = [
         ]),
     
     # script_troop_change_equipement_body_with_template
-    # input:
-    #   arg1: troop_no
-    #   arg2: template
-    # output:
-    #   reg0: item_added
+        # input:
+        #   arg1: troop_no
+        #   arg2: template
+        # output:
+        #   reg0: item_added
     ("troop_change_equipement_body_with_template",
         [
             (store_script_param, ":troop_no", 1),
@@ -10081,11 +10082,11 @@ scripts = [
         ]),
     
     # script_troop_change_equipement_hands_with_template
-    # input:
-    #   arg1: troop_no
-    #   arg2: template
-    # output:
-    #   reg0: item_added
+        # input:
+        #   arg1: troop_no
+        #   arg2: template
+        # output:
+        #   reg0: item_added
     ("troop_change_equipement_hands_with_template",
         [
             (store_script_param, ":troop_no", 1),
@@ -10112,11 +10113,11 @@ scripts = [
         ]),
     
     # script_troop_change_equipement_horse_with_template
-    # input:
-    #   arg1: troop_no
-    #   arg2: template
-    # output:
-    #   reg0: item_added
+        # input:
+        #   arg1: troop_no
+        #   arg2: template
+        # output:
+        #   reg0: item_added
     ("troop_change_equipement_horse_with_template",
         [
             (store_script_param, ":troop_no", 1),
@@ -10144,11 +10145,11 @@ scripts = [
         ]),
     
     # script_troop_change_equipement_shield_with_template
-    # input:
-    #   arg1: troop_no
-    #   arg2: template
-    # output:
-    #   reg0: item_added
+        # input:
+        #   arg1: troop_no
+        #   arg2: template
+        # output:
+        #   reg0: item_added
     ("troop_change_equipement_shield_with_template",
         [
             (store_script_param, ":troop_no", 1),
@@ -14052,114 +14053,139 @@ scripts = [
                 (troop_set_slot, ":other_troop", ":own_relation_slot", 0),
             (try_end),
         ]),
-    
-    # script_ready_lord
-        # input:
-        #   arg1: lord_no
-        #   arg2: faction_no
-        #   arg3: activate
-        # output: none
-    ("ready_lord",
-        [
-            (store_script_param, ":lord_no", 1),
-            (store_script_param, ":faction_no", 2),
-            (store_script_param, ":activate", 3),
-            
-            (troop_set_faction, ":lord_no", ":faction_no"),
 
-            (faction_get_slot, ":culture", ":faction_no", slot_faction_culture),
-            (try_begin),
-                (neg|is_between, ":culture", cultures_begin, cultures_end),
-                (assign, ":culture", "fac_culture_7"),
-            (try_end),
-            
-            (troop_set_slot, ":lord_no", slot_troop_original_faction, ":faction_no"),
-            (troop_set_slot, ":lord_no", slot_troop_culture, ":culture"),
-            (troop_set_slot, ":lord_no", slot_troop_nobility_rank, nr_lesser),
-            
-            (troop_set_slot, ":lord_no", slot_troop_kingdom_occupation, tko_reserved),
-            
-            (call_script, "script_troop_set_equip_type", ":lord_no"),
-            (call_script, "script_troop_change_level", ":lord_no", 0),
-            (troop_set_slot, ":lord_no", slot_troop_rank, rank_none),
-            (call_script, "script_troop_set_name", ":lord_no"),
-            (call_script, "script_troop_update_name", ":lord_no"),
-
-
-            (call_script, "script_troop_get_face_code", ":lord_no", -1, -1),
-            (troop_set_face_keys, ":lord_no", s0),
-            
-            # Reset state
-            (call_script, "script_get_current_day"),
-            (assign, ":current_day", reg0),
-            (troop_set_slot, ":lord_no", slot_troop_last_attack, ":current_day"),
-            (troop_set_slot, ":lord_no", slot_troop_last_rest, ":current_day"),
-
-            (store_random_in_range, ":random_age", 20, 60),
-            (store_mul, ":days_passed", ":random_age", 36525),
-            (val_div, ":days_passed", 100),
-            (store_random_in_range, ":random_day", 0, 365),
-            (val_add, ":days_passed", ":random_day"),
-            (store_sub, ":birth_day", ":current_day", ":days_passed"),
-            (troop_set_slot, ":lord_no", slot_troop_birth_date, ":birth_day"),
-            (troop_set_age, ":lord_no", ":random_age"),
-
-            (troop_set_note_available, ":lord_no", 1),
-            
-            (try_begin),
-                (eq, ":activate", 1),
-                (call_script, "script_activate_lord", ":lord_no"),
-            (try_end),
-        ]),
-
-    # script_ready_neutral_hero
+    # script_ready_npc
         # input:
         #   arg1: troop_no
-        # output: none
-    ("ready_neutral_hero",
+        #   arg2: faction_origin
+        #   arg3: kingdom_occupation
+        #   arg4: activate
+    ("ready_npc",
         [
             (store_script_param, ":troop_no", 1),
+            (store_script_param, ":faction_origin", 2),
+            (store_script_param, ":occupation", 3),
+            (store_script_param, ":activate", 4),
+            
+            (troop_set_slot, ":troop_no", slot_troop_kingdom_occupation, tko_reserved),
 
-            (store_random_in_range, ":home", towns_begin, towns_end),
-            (troop_set_slot, ":troop_no", slot_troop_home, ":home"),
-
-            (party_get_slot, ":original_faction", ":home", slot_party_original_faction),
-            (faction_get_slot, ":culture", ":original_faction", slot_faction_culture),
-            (troop_set_slot, ":troop_no", slot_troop_culture, ":culture"),
-
-            (troop_set_faction, ":troop_no", "fac_commoners"),
-
-            (troop_set_slot, ":troop_no", slot_troop_kingdom_occupation, tko_neutral_hero),
-
-            (store_random_in_range, ":random_money", 5000, 15000),
-            (store_random_in_range, ":rand", 0, 10),
+            (assign, ":age_min", 22),
+            (assign, ":age_max", 65),
             (try_begin),
-                (eq, ":rand", 0),
-                (troop_set_slot, ":troop_no", slot_troop_nobility_rank, nr_lesser),
-                (call_script, "script_troop_change_level", ":troop_no", 1),
-                (val_add, ":random_money", 35000),
+                (eq, ":occupation", tko_neutral_hero),
+                (assign, ":age_min", 18),
+                (assign, ":age_max", 50),
             (else_try),
-                (faction_get_slot, ":troops_begin", ":culture", slot_faction_common_begin),
-                (faction_get_slot, ":troops_end", ":culture", slot_faction_troops_end),
-                (store_random_in_range, ":template", ":troops_begin", ":troops_end"),
-
-                (call_script, "script_troop_use_template_troop", ":troop_no", ":template"),
-
-                (store_character_level, ":level", ":template"),
-                (troop_set_slot, ":troop_no", slot_troop_xp_level, ":level"),
+                (eq, ":occupation", tko_wanderer),
+                (assign, ":age_min", 16),
+                (assign, ":age_max", 40),
             (try_end),
+            (store_random_in_range, ":random_age", ":age_min", ":age_max"),
+
+            (try_begin),
+                (eq, ":occupation", tko_kingdom_hero),
+                (troop_set_faction, ":troop_no", ":faction_origin"),
+
+                (faction_get_slot, ":culture", ":faction_origin", slot_faction_culture),
+                (try_begin),
+                    (neg|is_between, ":culture", cultures_begin, cultures_end),
+                    (assign, ":culture", "fac_culture_7"),
+                (try_end),
+                
+                (troop_set_slot, ":troop_no", slot_troop_original_faction, ":faction_origin"),
+                (troop_set_slot, ":troop_no", slot_troop_culture, ":culture"),
+                (troop_set_slot, ":troop_no", slot_troop_nobility_rank, nr_lesser),
+            
+                (call_script, "script_troop_set_equip_type", ":troop_no"),
+                (call_script, "script_troop_change_level", ":troop_no", 0),
+                (troop_set_slot, ":troop_no", slot_troop_rank, rank_none),
+            (else_try),
+
+                (store_random_in_range, ":home", towns_begin, towns_end),
+                (try_begin),
+                    (eq, ":occupation", tko_wanderer),
+                    (store_random_in_range, ":village_bound", 0, 10),
+                    (eq, ":village_bound", 0),
+                    (store_random_in_range, ":home", villages_begin, villages_end),
+                (try_end),
+                (troop_set_slot, ":troop_no", slot_troop_home, ":home"),
+
+                (party_get_slot, ":original_faction", ":home", slot_party_original_faction),
+                (faction_get_slot, ":culture", ":original_faction", slot_faction_culture),
+                (troop_set_slot, ":troop_no", slot_troop_culture, ":culture"),
+
+                (troop_set_faction, ":troop_no", "fac_commoners"),
+
+                (assign, ":random_money", 0),
+                (assign, ":random_level", 1),
+                (try_begin),
+                    (eq, ":occupation", tko_neutral_hero),
+                    (store_random_in_range, ":random_money", 5000, 15000),
+                    (store_random_in_range, ":random_level", 9, 20),
+                (else_try),
+                    (eq, ":occupation", tko_wanderer),
+                    (store_random_in_range, ":random_money", 500, 1500),
+                    (store_random_in_range, ":random_level", 1, 8),
+                (try_end),
+
+                (store_div, ":additional_level", ":random_age", 10),
+                (val_add, ":random_level", ":additional_level"),
+
+                (call_script, "script_troop_change_stat_with_template", ":troop_no", "trp_companion_base"),
+
+                (call_script, "script_troop_get_npc_archetype", ":troop_no"),
+                (assign, ":archetype", reg0),
+                (troop_set_slot, ":troop_no", slot_troop_npc_archetype, ":archetype"),
+
+                (troop_set_slot, ":troop_no", slot_troop_xp_level, 1),
+                (store_random_in_range, ":rand", 0, 10),
+                (try_begin),
+                    (eq, ":rand", 0),
+                    (val_add, ":random_level", 6),
+                    (troop_set_slot, ":troop_no", slot_troop_nobility_rank, nr_lesser),
+                    (val_mul, ":random_money", 4),
+                (try_end),
+                (troop_add_gold, ":troop_no", ":random_money"),
+
+                (assign, ":attribute_points", 4),
+                (assign, ":skill_points", 4),
+                (assign, ":proficiency_points", 10),
+
+                (try_begin),
+                    (eq, ":occupation", tko_neutral_hero),
+                    # Additional points for neutral heroes
+                    # As mercenaries they have better training
+                    (store_mul, ":additional_points", ":random_age", 5),
+                    (val_add, ":proficiency_points", ":additional_points"),
+                (try_end),
+
+                (troop_set_slot, ":troop_no", slot_troop_attribute_points, ":attribute_points"),
+                (troop_set_slot, ":troop_no", slot_troop_skill_points, ":skill_points"),
+                (troop_set_slot, ":troop_no", slot_troop_proficiency_points, ":proficiency_points"),
+                
+                (try_begin),
+                    (gt, ":random_level", 1),
+                    (store_sub, ":levels_to_add", ":random_level", 1),
+                    (call_script, "script_troop_add_levels", ":troop_no", ":levels_to_add"),
+                (try_end),
+
+                (call_script, "script_troop_apply_npc_archetype", ":troop_no", ":archetype"),
+                (call_script, "script_troop_apply_npc_equipment_archetype", ":troop_no", ":archetype", ":occupation"),
+            (try_end),
+
 
             (call_script, "script_troop_set_name", ":troop_no"),
             (call_script, "script_troop_update_name", ":troop_no"),
 
             (call_script, "script_troop_get_face_code", ":troop_no", -1, -1),
             (troop_set_face_keys, ":troop_no", s0),
-            (troop_add_gold, ":troop_no", ":random_money"),
-
+            
+            # Reset state
             (call_script, "script_get_current_day"),
             (assign, ":current_day", reg0),
+            (troop_set_slot, ":troop_no", slot_troop_last_attack, ":current_day"),
+            (troop_set_slot, ":troop_no", slot_troop_last_rest, ":current_day"),
 
-            (store_random_in_range, ":random_age", 18, 50),
             (store_mul, ":days_passed", ":random_age", 36525),
             (val_div, ":days_passed", 100),
             (store_random_in_range, ":random_day", 0, 365),
@@ -14171,89 +14197,25 @@ scripts = [
             (store_mul, ":renown", ":random_age", 20),
             (store_random_in_range, ":rand_renown", 0, 500),
             (val_add, ":renown", ":rand_renown"),
+            (try_begin),
+                # Kingdom heroes have reduced renown because they start as low rank
+                (eq, ":occupation", tko_kingdom_hero),
+                (val_div, ":renown", 5),
+            (else_try),
+                # wanderers have reduced renown because they are nobody
+                (eq, ":occupation", tko_wanderer),
+                (val_div, ":renown", 10),
+            (try_end),
             (call_script, "script_troop_change_renown", ":troop_no", ":renown"),
 
             (try_begin),
-                (call_script, "script_cf_debug", debug_simple),
-                (str_store_troop_name, s10, ":troop_no"),
-                (str_store_party_name, s11, ":home"),
-                (display_message, "@Generating neutral hero {s10} in {s11}"),
-            (try_end),
-        ]),
-
-    # script_ready_wanderer
-        # input:
-        #   arg1: troop_no
-        # output: none
-    ("ready_wanderer",
-        [
-            (store_script_param, ":troop_no", 1),
-
-            (store_random_in_range, ":village_bound", 0, 10),
-            (try_begin),
-                (eq, ":village_bound", 0),
-                (store_random_in_range, ":home", villages_begin, villages_end),
-                (troop_set_slot, ":troop_no", slot_troop_home, ":home"),
+                (eq, ":occupation", tko_kingdom_hero),
+                (troop_set_note_available, ":troop_no", 1),
+                (eq, ":activate", 1),
+                (call_script, "script_activate_lord", ":troop_no"),
             (else_try),
-                (store_random_in_range, ":home", towns_begin, towns_end),
-                (troop_set_slot, ":troop_no", slot_troop_home, ":home"),
-            (try_end),
-
-            (party_get_slot, ":original_faction", ":home", slot_party_original_faction),
-            (faction_get_slot, ":culture", ":original_faction", slot_faction_culture),
-            (troop_set_slot, ":troop_no", slot_troop_culture, ":culture"),
-
-            (troop_set_faction, ":troop_no", "fac_commoners"),
-
-            (troop_set_slot, ":troop_no", slot_troop_kingdom_occupation, tko_wanderer),
-
-            (store_random_in_range, ":random_money", 500, 1500),
-            (store_random_in_range, ":rand", 0, 10),
-            (try_begin),
-                (eq, ":rand", 0),
-                (troop_set_slot, ":troop_no", slot_troop_nobility_rank, nr_lesser),
-                (call_script, "script_troop_change_level", ":troop_no", 0),
-                (val_add, ":random_money", 3500),
-            (else_try),
-                (faction_get_slot, ":troops_begin", ":culture", slot_faction_troops_begin),
-                (faction_get_slot, ":troops_end", ":culture", slot_faction_veteran_begin),
-                (store_random_in_range, ":template", ":troops_begin", ":troops_end"),
-
-                (call_script, "script_troop_use_template_troop", ":troop_no", ":template"),
-
-                (store_character_level, ":level", ":template"),
-                (troop_set_slot, ":troop_no", slot_troop_xp_level, ":level"),
-            (try_end),
-
-            (call_script, "script_troop_set_name", ":troop_no"),
-            (call_script, "script_troop_update_name", ":troop_no"),
-
-            (call_script, "script_troop_get_face_code", ":troop_no", -1, -1),
-            (troop_set_face_keys, ":troop_no", s0),
-            (troop_add_gold, ":troop_no", ":random_money"),
-
-            (call_script, "script_get_current_day"),
-            (assign, ":current_day", reg0),
-            
-            (store_random_in_range, ":random_age", 16, 40),
-            (store_mul, ":days_passed", ":random_age", 36525),
-            (val_div, ":days_passed", 100),
-            (store_random_in_range, ":random_day", 0, 365),
-            (val_add, ":days_passed", ":random_day"),
-            (store_sub, ":birth_day", ":current_day", ":days_passed"),
-            (troop_set_slot, ":troop_no", slot_troop_birth_date, ":birth_day"),
-            (troop_set_age, ":troop_no", ":random_age"),
-
-            (store_mul, ":renown", ":random_age", 2),
-            (store_random_in_range, ":rand_renown", 0, 50),
-            (val_add, ":renown", ":rand_renown"),
-            (call_script, "script_troop_change_renown", ":troop_no", ":renown"),
-
-            (try_begin),
-                (call_script, "script_cf_debug", debug_simple),
-                (str_store_troop_name, s10, ":troop_no"),
-                (str_store_party_name, s11, ":home"),
-                (display_message, "@Generating wanderer {s10} in {s11}"),
+                (eq, ":activate", 1),
+                (troop_set_slot, ":troop_no", slot_troop_kingdom_occupation, ":occupation"),
             (try_end),
         ]),
 
@@ -14675,7 +14637,7 @@ scripts = [
                     (assign, ":new_lord", reg0),
 
                     (troop_set_slot, ":new_lord", slot_troop_nobility_rank, nr_lesser),
-                    (call_script, "script_ready_lord", ":new_lord", ":faction_no", 0),
+                    (call_script, "script_ready_npc", ":new_lord", ":faction_no", tko_kingdom_hero, 0),
 
                     (call_script, "script_clan_get_empty"),
                     (assign, ":clan", reg0),
@@ -20811,7 +20773,7 @@ scripts = [
             (try_for_range, ":unused", 0, ":num_members"),
                 (call_script, "script_find_free_lord"),
                 (assign, ":new_lord", reg0),
-                (call_script, "script_ready_lord", ":new_lord", ":faction_no", 1),
+                (call_script, "script_ready_npc", ":new_lord", ":faction_no", tko_kingdom_hero, 1),
                 (call_script, "script_troop_add_to_clan", ":new_lord", ":clan"),
             (try_end),
             (assign, reg0, ":clan"),
@@ -30686,7 +30648,7 @@ scripts = [
 
                     (call_script, "script_troop_add_to_clan", ":new_lord", ":clan"),
                     (troop_set_slot, ":new_lord", slot_troop_nobility_rank, nr_lesser),
-                    (call_script, "script_ready_lord", ":new_lord", ":faction_no", 1),
+                    (call_script, "script_ready_npc", ":new_lord", ":faction_no", tko_kingdom_hero, 1),
                     (call_script, "script_troop_become_vassal", ":new_lord", ":lord"),
                 (try_end),
             (try_end),
@@ -32577,13 +32539,13 @@ scripts = [
             (call_script, "script_find_free_lord"),
             (assign, ":new_lord", reg0),
             (troop_set_slot, ":new_lord", slot_troop_nobility_rank, nr_noble),
-            (call_script, "script_ready_lord", ":new_lord", ":starting_town_faction", 0),
+            (call_script, "script_ready_npc", ":new_lord", ":starting_town_faction", tko_kingdom_hero, 0),
             (troop_set_slot, ":new_lord", slot_troop_kingdom_occupation, tko_reserved_quest),
 
             (call_script, "script_find_free_lord"),
             (assign, ":new_lord_brother", reg0),
             (troop_set_slot, ":new_lord_brother", slot_troop_nobility_rank, nr_noble),
-            (call_script, "script_ready_lord", ":new_lord_brother", ":starting_town_faction", 0),
+            (call_script, "script_ready_npc", ":new_lord_brother", ":starting_town_faction", tko_kingdom_hero, 0),
             (troop_set_slot, ":new_lord_brother", slot_troop_kingdom_occupation, tko_reserved_quest),
 
             (quest_set_slot, "qst_introduction_default", slot_quest_object, ":new_lord"),
@@ -32920,7 +32882,6 @@ scripts = [
                     (call_script, "script_troop_add_levels", ":troop_no", ":added_level"),
                 (try_end),
                 (troop_set_slot, ":troop_no", slot_troop_xp, ":current_xp"),
-                (troop_set_slot, ":troop_no", slot_troop_xp_level, ":current_level"),
             (try_end),
         ]),
 
@@ -32963,6 +32924,10 @@ scripts = [
                 (troop_set_slot, ":troop_no", slot_troop_attribute_points, ":attribute_points"),
                 (troop_set_slot, ":troop_no", slot_troop_skill_points, ":skill_points"),
                 (troop_set_slot, ":troop_no", slot_troop_proficiency_points, ":proficiency_points"),
+
+                (troop_get_slot, ":current_level", ":troop_no", slot_troop_xp_level),
+                (val_add, ":current_level", ":add_level"),
+                (troop_set_slot, ":troop_no", slot_troop_xp_level, ":current_level"),
             (try_end),
         ]),
 
@@ -33872,8 +33837,11 @@ scripts = [
                 (else_try),
                     (store_add, ":tournament_end", ":next_tournament", 90),
                     (gt, ":current_day", ":tournament_end"),
-                    (party_set_slot, ":party_no", slot_party_last_tournament_date, ":current_day"),
-                    (party_set_slot, ":party_no", slot_party_next_tournament_date, -1),
+
+                    (call_script, "script_party_get_tournament_participants", ":party_no", 0),
+                    (call_script, "script_party_get_tournament_winner", ":party_no", reg0, reg1, reg2),
+                    (assign, ":winner", reg0),
+                    (call_script, "script_party_conclude_tournament", ":party_no", ":winner"),
 
                     (try_begin),
                         (call_script, "script_cf_debug", debug_faction|debug_current),
@@ -33905,6 +33873,12 @@ scripts = [
                 (call_script, "script_troop_add_accumulated_taxes", ":winner", ":prize", tax_type_loot, 1),
             (try_end),
             (call_script, "script_troop_change_renown", ":winner", ":renown"),
+
+            (call_script, "script_get_current_day"),
+            (assign, ":current_day", reg0),
+
+            (party_set_slot, ":party_no", slot_party_next_tournament_date, -1),
+            (party_set_slot, ":party_no", slot_party_last_tournament_date, ":current_day"),
         ]),
 
     # script_party_get_administrator
@@ -34796,6 +34770,38 @@ scripts = [
             (assign, reg0, ":score"),
         ]),
 
+    # script_party_get_tournament_winner
+        # input:
+        #   arg1: party_no
+        #   arg2: array_troop
+        #   arg3: array_start
+        #   arg4: array_length
+        # output:
+        #   reg0: winner
+    ("party_get_tournament_winner",
+        [
+            # (store_script_param, ":party_no", 1),
+
+            (store_script_param, ":array_troop", 2),
+            (store_script_param, ":array_start", 3),
+            (store_script_param, ":array_length", 4),
+
+            (store_add, ":array_end", ":array_start", ":array_length"),
+            (assign, ":best_score", 0),
+            (assign, ":winner", -1),
+            (try_for_range, ":index", ":array_start", ":array_end"),
+                (troop_get_slot, ":troop_no", ":array_troop", ":index"),
+                (gt, ":troop_no", 0),
+                (call_script, "script_troop_get_tournament_score", ":troop_no"),
+                (assign, ":score", reg0),
+                (gt, ":score", ":best_score"),
+                (assign, ":best_score", ":score"),
+                (assign, ":winner", ":troop_no"),
+            (try_end),
+
+            (assign, reg0, ":winner"),
+        ]),
+
     # script_cf_troop_is_in_center
         # input:
         #   arg1: troop_no
@@ -35541,182 +35547,586 @@ scripts = [
             (store_mul, reg0, ":expected_wages", ":expected_troops"),
         ]),
 
-    # script_presentation_generate_select_lord_card
+    # script_troop_get_npc_archetype
         # input:
         #   arg1: troop_no
-        #   arg2: x
-        #   arg3: values_x
-        #   arg4: values2_x
-        #   arg5: cur_y
+        # output:
+        #   reg0: archetype
+    ("troop_get_npc_archetype",
+        [
+            # (store_script_param, ":troop_no", 1),
+
+            (store_random_in_range, ":rand", "trp_npc_archetype_scout", "trp_clan_storage_1"),
+
+            (assign, reg0, ":rand"),
+        ]),
+
+    # script_troop_apply_npc_archetype
+        # input:
+        #   arg1: troop_no
+        #   arg2: archetype
         # output: none
-    ("presentation_generate_select_lord_card",
+    ("troop_apply_npc_archetype",
         [
-            (store_script_param, ":lord_no", 1),
+            (store_script_param, ":troop_no", 1),
+            (store_script_param, ":archetype", 2),
 
-            (store_script_param, ":x", 2),
-            (store_script_param, ":values_x", 3),
-            (store_script_param, ":values2_x", 4),
-            (store_script_param, ":cur_y", 5),
+            # attributes
+            (troop_get_slot, ":attribute_points", ":troop_no", slot_troop_attribute_points),
+            (try_for_range, ":unused", 0, ":attribute_points"),
+                (call_script, "script_cf_troop_apply_npc_archetype_attribute", ":troop_no", ":archetype"),
+                (call_script, "script_cf_troop_apply_npc_archetype_skill", ":troop_no", ":archetype"),
+            (try_end),
+            # leftover skill points
+            (troop_get_slot, ":skill_points", ":troop_no", slot_troop_skill_points),
+            (try_for_range, ":unused", 0, ":skill_points"),
+                (call_script, "script_cf_troop_apply_npc_archetype_skill", ":troop_no", ":archetype"),
+            (try_end),
+            # proficiencies
+            (troop_get_slot, ":proficiency_points", ":troop_no", slot_troop_proficiency_points),
+            (assign, ":end", ":proficiency_points"),
+            (try_for_range, ":unused", 0, ":end"),
+                (try_begin),
+                    (call_script, "script_cf_troop_apply_npc_archetype_proficiency", ":troop_no", ":archetype"),
+                (else_try),
+                    (assign, ":end", 0),
+                (try_end),
+            (try_end),
+        ]),
 
-            (assign, ":line_height", 30),
+    # script_troop_apply_npc_equipment_archetype
+        # input:
+        #   arg1: troop_no
+        #   arg2: archetype
+        # output: none
+    ("troop_apply_npc_equipment_archetype",
+        [
+            (store_script_param, ":troop_no", 1),
+            (store_script_param, ":archetype", 2),
+            (store_script_param, ":occupation", 3),
 
-            (create_mesh_overlay, reg0, "mesh_mp_ingame_menu"),
-            (position_set_x, pos1, ":x"),
-            (position_set_y, pos1, ":cur_y"),
-            (overlay_set_position, reg0, pos1),
-            (position_set_x, pos1, 800),
-            (position_set_y, pos1, 225),
-            (overlay_set_size, reg0, pos1),
+            (troop_get_slot, ":culture", ":troop_no", slot_troop_culture),
 
-            (store_add, ":line_text_y", ":cur_y", 10),
-
-            (store_add, ":checkbox_y", ":line_text_y", 45),
-            (store_add, ":checkbox_x", ":x", 25),
-            (create_check_box_overlay, reg0, "mesh_checkbox_off", "mesh_checkbox_on"),
-            (position_set_x, pos1, ":checkbox_x"),
-            (position_set_y, pos1, ":checkbox_y"),
-            (overlay_set_position, reg0, pos1),
-            (troop_set_slot, ":lord_no", slot_troop_temp_slot, reg0),
-
-            (store_add, ":picture_x", ":x", 35),
-            (store_add, ":picture_y", ":line_text_y", 5),
-            (create_mesh_overlay_with_tableau_material, reg0, -1, "tableau_troop_note_mesh", ":lord_no"),
-            (position_set_x, pos1, ":picture_x"),
-            (position_set_y, pos1, ":picture_y"),
-            (overlay_set_position, reg0, pos1),
-            (position_set_x, pos1, 380),
-            (position_set_y, pos1, 380),
-            (overlay_set_size, reg0, pos1),
-
-            (call_script, "script_troop_get_banner", ":lord_no"),
-            (assign, ":banner_spr", reg0),
+            (assign, ":template", "trp_common_beggar"),
             (try_begin),
-                (is_between, ":banner_spr", banner_scene_props_begin, banner_scene_props_end),
-                (store_sub, ":banner_mesh", ":banner_spr", banner_scene_props_begin),
-                (val_add, ":banner_mesh", banner_meshes_begin),
+                (eq, ":archetype", "trp_npc_archetype_scout"),
+                (try_begin),
+                    (eq, ":occupation", tko_wanderer),
+                    (eq, ":culture", "fac_culture_1"),
+                    (assign, ":template", "trp_swadian_rider"),
+                (else_try),
+                    (eq, ":occupation", tko_neutral_hero),
+                    (eq, ":culture", "fac_culture_1"),
+                    (assign, ":template", "trp_swadian_horseman"),
+                (else_try),
+                    (eq, ":occupation", tko_wanderer),
+                    (eq, ":culture", "fac_culture_2"),
+                    (assign, ":template", "trp_vaegir_light_cavalry"),
+                (else_try),
+                    (eq, ":occupation", tko_neutral_hero),
+                    (eq, ":culture", "fac_culture_2"),
+                    (assign, ":template", "trp_vaegir_heavy_cavalry"),
+                (else_try),
+                    (eq, ":occupation", tko_wanderer),
+                    (eq, ":culture", "fac_culture_3"),
+                    (assign, ":template", "trp_khergit_light_cavalry"),
+                (else_try),
+                    (eq, ":occupation", tko_neutral_hero),
+                    (eq, ":culture", "fac_culture_3"),
+                    (assign, ":template", "trp_khergit_heavy_cavalry"),
+                (else_try),
+                    (eq, ":occupation", tko_wanderer),
+                    (eq, ":culture", "fac_culture_4"),
+                    (assign, ":template", "trp_nord_light_cavalry"),
+                (else_try),
+                    (eq, ":occupation", tko_neutral_hero),
+                    (eq, ":culture", "fac_culture_4"),
+                    (assign, ":template", "trp_nord_cavalry"),
+                (else_try),
+                    (eq, ":occupation", tko_wanderer),
+                    (eq, ":culture", "fac_culture_5"),
+                    (assign, ":template", "trp_rhodok_scout"),
+                (else_try),
+                    (eq, ":occupation", tko_neutral_hero),
+                    (eq, ":culture", "fac_culture_5"),
+                    (assign, ":template", "trp_rhodok_medium_cavalry"),
+                (else_try),
+                    (eq, ":occupation", tko_wanderer),
+                    (eq, ":culture", "fac_culture_6"),
+                    (assign, ":template", "trp_sarranid_light_cavalry"),
+                (else_try),
+                    (eq, ":occupation", tko_neutral_hero),
+                    (eq, ":culture", "fac_culture_6"),
+                    (assign, ":template", "trp_sarranid_medium_cavalry"),
+                (try_end),
+            (else_try),
+                (eq, ":archetype", "trp_npc_archetype_runner"),
+                (try_begin),
+                    (eq, ":occupation", tko_wanderer),
+                    (eq, ":culture", "fac_culture_1"),
+                    (assign, ":template", "trp_swadian_civilian_wealthy"),
+                (else_try),
+                    (eq, ":occupation", tko_neutral_hero),
+                    (eq, ":culture", "fac_culture_1"),
+                    (assign, ":template", "trp_swadian_champion"),
+                (else_try),
+                    (eq, ":occupation", tko_wanderer),
+                    (eq, ":culture", "fac_culture_2"),
+                    (assign, ":template", "trp_vaegir_civilian_wealthy"),
+                (else_try),
+                    (eq, ":occupation", tko_neutral_hero),
+                    (eq, ":culture", "fac_culture_2"),
+                    (assign, ":template", "trp_vaegir_champion"),
+                (else_try),
+                    (eq, ":occupation", tko_wanderer),
+                    (eq, ":culture", "fac_culture_3"),
+                    (assign, ":template", "trp_khergit_civilian_wealthy"),
+                (else_try),
+                    (eq, ":occupation", tko_neutral_hero),
+                    (eq, ":culture", "fac_culture_3"),
+                    (assign, ":template", "trp_khergit_blademaster"),
+                (else_try),
+                    (eq, ":occupation", tko_wanderer),
+                    (eq, ":culture", "fac_culture_4"),
+                    (assign, ":template", "trp_nord_civilian_wealthy"),
+                (else_try),
+                    (eq, ":occupation", tko_neutral_hero),
+                    (eq, ":culture", "fac_culture_4"),
+                    (assign, ":template", "trp_nord_champion"),
+                (else_try),
+                    (eq, ":occupation", tko_wanderer),
+                    (eq, ":culture", "fac_culture_5"),
+                    (assign, ":template", "trp_rhodok_civilian_wealthy"),
+                (else_try),
+                    (eq, ":occupation", tko_neutral_hero),
+                    (eq, ":culture", "fac_culture_5"),
+                    (assign, ":template", "trp_rhodok_champion"),
+                (else_try),
+                    (eq, ":occupation", tko_wanderer),
+                    (eq, ":culture", "fac_culture_6"),
+                    (assign, ":template", "trp_sarranid_civilian_wealthy"),
+                (else_try),
+                    (eq, ":occupation", tko_neutral_hero),
+                    (eq, ":culture", "fac_culture_6"),
+                    (assign, ":template", "trp_sarranid_champion"),
+                (try_end),
+            (else_try),
+                (eq, ":archetype", "trp_npc_archetype_medic"),
+                (try_begin),
+                    (eq, ":occupation", tko_wanderer),
+                    (eq, ":culture", "fac_culture_1"),
+                    (assign, ":template", "trp_swadian_peasant"),
+                (else_try),
+                    (eq, ":occupation", tko_neutral_hero),
+                    (eq, ":culture", "fac_culture_1"),
+                    (assign, ":template", "trp_swadian_man_at_arms"),
+                (else_try),
+                    (eq, ":occupation", tko_wanderer),
+                    (eq, ":culture", "fac_culture_2"),
+                    (assign, ":template", "trp_vaegir_peasant"),
+                (else_try),
+                    (eq, ":occupation", tko_neutral_hero),
+                    (eq, ":culture", "fac_culture_2"),
+                    (assign, ":template", "trp_vaegir_heavy_infantry"),
+                (else_try),
+                    (eq, ":occupation", tko_wanderer),
+                    (eq, ":culture", "fac_culture_3"),
+                    (assign, ":template", "trp_khergit_peasant"),
+                (else_try),
+                    (eq, ":occupation", tko_neutral_hero),
+                    (eq, ":culture", "fac_culture_3"),
+                    (assign, ":template", "trp_khergit_heavy_infantry"),
+                (else_try),
+                    (eq, ":occupation", tko_wanderer),
+                    (eq, ":culture", "fac_culture_4"),
+                    (assign, ":template", "trp_nord_peasant"),
+                (else_try),
+                    (eq, ":occupation", tko_neutral_hero),
+                    (eq, ":culture", "fac_culture_4"),
+                    (assign, ":template", "trp_nord_medium_infantry"),
+                (else_try),
+                    (eq, ":occupation", tko_wanderer),
+                    (eq, ":culture", "fac_culture_5"),
+                    (assign, ":template", "trp_rhodok_peasant"),
+                (else_try),
+                    (eq, ":occupation", tko_neutral_hero),
+                    (eq, ":culture", "fac_culture_5"),
+                    (assign, ":template", "trp_rhodok_heavy_infantry"),
+                (else_try),
+                    (eq, ":occupation", tko_wanderer),
+                    (eq, ":culture", "fac_culture_6"),
+                    (assign, ":template", "trp_sarranid_peasant"),
+                (else_try),
+                    (eq, ":occupation", tko_neutral_hero),
+                    (eq, ":culture", "fac_culture_6"),
+                    (assign, ":template", "trp_sarranid_guard"),
+                (try_end),
+            (else_try),
+                (eq, ":archetype", "trp_npc_archetype_doctor"),
+                (try_begin),
+                    (eq, ":occupation", tko_wanderer),
+                    (eq, ":culture", "fac_culture_1"),
+                    (assign, ":template", "trp_swadian_civilian_wealthy"),
+                (else_try),
+                    (eq, ":occupation", tko_neutral_hero),
+                    (eq, ":culture", "fac_culture_1"),
+                    (assign, ":template", "trp_swadian_lancer"),
+                (else_try),
+                    (eq, ":occupation", tko_wanderer),
+                    (eq, ":culture", "fac_culture_2"),
+                    (assign, ":template", "trp_vaegir_civilian_wealthy"),
+                (else_try),
+                    (eq, ":occupation", tko_neutral_hero),
+                    (eq, ":culture", "fac_culture_2"),
+                    (assign, ":template", "trp_vaegir_heavy_lancer"),
+                (else_try),
+                    (eq, ":occupation", tko_wanderer),
+                    (eq, ":culture", "fac_culture_3"),
+                    (assign, ":template", "trp_khergit_civilian_wealthy"),
+                (else_try),
+                    (eq, ":occupation", tko_neutral_hero),
+                    (eq, ":culture", "fac_culture_3"),
+                    (assign, ":template", "trp_khergit_lancer"),
+                (else_try),
+                    (eq, ":occupation", tko_wanderer),
+                    (eq, ":culture", "fac_culture_4"),
+                    (assign, ":template", "trp_nord_civilian_wealthy"),
+                (else_try),
+                    (eq, ":occupation", tko_neutral_hero),
+                    (eq, ":culture", "fac_culture_4"),
+                    (assign, ":template", "trp_nord_spearman"),
+                (else_try),
+                    (eq, ":occupation", tko_wanderer),
+                    (eq, ":culture", "fac_culture_5"),
+                    (assign, ":template", "trp_rhodok_civilian_wealthy"),
+                (else_try),
+                    (eq, ":occupation", tko_neutral_hero),
+                    (eq, ":culture", "fac_culture_5"),
+                    (assign, ":template", "trp_rhodok_spearman"),
+                (else_try),
+                    (eq, ":occupation", tko_wanderer),
+                    (eq, ":culture", "fac_culture_6"),
+                    (assign, ":template", "trp_sarranid_civilian_wealthy"),
+                (else_try),
+                    (eq, ":occupation", tko_neutral_hero),
+                    (eq, ":culture", "fac_culture_6"),
+                    (assign, ":template", "trp_sarranid_heavy_lancer"),
+                (try_end),
+            (else_try),
+                (eq, ":archetype", "trp_npc_archetype_outlaw"),
+                (try_begin),
+                    (eq, ":occupation", tko_wanderer),
+                    (eq, ":culture", "fac_culture_1"),
+                    (assign, ":template", "trp_bandit_forest_bandit"),
+                (else_try),
+                    (eq, ":occupation", tko_neutral_hero),
+                    (eq, ":culture", "fac_culture_1"),
+                    (assign, ":template", "trp_bandit_forest_leader"),
+                (else_try),
+                    (eq, ":occupation", tko_wanderer),
+                    (eq, ":culture", "fac_culture_2"),
+                    (assign, ":template", "trp_bandit_tundra_bandit"),
+                (else_try),
+                    (eq, ":occupation", tko_neutral_hero),
+                    (eq, ":culture", "fac_culture_2"),
+                    (assign, ":template", "trp_bandit_taiga_chieftain"),
+                (else_try),
+                    (eq, ":occupation", tko_wanderer),
+                    (eq, ":culture", "fac_culture_3"),
+                    (assign, ":template", "trp_bandit_steppe_bandit"),
+                (else_try),
+                    (eq, ":occupation", tko_neutral_hero),
+                    (eq, ":culture", "fac_culture_3"),
+                    (assign, ":template", "trp_bandit_steppe_chief"),
+                (else_try),
+                    (eq, ":occupation", tko_wanderer),
+                    (eq, ":culture", "fac_culture_4"),
+                    (assign, ":template", "trp_bandit_poacher"),
+                (else_try),
+                    (eq, ":occupation", tko_neutral_hero),
+                    (eq, ":culture", "fac_culture_4"),
+                    (assign, ":template", "trp_bandit_skull_crusher"),
+                (else_try),
+                    (eq, ":occupation", tko_wanderer),
+                    (eq, ":culture", "fac_culture_5"),
+                    (assign, ":template", "trp_bandit_mountain_bandit"),
+                (else_try),
+                    (eq, ":occupation", tko_neutral_hero),
+                    (eq, ":culture", "fac_culture_5"),
+                    (assign, ":template", "trp_bandit_mountain_chieftain"),
+                (else_try),
+                    (eq, ":occupation", tko_wanderer),
+                    (eq, ":culture", "fac_culture_6"),
+                    (assign, ":template", "trp_bandit_desert_bandit"),
+                (else_try),
+                    (eq, ":occupation", tko_neutral_hero),
+                    (eq, ":culture", "fac_culture_6"),
+                    (assign, ":template", "trp_bandit_desert_chief"),
+                (try_end),
+            (else_try),
+                (eq, ":archetype", "trp_npc_archetype_brigand"),
+                (try_begin),
+                    (eq, ":occupation", tko_wanderer),
+                    (eq, ":culture", "fac_culture_1"),
+                    (assign, ":template", "trp_bandit_looter"),
+                (else_try),
+                    (eq, ":occupation", tko_neutral_hero),
+                    (eq, ":culture", "fac_culture_1"),
+                    (assign, ":template", "trp_bandit_leader"),
+                (else_try),
+                    (eq, ":occupation", tko_wanderer),
+                    (eq, ":culture", "fac_culture_2"),
+                    (assign, ":template", "trp_bandit_tundra_bandit"),
+                (else_try),
+                    (eq, ":occupation", tko_neutral_hero),
+                    (eq, ":culture", "fac_culture_2"),
+                    (assign, ":template", "trp_bandit_taiga_chieftain"),
+                (else_try),
+                    (eq, ":occupation", tko_wanderer),
+                    (eq, ":culture", "fac_culture_3"),
+                    (assign, ":template", "trp_bandit_steppe_bandit"),
+                (else_try),
+                    (eq, ":occupation", tko_neutral_hero),
+                    (eq, ":culture", "fac_culture_3"),
+                    (assign, ":template", "trp_bandit_steppe_chief"),
+                (else_try),
+                    (eq, ":occupation", tko_wanderer),
+                    (eq, ":culture", "fac_culture_4"),
+                    (assign, ":template", "trp_bandit_sea_raider"),
+                (else_try),
+                    (eq, ":occupation", tko_neutral_hero),
+                    (eq, ":culture", "fac_culture_4"),
+                    (assign, ":template", "trp_bandit_sea_captain"),
+                (else_try),
+                    (eq, ":occupation", tko_wanderer),
+                    (eq, ":culture", "fac_culture_5"),
+                    (assign, ":template", "trp_bandit_mountain_bandit"),
+                (else_try),
+                    (eq, ":occupation", tko_neutral_hero),
+                    (eq, ":culture", "fac_culture_5"),
+                    (assign, ":template", "trp_bandit_mountain_chieftain"),
+                (else_try),
+                    (eq, ":occupation", tko_wanderer),
+                    (eq, ":culture", "fac_culture_6"),
+                    (assign, ":template", "trp_bandit_desert_bandit"),
+                (else_try),
+                    (eq, ":occupation", tko_neutral_hero),
+                    (eq, ":culture", "fac_culture_6"),
+                    (assign, ":template", "trp_bandit_desert_chief"),
+                (try_end),
+            # (else_try),
+            #     (eq, ":archetype", "trp_npc_archetype_aristocrat"),
+            # (else_try),
+            #     (eq, ":archetype", "trp_npc_archetype_engineer"),
+            # (else_try),
+            #     (eq, ":archetype", "trp_npc_archetype_farmer"),
+            # (else_try),
+            #     (eq, ":archetype", "trp_npc_archetype_master"),
+            # (else_try),
+            #     (eq, ":archetype", "trp_npc_archetype_fencer"),
+            # (else_try),
+            #     (eq, ":archetype", "trp_npc_archetype_javelin"),
+            # (else_try),
+            #     (eq, ":archetype", "trp_npc_archetype_ladyinwaiting"),
+            # (else_try),
+            #     (eq, ":archetype", "trp_npc_archetype_trader"),
+            # (else_try),
+            #     (eq, ":archetype", "trp_npc_archetype_elder"),
+            # (else_try),
+            #     (eq, ":archetype", "trp_npc_archetype_hunter"),
+            # (else_try),
+            #     (eq, ":archetype", "trp_npc_archetype_steppe"),
+            # (else_try),
+            #     (eq, ":archetype", "trp_npc_archetype_mountain"),
+            # (else_try),
+            #     (eq, ":archetype", "trp_npc_archetype_guard"),
+            # (else_try),
+            #     (eq, ":archetype", "trp_npc_archetype_rider"),
+            # (else_try),
+            #     (eq, ":archetype", "trp_npc_archetype_crossbow"),
+            # (else_try),
+            #     (eq, ":archetype", "trp_npc_archetype_stayengineer"),
+            # (else_try),
+            #     (eq, ":archetype", "trp_npc_archetype_staydoctor"),
+            # (else_try),
+            #     (eq, ":archetype", "trp_npc_archetype_stayleader"),
+            # (else_try),
+            #     (eq, ":archetype", "trp_npc_archetype_drunk"),
+            (try_end),
+            (call_script, "script_troop_change_equipement_with_template", ":troop_no", ":template"),
+        ]),
 
-                (store_sub, ":banner_x", ":values_x", 25),
-                (store_add, ":banner_y", ":line_text_y", 100),
-                (create_mesh_overlay, reg0, ":banner_mesh"),
-                (position_set_x, pos1, ":banner_x"),
-                (position_set_y, pos1, ":banner_y"),
-                (overlay_set_position, reg0, pos1),
-                (position_set_x, pos1, 45),
-                (position_set_y, pos1, 45),
-                (overlay_set_size, reg0, pos1),
-                (overlay_set_additional_render_height, reg0, 100),
+    # script_cf_troop_apply_npc_archetype_skill
+        # input:
+        #   arg1: troop_no
+        #   arg2: archetype
+        # output: none
+    ("cf_troop_apply_npc_archetype_skill",
+        [
+            (store_script_param, ":troop_no", 1),
+            (store_script_param, ":archetype", 2),
+
+            (troop_get_slot, ":skill_points", ":troop_no", slot_troop_skill_points),
+            (gt, ":skill_points", 0),
+
+            (assign, ":max_goal", 0),
+            (try_for_range, ":skill", skl_trade, skl_ironflesh+1),
+                (call_script, "script_cf_skill_is_enabled", ":skill"),
+                (call_script, "script_troop_archetype_get_skill_goal", ":archetype", ":skill"),
+                (val_add, ":max_goal", reg0),
+            (try_end),
+            (store_random_in_range, ":rand", 0, ":max_goal"),
+
+            (assign, ":cur_goal", 0),
+            (assign, ":end", skl_ironflesh+1),
+            (try_for_range, ":skill", skl_trade, ":end"),
+                (call_script, "script_cf_skill_is_enabled", ":skill"),
+                (call_script, "script_troop_archetype_get_skill_goal", ":archetype", ":skill"),
+                (val_add, ":cur_goal", reg0),
+                (lt, ":rand", ":cur_goal"),
+                (assign, ":end", 0),
+                (call_script, "script_troop_add_skill", ":troop_no", ":skill", 1),
+            (try_end),
+        ]),
+
+    # script_cf_troop_apply_npc_archetype_attribute
+        # input:
+        #   arg1: troop_no
+        #   arg2: archetype
+        # output: none
+    ("cf_troop_apply_npc_archetype_attribute",
+        [
+            (store_script_param, ":troop_no", 1),
+            (store_script_param, ":archetype", 2),
+
+            (troop_get_slot, ":attribute_points", ":troop_no", slot_troop_attribute_points),
+            (gt, ":attribute_points", 0),
+
+            (assign, ":str_need", 0),
+            (assign, ":agi_need", 0),
+            (assign, ":int_need", 0),
+            (assign, ":cha_need", 0),
+
+            (try_for_range, ":skill", skl_trade, skl_ironflesh+1),
+                (call_script, "script_cf_skill_is_enabled", ":skill"),
+                (call_script, "script_troop_archetype_get_skill_goal", ":archetype", ":skill"),
+                (assign, ":goal", reg0),
+                (call_script, "script_skill_get_base_attribute", ":skill"),
+                (assign, ":attribute", reg0),
+
+                (store_attribute_level, ":attribute_value", ":troop_no", ":attribute"),
+                (store_div, ":max_value", ":attribute_value", 3),
+                (store_skill_level, ":skill_value", ":skill", ":troop_no"),
+                (try_begin),
+                    (ge, ":skill_value", ":max_value"),
+                    (try_begin),
+                        (eq, ":attribute", ca_strength),
+                        (val_add, ":str_need", ":goal"),
+                    (else_try),
+                        (eq, ":attribute", ca_agility),
+                        (val_add, ":agi_need", ":goal"),
+                    (else_try),
+                        (eq, ":attribute", ca_intelligence),
+                        (val_add, ":int_need", ":goal"),
+                    (else_try),
+                        (eq, ":attribute", ca_charisma),
+                        (val_add, ":cha_need", ":goal"),
+                    (try_end),
+                (try_end),
             (try_end),
 
-            (troop_get_slot, ":culture", ":lord_no", slot_troop_culture),
-            (str_store_faction_name, s10, ":culture"),
-            (call_script, "script_presentation_create_text_overlay", 0, ":values_x", ":line_text_y", 1000, 1000),
-            (overlay_set_color, reg0, text_color_white),
-
-            (val_add, ":line_text_y", ":line_height"),
-
-            (call_script, "script_troop_get_relation_with_troop", ":lord_no", "$g_player_troop"),
-            (assign, reg10, reg0),
-            (str_store_string, s10, "@{reg10} relation"),
-            (call_script, "script_presentation_create_text_overlay", 0, ":values_x", ":line_text_y", 1000, 1000),
-            (overlay_set_color, reg0, text_color_white),
-
-            (troop_get_slot, reg10, ":lord_no", slot_troop_renown),
-            (str_store_string, s10, "@{reg10} renown"),
-            (call_script, "script_presentation_create_text_overlay", 0, ":values2_x", ":line_text_y", 1000, 1000),
-            (overlay_set_color, reg0, text_color_white),
-
-            (val_add, ":line_text_y", ":line_height"),
-
-            (troop_get_slot, reg10, ":lord_no", slot_troop_num_vassal),
-            (str_store_string, s10, "@{reg10} vassals"),
-            (call_script, "script_presentation_create_text_overlay", 0, ":values_x", ":line_text_y", 1000, 1000),
-            (overlay_set_color, reg0, text_color_white),
-
-            (assign, ":num_fiefs", 0),
-            (try_for_range, ":center_no", centers_begin, centers_end),
-                (party_slot_eq, ":center_no", slot_party_lord, ":lord_no"),
-                (val_add, ":num_fiefs", 1),
+            (try_begin),
+                (gt, ":str_need", ":agi_need"),
+                (gt, ":str_need", ":int_need"),
+                (gt, ":str_need", ":cha_need"),
+                (call_script, "script_troop_add_attribute", ":troop_no", ca_strength, 1),
+            (else_try),
+                (gt, ":agi_need", ":str_need"),
+                (gt, ":agi_need", ":int_need"),
+                (gt, ":agi_need", ":cha_need"),
+                (call_script, "script_troop_add_attribute", ":troop_no", ca_agility, 1),
+            (else_try),
+                (gt, ":int_need", ":str_need"),
+                (gt, ":int_need", ":agi_need"),
+                (gt, ":int_need", ":cha_need"),
+                (call_script, "script_troop_add_attribute", ":troop_no", ca_intelligence, 1),
+            (else_try),
+                (gt, ":cha_need", ":str_need"),
+                (gt, ":cha_need", ":agi_need"),
+                (gt, ":cha_need", ":int_need"),
+                (call_script, "script_troop_add_attribute", ":troop_no", ca_charisma, 1),
+            (else_try),
+                # We don't have a clear winner, we increase randomly
+                (store_random_in_range, ":random_attribute", ca_strength, ca_charisma+1),
+                (call_script, "script_troop_add_attribute", ":troop_no", ":random_attribute", 1),
             (try_end),
-            (assign, reg10, ":num_fiefs"),
-            (str_store_string, s10, "@{reg10} fiefs"),
-            (call_script, "script_presentation_create_text_overlay", 0, ":values2_x", ":line_text_y", 1000, 1000),
-            (overlay_set_color, reg0, text_color_white),
-
-            (val_add, ":line_text_y", ":line_height"),
-
-            (str_store_troop_name, s10, ":lord_no"),
-            (call_script, "script_presentation_create_text_overlay", 0, ":values_x", ":line_text_y", 1000, 1000),
-            (overlay_set_color, reg0, text_color_white),
         ]),
 
-    # script_presentation_create_text_overlay
+    # script_cf_troop_apply_npc_archetype_proficiency
         # input:
-        #   s10: text_string_register
-        #   arg1: text_overlay_options
-        #   arg2: x_position
-        #   arg3: y_position
-        #   arg4: x_size
-        #   arg5: y_size
-        # output:
-        #   reg0: overlay_id
-    ("presentation_create_text_overlay",
+        #   arg1: troop_no
+        #   arg2: archetype
+        # output: none
+    ("cf_troop_apply_npc_archetype_proficiency",
         [
-            (store_script_param, ":options", 1),
-            (store_script_param, ":x_pos", 2),
-            (store_script_param, ":y_pos", 3),
-            (store_script_param, ":x_size", 4),
-            (store_script_param, ":y_size", 5),
+            (store_script_param, ":troop_no", 1),
+            (store_script_param, ":archetype", 2),
 
-            (create_text_overlay, reg0, s10, ":options"),
-            (position_set_x, pos1, ":x_pos"),
-            (position_set_y, pos1, ":y_pos"),
-            (overlay_set_position, reg0, pos1),
-            (position_set_x, pos1, ":x_size"),
-            (position_set_y, pos1, ":y_size"),
-            (overlay_set_size, reg0, pos1),
+            (troop_get_slot, ":proficiency_points", ":troop_no", slot_troop_proficiency_points),
+            (gt, ":proficiency_points", 0),
+
+            (assign, ":max_goal", 0),
+            (try_for_range, ":proficiency", wpt_one_handed_weapon, wpt_firearm),
+                (call_script, "script_cf_troop_can_increase_proficiency", ":troop_no", ":proficiency"),
+                (call_script, "script_troop_archetype_get_proficiency_goal", ":archetype", ":proficiency"),
+                (val_add, ":max_goal", reg0),
+            (try_end),
+            # We fail if we can't increase any proficiency
+            (gt, ":max_goal", 0),
+            (store_random_in_range, ":rand", 0, ":max_goal"),
+
+            (assign, ":cur_goal", 0),
+            (assign, ":end", skl_ironflesh+1),
+            (try_for_range, ":proficiency", skl_trade, ":end"),
+                (call_script, "script_cf_troop_can_increase_proficiency", ":troop_no", ":proficiency"),
+                (assign, ":cost", reg0),
+                (call_script, "script_troop_archetype_get_proficiency_goal", ":archetype", ":proficiency"),
+                (val_add, ":cur_goal", reg0),
+                (lt, ":rand", ":cur_goal"),
+                (assign, ":end", 0),
+                (call_script, "script_troop_add_proficiency", ":troop_no", ":proficiency", 1, ":cost"),
+            (try_end),
         ]),
 
-    # script_presentation_create_combo_button_overlay
+    # script_troop_archetype_get_skill_goal
         # input:
-        #   arg1: x_position
-        #   arg2: y_position
-        #   arg3: x_size
-        #   arg4: y_size
+        #   arg1: troop_archetype
+        #   arg2: skill_no
         # output:
-        #   reg0: overlay_id
-    ("presentation_create_combo_button_overlay",
+        #   reg0: goal
+    ("troop_archetype_get_skill_goal",
         [
-            (store_script_param, ":x_pos", 1),
-            (store_script_param, ":y_pos", 2),
-            (store_script_param, ":x_size", 3),
-            (store_script_param, ":y_size", 4),
+            (store_script_param, ":troop_archetype", 1),
+            (store_script_param, ":skill_no", 2),
 
-            (create_combo_button_overlay, reg0),
-            (position_set_x, pos1, ":x_pos"),
-            (position_set_y, pos1, ":y_pos"),
-            (overlay_set_position, reg0, pos1),
-            (position_set_x, pos1, ":x_size"),
-            (position_set_y, pos1, ":y_size"),
-            (overlay_set_size, reg0, pos1),
+            (store_skill_level, ":goal", ":skill_no", ":troop_archetype"),
+
+            (assign, reg0, ":goal"),
         ]),
 
-    # script_presentation_create_check_box_overlay
+    # script_troop_archetype_get_proficiency_goal
         # input:
-        #   arg1: x_position
-        #   arg2: y_position
-        #   arg3: value
+        #   arg1: troop_archetype
+        #   arg2: proficiency_no
         # output:
-        #   reg0: overlay_id
-    ("presentation_create_check_box_overlay",
+        #   reg0: goal
+    ("troop_archetype_get_proficiency_goal",
         [
-            (store_script_param, ":x_pos", 1),
-            (store_script_param, ":y_pos", 2),
-            (store_script_param, ":value", 3),
+            (store_script_param, ":troop_archetype", 1),
+            (store_script_param, ":proficiency_no", 2),
 
-            (create_check_box_overlay, reg0,  "mesh_checkbox_off", "mesh_checkbox_on"),
-            (position_set_x, pos1, ":x_pos"),
-            (position_set_y, pos1, ":y_pos"),
-            (overlay_set_position, reg0, pos1),
-            (overlay_set_val, reg0, ":value"),
+            (store_proficiency_level, ":goal", ":troop_archetype", ":proficiency_no"),
+
+            (assign, reg0, ":goal"),
         ]),
-]
+] + scripts_presentation

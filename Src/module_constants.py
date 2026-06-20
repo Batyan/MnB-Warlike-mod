@@ -623,6 +623,35 @@ party_generic_behavior_count = party_behavior_weight_end - party_behavior_weight
 filter_any = -2
 filter_none = -1
 
+# npc_archetype_scout =           234523059725836941315413
+# npc_archetype_runner =          462045193144318464433112
+# npc_archetype_medic =           650014152011132156913133
+# npc_archetype_doctor =          113021025311112149645113
+# npc_archetype_outlaw =          542263153271151551121643
+
+npc_archetype_brigand =         752283164253161341132332
+npc_archetype_aristocrat =      330227137316171112259282
+npc_archetype_engineer =        531024142112141351293224
+npc_archetype_farmer =          944022141121113342112113
+npc_archetype_master =          660069244119172133134542
+npc_archetype_fencer =          771059163115142131125341
+npc_archetype_javelin =         549025155512131231143111
+npc_archetype_ladyinwaiting =   431123154423132353337537
+npc_archetype_trader =          332112047251125291127339
+npc_archetype_elder =           543334125326355132355345
+npc_archetype_hunter =          423924062222723742112116
+npc_archetype_steppe =          222945048851133551222224
+npc_archetype_mountain =        864163151141155431211432
+npc_archetype_guard =           553335153213131221133333
+npc_archetype_rider =           551045139113153111257131
+npc_archetype_crossbow =        640036151115151131264262
+npc_archetype_stayengineer =    221113131122142231192221
+npc_archetype_staydoctor =      221113131121142139912221
+npc_archetype_stayleader =      221113131127192131142261
+npc_archetype_drunk =           553232163232111122212111
+
+npc_archetype_count = 25
+
 ################
 ## Item Slots ##
 ################
@@ -1839,7 +1868,9 @@ slot_troop_proficiency_points = slot_troop_skill_points + 1
 
 slot_troop_birth_date = slot_troop_proficiency_points + 1
 
-slot_troop_relations_begin = slot_troop_birth_date + 1
+slot_troop_npc_archetype = slot_troop_birth_date + 1
+
+slot_troop_relations_begin = slot_troop_npc_archetype + 1
 
 # TODO: remove or move to specific slot type
 slot_item_mission_kills = 400
