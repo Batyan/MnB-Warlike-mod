@@ -784,7 +784,7 @@ test_battle_player_respawn = (
 		[
 			(try_begin),
 				(is_between, "$g_test_player_troop", soldiers_begin, soldiers_end),
-				(call_script, "script_troop_use_template_troop", "$g_player_troop", "$g_test_player_troop"),
+				(call_script, "script_troop_use_template_troop", "$g_player_troop", "$g_test_player_troop", 1),
 			(try_end),
 
 			(store_current_scene, ":scene"),
@@ -1255,9 +1255,6 @@ mission_templates = [
 					
 					(assign, "$g_test_cur_team", 0),
 					(assign, "$g_test_player_team", 0),
-					# (assign, "$g_test_player_troop", "trp_swadian_militia"),
-					
-					# (call_script, "script_troop_use_template_troop", "$g_player_troop", "$g_test_player_troop"),
 				]),
 			
 			(ti_tab_pressed, 0, 0, [],
@@ -1321,9 +1318,6 @@ mission_templates = [
 					(try_end),
 					
 					(assign, "$g_test_cur_team", 0),
-					# (assign, "$g_test_player_troop", "trp_swadian_militia"),
-					
-					# (call_script, "script_troop_use_template_troop", "$g_player_troop", "$g_test_player_troop"),
 				]),
 			
 			(5, 0, 0,

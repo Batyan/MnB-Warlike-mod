@@ -4429,7 +4429,7 @@ troops = [
    [itm_morningstar, itm_bastard_sword_b, itm_mace_4, itm_sword_medieval_c, itm_sword_medieval_c_long, itm_tab_shield_heater_cav_b,
     itm_gauntlets, itm_iron_greaves,
     itm_great_helmet_herald, itm_winged_great_helmet, itm_great_helmet_herald,
-    itm_coat_of_plates_herald, itm_heraldic_mail_with_surcoat, itm_heraldic_mail_with_tabard, itm_plate_armor_herald,
+    itm_coat_of_plates_herald, itm_heraldic_mail_with_surcoat, itm_heraldic_mail_with_tabard,
     itm_charger, itm_charger_b],
    str_22|agi_16|int_11|cha_14|level(40), wpex(115,105,110,55,45,60), knows_common|knows_ironflesh_7|knows_power_strike_3|knows_athletics_2|knows_riding_6|knows_shield_1, man_face_young_1, man_face_old_2 ],
   
@@ -4453,6 +4453,15 @@ troops = [
     ],
   str_20|agi_17|int_10|cha_11|level(38), wpex(120,120,115,65,55,60), knows_common|knows_ironflesh_6|knows_power_strike_4|knows_athletics_4|knows_shield_1, man_face_young_1, man_face_old_2],
 
+  # Heavy cavalry, swords, morningstars, maces, shields
+  ["swadian_lesser_noble", "Swadian Lesser Noble", "Swadian Lesser Nobles", tf_guarantee_trained_armor|tf_guarantee_horseman|tf_guarantee_shield, no_scene, reserved, fac_kingdom_1,
+   [itm_fighting_pick, itm_bastard_sword_a, itm_mace_2, itm_sword_medieval_a, itm_sword_medieval_a_long, itm_tab_shield_heater_cav_a,
+    itm_leather_gloves, itm_leather_boots, itm_ankle_boots,
+    itm_padded_coif, itm_mail_coif, itm_footman_helmet,
+    itm_heraldic_mail_with_tunic_b, itm_heraldic_mail_with_tunic_b_plain,
+    itm_pack_horse],
+   str_22|agi_16|int_11|cha_14|level(40), wpex(115,105,110,55,45,60), knows_common|knows_ironflesh_7|knows_power_strike_3|knows_athletics_2|knows_riding_6|knows_shield_1, man_face_young_1, man_face_old_2 ],
+  
   # Light cavalry ranged, swords, axes, bows, shields
   # Requires stables?
   ["vaegir_camp_follower", "Vaegir Camp Follower", "Vaegir Camp Followers", tf_female|tf_guarantee_recruit_armor|tf_guarantee_shield|tf_guarantee_horseman, no_scene, reserved, fac_kingdom_2,
@@ -4471,7 +4480,7 @@ troops = [
     itm_lamellar_armor_herald, itm_banded_armor, itm_brigandine_red_herald,
     itm_vaegir_war_helmet, itm_vaegir_noble_helmet, itm_vaegir_helmet,
     ],
-  str_18|agi_20|int_11|cha_13|level(39), wpex(105,110,100,70,40,85), knows_common|knows_ironflesh_6|knows_power_strike_5|knows_power_throw_4|knows_athletics_5|knows_riding_2, man_face_young_1, man_face_old_2 ],
+   str_18|agi_20|int_11|cha_13|level(39), wpex(105,110,100,70,40,85), knows_common|knows_ironflesh_6|knows_power_strike_5|knows_power_throw_4|knows_athletics_5|knows_riding_2, man_face_young_1, man_face_old_2 ],
   
   # Heavy ranged, swords, bows, shields
   # Requires order
@@ -4503,6 +4512,16 @@ troops = [
     itm_warhorse],
    str_15|agi_18|int_12|cha_15|level(37), wpex(85,80,70,110,45,50), knows_common|knows_ironflesh_3|knows_power_strike_2|knows_power_draw_5|knows_athletics_2|knows_riding_6|knows_horse_archery_6, man_face_young_1, man_face_old_2 ],
   
+  # Light Cavalry, swords, 2h axes, shields
+  # Requires order
+  ["vaegir_lesser_noble", "Vaegir Lesser Noble", "Vaegir Lesser Noble", tf_guarantee_trained_armor|tf_guarantee_shield|tf_guarantee_horseman, no_scene, reserved, fac_kingdom_2,
+   [itm_sword_khergit_1, itm_one_handed_war_axe_a, itm_tab_shield_kite_cav_a,
+    itm_leather_gloves, itm_leather_boots, itm_nomad_boots,
+    itm_heraldic_mail_with_tunic_b, itm_heraldic_mail_with_tunic_b_plain,
+    itm_vaegir_fur_helmet, itm_vaegir_fur_cap,
+    itm_steppe_horse],
+   str_18|agi_18|int_11|cha_12|level(36), wpex(110,110,95,60,40,55), knows_common|knows_ironflesh_5|knows_power_strike_3|knows_athletics_2|knows_riding_6|knows_shield_1, man_face_young_1, man_face_old_2 ],
+  
   # Heavy cavalry ranged, swords, maces, bows, shields
   # Requires order
   ["khergit_armoured_horse_archer", "Khergit Armoured Horse Archer", "Khergit Armoured Horse Archer", tf_guarantee_trained_armor|tf_guarantee_ranged|tf_guarantee_horseman|tf_guarantee_shield, no_scene, reserved, fac_kingdom_3,
@@ -4532,6 +4551,15 @@ troops = [
     itm_lamellar_armor_herald,
     ],
    str_17|agi_18|int_11|cha_13|level(36), wpex(115,100,120,65,45,60), knows_common|knows_ironflesh_5|knows_power_strike_3|knows_power_draw_1|knows_athletics_5|knows_riding_2|knows_shield_1, man_face_young_1, man_face_old_2 ],
+  
+  # Light cavalry, sabres, maces, shields
+  ["khergit_lesser_noble", "Khergit Lesser Noble", "Khergit Lesser Nobles", tf_guarantee_trained_armor|tf_guarantee_horseman|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_34,
+   [itm_sword_khergit_1, itm_winged_mace, itm_tab_shield_small_round_a,
+    itm_leather_gloves, itm_leather_boots, itm_nomad_boots,
+    itm_nomad_robe, itm_steppe_armor_herald,
+    itm_khergit_cavalry_helmet, itm_khergit_guard_helmet,
+    itm_steppe_horse],
+   str_17|agi_21|int_11|cha_19|level(45), wpex(115,100,130,90,45,85), knows_common|knows_ironflesh_6|knows_power_strike_4|knows_power_throw_2|knows_power_draw_3|knows_athletics_4|knows_riding_7|knows_shield_1|knows_horse_archery_2, khergit_face_young_1, khergit_face_old_2 ],
   
   # Light infantry, swords, javelins, shields
   # Requires barracks
@@ -4590,6 +4618,34 @@ troops = [
     ],
     str_19|agi_19|int_11|cha_14|level(40), wpex(120,115,110,70,30,90), knows_common|knows_ironflesh_5|knows_power_strike_4|knows_power_throw_4|knows_athletics_5|knows_shield_1, man_face_young_1, man_face_old_2 ],
 
+  # Light cavalry, swords, axes, shields
+  ["nord_lesser_noble", "Nord Lesser Noble", "Nord Lesser Nobles", tf_guarantee_trained_armor|tf_guarantee_horseman|tf_guarantee_shield, no_scene, reserved, fac_kingdom_4,
+   [itm_sword_viking_1_long, itm_sword_viking_1, itm_one_handed_war_axe_a, itm_tab_shield_round_b,
+    itm_leather_boots,
+    itm_heraldic_mail_with_tunic_b, itm_heraldic_mail_with_tunic_b_plain, itm_leather_jerkin_herald,
+    itm_nordic_footman_helmet, itm_nordic_veteran_archer_helmet, itm_nordic_archer_helmet,
+    itm_saddle_horse],
+    str_17|agi_18|int_10|cha_11|level(33), wpex(110,105,100,70,30,60), knows_common|knows_ironflesh_3|knows_power_strike_3|knows_athletics_2|knows_riding_5, man_face_young_1, man_face_old_2 ],
+
+  # Light cavalry, swords, picks, shields
+  ["rhodok_lesser_noble", "Rhodok Heroic Horseman", "Rhodok Heroic Horsemen", tf_guarantee_trained_armor|tf_guarantee_shield|tf_guarantee_horseman, no_scene, reserved, fac_small_kingdom_52,
+   [itm_military_cleaver_a, itm_fighting_pick, itm_sword_medieval_a, itm_sword_medieval_a_long, itm_tab_shield_heater_cav_a,
+    itm_leather_boots, itm_nomad_boots,
+    itm_heraldic_mail_with_tunic_b, itm_heraldic_mail_with_tunic_b_plain,
+    itm_footman_helmet, itm_helmet_with_neckguard, itm_padded_coif, itm_common_hood_herald, itm_mail_coif,
+    itm_saddle_horse],
+   str_18|agi_18|int_12|cha_15|level(40), wpex(105,100,105,45,90,55), knows_common|knows_ironflesh_7|knows_power_strike_4|knows_power_throw_1|knows_power_draw_2|knows_athletics_3|knows_riding_5|knows_horse_archery_2, rhodok_face_young_1, rhodok_face_old_2 ],
+  
+  # Heavy cavalry, swords, maces, shields
+  # SPECIAL
+  ["sarranid_lesser_noble", "Sarranid Lesser Noble", "Sarranid Lesser Nobles", tf_guarantee_trained_armor|tf_guarantee_shield|tf_guarantee_horseman, no_scene, reserved, fac_small_kingdom_63,
+   [itm_arabian_sword_a, itm_mace_2, itm_tab_shield_small_round_a,
+    itm_sarranid_boots_b, itm_leather_gloves,
+    itm_sarranid_leather_armor,
+    itm_desert_turban, itm_sarranid_warrior_cap,
+    itm_arabian_horse_a],
+   str_19|agi_20|int_10|cha_20|level(46), wpex(115,105,135,50,20,70), knows_common|knows_ironflesh_7|knows_power_strike_4|knows_power_throw_1|knows_power_draw_2|knows_athletics_5|knows_riding_6|knows_shield_1|knows_horse_archery_2, sarranid_face_young_1, sarranid_face_old_2 ],
+  
   # Light infantry, swords, picks, shields
   # Requires militia_camp
   # ["rhodok_freemen", "Rhodok Freeman", "Rhodok Freemen", tf_guarantee_recruit_armor|tf_guarantee_shield, no_scene, reserved, fac_commoners,
@@ -6495,58 +6551,62 @@ troops = [
     knows_prisoner_management_3|
     knows_leadership_3|
     knows_trade_2, 0, 0 ],
-  # ["npc_archetype_aristocrat", "Archetype", "Archetype", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners, [],
-  #   def_attrib|level(4), wp(50),
-  #   knows_ironflesh_|
-  #   knows_power_strike_|
-  #   knows_power_throw_|
-  #   knows_power_draw_|
-  #   knows_intimidation_|
-  #   knows_weapon_master_|
-  #   #knows_shield_|
-  #   knows_athletics_|
-  #   knows_riding_|
-  #   knows_horse_archery_|
-  #   knows_looting_|
-  #   knows_trainer_2_|
-  #   knows_tracking_|
-  #   knows_tactics_|
-  #   knows_pathfinding_|
-  #   knows_spotting_|
-  #   knows_inventory_management_|
-  #   knows_wound_treatment_|
-  #   knows_first_aid_|
-  #   knows_engineer_|
-  #   knows_persuasion_|
-  #   knows_prisoner_management_|
-  #   knows_leadership_|
-  #   knows_trade_, 0, 0 ],
-  # ["npc_archetype_engineer", "Archetype", "Archetype", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners, [],
-  #   def_attrib|level(4), wp(50),
-  #   knows_ironflesh_|
-  #   knows_power_strike_|
-  #   knows_power_throw_|
-  #   knows_power_draw_|
-  #   knows_intimidation_|
-  #   knows_weapon_master_|
-  #   #knows_shield_|
-  #   knows_athletics_|
-  #   knows_riding_|
-  #   knows_horse_archery_|
-  #   knows_looting_|
-  #   knows_trainer_2_|
-  #   knows_tracking_|
-  #   knows_tactics_|
-  #   knows_pathfinding_|
-  #   knows_spotting_|
-  #   knows_inventory_management_|
-  #   knows_wound_treatment_|
-  #   knows_first_aid_|
-  #   knows_engineer_|
-  #   knows_persuasion_|
-  #   knows_prisoner_management_|
-  #   knows_leadership_|
-  #   knows_trade_, 0, 0 ],
+  ["npc_archetype_aristocrat", "Archetype", "Archetype", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners, [],
+    def_attrib|level(4), wpex(10,2,8,2,2,2),
+    knows_ironflesh_3|
+    knows_power_strike_3|
+    # knows_power_throw_0|
+    knows_power_draw_2|
+    knows_intimidation_2|
+    knows_weapon_master_7|
+    knows_shield_1|
+    knows_athletics_3|
+    knows_riding_7|
+    knows_horse_archery_3|
+    knows_looting_1|
+    knows_trainer_2_6|
+    knows_tracking_1|
+    knows_tactics_7|
+    knows_pathfinding_1|
+    knows_spotting_1|
+    knows_inventory_management_1|
+    knows_wound_treatment_2|
+    knows_first_aid_2|
+    knows_engineer_5|
+    knows_persuasion_9|
+    knows_prisoner_management_2|
+    knows_leadership_8|
+    knows_trade_2, 0, 0 ],
+  ["npc_archetype_engineer", "Archetype", "Archetype", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
+    [
+      itm_leather_boots, itm_nomad_boots, itm_ankle_boots, itm_leather_gloves,
+      itm_sword_medieval_a, itm_sword_medieval_a_long, itm_hunting_crossbow, itm_bolts, itm_darts,
+    ],
+    def_attrib|level(4), wpex(8,2,4,1,10,2),
+    knows_ironflesh_5|
+    knows_power_strike_3|
+    knows_power_throw_1|
+    # knows_power_draw_0|
+    knows_intimidation_2|
+    knows_weapon_master_4|
+    knows_shield_1|
+    knows_athletics_4|
+    knows_riding_2|
+    knows_horse_archery_1|
+    knows_looting_1|
+    knows_trainer_2_2|
+    knows_tracking_1|
+    knows_tactics_4|
+    knows_pathfinding_1|
+    knows_spotting_3|
+    knows_inventory_management_5|
+    knows_wound_treatment_1|
+    knows_first_aid_2|
+    knows_engineer_9|
+    knows_persuasion_3|
+    knows_prisoner_management_2|
+    knows_leadership_2|
+    knows_trade_4, 0, 0 ],
   # ["npc_archetype_farmer", "Archetype", "Archetype", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners, [],
   #   def_attrib|level(4), wp(50),
   #   knows_ironflesh_|

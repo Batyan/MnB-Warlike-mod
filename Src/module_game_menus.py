@@ -1351,7 +1351,7 @@ game_menus = [
                 ]),
             ("join_accept", [], "Join",
                 [
-                    (call_script, "script_troop_use_template_troop", "$g_player_troop", "$g_test_player_troop"),
+                    (call_script, "script_troop_use_template_troop", "$g_player_troop", "$g_test_player_troop", 1),
                     (party_set_faction, "$g_player_party", "$g_test_player_faction"),
                     (try_for_range, ":unused", 0, 10),
                         (call_script, "script_party_add_reinforcements", "$g_player_party"),

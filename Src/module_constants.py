@@ -628,10 +628,9 @@ filter_none = -1
 # npc_archetype_medic =           650014152011132156913133
 # npc_archetype_doctor =          113021025311112149645113
 # npc_archetype_outlaw =          542263153271151551121643
-
-npc_archetype_brigand =         752283164253161341132332
-npc_archetype_aristocrat =      330227137316171112259282
-npc_archetype_engineer =        531024142112141351293224
+# npc_archetype_brigand =         752283164253161341132332
+# npc_archetype_aristocrat =      330227137316171112259282
+# npc_archetype_engineer =        531024142112141351293224
 npc_archetype_farmer =          944022141121113342112113
 npc_archetype_master =          660069244119172133134542
 npc_archetype_fencer =          771059163115142131125341
