@@ -6607,448 +6607,448 @@ troops = [
     knows_prisoner_management_2|
     knows_leadership_2|
     knows_trade_4, 0, 0 ],
-  # ["npc_archetype_farmer", "Archetype", "Archetype", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners, [],
-  #   def_attrib|level(4), wp(50),
-  #   knows_ironflesh_|
-  #   knows_power_strike_|
-  #   knows_power_throw_|
-  #   knows_power_draw_|
-  #   knows_intimidation_|
-  #   knows_weapon_master_|
-  #   #knows_shield_|
-  #   knows_athletics_|
-  #   knows_riding_|
-  #   knows_horse_archery_|
-  #   knows_looting_|
-  #   knows_trainer_2_|
-  #   knows_tracking_|
-  #   knows_tactics_|
-  #   knows_pathfinding_|
-  #   knows_spotting_|
-  #   knows_inventory_management_|
-  #   knows_wound_treatment_|
-  #   knows_first_aid_|
-  #   knows_engineer_|
-  #   knows_persuasion_|
-  #   knows_prisoner_management_|
-  #   knows_leadership_|
-  #   knows_trade_, 0, 0 ],
+  ["npc_archetype_farmer", "Archetype", "Archetype", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners, [],
+    def_attrib|level(4), wpex(5,5,10,1,1,3),
+    knows_ironflesh_9|
+    knows_power_strike_4|
+    knows_power_throw_4|
+    # knows_power_draw_0|
+    knows_intimidation_2|
+    knows_weapon_master_2|
+    knows_shield_1|
+    knows_athletics_4|
+    knows_riding_1|
+    knows_horse_archery_1|
+    knows_looting_2|
+    knows_trainer_2_1|
+    knows_tracking_1|
+    knows_tactics_1|
+    knows_pathfinding_3|
+    knows_spotting_3|
+    knows_inventory_management_4|
+    knows_wound_treatment_2|
+    knows_first_aid_1|
+    knows_engineer_1|
+    knows_persuasion_2|
+    knows_prisoner_management_1|
+    knows_leadership_1|
+    knows_trade_3, 0, 0 ],
   # ["npc_archetype_master", "Archetype", "Archetype", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners, [],
-  #   def_attrib|level(4), wp(50),
-  #   knows_ironflesh_|
-  #   knows_power_strike_|
-  #   knows_power_throw_|
-  #   knows_power_draw_|
-  #   knows_intimidation_|
-  #   knows_weapon_master_|
-  #   #knows_shield_|
-  #   knows_athletics_|
-  #   knows_riding_|
-  #   knows_horse_archery_|
-  #   knows_looting_|
-  #   knows_trainer_2_|
-  #   knows_tracking_|
-  #   knows_tactics_|
-  #   knows_pathfinding_|
-  #   knows_spotting_|
-  #   knows_inventory_management_|
-  #   knows_wound_treatment_|
-  #   knows_first_aid_|
-  #   knows_engineer_|
-  #   knows_persuasion_|
-  #   knows_prisoner_management_|
-  #   knows_leadership_|
-  #   knows_trade_, 0, 0 ],
+  #   def_attrib|level(4), wpex(10,8,8,2,2,2),
+  #   knows_ironflesh_6|
+  #   knows_power_strike_6|
+  #   knows_power_throw_0|
+  #   knows_power_draw_0|
+  #   knows_intimidation_6|
+  #   knows_weapon_master_9|
+  #   #knows_shield_2|
+  #   knows_athletics_4|
+  #   knows_riding_4|
+  #   knows_horse_archery_1|
+  #   knows_looting_1|
+  #   knows_trainer_2_9|
+  #   knows_tracking_1|
+  #   knows_tactics_7|
+  #   knows_pathfinding_2|
+  #   knows_spotting_1|
+  #   knows_inventory_management_3|
+  #   knows_wound_treatment_3|
+  #   knows_first_aid_1|
+  #   knows_engineer_3|
+  #   knows_persuasion_4|
+  #   knows_prisoner_management_5|
+  #   knows_leadership_4|
+  #   knows_trade_2, 0, 0 ],
   # ["npc_archetype_fencer", "Archetype", "Archetype", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners, [],
-  #   def_attrib|level(4), wp(50),
-  #   knows_ironflesh_|
-  #   knows_power_strike_|
-  #   knows_power_throw_|
-  #   knows_power_draw_|
-  #   knows_intimidation_|
-  #   knows_weapon_master_|
-  #   #knows_shield_|
-  #   knows_athletics_|
-  #   knows_riding_|
-  #   knows_horse_archery_|
-  #   knows_looting_|
-  #   knows_trainer_2_|
-  #   knows_tracking_|
-  #   knows_tactics_|
-  #   knows_pathfinding_|
-  #   knows_spotting_|
-  #   knows_inventory_management_|
-  #   knows_wound_treatment_|
-  #   knows_first_aid_|
-  #   knows_engineer_|
-  #   knows_persuasion_|
-  #   knows_prisoner_management_|
-  #   knows_leadership_|
-  #   knows_trade_, 0, 0 ],
+  #   def_attrib|level(4), wpex(10,5,5,1,1,3),
+  #   knows_ironflesh_7|
+  #   knows_power_strike_7|
+  #   knows_power_throw_1|
+  #   knows_power_draw_0|
+  #   knows_intimidation_5|
+  #   knows_weapon_master_9|
+  #   #knows_shield_1|
+  #   knows_athletics_6|
+  #   knows_riding_3|
+  #   knows_horse_archery_1|
+  #   knows_looting_1|
+  #   knows_trainer_2_5|
+  #   knows_tracking_1|
+  #   knows_tactics_4|
+  #   knows_pathfinding_2|
+  #   knows_spotting_1|
+  #   knows_inventory_management_3|
+  #   knows_wound_treatment_1|
+  #   knows_first_aid_1|
+  #   knows_engineer_2|
+  #   knows_persuasion_5|
+  #   knows_prisoner_management_3|
+  #   knows_leadership_4|
+  #   knows_trade_1, 0, 0 ],
   # ["npc_archetype_javelin", "Archetype", "Archetype", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners, [],
-  #   def_attrib|level(4), wp(50),
-  #   knows_ironflesh_|
-  #   knows_power_strike_|
-  #   knows_power_throw_|
-  #   knows_power_draw_|
-  #   knows_intimidation_|
-  #   knows_weapon_master_|
-  #   #knows_shield_|
-  #   knows_athletics_|
-  #   knows_riding_|
-  #   knows_horse_archery_|
-  #   knows_looting_|
-  #   knows_trainer_2_|
-  #   knows_tracking_|
-  #   knows_tactics_|
-  #   knows_pathfinding_|
-  #   knows_spotting_|
-  #   knows_inventory_management_|
-  #   knows_wound_treatment_|
-  #   knows_first_aid_|
-  #   knows_engineer_|
-  #   knows_persuasion_|
-  #   knows_prisoner_management_|
-  #   knows_leadership_|
-  #   knows_trade_, 0, 0 ],
+  #   def_attrib|level(4), wpex(4,1,4,1,1,10),
+  #   knows_ironflesh_5|
+  #   knows_power_strike_4|
+  #   knows_power_throw_9|
+  #   knows_power_draw_0|
+  #   knows_intimidation_2|
+  #   knows_weapon_master_5|
+  #   #knows_shield_1|
+  #   knows_athletics_5|
+  #   knows_riding_5|
+  #   knows_horse_archery_5|
+  #   knows_looting_1|
+  #   knows_trainer_2_2|
+  #   knows_tracking_1|
+  #   knows_tactics_3|
+  #   knows_pathfinding_1|
+  #   knows_spotting_2|
+  #   knows_inventory_management_3|
+  #   knows_wound_treatment_1|
+  #   knows_first_aid_1|
+  #   knows_engineer_4|
+  #   knows_persuasion_3|
+  #   knows_prisoner_management_1|
+  #   knows_leadership_1|
+  #   knows_trade_1, 0, 0 ],
   # ["npc_archetype_ladyinwaiting", "Archetype", "Archetype", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners, [],
-  #   def_attrib|level(4), wp(50),
-  #   knows_ironflesh_|
-  #   knows_power_strike_|
-  #   knows_power_throw_|
-  #   knows_power_draw_|
-  #   knows_intimidation_|
-  #   knows_weapon_master_|
-  #   #knows_shield_|
-  #   knows_athletics_|
-  #   knows_riding_|
-  #   knows_horse_archery_|
-  #   knows_looting_|
-  #   knows_trainer_2_|
-  #   knows_tracking_|
-  #   knows_tactics_|
-  #   knows_pathfinding_|
-  #   knows_spotting_|
-  #   knows_inventory_management_|
-  #   knows_wound_treatment_|
-  #   knows_first_aid_|
-  #   knows_engineer_|
-  #   knows_persuasion_|
-  #   knows_prisoner_management_|
-  #   knows_leadership_|
-  #   knows_trade_, 0, 0 ],
+  #   def_attrib|level(4), wpex(6,3,3,2,2,2),
+  #   knows_ironflesh_4|
+  #   knows_power_strike_3|
+  #   knows_power_throw_1|
+  #   knows_power_draw_1|
+  #   knows_intimidation_2|
+  #   knows_weapon_master_3|
+  #   #knows_shield_1|
+  #   knows_athletics_5|
+  #   knows_riding_4|
+  #   knows_horse_archery_4|
+  #   knows_looting_2|
+  #   knows_trainer_2_3|
+  #   knows_tracking_1|
+  #   knows_tactics_3|
+  #   knows_pathfinding_2|
+  #   knows_spotting_3|
+  #   knows_inventory_management_5|
+  #   knows_wound_treatment_3|
+  #   knows_first_aid_3|
+  #   knows_engineer_3|
+  #   knows_persuasion_7|
+  #   knows_prisoner_management_5|
+  #   knows_leadership_3|
+  #   knows_trade_7, 0, 0 ],
   # ["npc_archetype_trader", "Archetype", "Archetype", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners, [],
-  #   def_attrib|level(4), wp(50),
-  #   knows_ironflesh_|
-  #   knows_power_strike_|
-  #   knows_power_throw_|
-  #   knows_power_draw_|
-  #   knows_intimidation_|
-  #   knows_weapon_master_|
-  #   #knows_shield_|
-  #   knows_athletics_|
-  #   knows_riding_|
-  #   knows_horse_archery_|
-  #   knows_looting_|
-  #   knows_trainer_2_|
-  #   knows_tracking_|
-  #   knows_tactics_|
-  #   knows_pathfinding_|
-  #   knows_spotting_|
-  #   knows_inventory_management_|
-  #   knows_wound_treatment_|
-  #   knows_first_aid_|
-  #   knows_engineer_|
-  #   knows_persuasion_|
-  #   knows_prisoner_management_|
-  #   knows_leadership_|
-  #   knows_trade_, 0, 0 ],
+  #   def_attrib|level(4), wpex(6,1,3,2,6,3),
+  #   knows_ironflesh_3|
+  #   knows_power_strike_3|
+  #   knows_power_throw_2|
+  #   knows_power_draw_1|
+  #   knows_intimidation_1|
+  #   knows_weapon_master_2|
+  #   #knows_shield_0|
+  #   knows_athletics_4|
+  #   knows_riding_7|
+  #   knows_horse_archery_2|
+  #   knows_looting_5|
+  #   knows_trainer_2_1|
+  #   knows_tracking_1|
+  #   knows_tactics_2|
+  #   knows_pathfinding_5|
+  #   knows_spotting_2|
+  #   knows_inventory_management_9|
+  #   knows_wound_treatment_1|
+  #   knows_first_aid_1|
+  #   knows_engineer_2|
+  #   knows_persuasion_7|
+  #   knows_prisoner_management_3|
+  #   knows_leadership_3|
+  #   knows_trade_9, 0, 0 ],
   # ["npc_archetype_elder", "Archetype", "Archetype", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners, [],
-  #   def_attrib|level(4), wp(50),
-  #   knows_ironflesh_|
-  #   knows_power_strike_|
-  #   knows_power_throw_|
-  #   knows_power_draw_|
-  #   knows_intimidation_|
-  #   knows_weapon_master_|
-  #   #knows_shield_|
-  #   knows_athletics_|
-  #   knows_riding_|
-  #   knows_horse_archery_|
-  #   knows_looting_|
-  #   knows_trainer_2_|
-  #   knows_tracking_|
-  #   knows_tactics_|
-  #   knows_pathfinding_|
-  #   knows_spotting_|
-  #   knows_inventory_management_|
-  #   knows_wound_treatment_|
-  #   knows_first_aid_|
-  #   knows_engineer_|
-  #   knows_persuasion_|
-  #   knows_prisoner_management_|
-  #   knows_leadership_|
-  #   knows_trade_, 0, 0 ],
+  #   def_attrib|level(4), wpex(5,4,10,4,1,4),
+  #   knows_ironflesh_5|
+  #   knows_power_strike_4|
+  #   knows_power_throw_3|
+  #   knows_power_draw_3|
+  #   knows_intimidation_3|
+  #   knows_weapon_master_4|
+  #   #knows_shield_1|
+  #   knows_athletics_2|
+  #   knows_riding_5|
+  #   knows_horse_archery_3|
+  #   knows_looting_2|
+  #   knows_trainer_2_6|
+  #   knows_tracking_3|
+  #   knows_tactics_5|
+  #   knows_pathfinding_5|
+  #   knows_spotting_1|
+  #   knows_inventory_management_3|
+  #   knows_wound_treatment_2|
+  #   knows_first_aid_3|
+  #   knows_engineer_5|
+  #   knows_persuasion_5|
+  #   knows_prisoner_management_3|
+  #   knows_leadership_4|
+  #   knows_trade_5, 0, 0 ],
   # ["npc_archetype_hunter", "Archetype", "Archetype", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners, [],
-  #   def_attrib|level(4), wp(50),
-  #   knows_ironflesh_|
-  #   knows_power_strike_|
-  #   knows_power_throw_|
-  #   knows_power_draw_|
-  #   knows_intimidation_|
-  #   knows_weapon_master_|
-  #   #knows_shield_|
-  #   knows_athletics_|
-  #   knows_riding_|
-  #   knows_horse_archery_|
-  #   knows_looting_|
-  #   knows_trainer_2_|
-  #   knows_tracking_|
-  #   knows_tactics_|
-  #   knows_pathfinding_|
-  #   knows_spotting_|
-  #   knows_inventory_management_|
-  #   knows_wound_treatment_|
-  #   knows_first_aid_|
-  #   knows_engineer_|
-  #   knows_persuasion_|
-  #   knows_prisoner_management_|
-  #   knows_leadership_|
-  #   knows_trade_, 0, 0 ],
+  #   def_attrib|level(4), wpex(4,1,1,10,2,4),
+  #   knows_ironflesh_4|
+  #   knows_power_strike_2|
+  #   knows_power_throw_3|
+  #   knows_power_draw_9|
+  #   knows_intimidation_2|
+  #   knows_weapon_master_4|
+  #   #knows_shield_0|
+  #   knows_athletics_6|
+  #   knows_riding_2|
+  #   knows_horse_archery_2|
+  #   knows_looting_2|
+  #   knows_trainer_2_2|
+  #   knows_tracking_7|
+  #   knows_tactics_2|
+  #   knows_pathfinding_3|
+  #   knows_spotting_7|
+  #   knows_inventory_management_4|
+  #   knows_wound_treatment_2|
+  #   knows_first_aid_1|
+  #   knows_engineer_1|
+  #   knows_persuasion_2|
+  #   knows_prisoner_management_1|
+  #   knows_leadership_1|
+  #   knows_trade_6, 0, 0 ],
   # ["npc_archetype_steppe", "Archetype", "Archetype", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners, [],
-  #   def_attrib|level(4), wp(50),
-  #   knows_ironflesh_|
-  #   knows_power_strike_|
-  #   knows_power_throw_|
-  #   knows_power_draw_|
-  #   knows_intimidation_|
-  #   knows_weapon_master_|
-  #   #knows_shield_|
-  #   knows_athletics_|
-  #   knows_riding_|
-  #   knows_horse_archery_|
-  #   knows_looting_|
-  #   knows_trainer_2_|
-  #   knows_tracking_|
-  #   knows_tactics_|
-  #   knows_pathfinding_|
-  #   knows_spotting_|
-  #   knows_inventory_management_|
-  #   knows_wound_treatment_|
-  #   knows_first_aid_|
-  #   knows_engineer_|
-  #   knows_persuasion_|
-  #   knows_prisoner_management_|
-  #   knows_leadership_|
-  #   knows_trade_, 0, 0 ],
+  #   def_attrib|level(4), wpex(4,1,6,10,1,3),
+  #   knows_ironflesh_2|
+  #   knows_power_strike_2|
+  #   knows_power_throw_2|
+  #   knows_power_draw_9|
+  #   knows_intimidation_4|
+  #   knows_weapon_master_5|
+  #   #knows_shield_0|
+  #   knows_athletics_4|
+  #   knows_riding_8|
+  #   knows_horse_archery_8|
+  #   knows_looting_5|
+  #   knows_trainer_2_1|
+  #   knows_tracking_1|
+  #   knows_tactics_3|
+  #   knows_pathfinding_5|
+  #   knows_spotting_5|
+  #   knows_inventory_management_1|
+  #   knows_wound_treatment_2|
+  #   knows_first_aid_2|
+  #   knows_engineer_2|
+  #   knows_persuasion_2|
+  #   knows_prisoner_management_2|
+  #   knows_leadership_2|
+  #   knows_trade_4, 0, 0 ],
   # ["npc_archetype_mountain", "Archetype", "Archetype", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners, [],
-  #   def_attrib|level(4), wp(50),
-  #   knows_ironflesh_|
-  #   knows_power_strike_|
-  #   knows_power_throw_|
-  #   knows_power_draw_|
-  #   knows_intimidation_|
-  #   knows_weapon_master_|
-  #   #knows_shield_|
-  #   knows_athletics_|
-  #   knows_riding_|
-  #   knows_horse_archery_|
-  #   knows_looting_|
-  #   knows_trainer_2_|
-  #   knows_tracking_|
-  #   knows_tactics_|
-  #   knows_pathfinding_|
-  #   knows_spotting_|
-  #   knows_inventory_management_|
-  #   knows_wound_treatment_|
-  #   knows_first_aid_|
-  #   knows_engineer_|
-  #   knows_persuasion_|
-  #   knows_prisoner_management_|
-  #   knows_leadership_|
-  #   knows_trade_, 0, 0 ],
+  #   def_attrib|level(4), wpex(10,6,2,2,1,5),
+  #   knows_ironflesh_8|
+  #   knows_power_strike_6|
+  #   knows_power_throw_4|
+  #   knows_power_draw_1|
+  #   knows_intimidation_6|
+  #   knows_weapon_master_3|
+  #   #knows_shield_1|
+  #   knows_athletics_5|
+  #   knows_riding_1|
+  #   knows_horse_archery_1|
+  #   knows_looting_4|
+  #   knows_trainer_2_1|
+  #   knows_tracking_1|
+  #   knows_tactics_5|
+  #   knows_pathfinding_5|
+  #   knows_spotting_4|
+  #   knows_inventory_management_3|
+  #   knows_wound_treatment_1|
+  #   knows_first_aid_2|
+  #   knows_engineer_1|
+  #   knows_persuasion_1|
+  #   knows_prisoner_management_4|
+  #   knows_leadership_3|
+  #   knows_trade_2, 0, 0 ],
   # ["npc_archetype_guard", "Archetype", "Archetype", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners, [],
-  #   def_attrib|level(4), wp(50),
-  #   knows_ironflesh_|
-  #   knows_power_strike_|
-  #   knows_power_throw_|
-  #   knows_power_draw_|
-  #   knows_intimidation_|
-  #   knows_weapon_master_|
-  #   #knows_shield_|
-  #   knows_athletics_|
-  #   knows_riding_|
-  #   knows_horse_archery_|
-  #   knows_looting_|
-  #   knows_trainer_2_|
-  #   knows_tracking_|
-  #   knows_tactics_|
-  #   knows_pathfinding_|
-  #   knows_spotting_|
-  #   knows_inventory_management_|
-  #   knows_wound_treatment_|
-  #   knows_first_aid_|
-  #   knows_engineer_|
-  #   knows_persuasion_|
-  #   knows_prisoner_management_|
-  #   knows_leadership_|
-  #   knows_trade_, 0, 0 ],
+  #   def_attrib|level(4), wpex(8,4,10,4,5,4),
+  #   knows_ironflesh_5|
+  #   knows_power_strike_5|
+  #   knows_power_throw_3|
+  #   knows_power_draw_3|
+  #   knows_intimidation_3|
+  #   knows_weapon_master_5|
+  #   #knows_shield_1|
+  #   knows_athletics_5|
+  #   knows_riding_3|
+  #   knows_horse_archery_2|
+  #   knows_looting_1|
+  #   knows_trainer_2_3|
+  #   knows_tracking_1|
+  #   knows_tactics_3|
+  #   knows_pathfinding_1|
+  #   knows_spotting_2|
+  #   knows_inventory_management_2|
+  #   knows_wound_treatment_1|
+  #   knows_first_aid_1|
+  #   knows_engineer_3|
+  #   knows_persuasion_3|
+  #   knows_prisoner_management_3|
+  #   knows_leadership_3|
+  #   knows_trade_3, 0, 0 ],
   # ["npc_archetype_rider", "Archetype", "Archetype", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners, [],
-  #   def_attrib|level(4), wp(50),
-  #   knows_ironflesh_|
-  #   knows_power_strike_|
-  #   knows_power_throw_|
-  #   knows_power_draw_|
-  #   knows_intimidation_|
-  #   knows_weapon_master_|
-  #   #knows_shield_|
-  #   knows_athletics_|
-  #   knows_riding_|
-  #   knows_horse_archery_|
-  #   knows_looting_|
-  #   knows_trainer_2_|
-  #   knows_tracking_|
-  #   knows_tactics_|
-  #   knows_pathfinding_|
-  #   knows_spotting_|
-  #   knows_inventory_management_|
-  #   knows_wound_treatment_|
-  #   knows_first_aid_|
-  #   knows_engineer_|
-  #   knows_persuasion_|
-  #   knows_prisoner_management_|
-  #   knows_leadership_|
-  #   knows_trade_, 0, 0 ],
+  #   def_attrib|level(4), wpex(6,2,10,1,1,2),
+  #   knows_ironflesh_5|
+  #   knows_power_strike_5|
+  #   knows_power_throw_1|
+  #   knows_power_draw_0|
+  #   knows_intimidation_4|
+  #   knows_weapon_master_5|
+  #   #knows_shield_1|
+  #   knows_athletics_3|
+  #   knows_riding_9|
+  #   knows_horse_archery_1|
+  #   knows_looting_1|
+  #   knows_trainer_2_3|
+  #   knows_tracking_1|
+  #   knows_tactics_5|
+  #   knows_pathfinding_3|
+  #   knows_spotting_1|
+  #   knows_inventory_management_1|
+  #   knows_wound_treatment_1|
+  #   knows_first_aid_2|
+  #   knows_engineer_5|
+  #   knows_persuasion_7|
+  #   knows_prisoner_management_1|
+  #   knows_leadership_3|
+  #   knows_trade_1, 0, 0 ],
   # ["npc_archetype_crossbow", "Archetype", "Archetype", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners, [],
-  #   def_attrib|level(4), wp(50),
-  #   knows_ironflesh_|
-  #   knows_power_strike_|
-  #   knows_power_throw_|
-  #   knows_power_draw_|
-  #   knows_intimidation_|
-  #   knows_weapon_master_|
-  #   #knows_shield_|
-  #   knows_athletics_|
-  #   knows_riding_|
-  #   knows_horse_archery_|
-  #   knows_looting_|
-  #   knows_trainer_2_|
-  #   knows_tracking_|
-  #   knows_tactics_|
-  #   knows_pathfinding_|
-  #   knows_spotting_|
-  #   knows_inventory_management_|
-  #   knows_wound_treatment_|
-  #   knows_first_aid_|
-  #   knows_engineer_|
-  #   knows_persuasion_|
-  #   knows_prisoner_management_|
-  #   knows_leadership_|
-  #   knows_trade_, 0, 0 ],
+  #   def_attrib|level(4), wpex(5,1,3,1,10,2),
+  #   knows_ironflesh_6|
+  #   knows_power_strike_4|
+  #   knows_power_throw_0|
+  #   knows_power_draw_0|
+  #   knows_intimidation_3|
+  #   knows_weapon_master_6|
+  #   #knows_shield_1|
+  #   knows_athletics_5|
+  #   knows_riding_1|
+  #   knows_horse_archery_1|
+  #   knows_looting_1|
+  #   knows_trainer_2_5|
+  #   knows_tracking_1|
+  #   knows_tactics_5|
+  #   knows_pathfinding_1|
+  #   knows_spotting_1|
+  #   knows_inventory_management_3|
+  #   knows_wound_treatment_1|
+  #   knows_first_aid_2|
+  #   knows_engineer_6|
+  #   knows_persuasion_4|
+  #   knows_prisoner_management_2|
+  #   knows_leadership_6|
+  #   knows_trade_2, 0, 0 ],
   # ["npc_archetype_stayengineer", "Archetype", "Archetype", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners, [],
-  #   def_attrib|level(4), wp(50),
-  #   knows_ironflesh_|
-  #   knows_power_strike_|
-  #   knows_power_throw_|
-  #   knows_power_draw_|
-  #   knows_intimidation_|
-  #   knows_weapon_master_|
-  #   #knows_shield_|
-  #   knows_athletics_|
-  #   knows_riding_|
-  #   knows_horse_archery_|
-  #   knows_looting_|
-  #   knows_trainer_2_|
-  #   knows_tracking_|
-  #   knows_tactics_|
-  #   knows_pathfinding_|
-  #   knows_spotting_|
-  #   knows_inventory_management_|
-  #   knows_wound_treatment_|
-  #   knows_first_aid_|
-  #   knows_engineer_|
-  #   knows_persuasion_|
-  #   knows_prisoner_management_|
-  #   knows_leadership_|
-  #   knows_trade_, 0, 0 ],
+  #   def_attrib|level(4), wpex(10,1,2,2,6,2),
+  #   knows_ironflesh_2|
+  #   knows_power_strike_2|
+  #   knows_power_throw_1|
+  #   knows_power_draw_1|
+  #   knows_intimidation_1|
+  #   knows_weapon_master_3|
+  #   #knows_shield_1|
+  #   knows_athletics_3|
+  #   knows_riding_1|
+  #   knows_horse_archery_1|
+  #   knows_looting_2|
+  #   knows_trainer_2_2|
+  #   knows_tracking_1|
+  #   knows_tactics_4|
+  #   knows_pathfinding_2|
+  #   knows_spotting_2|
+  #   knows_inventory_management_3|
+  #   knows_wound_treatment_1|
+  #   knows_first_aid_1|
+  #   knows_engineer_9|
+  #   knows_persuasion_2|
+  #   knows_prisoner_management_2|
+  #   knows_leadership_2|
+  #   knows_trade_1, 0, 0 ],
   # ["npc_archetype_staydoctor", "Archetype", "Archetype", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners, [],
-  #   def_attrib|level(4), wp(50),
-  #   knows_ironflesh_|
-  #   knows_power_strike_|
-  #   knows_power_throw_|
-  #   knows_power_draw_|
-  #   knows_intimidation_|
-  #   knows_weapon_master_|
-  #   #knows_shield_|
-  #   knows_athletics_|
-  #   knows_riding_|
-  #   knows_horse_archery_|
-  #   knows_looting_|
-  #   knows_trainer_2_|
-  #   knows_tracking_|
-  #   knows_tactics_|
-  #   knows_pathfinding_|
-  #   knows_spotting_|
-  #   knows_inventory_management_|
-  #   knows_wound_treatment_|
-  #   knows_first_aid_|
-  #   knows_engineer_|
-  #   knows_persuasion_|
-  #   knows_prisoner_management_|
-  #   knows_leadership_|
-  #   knows_trade_, 0, 0 ],
+  #   def_attrib|level(4), wpex(10,1,1,2,2,2),
+  #   knows_ironflesh_2|
+  #   knows_power_strike_2|
+  #   knows_power_throw_1|
+  #   knows_power_draw_1|
+  #   knows_intimidation_1|
+  #   knows_weapon_master_3|
+  #   #knows_shield_1|
+  #   knows_athletics_3|
+  #   knows_riding_1|
+  #   knows_horse_archery_1|
+  #   knows_looting_2|
+  #   knows_trainer_2_1|
+  #   knows_tracking_1|
+  #   knows_tactics_4|
+  #   knows_pathfinding_2|
+  #   knows_spotting_1|
+  #   knows_inventory_management_3|
+  #   knows_wound_treatment_9|
+  #   knows_first_aid_9|
+  #   knows_engineer_1|
+  #   knows_persuasion_2|
+  #   knows_prisoner_management_2|
+  #   knows_leadership_2|
+  #   knows_trade_1, 0, 0 ],
   # ["npc_archetype_stayleader", "Archetype", "Archetype", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners, [],
-  #   def_attrib|level(4), wp(50),
-  #   knows_ironflesh_|
-  #   knows_power_strike_|
-  #   knows_power_throw_|
-  #   knows_power_draw_|
-  #   knows_intimidation_|
-  #   knows_weapon_master_|
-  #   #knows_shield_|
-  #   knows_athletics_|
-  #   knows_riding_|
-  #   knows_horse_archery_|
-  #   knows_looting_|
-  #   knows_trainer_2_|
-  #   knows_tracking_|
-  #   knows_tactics_|
-  #   knows_pathfinding_|
-  #   knows_spotting_|
-  #   knows_inventory_management_|
-  #   knows_wound_treatment_|
-  #   knows_first_aid_|
-  #   knows_engineer_|
-  #   knows_persuasion_|
-  #   knows_prisoner_management_|
-  #   knows_leadership_|
-  #   knows_trade_, 0, 0 ],
+  #   def_attrib|level(4), wpex(4,10,4,2,2,2),
+  #   knows_ironflesh_2|
+  #   knows_power_strike_2|
+  #   knows_power_throw_1|
+  #   knows_power_draw_1|
+  #   knows_intimidation_1|
+  #   knows_weapon_master_3|
+  #   #knows_shield_1|
+  #   knows_athletics_3|
+  #   knows_riding_1|
+  #   knows_horse_archery_1|
+  #   knows_looting_2|
+  #   knows_trainer_2_7|
+  #   knows_tracking_1|
+  #   knows_tactics_9|
+  #   knows_pathfinding_2|
+  #   knows_spotting_1|
+  #   knows_inventory_management_3|
+  #   knows_wound_treatment_1|
+  #   knows_first_aid_1|
+  #   knows_engineer_4|
+  #   knows_persuasion_2|
+  #   knows_prisoner_management_2|
+  #   knows_leadership_6|
+  #   knows_trade_1, 0, 0 ],
   # ["npc_archetype_drunk", "Archetype", "Archetype", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners, [],
-  #   def_attrib|level(4), wp(50),
-  #   knows_ironflesh_|
-  #   knows_power_strike_|
-  #   knows_power_throw_|
-  #   knows_power_draw_|
-  #   knows_intimidation_|
-  #   knows_weapon_master_|
-  #   #knows_shield_|
-  #   knows_athletics_|
-  #   knows_riding_|
-  #   knows_horse_archery_|
-  #   knows_looting_|
-  #   knows_trainer_2_|
-  #   knows_tracking_|
-  #   knows_tactics_|
-  #   knows_pathfinding_|
-  #   knows_spotting_|
-  #   knows_inventory_management_|
-  #   knows_wound_treatment_|
-  #   knows_first_aid_|
-  #   knows_engineer_|
-  #   knows_persuasion_|
-  #   knows_prisoner_management_|
-  #   knows_leadership_|
-  #   knows_trade_, 0, 0 ],
+  #   def_attrib|level(4), wpex(4,10,10,3,1,4),
+  #   knows_ironflesh_5|
+  #   knows_power_strike_5|
+  #   knows_power_throw_3|
+  #   knows_power_draw_2|
+  #   knows_intimidation_3|
+  #   knows_weapon_master_2|
+  #   #knows_shield_1|
+  #   knows_athletics_6|
+  #   knows_riding_3|
+  #   knows_horse_archery_2|
+  #   knows_looting_3|
+  #   knows_trainer_2_2|
+  #   knows_tracking_1|
+  #   knows_tactics_1|
+  #   knows_pathfinding_1|
+  #   knows_spotting_1|
+  #   knows_inventory_management_2|
+  #   knows_wound_treatment_2|
+  #   knows_first_aid_2|
+  #   knows_engineer_1|
+  #   knows_persuasion_2|
+  #   knows_prisoner_management_1|
+  #   knows_leadership_1|
+  #   knows_trade_1, 0, 0 ],
 
   # CLANS
   ["clan_storage_1", "Clan", "Clan", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners, [], def_attrib|level(4), wp(50), knows_merchant, 0, 0 ],
