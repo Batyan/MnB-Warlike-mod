@@ -2900,6 +2900,21 @@ dialogs = [
             (call_script, "script_troop_become_vassal_threaten", "$g_talk_troop"),
         ]],
     [anyone|plyr, "lord_become_vassal_persuasion_player_loop",
+        [
+            (troop_get_slot, ":player_clan", "$g_player_troop", slot_troop_clan),
+            (is_between, ":player_clan", clans_begin, clans_end),
+            (assign, ":continue", 1),
+            (try_for_range, ":slot", slot_quest_proposition_begin, slot_quest_proposition_end),
+                (quest_get_slot, ":proposition", "qst_persuade_lord_vassalage", ":slot"),
+                (eq, ":proposition", event_type_proposed_clan),
+                (assign, ":continue", 0),
+            (try_end),
+            (eq, ":continue", 1),
+        ], "I would accept you into my clan.", "lord_become_vassal_persuasion_answer_loop",
+        [
+            (call_script, "script_troop_become_vassal_clan", "$g_talk_troop"),
+        ]],
+    [anyone|plyr, "lord_become_vassal_persuasion_player_loop",
         [], "Let's leave it at that.", "lord_become_vassal_persuasion_answer_loop",
         [
             (quest_get_slot, ":num_tries", "qst_persuade_lord_vassalage", slot_quest_num_tries),
