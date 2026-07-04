@@ -2,6 +2,7 @@ v0.730:
 	-Features:
 		* add mercenary guild buildings
 		* allow changing character on character sheet to update follower skills
+		* add possibility to integrate a lord to player clan during become vassal persuasion
 	-Balances:
 	-Fixes:
 		* fix party skills cumulating with each companion
