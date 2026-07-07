@@ -12128,7 +12128,7 @@ scripts = [
 
                     (call_script, "script_get_current_day"),
                     (assign, ":current_day", reg0),
-                    (party_set_slot, ":cur_center", slot_party_last_owner_visit, ":current_day"),
+                    (party_set_slot, ":cur_town", slot_party_last_owner_visit, ":current_day"),
 
                     # Transfer gold to/from the center
                     (call_script, "script_party_get_total_wealth", ":cur_town", 1),
@@ -14952,7 +14952,7 @@ scripts = [
 
                 (try_for_range, ":member", npc_heroes_begin, npc_heroes_end),
                     (troop_slot_ge, ":member", slot_troop_kingdom_occupation, 1),
-                    (troop_slot_eq, ":member", slot_troop_clan, ":vassal_clan"),
+                    (troop_slot_eq, ":member", slot_troop_clan, ":troop_clan"),
 
                     (call_script, "script_troop_change_faction", ":member", ":new_faction"),
                 (try_end),
