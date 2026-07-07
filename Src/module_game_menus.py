@@ -1659,6 +1659,13 @@ game_menus = [
                     (try_end),
 
                     (try_begin),
+                        (party_slot_eq, "$g_encountered_party", slot_party_lord, "$g_player_troop"),
+                        (call_script, "script_get_current_day"),
+                        (assign, ":current_day", reg0),
+                        (party_set_slot, "$g_encountered_party", slot_party_last_owner_visit, ":current_day"),
+                    (try_end),
+
+                    (try_begin),
                         (check_quest_active, "qst_introduction_default"),
                         (quest_get_slot, ":destination", "qst_introduction_default", slot_quest_destination),
                         (eq, "$g_encountered_party", ":destination"),

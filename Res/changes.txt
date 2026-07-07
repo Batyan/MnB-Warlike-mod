@@ -4,9 +4,12 @@ v0.730:
 		* allow changing character on character sheet to update follower skills
 		* add possibility to integrate a lord to player clan during become vassal persuasion
 		* add a quest giver to player to follow lord during war
+		* add growing corruption to centers not visited by their lord
 	-Balances:
 		* improve tournament resolutions
 		* improve companion archetypes
+		* banditry is now influenced by trade taxes instead of regular taxes
+		* clan leaders will bring their whole clan if switching side
 	-Fixes:
 		* fix party skills cumulating with each companion
 v0.720:

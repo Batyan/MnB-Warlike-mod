@@ -1284,6 +1284,7 @@ slot_party_budget_bank_investments = slot_party_budget_building_maintenance + 1
 slot_party_budget_mercenary_contract = slot_party_budget_bank_investments + 1
 slot_party_budget_mercenary_contract_pay = slot_party_budget_mercenary_contract + 1
 slot_party_budget_banditry = slot_party_budget_mercenary_contract_pay + 1
+slot_party_budget_corruption = slot_party_budget_banditry + 1
 
 tax_type_none = -1
 tax_type_population = 0
@@ -1322,6 +1323,7 @@ tax_type_bank_investments = 32
 tax_type_mercenary_contract = 33
 tax_type_mercenary_contract_pay = 34
 tax_type_banditry = 35
+tax_type_corruption = 36
 
 slot_party_buget_taxes_begin = slot_party_budget_taxes
 slot_party_buget_taxes_end = slot_party_budget_banditry + 1
@@ -1523,11 +1525,15 @@ slot_party_last_tournament_date = slot_party_next_tournament_date + 1
 
 min_tournament_cooldown = 365
 
-slot_party_camp_influence = slot_party_last_tournament_date + 1
+slot_party_last_owner_visit = slot_party_last_tournament_date + 1
+
+slot_party_camp_influence = slot_party_last_owner_visit + 1
 
 slot_party_mercenaries_amount = slot_party_camp_influence + 1
 
-slot_party_current_behavior = slot_party_mercenaries_amount + 1
+slot_party_corruption = slot_party_mercenaries_amount + 1
+
+slot_party_current_behavior = slot_party_corruption + 1
 
 party_behavior_current_bonus = 20
 party_behavior_variance = 25

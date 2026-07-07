@@ -771,4 +771,32 @@ simple_triggers = [
                 (call_script, "script_init_lord", ":npc"),
             (try_end),
         ]),
+
+    (weekly, # Centers corruption
+        [
+            (call_script, "script_get_current_day"),
+            (assign, ":current_day", reg0),
+            (try_for_range, ":cur_center", centers_begin, centers_end),
+                (party_get_slot, ":current_corruption", ":cur_center", slot_party_corruption),
+                (party_get_slot, ":last_visit", ":cur_center", slot_party_last_owner_visit),
+
+                (party_get_slot, ":leader", ":cur_center", slot_party_lord),
+                (store_sub, ":diff", ":current_day", ":last_visit"),
+                (try_begin),
+                    (ge, ":leader", 0),
+                    (call_script, "script_cf_troop_is_in_center", ":leader", ":cur_center"),
+                    (val_sub, ":current_corruption", 5),
+                    (val_max, ":current_corruption", 0),
+                (else_try),
+                    (gt, ":diff", 14),
+                    (val_add, ":current_corruption", 1),
+                    (val_min, ":current_corruption", 100),
+                (else_try),
+                    (le, ":diff", 7),
+                    (val_sub, ":current_corruption", 1),
+                    (val_max, ":current_corruption", 0),
+                (try_end),
+                (party_set_slot, ":cur_center", slot_party_corruption, ":current_corruption"),
+            (try_end),  
+        ]),
 ]

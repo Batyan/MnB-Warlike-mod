@@ -2761,6 +2761,7 @@ dialogs = [
             (troop_get_slot, ":vassal_of", "$g_talk_troop", slot_troop_vassal_of),
             (try_begin),
                 (ge, ":vassal_of", 0),
+                (neq, ":vassal_of", "$g_talk_troop"),
                 (str_store_string, s10, "@I feel like breaking my current oath with {s11} requires proper consideration."),
             (else_try),
                 (str_store_string, s10, "@Swearing an oath is a serious matter that requires proper consideration."),

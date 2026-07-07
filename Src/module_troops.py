@@ -4553,7 +4553,7 @@ troops = [
    str_17|agi_18|int_11|cha_13|level(36), wpex(115,100,120,65,45,60), knows_common|knows_ironflesh_5|knows_power_strike_3|knows_power_draw_1|knows_athletics_5|knows_riding_2|knows_shield_1, man_face_young_1, man_face_old_2 ],
   
   # Light cavalry, sabres, maces, shields
-  ["khergit_lesser_noble", "Khergit Lesser Noble", "Khergit Lesser Nobles", tf_guarantee_trained_armor|tf_guarantee_horseman|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_34,
+  ["khergit_lesser_noble", "Khergit Lesser Noble", "Khergit Lesser Nobles", tf_guarantee_trained_armor|tf_guarantee_horseman|tf_guarantee_shield, no_scene, reserved, fac_kingdom_3,
    [itm_sword_khergit_1, itm_winged_mace, itm_tab_shield_small_round_a,
     itm_leather_gloves, itm_leather_boots, itm_nomad_boots,
     itm_nomad_robe, itm_steppe_armor_herald,
@@ -4628,7 +4628,7 @@ troops = [
     str_17|agi_18|int_10|cha_11|level(33), wpex(110,105,100,70,30,60), knows_common|knows_ironflesh_3|knows_power_strike_3|knows_athletics_2|knows_riding_5, man_face_young_1, man_face_old_2 ],
 
   # Light cavalry, swords, picks, shields
-  ["rhodok_lesser_noble", "Rhodok Heroic Horseman", "Rhodok Heroic Horsemen", tf_guarantee_trained_armor|tf_guarantee_shield|tf_guarantee_horseman, no_scene, reserved, fac_small_kingdom_52,
+  ["rhodok_lesser_noble", "Rhodok Heroic Horseman", "Rhodok Heroic Horsemen", tf_guarantee_trained_armor|tf_guarantee_shield|tf_guarantee_horseman, no_scene, reserved, fac_kingdom_5,
    [itm_military_cleaver_a, itm_fighting_pick, itm_sword_medieval_a, itm_sword_medieval_a_long, itm_tab_shield_heater_cav_a,
     itm_leather_boots, itm_nomad_boots,
     itm_heraldic_mail_with_tunic_b, itm_heraldic_mail_with_tunic_b_plain,
@@ -4638,7 +4638,7 @@ troops = [
   
   # Heavy cavalry, swords, maces, shields
   # SPECIAL
-  ["sarranid_lesser_noble", "Sarranid Lesser Noble", "Sarranid Lesser Nobles", tf_guarantee_trained_armor|tf_guarantee_shield|tf_guarantee_horseman, no_scene, reserved, fac_small_kingdom_63,
+  ["sarranid_lesser_noble", "Sarranid Lesser Noble", "Sarranid Lesser Nobles", tf_guarantee_trained_armor|tf_guarantee_shield|tf_guarantee_horseman, no_scene, reserved, fac_kingdom_6,
    [itm_arabian_sword_a, itm_mace_2, itm_tab_shield_small_round_a,
     itm_sarranid_boots_b, itm_leather_gloves,
     itm_sarranid_leather_armor,
