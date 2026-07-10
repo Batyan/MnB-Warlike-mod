@@ -5,6 +5,7 @@ v0.730:
 		* add possibility to integrate a lord to player clan during become vassal persuasion
 		* add a quest giver to player to follow lord during war
 		* add growing corruption to centers not visited by their lord
+		* allow player to set a governor for their center
 	-Balances:
 		* improve tournament resolutions
 		* improve companion archetypes
@@ -12,6 +13,7 @@ v0.730:
 		* clan leaders will bring their whole clan if switching side
 	-Fixes:
 		* fix party skills cumulating with each companion
+		* reduce assign lord presentation cards text size
 v0.720:
 	-Features:
 		* add tavern mercenaries

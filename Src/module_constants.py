@@ -1655,10 +1655,13 @@ tko_bandit = 3
 tko_neutral_hero = 4 # wandering party and potential mercenary
 tko_wanderer = 5 # tavern companion that sometimes travel
 tko_follower = 6
-tko_reserved = 7
-tko_reserved_quest = 8
+tko_kingdom_court = 7 # hero without a party staying inside overlord court
+tko_reserved = 8
+tko_reserved_quest = 9
 
-slot_troop_personality              = slot_troop_kingdom_occupation + 1
+slot_troop_kingdom_occupation_target       = slot_troop_kingdom_occupation + 1
+
+slot_troop_personality              = slot_troop_kingdom_occupation_target + 1
 tp_default = 0x0000
 
 tp_mercyfull = 0x0001

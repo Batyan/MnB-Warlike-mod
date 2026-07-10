@@ -20,7 +20,7 @@ scripts_presentation = [
             (store_script_param, ":values2_x", 4),
             (store_script_param, ":cur_y", 5),
 
-            (assign, ":line_height", 30),
+            (assign, ":line_height", 28),
 
             (create_mesh_overlay, reg0, "mesh_mp_ingame_menu"),
             (position_set_x, pos1, ":x"),
@@ -71,7 +71,7 @@ scripts_presentation = [
 
             (troop_get_slot, ":culture", ":lord_no", slot_troop_culture),
             (str_store_faction_name, s10, ":culture"),
-            (call_script, "script_presentation_create_text_overlay", 0, ":values_x", ":line_text_y", 1000, 1000),
+            (call_script, "script_presentation_create_text_overlay", 0, ":values_x", ":line_text_y", 900, 900),
             (overlay_set_color, reg0, text_color_white),
 
             (val_add, ":line_text_y", ":line_height"),
@@ -79,19 +79,19 @@ scripts_presentation = [
             (call_script, "script_troop_get_relation_with_troop", ":lord_no", "$g_player_troop"),
             (assign, reg10, reg0),
             (str_store_string, s10, "@{reg10} relation"),
-            (call_script, "script_presentation_create_text_overlay", 0, ":values_x", ":line_text_y", 1000, 1000),
+            (call_script, "script_presentation_create_text_overlay", 0, ":values_x", ":line_text_y", 900, 900),
             (overlay_set_color, reg0, text_color_white),
 
             (troop_get_slot, reg10, ":lord_no", slot_troop_renown),
             (str_store_string, s10, "@{reg10} renown"),
-            (call_script, "script_presentation_create_text_overlay", 0, ":values2_x", ":line_text_y", 1000, 1000),
+            (call_script, "script_presentation_create_text_overlay", 0, ":values2_x", ":line_text_y", 900, 900),
             (overlay_set_color, reg0, text_color_white),
 
             (val_add, ":line_text_y", ":line_height"),
 
             (troop_get_slot, reg10, ":lord_no", slot_troop_num_vassal),
             (str_store_string, s10, "@{reg10} vassals"),
-            (call_script, "script_presentation_create_text_overlay", 0, ":values_x", ":line_text_y", 1000, 1000),
+            (call_script, "script_presentation_create_text_overlay", 0, ":values_x", ":line_text_y", 900, 900),
             (overlay_set_color, reg0, text_color_white),
 
             (assign, ":num_fiefs", 0),
@@ -101,13 +101,13 @@ scripts_presentation = [
             (try_end),
             (assign, reg10, ":num_fiefs"),
             (str_store_string, s10, "@{reg10} fiefs"),
-            (call_script, "script_presentation_create_text_overlay", 0, ":values2_x", ":line_text_y", 1000, 1000),
+            (call_script, "script_presentation_create_text_overlay", 0, ":values2_x", ":line_text_y", 900, 900),
             (overlay_set_color, reg0, text_color_white),
 
             (val_add, ":line_text_y", ":line_height"),
 
             (str_store_troop_name, s10, ":lord_no"),
-            (call_script, "script_presentation_create_text_overlay", 0, ":values_x", ":line_text_y", 1000, 1000),
+            (call_script, "script_presentation_create_text_overlay", 0, ":values_x", ":line_text_y", 900, 900),
             (overlay_set_color, reg0, text_color_white),
         ]),
 

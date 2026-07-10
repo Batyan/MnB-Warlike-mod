@@ -14027,6 +14027,7 @@ scripts = [
             (store_script_param, ":lord_no", 1),
             
             (troop_set_slot, ":lord_no", slot_troop_kingdom_occupation, tko_none),
+            (troop_set_slot, ":lord_no", slot_troop_kingdom_occupation_target, -1),
             (troop_set_slot, ":lord_no", slot_troop_vassal_of, -1),
             (troop_set_slot, ":lord_no", slot_troop_original_faction, "fac_faction_8"),
             (troop_set_slot, ":lord_no", slot_troop_culture, "fac_culture_7"),
@@ -14044,6 +14045,7 @@ scripts = [
             (troop_set_slot, ":lord_no", slot_troop_num_vassal, 0),
             (troop_set_slot, ":lord_no", slot_troop_mercenary_contract_leader, -1),
             (troop_set_slot, ":lord_no", slot_troop_home, -1),
+            (troop_set_slot, ":lord_no", slot_troop_mercenary_old_occupation, -1),
 
             # Reset family
             (try_for_range, ":slot", slot_troop_married_to, slot_troop_child_10+1),
@@ -30702,6 +30704,79 @@ scripts = [
             (call_script, "script_troop_give_center_to_troop", "$g_player_troop", "$temp", ":lord"),
         ]),
 
+    # script_assign_selected_governor
+        # input:
+        #   arg1: troop_no
+        # output: none
+    ("assign_selected_governor",
+        [
+            (store_script_param, ":lord", 1),
+
+            (try_begin),
+                (party_get_slot, ":old_governor", "$temp", slot_party_governor),
+                (gt, ":old_governor", 0),
+
+                (troop_get_slot, ":old_occupation", ":old_governor", slot_troop_mercenary_old_occupation),
+                (try_begin),
+                    (eq, ":old_occupation", tko_follower),
+                    (troop_get_slot, ":companion_of", ":old_governor", slot_troop_companion_of),
+                    (call_script, "script_troop_become_companion", ":lord", ":companion_of"),
+                    (troop_set_slot, ":old_governor", slot_troop_mercenary_old_occupation, -1),
+                (try_end),
+                (troop_set_slot, ":old_governor", slot_troop_kingdom_occupation_target, -1),
+            (try_end),
+
+            (assign, ":new", 0),
+
+            (try_begin),
+                (troop_slot_eq, ":lord", slot_troop_kingdom_occupation, tko_follower),
+                (troop_set_slot, ":lord", slot_troop_mercenary_old_occupation, tko_follower),
+            (try_end),
+
+            (try_begin),
+                (troop_slot_eq, ":lord", slot_troop_kingdom_occupation, tko_reserved),
+                (call_script, "script_activate_lord", ":lord"),
+                (assign, ":new", 1),
+                (troop_set_slot, ":lord", slot_troop_kingdom_occupation, tko_kingdom_court),
+            (try_end),
+
+            (try_begin),
+                (eq, ":new", 1),
+                (troop_get_slot, ":clan", ":lord", slot_troop_clan),
+                (is_between, ":clan", clans_begin, clans_end),
+
+                (store_troop_faction, ":faction_no", "$g_player_troop"),
+
+                (troop_get_slot, ":clan_members", ":lord", slot_troop_num_vassal),
+                (try_for_range, ":unused", 0, ":clan_members"),
+                    (call_script, "script_find_free_lord"),
+                    (assign, ":new_lord", reg0),
+
+                    (call_script, "script_troop_add_to_clan", ":new_lord", ":clan"),
+                    (troop_set_slot, ":new_lord", slot_troop_nobility_rank, nr_lesser),
+                    (call_script, "script_ready_npc", ":new_lord", ":faction_no", tko_kingdom_hero, 1),
+                    (call_script, "script_troop_become_vassal", ":new_lord", ":lord"),
+                (troop_set_slot, ":new_lord", slot_troop_kingdom_occupation, tko_kingdom_court),
+                (try_end),
+            (try_end),
+
+            (party_set_slot, "$temp", slot_party_governor, ":lord"),
+            (call_script, "script_troop_change_relation_with_troop", ":lord", "$g_player_troop", 5),
+
+            (party_get_num_companion_stacks, ":num_stacks", "$g_player_party"),
+            (try_for_range, ":cur_stack", 0, ":num_stacks"),
+                (party_stack_get_troop_id, ":troop_id", "$g_player_party", ":cur_stack"),
+                (eq, ":troop_id", ":lord"),
+
+                (remove_member_from_party, ":troop_id", "$g_player_party"),
+                (assign, ":num_stacks", 0),
+            (try_end),
+
+            (party_force_add_members, "$temp", ":lord", 1),
+            (troop_set_slot, ":lord", slot_troop_garrisoned, "$temp"),
+            (troop_set_slot, ":lord", slot_troop_home, "$temp"),
+        ]),
+
     # script_filter_lord_vassal_grant
         # input:
         #   arg1: troop_no
@@ -30715,7 +30790,8 @@ scripts = [
 
             (assign, ":filtered", 1),
             (try_begin),
-                (troop_slot_eq, ":lord", slot_troop_kingdom_occupation, tko_kingdom_hero),
+                (this_or_next|troop_slot_eq, ":lord", slot_troop_kingdom_occupation, tko_kingdom_hero),
+                (troop_slot_eq, ":lord", slot_troop_kingdom_occupation, tko_kingdom_court),
                 
                 # (store_troop_faction, ":lord_faction", ":lord"),
                 # (store_troop_faction, ":player_faction", "$g_player_troop"),
@@ -30726,6 +30802,51 @@ scripts = [
 
                 (this_or_next|eq, ":vassal_of", "$g_player_troop"),
                 (eq, ":clan", ":player_clan"),
+
+                (assign, ":filtered", 0),
+            (try_end),
+
+            (assign, reg0, ":filtered"),
+        ]),
+
+    # script_filter_governor_candidate
+        # input:
+        #   arg1: troop_no
+        # output:
+        #   reg0: troop_filtered (1: filtered)
+    ("filter_governor_candidate",
+        [
+            (store_script_param, ":lord", 1),
+
+            (troop_get_slot, ":player_clan", "$g_player_troop", slot_troop_clan),
+
+            (assign, ":filtered", 1),
+            (try_begin),
+                (troop_slot_eq, ":lord", slot_troop_kingdom_occupation, tko_follower),
+                (troop_slot_eq, ":lord", slot_troop_companion_of, "$g_player_troop"),
+                (assign, ":filtered", 0),
+            (else_try),
+                (troop_slot_eq, ":lord", slot_troop_kingdom_occupation, tko_kingdom_court),
+
+                (troop_get_slot, ":vassal_of", ":lord", slot_troop_vassal_of),
+                (eq, ":vassal_of", "$g_player_troop"),
+
+                (troop_get_slot, ":target", ":lord", slot_troop_kingdom_occupation_target),
+                (eq, ":target", -1),
+
+                (assign, ":filtered", 0),
+            (else_try),
+                (troop_slot_eq, ":lord", slot_troop_kingdom_occupation, tko_kingdom_hero),
+
+                (troop_get_slot, ":vassal_of", ":lord", slot_troop_vassal_of),
+                (troop_get_slot, ":clan", ":lord", slot_troop_clan),
+
+                (this_or_next|eq, ":vassal_of", "$g_player_troop"),
+                (eq, ":clan", ":player_clan"),
+
+                (troop_slot_eq, ":lord", slot_troop_leaded_party, -1),
+                (troop_get_slot, ":rank", ":lord", slot_troop_rank),
+                (le, ":rank", rank_affiliated),
 
                 (assign, ":filtered", 0),
             (try_end),
@@ -37287,5 +37408,55 @@ scripts = [
             (store_proficiency_level, ":goal", ":troop_archetype", ":proficiency_no"),
 
             (assign, reg0, ":goal"),
+        ]),
+
+    # script_troop_become_companion
+        # input:
+        #   arg1: troop_no
+        #   arg2: companion_of
+        # output: none
+    ("troop_become_companion",
+        [
+            (store_script_param, ":troop_no", 1),
+            (store_script_param, ":companion_of", 2),
+
+            (troop_set_slot, ":troop_no", slot_troop_kingdom_occupation, tko_follower),
+            (troop_set_slot, ":troop_no", slot_troop_companion_of, ":companion_of"),
+
+            (troop_get_slot, ":companion_of_party", ":companion_of", slot_troop_leaded_party),
+
+            (troop_get_slot, ":leader_party", ":troop_no", slot_troop_leaded_party),
+            (try_begin),
+                (gt, ":leader_party", 0),
+                (party_is_active, ":leader_party"),
+                (party_get_num_prisoner_stacks, ":num_stacks", ":leader_party"),
+                (try_for_range, ":stack_no", 0, ":num_stacks"),
+                    (party_prisoner_stack_get_size, ":size", ":leader_party", ":stack_no"),
+                    (party_prisoner_stack_get_troop_id, ":troop", ":leader_party", ":stack_no"),
+                    (try_begin),
+                        (ge, ":companion_of_party", 0),
+                        (party_is_active, ":companion_of_party"),
+                        (party_force_add_prisoners, ":companion_of_party", ":troop", ":size"),
+                    (try_end),
+                (try_end),
+                (party_get_num_companion_stacks, ":num_stacks", ":leader_party"),
+                (try_for_range, ":stack_no", 0, ":num_stacks"),
+                    (party_stack_get_size, ":size", ":leader_party", ":stack_no"),
+                    (party_stack_get_troop_id, ":troop", ":leader_party", ":stack_no"),
+                    (try_begin),
+                        (ge, ":companion_of_party", 0),
+                        (party_is_active, ":companion_of_party"),
+                        (party_force_add_members, "$g_player_party", ":troop", ":size"),
+                    (try_end),
+                (try_end),
+                (party_clear, ":leader_party"),
+                (remove_party, ":leader_party"),
+            (else_try),
+                (ge, ":companion_of_party", 0),
+                (party_is_active, ":companion_of_party"),
+                (party_force_add_members, ":companion_of_party", ":troop_no", 1),
+            (try_end),
+            (troop_equip_items, ":troop_no"),
+            (troop_set_auto_equip, ":troop_no", 0),
         ]),
 ] + scripts_presentation
