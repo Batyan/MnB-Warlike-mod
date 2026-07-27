@@ -6,6 +6,7 @@ v0.730:
 		* add a quest giver to player to follow lord during war
 		* add growing corruption to centers not visited by their lord
 		* allow player to set a governor for their center
+		* add companion rejoin after being separated
 	-Balances:
 		* improve tournament resolutions
 		* improve companion archetypes

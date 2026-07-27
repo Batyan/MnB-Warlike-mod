@@ -4192,4 +4192,17 @@ game_menus = [
                     (change_screen_return),
                 ]),
         ]),
+
+    ("encounter_talk", mnf_scale_picture,
+        "Encounter talk.",
+        "none",
+        [
+            (call_script, "script_setup_troop_meeting", "$temp", -1),
+        ],
+        [
+            ("continue",[],"Continue",
+                [
+                    (change_screen_return),
+                ]),
+        ]),
  ]

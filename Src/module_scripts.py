@@ -309,6 +309,7 @@ scripts = [
             (try_end),
 
             (party_set_slot, "$g_player_party", slot_party_leader, "$g_player_troop"),
+            (troop_set_slot, "$g_player_troop", slot_troop_leaded_party, "$g_player_party"),
 
             # Initial buildings
             (store_sub, ":bank_offset", "itm_building_bank", center_buildings_begin),
@@ -24367,6 +24368,8 @@ scripts = [
             (enable_party, "$g_player_party"),
 
             (troop_get_slot, ":prisoner_of", "$g_player_party", slot_troop_prisoner_of),
+            (troop_set_slot, "$g_player_troop", slot_troop_leaded_party, "$g_player_party"),
+            (party_set_slot, "$g_player_party", slot_party_leader, "$g_player_troop"),
             (try_begin),
                 (gt, ":prisoner_of", 0),
                 (party_set_flags, ":prisoner_of", pf_always_visible, 0),
@@ -30756,7 +30759,7 @@ scripts = [
                     (troop_set_slot, ":new_lord", slot_troop_nobility_rank, nr_lesser),
                     (call_script, "script_ready_npc", ":new_lord", ":faction_no", tko_kingdom_hero, 1),
                     (call_script, "script_troop_become_vassal", ":new_lord", ":lord"),
-                (troop_set_slot, ":new_lord", slot_troop_kingdom_occupation, tko_kingdom_court),
+                    (troop_set_slot, ":new_lord", slot_troop_kingdom_occupation, tko_kingdom_court),
                 (try_end),
             (try_end),
 
@@ -30768,7 +30771,7 @@ scripts = [
                 (party_stack_get_troop_id, ":troop_id", "$g_player_party", ":cur_stack"),
                 (eq, ":troop_id", ":lord"),
 
-                (remove_member_from_party, ":troop_id", "$g_player_party"),
+                (party_remove_members, "$g_player_party", ":troop_id", 1),
                 (assign, ":num_stacks", 0),
             (try_end),
 

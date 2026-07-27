@@ -3808,16 +3808,39 @@ dialogs = [
             (call_script, "script_troop_change_relation_with_troop", "$g_talk_troop", "$g_player_troop", 3),
         ]],
 
+    [anyone, "start",
+        [
+            (troop_slot_eq, "$g_talk_troop", slot_troop_kingdom_occupation, tko_follower),
+            (troop_slot_eq, "$g_talk_troop", slot_troop_companion_of, "$g_player_troop"),
+            (assign, ":found", 0),
+            (party_get_num_companion_stacks, ":num_stacks", "$g_player_party"),
+            (try_for_range, ":cur_stack", 0, ":num_stacks"),
+                (party_stack_get_troop_id, ":troop_no", "$g_player_party", ":cur_stack"),
+                (eq, ":troop_no", "$g_talk_troop"),
+                (assign, ":found", 1),
+                (assign, ":num_stacks", 0),
+            (try_end),
+            (eq, ":found", 0),
+            (call_script, "script_troop_get_player_name", "$g_talk_troop"),
+        ], "{s60} I have found you again, should I join your party?", "companion_rejoin", []],
+
+    [anyone|plyr, "companion_rejoin",
+        [], "I would be glad to have you back", "close_window",
+        [
+            (party_add_members, "$g_player_party", "$g_talk_troop", 1),
+            (leave_encounter),
+        ]],
+
 
     #################
     # Error dialogs #
     #################
     [anyone, "start",
-        [], "Hello there traveller! [WARNING: MISSING DIALOG]", "error_dialog", []],
+        [], "Hello there traveller! [WARNING: MISSING START DIALOG]", "error_dialog", []],
     
     [anyone, "event_triggered",
-        [], "Hello there traveller! [WARNING: MISSING DIALOG]", "error_dialog", []],
+        [], "Hello there traveller! [WARNING: MISSING EVENT DIALOG]", "error_dialog", []],
 
-    [anyone|plyr, "error_dialog", [], "Dialog Error. No dialog found.", "close_window", []],
+    [anyone|plyr, "error_dialog", [], "Dialog Error. No dialog found.", "close_window", [(leave_encounter),]],
 
 ]
