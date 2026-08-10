@@ -416,6 +416,14 @@ dialogs = [
         ], "{s0}", "caravan_player",
         []],
 
+    [anyone|plyr, "caravan_player",
+        [
+            (check_quest_active, "qst_village_purchase_surplus_goods"),
+            (neg|check_quest_succeeded, "qst_village_purchase_surplus_goods"),
+            (quest_get_slot, ":item", "qst_village_purchase_surplus_goods", slot_quest_object),
+            (str_store_item_name, s10, ":item"),
+        ], "Are you interested in items of {s10}?", "caravan_deliver_surplus_goods", []],
+
     [anyone|plyr, "caravan_player", [], "What goods are you trading ?", "caravan_trade", []],
 
     [anyone|plyr, "caravan_player", [(party_slot_eq, "$g_talk_party", slot_party_player_shakedown, 1),], "I've changed my mind, I'll take everything from you", "caravan_toll_attack", []],
@@ -467,6 +475,57 @@ dialogs = [
         (encounter_attack),
     ]],
     [anyone, "caravan_toll_back", [], "Fine then, did you have something else in mind ?", "caravan_player", []],
+
+    [anyone, "caravan_deliver_surplus_goods",
+        [
+            (assign, ":end", slot_party_mission_objective_3+1),
+            (quest_get_slot, ":item", "qst_village_purchase_surplus_goods", slot_quest_object),
+            (assign, ":continue", 0),
+            (try_for_range, ":slot", slot_party_mission_objective_1, ":end"),
+                (party_get_slot, ":objective", "$g_talk_party", ":slot"),
+                (eq, ":objective", ":item"),
+                (assign, ":continue", 1),
+                (assign, ":end", 0),
+            (try_end),
+            (eq, ":continue", 1),
+        ], "We are indeed looking for this item to trade, why do you ask?", "caravan_deliver_surplus_goods_interest", []],    
+
+    [anyone, "caravan_deliver_surplus_goods",
+        [], "We are not interested in this good", "caravan_return", []],
+
+    [anyone|plyr, "caravan_deliver_surplus_goods_interest",
+        [
+            (quest_get_slot, ":party_giver", "qst_village_purchase_surplus_goods", slot_quest_giver_party),
+            (str_store_party_name, s10, ":party_giver"),
+        ], "The village of {s10} is selling its surplus for a good price", "caravan_deliver_surplus_goods_accept", []],
+    [anyone|plyr, "caravan_deliver_surplus_goods_interest",
+        [], "Nevermind", "caravan_return", []],
+
+    [anyone, "caravan_deliver_surplus_goods_accept",
+        [], "A good price you say? We might make a detour to this village to see it for ourselves", "caravan_deliver_surplus_goods_end", []],
+    [anyone, "caravan_deliver_surplus_goods_end",
+        [], "If you get there before us please inform whomever is in charge that we will be heading there to buy the goods.", "caravan_return",
+        [
+            (quest_set_slot, "qst_village_purchase_surplus_goods", slot_quest_proposed_amount, -1),
+            (call_script, "script_succeed_quest", "qst_village_purchase_surplus_goods"),
+
+            (quest_get_slot, ":origin_center", "qst_village_purchase_surplus_goods", slot_quest_giver_party),
+            (party_set_slot, "$g_talk_party", slot_party_mission_target_1, ":origin_center"),
+            (party_set_slot, "$g_talk_party", slot_party_mission_target_2, -1),
+            (party_set_slot, "$g_talk_party", slot_party_mission_target_3, -1),
+
+            (party_set_slot, "$g_talk_party", slot_party_mission, spm_trade),
+            (party_set_slot, "$g_talk_party", slot_party_mission_object, ":origin_center"),
+            (call_script, "script_party_set_behavior", "$g_talk_party", tai_traveling_to_party, ":origin_center"),
+
+            (str_store_party_name, s10, ":origin_center"),
+            (str_store_party_name, s11, "$g_encountered_party"),
+            (str_store_string, s0, "@You managed reroute a caravan in need of goods to the village of {s10}. Return to the village elder to inform him of your actions."),
+            (call_script, "script_quest_add_note", "qst_village_purchase_surplus_goods", 0),
+        ]],
+
+    [anyone, "caravan_return",
+        [(call_script, "script_troop_get_player_name", "$g_talk_troop", "$g_talk_party"),], "Anything else {s60}", "caravan_player", []],
 
     ##################
     # Civilian talks #
@@ -2071,9 +2130,17 @@ dialogs = [
     [anyone|plyr, "village_elder_quest_purchase_surplus_goods_delivered_price",
         [
             (quest_get_slot, ":amount", "qst_village_purchase_surplus_goods", slot_quest_proposed_amount),
+            (eq, ":amount", -1),
+        ],
+        "I didn't secure a deal for the price, a caravan in heading here to trade.",
+        "village_elder_quest_purchase_surplus_goods_delivered_caravan", []],
+
+    [anyone|plyr, "village_elder_quest_purchase_surplus_goods_delivered_price",
+        [
+            (quest_get_slot, ":amount", "qst_village_purchase_surplus_goods", slot_quest_proposed_amount),
             (call_script, "script_game_get_money_text", ":amount"),
         ],
-        "The deal amounts to {s0} for the whole, a caravan will come to pick up the goods soon.",
+        "The deal amounts to {s0} for the whole, a trader will come to pick up the goods soon.",
         "village_elder_quest_purchase_surplus_goods_delivered_price_confirm", []],
 
     [anyone, "village_elder_quest_purchase_surplus_goods_delivered_price_confirm",
@@ -2094,6 +2161,21 @@ dialogs = [
             (quest_get_slot, ":amount", "qst_village_purchase_surplus_goods", slot_quest_proposed_amount),
             (val_div, ":amount", 10),
             (call_script, "script_party_receive_gold", "$g_player_party", ":amount"),
+        ]],
+
+    [anyone, "village_elder_quest_purchase_surplus_goods_delivered_caravan",
+        [
+            (call_script, "script_complete_quest", "qst_village_purchase_surplus_goods"),
+            (call_script, "script_troop_add_xp", "$g_player_troop", 150),
+            (call_script, "script_party_change_player_relation", "$g_encountered_party", 5),
+
+            (call_script, "script_troop_get_player_name", "$g_talk_troop", "$g_encountered_party"),
+        ],
+        "A whole caravan? {s60}, we are very grateful, we will begin preparations to receive this caravan.^We want to gift you a portion of the goods as thanks for your help.",
+        "village_elder_return",
+        [
+            (quest_get_slot, ":item", "qst_village_purchase_surplus_goods", slot_quest_object),
+            (troop_add_items, "$g_player_troop", ":item", 10),
         ]],
 
     [anyone|plyr, "village_elder_quest_purchase_surplus_goods",
