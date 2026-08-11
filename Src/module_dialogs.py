@@ -416,6 +416,14 @@ dialogs = [
         ], "{s0}", "caravan_player",
         []],
 
+    [anyone|plyr, "caravan_player",
+        [
+            (check_quest_active, "qst_village_purchase_surplus_goods"),
+            (neg|check_quest_succeeded, "qst_village_purchase_surplus_goods"),
+            (quest_get_slot, ":item", "qst_village_purchase_surplus_goods", slot_quest_object),
+            (str_store_item_name, s10, ":item"),
+        ], "Are you interested in items of {s10}?", "caravan_deliver_surplus_goods", []],
+
     [anyone|plyr, "caravan_player", [], "What goods are you trading ?", "caravan_trade", []],
 
     [anyone|plyr, "caravan_player", [(party_slot_eq, "$g_talk_party", slot_party_player_shakedown, 1),], "I've changed my mind, I'll take everything from you", "caravan_toll_attack", []],
@@ -467,6 +475,61 @@ dialogs = [
         (encounter_attack),
     ]],
     [anyone, "caravan_toll_back", [], "Fine then, did you have something else in mind ?", "caravan_player", []],
+
+    [anyone, "caravan_deliver_surplus_goods",
+        [
+            (assign, ":end", slot_party_mission_objective_3+1),
+            (quest_get_slot, ":item", "qst_village_purchase_surplus_goods", slot_quest_object),
+            (assign, ":continue", 0),
+            (try_for_range, ":slot", slot_party_mission_objective_1, ":end"),
+                (party_get_slot, ":objective", "$g_talk_party", ":slot"),
+                (eq, ":objective", ":item"),
+                (assign, ":continue", 1),
+                (assign, ":end", 0),
+            (try_end),
+            (eq, ":continue", 1),
+        ], "We are indeed looking for this item to trade, why do you ask?", "caravan_deliver_surplus_goods_interest", []],    
+
+    [anyone, "caravan_deliver_surplus_goods",
+        [], "We are not interested in this good", "caravan_return", []],
+
+    [anyone|plyr, "caravan_deliver_surplus_goods_interest",
+        [
+            (quest_get_slot, ":party_giver", "qst_village_purchase_surplus_goods", slot_quest_giver_party),
+            (str_store_party_name, s10, ":party_giver"),
+        ], "The village of {s10} is selling its surplus for a good price", "caravan_deliver_surplus_goods_accept", []],
+    [anyone|plyr, "caravan_deliver_surplus_goods_interest",
+        [], "Nevermind", "caravan_return", []],
+
+    [anyone, "caravan_deliver_surplus_goods_accept",
+        [], "A good price you say? We might make a detour to this village to see it for ourselves", "caravan_deliver_surplus_goods_end", []],
+    [anyone, "caravan_deliver_surplus_goods_end",
+        [], "If you get there before us please inform whomever is in charge that we will be heading there to buy the goods.", "caravan_return",
+        [
+            (quest_set_slot, "qst_village_purchase_surplus_goods", slot_quest_proposed_amount, -1),
+            (call_script, "script_succeed_quest", "qst_village_purchase_surplus_goods"),
+            (quest_set_slot, "qst_village_purchase_surplus_goods", slot_quest_outcome, outcome_quest_village_purchase_surplus_goods_caravan),
+
+            (party_get_slot, ":linked_center", "$g_encountered_party", slot_party_linked_party),
+            (quest_set_slot, "qst_village_purchase_surplus_goods", slot_quest_destination, ":linked_center"),
+
+            (quest_get_slot, ":origin_center", "qst_village_purchase_surplus_goods", slot_quest_giver_party),
+            (party_set_slot, "$g_talk_party", slot_party_mission_target_1, ":origin_center"),
+            (party_set_slot, "$g_talk_party", slot_party_mission_target_2, -1),
+            (party_set_slot, "$g_talk_party", slot_party_mission_target_3, -1),
+
+            (party_set_slot, "$g_talk_party", slot_party_mission, spm_trade),
+            (party_set_slot, "$g_talk_party", slot_party_mission_object, ":origin_center"),
+            (call_script, "script_party_set_behavior", "$g_talk_party", tai_traveling_to_party, ":origin_center"),
+
+            (str_store_party_name, s10, ":origin_center"),
+            (str_store_party_name, s11, "$g_encountered_party"),
+            (str_store_string, s0, "@You managed reroute a caravan in need of goods to the village of {s10}. Return to the village elder to inform him of your actions."),
+            (call_script, "script_quest_add_note", "qst_village_purchase_surplus_goods", 0),
+        ]],
+
+    [anyone, "caravan_return",
+        [(call_script, "script_troop_get_player_name", "$g_talk_troop", "$g_talk_party"),], "Anything else {s60}", "caravan_player", []],
 
     ##################
     # Civilian talks #
@@ -2070,10 +2133,18 @@ dialogs = [
 
     [anyone|plyr, "village_elder_quest_purchase_surplus_goods_delivered_price",
         [
+            (quest_get_slot, ":outcome", "qst_village_purchase_surplus_goods", slot_quest_outcome),
+            (eq, ":outcome", outcome_quest_village_purchase_surplus_goods_caravan),
+        ],
+        "I didn't secure a deal for the price, a caravan in heading here to trade.",
+        "village_elder_quest_purchase_surplus_goods_delivered_caravan", []],
+
+    [anyone|plyr, "village_elder_quest_purchase_surplus_goods_delivered_price",
+        [
             (quest_get_slot, ":amount", "qst_village_purchase_surplus_goods", slot_quest_proposed_amount),
             (call_script, "script_game_get_money_text", ":amount"),
         ],
-        "The deal amounts to {s0} for the whole, a caravan will come to pick up the goods soon.",
+        "The deal amounts to {s0} for the whole, a trader will come to pick up the goods soon.",
         "village_elder_quest_purchase_surplus_goods_delivered_price_confirm", []],
 
     [anyone, "village_elder_quest_purchase_surplus_goods_delivered_price_confirm",
@@ -2082,7 +2153,18 @@ dialogs = [
 
             (call_script, "script_complete_quest", "qst_village_purchase_surplus_goods"),
             (call_script, "script_troop_add_xp", "$g_player_troop", 150),
-            (call_script, "script_party_change_player_relation", "$g_encountered_party", 3),
+
+            (quest_get_slot, ":outcome", "qst_village_purchase_surplus_goods", slot_quest_outcome),
+            (quest_get_slot, ":linked_city", "qst_village_purchase_surplus_goods", slot_quest_destination),
+            (try_begin),
+                (eq, ":outcome", outcome_quest_village_purchase_surplus_goods_high),
+                (call_script, "script_party_change_player_relation", "$g_encountered_party", 4),
+                (call_script, "script_party_change_player_relation", ":linked_city", 1),
+            (else_try),
+                (eq, ":outcome", outcome_quest_village_purchase_surplus_goods_default),
+                (call_script, "script_party_change_player_relation", "$g_encountered_party", 3),
+                (call_script, "script_party_change_player_relation", ":linked_city", 2),
+            (try_end),
 
             (call_script, "script_troop_get_player_name", "$g_talk_troop", "$g_encountered_party"),
             (val_div, ":amount", 10),
@@ -2094,6 +2176,23 @@ dialogs = [
             (quest_get_slot, ":amount", "qst_village_purchase_surplus_goods", slot_quest_proposed_amount),
             (val_div, ":amount", 10),
             (call_script, "script_party_receive_gold", "$g_player_party", ":amount"),
+        ]],
+
+    [anyone, "village_elder_quest_purchase_surplus_goods_delivered_caravan",
+        [
+            (call_script, "script_complete_quest", "qst_village_purchase_surplus_goods"),
+            (call_script, "script_troop_add_xp", "$g_player_troop", 150),
+            (call_script, "script_party_change_player_relation", "$g_encountered_party", 4),
+            (quest_get_slot, ":linked_city", "qst_village_purchase_surplus_goods", slot_quest_destination),
+            (call_script, "script_party_change_player_relation", ":linked_city", 2),
+
+            (call_script, "script_troop_get_player_name", "$g_talk_troop", "$g_encountered_party"),
+        ],
+        "A whole caravan? {s60}, we are very grateful, we will begin preparations to receive this caravan.^We want to gift you a portion of the goods as thanks for your help.",
+        "village_elder_return",
+        [
+            (quest_get_slot, ":item", "qst_village_purchase_surplus_goods", slot_quest_object),
+            (troop_add_items, "$g_player_troop", ":item", 10),
         ]],
 
     [anyone|plyr, "village_elder_quest_purchase_surplus_goods",
@@ -2348,6 +2447,9 @@ dialogs = [
         [
             (call_script, "script_succeed_quest", "qst_village_purchase_surplus_goods"),
 
+            (quest_set_slot, "qst_village_purchase_surplus_goods", slot_quest_outcome, outcome_quest_village_purchase_surplus_goods_default),
+            (quest_set_slot, "qst_village_purchase_surplus_goods", slot_quest_destination, "$g_encountered_party"),
+
             (quest_get_slot, ":origin_center", "qst_village_purchase_surplus_goods", slot_quest_giver_party),
             (str_store_party_name, s10, ":origin_center"),
             (str_store_party_name, s11, "$g_encountered_party"),
@@ -2362,6 +2464,9 @@ dialogs = [
         ], "I guess it would be acceptable, please tell the elder of {s11} that they will soon receive a caravan to pick up the goods", "town_guildmaster_return",
         [
             (call_script, "script_succeed_quest", "qst_village_purchase_surplus_goods"),
+
+            (quest_set_slot, "qst_village_purchase_surplus_goods", slot_quest_outcome, outcome_quest_village_purchase_surplus_goods_high),
+            (quest_set_slot, "qst_village_purchase_surplus_goods", slot_quest_destination, "$g_encountered_party"),
 
             (quest_get_slot, ":origin_center", "qst_village_purchase_surplus_goods", slot_quest_giver_party),
             (str_store_party_name, s10, ":origin_center"),
@@ -2433,6 +2538,24 @@ dialogs = [
         ], "Ah {s60}, I was waiting for your arrival. My messenger has delivered the offer then?", "player_lord_offer_vassal", []],
     
     [anyone, "start", 
+        [   # Lord gathering quest
+            (is_between, "$g_talk_troop", lords_begin, lords_end),
+            (troop_slot_eq, "$g_talk_troop", slot_troop_kingdom_occupation, tko_kingdom_hero),
+
+            (check_quest_active, "qst_lord_gather_vassals"),
+            (quest_slot_eq, "qst_lord_gather_vassals", slot_quest_giver_troop, "$g_talk_troop"),
+            (neg|check_quest_succeeded, "qst_lord_gather_vassals"),
+
+            (call_script, "script_troop_get_player_name", "$g_talk_troop", "$g_talk_party"),
+
+        ], "{s60}, I trust you received my message, are you ready to join my campaign?", "player_lord_gathering",
+        [
+            (call_script, "script_get_current_day"),
+            (assign, ":date", reg0),
+            (troop_set_slot, "$g_talk_troop", slot_troop_last_met, ":date"),
+        ]],
+
+    [anyone, "start", 
         [
             (is_between, "$g_talk_troop", lords_begin, lords_end),
             (troop_slot_eq, "$g_talk_troop", slot_troop_kingdom_occupation, tko_kingdom_hero),
@@ -2474,6 +2597,39 @@ dialogs = [
             (eq, "$g_talk_troop", "trp_ransom_broker"),
             (call_script, "script_troop_get_player_name", "$g_talk_troop", "$g_talk_party"),
         ], "Welcome {s60}, do you require my services?", "ransom_broker", []],
+
+    [anyone|plyr, "player_lord_gathering",
+        [], "I am ready to join you", "player_lord_gathering_ready", []],
+    [anyone|plyr, "player_lord_gathering",
+        [], "I need more time to prepare", "player_lord_gathering_time", []],
+
+    [anyone, "player_lord_gathering_ready",
+        [
+            (call_script, "script_player_get_expected_party_wage"),
+            (assign, ":expected", reg0),
+            (call_script, "script_party_get_wages", "$g_player_party"),
+            (assign, ":wages", reg0),
+            (lt, ":expected", ":wages"),
+        ], "I was expecting more men from you but it will have to do", "player_lord_gathering_confirm", []],
+    [anyone, "player_lord_gathering_ready",
+        [
+            (call_script, "script_troop_change_relation_with_troop", "$g_talk_troop", "$g_player_troop", 1),
+        ], "Good, I trust your men are prepared aswell", "player_lord_gathering_confirm", []],
+    [anyone, "player_lord_gathering_time",
+        [
+            (call_script, "script_troop_get_player_name", "$g_talk_troop", "$g_talk_party"),
+        ], "We are pressed by time {s60}, we are leaving soon", "player_lord_greeting_after", []],
+
+    [anyone, "player_lord_gathering_confirm",
+        [
+            (str_store_troop_name, s10, "$g_talk_troop"),
+            (str_store_string, s0, "@You have met with {s10}, he instructed you to keep supporting him until further instructions."),
+            (call_script, "script_quest_add_note", "qst_lord_gather_vassals", 0),
+
+            (call_script, "script_troop_change_relation_with_troop", "$g_talk_troop", "$g_player_troop", 1),
+            
+            (call_script, "script_succeed_quest", "qst_lord_gather_vassals"),
+        ], "Keep close to me, I may have tasks for you along the way", "lord_main_return", []],
     
     [anyone|plyr, "player_lord_greeting",
         [], "My name is {playername}, the pleasure is shared.", "player_lord_greeting_after", []],
@@ -2492,7 +2648,7 @@ dialogs = [
         [], "Right then, ", "player_lord_greeting_after", []],
     
     [anyone, "player_lord_greeting_after",
-        [], "Now... What do you need?", "player_lord_main", []],
+        [], "Now... Did you need something?", "player_lord_main", []],
     
     [anyone|plyr, "player_lord_greeting_attacked",
         [], "My name is of no matter to you, now send your dogs so that I can kill them.", "close_window", []],
@@ -2502,7 +2658,7 @@ dialogs = [
         [], "I am {playername} and I demand to settle this with a duel.", "duel_request", []],
 
     [anyone, "lord_main_return",
-        [], "Anything else ?", "player_lord_main", []],
+        [], "Anything else?", "player_lord_main", []],
     
     # Main lord talk (player)
     [anyone|plyr, "player_lord_main",
@@ -2710,6 +2866,7 @@ dialogs = [
             (troop_get_slot, ":vassal_of", "$g_talk_troop", slot_troop_vassal_of),
             (try_begin),
                 (ge, ":vassal_of", 0),
+                (neq, ":vassal_of", "$g_talk_troop"),
                 (str_store_string, s10, "@I feel like breaking my current oath with {s11} requires proper consideration."),
             (else_try),
                 (str_store_string, s10, "@Swearing an oath is a serious matter that requires proper consideration."),
@@ -2847,6 +3004,21 @@ dialogs = [
         ], "If you are not with me, you are against me.", "lord_become_vassal_persuasion_answer_loop",
         [
             (call_script, "script_troop_become_vassal_threaten", "$g_talk_troop"),
+        ]],
+    [anyone|plyr, "lord_become_vassal_persuasion_player_loop",
+        [
+            (troop_get_slot, ":player_clan", "$g_player_troop", slot_troop_clan),
+            (is_between, ":player_clan", clans_begin, clans_end),
+            (assign, ":continue", 1),
+            (try_for_range, ":slot", slot_quest_proposition_begin, slot_quest_proposition_end),
+                (quest_get_slot, ":proposition", "qst_persuade_lord_vassalage", ":slot"),
+                (eq, ":proposition", event_type_proposed_clan),
+                (assign, ":continue", 0),
+            (try_end),
+            (eq, ":continue", 1),
+        ], "I would accept you into my clan.", "lord_become_vassal_persuasion_answer_loop",
+        [
+            (call_script, "script_troop_become_vassal_clan", "$g_talk_troop"),
         ]],
     [anyone|plyr, "lord_become_vassal_persuasion_player_loop",
         [], "Let's leave it at that.", "lord_become_vassal_persuasion_answer_loop",
@@ -3540,31 +3712,7 @@ dialogs = [
     [anyone, "hero_join_accept", [],
         "I'm at your service", "close_window",
         [
-            (troop_set_slot, "$g_talk_troop", slot_troop_kingdom_occupation, tko_follower),
-
-            (troop_get_slot, ":leader_party", "$g_talk_troop", slot_troop_leaded_party),
-            (try_begin),
-                (gt, ":leader_party", 0),
-                (party_is_active, ":leader_party"),
-                (party_get_num_prisoner_stacks, ":num_stacks", ":leader_party"),
-                (try_for_range, ":stack_no", 0, ":num_stacks"),
-                    (party_prisoner_stack_get_size, ":size", ":leader_party", ":stack_no"),
-                    (party_prisoner_stack_get_troop_id, ":troop", ":leader_party", ":stack_no"),
-                    (party_force_add_prisoners, "$g_player_party", ":troop", ":size"),
-                (try_end),
-                (party_get_num_companion_stacks, ":num_stacks", ":leader_party"),
-                (try_for_range, ":stack_no", 0, ":num_stacks"),
-                    (party_stack_get_size, ":size", ":leader_party", ":stack_no"),
-                    (party_stack_get_troop_id, ":troop", ":leader_party", ":stack_no"),
-                    (party_force_add_members, "$g_player_party", ":troop", ":size"),
-                (try_end),
-                (party_clear, ":leader_party"),
-                (remove_party, ":leader_party"),
-            (else_try),
-                (party_force_add_members, "$g_player_party", "$g_talk_troop", 1),
-            (try_end),
-            (troop_equip_items, "$g_talk_troop"),
-            (troop_set_auto_equip, "$g_talk_troop", 0),
+            (call_script, "script_troop_become_companion", "$g_talk_troop", "$g_player_troop"),
             (change_screen_return),
         ]],
     [anyone, "hero_join_refuse", [],
@@ -3765,16 +3913,39 @@ dialogs = [
             (call_script, "script_troop_change_relation_with_troop", "$g_talk_troop", "$g_player_troop", 3),
         ]],
 
+    [anyone, "start",
+        [
+            (troop_slot_eq, "$g_talk_troop", slot_troop_kingdom_occupation, tko_follower),
+            (troop_slot_eq, "$g_talk_troop", slot_troop_companion_of, "$g_player_troop"),
+            (assign, ":found", 0),
+            (party_get_num_companion_stacks, ":num_stacks", "$g_player_party"),
+            (try_for_range, ":cur_stack", 0, ":num_stacks"),
+                (party_stack_get_troop_id, ":troop_no", "$g_player_party", ":cur_stack"),
+                (eq, ":troop_no", "$g_talk_troop"),
+                (assign, ":found", 1),
+                (assign, ":num_stacks", 0),
+            (try_end),
+            (eq, ":found", 0),
+            (call_script, "script_troop_get_player_name", "$g_talk_troop"),
+        ], "{s60} I have found you again, should I join your party?", "companion_rejoin", []],
+
+    [anyone|plyr, "companion_rejoin",
+        [], "I would be glad to have you back", "close_window",
+        [
+            (party_add_members, "$g_player_party", "$g_talk_troop", 1),
+            (leave_encounter),
+        ]],
+
 
     #################
     # Error dialogs #
     #################
     [anyone, "start",
-        [], "Hello there traveller! [WARNING: MISSING DIALOG]", "error_dialog", []],
+        [], "Hello there traveller! [WARNING: MISSING START DIALOG]", "error_dialog", []],
     
     [anyone, "event_triggered",
-        [], "Hello there traveller! [WARNING: MISSING DIALOG]", "error_dialog", []],
+        [], "Hello there traveller! [WARNING: MISSING EVENT DIALOG]", "error_dialog", []],
 
-    [anyone|plyr, "error_dialog", [], "Dialog Error. No dialog found.", "close_window", []],
+    [anyone|plyr, "error_dialog", [], "Dialog Error. No dialog found.", "close_window", [(leave_encounter),]],
 
 ]

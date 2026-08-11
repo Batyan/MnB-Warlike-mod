@@ -500,6 +500,7 @@ event_type_promised_glory = 8
 event_type_promised_vassals = 9
 event_type_promised_threat = 10
 event_type_promised_right_to_rule = 11
+event_type_proposed_clan = 12
 
 event_value_proposed_vassalage = 100
 
@@ -1092,6 +1093,8 @@ spt_fort        = 17
 
 spt_camp        = 18
 
+spt_garrison    = 19
+
 slot_party_leader           = slot_party_type + 1
 slot_party_lord             = slot_party_leader
 
@@ -1281,6 +1284,7 @@ slot_party_budget_bank_investments = slot_party_budget_building_maintenance + 1
 slot_party_budget_mercenary_contract = slot_party_budget_bank_investments + 1
 slot_party_budget_mercenary_contract_pay = slot_party_budget_mercenary_contract + 1
 slot_party_budget_banditry = slot_party_budget_mercenary_contract_pay + 1
+slot_party_budget_corruption = slot_party_budget_banditry + 1
 
 tax_type_none = -1
 tax_type_population = 0
@@ -1319,6 +1323,7 @@ tax_type_bank_investments = 32
 tax_type_mercenary_contract = 33
 tax_type_mercenary_contract_pay = 34
 tax_type_banditry = 35
+tax_type_corruption = 36
 
 slot_party_buget_taxes_begin = slot_party_budget_taxes
 slot_party_buget_taxes_end = slot_party_budget_banditry + 1
@@ -1373,6 +1378,8 @@ autosort_level_flag = 0x0F
 autosort_culture_flag = 0xF0
 autosort_level_clearer = 0xF0
 autosort_culture_clearer = 0x0F
+
+autosort_default = autosort_low_level_first|autosort_foreign_first
 
 slot_party_reserved = slot_party_autosort_options + 1
 
@@ -1518,11 +1525,15 @@ slot_party_last_tournament_date = slot_party_next_tournament_date + 1
 
 min_tournament_cooldown = 365
 
-slot_party_camp_influence = slot_party_last_tournament_date + 1
+slot_party_last_owner_visit = slot_party_last_tournament_date + 1
+
+slot_party_camp_influence = slot_party_last_owner_visit + 1
 
 slot_party_mercenaries_amount = slot_party_camp_influence + 1
 
-slot_party_current_behavior = slot_party_mercenaries_amount + 1
+slot_party_corruption = slot_party_mercenaries_amount + 1
+
+slot_party_current_behavior = slot_party_corruption + 1
 
 party_behavior_current_bonus = 20
 party_behavior_variance = 25
@@ -1644,10 +1655,13 @@ tko_bandit = 3
 tko_neutral_hero = 4 # wandering party and potential mercenary
 tko_wanderer = 5 # tavern companion that sometimes travel
 tko_follower = 6
-tko_reserved = 7
-tko_reserved_quest = 8
+tko_kingdom_court = 7 # hero without a party staying inside overlord court
+tko_reserved = 8
+tko_reserved_quest = 9
 
-slot_troop_personality              = slot_troop_kingdom_occupation + 1
+slot_troop_kingdom_occupation_target       = slot_troop_kingdom_occupation + 1
+
+slot_troop_personality              = slot_troop_kingdom_occupation_target + 1
 tp_default = 0x0000
 
 tp_mercyfull = 0x0001
@@ -1835,7 +1849,9 @@ slot_troop_proficiency_points = slot_troop_skill_points + 1
 
 slot_troop_birth_date = slot_troop_proficiency_points + 1
 
-slot_troop_relations_begin = slot_troop_birth_date + 1
+slot_troop_npc_archetype = slot_troop_birth_date + 1
+
+slot_troop_relations_begin = slot_troop_npc_archetype + 1
 
 # TODO: remove or move to specific slot type
 slot_item_mission_kills = 400
@@ -1983,6 +1999,10 @@ slot_quest_note_index = slot_quest_given_on + 1
 slot_quest_reward = slot_quest_note_index + 1
 
 slot_quest_outcome = slot_quest_reward + 1
+
+outcome_quest_village_purchase_surplus_goods_default = 1
+outcome_quest_village_purchase_surplus_goods_high = 2
+outcome_quest_village_purchase_surplus_goods_caravan = 3
 
 last_generic_quest_slot = slot_quest_outcome + 1
 

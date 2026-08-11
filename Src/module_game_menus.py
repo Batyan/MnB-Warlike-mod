@@ -1351,7 +1351,7 @@ game_menus = [
                 ]),
             ("join_accept", [], "Join",
                 [
-                    (call_script, "script_troop_use_template_troop", "$g_player_troop", "$g_test_player_troop"),
+                    (call_script, "script_troop_use_template_troop", "$g_player_troop", "$g_test_player_troop", 1),
                     (party_set_faction, "$g_player_party", "$g_test_player_faction"),
                     (try_for_range, ":unused", 0, 10),
                         (call_script, "script_party_add_reinforcements", "$g_player_party"),
@@ -1656,6 +1656,13 @@ game_menus = [
                         (eq, "$g_encountered_party", ":destination"),
                         (call_script, "script_troop_add_xp", "$g_player_troop", 50),
                         (call_script, "script_complete_quest", "qst_visit_center_new_owner"),
+                    (try_end),
+
+                    (try_begin),
+                        (party_slot_eq, "$g_encountered_party", slot_party_lord, "$g_player_troop"),
+                        (call_script, "script_get_current_day"),
+                        (assign, ":current_day", reg0),
+                        (party_set_slot, "$g_encountered_party", slot_party_last_owner_visit, ":current_day"),
                     (try_end),
 
                     (try_begin),
@@ -4156,6 +4163,45 @@ game_menus = [
                     (call_script, "script_quest_add_note", "qst_introduction_default_search_1", 0),
 
                     (call_script, "script_succeed_quest", "qst_introduction_default_search_1"),
+                    (change_screen_return),
+                ]),
+        ]),
+
+    ("lord_summon_player", mnf_scale_picture,
+        "A messenger arrives bearing news.^^{s10} asks that you join him in his campaign.{s11} will soon depart from his current position to engage the enemy.",
+        "none",
+        [
+            (set_background_mesh, "mesh_pic_messenger"),
+            (quest_get_slot, ":giver", "qst_lord_gather_vassals", slot_quest_giver_troop),
+
+            (call_script, "script_troop_get_nearest_center", ":giver"),
+            (assign, ":center", reg0),
+            (try_begin),
+                (is_between, ":center", centers_begin, centers_end),
+                (str_store_party_name, s12, ":center"),
+                (str_store_string, s11, "@He informs you that he is currently gathered near {s12} and"),
+            (else_try),
+                (str_store_string, s11, "@He"),
+            (try_end),
+
+            (str_store_troop_name, s10, ":giver"),
+        ],
+        [
+            ("continue",[],"Continue",
+                [
+                    (change_screen_return),
+                ]),
+        ]),
+
+    ("encounter_talk", mnf_scale_picture,
+        "Encounter talk.",
+        "none",
+        [
+            (call_script, "script_setup_troop_meeting", "$temp", -1),
+        ],
+        [
+            ("continue",[],"Continue",
+                [
                     (change_screen_return),
                 ]),
         ]),

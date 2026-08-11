@@ -40,6 +40,7 @@ party_templates = [
 	
 	("reinforcements", "Reinforcements", icon_axeman|carries_goods(8), 0, fac_commoners, convoy_personality, []),
 	("convoy", "Convoy", icon_mule|carries_goods(20), 0, fac_commoners, convoy_personality, []),
+	("garrison", "Mercenary Garrison", icon_vaegir_knight|carries_goods(20), 0, fac_commoners, 0, []),
 	
 	("outlaws_forest", "Forest Bandits", icon_axeman|carries_goods(18), 0, fac_commoners, bandit_personality, []),
 	("outlaws_bandits", "Bandits", icon_axeman|carries_goods(18), 0, fac_commoners, bandit_personality, []),

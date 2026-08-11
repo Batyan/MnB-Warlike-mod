@@ -521,6 +521,8 @@ strings = [
   ("building_trading_post_2",   "The improved trading post increases profits from trade by 10% and gives caravans a big escort."),
   ("building_bank",             "The bank gives the capability for citizens to ^lend their money for safekeeping and ^investment.^^Add a special income from bank taxes.^Increase fame by 5^Increase growth by 5^Add the bank features in town."),
   ("building_mason_guild_3",    "Further improves the mason's guild. ^^Increases construction slots by 1.^Decreases building cost by 10%"),
+  ("building_mercenary_guild",    "Creates a guild for mercenaries to gather. ^^Increases maximum amount of mercenaries by 10%.^Increases quality of mercenaries by 50%"),
+  ("building_mercenary_guild_2",    "Improves the mercenary guild. ^^Increases maximum amount of mercenaries by 15%.^Increases quality of mercenaries by 50%"),
 
   ("item_taxes_sell", "Town selling taxes: {reg10}%"),
   ("item_taxes_buy", "Town buying taxes: {reg10}%"),
@@ -864,6 +866,8 @@ strings = [
   ("quest_description_persuade_lord_vassalage", "Persuade a lord to become your vassal."),
   
   ("quest_description_visit_center_new_owner", "As the newly appointed owner of {s59} you should head to the center to make yourself known and arrange the details of your fiefdom."),
+  
+  ("quest_description_lord_gather_vassals", "{s58} is gathering vassals for his campaign and asks that you join him."),
 
   ("quest_description_village_deliver_grain", "The elder of the village of {s58} asked you to procure 10 items of grain."),
   ("quest_description_village_deliver_rare_good", " "),
@@ -909,6 +913,7 @@ strings = [
   ("party_tax_description_mercenary_contract", "Mercenary contract"),
   ("party_tax_description_mercenary_contract_pay", "Mercenary payments"),
   ("party_tax_description_banditry", "Banditry"),
+  ("party_tax_description_corruption", "Corruption"),
 
   ("castle_name_plain_01", "plain_01"),
   ("castle_name_plain_02", "plain_02"),
