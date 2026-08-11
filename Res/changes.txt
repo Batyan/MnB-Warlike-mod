@@ -12,6 +12,8 @@ v0.730:
 		* improve companion archetypes
 		* banditry is now influenced by trade taxes instead of regular taxes
 		* clan leaders will bring their whole clan if switching side
+		* add trade with caravan option to quest village purchase surplus good
+		* improve outcome for quest village purchase surplus good
 	-Fixes:
 		* fix party skills cumulating with each companion
 		* reduce assign lord presentation cards text size
