@@ -2000,6 +2000,10 @@ slot_quest_reward = slot_quest_note_index + 1
 
 slot_quest_outcome = slot_quest_reward + 1
 
+outcome_quest_village_purchase_surplus_goods_default = 1
+outcome_quest_village_purchase_surplus_goods_high = 2
+outcome_quest_village_purchase_surplus_goods_caravan = 3
+
 last_generic_quest_slot = slot_quest_outcome + 1
 
 # qst_persuade_lord_vassalage

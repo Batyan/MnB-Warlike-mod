@@ -508,6 +508,10 @@ dialogs = [
         [
             (quest_set_slot, "qst_village_purchase_surplus_goods", slot_quest_proposed_amount, -1),
             (call_script, "script_succeed_quest", "qst_village_purchase_surplus_goods"),
+            (quest_set_slot, "qst_village_purchase_surplus_goods", slot_quest_outcome, outcome_quest_village_purchase_surplus_goods_caravan),
+
+            (party_get_slot, ":linked_center", "$g_encountered_party", slot_party_linked_party),
+            (quest_set_slot, "qst_village_purchase_surplus_goods", slot_quest_destination, ":linked_center"),
 
             (quest_get_slot, ":origin_center", "qst_village_purchase_surplus_goods", slot_quest_giver_party),
             (party_set_slot, "$g_talk_party", slot_party_mission_target_1, ":origin_center"),
@@ -2129,8 +2133,8 @@ dialogs = [
 
     [anyone|plyr, "village_elder_quest_purchase_surplus_goods_delivered_price",
         [
-            (quest_get_slot, ":amount", "qst_village_purchase_surplus_goods", slot_quest_proposed_amount),
-            (eq, ":amount", -1),
+            (quest_get_slot, ":outcome", "qst_village_purchase_surplus_goods", slot_quest_outcome),
+            (eq, ":outcome", outcome_quest_village_purchase_surplus_goods_caravan),
         ],
         "I didn't secure a deal for the price, a caravan in heading here to trade.",
         "village_elder_quest_purchase_surplus_goods_delivered_caravan", []],
@@ -2149,7 +2153,18 @@ dialogs = [
 
             (call_script, "script_complete_quest", "qst_village_purchase_surplus_goods"),
             (call_script, "script_troop_add_xp", "$g_player_troop", 150),
-            (call_script, "script_party_change_player_relation", "$g_encountered_party", 3),
+
+            (quest_get_slot, ":outcome", "qst_village_purchase_surplus_goods", slot_quest_outcome),
+            (quest_get_slot, ":linked_city", "qst_village_purchase_surplus_goods", slot_quest_destination),
+            (try_begin),
+                (eq, ":outcome", outcome_quest_village_purchase_surplus_goods_high),
+                (call_script, "script_party_change_player_relation", "$g_encountered_party", 4),
+                (call_script, "script_party_change_player_relation", ":linked_city", 1),
+            (else_try),
+                (eq, ":outcome", outcome_quest_village_purchase_surplus_goods_default),
+                (call_script, "script_party_change_player_relation", "$g_encountered_party", 3),
+                (call_script, "script_party_change_player_relation", ":linked_city", 2),
+            (try_end),
 
             (call_script, "script_troop_get_player_name", "$g_talk_troop", "$g_encountered_party"),
             (val_div, ":amount", 10),
@@ -2167,7 +2182,9 @@ dialogs = [
         [
             (call_script, "script_complete_quest", "qst_village_purchase_surplus_goods"),
             (call_script, "script_troop_add_xp", "$g_player_troop", 150),
-            (call_script, "script_party_change_player_relation", "$g_encountered_party", 5),
+            (call_script, "script_party_change_player_relation", "$g_encountered_party", 4),
+            (quest_get_slot, ":linked_city", "qst_village_purchase_surplus_goods", slot_quest_destination),
+            (call_script, "script_party_change_player_relation", ":linked_city", 2),
 
             (call_script, "script_troop_get_player_name", "$g_talk_troop", "$g_encountered_party"),
         ],
@@ -2430,6 +2447,9 @@ dialogs = [
         [
             (call_script, "script_succeed_quest", "qst_village_purchase_surplus_goods"),
 
+            (quest_set_slot, "qst_village_purchase_surplus_goods", slot_quest_outcome, outcome_quest_village_purchase_surplus_goods_default),
+            (quest_set_slot, "qst_village_purchase_surplus_goods", slot_quest_destination, "$g_encountered_party"),
+
             (quest_get_slot, ":origin_center", "qst_village_purchase_surplus_goods", slot_quest_giver_party),
             (str_store_party_name, s10, ":origin_center"),
             (str_store_party_name, s11, "$g_encountered_party"),
@@ -2444,6 +2464,9 @@ dialogs = [
         ], "I guess it would be acceptable, please tell the elder of {s11} that they will soon receive a caravan to pick up the goods", "town_guildmaster_return",
         [
             (call_script, "script_succeed_quest", "qst_village_purchase_surplus_goods"),
+
+            (quest_set_slot, "qst_village_purchase_surplus_goods", slot_quest_outcome, outcome_quest_village_purchase_surplus_goods_high),
+            (quest_set_slot, "qst_village_purchase_surplus_goods", slot_quest_destination, "$g_encountered_party"),
 
             (quest_get_slot, ":origin_center", "qst_village_purchase_surplus_goods", slot_quest_giver_party),
             (str_store_party_name, s10, ":origin_center"),
