@@ -563,18 +563,6 @@ court_movement_cost = 50000
 
 bank_max_interests_base = 3000000
 
-ta_normal = 0
-ta_cordial = 1
-ta_submissive = 2
-ta_arrogant = 3
-ta_defiant = 4
-ta_formal = 5
-ta_friendly = 6
-ta_aggressive = 7
-ta_threatening = 8
-ta_loving = 9
-ta_caring = 10
-
 level_xp_multiplier = 45
 level_xp_base = 30
 level_xp_multiplier_sqrt = 3000
@@ -1851,7 +1839,18 @@ slot_troop_birth_date = slot_troop_proficiency_points + 1
 
 slot_troop_npc_archetype = slot_troop_birth_date + 1
 
-slot_troop_relations_begin = slot_troop_npc_archetype + 1
+slot_troop_attitude = slot_troop_npc_archetype + 1
+
+ta_default = 0
+ta_prudent = 1
+ta_aggressive = 2
+ta_passive = 3
+ta_proactive = 4
+
+# Multiplier to prevent troop from changing attitude
+troop_attitude_resistance_factor = 50
+
+slot_troop_relations_begin = slot_troop_attitude + 1
 
 # TODO: remove or move to specific slot type
 slot_item_mission_kills = 400

@@ -14047,6 +14047,7 @@ scripts = [
             (troop_set_slot, ":lord_no", slot_troop_mercenary_contract_leader, -1),
             (troop_set_slot, ":lord_no", slot_troop_home, -1),
             (troop_set_slot, ":lord_no", slot_troop_mercenary_old_occupation, -1),
+            (troop_set_slot, ":lord_no", slot_troop_attitude, ta_default),
 
             # Reset family
             (try_for_range, ":slot", slot_troop_married_to, slot_troop_child_10+1),
@@ -14190,7 +14191,6 @@ scripts = [
                 (call_script, "script_troop_apply_npc_equipment_archetype", ":troop_no", ":archetype", ":occupation"),
             (try_end),
 
-
             (call_script, "script_troop_set_name", ":troop_no"),
             (call_script, "script_troop_update_name", ":troop_no"),
 
@@ -14224,6 +14224,8 @@ scripts = [
                 (val_div, ":renown", 10),
             (try_end),
             (call_script, "script_troop_change_renown", ":troop_no", ":renown"),
+
+            (call_script, "script_troop_update_attitude", ":troop_no"),
 
             (try_begin),
                 (eq, ":occupation", tko_kingdom_hero),
@@ -32677,9 +32679,9 @@ scripts = [
         #   reg0: attitude (ta_*)
     ("troop_get_player_attitude",
         [
-            # (store_script_param, ":troop_no", 1),
+            (store_script_param, ":troop_no", 1),
 
-            (assign, reg0, ta_normal),
+            (troop_get_slot, reg0, ":troop_no", slot_troop_attitude),
         ]),
 
     # script_cf_lord_knows_player
@@ -37461,5 +37463,22 @@ scripts = [
             (try_end),
             (troop_equip_items, ":troop_no"),
             (troop_set_auto_equip, ":troop_no", 0),
+        ]),
+
+    # script_troop_update_attitude
+        # input:
+        #   arg1: troop_no
+        # output: none
+    ("troop_update_attitude",
+        [
+            (store_script_param, ":troop_no", 1),
+
+            (store_random_in_range, ":rand", 0, 100),
+            (try_begin),
+                (ge, ":rand", troop_attitude_resistance_factor),
+
+                (store_random_in_range, ":random_attribute", ta_default, ta_proactive + 1),
+                (troop_set_slot, ":troop_no", slot_troop_attitude, ":random_attribute"),
+            (try_end),
         ]),
 ] + scripts_presentation

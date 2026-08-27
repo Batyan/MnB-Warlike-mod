@@ -1,5 +1,6 @@
 v0.740:
 	-Features:
+		* add troops attitude to influence decisions
 	-Balances:
 	-Fixes:
 v0.730:

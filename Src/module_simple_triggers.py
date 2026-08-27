@@ -474,20 +474,26 @@ simple_triggers = [
         [
             (try_for_range, ":lord", lords_begin, lords_end),
                 (troop_get_slot, ":occupation", ":lord", slot_troop_kingdom_occupation),
-                (is_between, ":occupation", tko_kingdom_hero, tko_mercenary + 1),
-
-                (troop_get_slot, ":real_debt", ":lord", slot_troop_budget_debt),
-                (troop_get_slot, ":perceived_debt", ":lord", slot_troop_budget_perceived_debt),
-                (val_mul, ":perceived_debt", 9),
-                (val_add, ":perceived_debt", ":real_debt"),
-                (val_div, ":perceived_debt", 10),
-                (troop_set_slot, ":lord", slot_troop_budget_perceived_debt, ":perceived_debt"),
-
-                (call_script, "script_troop_process_ideal_party_wages", ":lord"),
-
                 (try_begin),
-                    (eq, ":occupation", tko_mercenary),
-                    (call_script, "script_apply_mercenary_contract", ":lord"),
+                    (is_between, ":occupation", tko_kingdom_hero, tko_mercenary + 1),
+
+                    (troop_get_slot, ":real_debt", ":lord", slot_troop_budget_debt),
+                    (troop_get_slot, ":perceived_debt", ":lord", slot_troop_budget_perceived_debt),
+                    (val_mul, ":perceived_debt", 9),
+                    (val_add, ":perceived_debt", ":real_debt"),
+                    (val_div, ":perceived_debt", 10),
+                    (troop_set_slot, ":lord", slot_troop_budget_perceived_debt, ":perceived_debt"),
+
+                    (call_script, "script_troop_process_ideal_party_wages", ":lord"),
+
+                    (try_begin),
+                        (eq, ":occupation", tko_mercenary),
+                        (call_script, "script_apply_mercenary_contract", ":lord"),
+                    (try_end),
+                (try_end),
+                (try_begin),
+                    (gt, ":occupation", tko_none),
+                    (call_script, "script_troop_update_attitude", ":lord"),
                 (try_end),
             (try_end),
             (try_for_range, ":center", centers_begin, centers_end),
