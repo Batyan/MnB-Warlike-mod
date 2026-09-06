@@ -456,8 +456,8 @@ faction_tax_rate_funds_min = 0
 faction_tax_rate_funds_base = 2
 faction_tax_rate_funds_max_peace = 25
 faction_tax_rate_funds_max_war = 10
-faction_tax_rate_member_base = 2
-faction_tax_rate_vassal_base = 5
+faction_tax_rate_member_base = 3
+faction_tax_rate_vassal_base = 7
 
 quests_begin = "qst_introduction_default"
 quests_end = "qst_quests_end"
@@ -1314,7 +1314,7 @@ tax_type_banditry = 35
 tax_type_corruption = 36
 
 slot_party_buget_taxes_begin = slot_party_budget_taxes
-slot_party_buget_taxes_end = slot_party_budget_banditry + 1
+slot_party_buget_taxes_end = slot_party_budget_corruption + 1
 
 slot_party_budget_reserved_party = slot_party_buget_taxes_end
 slot_party_budget_reserved_auxiliaries = slot_party_budget_reserved_party + 1
