@@ -691,9 +691,16 @@ script_troop_archetype_get_skill_goal = 689
 script_troop_archetype_get_proficiency_goal = 690
 script_troop_become_companion = 691
 script_troop_update_attitude = 692
-script_presentation_generate_select_lord_card = 693
-script_presentation_create_text_overlay = 694
-script_presentation_create_combo_button_overlay = 695
-script_presentation_create_check_box_overlay = 696
+script_faction_process_goal = 693
+script_faction_get_goal_weight = 694
+script_faction_get_goal_weight_recover = 695
+script_faction_get_goal_weight_expand = 696
+script_faction_get_goal_weight_secure = 697
+script_faction_get_goal_weight_bully = 698
+script_faction_get_goal_weight_develop = 699
+script_presentation_generate_select_lord_card = 700
+script_presentation_create_text_overlay = 701
+script_presentation_create_combo_button_overlay = 702
+script_presentation_create_check_box_overlay = 703
 
 

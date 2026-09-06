@@ -2190,7 +2190,7 @@ troops = [
   ["vaegir_militia", "Vaegir Militia", "Vaegir Militias", tf_guarantee_recruit_armor|tf_guarantee_ranged, no_scene, reserved, fac_small_kingdom_23,
    [itm_hatchet, itm_butchering_knife, itm_hunting_bow, itm_barbed_arrows,
     itm_nomad_boots, itm_hide_boots,
-    itm_leather_vest_herald, itm_linen_tunic_herald,
+    itm_linen_tunic_herald, itm_fur_coat,
     itm_vaegir_fur_cap, itm_leather_cap, itm_leather_warrior_cap,
     ],
    str_8|agi_8|int_6|cha_6|level(5), wpex(55,50,45,75,20,40), knows_common|knows_ironflesh_1|knows_power_strike_2|knows_power_draw_4|knows_athletics_3|knows_riding_2|knows_horse_archery_1, vaegir_face_young_1, vaegir_face_old_2 ],

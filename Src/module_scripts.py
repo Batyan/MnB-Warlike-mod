@@ -17737,6 +17737,13 @@ scripts = [
             (try_end),
 
             (try_begin),
+                # Kingdom goal
+
+                (call_script, "script_faction_process_goal", ":faction_no"),
+                
+            (try_end),
+
+            (try_begin),
                 (neg|faction_slot_eq, ":faction_no", slot_faction_status, sfst_disabled),
                 # Handle faction wealth
                 (call_script, "script_faction_process_wealth", ":faction_no"),
@@ -18874,7 +18881,7 @@ scripts = [
                     (gt, ":vassal", 0),
                     (faction_get_slot, ":vassal_type", ":faction_no", slot_faction_vassal_type),
 
-                    (store_and, ":is_sattrapy", ":vassal_type", sfvt_sattrapy),
+                    (store_and, ":is_sattrapy", ":vassal_type", sfvt_puppet),
                     (store_and, ":is_bulwark", ":vassal_type", sfvt_bulwark),
 
                     (try_begin),
@@ -21289,7 +21296,7 @@ scripts = [
                 (else_try),
                     (gt, ":vassal"),
                     
-                    (store_and, ":is_sattrapy", ":vassal_type", sfvt_sattrapy),
+                    (store_and, ":is_sattrapy", ":vassal_type", sfvt_puppet),
                     (gt, ":is_sattrapy", 0),
                     (assign, ":must_help", 1),
                 (else_try),
@@ -37492,5 +37499,207 @@ scripts = [
                 (store_random_in_range, ":random_attribute", ta_default, ta_proactive + 1),
                 (troop_set_slot, ":troop_no", slot_troop_attitude, ":random_attribute"),
             (try_end),
+        ]),
+
+    # script_faction_process_goal
+        # input:
+        #   arg1: faction_no
+        # output: none
+    ("faction_process_goal",
+        [
+            (store_script_param, ":faction_no", 1),
+
+
+            (assign, ":best_weight", 0),
+            (assign, ":best_goal", kg_none),
+            (try_for_range, ":goal", kg_recover, kg_develop + 1),
+                (call_script, "script_faction_get_goal_weight", ":faction_no", ":goal"),
+                (assign, ":weight", reg0),
+
+                (gt, ":weight", ":best_weight"),
+                (assign, ":best_goal", ":goal"),
+                (assign, ":best_weight", ":weight"),
+            (try_end),
+            (try_begin),
+                (try_begin),
+                    (call_script, "script_cf_debug", debug_simple),
+                    (faction_get_slot, ":current_goal", ":faction_no", slot_faction_kingdom_goal),
+                    (neq, ":current_goal", ":best_goal"),
+                    (str_store_faction_name, s10, ":faction_no"),
+                    (assign, reg10, ":best_goal"),
+                    (display_message, "@{s10} changing goal to {reg10}"),
+                (try_end),
+                (faction_set_slot, ":faction_no", slot_faction_kingdom_goal, ":best_goal"),
+            (try_end),
+        ]),
+
+    # script_faction_get_goal_weight
+        # input:
+        #   arg1: faction_no
+        # output: none
+    ("faction_get_goal_weight",
+        [
+            (store_script_param, ":faction_no", 1),
+            (store_script_param, ":goal", 2),
+
+            (assign, ":weight", 0),
+
+            (assign, ":action", -1),
+
+            (try_begin),
+                (eq, ":goal", kg_recover),
+                (assign, ":action", "script_faction_get_goal_weight_recover"),
+            (else_try),
+                (eq, ":goal", kg_expand),
+                (assign, ":action", "script_faction_get_goal_weight_expand"),
+            (else_try),
+                (eq, ":goal", kg_secure),
+                (assign, ":action", "script_faction_get_goal_weight_secure"),
+            (else_try),
+                (eq, ":goal", kg_bully),
+                (assign, ":action", "script_faction_get_goal_weight_bully"),
+            (else_try),
+                (eq, ":goal", kg_develop),
+                (assign, ":action", "script_faction_get_goal_weight_develop"),
+            (try_end),
+
+            (try_begin),
+                (neq, ":action", -1),
+                (call_script, ":action", ":faction_no"),
+                (assign, ":weight", reg0),
+                (val_clamp, ":weight", 0, 100),
+
+                (store_random_in_range, ":rand", 0, faction_goal_variance),
+                (val_add, ":weight", ":rand"),
+
+                (faction_get_slot, ":current_goal", ":faction_no", slot_faction_kingdom_goal),
+                (try_begin),
+                    (eq, ":current_goal", ":goal"),
+                    (val_add, ":weight", faction_goal_current_bonus),
+                (try_end),
+            (try_end),
+
+            (assign, reg0, ":weight"),
+        ]),
+
+    # script_faction_get_goal_weight_recover
+        # input:
+        #   arg1: faction_no
+        # output:
+        #   reg0: weight
+    ("faction_get_goal_weight_recover",
+        [
+            (store_script_param, ":faction_no", 1),
+
+            (assign, ":weight", 0),
+
+            (call_script, "script_faction_get_war_damage_penalty_score", ":faction_no"),
+            (assign, ":weight", reg0),
+
+            (try_begin),
+                (call_script, "script_cf_faction_is_at_war", ":faction_no"),
+            (else_try),
+                (faction_get_slot, ":last_peace", ":faction_no", slot_faction_last_peace),
+                (call_script, "script_get_current_day"),
+                (assign, ":current_day", reg0),
+                (store_sub, ":last_war_time", ":current_day", ":last_peace"),
+                (try_begin),
+                    (is_between, ":last_war_time", 0, 100),
+                    (store_sub, ":score", 100, ":last_war_time"),
+                    (val_add, ":weight", ":score"),
+                (try_end),
+            (try_end),
+
+            (assign, reg0, ":weight"),
+        ]),
+
+    # script_faction_get_goal_weight_expand
+        # input:
+        #   arg1: faction_no
+        # output:
+        #   reg0: weight
+    ("faction_get_goal_weight_expand",
+        [
+            (store_script_param, ":faction_no", 1),
+
+            (assign, ":weight", 0),
+
+
+            (faction_get_slot, ":num_fiefs", ":faction_no", slot_faction_num_fiefs),
+            (faction_get_slot, ":num_vassals", ":faction_no", slot_faction_num_vassals),
+
+            (try_begin),
+                (eq, ":num_vassals", 0),
+                (assign, ":weight", 0),
+            (else_try),
+                (eq, ":num_fiefs", 0),
+                (assign, ":weight", 100),
+            (else_try),
+                (store_mul, ":weight", ":num_vassals", 100),
+                (val_div, ":weight", ":num_fiefs"),
+                (val_sub, ":weight", 100),
+            (try_end),
+
+            (assign, reg0, ":weight"),
+        ]),
+
+    # script_faction_get_goal_weight_secure
+        # input:
+        #   arg1: faction_no
+        # output:
+        #   reg0: weight
+    ("faction_get_goal_weight_secure",
+        [
+            (store_script_param, ":faction_no", 1),
+
+            (faction_get_slot, ":safety", ":faction_no", slot_faction_safety),
+            (store_sub, ":weight", 100, ":safety"),
+
+            (assign, reg0, ":weight"),
+        ]),
+
+    # script_faction_get_goal_weight_bully
+        # input:
+        #   arg1: faction_no
+        # output:
+        #   reg0: weight
+    ("faction_get_goal_weight_bully",
+        [
+            (store_script_param, ":faction_no", 1),
+
+            (faction_get_slot, ":safety", ":faction_no", slot_faction_safety),
+            (assign, ":weight", ":safety"),
+
+            (assign, reg0, ":weight"),
+        ]),
+
+    # script_faction_get_goal_weight_develop
+        # input:
+        #   arg1: faction_no
+        # output:
+        #   reg0: weight
+    ("faction_get_goal_weight_develop",
+        [
+            (store_script_param, ":faction_no", 1),
+
+            (assign, ":weight", 0),
+
+
+            (faction_get_slot, ":num_fiefs", ":faction_no", slot_faction_num_fiefs),
+            (faction_get_slot, ":num_vassals", ":faction_no", slot_faction_num_vassals),
+
+            (try_begin),
+                (eq, ":num_vassals", 0),
+                (assign, ":weight", 100),
+            (else_try),
+                (eq, ":num_fiefs", 0),
+                (assign, ":weight", 0),
+            (else_try),
+                (store_mul, ":weight", ":num_fiefs", 100),
+                (val_div, ":weight", ":num_vassals"),
+                (val_sub, ":weight", 100),
+            (try_end),
+
+            (assign, reg0, ":weight"),
         ]),
 ] + scripts_presentation

@@ -902,11 +902,12 @@ slot_faction_vassal_type = slot_faction_policy_assimilation + 1
 sfvt_none = 0x00 # not a vassal
 sfvt_tributary = 0x01 # pays tribute
 sfvt_vassal = 0x02 # foreign policy is limited
-sfvt_sattrapy = 0x10 # joins offensive wars of overlord
+sfvt_sattrapy = 0x04 # provide regular troops as tribute
+sfvt_puppet = 0x10 # joins offensive wars of overlord
 sfvt_bulwark = 0x40 # joins defensive wars of overlord
 sfvt_protectorate = 0x80 # joins defensive wars of vassal
 
-sfvt_default_vassal_type = sfvt_tributary | sfvt_vassal | sfvt_sattrapy | sfvt_bulwark | sfvt_protectorate
+sfvt_default_vassal_type = sfvt_tributary | sfvt_vassal | sfvt_puppet | sfvt_bulwark | sfvt_protectorate
 
 slot_faction_battle_casualties = slot_faction_vassal_type + 1
 
@@ -987,7 +988,25 @@ slot_faction_budget_mercenary_payment = slot_faction_budget_funds_payment + 1
 
 slot_faction_wealth_shared_ratio = slot_faction_budget_mercenary_payment + 1
 
-slot_faction_tmp = slot_faction_wealth_shared_ratio + 1
+slot_faction_kingdom_goal = slot_faction_wealth_shared_ratio + 1
+
+kg_none = 0
+kg_recover = 1
+kg_expand = 2
+kg_secure = 3
+kg_bully = 4
+kg_develop = 5
+
+faction_goal_current_bonus = 20
+faction_goal_variance = 25
+
+slot_faction_kingdom_goal_target_1 = slot_faction_kingdom_goal + 1
+slot_faction_kingdom_goal_target_2 = slot_faction_kingdom_goal_target_1 + 1
+slot_faction_kingdom_goal_target_3 = slot_faction_kingdom_goal_target_2 + 1
+slot_faction_kingdom_goal_target_4 = slot_faction_kingdom_goal_target_3 + 1
+slot_faction_kingdom_goal_target_5 = slot_faction_kingdom_goal_target_4 + 1
+
+slot_faction_tmp = slot_faction_kingdom_goal_target_5 + 1
 
 slot_faction_peasant_troop = slot_faction_tmp + 1
 
