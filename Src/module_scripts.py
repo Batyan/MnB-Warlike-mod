@@ -3069,6 +3069,11 @@ scripts = [
                     (is_between, ":troop_no", companions_begin, companions_end),
                     (assign, ":banner_troop", "$g_player_troop"),
                 (else_try),
+                    (is_between, ":troop_no", lords_begin, lords_end),
+                    (troop_get_slot, ":companion_of", ":troop_no", slot_troop_companion_of),
+                    (ge, ":companion_of", 0),
+                    (assign, ":banner_troop", ":companion_of"),
+                (else_try),
                     (assign, ":banner_mesh", "mesh_banners_default_a"),
                 (try_end),
             (else_try),
@@ -3083,9 +3088,15 @@ scripts = [
                 (agent_get_party_id, ":agent_party", ":agent_no"),
                 (try_begin),
                     (lt, ":agent_party", 0),
-                    (is_between, ":troop_id", companions_begin, companions_end),
+                    (is_between, ":troop_id", lords_begin, lords_end),
                     (main_party_has_troop, ":troop_id"),
                     (assign, ":agent_party", "$g_player_party"),
+                (else_try),
+                    (lt, ":agent_party", 0),
+                    (is_between, ":troop_id", lords_begin, lords_end),
+                    (troop_get_slot, ":companion_of", ":troop_id", slot_troop_companion_of),
+                    (ge, ":companion_of", 0),
+                    (troop_get_slot, ":agent_party", ":companion_of", slot_troop_leaded_party),
                 (try_end),
                 (ge, ":agent_party", 0),
                 (try_begin),
@@ -7223,8 +7234,8 @@ scripts = [
             (try_begin),
                 (ge, ":corruption", 3),
                 (val_div, ":corruption", 3),
-                (store_mul, ":corruption_stolen", ":taxes", 100),
-                (val_div, ":corruption_stolen", ":corruption"),
+                (store_mul, ":corruption_stolen", ":taxes", ":corruption"),
+                (val_div, ":corruption_stolen", 100),
                 (val_mul, ":corruption_stolen", -1),
                 (call_script, "script_party_add_accumulated_taxes", ":party_no", ":corruption_stolen", tax_type_corruption),
             (try_end),
@@ -7332,8 +7343,8 @@ scripts = [
                 (display_message, "@{s10} taxes: {reg10}"),
             (try_end),
             
-            (val_sub, ":taxes", ":member_tax"),
-            (val_sub, ":taxes", ":vassal_tax"),
+            # (val_sub, ":taxes", ":member_tax"),
+            # (val_sub, ":taxes", ":vassal_tax"),
             (call_script, "script_party_add_accumulated_taxes", ":party_no", ":taxes", tax_type_population),
 
             (assign, ":trade_base", 0),
@@ -14047,6 +14058,8 @@ scripts = [
             (troop_set_slot, ":lord_no", slot_troop_mercenary_contract_leader, -1),
             (troop_set_slot, ":lord_no", slot_troop_home, -1),
             (troop_set_slot, ":lord_no", slot_troop_mercenary_old_occupation, -1),
+            (troop_set_slot, ":lord_no", slot_troop_attitude, ta_default),
+            (troop_set_slot, ":lord_no", slot_troop_companion_of, -1),
 
             # Reset family
             (try_for_range, ":slot", slot_troop_married_to, slot_troop_child_10+1),
@@ -14190,7 +14203,6 @@ scripts = [
                 (call_script, "script_troop_apply_npc_equipment_archetype", ":troop_no", ":archetype", ":occupation"),
             (try_end),
 
-
             (call_script, "script_troop_set_name", ":troop_no"),
             (call_script, "script_troop_update_name", ":troop_no"),
 
@@ -14224,6 +14236,8 @@ scripts = [
                 (val_div, ":renown", 10),
             (try_end),
             (call_script, "script_troop_change_renown", ":troop_no", ":renown"),
+
+            (call_script, "script_troop_update_attitude", ":troop_no"),
 
             (try_begin),
                 (eq, ":occupation", tko_kingdom_hero),
@@ -17723,6 +17737,13 @@ scripts = [
             (try_end),
 
             (try_begin),
+                # Kingdom goal
+
+                (call_script, "script_faction_process_goal", ":faction_no"),
+                
+            (try_end),
+
+            (try_begin),
                 (neg|faction_slot_eq, ":faction_no", slot_faction_status, sfst_disabled),
                 # Handle faction wealth
                 (call_script, "script_faction_process_wealth", ":faction_no"),
@@ -18860,7 +18881,7 @@ scripts = [
                     (gt, ":vassal", 0),
                     (faction_get_slot, ":vassal_type", ":faction_no", slot_faction_vassal_type),
 
-                    (store_and, ":is_sattrapy", ":vassal_type", sfvt_sattrapy),
+                    (store_and, ":is_sattrapy", ":vassal_type", sfvt_puppet),
                     (store_and, ":is_bulwark", ":vassal_type", sfvt_bulwark),
 
                     (try_begin),
@@ -21275,7 +21296,7 @@ scripts = [
                 (else_try),
                     (gt, ":vassal"),
                     
-                    (store_and, ":is_sattrapy", ":vassal_type", sfvt_sattrapy),
+                    (store_and, ":is_sattrapy", ":vassal_type", sfvt_puppet),
                     (gt, ":is_sattrapy", 0),
                     (assign, ":must_help", 1),
                 (else_try),
@@ -32677,9 +32698,9 @@ scripts = [
         #   reg0: attitude (ta_*)
     ("troop_get_player_attitude",
         [
-            # (store_script_param, ":troop_no", 1),
+            (store_script_param, ":troop_no", 1),
 
-            (assign, reg0, ta_normal),
+            (troop_get_slot, reg0, ":troop_no", slot_troop_attitude),
         ]),
 
     # script_cf_lord_knows_player
@@ -37461,5 +37482,224 @@ scripts = [
             (try_end),
             (troop_equip_items, ":troop_no"),
             (troop_set_auto_equip, ":troop_no", 0),
+        ]),
+
+    # script_troop_update_attitude
+        # input:
+        #   arg1: troop_no
+        # output: none
+    ("troop_update_attitude",
+        [
+            (store_script_param, ":troop_no", 1),
+
+            (store_random_in_range, ":rand", 0, 100),
+            (try_begin),
+                (ge, ":rand", troop_attitude_resistance_factor),
+
+                (store_random_in_range, ":random_attribute", ta_default, ta_proactive + 1),
+                (troop_set_slot, ":troop_no", slot_troop_attitude, ":random_attribute"),
+            (try_end),
+        ]),
+
+    # script_faction_process_goal
+        # input:
+        #   arg1: faction_no
+        # output: none
+    ("faction_process_goal",
+        [
+            (store_script_param, ":faction_no", 1),
+
+
+            (assign, ":best_weight", 0),
+            (assign, ":best_goal", kg_none),
+            (try_for_range, ":goal", kg_recover, kg_develop + 1),
+                (call_script, "script_faction_get_goal_weight", ":faction_no", ":goal"),
+                (assign, ":weight", reg0),
+
+                (gt, ":weight", ":best_weight"),
+                (assign, ":best_goal", ":goal"),
+                (assign, ":best_weight", ":weight"),
+            (try_end),
+            (try_begin),
+                (try_begin),
+                    (call_script, "script_cf_debug", debug_simple),
+                    (faction_get_slot, ":current_goal", ":faction_no", slot_faction_kingdom_goal),
+                    (neq, ":current_goal", ":best_goal"),
+                    (str_store_faction_name, s10, ":faction_no"),
+                    (assign, reg10, ":best_goal"),
+                    (display_message, "@{s10} changing goal to {reg10}"),
+                (try_end),
+                (faction_set_slot, ":faction_no", slot_faction_kingdom_goal, ":best_goal"),
+            (try_end),
+        ]),
+
+    # script_faction_get_goal_weight
+        # input:
+        #   arg1: faction_no
+        # output: none
+    ("faction_get_goal_weight",
+        [
+            (store_script_param, ":faction_no", 1),
+            (store_script_param, ":goal", 2),
+
+            (assign, ":weight", 0),
+
+            (assign, ":action", -1),
+
+            (try_begin),
+                (eq, ":goal", kg_recover),
+                (assign, ":action", "script_faction_get_goal_weight_recover"),
+            (else_try),
+                (eq, ":goal", kg_expand),
+                (assign, ":action", "script_faction_get_goal_weight_expand"),
+            (else_try),
+                (eq, ":goal", kg_secure),
+                (assign, ":action", "script_faction_get_goal_weight_secure"),
+            (else_try),
+                (eq, ":goal", kg_bully),
+                (assign, ":action", "script_faction_get_goal_weight_bully"),
+            (else_try),
+                (eq, ":goal", kg_develop),
+                (assign, ":action", "script_faction_get_goal_weight_develop"),
+            (try_end),
+
+            (try_begin),
+                (neq, ":action", -1),
+                (call_script, ":action", ":faction_no"),
+                (assign, ":weight", reg0),
+                (val_clamp, ":weight", 0, 100),
+
+                (store_random_in_range, ":rand", 0, faction_goal_variance),
+                (val_add, ":weight", ":rand"),
+
+                (faction_get_slot, ":current_goal", ":faction_no", slot_faction_kingdom_goal),
+                (try_begin),
+                    (eq, ":current_goal", ":goal"),
+                    (val_add, ":weight", faction_goal_current_bonus),
+                (try_end),
+            (try_end),
+
+            (assign, reg0, ":weight"),
+        ]),
+
+    # script_faction_get_goal_weight_recover
+        # input:
+        #   arg1: faction_no
+        # output:
+        #   reg0: weight
+    ("faction_get_goal_weight_recover",
+        [
+            (store_script_param, ":faction_no", 1),
+
+            (assign, ":weight", 0),
+
+            (call_script, "script_faction_get_war_damage_penalty_score", ":faction_no"),
+            (assign, ":weight", reg0),
+
+            (try_begin),
+                (call_script, "script_cf_faction_is_at_war", ":faction_no"),
+            (else_try),
+                (faction_get_slot, ":last_peace", ":faction_no", slot_faction_last_peace),
+                (call_script, "script_get_current_day"),
+                (assign, ":current_day", reg0),
+                (store_sub, ":last_war_time", ":current_day", ":last_peace"),
+                (try_begin),
+                    (is_between, ":last_war_time", 0, 100),
+                    (store_sub, ":score", 100, ":last_war_time"),
+                    (val_add, ":weight", ":score"),
+                (try_end),
+            (try_end),
+
+            (assign, reg0, ":weight"),
+        ]),
+
+    # script_faction_get_goal_weight_expand
+        # input:
+        #   arg1: faction_no
+        # output:
+        #   reg0: weight
+    ("faction_get_goal_weight_expand",
+        [
+            (store_script_param, ":faction_no", 1),
+
+            (assign, ":weight", 0),
+
+
+            (faction_get_slot, ":num_fiefs", ":faction_no", slot_faction_num_fiefs),
+            (faction_get_slot, ":num_vassals", ":faction_no", slot_faction_num_vassals),
+
+            (try_begin),
+                (eq, ":num_vassals", 0),
+                (assign, ":weight", 0),
+            (else_try),
+                (eq, ":num_fiefs", 0),
+                (assign, ":weight", 100),
+            (else_try),
+                (store_mul, ":weight", ":num_vassals", 100),
+                (val_div, ":weight", ":num_fiefs"),
+                (val_sub, ":weight", 100),
+            (try_end),
+
+            (assign, reg0, ":weight"),
+        ]),
+
+    # script_faction_get_goal_weight_secure
+        # input:
+        #   arg1: faction_no
+        # output:
+        #   reg0: weight
+    ("faction_get_goal_weight_secure",
+        [
+            (store_script_param, ":faction_no", 1),
+
+            (faction_get_slot, ":safety", ":faction_no", slot_faction_safety),
+            (store_sub, ":weight", 100, ":safety"),
+
+            (assign, reg0, ":weight"),
+        ]),
+
+    # script_faction_get_goal_weight_bully
+        # input:
+        #   arg1: faction_no
+        # output:
+        #   reg0: weight
+    ("faction_get_goal_weight_bully",
+        [
+            (store_script_param, ":faction_no", 1),
+
+            (faction_get_slot, ":safety", ":faction_no", slot_faction_safety),
+            (assign, ":weight", ":safety"),
+
+            (assign, reg0, ":weight"),
+        ]),
+
+    # script_faction_get_goal_weight_develop
+        # input:
+        #   arg1: faction_no
+        # output:
+        #   reg0: weight
+    ("faction_get_goal_weight_develop",
+        [
+            (store_script_param, ":faction_no", 1),
+
+            (assign, ":weight", 0),
+
+
+            (faction_get_slot, ":num_fiefs", ":faction_no", slot_faction_num_fiefs),
+            (faction_get_slot, ":num_vassals", ":faction_no", slot_faction_num_vassals),
+
+            (try_begin),
+                (eq, ":num_vassals", 0),
+                (assign, ":weight", 100),
+            (else_try),
+                (eq, ":num_fiefs", 0),
+                (assign, ":weight", 0),
+            (else_try),
+                (store_mul, ":weight", ":num_fiefs", 100),
+                (val_div, ":weight", ":num_vassals"),
+                (val_sub, ":weight", 100),
+            (try_end),
+
+            (assign, reg0, ":weight"),
         ]),
 ] + scripts_presentation

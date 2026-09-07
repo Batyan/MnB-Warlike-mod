@@ -456,8 +456,8 @@ faction_tax_rate_funds_min = 0
 faction_tax_rate_funds_base = 2
 faction_tax_rate_funds_max_peace = 25
 faction_tax_rate_funds_max_war = 10
-faction_tax_rate_member_base = 2
-faction_tax_rate_vassal_base = 5
+faction_tax_rate_member_base = 3
+faction_tax_rate_vassal_base = 7
 
 quests_begin = "qst_introduction_default"
 quests_end = "qst_quests_end"
@@ -562,18 +562,6 @@ player_starting_7_sarranid = 5
 court_movement_cost = 50000
 
 bank_max_interests_base = 3000000
-
-ta_normal = 0
-ta_cordial = 1
-ta_submissive = 2
-ta_arrogant = 3
-ta_defiant = 4
-ta_formal = 5
-ta_friendly = 6
-ta_aggressive = 7
-ta_threatening = 8
-ta_loving = 9
-ta_caring = 10
 
 level_xp_multiplier = 45
 level_xp_base = 30
@@ -914,11 +902,12 @@ slot_faction_vassal_type = slot_faction_policy_assimilation + 1
 sfvt_none = 0x00 # not a vassal
 sfvt_tributary = 0x01 # pays tribute
 sfvt_vassal = 0x02 # foreign policy is limited
-sfvt_sattrapy = 0x10 # joins offensive wars of overlord
+sfvt_sattrapy = 0x04 # provide regular troops as tribute
+sfvt_puppet = 0x10 # joins offensive wars of overlord
 sfvt_bulwark = 0x40 # joins defensive wars of overlord
 sfvt_protectorate = 0x80 # joins defensive wars of vassal
 
-sfvt_default_vassal_type = sfvt_tributary | sfvt_vassal | sfvt_sattrapy | sfvt_bulwark | sfvt_protectorate
+sfvt_default_vassal_type = sfvt_tributary | sfvt_vassal | sfvt_puppet | sfvt_bulwark | sfvt_protectorate
 
 slot_faction_battle_casualties = slot_faction_vassal_type + 1
 
@@ -999,7 +988,25 @@ slot_faction_budget_mercenary_payment = slot_faction_budget_funds_payment + 1
 
 slot_faction_wealth_shared_ratio = slot_faction_budget_mercenary_payment + 1
 
-slot_faction_tmp = slot_faction_wealth_shared_ratio + 1
+slot_faction_kingdom_goal = slot_faction_wealth_shared_ratio + 1
+
+kg_none = 0
+kg_recover = 1
+kg_expand = 2
+kg_secure = 3
+kg_bully = 4
+kg_develop = 5
+
+faction_goal_current_bonus = 20
+faction_goal_variance = 25
+
+slot_faction_kingdom_goal_target_1 = slot_faction_kingdom_goal + 1
+slot_faction_kingdom_goal_target_2 = slot_faction_kingdom_goal_target_1 + 1
+slot_faction_kingdom_goal_target_3 = slot_faction_kingdom_goal_target_2 + 1
+slot_faction_kingdom_goal_target_4 = slot_faction_kingdom_goal_target_3 + 1
+slot_faction_kingdom_goal_target_5 = slot_faction_kingdom_goal_target_4 + 1
+
+slot_faction_tmp = slot_faction_kingdom_goal_target_5 + 1
 
 slot_faction_peasant_troop = slot_faction_tmp + 1
 
@@ -1326,7 +1333,7 @@ tax_type_banditry = 35
 tax_type_corruption = 36
 
 slot_party_buget_taxes_begin = slot_party_budget_taxes
-slot_party_buget_taxes_end = slot_party_budget_banditry + 1
+slot_party_buget_taxes_end = slot_party_budget_corruption + 1
 
 slot_party_budget_reserved_party = slot_party_buget_taxes_end
 slot_party_budget_reserved_auxiliaries = slot_party_budget_reserved_party + 1
@@ -1851,7 +1858,18 @@ slot_troop_birth_date = slot_troop_proficiency_points + 1
 
 slot_troop_npc_archetype = slot_troop_birth_date + 1
 
-slot_troop_relations_begin = slot_troop_npc_archetype + 1
+slot_troop_attitude = slot_troop_npc_archetype + 1
+
+ta_default = 0
+ta_prudent = 1
+ta_aggressive = 2
+ta_passive = 3
+ta_proactive = 4
+
+# Multiplier to prevent troop from changing attitude
+troop_attitude_resistance_factor = 50
+
+slot_troop_relations_begin = slot_troop_attitude + 1
 
 # TODO: remove or move to specific slot type
 slot_item_mission_kills = 400
