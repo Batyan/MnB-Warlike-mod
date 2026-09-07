@@ -8,6 +8,7 @@ v0.740:
 	-Fixes:
 		* display companion troops with player banner in instances where they were not
 		* fix tax corruption going higher than taxes
+		* hide companion status messages behind debug options
 v0.730:
 	-Features:
 		* add mercenary guild buildings
