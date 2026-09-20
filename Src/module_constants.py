@@ -1021,8 +1021,9 @@ war_storages_end = "fac_war_storage_end"
 slot_war_active = 9
 slot_war_ended = slot_war_active + 1
 slot_war_start_date = slot_war_ended + 1
+slot_war_preparation = slot_war_start_date + 1
 
-slot_war_defender_strength = slot_war_start_date + 1
+slot_war_defender_strength = slot_war_preparation + 1
 slot_war_attacker_strength = slot_war_defender_strength + 1
 
 slot_war_defender_willingness_score = slot_war_attacker_strength + 1
