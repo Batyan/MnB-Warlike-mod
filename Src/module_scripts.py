@@ -32949,7 +32949,7 @@ scripts = [
             (try_end),
         ]),
 
-    # script_prepare_intro_quest
+    # script_intro_quest_init
         # input: none
         # output: none
     ("intro_quest_init",
@@ -32976,9 +32976,6 @@ scripts = [
             (quest_set_slot, "qst_introduction_default", slot_quest_object, ":new_lord"),
             (quest_set_slot, "qst_introduction_default", slot_quest_value, ":new_lord_brother"),
 
-            # patience of thugs leader
-            (quest_set_slot, "qst_introduction_default_search_1", slot_quest_value, 5),
-
             (call_script, "script_clan_get_empty"),
             (assign, ":clan", reg0),
             (try_begin),
@@ -32988,6 +32985,42 @@ scripts = [
             (try_end),
 
             (call_script, "script_start_quest", "qst_introduction_default", -1),
+        ]),
+
+    # script_intro_quest_thugs_init_patience
+        # input: none
+        # output: none
+    ("intro_quest_thugs_init_patience",
+        [
+            (assign, ":patience", 3),
+
+            (store_skill_level, ":intimidation", "$g_player_troop", skl_intimidation),
+            (val_div, ":intimidation", 3),
+            (val_add, ":patience", ":intimidation"),
+
+            (party_get_num_companions, ":party_size", "$g_player_party"),
+            (val_div, ":party_size", 6),
+            (val_add, ":party_size", -3),
+            (val_add, ":patience", ":party_size"),
+
+            (quest_set_slot, "qst_introduction_default_search_1", slot_quest_value, ":patience"),
+        ]),
+
+    # script_intro_quest_thugs_decrease_patience
+        # input: none
+        # output: none
+    ("intro_quest_thugs_decrease_patience",
+        [
+            (quest_get_slot, ":patience", "qst_introduction_default_search_1", slot_quest_value),
+            (try_begin),
+                # Player persuasion grants a 5% chance to not decrease patience
+                (store_skill_level, ":persuasion", "$g_player_troop", skl_persuasion),
+                (val_mul, ":persuasion", 5),
+                (store_random_in_range, ":rand", 0, 100),
+                (le, ":persuasion", ":rand"),
+                (val_add, ":patience", -1),
+            (try_end),
+            (quest_set_slot, "qst_introduction_default_search_1", slot_quest_value, ":patience"),
         ]),
 
     # script_get_starting_town
