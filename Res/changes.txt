@@ -3,6 +3,7 @@ v0.740:
 		* add troops attitude to influence decisions
 		* add kingdom goal to influence decisions
 		* allow prepared wars for empires
+		* add claims system for kingdoms
 	-Balances:
 		* remove leather_vest from vaegir_militia
 		* add fur_coat to vaegir_militia

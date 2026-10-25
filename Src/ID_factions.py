@@ -99,5 +99,6 @@ fac_war_storage_38 = 97
 fac_war_storage_39 = 98
 fac_war_storage_40 = 99
 fac_war_storage_end = 100
+fac_claims_storage = 101
 
 

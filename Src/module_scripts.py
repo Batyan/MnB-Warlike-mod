@@ -343,6 +343,8 @@ scripts = [
             (assign, "$g_battle_troop_control", battle_troop_control_own),
 
             (assign, "$g_next_menu", -1),
+
+            (faction_set_slot, "fac_claims_storage", slot_claim_quick_free_index, 0),
             
             (set_show_messages, 1),
         ]),
@@ -2251,6 +2253,31 @@ scripts = [
                 (call_script, "script_game_get_money_text", ":wealth"),
                 (str_store_string_reg, s10, s0),
                 (str_store_string, s0, "@Current wealth: {s10}"),
+            (else_try),
+                (eq, ":note_index", 5),
+
+                (str_clear, s0),
+                (try_begin),
+                    (call_script, "script_cf_debug", debug_simple),
+
+                    (str_store_string, s0, "@Current claims: "),
+
+                    (assign, ":end", claims_count_max),
+                    (try_for_range, ":index", 0, ":end"),
+                        (call_script, "script_claim_get_for_faction", ":faction_no", ":index"),
+                        (assign, ":source", reg0),
+                        (try_begin),
+                            (eq, ":source", ":faction_no"),
+                            (assign, ":global_index", reg5),
+
+                            (str_store_string, s20, "@{s0}"),
+                            (call_script, "script_claim_get_string", ":global_index"),
+                            (str_store_string, s0, "@{s20}^{s0}"),
+                        (else_try),
+                            (assign, ":end", 0),
+                        (try_end),
+                    (try_end),
+                (try_end),
             (try_end),
 
             (set_trigger_result, 1),
@@ -8987,6 +9014,9 @@ scripts = [
         [
             (store_script_param, ":faction_no", 1),
 
+            (faction_get_slot, ":own_wars", ":faction_no", slot_faction_is_at_war),
+            (eq, ":own_wars", 0),
+
             (faction_get_slot, ":vassal_type", ":faction_no", slot_faction_vassal_type),
             (store_and, ":is_vassal", ":vassal_type", sfvt_vassal),
             (neq, ":is_vassal", sfvt_vassal),
@@ -9022,8 +9052,6 @@ scripts = [
             (lt, ":war_damage", ":min_war_damage"),
             (gt, ":num_vassals_active", ":threshold"),
             (gt, ":safety", 25),
-
-
         ]),
     
     # script_faction_declare_war_to_faction
@@ -18134,6 +18162,658 @@ scripts = [
             (try_end),
         ]),
 
+    # script_faction_get_politic_behavior_weight
+        # input:
+        #   arg1: faction_no
+        #   arg2: behavior
+        # output:
+        #   reg0: weight
+        #   reg1: target
+    ("faction_get_politic_behavior_weight",
+        [
+            (store_script_param, ":faction_no", 1),
+            (store_script_param, ":behavior", 2),
+
+            (assign, ":weight", 0),
+            (assign, ":target", -1),
+
+            (assign, ":action", -1),
+
+            (try_begin),
+                (eq, ":behavior", fpb_improve_relation),
+                (assign, ":action", "script_faction_get_politic_behavior_weight_improve_relation"),
+            (else_try),
+                (eq, ":behavior", fpb_prepare_war),
+                (assign, ":action", "script_faction_get_politic_behavior_weight_prepare_war"),
+            (else_try),
+                (eq, ":behavior", fpb_declare_war),
+                (assign, ":action", "script_faction_get_politic_behavior_weight_declare_war"),
+            (else_try),
+                (eq, ":behavior", fpb_war_peace_out),
+                (assign, ":action", "script_faction_get_politic_behavior_weight_peace_out"),
+            (else_try),
+                (eq, ":behavior", fpb_war_peace_out_all),
+                (assign, ":action", "script_faction_get_politic_behavior_weight_peace_out_all"),
+            (else_try),
+                (eq, ":behavior", fpb_war_seek_help),
+                (assign, ":action", "script_faction_get_politic_behavior_weight_war_seek_help"),
+            (else_try),
+                (eq, ":behavior", fpb_increase_safety),
+                (assign, ":action", "script_faction_get_politic_behavior_weight_increase_safety"),
+            (else_try),
+                (eq, ":behavior", fpb_seek_trade),
+                (assign, ":action", "script_faction_get_politic_behavior_weight_seek_trade"),
+            (else_try),
+                (eq, ":behavior", fpb_break_treaty),
+                (assign, ":action", "script_faction_get_politic_behavior_weight_break_treaty"),
+            (try_end),
+
+            (try_begin),
+                (neq, ":action", -1),
+                (call_script, ":action", ":faction_no"),
+                (assign, ":weight", reg0),
+                (assign, ":target", reg1),
+                (val_clamp, ":weight", -100, 100),
+
+                (try_begin),
+                    (gt, ":weight", 0),
+                    (store_random_in_range, ":rand", 0, faction_politic_behavior_variance),
+                    (val_add, ":weight", ":rand"),
+                (try_end),
+
+                (faction_get_slot, ":current_behavior", ":faction_no", slot_faction_politic_behavior),
+                (try_begin),
+                    (eq, ":current_behavior", ":behavior"),
+                    (gt, ":weight", 0),
+                    (val_add, ":weight", faction_politic_behavior_current_bonus),
+                (try_end),
+            (try_end),
+
+            (assign, reg0, ":weight"),
+            (assign, reg1, ":target"),
+        ]),
+
+    # script_faction_get_politic_behavior_weight_improve_relation
+        # input:
+        #   arg1: faction_no
+        # output:
+        #   reg0: weight
+        #   reg1: target
+    ("faction_get_politic_behavior_weight_improve_relation",
+        [
+            (store_script_param, ":faction_no", 1),
+
+            (assign, ":weight", 0),
+            (assign, ":target", -1),
+
+            (assign, ":ally_score", 0),
+            (assign, ":best_ally", -1),
+
+            (faction_get_slot, ":wealth", ":faction_no", slot_faction_wealth),
+
+            (try_for_range, ":other_faction", kingdoms_begin, kingdoms_end),
+                (neq, ":other_faction", ":faction_no"),
+
+                (call_script, "script_faction_get_improve_relation_cost", ":faction_no"),
+                (assign, ":total_cost", reg0),
+
+                (gt, ":wealth", ":total_cost"),
+
+                (call_script, "script_faction_get_ally_score", ":faction_no", ":other_faction"),
+                (assign, ":score", reg0),
+                (call_script, "script_faction_get_ally_score", ":other_faction", ":faction_no"),
+                (assign, ":other_score", reg0),
+                (store_add, ":total_score", ":score", ":other_score"),
+                (try_begin),
+                    (gt, ":total_score", ":ally_score"),
+                    (assign, ":ally_score", ":total_score"),
+                    (assign, ":best_ally", ":other_faction"),
+                (try_end),
+            (try_end),
+
+            (try_begin),
+                (is_between, ":best_ally", kingdoms_begin, kingdoms_end),
+
+                (faction_get_slot, ":safety", ":faction_no", slot_faction_safety),
+                (store_sub, ":weight", 100, ":safety"),
+                (assign, ":target", ":best_ally"),
+            (try_end),
+
+            (try_begin),
+                (faction_get_slot, ":num_wars", ":faction_no", slot_faction_is_at_war),
+                (gt, ":num_wars", 0),
+                (val_sub, ":weight", 50),
+            (try_end),
+
+            (assign, reg0, ":weight"),
+            (assign, reg1, ":target"),
+        ]),
+
+    # script_faction_get_politic_behavior_weight_prepare_war
+        # input:
+        #   arg1: faction_no
+        # output:
+        #   reg0: weight
+        #   reg1: target
+    ("faction_get_politic_behavior_weight_prepare_war",
+        [
+            (store_script_param, ":faction_no", 1),
+
+            (assign, ":weight", 0),
+            (assign, ":target", -1),
+
+            (try_begin),
+                (call_script, "script_cf_faction_want_war", ":faction_no"),
+
+                (assign, ":best_score", -1),
+                (try_for_range, ":other_faction", kingdoms_begin, kingdoms_end),
+                    (call_script, "script_cf_faction_can_declare_war", ":faction_no", ":other_faction"),
+
+                    (call_script, "script_faction_get_declare_war_score", ":faction_no", ":other_faction"),
+                    (assign, ":score", reg0),
+
+                    (try_begin),
+                        (gt, ":score", ":best_score"),
+                        (assign, ":target", ":other_faction"),
+                        (assign, ":best_score", ":score"),
+                    (try_end),
+                (try_end),
+
+                (assign, ":weight", ":best_score"),
+
+                (is_between, ":target", kingdoms_begin, kingdoms_end),
+                (faction_get_slot, ":preparing_war", ":faction_no", slot_faction_preparing_war),
+                (try_begin),
+                    (is_between, ":preparing_war", war_storages_begin, war_storages_end),
+
+                    (call_script, "script_faction_is_war_participant", ":target", ":preparing_war"),
+                    (eq, reg0, swkp_main_defender),
+
+                    (call_script, "script_faction_get_relation_with_faction", ":faction_no", ":target"),
+                    (assign, ":relation", reg0),
+                    (lt, ":relation", -5),
+                    (assign, ":weight", 70),
+                (try_end),
+            (try_end),
+
+            (assign, reg0, ":weight"),
+            (assign, reg1, ":target"),
+        ]),
+
+    # script_faction_get_politic_behavior_weight_declare_war
+        # input:
+        #   arg1: faction_no
+        # output:
+        #   reg0: weight
+        #   reg1: target
+    ("faction_get_politic_behavior_weight_declare_war",
+        [
+            (store_script_param, ":faction_no", 1),
+
+            (assign, ":weight", 0),
+            (assign, ":target", -1),
+
+            (faction_get_slot, ":preparing_war", ":faction_no", slot_faction_preparing_war),
+            (try_begin),
+                (is_between, ":preparing_war", war_storages_begin, war_storages_end),
+                (call_script, "script_cf_faction_want_war", ":faction_no"),
+
+                (faction_slot_eq, ":preparing_war", slot_war_active, 0),
+                (faction_slot_eq, ":preparing_war", slot_war_preparation, 1),
+
+                (assign, ":end", kingdoms_end),
+                (try_for_range, ":other_faction", kingdoms_begin, ":end"),
+                    (call_script, "script_faction_is_war_participant", ":other_faction", ":preparing_war"),
+                    (eq, reg0, swkp_main_defender),
+
+                    (call_script, "script_cf_faction_can_declare_war", ":faction_no", ":other_faction"),
+                    (call_script, "script_faction_get_relation_with_faction", ":faction_no", ":other_faction"),
+                    (assign, ":relation", reg0),
+
+                    (lt, ":relation", -5),
+                    (assign, ":weight", 100),
+                    (assign, ":target", ":preparing_war"),
+                (try_end),
+
+            (try_end),
+
+            (assign, reg0, ":weight"),
+            (assign, reg1, ":target"),
+        ]),
+
+    # script_faction_get_politic_behavior_weight_peace_out
+        # input:
+        #   arg1: faction_no
+        # output:
+        #   reg0: weight
+        #   reg1: target
+    ("faction_get_politic_behavior_weight_peace_out",
+        [
+            (store_script_param, ":faction_no", 1),
+
+            (assign, ":weight", 0),
+            (assign, ":target", -1),
+
+            (try_begin),
+                (faction_get_slot, ":num_wars", ":faction_no", slot_faction_is_at_war),
+                (gt, ":num_wars", 0),
+
+                (assign, ":best_war", -1),
+                (call_script, "script_get_current_day"),
+                (assign, ":earliest", reg0),
+
+                (try_for_range, ":war_storage", war_storages_begin, war_storages_end),
+                    (faction_slot_eq, ":war_storage", slot_war_active, 1),
+                    (faction_slot_eq, ":war_storage", slot_war_ended, 0),
+                    (faction_slot_eq, ":war_storage", slot_war_preparation, 0),
+                    (call_script, "script_faction_is_war_participant", ":faction_no", ":war_storage"),
+                    (assign, ":participant", reg0),
+
+                    (this_or_next|eq, ":participant", swkp_main_defender),
+                    (eq, ":participant", swkp_main_aggressor),
+
+                    (assign, ":willingness", 0),
+                    (try_begin),
+                        (eq, ":participant", swkp_main_aggressor),
+                        (faction_get_slot, ":willingness", ":war_storage", slot_war_attacker_willingness_score),
+                    (else_try),
+                        (eq, ":participant", swkp_main_defender),
+                        (faction_get_slot, ":willingness", ":war_storage", slot_war_defender_willingness_score),
+                    (try_end),
+
+                    (le, ":willingness", -100),
+
+                    (faction_get_slot, ":start_date", ":war_storage", slot_war_start_date),
+                    (lt, ":start_date", ":earliest"),
+                    (assign, ":earliest", ":start_date"),
+                    (assign, ":best_war", ":war_storage"),
+                (try_end),
+
+                (try_begin),
+                    (is_between, ":best_war", war_storages_begin, war_storages_end),
+                    (assign, ":target", ":best_war"),
+                    (assign, ":weight", 70),
+                (try_end),
+            (try_end),
+
+            (assign, reg0, ":weight"),
+            (assign, reg1, ":target"),
+        ]),
+
+    # script_faction_get_politic_behavior_weight_peace_out_all
+        # input:
+        #   arg1: faction_no
+        # output:
+        #   reg0: weight
+        #   reg1: target
+    ("faction_get_politic_behavior_weight_peace_out_all",
+        [
+            (store_script_param, ":faction_no", 1),
+
+            (assign, ":weight", 0),
+            (assign, ":target", -1),
+
+            (try_begin),
+                (faction_get_slot, ":num_wars", ":faction_no", slot_faction_is_at_war),
+                (gt, ":num_wars", 0),
+
+                (assign, ":num_peace_out", 0),
+                (assign, ":total_wars", 0),
+
+                (try_for_range, ":war_storage", war_storages_begin, war_storages_end),
+                    (faction_slot_eq, ":war_storage", slot_war_active, 1),
+                    (faction_slot_eq, ":war_storage", slot_war_ended, 0),
+                    (faction_slot_eq, ":war_storage", slot_war_preparation, 0),
+                    (call_script, "script_faction_is_war_participant", ":faction_no", ":war_storage"),
+                    (assign, ":participant", reg0),
+
+                    (this_or_next|eq, ":participant", swkp_main_defender),
+                    (eq, ":participant", swkp_main_aggressor),
+
+                    (val_add, ":total_wars", 1),
+
+                    (assign, ":willingness", 0),
+                    (try_begin),
+                        (eq, ":participant", swkp_main_aggressor),
+                        (faction_get_slot, ":willingness", ":war_storage", slot_war_attacker_willingness_score),
+                    (else_try),
+                        (eq, ":participant", swkp_main_defender),
+                        (faction_get_slot, ":willingness", ":war_storage", slot_war_defender_willingness_score),
+                    (try_end),
+
+                    (le, ":willingness", -100),
+
+                    (val_add, ":num_peace_out", 1),
+                (try_end),
+
+                (try_begin),
+                    (gt, ":num_peace_out", 0),
+                    (eq, ":num_peace_out", ":total_wars"),
+                    (assign, ":weight", 100),
+                (try_end),
+            (try_end),
+
+            (assign, reg0, ":weight"),
+            (assign, reg1, ":target"),
+        ]),
+
+    # script_faction_get_politic_behavior_weight_war_seek_help
+        # input:
+        #   arg1: faction_no
+        # output:
+        #   reg0: weight
+        #   reg1: target
+    ("faction_get_politic_behavior_weight_war_seek_help",
+        [
+            # (store_script_param, ":faction_no", 1),
+
+            (assign, ":weight", 0),
+            (assign, ":target", -1),
+
+            (assign, reg0, ":weight"),
+            (assign, reg1, ":target"),
+        ]),
+
+    # script_faction_get_politic_behavior_weight_increase_safety
+        # input:
+        #   arg1: faction_no
+        # output:
+        #   reg0: weight
+        #   reg1: target
+    ("faction_get_politic_behavior_weight_increase_safety",
+        [
+            # (store_script_param, ":faction_no", 1),
+
+            (assign, ":weight", 0),
+            (assign, ":target", -1),
+
+            (assign, reg0, ":weight"),
+            (assign, reg1, ":target"),
+        ]),
+
+    # script_faction_get_politic_behavior_weight_seek_trade
+        # input:
+        #   arg1: faction_no
+        # output:
+        #   reg0: weight
+        #   reg1: target
+    ("faction_get_politic_behavior_weight_seek_trade",
+        [
+            # (store_script_param, ":faction_no", 1),
+
+            (assign, ":weight", 0),
+            (assign, ":target", -1),
+
+            (assign, reg0, ":weight"),
+            (assign, reg1, ":target"),
+        ]),
+
+    # script_faction_get_politic_behavior_weight_break_treaty
+        # input:
+        #   arg1: faction_no
+        # output:
+        #   reg0: weight
+        #   reg1: target
+    ("faction_get_politic_behavior_weight_break_treaty",
+        [
+            # (store_script_param, ":faction_no", 1),
+
+            (assign, ":weight", 0),
+            (assign, ":target", -1),
+
+            (assign, reg0, ":weight"),
+            (assign, reg1, ":target"),
+        ]),
+
+    # script_faction_get_politic_behavior_action
+        # input:
+        #   arg1: faction_no
+        #   arg2: behavior
+        # output:
+        #   reg0: action
+    ("faction_get_politic_behavior_action",
+        [
+            # (store_script_param, ":faction_no", 1),
+            (store_script_param, ":behavior", 2),
+
+            (assign, ":action", -1),
+
+            (try_begin),
+                (eq, ":behavior", fpb_improve_relation),
+                (assign, ":action", "script_faction_get_politic_behavior_action_improve_relation"),
+            (else_try),
+                (eq, ":behavior", fpb_prepare_war),
+                (assign, ":action", "script_faction_get_politic_behavior_action_prepare_war"),
+            (else_try),
+                (eq, ":behavior", fpb_declare_war),
+                (assign, ":action", "script_faction_get_politic_behavior_action_declare_war"),
+            (else_try),
+                (eq, ":behavior", fpb_war_peace_out),
+                (assign, ":action", "script_faction_get_politic_behavior_action_peace_out"),
+            (else_try),
+                (eq, ":behavior", fpb_war_peace_out_all),
+                (assign, ":action", "script_faction_get_politic_behavior_action_peace_out_all"),
+            (else_try),
+                (eq, ":behavior", fpb_war_seek_help),
+                (assign, ":action", "script_faction_get_politic_behavior_action_war_seek_help"),
+            (else_try),
+                (eq, ":behavior", fpb_increase_safety),
+                (assign, ":action", "script_faction_get_politic_behavior_action_increase_safety"),
+            (else_try),
+                (eq, ":behavior", fpb_seek_trade),
+                (assign, ":action", "script_faction_get_politic_behavior_action_seek_trade"),
+            (else_try),
+                (eq, ":behavior", fpb_break_treaty),
+                (assign, ":action", "script_faction_get_politic_behavior_action_break_treaty"),
+            (try_end),
+
+            (assign, reg0, ":action"),
+        ]),
+
+    # script_faction_get_politic_behavior_action_improve_relation
+        # input:
+        #   arg1: faction_no
+        #   arg2: target
+        # output: none
+    ("faction_get_politic_behavior_action_improve_relation",
+        [
+            (store_script_param, ":faction_no", 1),
+            (store_script_param, ":target", 2),
+
+            (call_script, "script_faction_try_improve_relations", ":faction_no", ":target"),
+
+            (try_begin),
+                (call_script, "script_cf_debug", debug_faction),
+                (str_store_faction_name, s10, ":faction_no"),
+                (str_store_faction_name, s11, ":target"),
+                (display_message, "@{s10} seeks to improve relations with {s11}"),
+            (try_end),
+        ]),
+
+    # script_faction_get_politic_behavior_action_prepare_war
+        # input:
+        #   arg1: faction_no
+        #   arg2: target
+        # output: none
+    ("faction_get_politic_behavior_action_prepare_war",
+        [
+            (store_script_param, ":faction_no", 1),
+            (store_script_param, ":target", 2),
+
+            (faction_get_slot, ":preparing_war", ":faction_no", slot_faction_preparing_war),
+            (try_begin),
+                (is_between, ":preparing_war", war_storages_begin, war_storages_end),
+
+                (call_script, "script_faction_is_war_participant", ":target", ":preparing_war"),
+                (eq, reg0, swkp_main_defender),
+                (try_begin),
+                    (call_script, "script_faction_get_relation_with_faction", ":faction_no", ":target"),
+                    (assign, ":relation", reg0),
+
+                    (ge, ":relation", -5),
+                    (call_script, "script_faction_relation_change_event", ":faction_no", ":target", -10),
+
+                    (faction_get_slot, ":faction_leader", ":faction_no", slot_faction_leader),
+                    (faction_get_slot, ":target_leader", ":target", slot_faction_leader),
+                    (try_begin),
+                        (ge, ":faction_leader", 0),
+                        (ge, ":target_leader", 0),
+                        (call_script, "script_troop_change_relation_with_troop", ":faction_leader", ":target_leader", -1),
+                    (try_end),
+                (try_end),
+            (else_try),
+                (is_between, ":preparing_war", war_storages_begin, war_storages_end),
+                (call_script, "script_war_clean", ":preparing_war"),
+                (call_script, "script_war_get_empty"),
+                (assign, ":war_storage", reg0),
+                (faction_set_slot, ":war_storage", slot_war_preparation, 1),
+                (call_script, "script_war_add_participant", ":war_storage", ":faction_no", swkp_aggressor, 1),
+                (call_script, "script_war_add_participant", ":war_storage", ":target", swkp_defender, 1),
+                # (neq, ":preparing_war", ":target"),
+                # (is_between, ":preparing_war", kingdoms_begin, kingdoms_end),
+                (faction_set_slot, ":faction_no", slot_faction_preparing_war, ":war_storage"),
+                (try_begin),
+                    (call_script, "script_cf_debug", debug_war),
+                    (str_store_faction_name, s10, ":faction_no"),
+                    (str_store_faction_name, s11, ":target"),
+                    (str_store_faction_name, s12, ":preparing_war"),
+                    (display_message, "@{s10} preparing for war against {s11} (changed from {s12})"),
+                (try_end),
+            (else_try),
+                (call_script, "script_war_get_empty"),
+                (assign, ":war_storage", reg0),
+                (faction_set_slot, ":war_storage", slot_war_preparation, 1),
+                (call_script, "script_war_add_participant", ":war_storage", ":faction_no", swkp_aggressor, 1),
+                (call_script, "script_war_add_participant", ":war_storage", ":target", swkp_defender, 1),
+
+                (faction_set_slot, ":faction_no", slot_faction_preparing_war, ":war_storage"),
+                (try_begin),
+                    (call_script, "script_cf_debug", debug_war),
+                    (str_store_faction_name, s10, ":faction_no"),
+                    (str_store_faction_name, s11, ":target"),
+                    (display_message, "@{s10} preparing for war against {s11}"),
+                (try_end),
+            (try_end),
+        ]),
+
+    # script_faction_get_politic_behavior_action_declare_war
+        # input:
+        #   arg1: faction_no
+        #   arg2: target
+        # output: none
+    ("faction_get_politic_behavior_action_declare_war",
+        [
+            (store_script_param, ":faction_no", 1),
+            (store_script_param, ":target", 2),
+
+            (assign, ":end", kingdoms_end),
+            (try_for_range, ":other_faction", kingdoms_begin, ":end"),
+                (call_script, "script_faction_is_war_participant", ":other_faction", ":target"),
+                (eq, reg0, swkp_main_defender),
+                (assign, ":end", -1),
+
+                (try_begin),
+                    (call_script, "script_cf_faction_want_vassal", ":faction_no", ":other_faction"),
+
+                    (call_script, "script_faction_get_treaty_score", ":other_faction", sfkt_overlord, ":faction_no"),
+                    (gt, reg0, 0),
+                    (call_script, "script_faction_create_vassal", ":faction_no", ":other_faction", sfvt_default_vassal_type, -1),
+
+                    (call_script, "script_faction_relation_change_event", ":other_faction", ":faction_no", relation_change_submit),
+
+                    (try_begin),
+                        (call_script, "script_cf_debug", debug_simple),
+                        (str_store_faction_name, s10, ":faction_no"),
+                        (str_store_faction_name, s11, ":other_faction"),
+                        (display_message, "@{s10} vassalize {s11} under threat of war", text_color_war),
+                    (try_end),
+                    (call_script, "script_war_clean", ":target"),
+                    (faction_set_slot, ":faction_no", slot_faction_preparing_war, -1),
+                (else_try),
+                    (call_script, "script_faction_declare_war_to_faction", ":faction_no", ":other_faction", ":target"),
+                (try_end),
+            (try_end),
+        ]),
+
+    # script_faction_get_politic_behavior_action_peace_out
+        # input:
+        #   arg1: faction_no
+        #   arg2: target
+        # output: none
+    ("faction_get_politic_behavior_action_peace_out",
+        [
+            (store_script_param, ":faction_no", 1),
+            (store_script_param, ":target", 2),
+
+            (call_script, "script_faction_propose_peace", ":faction_no", ":target"),
+        ]),
+
+    # script_faction_get_politic_behavior_action_peace_out_all
+        # input:
+        #   arg1: faction_no
+        #   arg2: target
+        # output: none
+    ("faction_get_politic_behavior_action_peace_out_all",
+        [
+            (store_script_param, ":faction_no", 1),
+            # (store_script_param, ":target", 2),
+
+            (try_for_range, ":war_storage", war_storages_begin, war_storages_end),
+                (faction_slot_eq, ":war_storage", slot_war_active, 1),
+                (call_script, "script_faction_is_war_participant", ":faction_no", ":war_storage"),
+                (assign, ":participant", reg0),
+
+                (this_or_next|eq, ":participant", swkp_main_defender),
+                (eq, ":participant", swkp_main_aggressor),
+
+                (call_script, "script_faction_propose_peace", ":faction_no", ":war_storage"),
+            (try_end),
+        ]),
+
+    # script_faction_get_politic_behavior_action_war_seek_help
+        # input:
+        #   arg1: faction_no
+        #   arg2: target
+        # output: none
+    ("faction_get_politic_behavior_action_war_seek_help",
+        [
+            # (store_script_param, ":faction_no", 1),
+            # (store_script_param, ":target", 2),
+        ]),
+
+    # script_faction_get_politic_behavior_action_increase_safety
+        # input:
+        #   arg1: faction_no
+        #   arg2: target
+        # output: none
+    ("faction_get_politic_behavior_action_increase_safety",
+        [
+            # (store_script_param, ":faction_no", 1),
+            # (store_script_param, ":target", 2),
+        ]),
+
+    # script_faction_get_politic_behavior_action_seek_trade
+        # input:
+        #   arg1: faction_no
+        #   arg2: target
+        # output: none
+    ("faction_get_politic_behavior_action_seek_trade",
+        [
+            # (store_script_param, ":faction_no", 1),
+            # (store_script_param, ":target", 2),
+        ]),
+    
+    # script_faction_get_politic_behavior_action_break_treaty
+        # input:
+        #   arg1: faction_no
+        #   arg2: target
+        # output: none
+    ("faction_get_politic_behavior_action_break_treaty",
+        [
+            # (store_script_param, ":faction_no", 1),
+            # (store_script_param, ":target", 2),
+        ]),
+
     # script_faction_process_foreign_politics
         # input:
         #   arg1: faction_no
@@ -18141,22 +18821,17 @@ scripts = [
     ("faction_process_foreign_politics",
         [
             (store_script_param, ":faction_no", 1),
+
             (faction_get_slot, ":own_wars", ":faction_no", slot_faction_is_at_war),
-            (assign, ":want_war", 0),
-            (assign, ":war_score", 0),
-            (assign, ":seek_allies", 0),
 
             (faction_get_slot, ":num_vassals", ":faction_no", slot_faction_num_vassals),
             (faction_get_slot, ":num_fiefs", ":faction_no", slot_faction_num_fiefs),
-
-            (faction_get_slot, ":own_wars", ":faction_no", slot_faction_is_at_war),
 
             (call_script, "script_faction_get_war_strengths", ":faction_no"),
             (assign, ":combined_defensive_strength", reg0),
             (assign, ":combined_offensive_strength", reg1),
             (assign, ":combined_offensive_ready_strength", reg2),
             (assign, ":combined_threats_strength", reg3),
-            # (assign, ":num_alliances", reg4),
 
             (faction_set_slot, ":faction_no", slot_faction_strength_defensive_allies, ":combined_defensive_strength"),
             (faction_set_slot, ":faction_no", slot_faction_strength_offensive_allies, ":combined_offensive_strength"),
@@ -18172,163 +18847,12 @@ scripts = [
             (try_end),
             (faction_set_slot, ":faction_no", slot_faction_safety, ":safety"),
 
-            (assign, ":ally_score", 0),
-            (assign, ":ally_faction", -1),
-
-            (try_begin),
-                (lt, ":safety", 5),
-                (assign, ":seek_allies", 5),
-            (else_try),
-                (lt, ":safety", 25),
-                (assign, ":seek_allies", 4),
-            (else_try),
-                (lt, ":safety", 50),
-                (assign, ":seek_allies", 3),
-            (else_try),
-                (lt, ":safety", 75),
-                (assign, ":seek_allies", 2),
-            (else_try),
-                (lt, ":safety", 95),
-                (assign, ":seek_allies", 1),
+            (try_for_range, ":other_faction", kingdoms_begin, kingdoms_end),
+                (call_script, "script_cf_faction_generate_faction_event", ":faction_no", ":other_faction"),
             (try_end),
 
-            (try_begin),
-                (gt, ":seek_allies", 0),
-
-                (assign, ":ally_score", 0),
-                (assign, ":best_ally", -1),
-
-                (try_for_range, ":other_faction", kingdoms_begin, kingdoms_end),
-                    (neq, ":other_faction", ":faction_no"),
-                    (call_script, "script_faction_get_ally_score", ":faction_no", ":other_faction"),
-                    (assign, ":score", reg0),
-                    (call_script, "script_faction_get_ally_score", ":other_faction", ":faction_no"),
-                    (assign, ":other_score", reg0),
-                    (store_add, ":total_score", ":score", ":other_score"),
-                    (try_begin),
-                        (gt, ":total_score", ":ally_score"),
-                        (assign, ":ally_score", ":total_score"),
-                        (assign, ":best_ally", ":other_faction"),
-                    (try_end),
-
-                    (call_script, "script_cf_faction_generate_faction_event", ":faction_no", ":other_faction"),
-                (try_end),
-
-                (try_begin),
-                    (gt, ":best_ally", 0),
-
-                    (call_script, "script_faction_try_improve_relations", ":faction_no", ":best_ally"),
-                (try_end),
-            (try_end),
-
-            (assign, ":enemy_score", 0),
-            (assign, ":enemy_faction", -1),
 
             (try_begin),
-                (eq, ":own_wars", 0),
-
-                (call_script, "script_cf_faction_want_war", ":faction_no"),
-                (try_for_range, ":other_faction", kingdoms_begin, kingdoms_end),
-                    (call_script, "script_cf_faction_can_declare_war", ":faction_no", ":other_faction"),
-
-                    (call_script, "script_faction_get_declare_war_score", ":faction_no", ":other_faction"),
-                    (assign, ":score", reg0),
-
-                    (try_begin),
-                        (gt, ":score", ":war_score"),
-                        (assign, ":want_war", ":other_faction"),
-                        (assign, ":war_score", ":score"),
-                    (try_end),
-                (try_end),
-
-                (try_begin),
-                    (gt, ":war_score", 0),
-
-                    (is_between, ":want_war", kingdoms_begin, kingdoms_end),
-                    (faction_get_slot, ":preparing_war", ":faction_no", slot_faction_preparing_war),
-                    (try_begin),
-                        (is_between, ":preparing_war", war_storages_begin, war_storages_end),
-
-                        (call_script, "script_faction_is_war_participant", ":want_war", ":preparing_war"),
-                        (eq, reg0, swkp_main_defender),
-
-                        (try_begin),
-                            (call_script, "script_faction_get_relation_with_faction", ":faction_no", ":want_war"),
-                            (assign, ":relation", reg0),
-
-                            (gt, ":relation", -5),
-                            (call_script, "script_faction_relation_change_event", ":faction_no", ":want_war", -10),
-
-                            (faction_get_slot, ":faction_leader", ":faction_no", slot_faction_leader),
-                            (faction_get_slot, ":target_leader", ":want_war", slot_faction_leader),
-                            (try_begin),
-                                (ge, ":faction_leader", 0),
-                                (ge, ":target_leader", 0),
-                                (call_script, "script_troop_change_relation_with_troop", ":faction_leader", ":target_leader", -1),
-                            (try_end),
-
-                        (else_try),
-                            (call_script, "script_cf_faction_want_vassal", ":faction_no", ":want_war"),
-
-                            (call_script, "script_faction_get_treaty_score", ":want_war", sfkt_overlord, ":faction_no"),
-                            (gt, reg0, 0),
-                            (call_script, "script_faction_create_vassal", ":faction_no", ":want_war", sfvt_default_vassal_type, -1),
-
-                            (call_script, "script_faction_relation_change_event", ":want_war", ":faction_no", relation_change_submit),
-
-                            (try_begin),
-                                (call_script, "script_cf_debug", debug_simple),
-                                (str_store_faction_name, s10, ":faction_no"),
-                                (str_store_faction_name, s11, ":want_war"),
-                                (display_message, "@{s10} vassalize {s11} under threat of war", text_color_war),
-                            (try_end),
-                        (else_try),
-                            (call_script, "script_faction_declare_war_to_faction", ":faction_no", ":want_war", ":preparing_war"),
-                        (try_end),
-                    (else_try),
-                        (is_between, ":preparing_war", war_storages_begin, war_storages_end),
-                        (call_script, "script_war_clean", ":preparing_war"),
-                        (call_script, "script_war_get_empty"),
-                        (assign, ":war_storage", reg0),
-                        (faction_set_slot, ":war_storage", slot_war_preparation, 1),
-                        (call_script, "script_war_add_participant", ":war_storage", ":faction_no", swkp_aggressor, 1),
-                        (call_script, "script_war_add_participant", ":war_storage", ":want_war", swkp_defender, 1),
-                        # (neq, ":preparing_war", ":want_war"),
-                        # (is_between, ":preparing_war", kingdoms_begin, kingdoms_end),
-                        (faction_set_slot, ":faction_no", slot_faction_preparing_war, ":war_storage"),
-                        (try_begin),
-                            (call_script, "script_cf_debug", debug_war),
-                            (str_store_faction_name, s10, ":faction_no"),
-                            (str_store_faction_name, s11, ":want_war"),
-                            (str_store_faction_name, s12, ":preparing_war"),
-                            (assign, reg10, ":war_score"),
-                            (display_message, "@{s10} preparing for war against {s11} with score {reg10} (changed from {s12})"),
-                        (try_end),
-                    (else_try),
-                        (call_script, "script_war_get_empty"),
-                        (assign, ":war_storage", reg0),
-                        (faction_set_slot, ":war_storage", slot_war_preparation, 1),
-                        (call_script, "script_war_add_participant", ":war_storage", ":faction_no", swkp_aggressor, 1),
-                        (call_script, "script_war_add_participant", ":war_storage", ":want_war", swkp_defender, 1),
-
-                        (faction_set_slot, ":faction_no", slot_faction_preparing_war, ":war_storage"),
-                        (try_begin),
-                            (call_script, "script_cf_debug", debug_war),
-                            (str_store_faction_name, s10, ":faction_no"),
-                            (str_store_faction_name, s11, ":want_war"),
-                            (assign, reg10, ":war_score"),
-                            (display_message, "@{s10} preparing for war against {s11} with score {reg10}"),
-                        (try_end),
-                    (try_end),
-                (else_try),
-                    (faction_set_slot, ":faction_no", slot_faction_preparing_war, -1),
-                    (try_begin),
-                        (call_script, "script_cf_debug", debug_war),
-                        (str_store_faction_name, s10, ":faction_no"),
-                        (display_message, "@{s10} is not seeking war"),
-                    (try_end),
-                (try_end),
-            (else_try),
                 (gt, ":own_wars", 0),
                 # Process current wars
                 (store_sub, ":offset", ":faction_no", kingdoms_begin),
@@ -18343,7 +18867,7 @@ scripts = [
                     (try_begin),
                         (this_or_next|eq, ":participant", swkp_main_defender),
                         (eq, ":participant", swkp_main_aggressor),
-                        # Here we process peace declaration as we are the main participant
+                        # Here we process the aggregation of willingness
                         (call_script, "script_faction_process_main_participant_war", ":faction_no", ":war_storage"),
                         (assign, ":global_willingness", reg0),
 
@@ -18358,25 +18882,56 @@ scripts = [
                 (try_end),
             (try_end),
 
-            (try_begin),
-                (gt, ":ally_faction", kingdoms_begin),
+            (assign, ":max_weight", 0),
+            (assign, ":best_behavior", fpb_none),
+            (assign, ":behavior_end", fpb_behavior_end),
+            (assign, ":best_target", -1),
+
+            (try_for_range, ":behavior", fpb_improve_relation, ":behavior_end"),
+                (call_script, "script_faction_get_politic_behavior_weight", ":faction_no", ":behavior"),
+                (assign, ":weight", reg0),
+                (assign, ":target", reg1),
+
                 (try_begin),
-                    (call_script, "script_cf_debug", debug_faction),
-                    (assign, reg10, ":ally_score"),
+                    (call_script, "script_cf_debug", debug_current),
                     (str_store_faction_name, s10, ":faction_no"),
-                    (str_store_faction_name, s11, ":ally_faction"),
-                    (display_message, "@{s10} seeks to improve relations with {s11} ({reg10})"),
+                    (assign, reg10, ":behavior"),
+                    (assign, reg11, ":weight"),
+                    (display_message, "@{s10} behavior: {reg10} ({reg11})"),
                 (try_end),
+
+                (gt, ":weight", ":max_weight"),
+                (assign, ":max_weight", ":weight"),
+                (assign, ":best_target", ":target"),
+                (assign, ":best_behavior", ":behavior"),
             (try_end),
+
+            (faction_set_slot, ":faction_no", slot_faction_politic_behavior, ":best_behavior"),
+
             (try_begin),
-                (gt, ":enemy_faction", kingdoms_begin),
-                (try_begin),
-                    (call_script, "script_cf_debug", debug_faction),
-                    (assign, reg10, ":enemy_score"),
-                    (str_store_faction_name, s10, ":faction_no"),
-                    (str_store_faction_name, s11, ":enemy_faction"),
-                    (display_message, "@{s10} seeks to degrade relations with {s11} ({reg10})"),
-                (try_end),
+                (call_script, "script_cf_debug", debug_current),
+                (str_store_faction_name, s10, ":faction_no"),
+                (assign, reg10, ":best_behavior"),
+                (assign, reg11, ":max_weight"),
+                (display_message, "@{s10} best behavior: {reg10} ({reg11})"),
+            (try_end),
+
+            (try_begin),
+                (call_script, "script_faction_get_politic_behavior_action", ":faction_no", ":best_behavior"),
+                (assign, ":action", reg0),
+
+                (gt, ":action", 0),
+                (call_script, ":action", ":faction_no", ":best_target"),
+            (try_end),
+
+            (try_begin),
+                (neq, ":best_behavior", fpb_prepare_war),
+                (faction_get_slot, ":preparing_war", ":faction_no", slot_faction_preparing_war),
+
+                (is_between, ":preparing_war", war_storages_begin, war_storages_end),
+                (faction_slot_eq, ":preparing_war", slot_war_active, 0),
+                (call_script, "script_war_clean", ":preparing_war"),
+                (faction_set_slot, ":faction_no", slot_faction_preparing_war, -1),
             (try_end),
 
             (try_begin),
@@ -18395,7 +18950,6 @@ scripts = [
 
                 (assign, reg10, ":safety"),
                 (display_message, "@{s10} safety: {reg10}"),
-
             (try_end),
         ]),
 
@@ -18682,18 +19236,8 @@ scripts = [
 
             # (faction_get_slot, ":safety", ":faction_no", slot_faction_safety),
 
-            (assign, ":total_cost", 5000),
-            (faction_get_slot, ":size_category", ":faction_no", slot_faction_size_category),
-            (try_begin),
-                (eq, ":size_category", sfs_small),
-                (assign, ":total_cost", 2500),
-            (else_try),
-                (eq, ":size_category", sfs_medium),
-                (assign, ":total_cost", 5000),
-            (else_try),
-                (eq, ":size_category", sfs_large),
-                (assign, ":total_cost", 10000),
-            (try_end),
+            (call_script, "script_faction_get_improve_relation_cost", ":faction_no"),
+            (assign, ":total_cost", reg0),
             
             (assign, ":relation_change", 0),
             (faction_get_slot, ":wealth", ":faction_no", slot_faction_wealth),
@@ -18770,6 +19314,7 @@ scripts = [
                 (store_random_in_range, ":outcome", 0, 10),
                 (try_begin),
                     (eq, ":outcome", 0),
+                    # Fail
                     (call_script, "script_faction_relation_change_event", ":target_faction", ":faction_no", -relation_change_factor * 3),
                     (val_add, ":relation_change", reg0),
 
@@ -18780,7 +19325,6 @@ scripts = [
                         (val_add, ":relation_change", -6),
                     (try_end),
 
-                    # Fail
                 (else_try),
                     (le, ":outcome", 5),
                     # Success
@@ -18811,6 +19355,31 @@ scripts = [
             (try_end),
 
             (assign, reg0, ":relation_change"),
+        ]),
+
+    # script_faction_get_improve_relation_cost
+        # input:
+        #   arg1: faction_no
+        # output:
+        #   reg0: cost
+    ("faction_get_improve_relation_cost",
+        [
+            (store_script_param, ":faction_no", 1),
+
+            (assign, ":total_cost", 5000),
+            (faction_get_slot, ":size_category", ":faction_no", slot_faction_size_category),
+            (try_begin),
+                (eq, ":size_category", sfs_small),
+                (assign, ":total_cost", 2500),
+            (else_try),
+                (eq, ":size_category", sfs_medium),
+                (assign, ":total_cost", 5000),
+            (else_try),
+                (eq, ":size_category", sfs_large),
+                (assign, ":total_cost", 10000),
+            (try_end),
+
+            (assign, reg0, ":total_cost"),
         ]),
 
     # script_cf_faction_generate_faction_event
@@ -19026,10 +19595,10 @@ scripts = [
                 (faction_set_slot, ":war_storage", slot_war_attacker_willingness_score, ":willingness"),
             (try_end),
 
-            (try_begin),
-                (le, ":willingness", -100),
-                (call_script, "script_faction_propose_peace", ":faction_no", ":war_storage"),
-            (try_end),
+            # (try_begin),
+            #     (le, ":willingness", -100),
+            #     (call_script, "script_faction_propose_peace", ":faction_no", ":war_storage"),
+            # (try_end),
 
             (assign, reg0, ":willingness"),
         ]),
@@ -19077,6 +19646,7 @@ scripts = [
                 (try_begin),
                     (eq, ":result", 1),
                     (call_script, "script_faction_make_peace_to_faction", ":faction_no", ":other_faction", ":war_storage"),
+                    (call_script, "script_war_process_end_claims", ":war_storage", ":faction_no_side"),
                     (call_script, "script_faction_apply_peace_proposal", ":other_faction", ":war_storage", ":faction_no"),
                     (call_script, "script_war_clean", ":war_storage"),
                     (call_script, "script_update_faction_war_count"),
@@ -37597,7 +38167,7 @@ scripts = [
 
             (assign, ":best_weight", 0),
             (assign, ":best_goal", kg_none),
-            (try_for_range, ":goal", kg_recover, kg_develop + 1),
+            (try_for_range, ":goal", kg_recover, kg_end),
                 (call_script, "script_faction_get_goal_weight", ":faction_no", ":goal"),
                 (assign, ":weight", reg0),
 
@@ -37652,7 +38222,7 @@ scripts = [
                 (neq, ":action", -1),
                 (call_script, ":action", ":faction_no"),
                 (assign, ":weight", reg0),
-                (val_clamp, ":weight", 0, 100),
+                (val_clamp, ":weight", -100, 100),
 
                 (store_random_in_range, ":rand", 0, faction_goal_variance),
                 (val_add, ":weight", ":rand"),
@@ -37787,4 +38357,303 @@ scripts = [
 
             (assign, reg0, ":weight"),
         ]),
+
+    # script_claim_get_for_faction_count
+        # input:
+        #   arg1: faction_no
+        # output:
+        #   reg0: claims_count
+    ("claim_get_for_faction_count",
+        [
+            (store_script_param, ":faction_no", 1),
+
+            (assign, ":count", 0),
+            (assign, ":end", claims_count_max),
+            (try_for_range, ":index", 0, ":end"),
+                (store_mul, ":offset", ":index", claims_slot_count),
+                (store_add, ":source_slot", ":offset", 0),
+                (faction_get_slot, ":source", "fac_claims_storage", ":source_slot"),
+                (eq, ":source", ":faction_no"),
+                (val_add, ":count", 1),
+            (try_end),
+            (assign, reg0, ":count"),
+        ]),
+
+    # script_claim_get_for_faction
+        # input:
+        #   arg1: faction_no
+        #   arg2: index
+        # output:
+        #   reg0: source
+        #   reg1: target
+        #   reg2: type
+        #   reg3: parameter
+        #   reg4: date
+        #   reg5: global_index
+    ("claim_get_for_faction",
+        [
+            (store_script_param, ":faction_no", 1),
+            (store_script_param, ":index", 2),
+
+            (assign, ":source_res", -1),
+            (assign, ":target_res", -1),
+            (assign, ":type_res", -1),
+            (assign, ":parameter_res", -1),
+            (assign, ":date_res", -1),
+
+            (assign, ":faction_index", 0),
+            (assign, ":end", claims_count_max),
+            (try_for_range, ":cur_index", 0, ":end"),
+                (store_mul, ":offset", ":cur_index", claims_slot_count),
+                (val_add, ":offset", slot_claim_source_begin),
+                (store_add, ":source_slot", ":offset", 0),
+                (faction_get_slot, ":source", "fac_claims_storage", ":source_slot"),
+                (eq, ":source", ":faction_no"),
+                (try_begin),
+                    (eq, ":faction_index", ":index"),
+                    (assign, ":source_res", ":source"),
+
+                    (store_add, ":target_slot", ":offset", 1),
+                    (faction_get_slot, ":target_res", "fac_claims_storage", ":target_slot"),
+                    (store_add, ":type_slot", ":offset", 2),
+                    (faction_get_slot, ":type_res", "fac_claims_storage", ":type_slot"),
+                    (store_add, ":parameter_slot", ":offset", 3),
+                    (faction_get_slot, ":parameter_res", "fac_claims_storage", ":parameter_slot"),
+                    (store_add, ":date_slot", ":offset", 4),
+                    (faction_get_slot, ":date_res", "fac_claims_storage", ":date_slot"),
+
+                    (assign, ":end", 0),
+                (else_try),
+                    (val_add, ":faction_index", 1),
+                (try_end),
+            (try_end),
+            (assign, reg0, ":source_res"),
+            (assign, reg1, ":target_res"),
+            (assign, reg2, ":type_res"),
+            (assign, reg3, ":parameter_res"),
+            (assign, reg4, ":date_res"),
+            (assign, reg5, ":cur_index"),
+        ]),
+
+    # script_claim_generate
+        # input:
+        #   arg1: source
+        #   arg2: target
+        #   arg3: type
+        #   arg4: parameter
+        # output:
+        #   reg0: global_index
+    ("claim_generate",
+        [
+            (store_script_param, ":source", 1),
+            (store_script_param, ":target", 2),
+            (store_script_param, ":type", 3),
+            (store_script_param, ":parameter", 4),
+
+            (assign, ":global_index", -1),
+            (faction_get_slot, ":start_index", "fac_claims_storage", slot_claim_quick_free_index),
+            (assign, ":end", claims_count_max),
+            (try_for_range, ":index", ":start_index", ":end"),
+                (store_mul, ":offset", ":index", claims_slot_count),
+                (val_add, ":offset", slot_claim_source_begin),
+                (store_add, ":source_slot", ":offset", 0),
+                (faction_get_slot, ":cur_source", "fac_claims_storage", ":source_slot"),
+                (le, ":cur_source", 0),
+
+                (faction_set_slot, "fac_claims_storage", ":source_slot", ":source"),
+
+                (store_add, ":target_slot", ":offset", 1),
+                (faction_set_slot, "fac_claims_storage", ":target_slot", ":target"),
+
+                (store_add, ":type_slot", ":offset", 2),
+                (faction_set_slot, "fac_claims_storage", ":type_slot", ":type"),
+
+                (store_add, ":parameter_slot", ":offset", 3),
+                (faction_set_slot, "fac_claims_storage", ":parameter_slot", ":parameter"),
+
+                (call_script, "script_get_current_day"),
+                (assign, ":date", reg0),
+                (store_add, ":date_slot", ":offset", 4),
+                (faction_set_slot, "fac_claims_storage", ":date_slot", ":date"),
+
+                (try_begin),
+                    (call_script, "script_cf_debug", debug_simple),
+                    (call_script, "script_claim_get_string", ":index"),
+                    (display_message, "@Generating claim: {s0}"),
+                (try_end),
+
+                (assign, ":end", 0),
+                (assign, ":global_index", ":index"),
+            (try_end),
+
+            (store_add, ":new_free_index", ":global_index", 1),
+            (faction_set_slot, "fac_claims_storage", slot_claim_quick_free_index, ":new_free_index"),
+
+            (assign, reg0, ":global_index"),
+        ]),
+
+    # script_claim_remove
+        # input:
+        #   arg1: global_index
+        # output: none
+    ("claim_remove",
+        [
+            (store_script_param, ":index", 1),
+
+            (store_mul, ":offset", ":index", claims_slot_count),
+            (val_add, ":offset", slot_claim_source_begin),
+            (store_add, ":source_slot", ":offset", 0),
+            (store_add, ":target_slot", ":offset", 1),
+            (store_add, ":type_slot", ":offset", 2),
+            (store_add, ":parameter_slot", ":offset", 3),
+            (store_add, ":date_slot", ":offset", 4),
+
+            (faction_set_slot, "fac_claims_storage", ":source_slot", -1),
+            (faction_set_slot, "fac_claims_storage", ":target_slot", -1),
+            (faction_set_slot, "fac_claims_storage", ":type_slot", -1),
+            (faction_set_slot, "fac_claims_storage", ":parameter_slot", -1),
+            (faction_set_slot, "fac_claims_storage", ":date_slot", -1),
+
+            (try_begin),
+                (faction_get_slot, ":cur_free_index", "fac_claims_storage", slot_claim_quick_free_index),
+                (lt, ":index", ":cur_free_index"),
+                (faction_set_slot, "fac_claims_storage", slot_claim_quick_free_index, ":index"),
+            (try_end),
+        ]),
+
+    # script_claim_remove_for_factions
+        # input:
+        #   arg1: faction_source
+        #   arg2: faction_target
+        # output: none
+    ("claim_remove_for_factions",
+        [
+            (store_script_param, ":source", 1),
+            (store_script_param, ":target", 2),
+
+            (assign, ":end", claims_count_max),
+            (try_for_range, ":index", 0, ":end"),
+                (store_mul, ":offset", ":index", claims_slot_count),
+                (val_add, ":offset", slot_claim_source_begin),
+                (store_add, ":source_slot", ":offset", 0),
+                (faction_get_slot, ":cur_source", "fac_claims_storage", ":source_slot"),
+                (eq, ":cur_source", ":source"),
+
+                (store_add, ":target_slot", ":offset", 1),
+                (faction_get_slot, ":cur_target", "fac_claims_storage", ":target_slot"),
+                (eq, ":cur_target", ":target"),
+
+                (call_script, "script_claim_remove", ":index"),
+            (try_end),
+        ]),
+
+    # script_claim_get_string
+        # input:
+        #   arg1: global_index
+        # output:
+        #   s0: claim_description
+    ("claim_get_string",
+        [
+            (store_script_param, ":index", 1),
+
+            (store_mul, ":offset", ":index", claims_slot_count),
+            (val_add, ":offset", slot_claim_source_begin),
+            (store_add, ":source_slot", ":offset", 0),
+            (store_add, ":target_slot", ":offset", 1),
+            (store_add, ":type_slot", ":offset", 2),
+            (store_add, ":parameter_slot", ":offset", 3),
+            (store_add, ":date_slot", ":offset", 4),
+
+            (faction_get_slot, ":source", "fac_claims_storage", ":source_slot"),
+            (faction_get_slot, ":target", "fac_claims_storage", ":target_slot"),
+            (faction_get_slot, ":type", "fac_claims_storage", ":type_slot"),
+            (faction_get_slot, ":parameter", "fac_claims_storage", ":parameter_slot"),
+            (faction_get_slot, ":date", "fac_claims_storage", ":date_slot"),
+
+            (try_begin),
+                (eq, ":source", -1),
+                (str_store_string, s0, "@None"),
+            (else_try),
+                (call_script, "script_game_get_date_text", -1, ":date"),
+
+                (str_store_faction_name_link, s10, ":source"),
+                (str_store_faction_name_link, s11, ":target"),
+                (try_begin),
+                    (eq, ":type", ct_regain_old_territory),
+                    (str_store_party_name_link, s12, ":parameter"),
+                    (str_store_string, s0, "@{s10} wants to retake {s12} from {s11} on {s1}"),
+                (else_try),
+                    (eq, ":type", ct_insulted),
+                    (str_store_string, s0, "@{s10} has been insulted by {s11} on {s1}"),
+                (else_try),
+                    (eq, ":type", ct_reparation),
+                    (str_store_string, s0, "@{s10} has to pay reparation to {s11}"),
+                (else_try),
+                    (eq, ":type", ct_regain_freedom),
+                    (str_store_string, s0, "@{s10} wants to regain independance from {s11} on {s1}"),
+                (try_end),
+            (try_end),
+        ]),
+
+    # script_war_process_end_claims
+        # input:
+        #   arg1: war_storage
+        #   arg2: winner_side
+        # output: none
+    ("war_process_end_claims",
+        [
+            (store_script_param, ":war_storage", 1),
+            (store_script_param, ":winner_side", 2),
+
+            (try_for_range, ":kingdom", kingdoms_begin, kingdoms_end),
+                (call_script, "script_faction_is_war_participant", ":kingdom", ":war_storage"),
+                (assign, ":side", reg0),
+                (val_clamp, ":side", -1, 2),
+                (eq, ":side", ":winner_side"),
+                (try_for_range, ":other_kingdom", kingdoms_begin, kingdoms_end),
+                    (call_script, "script_faction_is_war_participant", ":other_kingdom", ":war_storage"),
+                    (assign, ":other_side", reg0),
+                    (val_clamp, ":other_side", -1, 2),
+                    (neq, ":other_side", ":winner_side"),
+                    (neq, ":other_side", swkp_bystander),
+                    (call_script, "script_claim_remove_for_factions", ":kingdom", ":other_kingdom"),
+                (try_end),
+            (try_end),
+
+            (assign, ":end", num_peace_proposal),
+            (try_for_range, ":offset", 0, ":end"),
+                (store_add, ":slot_object", slot_war_peace_proposal_object_begin, ":offset"),
+                (store_add, ":slot_type", slot_war_peace_proposal_type_begin, ":offset"),
+                (store_add, ":slot_target", slot_war_peace_proposal_target_begin, ":offset"),
+                # (store_add, ":slot_value", slot_war_peace_proposal_value_begin, ":offset"),
+                        
+                (faction_get_slot, ":object", ":war_storage", ":slot_object"),
+                (faction_get_slot, ":type", ":war_storage", ":slot_type"),
+                (faction_get_slot, ":target", ":war_storage", ":slot_target"),
+                # (faction_get_slot, ":value", ":war_storage", ":slot_value"),
+
+                (try_begin),
+                    (le, ":type", 0),
+                    (assign, ":end", 0),
+                (else_try),
+                    (try_begin),
+                        (eq, ":type", wppt_transfer_center),
+                        (party_get_slot, ":old_faction", ":target", slot_party_faction),
+                        (call_script, "script_claim_generate", ":old_faction", ":target", ct_regain_old_territory, -1),
+                    (else_try),
+                    #     (eq, ":type", wppt_liberate_center),
+                    #     (call_script, "script_claim_generate", ":object", ":target", ct_regain_old_territory, -1),
+                    # (else_try),
+                        (eq, ":type", wppt_tribute),
+                        (call_script, "script_claim_generate", ":object", ":target", ct_reparation, -1),
+                    (else_try),
+                        (eq, ":type", wppt_vassalize),
+                        (call_script, "script_claim_generate", ":object", ":target", ct_regain_freedom, -1),
+                    (try_end),
+                (try_end),
+            (try_end),
+
+
+        ]),
+
 ] + scripts_presentation

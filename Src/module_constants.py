@@ -996,6 +996,10 @@ kg_expand = 2
 kg_secure = 3
 kg_bully = 4
 kg_develop = 5
+kg_protect = 6 # TODO
+kg_divide = 7 # TODO
+
+kg_end = kg_divide + 1
 
 faction_goal_current_bonus = 20
 faction_goal_variance = 25
@@ -1009,6 +1013,26 @@ slot_faction_kingdom_goal_target_5 = slot_faction_kingdom_goal_target_4 + 1
 slot_faction_tmp = slot_faction_kingdom_goal_target_5 + 1
 
 slot_faction_peasant_troop = slot_faction_tmp + 1
+
+slot_faction_politic_behavior = slot_faction_peasant_troop + 1
+
+# faction politics behavior
+fpb_none = 0
+fpb_improve_relation = 1
+fpb_prepare_war = 2
+fpb_declare_war = 3
+fpb_war_peace_out = 4
+fpb_war_peace_out_all = 5
+fpb_war_seek_help = 6
+fpb_increase_safety = 7
+fpb_seek_trade = 8
+fpb_break_treaty = 9
+
+fpb_behavior_end = fpb_break_treaty + 1
+
+faction_politic_behavior_current_bonus = 20
+faction_politic_behavior_variance = 25
+
 
 #######################
 ## War Storage Slots ##
@@ -1075,6 +1099,28 @@ slot_war_peace_proposal_value_end = slot_war_peace_proposal_value_begin + num_pe
 slot_war_clear_slots_begin = slot_war_active
 slot_war_clear_slots_end = slot_war_peace_proposal_type_end
 ###
+
+##################
+## Claims Slots ##
+##################
+
+# claims should be manipulated only through the script_claim_xxx scripts
+
+slot_claim_quick_free_index = 9
+
+slot_claim_source_begin = slot_claim_quick_free_index + 1
+slot_claim_target_begin = slot_claim_source_begin + 1
+slot_claim_type_begin = slot_claim_target_begin + 1
+slot_claim_parameter_begin = slot_claim_type_begin + 1
+slot_claim_date_begin = slot_claim_parameter_begin + 1
+
+claims_slot_count = slot_claim_date_begin - slot_claim_source_begin + 1
+claims_count_max = 100
+
+ct_regain_old_territory = 1
+ct_insulted = 2
+ct_regain_freedom = 3
+ct_reparation = 4
 
 #################
 ## Party Slots ##
