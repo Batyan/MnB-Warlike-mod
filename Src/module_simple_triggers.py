@@ -759,8 +759,9 @@ simple_triggers = [
             (try_end),
         ]),
 
-    (yearly, # Reserved heroes cleanup
+    (yearly,
         [
+            # Reserved heroes cleanup
             (try_for_range, ":npc", npc_heroes_begin, npc_heroes_end),
                 (troop_slot_eq, ":npc", slot_troop_kingdom_occupation, tko_reserved),
                 (call_script, "script_troop_get_age", ":npc"),
@@ -776,6 +777,21 @@ simple_triggers = [
                 (try_end),
                 (call_script, "script_init_lord", ":npc"),
             (try_end),
+            # Claims cleanup
+
+            (call_script, "script_get_current_day"),
+            (assign, ":current_day", reg0),
+            (try_for_range, ":index", 0, claims_count_max),
+                (store_mul, ":offset", ":index", claims_slot_count),
+                (val_add, ":offset", slot_claim_source_begin),
+                (store_add, ":expiration_slot", ":offset", 5),
+                (faction_get_slot, ":expiration", "fac_claims_storage", ":expiration_slot"),
+
+                (neq, ":expiration", -1),
+                (gt, ":current_day", ":expiration"),
+                (call_script, "script_claim_remove", ":index"),
+            (try_end),
+
         ]),
 
     (weekly, # Centers corruption

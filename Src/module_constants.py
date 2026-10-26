@@ -1113,8 +1113,9 @@ slot_claim_target_begin = slot_claim_source_begin + 1
 slot_claim_type_begin = slot_claim_target_begin + 1
 slot_claim_parameter_begin = slot_claim_type_begin + 1
 slot_claim_date_begin = slot_claim_parameter_begin + 1
+slot_claim_expiration_date_begin = slot_claim_date_begin + 1
 
-claims_slot_count = slot_claim_date_begin - slot_claim_source_begin + 1
+claims_slot_count = slot_claim_expiration_date_begin - slot_claim_source_begin + 1
 claims_count_max = 100
 
 ct_regain_old_territory = 1

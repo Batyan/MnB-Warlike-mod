@@ -727,10 +727,11 @@ script_claim_generate = 725
 script_claim_remove = 726
 script_claim_remove_for_factions = 727
 script_claim_get_string = 728
-script_war_process_end_claims = 729
-script_presentation_generate_select_lord_card = 730
-script_presentation_create_text_overlay = 731
-script_presentation_create_combo_button_overlay = 732
-script_presentation_create_check_box_overlay = 733
+script_claim_type_get_expiration_date = 729
+script_war_process_end_claims = 730
+script_presentation_generate_select_lord_card = 731
+script_presentation_create_text_overlay = 732
+script_presentation_create_combo_button_overlay = 733
+script_presentation_create_check_box_overlay = 734
 
 

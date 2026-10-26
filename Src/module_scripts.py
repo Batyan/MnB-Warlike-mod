@@ -2268,7 +2268,7 @@ scripts = [
                         (assign, ":source", reg0),
                         (try_begin),
                             (eq, ":source", ":faction_no"),
-                            (assign, ":global_index", reg5),
+                            (assign, ":global_index", reg6),
 
                             (str_store_string, s20, "@{s0}"),
                             (call_script, "script_claim_get_string", ":global_index"),
@@ -38389,7 +38389,8 @@ scripts = [
         #   reg2: type
         #   reg3: parameter
         #   reg4: date
-        #   reg5: global_index
+        #   reg5: expiration_date
+        #   reg6: global_index
     ("claim_get_for_faction",
         [
             (store_script_param, ":faction_no", 1),
@@ -38400,6 +38401,7 @@ scripts = [
             (assign, ":type_res", -1),
             (assign, ":parameter_res", -1),
             (assign, ":date_res", -1),
+            (assign, ":expiration_res", -1),
 
             (assign, ":faction_index", 0),
             (assign, ":end", claims_count_max),
@@ -38421,6 +38423,8 @@ scripts = [
                     (faction_get_slot, ":parameter_res", "fac_claims_storage", ":parameter_slot"),
                     (store_add, ":date_slot", ":offset", 4),
                     (faction_get_slot, ":date_res", "fac_claims_storage", ":date_slot"),
+                    (store_add, ":expiration_slot", ":offset", 4),
+                    (faction_get_slot, ":expiration_res", "fac_claims_storage", ":expiration_slot"),
 
                     (assign, ":end", 0),
                 (else_try),
@@ -38432,7 +38436,8 @@ scripts = [
             (assign, reg2, ":type_res"),
             (assign, reg3, ":parameter_res"),
             (assign, reg4, ":date_res"),
-            (assign, reg5, ":cur_index"),
+            (assign, reg5, ":expiration_res"),
+            (assign, reg6, ":cur_index"),
         ]),
 
     # script_claim_generate
@@ -38476,6 +38481,10 @@ scripts = [
                 (store_add, ":date_slot", ":offset", 4),
                 (faction_set_slot, "fac_claims_storage", ":date_slot", ":date"),
 
+                (store_add, ":expiration_slot", ":offset", 5),
+                (call_script, "script_claim_type_get_expiration_date", ":type", ":date"),
+                (faction_set_slot, "fac_claims_storage", ":expiration_slot", reg0),
+
                 (try_begin),
                     (call_script, "script_cf_debug", debug_simple),
                     (call_script, "script_claim_get_string", ":index"),
@@ -38507,12 +38516,20 @@ scripts = [
             (store_add, ":type_slot", ":offset", 2),
             (store_add, ":parameter_slot", ":offset", 3),
             (store_add, ":date_slot", ":offset", 4),
+            (store_add, ":expiration_slot", ":offset", 5),
+
+            (try_begin),
+                (call_script, "script_cf_debug", debug_simple),
+                (call_script, "script_claim_get_string", ":index"),
+                (display_message, "@Removing claim: {s0}"),
+            (try_end),
 
             (faction_set_slot, "fac_claims_storage", ":source_slot", -1),
             (faction_set_slot, "fac_claims_storage", ":target_slot", -1),
             (faction_set_slot, "fac_claims_storage", ":type_slot", -1),
             (faction_set_slot, "fac_claims_storage", ":parameter_slot", -1),
             (faction_set_slot, "fac_claims_storage", ":date_slot", -1),
+            (faction_set_slot, "fac_claims_storage", ":expiration_slot", -1),
 
             (try_begin),
                 (faction_get_slot, ":cur_free_index", "fac_claims_storage", slot_claim_quick_free_index),
@@ -38563,16 +38580,18 @@ scripts = [
             (store_add, ":type_slot", ":offset", 2),
             (store_add, ":parameter_slot", ":offset", 3),
             (store_add, ":date_slot", ":offset", 4),
+            (store_add, ":expiration_slot", ":offset", 5),
 
             (faction_get_slot, ":source", "fac_claims_storage", ":source_slot"),
             (faction_get_slot, ":target", "fac_claims_storage", ":target_slot"),
             (faction_get_slot, ":type", "fac_claims_storage", ":type_slot"),
             (faction_get_slot, ":parameter", "fac_claims_storage", ":parameter_slot"),
             (faction_get_slot, ":date", "fac_claims_storage", ":date_slot"),
+            (faction_get_slot, ":expiration", "fac_claims_storage", ":expiration_slot"),
 
             (try_begin),
                 (eq, ":source", -1),
-                (str_store_string, s0, "@None"),
+                (str_store_string, s0, "str_none"),
             (else_try),
                 (call_script, "script_game_get_date_text", -1, ":date"),
 
@@ -38592,6 +38611,50 @@ scripts = [
                     (eq, ":type", ct_regain_freedom),
                     (str_store_string, s0, "@{s10} wants to regain independance from {s11} on {s1}"),
                 (try_end),
+            (try_end),
+
+            (try_begin),
+                (gt, ":expiration", 0),
+                (call_script, "script_game_get_date_text", -1, ":expiration"),
+
+                (str_store_string, s0, "@{s0} (expires on {s1})"),
+
+            (try_end),
+        ]),
+
+    # script_claim_type_get_expiration_date
+        # input:
+        #   arg1: claim_type
+        #   arg2: start_date
+        # output:
+        #   reg0: expiration_date
+    ("claim_type_get_expiration_date",
+        [
+            (store_script_param, ":claim_type", 1),
+            (store_script_param, ":start_date", 2),
+
+            (assign, ":duration", -1),
+
+            (try_begin),
+                (eq, ":claim_type", ct_regain_old_territory),
+                (assign, ":duration", 365*50),
+            (else_try),
+                (eq, ":claim_type", ct_insulted),
+                (assign, ":duration", 365*5),
+            # (else_try),
+            #     (eq, ":claim_type", ct_regain_freedom),
+            #     (assign, ":duration", -1),
+            # (else_try),
+            #     (eq, ":claim_type", ct_reparation),
+            #     (assign, ":duration", -1),
+            (try_end),
+
+            (try_begin),
+                (eq, ":duration", -1),
+                (assign, reg0, -1),
+            (else_try),
+                (store_add, ":expiration", ":start_date", ":duration"),
+                (assign, reg0, ":expiration"),
             (try_end),
         ]),
 
