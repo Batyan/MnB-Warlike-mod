@@ -1020,13 +1020,14 @@ slot_faction_politic_behavior = slot_faction_peasant_troop + 1
 fpb_none = 0
 fpb_improve_relation = 1
 fpb_prepare_war = 2
-fpb_declare_war = 3
-fpb_war_peace_out = 4
-fpb_war_peace_out_all = 5
-fpb_war_seek_help = 6
-fpb_increase_safety = 7
-fpb_seek_trade = 8
-fpb_break_treaty = 9
+fpb_degrade_relation = 3
+fpb_declare_war = 4
+fpb_war_peace_out = 5
+fpb_war_peace_out_all = 6
+fpb_war_seek_help = 7
+fpb_increase_safety = 8
+fpb_seek_trade = 9
+fpb_break_treaty = 10
 
 fpb_behavior_end = fpb_break_treaty + 1
 
