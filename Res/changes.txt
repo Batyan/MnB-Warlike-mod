@@ -1,3 +1,33 @@
+v0.740:
+	-Features:
+		* add troops attitude to influence decisions
+		* add kingdom goal to influence decisions
+		* allow prepared wars for kingdoms
+		* add casus belli system for kingdoms
+		* add requirement for ai kingdoms to declare war with a casus belli
+		* kingdoms generate threat when cause hostile actions
+	-Balances:
+		* remove leather_vest from vaegir_militia
+		* add fur_coat to vaegir_militia
+		* increase towns recruitment capacity by 50%
+		* add 2 new castle scenes
+		* decrease winged_mace base price 6850 -> 4850
+		* change vaegir_light_club_infantry weapon (mace_2 -> winged_mace)
+		* change vaegir_club_infantry weapon (mace_3 -> winged_mace)
+		* change vaegir_heavy_club_infantry weapon (mace_4 -> spiked_mace)
+		* add vaegir_footman weapon (winged_mace)
+		* add vaegir_heavy_footman weapon (winged_mace)
+		* add vaegir_warrior weapon (spiked_mace)
+		* add vaegir_horseman weapon (winged_mace)
+		* add vaegir_royal_horseman weapon (spiked_mace)
+		* add vaegir_knight weapon (spiked_mace)
+		* improve intro quest thugs patience mechanics
+		* increase debts interests rate (x2.5)
+	-Fixes:
+		* display companion troops with player banner in instances where they were not
+		* fix tax corruption going higher than taxes
+		* hide companion status messages behind debug options
+		* fix some faction relation changes not applied
 v0.730:
 	-Features:
 		* add mercenary guild buildings

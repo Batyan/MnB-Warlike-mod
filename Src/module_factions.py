@@ -149,4 +149,6 @@ factions = [
 	("war_storage_40", "War storage 40", 0, 0.9, [], []),
 
 	("war_storage_end", "War storage end", 0, 0.9, [], []),
+
+	("claims_storage", "Claims storage", 0, 0.9, [], []),
 ]

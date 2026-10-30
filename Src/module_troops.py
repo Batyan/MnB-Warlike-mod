@@ -2190,7 +2190,7 @@ troops = [
   ["vaegir_militia", "Vaegir Militia", "Vaegir Militias", tf_guarantee_recruit_armor|tf_guarantee_ranged, no_scene, reserved, fac_small_kingdom_23,
    [itm_hatchet, itm_butchering_knife, itm_hunting_bow, itm_barbed_arrows,
     itm_nomad_boots, itm_hide_boots,
-    itm_leather_vest_herald, itm_linen_tunic_herald,
+    itm_linen_tunic_herald, itm_fur_coat,
     itm_vaegir_fur_cap, itm_leather_cap, itm_leather_warrior_cap,
     ],
    str_8|agi_8|int_6|cha_6|level(5), wpex(55,50,45,75,20,40), knows_common|knows_ironflesh_1|knows_power_strike_2|knows_power_draw_4|knows_athletics_3|knows_riding_2|knows_horse_archery_1, vaegir_face_young_1, vaegir_face_old_2 ],
@@ -2262,10 +2262,10 @@ troops = [
     itm_steppe_horse],
    str_10|agi_15|int_7|cha_8|level(17), wpex(75,75,105,130,35,30), knows_common|knows_ironflesh_1|knows_power_strike_3|knows_power_throw_1|knows_power_draw_4|knows_athletics_4|knows_riding_6|knows_horse_archery_5, vaegir_face_young_1, vaegir_face_old_2 ],
   
-  # Medium infantry, sabres, axes, shields
+  # Medium infantry, sabres, axes, maces, shields
   # SPECIAL
   ["vaegir_footman", "Vaegir Footman", "Vaegir Footman", tf_guarantee_common_armor|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_23,
-   [itm_scimitar, itm_one_handed_battle_axe_a, itm_tab_shield_kite_b,itm_tab_shield_kite_b_plain_1,itm_tab_shield_kite_b_plain_2,
+   [itm_scimitar, itm_one_handed_battle_axe_a, itm_winged_mace, itm_tab_shield_kite_b,itm_tab_shield_kite_b_plain_1,itm_tab_shield_kite_b_plain_2,
     itm_leather_boots, itm_leather_gloves,
     itm_tribal_warrior_outfit, itm_studded_leather_coat_herald,
     itm_vaegir_fur_cap, itm_vaegir_fur_helmet, itm_vaegir_spiked_helmet,
@@ -2275,7 +2275,7 @@ troops = [
   # Light infantry, maces, shields
   # SPECIAL
   ["vaegir_light_club_infantry", "Vaegir Light Club Infantry", "Vaegir Light Club Infantries", tf_guarantee_common_armor|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_22,
-   [itm_mace_2, itm_tab_shield_kite_b,itm_tab_shield_kite_b_plain_1,itm_tab_shield_kite_b_plain_2,
+   [itm_winged_mace, itm_tab_shield_kite_b,itm_tab_shield_kite_b_plain_1,itm_tab_shield_kite_b_plain_2,
     itm_leather_boots, itm_leather_gloves,
     itm_tribal_warrior_outfit,
     itm_vaegir_fur_cap, itm_vaegir_fur_helmet, itm_vaegir_spiked_helmet,
@@ -2376,10 +2376,10 @@ troops = [
     ],
    str_15|agi_13|int_8|cha_9|level(22), wpex(95,90,135,70,25,50), knows_common|knows_ironflesh_5|knows_power_strike_4|knows_power_throw_1|knows_power_draw_2|knows_athletics_5|knows_riding_2, vaegir_face_young_1, vaegir_face_old_2 ],
   
-   # Medium cavalry, sabres, axes, shields
+   # Medium cavalry, sabres, axes, maces, shields
    # SPECIAL
   ["vaegir_horseman", "Vaegir Horseman", "Vaegir Horsemen", tf_guarantee_trained_armor|tf_guarantee_shield|tf_guarantee_horseman, no_scene, reserved, fac_small_kingdom_22,
-   [itm_scimitar, itm_one_handed_battle_axe_a, itm_mace_3, itm_tab_shield_kite_cav_b,itm_tab_shield_kite_cav_b_plain_1,itm_tab_shield_kite_cav_b_plain_2,
+   [itm_scimitar, itm_one_handed_battle_axe_a, itm_winged_mace, itm_tab_shield_kite_cav_b,itm_tab_shield_kite_cav_b_plain_1,itm_tab_shield_kite_cav_b_plain_2,
     itm_leather_boots, itm_mail_chausses, itm_leather_gloves,
     itm_mail_hauberk_herald, itm_studded_leather_coat_herald, itm_lamellar_vest_herald,
     itm_vaegir_lamellar_helmet, itm_vaegir_spiked_helmet, itm_vaegir_fur_helmet,
@@ -2406,10 +2406,10 @@ troops = [
     itm_steppe_horse],
    str_13|agi_15|int_9|cha_10|level(24), wpex(80,60,40,115,40,40), knows_common|knows_ironflesh_1|knows_power_strike_2|knows_power_draw_6|knows_athletics_4|knows_riding_6|knows_horse_archery_6, vaegir_face_young_1, vaegir_face_old_2 ],
   
-  # Medium infantry, sabres, axes, shields
+  # Medium infantry, sabres, axes, maces, shields
   # SPECIAL
   ["vaegir_heavy_footman", "Vaegir Heavy Footman", "Vaegir Heavy Footmen", tf_guarantee_trained_armor|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_23,
-   [itm_scimitar_b, itm_one_handed_war_axe_b, itm_tab_shield_kite_c,itm_tab_shield_kite_c_plain_1,itm_tab_shield_kite_c_plain_2,
+   [itm_scimitar_b, itm_one_handed_war_axe_b, itm_winged_mace, itm_tab_shield_kite_c,itm_tab_shield_kite_c_plain_1,itm_tab_shield_kite_c_plain_2,
     itm_leather_boots, itm_mail_chausses, itm_leather_gloves,
     itm_mail_hauberk_herald, itm_lamellar_vest_herald,
     itm_vaegir_lamellar_helmet, itm_vaegir_fur_helmet, itm_vaegir_helmet, itm_vaegir_spiked_helmet,
@@ -2429,7 +2429,7 @@ troops = [
   # Medium infantry, maces, shields
   # SPECIAL
   ["vaegir_club_infantry", "Vaegir Club Infantry", "Vaegir Club Infantries", tf_guarantee_trained_armor|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_22,
-   [itm_mace_3, itm_tab_shield_kite_c,itm_tab_shield_kite_c_plain_1,itm_tab_shield_kite_c_plain_2,
+   [itm_winged_mace, itm_tab_shield_kite_c,itm_tab_shield_kite_c_plain_1,itm_tab_shield_kite_c_plain_2,
     itm_leather_boots, itm_mail_chausses, itm_leather_gloves,
     itm_mail_hauberk_herald, itm_lamellar_vest_herald,
     itm_vaegir_lamellar_helmet, itm_vaegir_fur_helmet, itm_vaegir_helmet, itm_vaegir_spiked_helmet,
@@ -2495,10 +2495,10 @@ troops = [
     ],
    str_15|agi_16|int_9|cha_9|level(26), wpex(105,95,90,65,25,90), knows_common|knows_ironflesh_4|knows_power_strike_3|knows_power_throw_3|knows_power_draw_1|knows_athletics_4|knows_riding_2|knows_shield_1, vaegir_face_young_1, vaegir_face_old_2 ],
    
-  # Heavy infantry, sabres, axes, shields
+  # Heavy infantry, sabres, axes, maces, shields
   # SPECIAL
   ["vaegir_warrior", "Vaegir Warrior", "Vaegir Warriors", tf_guarantee_trained_armor|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_23,
-   [itm_scimitar_b, itm_one_handed_war_axe_b, itm_tab_shield_kite_d,itm_tab_shield_kite_d_plain_1,itm_tab_shield_kite_d_plain_2,
+   [itm_scimitar_b, itm_one_handed_war_axe_b, itm_spiked_mace, itm_tab_shield_kite_d,itm_tab_shield_kite_d_plain_1,itm_tab_shield_kite_d_plain_2,
     itm_mail_boots, itm_mail_mittens,
     itm_lamellar_armor_herald, itm_banded_armor,
     itm_vaegir_helmet, itm_vaegir_noble_helmet, itm_vaegir_lamellar_helmet,
@@ -2518,7 +2518,7 @@ troops = [
   # Heavy infantry, maces, shields
   # SPECIAL
   ["vaegir_heavy_club_infantry", "Vaegir Heavy Club Infantry", "Vaegir Heavy Club Infantries", tf_guarantee_trained_armor|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_22,
-   [itm_mace_4, itm_tab_shield_kite_d,itm_tab_shield_kite_d_plain_1,itm_tab_shield_kite_d_plain_2,
+   [itm_spiked_mace, itm_tab_shield_kite_d,itm_tab_shield_kite_d_plain_1,itm_tab_shield_kite_d_plain_2,
     itm_mail_boots, itm_mail_mittens,
     itm_lamellar_armor_herald, itm_banded_armor,
     itm_vaegir_helmet, itm_vaegir_noble_helmet, itm_vaegir_lamellar_helmet,
@@ -2555,10 +2555,10 @@ troops = [
     itm_warhorse],
    str_19|agi_20|int_12|cha_16|level(44), wpex(110,115,145,85,40,80), knows_common|knows_ironflesh_6|knows_power_strike_5|knows_power_throw_1|knows_power_draw_4|knows_athletics_4|knows_riding_6|knows_shield_1|knows_horse_archery_2, vaegir_face_young_1, vaegir_face_old_2 ],
   
-  # Heavy cavalry, sabres, 2h axes, lances, shields
+  # Heavy cavalry, sabres, maces, 2h axes, lances, shields
   # SPECIAL
   ["vaegir_royal_horseman", "Vaegir Royal Horseman", "Vaegir Royal Horsemen", tf_guarantee_trained_armor|tf_guarantee_shield|tf_guarantee_horseman, no_scene, reserved, fac_small_kingdom_22,
-   [itm_scimitar_b, itm_bardiche, itm_heavy_lance, itm_tab_shield_kite_cav_b,itm_tab_shield_kite_cav_b_plain_1,itm_tab_shield_kite_cav_b_plain_2,
+   [itm_scimitar_b, itm_spiked_mace, itm_bardiche, itm_heavy_lance, itm_tab_shield_kite_cav_b,itm_tab_shield_kite_cav_b_plain_1,itm_tab_shield_kite_cav_b_plain_2,
     itm_mail_boots, itm_iron_greaves, itm_mail_mittens,
     itm_banded_armor, itm_lamellar_armor_herald,
     itm_vaegir_war_helmet, itm_vaegir_noble_helmet, itm_vaegir_helmet,
@@ -2585,9 +2585,9 @@ troops = [
     itm_hunter],
    str_19|agi_19|int_10|cha_16|level(41), wpex(110,145,110,85,40,115), knows_common|knows_ironflesh_5|knows_power_strike_4|knows_power_throw_3|knows_power_draw_4|knows_athletics_5|knows_riding_6|knows_shield_1|knows_horse_archery_6, vaegir_face_young_1, vaegir_face_old_2 ],
   
-  # Heavy cavalry, sabres, 2h axes, lances, shields
+  # Heavy cavalry, sabres, maces, 2h axes, lances, shields
   ["vaegir_knight", "Vaegir Knight", "Vaegir Knights", tf_guarantee_trained_armor|tf_guarantee_shield|tf_guarantee_horseman, no_scene, reserved, fac_small_kingdom_23,
-   [itm_scimitar_b, itm_bardiche, itm_heavy_lance, itm_tab_shield_kite_cav_b,itm_tab_shield_kite_cav_b_plain_1,itm_tab_shield_kite_cav_b_plain_2,
+   [itm_scimitar_b, itm_spiked_mace, itm_bardiche, itm_heavy_lance, itm_tab_shield_kite_cav_b,itm_tab_shield_kite_cav_b_plain_1,itm_tab_shield_kite_cav_b_plain_2,
     itm_mail_boots, itm_iron_greaves, itm_mail_mittens,
     itm_brigandine_red_herald, itm_banded_armor, itm_lamellar_armor_herald,
     itm_vaegir_war_helmet, itm_vaegir_noble_helmet, itm_vaegir_helmet,
@@ -6579,7 +6579,7 @@ troops = [
     knows_trade_2, 0, 0 ],
   ["npc_archetype_engineer", "Archetype", "Archetype", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners,
     [
-      itm_leather_boots, itm_nomad_boots, itm_ankle_boots, itm_leather_gloves,
+      itm_leather_boots, itm_nomad_boots, itm_ankle_boots, itm_leather_gloves, itm_rich_shirt_herald, itm_linen_tunic_herald, itm_tabard_herald,
       itm_sword_medieval_a, itm_sword_medieval_a_long, itm_hunting_crossbow, itm_bolts, itm_darts,
     ],
     def_attrib|level(4), wpex(8,2,4,1,10,2),

@@ -1339,12 +1339,19 @@ dialogs = [
         [
             (quest_get_slot, ":object", "qst_introduction_default_search", slot_quest_object),
             (str_store_troop_name, s20, ":object"),
-        ], "Tell me everything you know about {s20}.", "intro_quest_thugs_threatening", []],
+        ], "Tell me everything you know about {s20}.", "intro_quest_thugs_threatening",
+        [
+            (call_script, "script_intro_quest_thugs_init_patience"),
+            (call_script, "script_intro_quest_thugs_decrease_patience"),
+        ]],
     [anyone|plyr, "intro_quest_thugs",
         [
             (quest_get_slot, ":object", "qst_introduction_default_search", slot_quest_object),
             (str_store_troop_name_plural, s20, ":object"),
-        ], "Do you know of a man named {s20}?", "intro_quest_thugs_asking", []],
+        ], "Do you know of a man named {s20}?", "intro_quest_thugs_asking",
+        [
+            (call_script, "script_intro_quest_thugs_init_patience"),
+        ]],
     [anyone|plyr, "intro_quest_thugs",
         [], "I'll teach you a lesson and then we'll chat!", "intro_quest_thugs_fight", []],
     [anyone|plyr, "intro_quest_thugs",
@@ -1353,12 +1360,9 @@ dialogs = [
     [anyone, "intro_quest_thugs_threatening",
         [
             (quest_get_slot, ":value", "qst_introduction_default_search_1", slot_quest_value),
-            (ge, ":value", 0),
+            (ge, ":value", 3),
         ], "This rascal has gall! I'll humor you for now.", "intro_quest_thugs_questions_accept",
         [
-            (quest_get_slot, ":value", "qst_introduction_default_search_1", slot_quest_value),
-            (val_add, ":value", -1),
-            (quest_set_slot, "qst_introduction_default_search_1", slot_quest_value, ":value"),
         ]],
     [anyone, "intro_quest_thugs_threatening", [], "You little shit! I'll teach you to talk to me like that!", "close_window",
         [
@@ -1371,21 +1375,7 @@ dialogs = [
     [anyone|plyr, "intro_quest_thugs_bribe",
         [], "I'm not paying you a thing", "intro_quest_thugs_bribe_nothing", 
         [
-            (assign, ":patience_change", -3),
-            (store_skill_level, ":persuasion", skl_persuasion, "$g_player_troop"),
-            (try_begin),
-                (ge, ":persuasion", 5),
-                (assign, ":patience_change", 0),
-            (else_try),
-                (ge, ":persuasion", 3),
-                (assign, ":patience_change", -1),
-            (else_try),
-                (ge, ":persuasion", 1),
-                (assign, ":patience_change", -2),
-            (try_end),
-            (quest_get_slot, ":value", "qst_introduction_default_search_1", slot_quest_value),
-            (val_add, ":value", ":patience_change"),
-            (quest_set_slot, "qst_introduction_default_search_1", slot_quest_value, ":value"),
+            (call_script, "script_intro_quest_thugs_decrease_patience"),
         ]],
     [anyone|plyr, "intro_quest_thugs_bribe",
         [
@@ -1394,22 +1384,21 @@ dialogs = [
         ], "How about 100 denars?", "intro_quest_thugs_money",
         [
             (troop_remove_gold, "$g_player_troop", 100),
-
-            (assign, ":patience_change", -1),
-            (store_skill_level, ":persuasion", skl_persuasion, "$g_player_troop"),
-            (try_begin),
-                (ge, ":persuasion", 2),
-                (assign, ":patience_change", 0),
-            (try_end),
-            (quest_get_slot, ":value", "qst_introduction_default_search_1", slot_quest_value),
-            (val_add, ":value", ":patience_change"),
-            (quest_set_slot, "qst_introduction_default_search_1", slot_quest_value, ":value"),
+            (call_script, "script_party_modify_wealth", "$g_encountered_party", 100),
         ]],
     [anyone|plyr, "intro_quest_thugs_bribe", 
         [
             (store_troop_gold, ":player_gold", "$g_player_troop"),
             (ge, ":player_gold", 1000),
-        ], "How about 1000 denars?", "intro_quest_thugs_money", [(troop_remove_gold, "$g_player_troop", 1000),]],
+        ], "How about 1000 denars?", "intro_quest_thugs_money",
+        [
+            (troop_remove_gold, "$g_player_troop", 1000),
+            (call_script, "script_party_modify_wealth", "$g_encountered_party", 1000),
+
+            (quest_get_slot, ":value", "qst_introduction_default_search_1", slot_quest_value),
+            (val_add, ":value", 1),
+            (quest_set_slot, "qst_introduction_default_search_1", slot_quest_value, ":value"),
+        ]],
     [anyone|plyr, "intro_quest_thugs_bribe",
         [
             (store_troop_gold, ":player_gold", "$g_player_troop"),
@@ -1417,35 +1406,25 @@ dialogs = [
         ], "How about 2000 denars?", "intro_quest_thugs_money",
         [
             (troop_remove_gold, "$g_player_troop", 2000),
+            (call_script, "script_party_modify_wealth", "$g_encountered_party", 2000),
 
             (quest_get_slot, ":value", "qst_introduction_default_search_1", slot_quest_value),
-            (val_add, ":value", 1),
+            (val_add, ":value", 2),
             (quest_set_slot, "qst_introduction_default_search_1", slot_quest_value, ":value"),
         ]],
     [anyone|plyr, "intro_quest_thugs_bribe", [], "I'm willing to let you live afterward.", "intro_quest_thugs_threat",
         [
-
-            (assign, ":patience_change", -3),
-            (store_skill_level, ":persuasion", skl_intimidation, "$g_player_troop"),
-            (try_begin),
-                (ge, ":persuasion", 5),
-                (assign, ":patience_change", 0),
-            (else_try),
-                (ge, ":persuasion", 3),
-                (assign, ":patience_change", -1),
-            (else_try),
-                (ge, ":persuasion", 1),
-                (assign, ":patience_change", -2),
-            (try_end),
-            (quest_get_slot, ":value", "qst_introduction_default_search_1", slot_quest_value),
-            (val_add, ":value", ":patience_change"),
-            (quest_set_slot, "qst_introduction_default_search_1", slot_quest_value, ":value"),
+            (call_script, "script_intro_quest_thugs_decrease_patience"),
+            (call_script, "script_intro_quest_thugs_decrease_patience"),
+            (call_script, "script_intro_quest_thugs_decrease_patience"),
         ]],
 
     [anyone, "intro_quest_thugs_bribe_nothing",
         [
+            (quest_get_slot, ":value", "qst_introduction_default_search_1", slot_quest_value),
             (store_skill_level, ":persuasion", skl_persuasion, "$g_player_troop"),
             (lt, ":persuasion", 2),
+            (lt, ":value", 3),
         ], "Well no paying means no saying.", "intro_quest_thugs", []],
     [anyone, "intro_quest_thugs_bribe_nothing", [], "What a tight arse, whatever.", "intro_quest_thugs_questions_accept", []],
     [anyone, "intro_quest_thugs_money",
@@ -1454,7 +1433,11 @@ dialogs = [
             (ge, ":value", 0),
         ], "Now we're talking, a pleasure doing business with you", "intro_quest_thugs_questions_accept", []],
     [anyone, "intro_quest_thugs_money", [], "You don't value this information that much do you? No deal then.", "intro_quest_thugs", []],
-    [anyone, "intro_quest_thugs_threat", [], "I guess there's no harm in saying it.", "intro_quest_thugs_questions_accept", []],
+    [anyone, "intro_quest_thugs_threat", 
+        [
+            (quest_get_slot, ":value", "qst_introduction_default_search_1", slot_quest_value),
+            (ge, ":value", 2),
+        ], "I guess there's no harm in saying it.", "intro_quest_thugs_questions_accept", []],
     [anyone, "intro_quest_thugs_threat", [], "I don't like idle threats, men get {him/her}!", "close_window",
         [
             (party_set_slot, "$g_encountered_party", slot_party_speak_allowed, 0),
@@ -1485,9 +1468,7 @@ dialogs = [
 
     [anyone, "intro_quest_thugs_question_ask_brother",
         [
-            (quest_get_slot, ":value", "qst_introduction_default_search_1", slot_quest_value),
-            (val_add, ":value", -1),
-            (quest_set_slot, "qst_introduction_default_search_1", slot_quest_value, ":value"),
+            (call_script, "script_intro_quest_thugs_decrease_patience"),
         ], "I know the man you speak about and I'm not stupid enough to make myself an enemy of nobility.", "intro_quest_thugs_question_ask_brother_2",
         [
             (quest_get_slot, ":object", "qst_introduction_default_search", slot_quest_object),
@@ -1498,14 +1479,20 @@ dialogs = [
     [anyone, "intro_quest_thugs_question_ask_brother_2", [], "I only care about forgotten people, those that are not missed by anyone.", "intro_quest_thugs_question_ask_brother_3", []],
     [anyone, "intro_quest_thugs_question_ask_brother_3", [], "Business is business ain't it?", "intro_quest_thugs_return", []],
 
-    [anyone, "intro_quest_thugs_question_where", [], "I don't keep anyone, I don't need these people so I sell them.", "intro_quest_thugs_question_where_2",
+    [anyone, "intro_quest_thugs_question_where",
+        [
+            (call_script, "script_intro_quest_thugs_decrease_patience"),
+        ], "I don't keep anyone, I don't need these people so I sell them.", "intro_quest_thugs_question_where_2",
         [
             (str_store_string, s0, "@The thugs sell their victims to various clients demanding live human beings."),
             (call_script, "script_quest_add_note", "qst_introduction_default_search_1", 0),
         ]],
     [anyone, "intro_quest_thugs_question_where_2", [], "There are many people willing to pay for living beings and I deliver.", "intro_quest_thugs_return", []],
 
-    [anyone, "intro_quest_thugs_question_who", [], "I'm a man under my own lead, no master.", "intro_quest_thugs_question_who_2", []],
+    [anyone, "intro_quest_thugs_question_who",
+        [
+            (call_script, "script_intro_quest_thugs_decrease_patience"),
+        ], "I'm a man under my own lead, no master.", "intro_quest_thugs_question_who_2", []],
     [anyone, "intro_quest_thugs_question_who_2",
         [
             (str_store_troop_name, s11, "trp_intro_quest_slaver"),
@@ -1526,9 +1513,15 @@ dialogs = [
     [anyone, "intro_quest_thugs_return",
         [
             (quest_get_slot, ":value", "qst_introduction_default_search_1", slot_quest_value),
-            (ge, ":value", 0),
+            (gt, ":value", 0),
         ], "Anything else?", "intro_quest_thugs_player_questions", []],
-    [anyone, "intro_quest_thugs_return", [], "Now, I enjoyed our little chat, but unfortunately for you, I'll have to kill you.", "intro_quest_thugs_end_fight", []],
+    [anyone, "intro_quest_thugs_return", [], "Now, I enjoyed our little chat, but unfortunately for you, I'll have to kill you.", "intro_quest_thugs_end_fight",
+        [
+            (try_begin),
+                (quest_slot_eq, "qst_introduction_default_search_1", slot_quest_asked_who, 1),
+                (call_script, "script_succeed_quest", "qst_introduction_default_search_1"),
+            (try_end),
+        ]],
     [anyone, "intro_quest_thugs_end_fight", [], "No hard feelings aye?", "close_window",
         [
             (party_set_slot, "$g_encountered_party", slot_party_speak_allowed, 0),
