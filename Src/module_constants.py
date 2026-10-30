@@ -1034,6 +1034,15 @@ fpb_behavior_end = fpb_break_treaty + 1
 faction_politic_behavior_current_bonus = 20
 faction_politic_behavior_variance = 25
 
+slot_faction_threat = slot_faction_politic_behavior + 1
+
+threat_generation_declare_war = 5
+threat_generation_capture_castle = 10
+threat_generation_capture_city = 25
+threat_generation_make_vassal_small = 10
+threat_generation_make_vassal_medium = 20
+threat_generation_make_vassal_large = 50
+
 
 #######################
 ## War Storage Slots ##

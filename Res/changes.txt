@@ -2,9 +2,10 @@ v0.740:
 	-Features:
 		* add troops attitude to influence decisions
 		* add kingdom goal to influence decisions
-		* allow prepared wars for empires
+		* allow prepared wars for kingdoms
 		* add casus belli system for kingdoms
 		* add requirement for ai kingdoms to declare war with a casus belli
+		* kingdoms generate threat when cause hostile actions
 	-Balances:
 		* remove leather_vest from vaegir_militia
 		* add fur_coat to vaegir_militia

@@ -909,4 +909,24 @@ simple_triggers = [
                 (try_end),
             (try_end),
         ]),
+
+
+    (yearly*5,
+        [
+            (try_for_range, ":faction_no", kingdoms_begin, kingdoms_end),
+            # Reduce threat
+                (faction_get_slot, ":threat", ":faction_no", slot_faction_threat),
+                (try_begin),
+                    (gt, ":threat", 0),
+                    (val_sub, ":threat", 1),
+                    (faction_set_slot, ":faction_no", slot_faction_threat, ":threat"),
+                    (try_begin),
+                        (call_script, "script_cf_debug", debug_war|debug_current),
+                        (str_store_faction_name, s10, ":faction_no"),
+                        (assign, reg10, ":threat"),
+                        (display_message, "@{s10} threat reduced to {reg10}"),
+                    (try_end),
+                (try_end),
+            (try_end),
+        ]),
 ]

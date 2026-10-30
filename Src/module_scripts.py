@@ -9104,6 +9104,9 @@ scripts = [
             (try_begin),
                 (this_or_next|eq, ":main_participant", 1),
                 (eq, ":preparation", 1),
+
+                (call_script, "script_faction_increase_threat", ":faction_1", threat_generation_declare_war),
+
                 (call_script, "script_update_faction_war_count"),
 
                 (try_for_range, ":faction_1", kingdoms_begin, kingdoms_end),
@@ -19157,9 +19160,17 @@ scripts = [
                 (is_between, ":preparing_war", war_storages_begin, war_storages_end),
                 (call_script, "script_faction_is_war_participant", ":war_target", ":preparing_war"),
                 (eq, reg0, swkp_main_defender),
-                (val_add, ":preparing_war_score", 20),
+                (val_add, ":preparing_war_score", 25),
             (try_end),
             (val_add, ":score", ":preparing_war_score"),
+
+            (assign, ":threat_score", 0),
+            (try_begin),
+                (faction_get_slot, ":threat", ":war_target", slot_faction_threat),
+                (val_mul, ":threat", ":threat"),
+                (val_div, ":threat", 100),
+                (val_add, ":threat_score", ":threat"),
+            (try_end),
 
             (try_begin),
                 (call_script, "script_cf_debug", debug_faction),
@@ -19174,7 +19185,8 @@ scripts = [
                 (assign, reg15, ":inverse_safety"),
                 (assign, reg17, ":other_relations_score"),
                 (assign, reg18, ":preparing_war_score"),
-                (display_message, "@{s10} war score {s11}: {reg10} ({reg12} + {reg13} - {reg16} / {reg11}% - {reg14} - {reg15} + {reg17} + {reg18})"),
+                (assign, reg19, ":threat_score"),
+                (display_message, "@{s10} war score {s11}: {reg10} ({reg12} + {reg13} - {reg16} / {reg11}% - {reg14} - {reg15} + {reg17} + {reg18} + {reg19})"),
             (try_end),
 
             (assign, reg0, ":score"),
@@ -20344,6 +20356,13 @@ scripts = [
             (store_sub, ":target_faction_offset", ":target_faction", kingdoms_begin),
             (store_add, ":target_faction_relation_slot", ":target_faction_offset", slot_faction_kingdom_relation_begin),
             (faction_get_slot, ":base_relation", ":faction_no", ":target_faction_relation_slot"),
+
+            (try_begin),
+                (faction_get_slot, ":threat", ":target_faction", slot_faction_threat),
+                (val_mul, ":threat", ":threat"),
+                (val_div, ":threat", 100),
+                (val_sub, ":base_relation", ":threat"),
+            (try_end),
 
             # (store_sub, ":faction_offset", ":faction_no", kingdoms_begin),
             # (store_add, ":faction_relation_slot", ":faction_offset", slot_faction_kingdom_relation_begin),
@@ -28197,7 +28216,7 @@ scripts = [
             (party_get_slot, ":original_faction", ":center_no", slot_party_original_faction),
             (try_begin),
                 (eq, ":original_faction", ":faction_no"),
-                (assign, ":score", -50),
+                (assign, ":score", -25),
             (try_end),
 
             (assign, ":min_distance", 9999),
@@ -28209,6 +28228,25 @@ scripts = [
                 (assign, ":min_distance", ":distance"),
             (try_end),
             (val_add, ":score", ":min_distance"),
+
+            (assign, ":end", claims_count_max),
+            (try_for_range, ":index", 0, ":end"),
+                (call_script, "script_claim_get_for_faction", ":faction_no", ":index"),
+                (assign, ":source", reg0),
+                (assign, ":target", reg1),
+                (assign, ":type", reg2),
+                (try_begin),
+                    (neq, ":source", ":faction_no"),
+                    (assign, ":end", 0),
+                (else_try),
+                    (eq, ":type", ct_regain_old_territory),
+                    (eq, ":target", ":center_no"),
+                    (assign, ":end", 0),
+                    # Give priority if we have a claim on this
+                    (val_add, ":score", -50),
+                (try_end),
+            (try_end),
+
             (assign, reg0, ":score"),
         ]),
 
@@ -38838,8 +38876,8 @@ scripts = [
                 (else_try),
                     (try_begin),
                         (eq, ":type", wppt_transfer_center),
-                        (party_get_slot, ":old_faction", ":target", slot_party_faction),
-                        (call_script, "script_claim_generate", ":old_faction", ":target", ct_regain_old_territory, -1),
+                        (party_get_slot, ":old_faction", ":object", slot_party_faction),
+                        (call_script, "script_claim_generate", ":old_faction", ":target", ct_regain_old_territory, ":object"),
                     (else_try),
                     #     (eq, ":type", wppt_liberate_center),
                     #     (call_script, "script_claim_generate", ":object", ":target", ct_regain_old_territory, -1),
@@ -38852,8 +38890,110 @@ scripts = [
                     (try_end),
                 (try_end),
             (try_end),
+        ]),
 
+    # script_war_process_end_threat_generation
+        # input:
+        #   arg1: war_storage
+        # output: none
+    ("war_process_end_threat_generation",
+        [
+            (store_script_param, ":war_storage", 1),
 
+            (assign, ":end", num_peace_proposal),
+            (try_for_range, ":offset", 0, ":end"),
+                (store_add, ":slot_object", slot_war_peace_proposal_object_begin, ":offset"),
+                (store_add, ":slot_type", slot_war_peace_proposal_type_begin, ":offset"),
+                (store_add, ":slot_target", slot_war_peace_proposal_target_begin, ":offset"),
+                # (store_add, ":slot_value", slot_war_peace_proposal_value_begin, ":offset"),
+                        
+                (faction_get_slot, ":object", ":war_storage", ":slot_object"),
+                (faction_get_slot, ":type", ":war_storage", ":slot_type"),
+                (faction_get_slot, ":target", ":war_storage", ":slot_target"),
+                # (faction_get_slot, ":value", ":war_storage", ":slot_value"),
+
+                (try_begin),
+                    (le, ":type", 0),
+                    (assign, ":end", 0),
+                (else_try),
+                    (try_begin),
+                        (eq, ":type", wppt_transfer_center),
+
+                        (assign, ":continue", 1),
+
+                        (assign, ":end", claims_count_max),
+                        (try_for_range, ":index", 0, ":end"),
+                            (call_script, "script_claim_get_for_faction", ":target", ":index"),
+                            (assign, ":source", reg0),
+                            (assign, ":target", reg1),
+                            (assign, ":type", reg2),
+                            (try_begin),
+                                (neq, ":source", ":target"),
+                                (assign, ":end", 0),
+                            (else_try),
+                                # If we have a claim on this territory we don't increase threat
+                                (eq, ":type", ct_regain_old_territory),
+                                (eq, ":target", ":object"),
+                                (assign, ":continue", 0),
+                            (try_end),
+                        (try_end),
+
+                        (eq, ":continue", 1),
+
+                        (party_get_slot, ":party_type", ":object", slot_party_type),
+                        (try_begin),
+                            (eq, ":party_type", spt_castle),
+                            (call_script, "script_faction_increase_threat", ":target", threat_generation_capture_castle),
+                        (else_try),
+                            (eq, ":party_type", spt_town),
+                            (call_script, "script_faction_increase_threat", ":target", threat_generation_capture_city),
+                        (try_end),
+                    (else_try),
+                    #     (eq, ":type", wppt_liberate_center),
+                    #     (call_script, "script_claim_generate", ":object", ":target", ct_regain_old_territory, -1),
+                    # (else_try),
+                    #     (eq, ":type", wppt_tribute),
+                    #     (call_script, "script_claim_generate", ":object", ":target", ct_reparation, -1),
+                    # (else_try),
+                        (eq, ":type", wppt_vassalize),
+                        (faction_get_slot, ":size", ":object", slot_faction_size_category),
+                        (try_begin),
+                            (eq, ":size", sfs_small),
+                            (call_script, "script_faction_increase_threat", ":target", threat_generation_make_vassal_small),
+                        (else_try),
+                            (eq, ":size", sfs_medium),
+                            (call_script, "script_faction_increase_threat", ":target", threat_generation_make_vassal_medium),
+                        (else_try),
+                            (eq, ":size", sfs_large),
+                            (call_script, "script_faction_increase_threat", ":target", threat_generation_make_vassal_large),
+                        (try_end),
+                    (try_end),
+                (try_end),
+            (try_end),
+        ]),
+
+    # script_faction_increase_threat
+        # input:
+        #   arg1: faction_no
+        #   arg2: threat_increase
+        # output: none
+    ("faction_increase_threat",
+        [
+            (store_script_param, ":faction_no", 1),
+            (store_script_param, ":increase", 2),
+
+            (faction_get_slot, ":threat", ":faction_no", slot_faction_threat),
+            (store_add, ":new_threat", ":increase"),
+            (val_min, ":new_threat", 100),
+            (faction_set_slot, ":faction_no", slot_faction_threat, ":new_threat"),
+
+            (try_begin),
+                (call_script, "script_cf_debug", debug_war|debug_current),
+                (str_store_faction_name, s10, ":faction_no"),
+                (assign, reg10, ":threat"),
+                (assign, reg11, ":new_threat"),
+                (display_message, "@{s10} threat increased {reg10} -> {reg11}"),
+            (try_end),
         ]),
 
 ] + scripts_presentation
