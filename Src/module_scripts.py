@@ -8392,8 +8392,9 @@ scripts = [
             (call_script, "script_faction_change_slot", "fac_small_kingdom_22", slot_faction_troop_ratio_infantry, 20),
             (call_script, "script_faction_change_slot", "fac_small_kingdom_22", slot_faction_troop_ratio_spearman, 20),
             (call_script, "script_faction_change_slot", "fac_small_kingdom_22", slot_faction_troop_ratio_shock_infantry, -10),
+            (call_script, "script_faction_change_slot", "fac_small_kingdom_22", slot_faction_troop_ratio_archer, -5),
             
-            (call_script, "script_faction_change_slot", "fac_small_kingdom_23", slot_faction_troop_ratio_infantry, 35),
+            (call_script, "script_faction_change_slot", "fac_small_kingdom_23", slot_faction_troop_ratio_infantry, 25),
             (call_script, "script_faction_change_slot", "fac_small_kingdom_23", slot_faction_troop_ratio_cavalry, 5),
             (call_script, "script_faction_change_slot", "fac_small_kingdom_23", slot_faction_troop_ratio_spearman, 5),
             (call_script, "script_faction_change_slot", "fac_small_kingdom_23", slot_faction_troop_ratio_archer, -10),
@@ -8453,33 +8454,38 @@ scripts = [
             
             (call_script, "script_faction_change_slot", "fac_small_kingdom_41", slot_faction_troop_ratio_cavalry, 20),
             (call_script, "script_faction_change_slot", "fac_small_kingdom_41", slot_faction_troop_ratio_lancer, 30),
-            (call_script, "script_faction_change_slot", "fac_small_kingdom_41", slot_faction_troop_ratio_horse_archer, 10),
+            (call_script, "script_faction_change_slot", "fac_small_kingdom_41", slot_faction_troop_ratio_horse_archer, 20),
             (call_script, "script_faction_change_slot", "fac_small_kingdom_41", slot_faction_troop_ratio_archer, -5),
             (call_script, "script_faction_change_slot", "fac_small_kingdom_41", slot_faction_troop_ratio_skirmisher, -10),
             
-            (call_script, "script_faction_change_slot", "fac_small_kingdom_42", slot_faction_troop_ratio_archer, 5),
-            (call_script, "script_faction_change_slot", "fac_small_kingdom_42", slot_faction_troop_ratio_skirmisher, -5),
-            (call_script, "script_faction_change_slot", "fac_small_kingdom_42", slot_faction_troop_ratio_infantry, 15),
+            (call_script, "script_faction_change_slot", "fac_small_kingdom_42", slot_faction_troop_ratio_infantry, -20),
+            (call_script, "script_faction_change_slot", "fac_small_kingdom_42", slot_faction_troop_ratio_spearman, 30),
+            (call_script, "script_faction_change_slot", "fac_small_kingdom_42", slot_faction_troop_ratio_crossbow, 60),
+            (call_script, "script_faction_change_slot", "fac_small_kingdom_42", slot_faction_troop_ratio_archer, -35),
             
-            (call_script, "script_faction_change_slot", "fac_small_kingdom_43", slot_faction_troop_ratio_skirmisher, 10),
-            (call_script, "script_faction_change_slot", "fac_small_kingdom_43", slot_faction_troop_ratio_infantry, -25),
-            (call_script, "script_faction_change_slot", "fac_small_kingdom_43", slot_faction_troop_ratio_archer, -10),
+            (call_script, "script_faction_change_slot", "fac_small_kingdom_43", slot_faction_troop_ratio_infantry, -10),
+            (call_script, "script_faction_change_slot", "fac_small_kingdom_43", slot_faction_troop_ratio_spearman, -5),
+            (call_script, "script_faction_change_slot", "fac_small_kingdom_43", slot_faction_troop_ratio_skirmisher, 5),
+            (call_script, "script_faction_change_slot", "fac_small_kingdom_43", slot_faction_troop_ratio_shock_infantry, -5),
+            (call_script, "script_faction_change_slot", "fac_small_kingdom_43", slot_faction_troop_ratio_archer, -5),
+            (call_script, "script_faction_change_slot", "fac_small_kingdom_43", slot_faction_troop_ratio_cavalry, 50),
+            (call_script, "script_faction_change_slot", "fac_small_kingdom_43", slot_faction_troop_ratio_mounted_skirmisher, 30),
             
-            (call_script, "script_faction_change_slot", "fac_small_kingdom_44", slot_faction_troop_ratio_spearman, 30),
-            (call_script, "script_faction_change_slot", "fac_small_kingdom_44", slot_faction_troop_ratio_infantry, -20),
-            (call_script, "script_faction_change_slot", "fac_small_kingdom_44", slot_faction_troop_ratio_crossbow, 45),
-            (call_script, "script_faction_change_slot", "fac_small_kingdom_44", slot_faction_troop_ratio_archer, -15),
+            (call_script, "script_faction_change_slot", "fac_small_kingdom_44", slot_faction_troop_ratio_infantry, -10),
+            (call_script, "script_faction_change_slot", "fac_small_kingdom_44", slot_faction_troop_ratio_skirmisher, 25),
             
-            (call_script, "script_faction_change_slot", "fac_small_kingdom_45", slot_faction_troop_ratio_skirmisher, 10),
-            (call_script, "script_faction_change_slot", "fac_small_kingdom_45", slot_faction_troop_ratio_cavalry, 30),
+            (call_script, "script_faction_change_slot", "fac_small_kingdom_45", slot_faction_troop_ratio_spearman, -5),
+            (call_script, "script_faction_change_slot", "fac_small_kingdom_45", slot_faction_troop_ratio_skirmisher, -15),
+            (call_script, "script_faction_change_slot", "fac_small_kingdom_45", slot_faction_troop_ratio_archer, -5),
+            (call_script, "script_faction_change_slot", "fac_small_kingdom_45", slot_faction_troop_ratio_mounted_skirmisher, -5),
             
+            (call_script, "script_faction_change_slot", "fac_small_kingdom_51", slot_faction_troop_ratio_infantry, 15),
+            (call_script, "script_faction_change_slot", "fac_small_kingdom_51", slot_faction_troop_ratio_spearman, -5),
+            (call_script, "script_faction_change_slot", "fac_small_kingdom_51", slot_faction_troop_ratio_pikeman, -10),
             (call_script, "script_faction_change_slot", "fac_small_kingdom_51", slot_faction_troop_ratio_archer, 60),
             (call_script, "script_faction_change_slot", "fac_small_kingdom_51", slot_faction_troop_ratio_crossbow, -60),
             (call_script, "script_faction_change_slot", "fac_small_kingdom_51", slot_faction_troop_ratio_cavalry, -10),
             (call_script, "script_faction_change_slot", "fac_small_kingdom_51", slot_faction_troop_ratio_lancer, -10),
-            (call_script, "script_faction_change_slot", "fac_small_kingdom_51", slot_faction_troop_ratio_spearman, -5),
-            (call_script, "script_faction_change_slot", "fac_small_kingdom_51", slot_faction_troop_ratio_pikeman, -10),
-            (call_script, "script_faction_change_slot", "fac_small_kingdom_51", slot_faction_troop_ratio_infantry, 15),
             
             (call_script, "script_faction_change_slot", "fac_small_kingdom_52", slot_faction_troop_ratio_spearman, -10),
             (call_script, "script_faction_change_slot", "fac_small_kingdom_52", slot_faction_troop_ratio_cavalry, 25),
@@ -10628,7 +10634,7 @@ scripts = [
                     (troop_set_slot, ":troop_no", slot_troop_lord_equipement, tle_throwing),
                 (else_try),
                     (le, ":weapon", 15),
-                    (eq, ":original_faction", "fac_small_kingdom_44"),
+                    (eq, ":original_faction", "fac_small_kingdom_42"),
                     (troop_set_slot, ":troop_no", slot_troop_lord_equipement, tle_light_crossbow),
                 (else_try),
                     (troop_set_slot, ":troop_no", slot_troop_lord_equipement, tle_none),
@@ -15165,24 +15171,23 @@ scripts = [
             (troop_set_slot, "trp_khergit_noble_cavalry", slot_troop_faction_reserved_2, "fac_small_kingdom_31"),
             (troop_set_slot, "trp_khergit_light_skirmisher", slot_troop_faction_reserved_2, "fac_small_kingdom_33"),
             
-            (troop_set_slot, "trp_nord_horseman", slot_troop_faction_not_3, "fac_small_kingdom_41"), # Has Cavalry instead
-            (troop_set_slot, "trp_nord_militia", slot_troop_faction_not_1, "fac_small_kingdom_44"), # Has Levy Crossbowman instead
-            (troop_set_slot, "trp_nord_light_bowman", slot_troop_faction_not_1, "fac_small_kingdom_42"), # Has Light Longbowman instead
-            (troop_set_slot, "trp_nord_heavy_bowman", slot_troop_faction_not_1, "fac_small_kingdom_42"), # Has Heavy Longbowman instead
-            (troop_set_slot, "trp_nord_light_infantry", slot_troop_faction_not_1, "fac_small_kingdom_42"), # Has Footman instead
-            (troop_set_slot, "trp_nord_light_infantry", slot_troop_faction_not_2, "fac_small_kingdom_43"), # Has Skirmisher instead
+            (troop_set_slot, "trp_nord_horseman", slot_troop_faction_not_1, "fac_small_kingdom_41"), # Has Cavalry instead
+            (troop_set_slot, "trp_nord_militia", slot_troop_faction_not_1, "fac_small_kingdom_42"), # Has Levy Crossbowman instead
+            (troop_set_slot, "trp_nord_light_bowman", slot_troop_faction_not_1, "fac_small_kingdom_44"), # Has Light Longbowman instead
+            (troop_set_slot, "trp_nord_light_bowman", slot_troop_faction_not_2, "fac_small_kingdom_42"), # Has Light Crossbowman instead
+            (troop_set_slot, "trp_nord_heavy_bowman", slot_troop_faction_not_1, "fac_small_kingdom_44"), # Has Heavy Longbowman instead
+            (troop_set_slot, "trp_nord_heavy_bowman", slot_troop_faction_not_2, "fac_small_kingdom_42"), # Has Heavy Crossbowman instead
+            (troop_set_slot, "trp_nord_light_infantry", slot_troop_faction_not_1, "fac_small_kingdom_44"), # Has Infantry instead
+            (troop_set_slot, "trp_nord_light_infantry", slot_troop_faction_not_2, "fac_small_kingdom_45"), # Has Infantry instead
             (troop_set_slot, "trp_nord_light_cavalry", slot_troop_faction_not_1, "fac_small_kingdom_43"), # Has Light Mounted Skirmisher instead
-            (troop_set_slot, "trp_nord_horseman", slot_troop_faction_not_1, "fac_small_kingdom_44"), # Has Spear Cavalry instead
-            (troop_set_slot, "trp_nord_heavy_cavalry", slot_troop_faction_not_1, "fac_small_kingdom_44"), # Has Heavy Spear Cavalry instead
-            (troop_set_slot, "trp_nord_medium_longbowman", slot_troop_faction_not_2, "fac_small_kingdom_44"), # Has Crossbowman instead
-            (troop_set_slot, "trp_nord_medium_longbowman", slot_troop_faction_not_1, "fac_small_kingdom_45"), # Has Bowman instead
-            (troop_set_slot, "trp_nord_light_cavalry", slot_troop_faction_not_2, "fac_small_kingdom_45"), # Has Light Spear Cavalry instead
-            (troop_set_slot, "trp_nord_horseman", slot_troop_faction_not_2, "fac_small_kingdom_45"), # Has Spear Cavalry instead
-            (troop_set_slot, "trp_nord_heavy_cavalry", slot_troop_faction_not_2, "fac_small_kingdom_45"), # Has Heavy Spear Cavalry instead
+            (troop_set_slot, "trp_nord_medium_longbowman", slot_troop_faction_not_1, "fac_small_kingdom_42"), # Has Crossbowman instead
+            (troop_set_slot, "trp_nord_medium_longbowman", slot_troop_faction_not_2, "fac_small_kingdom_45"), # Has Bowman instead
+            (troop_set_slot, "trp_nord_light_cavalry", slot_troop_faction_not_1, "fac_small_kingdom_43"), # Has Light Spear Cavalry instead
+            (troop_set_slot, "trp_nord_horseman", slot_troop_faction_not_2, "fac_small_kingdom_43"), # Has Spear Cavalry instead
+            (troop_set_slot, "trp_nord_heavy_cavalry", slot_troop_faction_not_1, "fac_small_kingdom_43"), # Has Heavy Spear Cavalry instead
+            (troop_set_slot, "trp_nord_guard", slot_troop_faction_not_1, "fac_small_kingdom_43"), # Has Heavy Skirmisher instead
             
-            (troop_set_slot, "trp_nord_medium_spear_cavalry", slot_troop_faction_reserved_2, "fac_small_kingdom_44"), # 
-            (troop_set_slot, "trp_nord_heavy_spear_cavalry", slot_troop_faction_reserved_2, "fac_small_kingdom_44"), # 
-            (troop_set_slot, "trp_nord_infantry", slot_troop_faction_reserved_2, "fac_small_kingdom_43"),
+            (troop_set_slot, "trp_nord_infantry", slot_troop_faction_reserved_2, "fac_small_kingdom_44"),
             
             (troop_set_slot, "trp_rhodok_militia", slot_troop_faction_not_3, "fac_small_kingdom_51"), # Has Hunter instead
             (troop_set_slot, "trp_rhodok_militia", slot_troop_faction_not_1, "fac_small_kingdom_54"), # Has Levy Crossbowman instead

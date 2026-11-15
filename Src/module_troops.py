@@ -3028,13 +3028,23 @@ troops = [
   
   # Basic ranged, daggers, axes, crossbows
   # SPECIAL
-  ["nord_hunter", "Nord Hunter", "Nord Hunter", tf_guarantee_recruit_armor|tf_guarantee_ranged, no_scene, reserved, fac_small_kingdom_44,
+  ["nord_hunter", "Nord Hunter", "Nord Hunter", tf_guarantee_recruit_armor|tf_guarantee_ranged, no_scene, reserved, fac_small_kingdom_42,
    [itm_knife, itm_hatchet, itm_hunting_crossbow, itm_bolts,
     itm_nomad_boots, itm_hide_boots,
     itm_tunic_herald, itm_coarse_tunic_herald,
     itm_leather_cap, itm_skullcap,
     ],
    str_10|agi_9|int_6|cha_6|level(8), wpex(65,60,60,30,55,30), knows_common|knows_power_strike_3|knows_athletics_1, nord_face_young_1, nord_face_old_2 ],
+  
+  # Basic skirmisher, daggers, axes, throwing axes, shields
+  # SPECIAL
+  ["nord_levy_footman", "Nord Levy Footman", "Nord Levy Footmen", tf_guarantee_recruit_armor|tf_guarantee_ranged|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_44,
+   [itm_knife, itm_hatchet, itm_light_throwing_axes, itm_light_throwing_axes, itm_tab_shield_round_b,itm_tab_shield_round_b_plain_1,itm_tab_shield_round_b_plain_2,
+    itm_nomad_boots, itm_hide_boots,
+    itm_tunic_herald, itm_coarse_tunic_herald,
+    itm_leather_cap, itm_skullcap, itm_nordic_archer_helmet,
+    ],
+   str_10|agi_10|int_5|cha_6|level(8), wpex(70,60,60,30,15,60), knows_common|knows_ironflesh_1|knows_power_strike_3|knows_power_throw_2|knows_athletics_1, nord_face_young_1, nord_face_old_2 ],
   
   # Common
   # Light infantry, swords, axes, javelin, shields
@@ -3066,7 +3076,7 @@ troops = [
   
   # Light infantry, spears, shields
   # SPECIAL
-  ["nord_light_spearman", "Nord Light Spearman", "Nord Light Spearmen", tf_guarantee_common_armor|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_44,
+  ["nord_light_spearman", "Nord Light Spearman", "Nord Light Spearmen", tf_guarantee_common_armor|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_42,
    [itm_war_spear, itm_tab_shield_round_c,itm_tab_shield_round_c_plain_1,itm_tab_shield_round_c_plain_2,
     itm_leather_boots, itm_leather_gloves,
     itm_leather_jerkin_herald,
@@ -3086,7 +3096,7 @@ troops = [
   
   # Light ranged, swords, axes, bows
   # SPECIAL
-  ["nord_light_longbowman", "Nord Light Longbowman", "Nord Light Longbowmen", tf_guarantee_recruit_armor|tf_guarantee_ranged, no_scene, reserved, fac_small_kingdom_42,
+  ["nord_light_longbowman", "Nord Light Longbowman", "Nord Light Longbowmen", tf_guarantee_recruit_armor|tf_guarantee_ranged, no_scene, reserved, fac_small_kingdom_44,
    [itm_sword_viking_1, itm_one_handed_battle_axe_a, itm_long_bow, itm_barbed_arrows, itm_barbed_arrows,
     itm_leather_boots, itm_leather_gloves,
     itm_tunic_herald, itm_coarse_tunic_herald,
@@ -3116,7 +3126,7 @@ troops = [
   
   # Light cavalry, spears, shields
   # SPECIAL
-  ["nord_light_spear_cavalry", "Nord Light Spear Cavalry", "Nord Light Spear Cavalries", tf_guarantee_common_armor|tf_guarantee_horseman, no_scene, reserved, fac_small_kingdom_45,
+  ["nord_light_spear_cavalry", "Nord Light Spear Cavalry", "Nord Light Spear Cavalries", tf_guarantee_common_armor|tf_guarantee_horseman, no_scene, reserved, fac_small_kingdom_43,
    [itm_spear, itm_tab_shield_round_b,itm_tab_shield_round_b_plain_1,itm_tab_shield_round_b_plain_2,
     itm_leather_boots, itm_leather_gloves,
     itm_leather_jerkin_herald,
@@ -3126,7 +3136,7 @@ troops = [
   
   # Medium infantry, swords, axes, shields
   # SPECIAL
-  ["nord_infantry", "Nord Infantry", "Nord Infantries", tf_guarantee_common_armor|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_42,
+  ["nord_infantry", "Nord Infantry", "Nord Infantries", tf_guarantee_common_armor|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_45,
    [itm_one_handed_battle_axe_a, itm_one_handed_battle_axe_a, itm_sword_viking_1, itm_sword_viking_1_long, itm_tab_shield_round_c,itm_tab_shield_round_c_plain_1,itm_tab_shield_round_c_plain_2,
     itm_leather_boots, itm_leather_gloves,
     itm_byrnie_herald,
@@ -3136,13 +3146,23 @@ troops = [
   
   # Light infantry skirmisher, swords, axes, javelins, shields
   # SPECIAL
-  ["nord_footman", "Nord Footman", "Nord Footmen", tf_guarantee_common_armor|tf_guarantee_shield|tf_guarantee_ranged, no_scene, reserved, fac_small_kingdom_42,
+  ["nord_footman", "Nord Footman", "Nord Footmen", tf_guarantee_common_armor|tf_guarantee_shield|tf_guarantee_ranged, no_scene, reserved, fac_small_kingdom_44,
    [itm_one_handed_battle_axe_a, itm_sword_viking_1, itm_throwing_axes, itm_throwing_axes, itm_tab_shield_round_c,itm_tab_shield_round_c_plain_1,itm_tab_shield_round_c_plain_2,
     itm_leather_boots, itm_leather_gloves,
     itm_tunic_herald, itm_coarse_tunic_herald,
     itm_nordic_veteran_archer_helmet, itm_nordic_footman_helmet, itm_nordic_fighter_helmet,
     ],
    str_12|agi_15|int_7|cha_7|level(18), wpex(105,100,95,50,20,90), knows_common|knows_ironflesh_2|knows_power_strike_4|knows_power_throw_4|knows_athletics_4, nord_face_young_1, nord_face_old_2 ],
+  
+  # Light ranged, swords, axes, crossbow
+  # SPECIAL
+  ["nord_light_crossbowman", "Nord Light Crossbowman", "Nord Light Crossbowmen", tf_guarantee_recruit_armor|tf_guarantee_ranged, no_scene, reserved, fac_small_kingdom_42,
+   [itm_sword_viking_1, itm_one_handed_battle_axe_a, itm_light_crossbow, itm_bolts, itm_bolts,
+    itm_leather_boots, itm_leather_gloves,
+    itm_tunic_herald, itm_coarse_tunic_herald,
+    itm_nordic_archer_helmet, itm_nordic_veteran_archer_helmet,
+    ],
+   str_14|agi_14|int_7|cha_7|level(19), wpex(75,65,60,45,115,55), knows_common|knows_ironflesh_1|knows_power_strike_3|knows_power_draw_1|knows_athletics_5|knows_riding_1, nord_face_young_1, nord_face_old_2 ],
   
   # Veteran
   # Medium infantry, swords, axes, javelins, shields
@@ -3183,7 +3203,7 @@ troops = [
   
   # Medium infantry, spears, shields
   # SPECIAL
-  ["nord_spearman", "Nord Spearman", "Nord Spearmen", tf_guarantee_trained_armor|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_44,
+  ["nord_spearman", "Nord Spearman", "Nord Spearmen", tf_guarantee_trained_armor|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_42,
    [itm_war_spear, itm_tab_shield_round_d,itm_tab_shield_round_d_plain_1,itm_tab_shield_round_d_plain_2,
     itm_mail_chausses, itm_mail_mittens,
     itm_byrnie_herald,
@@ -3201,20 +3221,10 @@ troops = [
     itm_saddle_horse],
    str_12|agi_15|int_7|cha_6|level(17), wpex(75,80,110,50,25,65), knows_common|knows_ironflesh_1|knows_power_strike_3|knows_power_throw_1|knows_athletics_3|knows_riding_5, nord_face_young_1, nord_face_old_2 ],
   
-  # Medium infantry skirmisher, swords, javelins, shields
-  # SPECIAL
-  ["nord_heavy_skirmisher", "Nord Heavy Skirmisher", "Nord Heavy Skirmishers", tf_guarantee_trained_armor|tf_guarantee_shield|tf_guarantee_ranged, no_scene, reserved, fac_small_kingdom_43,
-   [itm_sword_viking_2, itm_sword_viking_2_small, itm_javelin, itm_javelin, itm_tab_shield_round_d,itm_tab_shield_round_d_plain_1,itm_tab_shield_round_d_plain_2,
-    itm_mail_chausses, itm_splinted_leather_greaves, itm_mail_mittens,
-    itm_byrnie_herald,
-    itm_nordic_fighter_helmet, itm_nordic_helmet,
-    ],
-   str_15|agi_15|int_9|cha_9|level(25), wpex(100,95,90,55,25,105), knows_common|knows_ironflesh_4|knows_power_strike_4|knows_power_throw_3|knows_athletics_3|knows_riding_2, nord_face_young_1, nord_face_old_2 ],
-  
   # Light ranged, swords, axes, bows
   # SPECIAL
-  ["nord_medium_bowman", "Nord Bowman", "Nord Bowmen", tf_guarantee_trained_armor|tf_guarantee_ranged, no_scene, reserved, fac_small_kingdom_45,
-   [itm_one_handed_battle_axe_a, itm_one_handed_battle_axe_a, itm_sword_viking_2, itm_sword_viking_2_small, itm_short_bow2, itm_bodkin_arrows, itm_bodkin_arrows,
+  ["nord_medium_bowman", "Nord Bowman", "Nord Bowmen", tf_guarantee_trained_armor|tf_guarantee_shield|tf_guarantee_ranged, no_scene, reserved, fac_small_kingdom_45,
+   [itm_one_handed_battle_axe_a, itm_one_handed_battle_axe_a, itm_sword_viking_2, itm_sword_viking_2_small, itm_short_bow2, itm_bodkin_arrows, itm_tab_shield_round_c,itm_tab_shield_round_c_plain_1,itm_tab_shield_round_c_plain_2,
     itm_leather_boots, itm_leather_gloves,
     itm_leather_jerkin_herald,
     itm_nordic_archer_helmet, itm_nordic_veteran_archer_helmet, itm_nordic_footman_helmet,
@@ -3223,8 +3233,8 @@ troops = [
   
   # Medium ranged, swords, axes, crossbow
   # SPECIAL
-  ["nord_medium_crossbowman", "Nord Crossbowman", "Nord Crossbowmen", tf_guarantee_trained_armor|tf_guarantee_ranged, no_scene, reserved, fac_small_kingdom_44,
-   [itm_one_handed_battle_axe_a, itm_one_handed_battle_axe_a, itm_sword_viking_2, itm_sword_viking_2_small, itm_light_crossbow, itm_bolts, itm_bolts,
+  ["nord_medium_crossbowman", "Nord Crossbowman", "Nord Crossbowmen", tf_guarantee_trained_armor|tf_guarantee_ranged, no_scene, reserved, fac_small_kingdom_42,
+   [itm_one_handed_battle_axe_a, itm_one_handed_battle_axe_a, itm_sword_viking_2, itm_sword_viking_2_small, itm_crossbow, itm_bolts, itm_bolts,
     itm_leather_boots, itm_leather_gloves,
     itm_byrnie_herald,
     itm_nordic_veteran_archer_helmet, itm_nordic_footman_helmet, itm_nordic_fighter_helmet,
@@ -3233,7 +3243,7 @@ troops = [
   
   # Medium cavalry, spears, shields
   # SPECIAL
-  ["nord_medium_spear_cavalry", "Nord Spear Cavalry", "Nord Spear Cavalries", tf_guarantee_trained_armor|tf_guarantee_horseman|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_45,
+  ["nord_medium_spear_cavalry", "Nord Spear Cavalry", "Nord Spear Cavalries", tf_guarantee_trained_armor|tf_guarantee_horseman|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_43,
    [itm_spear, itm_tab_shield_round_c,itm_tab_shield_round_c_plain_1,itm_tab_shield_round_c_plain_2,
     itm_leather_boots, itm_leather_gloves,
     itm_byrnie_herald,
@@ -3263,7 +3273,7 @@ troops = [
   
   # Medium ranged, axes, swords, bows, shields
   ["nord_heavy_bowman", "Nord Heavy Bowman", "Nord Heavy Bowmen", tf_guarantee_trained_armor|tf_guarantee_shield|tf_guarantee_ranged, no_scene, reserved, fac_kingdom_4,
-   [itm_one_handed_battle_axe_a, itm_one_handed_war_axe_b, itm_sword_viking_2, itm_sword_viking_2_small, itm_short_bow2, itm_bodkin_arrows, itm_tab_shield_round_c,itm_tab_shield_round_c_plain_1,itm_tab_shield_round_c_plain_2,
+   [itm_one_handed_battle_axe_a, itm_one_handed_war_axe_b, itm_sword_viking_2, itm_sword_viking_2_small, itm_short_bow2, itm_bodkin_arrows, itm_tab_shield_round_d,itm_tab_shield_round_d_plain_1,itm_tab_shield_round_d_plain_2,
     itm_mail_chausses, itm_leather_boots, itm_leather_gloves,
     itm_byrnie_herald, itm_mail_shirt_herald,
     itm_nordic_footman_helmet, itm_nordic_fighter_helmet,
@@ -3281,7 +3291,7 @@ troops = [
   
   # Medium ranged, axes, swords, bows
   # SPECIAL
-  ["nord_heavy_longbowman", "Nord Heavy Longbowman", "Nord Heavy Longbowmen", tf_guarantee_trained_armor|tf_guarantee_ranged, no_scene, reserved, fac_small_kingdom_42,
+  ["nord_heavy_longbowman", "Nord Heavy Longbowman", "Nord Heavy Longbowmen", tf_guarantee_trained_armor|tf_guarantee_ranged, no_scene, reserved, fac_small_kingdom_44,
    [itm_one_handed_battle_axe_a, itm_one_handed_war_axe_b, itm_sword_viking_2, itm_sword_viking_2_small, itm_long_bow, itm_bodkin_arrows, itm_bodkin_arrows,
     itm_mail_chausses, itm_leather_boots, itm_leather_gloves,
     itm_byrnie_herald,
@@ -3291,7 +3301,7 @@ troops = [
   
   # Medium cavalry, spears, shields
   # SPECIAL
-  ["nord_heavy_spear_cavalry", "Nord Heavy Spear Cavalry", "Nord Heavy Spear Cavalries", tf_guarantee_trained_armor|tf_guarantee_shield|tf_guarantee_horseman, no_scene, reserved, fac_small_kingdom_45,
+  ["nord_heavy_spear_cavalry", "Nord Heavy Spear Cavalry", "Nord Heavy Spear Cavalries", tf_guarantee_trained_armor|tf_guarantee_shield|tf_guarantee_horseman, no_scene, reserved, fac_small_kingdom_43,
    [itm_war_spear, itm_tab_shield_round_d,itm_tab_shield_round_d_plain_1,itm_tab_shield_round_d_plain_2,
     itm_mail_chausses, itm_mail_mittens,
     itm_byrnie_herald, itm_mail_shirt_herald,
@@ -3311,7 +3321,7 @@ troops = [
   
   # Heavy infantry, swords, axes, shields
   # SPECIAL
-  ["nord_heavy_infantry", "Nord Heavy Infantry", "Nord Heavy Infantry", tf_guarantee_trained_armor|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_43,
+  ["nord_heavy_infantry", "Nord Heavy Infantry", "Nord Heavy Infantry", tf_guarantee_trained_armor|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_45,
    [itm_one_handed_battle_axe_b, itm_one_handed_battle_axe_c, itm_sword_viking_3, itm_sword_viking_3_small, itm_sword_viking_3_long, itm_tab_shield_round_e,itm_tab_shield_round_e_plain_1,itm_tab_shield_round_e_plain_2,
     itm_mail_chausses, itm_splinted_leather_greaves, itm_mail_mittens,
     itm_banded_armor,
@@ -3321,13 +3331,33 @@ troops = [
   
   # Heavy infantry, spears, shields
   # SPECIAL
-  ["nord_heavy_spearman", "Nord Heavy Spearman", "Nord Heavy Spearmen", tf_guarantee_trained_armor|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_44,
+  ["nord_heavy_spearman", "Nord Heavy Spearman", "Nord Heavy Spearmen", tf_guarantee_trained_armor|tf_guarantee_shield, no_scene, reserved, fac_small_kingdom_42,
    [itm_war_spear, itm_tab_shield_round_e,itm_tab_shield_round_e_plain_1,itm_tab_shield_round_e_plain_2,
     itm_mail_chausses, itm_splinted_leather_greaves, itm_mail_mittens,
     itm_banded_armor,
     itm_nordic_huscarl_helmet, itm_nordic_helmet,
     ],
    str_20|agi_14|int_9|cha_11|level(31), wpex(110,100,125,65,25,70), knows_common|knows_ironflesh_6|knows_power_strike_4|knows_power_throw_1|knows_athletics_2|knows_shield_1, nord_face_young_1, nord_face_old_2 ],
+  
+  # Heavy infantry skirmisher, swords, javelins, shields
+  # SPECIAL
+  ["nord_heavy_skirmisher", "Nord Heavy Skirmisher", "Nord Heavy Skirmishers", tf_guarantee_trained_armor|tf_guarantee_shield|tf_guarantee_ranged, no_scene, reserved, fac_small_kingdom_43,
+   [itm_sword_viking_2, itm_sword_viking_2_small, itm_javelin, itm_javelin, itm_tab_shield_round_d,itm_tab_shield_round_d_plain_1,itm_tab_shield_round_d_plain_2,
+    itm_mail_chausses, itm_splinted_leather_greaves, itm_mail_mittens,
+    itm_byrnie_herald,
+    itm_nordic_fighter_helmet, itm_nordic_helmet,
+    ],
+   str_15|agi_15|int_9|cha_10|level(26), wpex(100,95,90,55,25,105), knows_common|knows_ironflesh_4|knows_power_strike_4|knows_power_throw_3|knows_athletics_3|knows_riding_2, nord_face_young_1, nord_face_old_2 ],
+  
+  # Medium ranged, axes, swords, crossbows, shields
+  # SPECIAL
+  ["nord_heavy_crossbowman", "Nord Heavy Crossbowman", "Nord Heavy CrossBowmen", tf_guarantee_trained_armor|tf_guarantee_shield|tf_guarantee_ranged, no_scene, reserved, fac_small_kingdom_42,
+   [itm_one_handed_battle_axe_a, itm_one_handed_war_axe_b, itm_sword_viking_2, itm_sword_viking_2_small, itm_crossbow, itm_steel_bolts, itm_tab_shield_round_c,itm_tab_shield_round_c_plain_1,itm_tab_shield_round_c_plain_2,
+    itm_mail_chausses, itm_leather_boots, itm_leather_gloves,
+    itm_byrnie_herald, itm_mail_shirt_herald,
+    itm_nordic_footman_helmet, itm_nordic_fighter_helmet,
+    ],
+   str_16|agi_15|int_9|cha_10|level(27), wpex(95,75,70,45,85,60), knows_common|knows_ironflesh_4|knows_power_strike_4|knows_power_throw_1|knows_power_draw_1|knows_athletics_2, nord_face_young_1, nord_face_old_2 ],
   
   # Noble
   # Heavy infantry, swords, axes, shields
@@ -3341,7 +3371,7 @@ troops = [
   
   # Heavy infantry skirmisher, poleaxes, javelins
   # SPECIAL
-  ["nord_noble_guard", "Nord King's Guard", "Nord King's Guards", tf_guarantee_trained_armor|tf_guarantee_ranged, no_scene, reserved, fac_small_kingdom_45,
+  ["nord_noble_guard", "Nord King's Guard", "Nord King's Guards", tf_guarantee_trained_armor|tf_guarantee_ranged, no_scene, reserved, fac_small_kingdom_44,
    [itm_long_axe_c, itm_heavy_throwing_axes, itm_heavy_throwing_axes,
     itm_mail_boots, itm_iron_greaves, itm_gauntlets, itm_mail_mittens,
     itm_cuir_bouilli_herald,
