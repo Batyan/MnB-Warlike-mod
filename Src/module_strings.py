@@ -922,13 +922,17 @@ strings = [
   ("castle_name_plain_wood_01", "plain_wood_01"),
 
   ("castle_name_plain_dark_01", "plain_dark_01"),
+  ("castle_name_plain_dark_02", "maras"),
 
   ("castle_name_sea_01", "sea_01"),
 
   ("castle_name_steppe_01", "steppe_01"),
+  ("castle_name_steppe_02", "dugan"),
 
   ("castle_name_snow_01", "snow_01"),
   ("castle_name_snow_02", "snow_02"),
+  ("castle_name_snow_03", "sungetche"),
+  ("castle_name_snow_04", "tulbuk"),
 
   ("castle_name_snow_wood_01", "snow_wood_01"),
 

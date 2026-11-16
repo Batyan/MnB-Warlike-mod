@@ -75,10 +75,10 @@ factions = [
 	("small_kingdom_36", "Azugan", 0, 0.9, [("outlaws",-0.5),], [], 0x6755db), # Heavy Archer + Blade-master + Heavy Infantry + Levy Infantry
 	
 	("small_kingdom_41", "Pirash", 0, 0.9, [("outlaws",-0.5),], [], 0x14FF8D), # Light Lancer + Mounted Bowman + Armoured Lancer + Heavy Mounted Bowman
-	("small_kingdom_42", "Gundig", 0, 0.9, [("outlaws",-0.5),], [], 0x2f8558), # Heavy Longbowman + Light Longbowman + Footman + Infantry
-	("small_kingdom_43", "Wercheg", 0, 0.9, [("outlaws",-0.5),], [], 0xADE9FF), # Skirmisher + Heavy Skirmisher + Light Mounted Skirmisher + Heavy Infantry + Infantry + King's Guard
-	("small_kingdom_44", "Aldelen", 0, 0.9, [("outlaws",-0.5),], [], 0x396C72), # Spearman + Heavy Spearman + Hunter + Crossbowman + Medium Spear Cavalry + Heavy Spear Cavalry
-	("small_kingdom_45", "Rizi", 0, 0.9, [("outlaws",-0.5),], [], 0x0061ab), # Bowman + Light Spear Cavalry + Spear Cavalry + Heavy Spear Cavalry
+	("small_kingdom_42", "Gundig", 0, 0.9, [("outlaws",-0.5),], [], 0x2f8558), # Spearman + Heavy Spearman + Hunter + Light Crossbowman + Crossbowman + Heavy Crossbowman
+	("small_kingdom_43", "Wercheg", 0, 0.9, [("outlaws",-0.5),], [], 0xADE9FF), # Skirmisher + Heavy Skirmisher + Light Mounted Skirmisher + Light Spear Cavalry + Spear Cavalry + Heavy Spear Cavalry
+	("small_kingdom_44", "Aldelen", 0, 0.9, [("outlaws",-0.5),], [], 0x396C72), # Heavy Longbowman + Light Longbowman + Levy Footman + Infantry + Footman + King's Guard
+	("small_kingdom_45", "Rizi", 0, 0.9, [("outlaws",-0.5),], [], 0x0061ab), # Bowman + Infantry + Heavy Infantry
 	
 	("small_kingdom_51", "Highlanders", 0, 0.9, [("outlaws",-0.5),], [], 0x4F5868), # Hunter + Bowman + Heavy Bowman + Sergeant + Highlander
 	("small_kingdom_52", "Bezan", 0, 0.9, [("outlaws",-0.5),], [], 0x4F6C99), # Heroic Horseman + Levy Pikeman + Heavy Horseman + Light Horseman? + Heroic Pikeman
@@ -149,4 +149,6 @@ factions = [
 	("war_storage_40", "War storage 40", 0, 0.9, [], []),
 
 	("war_storage_end", "War storage end", 0, 0.9, [], []),
+
+	("claims_storage", "Claims storage", 0, 0.9, [], []),
 ]

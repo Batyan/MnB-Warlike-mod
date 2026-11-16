@@ -67,6 +67,10 @@ scenes = [
 		
 	("castle_plain_dark_01_outside", sf_generate, "none", "none", (0,0), (240,240),-0.5,"0x00000001b244d2000006098d00005999000033a700007a61",
 		[],[], "outer_terrain_plain"),
+
+	# mountain pass - maras
+	("castle_plain_dark_02_outside", sf_generate, "none", "none", (0,0), (240,240),-0.5,"0x00000000b247b2630007f1ea00006508000004eb000061d0",
+		[],[], "outer_terrain_plain"),
 	
 	# # TODO
 	# ("castle_forest_01_outside", sf_generate, "none", "none", (0,0), (240,240),-0.5,"0x000000013002d763400771d400001c0c0000777d00007a52",
@@ -94,11 +98,22 @@ scenes = [
 		
 	("castle_steppe_01_outside", sf_generate, "none", "none", (0,0), (240,240),-0.5,"0x00000003264b18e30004912200007b7e00006d9e00006880",
 		[],[], "outer_terrain_steppe"),
+
+	# mountain base - dugan
+	("castle_steppe_02_outside", sf_generate, "none", "none", (0,0), (240,240),-0.5,"0x000000002687e0e300058d5e000064f40000522c00003749",
+		[],[], "outer_terrain_steppe"),
 	
 	("castle_snow_01_outside", sf_generate, "none", "none", (0,0), (240,240),-0.5,"0x0000000040c391af0005fd1100007c4900007ef600007fea",
 		[],[], "outer_terrain_snow"),
 		
 	("castle_snow_02_outside", sf_generate, "none", "none", (0,0), (240,240),-0.5,"0x0000000341c0d252800882250000173200005ca30000598f",
+		[],[], "outer_terrain_snow"),
+	
+	# mountain pass - sungetche
+	("castle_snow_03_outside", sf_generate, "none", "none", (0,0), (240,240),-0.5,"0x0000000045866ce30007fdf1000058620000680b000004ff",
+		[],[], "outer_terrain_snow"),
+	# mountain pass - tulbuk
+	("castle_snow_04_outside", sf_generate, "none", "none", (0,0), (240,240),-0.5,"0x00000000424972630007bddf000027960000617900004ce1",
 		[],[], "outer_terrain_snow"),
 		
 	("castle_snow_wood_01_outside", sf_generate, "none", "none", (0,0), (240,240),-0.5,"0x00000000c7a745630005a16a0000493f00002d040000207f",
@@ -116,8 +131,6 @@ scenes = [
 	
 	("castle_dross_delnoch_outside", sf_generate, "none", "none", (0,0), (240,240),-0.5,"0x0000000240027763800815f500006a510000730c00002ce0",
 		[],[], "outer_terrain_snow"),
-	
-
 
 	("meeting_scene_steppe",0,"ch_meet_steppe_a", "bo_encounter_spot", (-40,-40),(40,40),-100,"0",
 		[],[]),
