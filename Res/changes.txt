@@ -50,6 +50,7 @@ v0.740:
 		* fix tax corruption going higher than taxes
 		* hide companion status messages behind debug options
 		* fix some faction relation changes not applied
+		* improve material of map banners
 v0.730:
 	-Features:
 		* add mercenary guild buildings
