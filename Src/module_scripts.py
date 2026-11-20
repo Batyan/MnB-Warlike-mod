@@ -18958,7 +18958,7 @@ scripts = [
                 (assign, ":target", reg1),
 
                 (try_begin),
-                    (call_script, "script_cf_debug", debug_faction|debug_current),
+                    (call_script, "script_cf_debug", debug_faction),
                     (str_store_faction_name, s10, ":faction_no"),
                     (assign, reg10, ":behavior"),
                     (assign, reg11, ":weight"),
@@ -27650,21 +27650,48 @@ scripts = [
                 (is_between, ":party_no", centers_begin, centers_end),
                 (is_between, ":item_no", goods_begin, goods_end),
 
+                (assign, ":price", 500),
+
                 (store_sub, ":offset", ":item_no", goods_begin),
-                (store_add, ":slot", ":offset", slot_party_ressources_begin),
+                (store_add, ":slot", ":offset", slot_party_item_last_produced_begin),
+                (store_add, ":slot_amount", ":offset", slot_party_ressources_current_amount_begin),
                 (party_get_slot, ":own_production", ":party_no", ":slot"),
-                (store_sub, ":production_modifier", 20, ":own_production"),
+                (party_get_slot, ":current_amount", ":party_no", ":slot_amount"),
+                (set_fixed_point_multiplier, 1),
+                (store_sqrt, ":amount", ":current_amount"),
+                (val_mul, ":own_production", 2),
+                (val_add, ":own_production", ":amount"),
+                (assign, ":production_modifier", 0),
+
                 (try_begin),
                     # We reduce the effect of own production the more we produce
-                    # It is to avoid buying for ridiculous prices in highly productive places
-                    (lt, ":production_modifier", 0), 
-                    (store_mul, ":inv_prod", ":production_modifier", -1),
-                    (val_div, ":inv_prod", 10),
-                    (val_add, ":inv_prod", 1),
-                    (val_add, ":production_modifier", ":inv_prod"),
+                    # It is to avoid selling for ridiculous prices in highly productive places
+                    (gt, ":own_production", 0),
+                    (assign, ":end", ":own_production"),
+                    (val_min, ":end", 10),
+                    (try_for_range, ":i", 0, ":end"),
+                        (store_sub, ":bonus", 10, ":i"),
+                        (val_add, ":production_modifier", ":bonus"),
+                    (try_end),
+                    (try_begin),
+                        (gt, ":own_production", 10),
+                        (val_sub, ":own_production", 10),
+
+                        (assign, ":end", 10),
+                        (try_for_range, ":i", 0, ":end"),
+                            (store_add, ":div", ":i", 1),
+                            (store_div, ":bonus", ":own_production", ":div"),
+                            (val_min, ":bonus", 15),
+                            (val_add, ":production_modifier", ":bonus"),
+
+                            (store_mul, ":sub", ":bonus", ":div"),
+                            (val_sub, ":own_production", ":sub"),
+                            (le, ":own_production", 0),
+                            (assign, ":end", 0),
+                        (try_end),
+                    (try_end),
                 (try_end),
-                (val_mul, ":production_modifier", 5),
-                (val_add, ":price", ":production_modifier"),
+                (val_sub, ":price", ":production_modifier"),
             (try_end),
             
             (call_script, "script_party_get_skill_level", ":party_buyer", skl_trade),
@@ -27672,6 +27699,8 @@ scripts = [
 
             (val_mul, ":trade_skill", 5),
             (val_sub, ":price", ":trade_skill"),
+
+            (val_clamp, ":price", 5, 500),
 
             (try_begin),
                 (is_between, ":party_no", centers_begin, centers_end),
@@ -27698,22 +27727,51 @@ scripts = [
             (store_script_param, ":party_no", 3),
 
             (assign, ":price", 50),
-            
+
             (try_begin),
                 (is_between, ":party_no", centers_begin, centers_end),
                 (is_between, ":item_no", goods_begin, goods_end),
 
+                (assign, ":price", 400),
+
                 (store_sub, ":offset", ":item_no", goods_begin),
-                (store_add, ":slot", ":offset", slot_party_ressources_begin),
+                (store_add, ":slot", ":offset", slot_party_item_last_produced_begin),
+                (store_add, ":slot_amount", ":offset", slot_party_ressources_current_amount_begin),
                 (party_get_slot, ":own_production", ":party_no", ":slot"),
-                (store_add, ":production_modifier", -20, ":own_production"),
+                (party_get_slot, ":current_amount", ":party_no", ":slot_amount"),
+                (set_fixed_point_multiplier, 1),
+                (store_sqrt, ":amount", ":current_amount"),
+                (val_mul, ":own_production", 2),
+                (val_add, ":own_production", ":amount"),
+                (assign, ":production_modifier", 0),
+
                 (try_begin),
                     # We reduce the effect of own production the more we produce
                     # It is to avoid selling for ridiculous prices in highly productive places
-                    (gt, ":production_modifier", 0),
-                    (store_div, ":prod", ":production_modifier", 10),
-                    (val_add, ":prod", 1),
-                    (val_add, ":production_modifier", ":prod"),
+                    (gt, ":own_production", 0),
+                    (assign, ":end", ":own_production"),
+                    (val_min, ":end", 10),
+                    (try_for_range, ":i", 0, ":end"),
+                        (store_sub, ":bonus", 10, ":i"),
+                        (val_add, ":production_modifier", ":bonus"),
+                    (try_end),
+                    (try_begin),
+                        (gt, ":own_production", 10),
+                        (val_sub, ":own_production", 10),
+
+                        (assign, ":end", 10),
+                        (try_for_range, ":i", 0, ":end"),
+                            (store_add, ":div", ":i", 1),
+                            (store_div, ":bonus", ":own_production", ":div"),
+                            (val_min, ":bonus", 15),
+                            (val_add, ":production_modifier", ":bonus"),
+
+                            (store_mul, ":sub", ":bonus", ":div"),
+                            (val_sub, ":own_production", ":sub"),
+                            (le, ":own_production", 0),
+                            (assign, ":end", 0),
+                        (try_end),
+                    (try_end),
                 (try_end),
                 (val_sub, ":price", ":production_modifier"),
             (try_end),
@@ -27721,13 +27779,11 @@ scripts = [
             (call_script, "script_party_get_skill_level", ":party_seller", skl_trade),
             (assign, ":trade_skill", reg0),
 
-            (val_mul, ":trade_skill", 4),
+            (val_mul, ":trade_skill", 5),
             (val_add, ":price", ":trade_skill"),
             
             # (val_min, ":price", 95),
-            (val_max, ":price", 5),
-
-            (val_max, ":price", 105),
+            (val_clamp, ":price", 5, 500),
             
             (try_begin),
                 (is_between, ":party_no", centers_begin, centers_end),
