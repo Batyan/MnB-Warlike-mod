@@ -5,7 +5,7 @@ v0.740:
 		* allow prepared wars for kingdoms
 		* add casus belli system for kingdoms
 		* add requirement for ai kingdoms to declare war with a casus belli
-		* kingdoms generate threat when cause hostile actions
+		* kingdoms generate threat when causing hostile actions
 	-Balances:
 		* remove leather_vest from vaegir_militia
 		* add fur_coat to vaegir_militia
@@ -23,28 +23,28 @@ v0.740:
 		* add vaegir_knight weapon (spiked_mace)
 		* improve intro quest thugs patience mechanics
 		* increase debts interests rate (x2.5)
-		* change nord_hunter faction (fac_small_kingdom_44 -> fac_small_kingdom_42)
-		* add nord_levy_footman to fac_small_kingdom_44
-		* change nord_light_spearman faction (fac_small_kingdom_44 -> fac_small_kingdom_42)
-		* change nord_light_longbowman faction (fac_small_kingdom_42 -> fac_small_kingdom_44)
-		* change nord_footman faction (fac_small_kingdom_42 -> fac_small_kingdom_44)
-		* add nord_light_crossbowman to fac_small_kingdom_42
-		* change nord_spearman faction (fac_small_kingdom_44 -> fac_small_kingdom_42)
+		* change nord_hunter faction (small_kingdom_44 -> small_kingdom_42)
+		* add nord_levy_footman to small_kingdom_44
+		* change nord_light_spearman faction (small_kingdom_44 -> small_kingdom_42)
+		* change nord_light_longbowman faction (small_kingdom_42 -> small_kingdom_44)
+		* change nord_footman faction (small_kingdom_42 -> small_kingdom_44)
+		* add nord_light_crossbowman to small_kingdom_42
+		* change nord_spearman faction (small_kingdom_44 -> small_kingdom_42)
 		* change nord_heavy_skirmisher tier (veteran -> elite)
 		* increase nord_heavy_skirmisher level (25 -> 26)
 		* increase nord_heavy_skirmisher charisma (9 -> 10)
 		* add shield to nord_medium_bowman
-		* change nord_medium_crossbowman faction (fac_small_kingdom_44 -> fac_small_kingdom_42)
+		* change nord_medium_crossbowman faction (small_kingdom_44 -> small_kingdom_42)
 		* remove nord_medium_crossbowman weapon (light_crossbow)
 		* add nord_medium_crossbowman weapon (crossbow)
-		* change nord_medium_spear_cavalry faction (fac_small_kingdom_45 -> fac_small_kingdom_43)
+		* change nord_medium_spear_cavalry faction (small_kingdom_45 -> small_kingdom_43)
 		* increase nord_heavy_bowman shield tier
-		* change nord_heavy_longbowman faction (fac_small_kingdom_42 -> fac_small_kingdom_44)
-		* change nord_heavy_spear_cavalry faction (fac_small_kingdom_45 -> fac_small_kingdom_43)
-		* change nord_heavy_infantry faction (fac_small_kingdom_43 -> fac_small_kingdom_45)
-		* change nord_heavy_spearman faction (fac_small_kingdom_44 -> fac_small_kingdom_42)
-		* add nord_heavy_crossbowman to fac_small_kingdom_42
-		* change nord_noble_guard faction (fac_small_kingdom_45 -> fac_small_kingdom_44)
+		* change nord_heavy_longbowman faction (small_kingdom_42 -> small_kingdom_44)
+		* change nord_heavy_spear_cavalry faction (small_kingdom_45 -> small_kingdom_43)
+		* change nord_heavy_infantry faction (small_kingdom_43 -> small_kingdom_45)
+		* change nord_heavy_spearman faction (small_kingdom_44 -> small_kingdom_42)
+		* add nord_heavy_crossbowman to small_kingdom_42
+		* change nord_noble_guard faction (small_kingdom_45 -> small_kingdom_44)
 	-Fixes:
 		* display companion troops with player banner in instances where they were not
 		* fix tax corruption going higher than taxes
