@@ -6,6 +6,7 @@ v0.740:
 		* add casus belli system for kingdoms
 		* add requirement for ai kingdoms to declare war with a casus belli
 		* kingdoms generate threat when causing hostile actions
+		* add fallback items for neutral npcs
 	-Balances:
 		* remove leather_vest from vaegir_militia
 		* add fur_coat to vaegir_militia
@@ -45,6 +46,7 @@ v0.740:
 		* change nord_heavy_spearman faction (small_kingdom_44 -> small_kingdom_42)
 		* add nord_heavy_crossbowman to small_kingdom_42
 		* change nord_noble_guard faction (small_kingdom_45 -> small_kingdom_44)
+		* decrease neutral npc base power draw (1 -> 0)
 	-Fixes:
 		* display companion troops with player banner in instances where they were not
 		* fix tax corruption going higher than taxes

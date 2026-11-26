@@ -117,7 +117,7 @@ sarranid_merchant_clothes = base_merchant_clothes + [itm_sarranid_cloth_robe, it
 #################
 ## Definitions ##
 #################
-knows_common = knows_trade_5|knows_looting_2|knows_prisoner_management_4|knows_tactics_2|knows_weapon_master_6|knows_spotting_2|knows_pathfinding_2|knows_tracking_2|knows_engineer_2|knows_persuasion_1
+knows_common = knows_trade_5|knows_looting_2|knows_prisoner_management_4|knows_tactics_2|knows_weapon_master_2|knows_spotting_2|knows_pathfinding_2|knows_tracking_2|knows_engineer_2|knows_persuasion_1
 
 knows_merchant = knows_common|knows_inventory_management_6
 
@@ -6423,7 +6423,7 @@ troops = [
   # Generic companions
   ["companion_base", "Companion Base Stats", "Companion Base Stats", tf_hero, no_scene, reserved, fac_commoners,
    [],
-   def_attrib,wp(5),knows_power_strike_1|knows_power_draw_1|knows_athletics_1|knows_riding_1, man_face_young_1, man_face_young_2],
+   def_attrib,wp(5),knows_power_strike_1, man_face_young_1, man_face_young_2],
 
   ["npc_archetype_scout", "Archetype", "Archetype", tf_hero|tf_is_merchant, no_scene, reserved, fac_commoners, [],
     def_attrib|level(4), wpex(10,2,4,8,2,6),

@@ -734,9 +734,10 @@ script_claim_type_get_expiration_date = 732
 script_war_process_end_claims = 733
 script_war_process_end_threat_generation = 734
 script_faction_increase_threat = 735
-script_presentation_generate_select_lord_card = 736
-script_presentation_create_text_overlay = 737
-script_presentation_create_combo_button_overlay = 738
-script_presentation_create_check_box_overlay = 739
+script_troop_use_fallback_items = 736
+script_presentation_generate_select_lord_card = 737
+script_presentation_create_text_overlay = 738
+script_presentation_create_combo_button_overlay = 739
+script_presentation_create_check_box_overlay = 740
 
 
